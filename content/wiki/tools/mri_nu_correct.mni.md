@@ -275,7 +275,9 @@ tools that use absolute intensity thresholds.
 | `--ants-n4-replace-zeros` | bool | off (env override) | Set `ReplaceZeros=1`, which adds `--replace-zeros 0 1 1` to the ANTs N4 call. Default is taken from environment variable `FS_ANTS_N4_REPLACE_ZEROS` (defaults to 0 if unset). Only meaningful with `--ants-n4`. |
 | `--no-ants-n4-replace-zeros` | bool | on | Set `ReplaceZeros=0`. |
 | `--ants4-threads-nondetermistic <n>` | int | — | Thread count for the ANTs N4 backend (passed as `--threads-nondetermistic <n>`). ITK with multiple threads is non-deterministic; the source comment notes this is "convenient for getting answers faster during testing". Only meaningful with `--ants-n4`. |
-| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.$$` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
+| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.
+$$
+` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
 | `--cleanup` | bool | on (initial `cleanup=1`) | Delete `tmpdir` at the end of the run. |
 | `--no-cleanup` | bool | off | Keep `tmpdir` (for debugging). |
 | `--log <file>` | path | `<outdir>/mri_nu_correct.mni.log` | Path to the log file. The wrapper renames any pre-existing file at this path to `<file>.bak` before writing. |

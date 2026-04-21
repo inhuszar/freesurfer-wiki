@@ -80,20 +80,30 @@ These files are the standard inputs to group-level analyses (e.g., `asegstats2ta
 
 For each label $\ell$ with voxel set $\mathcal{V}_\ell$:
 
-$$N_\ell = |\mathcal{V}_\ell|$$
-$$V_\ell = N_\ell \cdot v_{\text{vox}} \quad \text{(mm}^3\text{)}$$
+$$
+N_\ell = |\mathcal{V}_\ell|
+$$
+$$
+V_\ell = N_\ell \cdot v_{\text{vox}} \quad \text{(mm}^3\text{)}
+$$
 
 where $v_{\text{vox}}$ is the voxel volume.
 
 When an input volume $I$ is provided:
 
-$$\bar{I}_\ell = \frac{1}{N_\ell} \sum_{v \in \mathcal{V}_\ell} I(v), \quad \sigma_\ell = \sqrt{\frac{1}{N_\ell-1} \sum_{v \in \mathcal{V}_\ell} (I(v) - \bar{I}_\ell)^2}$$
+$$
+\bar{I}_\ell = \frac{1}{N_\ell} \sum_{v \in \mathcal{V}_\ell} I(v), \quad \sigma_\ell = \sqrt{\frac{1}{N_\ell-1} \sum_{v \in \mathcal{V}_\ell} (I(v) - \bar{I}_\ell)^2}
+$$
 
-$$\text{SNR}_\ell = \frac{\bar{I}_\ell}{\sigma_\ell}$$
+$$
+\text{SNR}_\ell = \frac{\bar{I}_\ell}{\sigma_\ell}
+$$
 
 **eTIV (estimated total intracranial volume):**
 
-$$\text{eTIV} = \frac{V_{\text{atlas}}}{|\det(\mathbf{T}_{\text{Talairach}})|} \cdot k$$
+$$
+\text{eTIV} = \frac{V_{\text{atlas}}}{|\det(\mathbf{T}_{\text{Talairach}})|} \cdot k
+$$
 
 where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is the affine Talairach registration matrix, and $k = 1948.106$ is a scale factor empirically determined from MNI305 atlas dimensions.
 

@@ -60,13 +60,17 @@ Additional parameters (set via flags): TR, TE, FA for each volume.
 
 The FLASH signal equation at steady state is:
 
-$$S = PD \cdot \frac{\sin(\alpha)(1 - e^{-TR/T1})}{1 - \cos(\alpha) e^{-TR/T1}}$$
+$$
+S = PD \cdot \frac{\sin(\alpha)(1 - e^{-TR/T1})}{1 - \cos(\alpha) e^{-TR/T1}}
+$$
 
 where $\alpha$ is the flip angle, $TR$ is the repetition time, and $T1$ is the longitudinal relaxation time.
 
 For each voxel, the tool minimizes:
 
-$$\text{SSE}(PD, T1) = \sum_{i=1}^{N} \left( S_i - \text{FLASHforwardModel}(\alpha_i, TR_i, PD, T1) \right)^2$$
+$$
+\text{SSE}(PD, T1) = \sum_{i=1}^{N} \left( S_i - \text{FLASHforwardModel}(\alpha_i, TR_i, PD, T1) \right)^2
+$$
 
 using an iterative refinement starting from initial parameter estimates found by `findInitialParameters()`.
 

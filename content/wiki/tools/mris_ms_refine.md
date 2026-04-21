@@ -58,7 +58,9 @@ The tool also supports an optional "fix T1" mode and scales all image intensitie
 
 The FLASH signal for a given voxel at flip angle $\alpha$ and repetition time $TR$ is:
 
-$$S(\alpha) = M_0 \sin\alpha \cdot \frac{1 - e^{-TR/T1}}{1 - \cos\alpha \cdot e^{-TR/T1}}$$
+$$
+S(\alpha) = M_0 \sin\alpha \cdot \frac{1 - e^{-TR/T1}}{1 - \cos\alpha \cdot e^{-TR/T1}}
+$$
 
 By acquiring at multiple flip angles, T1 and $M_0$ (proportional to PD) can be estimated. The code computes per-vertex histograms of T1 and PD values in WM and GM regions and derives adaptive thresholds stored in the `EXTRA_PARMS` structure:
 

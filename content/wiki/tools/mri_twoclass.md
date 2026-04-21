@@ -70,7 +70,9 @@ Environment: `SUBJECTS_DIR` may be required depending on how subjects are specif
 ## Mathematical Foundations
 
 **Two-sample t-test (STAT_T):** For each voxel $k$:
-$$t_k = \frac{\bar{x}_{1k} - \bar{x}_{2k}}{s_k \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}$$
+$$
+t_k = \frac{\bar{x}_{1k} - \bar{x}_{2k}}{s_k \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}
+$$
 where $\bar{x}_{gk}$ is the group mean at voxel $k$, $s_k$ is the pooled standard deviation, and $n_g$ is the group size.
 
 **F-statistic (STAT_F):** Ratio of between-group to within-group variance.

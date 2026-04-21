@@ -73,7 +73,9 @@ Number of inputs = number of outputs = `(argc - 2) / 2`
 
 **Bias field estimation:** The bias field $B(x)$ is estimated as the ratio of the observed WM intensity to the target value at each control point, then Gaussian-smoothed with $\sigma = 4$ mm (default):
 
-$$B(x) = G_\sigma * \frac{V_{\text{target}}}{V_{\text{obs}}(x_{\text{ctrl}})}$$
+$$
+B(x) = G_\sigma * \frac{V_{\text{target}}}{V_{\text{obs}}(x_{\text{ctrl}})}
+$$
 
 **Normalization:** $V_{\text{norm}}(x) = V_{\text{in}}(x) \cdot B(x)$
 

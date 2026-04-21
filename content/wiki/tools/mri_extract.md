@@ -66,7 +66,9 @@ mri_extract -like <template_vol> <src_volume> <dst_volume>
 
 The template's corner voxels $(0,0,0)$ and $(W-1, H-1, D-1)$ are mapped to source voxel coordinates using `MRIvoxelToVoxel()`, which applies the composition of the template-to-RAS and RAS-to-source affines:
 
-$$v_{\text{src}} = A_{\text{src}}^{-1} \cdot A_{\text{tmpl}} \cdot v_{\text{tmpl}}$$
+$$
+v_{\text{src}} = A_{\text{src}}^{-1} \cdot A_{\text{tmpl}} \cdot v_{\text{tmpl}}
+$$
 
 The extracted region is the bounding box of these two mapped corners.
 

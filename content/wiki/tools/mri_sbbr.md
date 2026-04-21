@@ -82,7 +82,9 @@ Optional optimisation parameters:
 
 The BBR cost function for a registration $\mathbf{T}$ is:
 
-$$C(\mathbf{T}) = \frac{1}{N} \sum_{v=1}^{N} \text{cost}\!\left(\frac{I(\mathbf{T}(x_{\text{out},v})) - I(\mathbf{T}(x_{\text{in},v}))}{\text{contrast}}\right)$$
+$$
+C(\mathbf{T}) = \frac{1}{N} \sum_{v=1}^{N} \text{cost}\!\left(\frac{I(\mathbf{T}(x_{\text{out},v})) - I(\mathbf{T}(x_{\text{in},v}))}{\text{contrast}}\right)
+$$
 
 where $x_{\text{out},v}$ and $x_{\text{in},v}$ are points just outside and inside the white surface at vertex $v$, and `cost` is a robust function parameterised by slope and centre (the `bbrslope` and `bbrcenter` parameters).
 

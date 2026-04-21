@@ -84,12 +84,16 @@ Environment variable `SUBJECTS_DIR` must be set, or provided via `--sdir`.
 The split criterion at each tree node is information gain or Gini impurity (determined by `RFtrain()` internals). Each tree has maximum depth `max_depth`.
 
 **Training accuracy:** After training, the forest is evaluated on the full training set and accuracy is computed as:
-$$\text{accuracy} = \frac{\text{number correctly classified}}{\text{total classified vertices}}$$
+$$
+\text{accuracy} = \frac{\text{number correctly classified}}{\text{total classified vertices}}
+$$
 
 This is training-set accuracy only; no cross-validation is performed within this tool.
 
 **Feature assembly:** The feature vector for vertex $i$ in subject $s$ is:
-$$\mathbf{x}_{s,i} = [f_1(i), f_2(i), \ldots, f_K(i)]$$
+$$
+\mathbf{x}_{s,i} = [f_1(i), f_2(i), \ldots, f_K(i)]
+$$
 where $K = \text{noverlays} \times (\text{nbhd\_size} + 1)$. With `nbhd_size > 0`, features from neighbouring vertices (within `nbhd_size` hops) are also included.
 
 ## Configuration Options

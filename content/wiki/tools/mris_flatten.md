@@ -76,7 +76,9 @@ The hemisphere is inferred from the patch filename (two characters before the fi
 
 The flattening energy functional (from Fischl et al. 1999) minimizes two competing terms:
 
-$$E = \lambda_d \sum_{(i,j) \in \mathcal{N}} \left(\frac{d_{ij} - d^0_{ij}}{d^0_{ij}}\right)^2 + \lambda_A \sum_k \left(\frac{A_k - A^0_k}{A^0_k}\right)^2$$
+$$
+E = \lambda_d \sum_{(i,j) \in \mathcal{N}} \left(\frac{d_{ij} - d^0_{ij}}{d^0_{ij}}\right)^2 + \lambda_A \sum_k \left(\frac{A_k - A^0_k}{A^0_k}\right)^2
+$$
 
 where:
 - $d_{ij}$ is the current geodesic distance between vertices $i$ and $j$ in the flat map

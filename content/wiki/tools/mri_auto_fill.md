@@ -65,12 +65,18 @@ Positional arguments (in order):
 
 The algorithm applies the inverse GCA morph $\mathcal{G}^{-1}$ to warp atlas templates into subject space:
 
-$$V_{\text{lh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{lh}}^{\text{atlas}})$$
-$$V_{\text{rh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{rh}}^{\text{atlas}})$$
+$$
+V_{\text{lh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{lh}}^{\text{atlas}})
+$$
+$$
+V_{\text{rh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{rh}}^{\text{atlas}})
+$$
 
 The warped templates are then combined using `MRIcombineHemispheres` and thresholded using the T1 intensity profile via `MRIthresholdFilled`. The threshold is the `pct`-th percentile (default: 95th) of the T1 within the WM mask:
 
-$$V_{\text{out}} = \{v : V_{\text{combined}}(v) > 0 \text{ AND } V_{T1}(v) > \tau_{T1}\}$$
+$$
+V_{\text{out}} = \{v : V_{\text{combined}}(v) > 0 \text{ AND } V_{T1}(v) > \tau_{T1}\}
+$$
 
 Ventricles are separately handled via `MRIfillVentricle` to ensure they are not included in the WM fill.
 

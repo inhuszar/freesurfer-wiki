@@ -74,11 +74,15 @@ The FLASH signal equation:
 
 > [!math] FLASH forward model
 > The MRI signal for a spoiled gradient echo (FLASH) sequence is:
-> $$S = M_0 \cdot \sin\alpha \cdot \frac{1 - e^{-TR/T_1}}{1 - \cos\alpha \cdot e^{-TR/T_1}} \cdot e^{-TE/T_2^*}$$
+> $$
+> S = M_0 \cdot \sin\alpha \cdot \frac{1 - e^{-TR/T_1}}{1 - \cos\alpha \cdot e^{-TR/T_1}} \cdot e^{-TE/T_2^*}
+> $$
 > where $M_0 \propto PD$ (proton density), $\alpha$ is the flip angle, $TR$ is the repetition time, $TE$ is the echo time, $T_1$ and $T_2^*$ are the tissue relaxation times.
 
 When `--weighting` is used, a two-contrast combination is computed:
-$$S_{\text{comb}} = w_{30} \cdot S(\alpha=30°) + w_5 \cdot S(\alpha=5°)$$
+$$
+S_{\text{comb}} = w_{30} \cdot S(\alpha=30°) + w_5 \cdot S(\alpha=5°)
+$$
 with hardcoded weights $w_{30} = 2 \times 0.9527$, $w_5 = 2 \times (-0.3039)$, targeting optimal WM/GM contrast separation.
 
 ## Configuration Options

@@ -63,11 +63,15 @@ Studies of brain organisation sometimes require quantifying how close each corti
 
 For the default mode, the tool finds the centroid $(x_c, y_c, z_c)$ of the specified aseg label by averaging voxel RAS coordinates of all voxels with that label. For each surface vertex $v$ with position $(x_v, y_v, z_v)$:
 
-$$d(v) = \sqrt{(x_v - x_c)^2 + (y_v - y_c)^2 + (z_v - z_c)^2}$$
+$$
+d(v) = \sqrt{(x_v - x_c)^2 + (y_v - y_c)^2 + (z_v - z_c)^2}
+$$
 
 With `--dot`, the signed projection along the surface normal $\hat{n}(v)$ is computed instead:
 
-$$d(v) = (\mathbf{p}_v - \mathbf{c}) \cdot \hat{n}(v)$$
+$$
+d(v) = (\mathbf{p}_v - \mathbf{c}) \cdot \hat{n}(v)
+$$
 
 With `--normalize`, values are divided by the maximum distance.
 

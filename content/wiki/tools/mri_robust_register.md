@@ -81,7 +81,9 @@ The key innovation is the use of robust M-estimation to down-weight or exclude o
 
 The robust registration minimizes a cost function:
 
-$$E(T) = \sum_v w_v \cdot \rho\!\left(\frac{I_\text{mov}(T(v)) - I_\text{dst}(v)}{\sigma}\right)$$
+$$
+E(T) = \sum_v w_v \cdot \rho\!\left(\frac{I_\text{mov}(T(v)) - I_\text{dst}(v)}{\sigma}\right)
+$$
 
 where:
 - $T$ is the registration transform (rigid, affine, etc.)
@@ -97,7 +99,9 @@ The saturation parameter $c$ of the Tukey biweight determines the outlier reject
 
 > [!math] Intensity scale
 > With `--iscale`, the optimization also estimates a global intensity scale factor $s$ such that:
-> $$E(T, s) = \sum_v w_v \cdot \rho\!\left(\frac{s \cdot I_\text{mov}(T(v)) - I_\text{dst}(v)}{\sigma}\right)$$
+> $$
+> E(T, s) = \sum_v w_v \cdot \rho\!\left(\frac{s \cdot I_\text{mov}(T(v)) - I_\text{dst}(v)}{\sigma}\right)
+> $$
 
 ## Configuration Options
 

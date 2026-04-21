@@ -81,11 +81,15 @@ The tool calls `MRIpartialVolumeFractionAS()`, which:
 3. Counts the fraction of sub-voxels per tissue type to fill each output voxel.
 
 The upsampling factor `USF` controls the accuracy vs. compute time trade-off:
-$$\text{effective resolution} = \frac{\text{aseg voxel size}}{\text{USF}}$$
+$$
+\text{effective resolution} = \frac{\text{aseg voxel size}}{\text{USF}}
+$$
 
 > [!math] Partial volume fraction
 > For a target voxel $V$, the cortical fraction is:
-> $$f_\text{cortex}(V) = \frac{N_\text{cortex sub-voxels in } V}{N_\text{total sub-voxels in } V}$$
+> $$
+> f_\text{cortex}(V) = \frac{N_\text{cortex sub-voxels in } V}{N_\text{total sub-voxels in } V}
+> $$
 > where sub-voxels are at the internal resolution `resmm`.
 
 CSF filling: By default, the aseg is dilated (`--ndil 3`) to add extracerebral CSF labels around the brain. This ensures that voxels outside the segmentation are not left as "unknown" in the fraction maps.

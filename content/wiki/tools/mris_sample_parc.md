@@ -75,10 +75,14 @@ In the FreeSurfer pipeline, subcortical segmentations are computed volumetricall
 
 For each vertex $i$ with surface position $\mathbf{v}_i$ and outward normal $\hat{n}_i$, the tool projects the query point into the volume:
 
-$$\mathbf{q}_i = \mathbf{v}_i + \left( \text{proj\_frac} \times t_i \right) \hat{n}_i$$
+$$
+\mathbf{q}_i = \mathbf{v}_i + \left( \text{proj\_frac} \times t_i \right) \hat{n}_i
+$$
 
 where $t_i$ is the cortical thickness at vertex $i$ and `proj_frac` is the fractional depth parameter (default: 0.5, i.e., sample at the midpoint of the cortex). Alternatively, a fixed `proj_mm` offset can be used:
-$$\mathbf{q}_i = \mathbf{v}_i + \text{proj\_mm} \cdot \hat{n}_i$$
+$$
+\mathbf{q}_i = \mathbf{v}_i + \text{proj\_mm} \cdot \hat{n}_i
+$$
 
 The label at voxel nearest to $\mathbf{q}_i$ (in the parcellation volume) is assigned as the annotation label for vertex $i$.
 

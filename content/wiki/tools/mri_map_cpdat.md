@@ -59,7 +59,9 @@ FreeSurfer allows users to manually add control points (via `freeview` or `tkmed
 
 Each control point $\mathbf{p}$ (stored in RAS or tkRAS coordinates) is transformed by:
 
-$$\mathbf{p}' = M_{LTA} \cdot \mathbf{p}$$
+$$
+\mathbf{p}' = M_{LTA} \cdot \mathbf{p}
+$$
 
 where $M_{LTA}$ is the 4×4 linear transform from the LTA file. The `MRImapControlPoints()` function handles the coordinate type conversion (RAS vs tkRAS) based on the `useRealRAS` flag stored in the control point file header.
 

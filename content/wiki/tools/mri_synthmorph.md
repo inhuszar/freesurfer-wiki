@@ -92,12 +92,16 @@ SynthMorph trains a network $f_\theta$ (U-Net-like architecture) on paired synth
 
 > [!math] Registration objective
 > The network minimizes:
-> $$\mathcal{L}(\theta) = \mathcal{L}_{\text{sim}}(I_f, I_m \circ \phi) + \lambda \mathcal{L}_{\text{reg}}(\phi)$$
+> $$
+> \mathcal{L}(\theta) = \mathcal{L}_{\text{sim}}(I_f, I_m \circ \phi) + \lambda \mathcal{L}_{\text{reg}}(\phi)
+> $$
 > where $\mathcal{L}_{\text{sim}}$ is an image similarity term (normalized cross-correlation or mutual information on label encodings), and $\mathcal{L}_{\text{reg}}$ is a regularization term penalizing non-smooth deformations. The regularization weight $\lambda$ corresponds to the `--hyper` / `-r` parameter at inference.
 
 > [!math] Integration steps
 > The deformable field $\phi$ is parameterized as a stationary velocity field (SVF) and integrated using scaling-and-squaring with `--steps` (default 7) integration steps:
-> $$\phi = \exp(v) = v \circ v \circ \cdots \text{ (2}^n\text{ times)}$$
+> $$
+> \phi = \exp(v) = v \circ v \circ \cdots \text{ (2}^n\text{ times)}
+> $$
 > Fewer steps reduce memory and speed up inference but can cause inaccuracies and folding voxels.
 
 ### Joint Registration

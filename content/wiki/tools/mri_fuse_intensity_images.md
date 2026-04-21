@@ -62,7 +62,9 @@ Cross-timepoint intensity normalization uses the **Parzen-window method** exclus
 
 The Parzen-window normalization replaces each voxel's intensity at each timepoint with a kernel-density-weighted mean across timepoints:
 
-$$\tilde{y}(x, t) = \frac{\sum_{t'} G_\sigma(y(x,t) - y(x,t')) \cdot y(x,t')}{\sum_{t'} G_\sigma(y(x,t) - y(x,t'))}$$
+$$
+\tilde{y}(x, t) = \frac{\sum_{t'} G_\sigma(y(x,t) - y(x,t')) \cdot y(x,t')}{\sum_{t'} G_\sigma(y(x,t) - y(x,t'))}
+$$
 
 where $G_\sigma$ is a Gaussian kernel with width `cross_time_sigma`. Voxels near which all timepoints have consistent intensities (small denominator variation) retain their values; outlier timepoints are down-weighted. This is analogous to bilateral filtering across time rather than space.
 

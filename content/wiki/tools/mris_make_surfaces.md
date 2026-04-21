@@ -93,7 +93,9 @@ The tool reads files from the standard subject directory:
 
 The surface deformation minimises:
 
-$$E_{\text{total}} = w_I E_{\text{intensity}} + w_c E_{\text{curvature}} + w_t E_{\text{tspring}} + w_n E_{\text{nspring}} + w_r E_{\text{repulse}}$$
+$$
+E_{\text{total}} = w_I E_{\text{intensity}} + w_c E_{\text{curvature}} + w_t E_{\text{tspring}} + w_n E_{\text{nspring}} + w_r E_{\text{repulse}}
+$$
 
 where:
 - $E_{\text{intensity}}$: attracts each vertex toward a **target intensity** on the normal profile.

@@ -67,19 +67,25 @@ The result is anisotropic smoothing that respects cortical geometry, enabling in
 
 The smoothing weight for the tangential neighborhood is computed by `calculate_nb_weights()`. Based on the `nb_wf = 0` (Gaussian) default, weights are:
 
-$$w_{ij} = \exp\!\left(-\frac{d_{ij}^2}{2\sigma_t^2}\right)$$
+$$
+w_{ij} = \exp\!\left(-\frac{d_{ij}^2}{2\sigma_t^2}\right)
+$$
 
 where $d_{ij}$ is the geodesic distance between vertices $i$ and $j$ on the surface, and $\sigma_t$ is determined by the tangential neighborhood radius `nb_rad`.
 
 For radial smoothing across $N$ surfaces, a similar 1D Gaussian is applied:
 
-$$w_{kl} = \exp\!\left(-\frac{(k-l)^2}{2\sigma_r^2}\right)$$
+$$
+w_{kl} = \exp\!\left(-\frac{(k-l)^2}{2\sigma_r^2}\right)
+$$
 
 where $k, l$ are surface depth indices.
 
 The combined smoothed value at vertex $i$, depth $k$ is:
 
-$$S_{\text{out}}(i, k) = \frac{\sum_{j,l} w_{ij} w_{kl} \cdot S_{\text{in}}(j, l)}{\sum_{j,l} w_{ij} w_{kl}}$$
+$$
+S_{\text{out}}(i, k) = \frac{\sum_{j,l} w_{ij} w_{kl} \cdot S_{\text{in}}(j, l)}{\sum_{j,l} w_{ij} w_{kl}}
+$$
 
 ## Configuration Options
 

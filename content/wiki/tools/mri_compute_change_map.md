@@ -64,7 +64,9 @@ The change map is computed by `MRIcomputeChangeMap()`:
 
 The neighbourhood p-value computation (`-n <size>`) combines the $-\log_{10}(p)$ values in a cubic neighbourhood of half-width `<size>` around each voxel:
 
-$$-\log_{10}(p_\text{nbhd}) = \sum_{\mathbf{y} \in \text{nbhd}(\mathbf{x})} -\log_{10}(1 - p(\mathbf{y}))$$
+$$
+-\log_{10}(p_\text{nbhd}) = \sum_{\mathbf{y} \in \text{nbhd}(\mathbf{x})} -\log_{10}(1 - p(\mathbf{y}))
+$$
 
 Bonferroni correction (`-b`) multiplies each voxel's p-value by the number of brain voxels (those with non-zero change map values).
 

@@ -54,7 +54,9 @@ Linear registration aligns two volumes by finding the affine transform that maxi
 
 **Initialisation (PCA):** The principal axes of the input and reference are computed from the image intensity distribution. The `pca_matrix()` function builds the rotation matrix aligning the principal axes of the two volumes:
 
-$$M_\text{PCA} = \text{eigenvectors}(C_\text{ref}) \cdot \text{eigenvectors}(C_\text{in})^T$$
+$$
+M_\text{PCA} = \text{eigenvectors}(C_\text{ref}) \cdot \text{eigenvectors}(C_\text{in})^T
+$$
 
 **Scaling initialisation:** `init_scaling()` sets the initial scale factor based on the ratio of the volume sizes.
 

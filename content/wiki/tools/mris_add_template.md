@@ -68,9 +68,15 @@ The template file stores `IMAGES_PER_SURFACE * SURFACES` = 6 parameter images (m
 
 The spherical parameterisation maps the cortical surface to a sphere. A surface scalar field $f(v)$ defined at each vertex $v$ is mapped to spherical coordinates $(\theta, \phi)$ via the registered sphere. The template accumulates:
 
-$$\mu(\theta, \phi) \mathrel{+}= f(\theta, \phi)$$
-$$\sigma^2(\theta, \phi) \mathrel{+}= f(\theta, \phi)^2$$
-$$n(\theta, \phi) \mathrel{+}= 1$$
+$$
+\mu(\theta, \phi) \mathrel{+}= f(\theta, \phi)
+$$
+$$
+\sigma^2(\theta, \phi) \mathrel{+}= f(\theta, \phi)^2
+$$
+$$
+n(\theta, \phi) \mathrel{+}= 1
+$$
 
 After all subjects are added, normalisation yields mean and variance maps used as the registration target.
 

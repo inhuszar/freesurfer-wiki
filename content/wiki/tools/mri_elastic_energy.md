@@ -56,7 +56,9 @@ Positional arguments (in order):
 
 Elastic mechanics of a deformation $\phi$ are characterized by the deformation gradient tensor $F = \nabla \phi$. The Lamé constants $\lambda$ and $\mu$ parameterize the elastic energy:
 
-$$E = \int \left[ \frac{\lambda}{2} (\text{tr}(\varepsilon))^2 + \mu \, \text{tr}(\varepsilon^2) \right] dV$$
+$$
+E = \int \left[ \frac{\lambda}{2} (\text{tr}(\varepsilon))^2 + \mu \, \text{tr}(\varepsilon^2) \right] dV
+$$
 
 where $\varepsilon = \frac{1}{2}(F + F^T) - I$ is the linearized strain tensor.
 

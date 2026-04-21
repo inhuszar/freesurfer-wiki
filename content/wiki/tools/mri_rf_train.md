@@ -76,7 +76,9 @@ Each tree $T_k$ in the forest is trained by:
 - Growing until leaf purity or maximum depth is reached
 
 The ensemble prediction is the majority vote across trees:
-$$\hat{y}(v) = \text{mode}\{T_k(v)\}_{k=1}^{K}$$
+$$
+\hat{y}(v) = \text{mode}\{T_k(v)\}_{k=1}^{K}
+$$
 
 ## Configuration Options
 

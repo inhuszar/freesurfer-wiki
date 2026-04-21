@@ -66,7 +66,9 @@ Both volumes are treated as binary (non-zero = foreground), or a specific label 
 
 Let $\partial A$ and $\partial B$ be the boundary voxel sets of the source and reference segmentations. The symmetric mean boundary distance is:
 
-$$d_\text{sym}(A, B) = \frac{1}{2}\left[\frac{1}{|\partial A|}\sum_{a \in \partial A} \min_{b \in \partial B} \|a - b\| + \frac{1}{|\partial B|}\sum_{b \in \partial B} \min_{a \in \partial A} \|a - b\|\right]$$
+$$
+d_\text{sym}(A, B) = \frac{1}{2}\left[\frac{1}{|\partial A|}\sum_{a \in \partial A} \min_{b \in \partial B} \|a - b\| + \frac{1}{|\partial B|}\sum_{b \in \partial B} \min_{a \in \partial A} \|a - b\|\right]
+$$
 
 The implementation pads the volumes by `PAD = 20` voxels to ensure all boundary computations are valid. Morphological operations (erode, dilate, close, open) may be applied to preprocess the binary masks.
 

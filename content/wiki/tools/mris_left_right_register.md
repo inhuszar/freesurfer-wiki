@@ -71,7 +71,9 @@ The tool supports single-surface mode (`-1`) for registering to another individu
 
 The registration optimizes:
 
-$$E = -\lambda_{\text{corr}} \sum_v \text{corr}(f_v, f_{\text{target}}) + \lambda_{\text{smooth}} \sum_{(u,v)} \|v_u - v_v\|^2$$
+$$
+E = -\lambda_{\text{corr}} \sum_v \text{corr}(f_v, f_{\text{target}}) + \lambda_{\text{smooth}} \sum_{(u,v)} \|v_u - v_v\|^2
+$$
 
 where:
 - $\text{corr}$ is the normalized cross-correlation between the subject's surface features and the target template features

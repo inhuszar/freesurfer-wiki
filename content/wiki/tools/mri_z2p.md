@@ -81,12 +81,20 @@ Statistical maps from group analyses (e.g., `mri_glmfit`) are often expressed as
 For each voxel with z-score $z$:
 
 **Two-sided test:**
-$$p = 2 \cdot (1 - \Phi(|z|))$$
-$$\text{sig} = -\log_{10}(p) \cdot \text{sign}(z)$$
+$$
+p = 2 \cdot (1 - \Phi(|z|))
+$$
+$$
+\text{sig} = -\log_{10}(p) \cdot \text{sign}(z)
+$$
 
 **One-sided test:**
-$$p = 1 - \Phi(z)$$
-$$\text{sig} = -\log_{10}(p)$$
+$$
+p = 1 - \Phi(z)
+$$
+$$
+\text{sig} = -\log_{10}(p)
+$$
 
 where $\Phi$ is the standard normal CDF.
 

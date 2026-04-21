@@ -68,11 +68,15 @@ label_index  area_mm2  [pct]
 
 For each label $i$ in the annotation, the area is computed by summing per-vertex areas:
 
-$$A_i = \sum_{v : \text{annot}(v) = i} a_v$$
+$$
+A_i = \sum_{v : \text{annot}(v) = i} a_v
+$$
 
 where $a_v$ is the area associated with vertex $v$, computed from `MRIScomputeMetricProperties` as the average of the areas of the faces incident to vertex $v$:
 
-$$a_v = \frac{1}{3} \sum_{k \ni v} A_k^{\text{face}}$$
+$$
+a_v = \frac{1}{3} \sum_{k \ni v} A_k^{\text{face}}
+$$
 
 where $A_k^{\text{face}}$ is the area of face $k$ computed via the cross product of its edge vectors.
 

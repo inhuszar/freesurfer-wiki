@@ -67,7 +67,9 @@ Within the FreeSurfer functional analysis pipeline, EPI or other functional volu
 
 **Cost function:** Normalized Mutual Information (NMI)
 
-$$\text{NMI}(f, g) = \frac{H(f) + H(g)}{H(f, g)}$$
+$$
+\text{NMI}(f, g) = \frac{H(f) + H(g)}{H(f, g)}
+$$
 
 where $H$ is Shannon entropy. The joint histogram is smoothed with a Gaussian (`histfwhm = 7` bins by default).
 
@@ -82,7 +84,9 @@ where $H$ is Shannon entropy. The joint histogram is smoothed with a Gaussian (`
 - Coordinate dithering (`DoCoordDither = 1`) and intensity dithering (`DoIntensityDither = 1`) are applied to reduce histogram discretization artifacts
 
 **Transform representation:**
-$$T = \text{TranformAffineParams2Matrix}(\mathbf{p})$$
+$$
+T = \text{TranformAffineParams2Matrix}(\mathbf{p})
+$$
 where $\mathbf{p}$ is the 12-element parameter vector (tx, ty, tz, rx, ry, rz, sx, sy, sz, shxy, shxz, shyz) with scale parameters initialized to 1.
 
 ## Configuration Options

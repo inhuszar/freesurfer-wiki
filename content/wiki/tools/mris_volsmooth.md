@@ -77,7 +77,9 @@ Surface smoothing uses `mri_surf2surf` which implements iterative nearest-neighb
 
 The workflow is:
 
-$$V_{\text{smooth}} = \text{surf2vol}\left(\text{surf2surf}_{\text{smooth}}\left(\text{vol2surf}(V)\right)\right)$$
+$$
+V_{\text{smooth}} = \text{surf2vol}\left(\text{surf2surf}_{\text{smooth}}\left(\text{vol2surf}(V)\right)\right)
+$$
 
 with optional volumetric smoothing of the non-cortical regions first.
 

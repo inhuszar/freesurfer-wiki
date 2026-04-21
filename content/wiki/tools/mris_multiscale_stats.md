@@ -62,19 +62,27 @@ This approach is analogous to scale-space theory in image processing.
 
 At each smoothing scale $k$ (number of averaging iterations), the group means and variances are:
 
-$$\bar{x}_{k,j}(v) = \text{spatially smoothed curvature at scale } k \text{ for subject } j$$
+$$
+\bar{x}_{k,j}(v) = \text{spatially smoothed curvature at scale } k \text{ for subject } j
+$$
 
 The t-statistic between group 1 (size $n_1$) and group 2 (size $n_2$) at vertex $v$ and scale $k$:
 
-$$t_k(v) = \frac{\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v)}{\sqrt{\sigma_{total}^k(v) \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}$$
+$$
+t_k(v) = \frac{\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v)}{\sqrt{\sigma_{total}^k(v) \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}
+$$
 
 The SNR at scale $k$:
 
-$$\text{SNR}_k(v) = \frac{(\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v))^2}{\sigma_{total}^k(v)}$$
+$$
+\text{SNR}_k(v) = \frac{(\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v))^2}{\sigma_{total}^k(v)}
+$$
 
 The best scale for each vertex is:
 
-$$k^*(v) = \arg\max_k \text{SNR}_k(v)$$
+$$
+k^*(v) = \arg\max_k \text{SNR}_k(v)
+$$
 
 Bonferroni correction is applied over the number of scales tested.
 

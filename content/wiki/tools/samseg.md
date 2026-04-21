@@ -127,15 +127,21 @@ All outputs are written to the directory specified by `--o` (or `$SUBJECTS_DIR/<
 samseg implements the GEMS (Generative Model for brain Segmentation) algorithm described in Puonti et al. (2016). The generative model is:
 
 **Atlas model:** A tetrahedral mesh $\mathcal{M}$ defines a deformable prior. Each node stores a vector of label probabilities, and the prior probability of label $k$ at position $\mathbf{x}$ is obtained by barycentric interpolation within the tetrahedron containing $\mathbf{x}$:
-$$p(k | \mathbf{x}, \mathbf{T}) = \sum_{\text{nodes}} w_i(\mathbf{x}, \mathbf{T}) \, \alpha_{ik}$$
+$$
+p(k | \mathbf{x}, \mathbf{T}) = \sum_{\text{nodes}} w_i(\mathbf{x}, \mathbf{T}) \, \alpha_{ik}
+$$
 where $\mathbf{T}$ is the mesh deformation, $w_i$ are barycentric weights, and $\alpha_{ik}$ are per-node label probabilities.
 
 **Likelihood model:** For each structure class $c$ (a grouping of anatomical labels sharing intensity statistics), the image intensity at voxel $\mathbf{x}$ given tissue class $c$ is modelled as a Gaussian mixture with parameters $\{\mu_{cm}, \sigma^2_{cm}\}$ per input modality $m$:
-$$p(\mathbf{y}_{\mathbf{x}} | \text{class}=c, \boldsymbol{\mu}, \boldsymbol{\sigma}^2, \mathbf{b}) = \prod_m \mathcal{N}(y_{\mathbf{x}m} \,;\, b_{\mathbf{x}m} \mu_{cm},\, b^2_{\mathbf{x}m} \sigma^2_{cm})$$
+$$
+p(\mathbf{y}_{\mathbf{x}} | \text{class}=c, \boldsymbol{\mu}, \boldsymbol{\sigma}^2, \mathbf{b}) = \prod_m \mathcal{N}(y_{\mathbf{x}m} \,;\, b_{\mathbf{x}m} \mu_{cm},\, b^2_{\mathbf{x}m} \sigma^2_{cm})
+$$
 where $b_{\mathbf{x}m}$ is the spatially varying bias field for modality $m$.
 
 **Bias field model:** The log bias field is parameterised as a linear combination of smooth (DCT-like) basis functions:
-$$\log b_{\mathbf{x}m} = \sum_j c_{jm} \, \phi_j(\mathbf{x})$$
+$$
+\log b_{\mathbf{x}m} = \sum_j c_{jm} \, \phi_j(\mathbf{x})
+$$
 Smoothness is controlled by `--bias-field-smoothing-kernel` (distance in mm to the first zero of the sinc basis).
 
 **Optimization:** The algorithm alternates between:

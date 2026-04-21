@@ -123,13 +123,17 @@ See [[lta-format]] for the related LTA encoding.
 
 The register.dat convention maps target tkRAS coordinates to movable tkRAS coordinates:
 
-$$\mathbf{x}_{\text{mov,tk}} = \mathbf{R} \cdot \mathbf{x}_{\text{targ,tk}}$$
+$$
+\mathbf{x}_{\text{mov,tk}} = \mathbf{R} \cdot \mathbf{x}_{\text{targ,tk}}
+$$
 
 where $\mathbf{R}$ is the 4×4 registration matrix stored in the file. This is the direction needed for **resampling**: to find where a target voxel maps in the movable space.
 
 The conversion from FSL format to this convention is:
 
-$$\mathbf{R} = \mathbf{T}_{\text{mov}}^{-1} \cdot \mathbf{D}_{\text{mov}}^{-1} \cdot \mathbf{M}_{\text{FSL}} \cdot \mathbf{D}_{\text{targ}}$$
+$$
+\mathbf{R} = \mathbf{T}_{\text{mov}}^{-1} \cdot \mathbf{D}_{\text{mov}}^{-1} \cdot \mathbf{M}_{\text{FSL}} \cdot \mathbf{D}_{\text{targ}}
+$$
 
 where:
 - $\mathbf{T}_{\text{mov}}$ is the movable vox2ras-tkr matrix (`MRIxfmCRS2XYZtkreg`)
@@ -141,13 +145,17 @@ This is implemented by `MRIfsl2TkReg(targ_vol0, mov_vol, FSLRegMat)`.
 
 When the target is not COR-conformant, an additional correction matrix $\mathbf{M}_{\text{tc}}$ is applied:
 
-$$\mathbf{R}_{\text{final}} = \mathbf{R} \cdot \mathbf{M}_{\text{tc}}^{-1}$$
+$$
+\mathbf{R}_{\text{final}} = \mathbf{R} \cdot \mathbf{M}_{\text{tc}}^{-1}
+$$
 
 This accounts for the implicit reslice of the target to COR format.
 
 For `--fstal`, the Talairach XFM is a RAS-to-RAS (scanner space) matrix. By default (`ZeroCRAS = 1` unless `--no-zero-cras` is specified), the target c_ras is zeroed before constructing the tkReg matrix, and a correction `Mcras0` is incorporated:
 
-$$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras0}}$$
+$$
+\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras0}}
+$$
 
 > [!internal] The `MRItkRegMtx()`, `MRIfsl2TkReg()`, and `MRIfixTkReg()` functions are defined in `utils/registerio.cpp` / `utils/mri.cpp`. See [[coordinate-systems]] for a full derivation of the tkRAS offset.
 

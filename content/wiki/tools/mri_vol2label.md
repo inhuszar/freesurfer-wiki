@@ -72,7 +72,9 @@ The inverse operation is performed by [[mri_label2vol]].
 
 For **volume mode**: the tool reads the vox2ras-tkregister matrix from the volume header and converts each matching voxel's CRS indices to tkRAS coordinates. These $(x, y, z)$ values are written to the label file with a statistic value of 0.
 
-$$\begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix} = M_{\text{tkRAS}} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix} = M_{\text{tkRAS}} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 For **surface mode**: the $(x, y, z)$ values are the vertex coordinates directly from the surface geometry file.
 

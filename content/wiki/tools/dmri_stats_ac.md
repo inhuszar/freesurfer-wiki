@@ -75,7 +75,9 @@ For each matched cluster $k$ and measure $M$ (e.g., FA), the tool computes:
 1. Loads all streamlines in cluster $k$ from the `.trk` file.
 2. For each streamline point $(x, y, z)$, samples the measure image $M$ at the nearest voxel.
 3. Computes the mean:
-$$\bar{M}_k = \frac{1}{N_k} \sum_{i=1}^{N_k} M(x_i, y_i, z_i)$$
+$$
+\bar{M}_k = \frac{1}{N_k} \sum_{i=1}^{N_k} M(x_i, y_i, z_i)
+$$
 
 where $N_k$ is the total number of points across all streamlines in cluster $k$.
 

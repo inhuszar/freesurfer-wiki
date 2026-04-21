@@ -60,13 +60,17 @@ Optional: MRI volume (if `-i` is specified) for subject-specific ambiguity.
 
 For a given set of acquisition parameters, the tool simulates the expected MRI signal for each tissue class using the FLASH signal equation:
 
-$$S = M_0 \sin\alpha \cdot \frac{1 - e^{-T_R/T_1}}{1 - \cos\alpha \cdot e^{-T_R/T_1}} \cdot e^{-T_E/T_2^*}$$
+$$
+S = M_0 \sin\alpha \cdot \frac{1 - e^{-T_R/T_1}}{1 - \cos\alpha \cdot e^{-T_R/T_1}} \cdot e^{-T_E/T_2^*}
+$$
 
 where $M_0$ is the proton density, $T_1$ and $T_2^*$ are relaxation times, $\alpha$ is the flip angle, $T_R$ is the repetition time, and $T_E$ is the echo time.
 
 The ambiguity for a class pair $(c_1, c_2)$ is related to the overlap between the two Gaussian distributions:
 
-$$\text{Amb}(c_1, c_2) = \exp\left(-\frac{(\mu_1 - \mu_2)^2}{2(\sigma_1^2 + \sigma_2^2)}\right)$$
+$$
+\text{Amb}(c_1, c_2) = \exp\left(-\frac{(\mu_1 - \mu_2)^2}{2(\sigma_1^2 + \sigma_2^2)}\right)
+$$
 
 The tool provides 1D, 2D, and 3D ambiguity computation functions (`GCAcompute1DAmbiguity`, `GCAcompute2DAmbiguity`, `GCAcompute3DAmbiguity`) for different numbers of FLASH channels.
 

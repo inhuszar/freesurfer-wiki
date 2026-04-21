@@ -63,11 +63,15 @@ When building or evaluating surface-based atlases, it is useful to know how cons
 
 For each vertex $v$ and each subject $s$, let $\ell(v, s)$ be the label assigned. The frequency of label $k$ at vertex $v$ is:
 
-$$p(k, v) = \frac{1}{N} \sum_{s=1}^{N} \mathbb{1}[\ell(v, s) = k]$$
+$$
+p(k, v) = \frac{1}{N} \sum_{s=1}^{N} \mathbb{1}[\ell(v, s) = k]
+$$
 
 The majority-vote annotation assigns:
 
-$$\hat{\ell}(v) = \arg\max_k \; p(k, v)$$
+$$
+\hat{\ell}(v) = \arg\max_k \; p(k, v)
+$$
 
 The `counts` array (shape: `nvertices × nlabels`) is the core data structure, allocated as `int **counts`.
 

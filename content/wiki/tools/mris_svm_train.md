@@ -64,7 +64,9 @@ Training a surface-based SVM requires labeled examples from two classes (e.g., s
 
 The SVM optimization minimizes:
 
-$$\min_{\mathbf{w}, b, \xi} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \xi_i$$
+$$
+\min_{\mathbf{w}, b, \xi} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \xi_i
+$$
 
 subject to $y_i(\mathbf{w}^T \phi(\mathbf{x}_i) + b) \geq 1 - \xi_i$, $\xi_i \geq 0$.
 

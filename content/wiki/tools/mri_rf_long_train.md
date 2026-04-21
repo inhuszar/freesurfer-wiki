@@ -74,7 +74,9 @@ The RFA structure organizes the ensemble by atlas-space location, allowing spati
 
 > [!math] Feature vector
 > For $T$ timepoints, the feature vector at voxel $v$ includes:
-> $$\mathbf{f}(v) = [\text{local features}(I_1(v)), \ldots, \text{local features}(I_T(v)), \Delta I_{12}(v), \ldots, \Delta I_{T-1,T}(v)]$$
+> $$
+> \mathbf{f}(v) = [\text{local features}(I_1(v)), \ldots, \text{local features}(I_T(v)), \Delta I_{12}(v), \ldots, \Delta I_{T-1,T}(v)]
+> $$
 > where $\Delta I_{ij}(v) = I_j(v) - I_i(v)$ are inter-timepoint intensity differences.
 
 ## Configuration Options

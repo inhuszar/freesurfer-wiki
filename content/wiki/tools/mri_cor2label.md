@@ -69,7 +69,9 @@ Optional:
 
 **Volume coordinates**: xyz values are computed using the tkregister vox2ras matrix (the "tk RAS" coordinate system, not scanner RAS):
 
-$$\begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix} = M_\text{vox2ras-tkr} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} x \\ y \\ z \\ 1 \end{pmatrix} = M_\text{vox2ras-tkr} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 where $c, r, s$ are column, row, slice indices. See [[coordinate-systems]] for the difference between scanner RAS and tkRAS.
 

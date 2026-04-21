@@ -128,7 +128,9 @@ The tool also reads auxiliary surfaces from the subject directory:
 The registration minimises a combination of a **correlation term** (surface
 feature alignment to atlas) and a **metric distortion penalty**:
 
-$$E = -\lambda_{\text{corr}} \sum_v C(v, \text{atlas}(v)) + \lambda_{\text{dist}} \sum_{\langle i,j \rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2$$
+$$
+E = -\lambda_{\text{corr}} \sum_v C(v, \text{atlas}(v)) + \lambda_{\text{dist}} \sum_{\langle i,j \rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2
+$$
 
 Default energy weights:
 - `l_corr = 1.0` (correlation to atlas)

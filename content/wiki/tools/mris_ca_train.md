@@ -75,11 +75,15 @@ Positional arguments:
 
 At each location in the spherical parameter space (discretised at the resolution of icosahedron `icno_classifiers` = 4), a Gaussian classifier is trained on the feature vector of each training subject's vertex projected to that location:
 
-$$\mathbf{x}(v) = [\text{curv}(v),\; \text{sulc}(v)]^T \quad \text{(default 2 inputs)}$$
+$$
+\mathbf{x}(v) = [\text{curv}(v),\; \text{sulc}(v)]^T \quad \text{(default 2 inputs)}
+$$
 
 For each label class $c$ and atlas location $(\theta, \phi)$, the classifier models:
 
-$$p(\mathbf{x} \mid c, \theta, \phi) = \mathcal{N}(\mathbf{x}; \boldsymbol{\mu}_c, \boldsymbol{\Sigma}_c)$$
+$$
+p(\mathbf{x} \mid c, \theta, \phi) = \mathcal{N}(\mathbf{x}; \boldsymbol{\mu}_c, \boldsymbol{\Sigma}_c)
+$$
 
 The prior $p(c \mid \theta, \phi)$ is estimated from label frequencies at location $(\theta, \phi)$ in the training set, encoded at the coarser icosahedron resolution `icno_priors` = 7.
 

@@ -70,7 +70,9 @@ The normalisation procedure (from `mri_normalize`) fits a smooth bias field to t
 
 The temporal Gaussian weighting across time points has sigma `cross_time_sigma` (in user units, default -1 meaning unused). When enabled:
 
-$$w_t = \exp\left(-\frac{(t - t_0)^2}{2\sigma_t^2}\right)$$
+$$
+w_t = \exp\left(-\frac{(t - t_0)^2}{2\sigma_t^2}\right)
+$$
 
 biases the normalisation toward time points closer to the reference.
 

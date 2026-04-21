@@ -69,7 +69,9 @@ The standard Marching Cubes algorithm by Lorensen & Cline (1987) extracts an iso
 
 Formally, for connectivity $c$, the surface $S$ satisfies:
 
-$$\partial(\text{connected component}_c(\text{label})) = S$$
+$$
+\partial(\text{connected component}_c(\text{label})) = S
+$$
 
 ## Configuration Options
 

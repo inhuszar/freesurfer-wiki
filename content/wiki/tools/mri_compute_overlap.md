@@ -65,16 +65,24 @@ Log file (tab-separated columns): `label_id  vol_diff  dice  jaccard`
 Let $A$ = set of voxels with label $l$ in volume 1, $B$ = same in volume 2.
 
 **Volume difference:**
-$$\text{VolDiff}(l) = \frac{2 \cdot ||A| - |B||}{|A| + |B|} \times 100\%$$
+$$
+\text{VolDiff}(l) = \frac{2 \cdot ||A| - |B||}{|A| + |B|} \times 100\%
+$$
 
 **Dice coefficient** (intersection over mean):
-$$\text{Dice}(l) = \frac{2 |A \cap B|}{|A| + |B|} \times 100\%$$
+$$
+\text{Dice}(l) = \frac{2 |A \cap B|}{|A| + |B|} \times 100\%
+$$
 
 **Jaccard index** (intersection over union):
-$$J(l) = \frac{|A \cap B|}{|A \cup B|} \times 100\%$$
+$$
+J(l) = \frac{|A \cap B|}{|A \cup B|} \times 100\%
+$$
 
 The relationship between Dice and Jaccard is:
-$$\text{Dice} = \frac{2J}{1 + J}$$
+$$
+\text{Dice} = \frac{2J}{1 + J}
+$$
 
 > [!math] Note on the source code's volume difference formula
 > The help text in the source says `volume difference = 2*|A|-|B|/|A|+|B|` which appears to have a typo. The actual code computes `|nvox1-nvox2| / ((nvox1+nvox2)/2)`, i.e., the absolute difference over the mean volume — equivalent to the formula above without the factor of 2 on the numerator.

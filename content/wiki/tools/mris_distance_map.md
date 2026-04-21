@@ -53,7 +53,9 @@ Geodesic distance maps on cortical surfaces are used in surface-based analysis, 
 
 Geodesic distance along a triangulated surface mesh is computed as the shortest path between two vertices traversing the mesh edges. For a vertex $v_i$, the distance $d(v_0, v_i)$ is:
 
-$$d(v_0, v_i) = \min_{\text{path}} \sum_{\text{edges}} \|e_k\|_2$$
+$$
+d(v_0, v_i) = \min_{\text{path}} \sum_{\text{edges}} \|e_k\|_2
+$$
 
 where the minimum is taken over all edge-traversal paths from the reference vertex $v_0$ to $v_i$. The implementation uses `MRIScomputeDistanceMap()`, which internally performs a Dijkstra-like graph traversal on the surface mesh.
 

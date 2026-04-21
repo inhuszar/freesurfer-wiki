@@ -120,7 +120,9 @@ Let:
 - $\mathbf{R}$ = registration matrix (maps surface/anatomy tkRAS → source volume tkRAS)
 
 Then:
-$$\mathbf{M}_{\text{surf}\to\text{vox}} = \mathbf{T}_\text{vol}^{-1} \cdot \mathbf{R}$$
+$$
+\mathbf{M}_{\text{surf}\to\text{vox}} = \mathbf{T}_\text{vol}^{-1} \cdot \mathbf{R}
+$$
 
 Voxel position: $(c, r, s)^T = \mathbf{M}_{\text{surf}\to\text{vox}} \cdot (\mathbf{x}, 1)^T$
 
@@ -130,7 +132,9 @@ This is computed in `vol2surf_linear()` (`utils/resample.cpp`) for the "old" pat
 
 When `--projfrac frac` is specified (`ProjDistFlag = 0`):
 
-$$\mathbf{x}' = \mathbf{x} + (f \cdot \tau_v) \cdot \hat{n}_v$$
+$$
+\mathbf{x}' = \mathbf{x} + (f \cdot \tau_v) \cdot \hat{n}_v
+$$
 
 where $\mathbf{x}$ is the white surface vertex position, $\tau_v$ is the
 cortical thickness at vertex $v$ (loaded from `?h.thickness`), $\hat{n}_v$ is
@@ -142,7 +146,9 @@ the surface unit normal, and $f$ is the projection fraction.
 - $f < 0$: sample into white matter
 
 When `--projdist dist` is specified (`ProjDistFlag = 1`):
-$$\mathbf{x}' = \mathbf{x} + d \cdot \hat{n}_v$$
+$$
+\mathbf{x}' = \mathbf{x} + d \cdot \hat{n}_v
+$$
 A fixed distance $d$ in mm regardless of thickness. Does not require
 `?h.thickness` to be loaded.
 
@@ -150,11 +156,15 @@ A fixed distance $d$ in mm regardless of thickness. Does not require
 
 `--projfrac-avg min max delta`: samples at all fractions $f \in [\text{min}, \text{max}]$
 step $\delta$, computes the **mean** across samples:
-$$v_\text{out} = \frac{1}{N} \sum_k v(\mathbf{x} + f_k \tau_v \hat{n}_v)$$
+$$
+v_\text{out} = \frac{1}{N} \sum_k v(\mathbf{x} + f_k \tau_v \hat{n}_v)
+$$
 
 `--projfrac-max min max delta`: same sampling but takes the **element-wise
 maximum** across samples:
-$$v_\text{out} = \max_k\, v(\mathbf{x} + f_k \tau_v \hat{n}_v)$$
+$$
+v_\text{out} = \max_k\, v(\mathbf{x} + f_k \tau_v \hat{n}_v)
+$$
 
 Useful for detecting peak activation within the cortical depth.
 

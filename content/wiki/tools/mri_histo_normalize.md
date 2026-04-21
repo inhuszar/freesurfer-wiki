@@ -79,10 +79,14 @@ mri_histo_normalize <input_vol> <subject1> <subject2> ... <output_vol>
 
 The tool uses a linear histogram normalization approach. For each subject $i$, a linear mapping $y = a_i x + b_i$ is determined by aligning the subject's histogram to the template histogram. The mapping minimizes an RMS criterion:
 
-$$\text{RMS}_i = \sqrt{\frac{1}{N} \sum_v (y_{i,v}' - y_\text{template,v})^2}$$
+$$
+\text{RMS}_i = \sqrt{\frac{1}{N} \sum_v (y_{i,v}' - y_\text{template,v})^2}
+$$
 
 Iteration continues until:
-$$\bar{\text{RMS}} < \text{tol}$$
+$$
+\bar{\text{RMS}} < \text{tol}
+$$
 
 where $\text{tol}$ defaults to 0.5 (average RMS change in voxel intensities).
 

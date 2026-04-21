@@ -95,7 +95,9 @@ For each tract, the output directory contains:
 
 TRACULA uses a **Bayesian global tractography** model. The posterior over path $\mathcal{P}$:
 
-$$p(\mathcal{P} | \mathbf{Y}, \boldsymbol{\theta}_0) \propto p(\mathbf{Y} | \mathcal{P}) \cdot p(\mathcal{P} | \boldsymbol{\theta}_0)$$
+$$
+p(\mathcal{P} | \mathbf{Y}, \boldsymbol{\theta}_0) \propto p(\mathbf{Y} | \mathcal{P}) \cdot p(\mathcal{P} | \boldsymbol{\theta}_0)
+$$
 
 where $\mathbf{Y}$ is the diffusion MRI data and $\boldsymbol{\theta}_0$ are trained prior parameters.
 

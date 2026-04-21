@@ -367,7 +367,9 @@ cross-subject tables. The format is:
 
 eTIV is computed by `MRIestimateTIV()` as:
 
-$$\text{eTIV} = k \cdot |\det(\mathbf{M}_\text{tal})|$$
+$$
+\text{eTIV} = k \cdot |\det(\mathbf{M}_\text{tal})|
+$$
 
 where $\mathbf{M}_\text{tal}$ is the linear portion of the Talairach transform
 read from `mri/transforms/talairach.xfm`, and $k = 1948.106$ (empirically

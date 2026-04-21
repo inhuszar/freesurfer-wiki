@@ -73,7 +73,9 @@ This tool was developed when multi-echo FLASH data acquisition was more common i
 
 The MEF surface placement extends the standard `mris_make_surfaces` energy functional to a two-channel formulation. Class statistics (WM mean and standard deviation, GM mean and standard deviation) are computed for both the 30° and 5° channels using `MRIcomputeClassStatistics_mef()`:
 
-$$\{(\mu_{w,30}, \sigma_{w,30}, \mu_{g,30}, \sigma_{g,30}),\ (\mu_{w,5}, \sigma_{w,5}, \mu_{g,5}, \sigma_{g,5})\}$$
+$$
+\{(\mu_{w,30}, \sigma_{w,30}, \mu_{g,30}, \sigma_{g,30}),\ (\mu_{w,5}, \sigma_{w,5}, \mu_{g,5}, \sigma_{g,5})\}
+$$
 
 These statistics are used in `MRIScomputeBorderValues_MEF_WHITE()` and `MRIScomputeBorderValues_MEF_PIAL()` to compute border values for the white and pial surfaces respectively.
 

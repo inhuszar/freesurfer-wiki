@@ -57,7 +57,9 @@ Inferred from global variables: `lhfile`, `rhfile`, `outdir`.
 
 The laterality index is computed by `MRIfcIntrinsicLI(lh, rh, DenThresh)`. The typical formula for iLI is:
 
-$$\text{iLI}(v) = \frac{L(v) - R(v)}{L(v) + R(v)}$$
+$$
+\text{iLI}(v) = \frac{L(v) - R(v)}{L(v) + R(v)}
+$$
 
 where $L(v)$ and $R(v)$ are left and right hemisphere functional connectivity values at vertex/voxel $v$.
 

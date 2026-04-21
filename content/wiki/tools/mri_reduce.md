@@ -49,7 +49,9 @@ tags:
 
 Each output voxel is an average of the corresponding 2x2x2 input voxels:
 
-$$O(i,j,k) = \frac{1}{8} \sum_{di=0}^{1} \sum_{dj=0}^{1} \sum_{dk=0}^{1} I(2i+di,\, 2j+dj,\, 2k+dk)$$
+$$
+O(i,j,k) = \frac{1}{8} \sum_{di=0}^{1} \sum_{dj=0}^{1} \sum_{dk=0}^{1} I(2i+di,\, 2j+dj,\, 2k+dk)
+$$
 
 The voxel size in the output header is doubled accordingly, and the RAS center of the volume is preserved.
 

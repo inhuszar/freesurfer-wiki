@@ -65,7 +65,9 @@ The tool is located in `resurf/`, FreeSurfer's surface reconstruction research s
 
 The tool moves each surface vertex along the outward normal direction to find the maximum gradient magnitude:
 
-$$v_i^{t+1} = v_i^t + s \cdot \hat{n}_i$$
+$$
+v_i^{t+1} = v_i^t + s \cdot \hat{n}_i
+$$
 
 where $s$ is the step size (default 0.4 mm, set by `-s`) and the optimisation searches over `numberOfSteps` (default 20, set by `-k`) positions. The decision between maximum gradient (`-max`) and minimum gradient (`-min`) is controlled by a flag.
 

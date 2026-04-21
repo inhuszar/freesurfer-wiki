@@ -74,7 +74,9 @@ When overlays are provided instead of label files, the tool creates binary label
 
 The Hausdorff distance between two label sets $A$ and $B$ on a surface is:
 
-$$d_H(A, B) = \max\left(\sup_{a \in A} \inf_{b \in B} d_S(a, b),\; \sup_{b \in B} \inf_{a \in A} d_S(b, a)\right)$$
+$$
+d_H(A, B) = \max\left(\sup_{a \in A} \inf_{b \in B} d_S(a, b),\; \sup_{b \in B} \inf_{a \in A} d_S(b, a)\right)
+$$
 
 where $d_S(\cdot, \cdot)$ is the geodesic distance along the surface mesh.
 

@@ -70,13 +70,17 @@ This is called the "Hungarian" step in the `dmri_ac.sh` pipeline.
 
 The similarity between cluster $A$ from subject 1 and cluster $B$ from subject 2 is computed as a label-histogram-based distance. Using the `LabelsEntropyAndIntersectionMembershipFunction`:
 
-$$d(A, B) = \sum_{\text{positions}} H(\text{labels}_A^{\text{pos}}, \text{labels}_B^{\text{pos}})$$
+$$
+d(A, B) = \sum_{\text{positions}} H(\text{labels}_A^{\text{pos}}, \text{labels}_B^{\text{pos}})
+$$
 
 where $H$ is a histogram distance or entropy-based dissimilarity over the anatomical labels encountered at each resampled streamline position.
 
 The **Hungarian algorithm** then solves the linear assignment problem:
 
-$$\min_{\sigma} \sum_{i=1}^{N} d(A_i, B_{\sigma(i)})$$
+$$
+\min_{\sigma} \sum_{i=1}^{N} d(A_i, B_{\sigma(i)})
+$$
 
 where $\sigma$ is a permutation over $N$ clusters. This finds the globally optimal one-to-one matching in $O(N^3)$ time. The VNL implementation (`vnl_hungarian_algorithm`) is used.
 

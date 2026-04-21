@@ -66,7 +66,9 @@ The CNR at each vertex is computed using a multivariate formulation. For $N$ inp
 
 The within-class covariance matrices $\mathbf{S}_{W_1}$, $\mathbf{S}_{W_2}$ are accumulated, and the multivariate CNR is:
 
-$$\text{CNR} = \frac{(\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})^T \mathbf{S}_W^{-1} (\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})}{\text{(normalisation)}}$$
+$$
+\text{CNR} = \frac{(\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})^T \mathbf{S}_W^{-1} (\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})}{\text{(normalisation)}}
+$$
 
 The code uses `MATRIX` objects (`SW1`, `SW2`, `SW`, `InvSW`) from the FreeSurfer linear algebra library to carry out this computation. A per-volume weight vector (`mri_weight`) can optionally modulate the contribution of each volume.
 

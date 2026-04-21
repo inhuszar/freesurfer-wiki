@@ -64,7 +64,9 @@ tags:
 
 Same gradient-based normal search as [[mris_multimodal]]:
 
-$$v_i^{t+1} = v_i^t + s \cdot \hat{n}_i$$
+$$
+v_i^{t+1} = v_i^t + s \cdot \hat{n}_i
+$$
 
 The streamline component constrains placement by providing additional boundary evidence at the WM/GM interface from tractography endpoint density maps.
 

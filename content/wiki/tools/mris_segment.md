@@ -67,7 +67,9 @@ Three classifier modes are implemented:
 
 **Gaussian classifier (`-classifier 0`):**
 Each vertex's feature vector (a column from the correlation matrix) is compared to a Gaussian model of the target region's feature distribution. Classification likelihood is:
-$$p(\mathbf{v}_i \mid \text{class}) \propto \exp\!\left(-\frac{(\mathbf{v}_i - \boldsymbol{\mu})^T \Sigma^{-1} (\mathbf{v}_i - \boldsymbol{\mu})}{2}\right)$$
+$$
+p(\mathbf{v}_i \mid \text{class}) \propto \exp\!\left(-\frac{(\mathbf{v}_i - \boldsymbol{\mu})^T \Sigma^{-1} (\mathbf{v}_i - \boldsymbol{\mu})}{2}\right)
+$$
 
 **Similarity classifier (`-classifier 1`):**
 Classification based on cosine or correlation similarity between the query vertex's feature vector and a template profile.

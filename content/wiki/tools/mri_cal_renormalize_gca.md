@@ -63,11 +63,15 @@ The subjects directory is inferred from the path of the time-point file.
 
 Let $\{V_1, \ldots, V_T\}$ be the normalized volumes from $T$ time points. For each atlas node $(x_p, y_p, z_p)$ and tissue label $k$, the GCA stores a Gaussian:
 
-$$p(I | k, x_p, y_p, z_p) = \mathcal{N}(I; \mu_k, \sigma_k^2)$$
+$$
+p(I | k, x_p, y_p, z_p) = \mathcal{N}(I; \mu_k, \sigma_k^2)
+$$
 
 Renormalization updates $\mu_k$ and $\sigma_k^2$ by accumulating observations from voxels mapped to the atlas node via the transform $T$:
 
-$$\hat{\mu}_k = \frac{1}{N_k} \sum_{t,v \in k} V_t(T^{-1}(v))$$
+$$
+\hat{\mu}_k = \frac{1}{N_k} \sum_{t,v \in k} V_t(T^{-1}(v))
+$$
 
 The function `GCAregularizeConditionalDensities(gca, 0.5)` is called on the input atlas to regularize initial estimates before renormalization.
 

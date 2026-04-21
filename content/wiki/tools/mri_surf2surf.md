@@ -89,7 +89,9 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 
 > [!math] FWHM-to-iterations conversion
 > The relationship between FWHM and smoothing iterations uses the approximation:
-> $$\text{FWHM} \approx \sqrt{4 \ln 2 \cdot 2t} \approx \sqrt{4 \ln 2 \cdot 2 \cdot n_{\text{iter}} \cdot \bar{d}^2}$$
+> $$
+> \text{FWHM} \approx \sqrt{4 \ln 2 \cdot 2t} \approx \sqrt{4 \ln 2 \cdot 2 \cdot n_{\text{iter}} \cdot \bar{d}^2}
+> $$
 > where $\bar{d}$ is the mean inter-vertex spacing on the white surface. This is an approximation; actual smoothing behaviour depends on local surface geometry.
 
 ## Configuration Options

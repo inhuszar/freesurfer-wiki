@@ -58,17 +58,23 @@ The tool is particularly useful with `mri_glmfit` output — the residual images
 
 Smoothness is estimated from the spatial autocorrelation function (AR1) of the data:
 
-$$\text{FWHM} = \text{voxelsize} \cdot \sqrt{\frac{-8\ln(2)}{\ln(\text{AR1})}}$$
+$$
+\text{FWHM} = \text{voxelsize} \cdot \sqrt{\frac{-8\ln(2)}{\ln(\text{AR1})}}
+$$
 
 where AR1 is the lag-1 autocorrelation in each spatial direction, averaged across directions.
 
 For a Gaussian kernel with standard deviation $\sigma$:
 
-$$\text{FWHM} = \sigma \sqrt{8\ln 2} \approx 2.355 \sigma$$
+$$
+\text{FWHM} = \sigma \sqrt{8\ln 2} \approx 2.355 \sigma
+$$
 
 Equivalently:
 
-$$\sigma = \frac{\text{FWHM}}{\sqrt{\ln 256}}$$
+$$
+\sigma = \frac{\text{FWHM}}{\sqrt{\ln 256}}
+$$
 
 (FreeSurfer's convention uses $\sqrt{\ln 256}$ rather than $\sqrt{8\ln 2}$ for the conversion, but these are equivalent since $\ln 256 = 8\ln 2$.)
 

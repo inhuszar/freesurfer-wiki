@@ -69,9 +69,13 @@ These outputs were used to bootstrap Gaussian Classifier Atlas (GCA) constructio
 
 For $N$ subjects, the per-voxel mean and standard deviation are computed incrementally:
 
-$$\bar{I}(\mathbf{x}) = \frac{1}{N} \sum_{i=1}^{N} I_i(T_i(\mathbf{x}))$$
+$$
+\bar{I}(\mathbf{x}) = \frac{1}{N} \sum_{i=1}^{N} I_i(T_i(\mathbf{x}))
+$$
 
-$$\sigma(\mathbf{x}) = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left(I_i(T_i(\mathbf{x})) - \bar{I}(\mathbf{x})\right)^2}$$
+$$
+\sigma(\mathbf{x}) = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left(I_i(T_i(\mathbf{x})) - \bar{I}(\mathbf{x})\right)^2}
+$$
 
 where $T_i$ is the subject-to-atlas transform. The `MRIaccumulateMeansAndVariances()` and `MRIcomputeMeansAndStds()` functions implement this.
 

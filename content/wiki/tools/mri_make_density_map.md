@@ -63,7 +63,9 @@ The tool accepts a GCA morphological transform (GCAM) and can optionally smooth 
 
 For each label $l$ and voxel $\mathbf{x}$ in the source segmentation, the partial-volume estimate $p_l(\mathbf{x})$ is mapped to the target voxel $\mathbf{y} = T(\mathbf{x})$ where $T$ is the transform. With Jacobian correction enabled, the contribution is scaled by $|J_T(\mathbf{x})|$, the determinant of the Jacobian of the warp, preserving tissue volume under the transformation:
 
-$$\rho_l(\mathbf{y}) = \sum_{\mathbf{x}: T(\mathbf{x})=\mathbf{y}} p_l(\mathbf{x}) \cdot |J_T(\mathbf{x})|$$
+$$
+\rho_l(\mathbf{y}) = \sum_{\mathbf{x}: T(\mathbf{x})=\mathbf{y}} p_l(\mathbf{x}) \cdot |J_T(\mathbf{x})|
+$$
 
 Optional Gaussian smoothing with kernel width $\sigma$ is applied post-warp to create continuous density fields.
 

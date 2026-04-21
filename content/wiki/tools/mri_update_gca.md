@@ -59,8 +59,12 @@ The GCA (Gaussian Classifier Atlas) is FreeSurfer's probabilistic atlas for subc
 ## Mathematical Foundations
 
 GCA parameters are Gaussian mixture models at each spatial location in atlas space. Updating involves:
-$$\mu_k' = \frac{N_k \mu_k + n_k \bar{x}_k}{N_k + n_k}$$
-$$\sigma_k'^2 = \frac{N_k \sigma_k^2 + n_k s_k^2}{N_k + n_k}$$
+$$
+\mu_k' = \frac{N_k \mu_k + n_k \bar{x}_k}{N_k + n_k}
+$$
+$$
+\sigma_k'^2 = \frac{N_k \sigma_k^2 + n_k s_k^2}{N_k + n_k}
+$$
 
 where $N_k$ is the existing count, $n_k$ is new data count, and $\bar{x}_k$, $s_k^2$ are new sample mean and variance.
 

@@ -71,8 +71,12 @@ The tool reads per-subject:
 The voxel-level feature set is constructed from voxels that differ between the auto and manually edited aseg:
 
 **Training sample generation:**
-$$\mathcal{V}_{+} = \{v : \text{aseg\_edit}(v) = \text{target}\} \setminus \{v : \text{aseg\_auto}(v) = \text{target}\}$$
-$$\mathcal{V}_{-} = \{v : \text{aseg\_auto}(v) = \text{target}\} \setminus \{v : \text{aseg\_edit}(v) = \text{target}\}$$
+$$
+\mathcal{V}_{+} = \{v : \text{aseg\_edit}(v) = \text{target}\} \setminus \{v : \text{aseg\_auto}(v) = \text{target}\}
+$$
+$$
+\mathcal{V}_{-} = \{v : \text{aseg\_auto}(v) = \text{target}\} \setminus \{v : \text{aseg\_edit}(v) = \text{target}\}
+$$
 
 Features at each scale $\sigma \in \{0, 0.5, 1.0, 2.0\}$ (configurable via `-nscales`):
 - Smoothed intensity, gradient (Sobel), Laplacian, second directional derivative
@@ -81,7 +85,9 @@ Features at each scale $\sigma \in \{0, 0.5, 1.0, 2.0\}$ (configurable via `-nsc
 The default classifier is `CA_GAUSSIAN` (`-ca gaussian`); SVM can be selected.
 
 For SVM training (when used), minimizes the hinge loss:
-$$\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \max(0, 1 - y_i(\mathbf{w}^T \mathbf{x}_i + b))$$
+$$
+\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \max(0, 1 - y_i(\mathbf{w}^T \mathbf{x}_i + b))
+$$
 
 SVM tolerance and regularization parameter $C$ are configurable.
 

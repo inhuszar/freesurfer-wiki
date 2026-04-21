@@ -81,7 +81,9 @@ Prints total white matter volume in mm³ to stdout as a single number:
 The volume is computed by sampling a dense grid at `resolution` mm spacing inside the white surface bounding box, checking which sample points are inside the white surface (using ray casting or similar), and excluding points whose nearest aseg voxel label corresponds to a subcortical structure.
 
 > [!math] Volume estimate
-> $$V_{WM} = \text{resolution}^3 \times \#\{(x,y,z) : \text{inside white surface} \wedge \text{aseg}(x,y,z) \notin \text{subcortical labels}\}$$
+> $$
+> V_{WM} = \text{resolution}^3 \times \#\{(x,y,z) : \text{inside white surface} \wedge \text{aseg}(x,y,z) \notin \text{subcortical labels}\}
+> $$
 > The default resolution of 0.25mm gives a dense sampling (8× finer than 1mm aseg voxels) for accuracy.
 
 ## Configuration Options

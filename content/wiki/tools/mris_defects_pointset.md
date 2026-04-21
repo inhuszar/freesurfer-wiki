@@ -64,7 +64,9 @@ With `-c, --control`, the output is in old FreeSurfer v6-compatible control poin
 
 For each topologically distinct defect region $D_k$ (a connected component of the defect label), the centroid is computed as:
 
-$$\mathbf{c}_k = \frac{1}{|D_k|} \sum_{v \in D_k} \mathbf{p}_v$$
+$$
+\mathbf{c}_k = \frac{1}{|D_k|} \sum_{v \in D_k} \mathbf{p}_v
+$$
 
 where $\mathbf{p}_v$ is the 3D position of surface vertex $v$. The resulting point $\mathbf{c}_k$ is written to the output pointset.
 

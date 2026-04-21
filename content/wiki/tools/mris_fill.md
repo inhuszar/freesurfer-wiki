@@ -63,7 +63,9 @@ Common use cases include:
 
 The interior fill uses a ray-casting or inside-outside test on the triangulated surface:
 
-$$\text{voxel}(i,j,k) = \begin{cases} 1 & \text{if point } p_{ijk} \text{ is inside } \mathcal{S} \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{voxel}(i,j,k) = \begin{cases} 1 & \text{if point } p_{ijk} \text{ is inside } \mathcal{S} \\ 0 & \text{otherwise} \end{cases}
+$$
 
 The surface is sampled at the specified resolution (`-res`) or at the resolution of the template volume (`-vol`). The `MRISfillInterior()` function handles the inside-outside determination.
 

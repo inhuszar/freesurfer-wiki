@@ -69,13 +69,19 @@ Optionally:
 
 CNR is defined as:
 
-$$\text{CNR} = \frac{(\mu_{WM} - \mu_{GM})^2}{\sigma^2_{WM} + \sigma^2_{GM}}$$
+$$
+\text{CNR} = \frac{(\mu_{WM} - \mu_{GM})^2}{\sigma^2_{WM} + \sigma^2_{GM}}
+$$
 
 For bilateral total CNR:
-$$\text{CNR}_{\text{total}} = \frac{\text{CNR}_{lh} + \text{CNR}_{rh}}{2N_{\text{vols}}}$$
+$$
+\text{CNR}_{\text{total}} = \frac{\text{CNR}_{lh} + \text{CNR}_{rh}}{2N_{\text{vols}}}
+$$
 
 The slope fitting (`MRIScomputeSlope`) uses least-squares linear regression of intensity vs. distance across the WM-GM boundary:
-$$I(d) \approx a \cdot d + b$$
+$$
+I(d) \approx a \cdot d + b
+$$
 
 where $d$ is the distance from the white surface (negative into WM, positive toward CSF).
 

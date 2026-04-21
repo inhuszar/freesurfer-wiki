@@ -89,7 +89,9 @@ The tool reads:
 ## Mathematical Foundations
 
 **Euler number and genus:** For a closed triangulated surface with $V$ vertices, $E$ edges, and $F$ faces:
-$$\chi = V - E + F = 2(1 - g)$$
+$$
+\chi = V - E + F = 2(1 - g)
+$$
 where $g$ is the genus (number of handles). A sphere has $g = 0$, $\chi = 2$. Each handle or hole reduces $\chi$ by 2.
 
 **Defect detection:** The algorithm identifies topological defects by analysing loops in the surface graph that are not contractible (i.e., cannot be shrunk to a point on the surface).

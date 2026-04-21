@@ -78,7 +78,9 @@ The algorithm locates anatomical seed points:
 2. **Pons seed**: Default Talairach coordinates $(-2, -15, -17)$ mm. Used to cut the pons from the fill.
 
 These Talairach coordinates are transformed to volume voxel coordinates via the subject's `talairach.xfm`:
-$$v_{\text{vox}} = M_{\text{tal}}^{-1} \cdot v_{\text{tal}}$$
+$$
+v_{\text{vox}} = M_{\text{tal}}^{-1} \cdot v_{\text{tal}}
+$$
 
 ### Flood Fill
 

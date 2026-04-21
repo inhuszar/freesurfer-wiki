@@ -70,7 +70,9 @@ Graph-cut skull stripping formulates brain extraction as a max-flow / min-cut pr
 - **Edges** $E$: neighbourhood edges (6-connectivity or similar) with capacity based on intensity similarity, plus terminal edges based on unary likelihoods.
 - **Min-cut:** partition $V$ into brain $\mathcal{B}$ and non-brain $\overline{\mathcal{B}}$ minimising:
 
-$$E(\mathcal{B}) = \sum_{i \in V} D_i(L_i) + \sum_{(i,j) \in E} V_{ij}(L_i, L_j)$$
+$$
+E(\mathcal{B}) = \sum_{i \in V} D_i(L_i) + \sum_{(i,j) \in E} V_{ij}(L_i, L_j)
+$$
 
 where $D_i$ is the data term (unary cost) and $V_{ij}$ is the smoothness term (pairwise cost).
 

@@ -73,17 +73,23 @@ Inferred from source code patterns:
 The label fusion combines:
 
 **Distance-based prior:**
-$$p(\text{label}_l | \text{pos}) \propto d_l(\mathbf{x})$$
+$$
+p(\text{label}_l | \text{pos}) \propto d_l(\mathbf{x})
+$$
 
 where $d_l(\mathbf{x})$ is the propagated distance map from atlas label $l$, computed via `performFrontPropagation3D()` (a fast marching front propagation).
 
 **Intensity likelihood (Gaussian model):**
-$$p(y | \text{label}_l) = \mathcal{N}(y \cdot e^{B(\mathbf{x})} ; \mu_l, \sigma_l^2) \cdot e^{B(\mathbf{x})}$$
+$$
+p(y | \text{label}_l) = \mathcal{N}(y \cdot e^{B(\mathbf{x})} ; \mu_l, \sigma_l^2) \cdot e^{B(\mathbf{x})}
+$$
 
 where $B(\mathbf{x})$ is a polynomial bias field estimated during the fusion.
 
 **Label posterior (combining all atlases):**
-$$p(\text{label} | y, \text{pos}) = \sum_k w_k \cdot p(\text{label}_l | \text{pos}) \cdot p(y | \text{label}_l)$$
+$$
+p(\text{label} | y, \text{pos}) = \sum_k w_k \cdot p(\text{label}_l | \text{pos}) \cdot p(y | \text{label}_l)
+$$
 
 where $w_k$ are atlas-specific weights from the distance maps.
 

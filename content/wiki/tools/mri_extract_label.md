@@ -56,7 +56,9 @@ Positional arguments:
 1. **Label extraction:** For each label value on the command line, calls `extract_labeled_image()` which sets matching voxels to the label value and all others to 0.
 
 2. **Gaussian smoothing** (optional): If `-sigma <s>` is specified, a 3D Gaussian kernel of standard deviation `s` is convolved with the binary mask:
-$$\text{out}(x) = \mathcal{G}_\sigma * \text{mask}(x)$$
+$$
+\text{out}(x) = \mathcal{G}_\sigma * \text{mask}(x)
+$$
 
 3. **Dilation/erosion** (optional): Morphological dilation (`-dilate <n>`) or erosion (`-erode <n>`) is applied to the binary mask.
 

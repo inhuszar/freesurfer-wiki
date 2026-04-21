@@ -70,7 +70,9 @@ The tool uses a **convolutional neural network** trained on manually labelled T1
 
 The network outputs are passed through a softmax layer producing posterior probabilities $p(\text{label}_k | x)$ for each voxel $x$. The final segmentation is the argmax:
 
-$$\text{seg}(x) = \arg\max_k p(\text{label}_k | x)$$
+$$
+\text{seg}(x) = \arg\max_k p(\text{label}_k | x)
+$$
 
 ## Configuration Options
 

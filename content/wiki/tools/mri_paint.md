@@ -61,7 +61,9 @@ For each vertex $v_i$ on the surface with RAS coordinates $\mathbf{p}_i$:
 
 1. The inverse of the LTA matrix $M^{-1}$ maps the vertex position from surface space to volume space:
 
-$$\mathbf{q}_i = M^{-1} \mathbf{p}_i$$
+$$
+\mathbf{q}_i = M^{-1} \mathbf{p}_i
+$$
 
 2. The volume is sampled at $\mathbf{q}_i$ using trilinear interpolation (via `MRISpaintVolume`).
 

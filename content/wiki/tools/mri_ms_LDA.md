@@ -70,13 +70,17 @@ Let $S_W$ be the within-class scatter matrix and $S_B$ the between-class scatter
 
 The Fisher LDA direction is the eigenvector corresponding to the largest eigenvalue of $S_W^{-1} S_B$:
 
-$$\mathbf{w} = S_W^{-1} (\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)$$
+$$
+\mathbf{w} = S_W^{-1} (\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)
+$$
 
 where $\boldsymbol{\mu}_1$ and $\boldsymbol{\mu}_2$ are the multi-spectral class means.
 
 The synthesized image is:
 
-$$y(\mathbf{x}) = \mathbf{w}^T \mathbf{I}(\mathbf{x})$$
+$$
+y(\mathbf{x}) = \mathbf{w}^T \mathbf{I}(\mathbf{x})
+$$
 
 where $\mathbf{I}(\mathbf{x})$ is the vector of intensities at voxel $\mathbf{x}$ across all input volumes.
 

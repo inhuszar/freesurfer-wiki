@@ -56,11 +56,15 @@ When a single input volume is provided, `mri_or` binarizes it (all nonzero value
 
 The logical OR operation:
 
-$$O(v) = \begin{cases} 1 & \text{if } \exists\, i : I_i(v) \neq 0 \\ 0 & \text{otherwise} \end{cases}$$
+$$
+O(v) = \begin{cases} 1 & \text{if } \exists\, i : I_i(v) \neq 0 \\ 0 & \text{otherwise} \end{cases}
+$$
 
 With the `-o` flag (preserve original values via `MRIorVal`):
 
-$$O(v) = \begin{cases} I_k(v) & \text{where } k = \min\{i : I_i(v) \neq 0\} \\ 0 & \text{otherwise} \end{cases}$$
+$$
+O(v) = \begin{cases} I_k(v) & \text{where } k = \min\{i : I_i(v) \neq 0\} \\ 0 & \text{otherwise} \end{cases}
+$$
 
 ## Configuration Options
 

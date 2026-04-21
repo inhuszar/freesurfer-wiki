@@ -78,13 +78,17 @@ Key use cases:
 
 For linear transforms, the resampling maps each output voxel $(c_{\text{targ}}, r_{\text{targ}}, s_{\text{targ}})$ to source voxel coordinates via the transformation chain:
 
-$$\begin{pmatrix} x_{\text{mov}} \\ y_{\text{mov}} \\ z_{\text{mov}} \end{pmatrix} = M_{\text{mov}}^{-1} \cdot R^{-1} \cdot M_{\text{targ}} \begin{pmatrix} c_{\text{targ}} \\ r_{\text{targ}} \\ s_{\text{targ}} \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} x_{\text{mov}} \\ y_{\text{mov}} \\ z_{\text{mov}} \end{pmatrix} = M_{\text{mov}}^{-1} \cdot R^{-1} \cdot M_{\text{targ}} \begin{pmatrix} c_{\text{targ}} \\ r_{\text{targ}} \\ s_{\text{targ}} \\ 1 \end{pmatrix}
+$$
 
 where $M_{\text{mov}}$ and $M_{\text{targ}}$ are the respective vox2ras matrices and $R$ is the registration matrix.
 
 For the `--tal` (Talairach/MNI305) mode, the transformation is computed as:
 
-$$T = R \cdot X_{\text{tal}}^{-1} \cdot R_{\text{tal}}^{-1}$$
+$$
+T = R \cdot X_{\text{tal}}^{-1} \cdot R_{\text{tal}}^{-1}
+$$
 
 where $X_{\text{tal}}$ is the `talairach.xfm` matrix, $R$ is the registration matrix, and $R_{\text{tal}}$ maps from the full MNI305 COR FOV to the sub-FOV.
 

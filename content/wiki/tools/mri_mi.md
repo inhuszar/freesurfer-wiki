@@ -61,15 +61,21 @@ The MI value is printed to `stdout`. No output file is written unless a silent m
 
 Mutual information between two random variables $X$ (intensities in vol1) and $Y$ (intensities in vol2) is:
 
-$$I(X; Y) = H(X) + H(Y) - H(X, Y)$$
+$$
+I(X; Y) = H(X) + H(Y) - H(X, Y)
+$$
 
 where $H(\cdot)$ is the Shannon entropy:
 
-$$H(X) = -\sum_{x} p(x) \log_2 p(x)$$
+$$
+H(X) = -\sum_{x} p(x) \log_2 p(x)
+$$
 
 and $H(X,Y)$ is the joint entropy:
 
-$$H(X, Y) = -\sum_{x,y} p(x,y) \log_2 p(x,y)$$
+$$
+H(X, Y) = -\sum_{x,y} p(x,y) \log_2 p(x,y)
+$$
 
 The marginal distributions $p(x)$ and $p(y)$, and the joint distribution $p(x,y)$, are estimated from intensity histograms with configurable bin counts (default 64 bins each).
 

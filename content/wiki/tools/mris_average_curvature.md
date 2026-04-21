@@ -66,15 +66,21 @@ Optionally, `--osurf` and `--ohemi` can redirect the output to a different surfa
 
 Each subject's scalar field $f_s(v)$ is projected to the spherical parameter space:
 
-$$F(\theta, \phi) \mathrel{+}= f_s(\theta, \phi), \quad N(\theta, \phi) \mathrel{+}= 1$$
+$$
+F(\theta, \phi) \mathrel{+}= f_s(\theta, \phi), \quad N(\theta, \phi) \mathrel{+}= 1
+$$
 
 After accumulating all subjects:
 
-$$\bar{F}(\theta, \phi) = \frac{F(\theta, \phi)}{N(\theta, \phi)}$$
+$$
+\bar{F}(\theta, \phi) = \frac{F(\theta, \phi)}{N(\theta, \phi)}
+$$
 
 If `--norm-mean` is selected (`which_norm = NORM_MEAN`), each subject's curvature is normalised to zero mean before accumulation:
 
-$$f_s' = f_s - \bar{f}_s$$
+$$
+f_s' = f_s - \bar{f}_s
+$$
 
 ## Configuration Options
 

@@ -110,7 +110,9 @@ not the inflated surface.
 The mapping minimises the following energy (based on the `INTEGRATION_PARMS`
 structure and the referenced paper):
 
-$$E = \lambda_{\text{dist}} \sum_{\langle i,j\rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2$$
+$$
+E = \lambda_{\text{dist}} \sum_{\langle i,j\rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2
+$$
 
 where $d^0_{ij}$ and $A^0_f$ are the original (pre-inflation) edge lengths and
 face areas loaded from `smoothwm`.

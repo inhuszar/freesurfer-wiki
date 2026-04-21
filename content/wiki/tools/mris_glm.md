@@ -46,7 +46,9 @@ tags:
 
 `mris_glm` performs the standard vertex-wise mass-univariate GLM:
 
-$$\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}$$
+$$
+\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}
+$$
 
 where $\mathbf{Y}$ is the (subjects × vertices) data matrix, $\mathbf{X}$ is the design matrix, $\boldsymbol{\beta}$ are the regression coefficients, and $\boldsymbol{\epsilon}$ are the residuals. After estimation, a contrast $\mathbf{c}^T \boldsymbol{\beta}$ is tested for significance.
 
@@ -75,13 +77,19 @@ It exists alongside surface-based tools like `mri_glmfit` which supersede it for
 ## Mathematical Foundations
 
 The OLS estimator:
-$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$
+$$
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}
+$$
 
 Contrast effect size:
-$$\text{CES} = \mathbf{c}^T \hat{\boldsymbol{\beta}}$$
+$$
+\text{CES} = \mathbf{c}^T \hat{\boldsymbol{\beta}}
+$$
 
 F-statistic:
-$$F = \frac{\text{CES}^2}{\text{Var}(\text{CES})}$$
+$$
+F = \frac{\text{CES}^2}{\text{Var}(\text{CES})}
+$$
 
 where $\text{Var}(\text{CES}) = \hat{\sigma}^2 \mathbf{c}^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{c}$.
 

@@ -64,12 +64,16 @@ This is a lightweight utility with no optional parameters.
 ## Mathematical Foundations
 
 The scale factor is:
-$$\text{scale} = \frac{R_{\text{default}}}{R_{\text{avg}}}$$
+$$
+\text{scale} = \frac{R_{\text{default}}}{R_{\text{avg}}}
+$$
 
 where $R_{\text{default}} = 100$ mm (the `DEFAULT_RADIUS` constant) and $R_{\text{avg}} = \text{MRISaverageRadius}(\text{mris})$.
 
 Each vertex position $(x, y, z)$ is then multiplied by this factor:
-$$(x', y', z') = \text{scale} \cdot (x, y, z)$$
+$$
+(x', y', z') = \text{scale} \cdot (x, y, z)
+$$
 
 This is a pure scaling about the origin. `MRISscaleBrain()` applies this transformation to all vertex coordinates.
 

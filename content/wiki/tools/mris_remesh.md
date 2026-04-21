@@ -68,12 +68,18 @@ Exactly one of the following target specifications:
 The `Remesher` class implements iterative remeshing. For the vertex-count target (`remeshBKV`):
 
 1. The target edge length is estimated from the desired number of vertices:
-   $$\ell_{target} = \sqrt{\frac{A_{total}}{(3/4) \cdot N_{target}}}$$
+$$
+   \ell_{target} = \sqrt{\frac{A_{total}}{(3/4) \cdot N_{target}}}
+$$
    (from the relationship between equilateral triangle area and edge length)
 
 2. For the face area target (`--desired-face-area`), the decimation level is:
-   $$\text{decimation} = \frac{\bar{A}_{face,input}}{A_{desired}}$$
-   $$N_{target} = \text{round}(N_{input} \cdot \text{decimation})$$
+$$
+   \text{decimation} = \frac{\bar{A}_{face,input}}{A_{desired}}
+$$
+$$
+   N_{target} = \text{round}(N_{input} \cdot \text{decimation})
+$$
 
 3. After remeshing, `MRISremoveIntersections(remeshed, 0)` is called to fix any self-intersections introduced by the remeshing.
 

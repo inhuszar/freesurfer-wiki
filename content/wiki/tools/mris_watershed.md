@@ -83,7 +83,9 @@ See algorithm above. The merge step iteratively combines basins:
 
 > [!math] Basin merging criterion
 > For MERGE_SMALLEST at iteration $k$:
-> $$b_{\text{merge}} = \arg\min_{b_i} |b_i|$$
+> $$
+> b_{\text{merge}} = \arg\min_{b_i} |b_i|
+> $$
 > where $|b_i|$ is the number of vertices in basin $b_i$. The selected basin is merged with its adjacent basin that shares the most border edges.
 
 ## Configuration Options

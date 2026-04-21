@@ -101,7 +101,9 @@ For every voxel in the output volume:
 1. Check `ribbon.mgz`: only voxels with ribbon value 3 (lh cortex) or 42 (rh
    cortex) are processed.
 2. Convert voxel CRS to Surface RAS:
-   $$\mathbf{x}_\text{surf} = \mathbf{T}_\text{tkr} \cdot (c, r, s, 1)^T$$
+$$
+   \mathbf{x}_\text{surf} = \mathbf{T}_\text{tkr} \cdot (c, r, s, 1)^T
+$$
    where $\mathbf{T}_\text{tkr} = \mathbf{M}_{\text{inv}(R)} \cdot \mathbf{M}_\text{tkr}$
 3. Find the nearest vertex on each provided surface using a spatial hash table
    (`MHTfindClosestVertexNoXYZ`).

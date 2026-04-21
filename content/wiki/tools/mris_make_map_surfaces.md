@@ -64,7 +64,9 @@ A plausible use case is generating surfaces for a group average or template brai
 
 Based on the description, the deformation likely uses an energy functional similar to `mris_make_surfaces`:
 
-$$E = E_{\text{MRI-likelihood}} + \lambda E_{\text{smooth}}$$
+$$
+E = E_{\text{MRI-likelihood}} + \lambda E_{\text{smooth}}
+$$
 
 where $E_{\text{MRI-likelihood}}$ is derived from the probability of the observed intensities given the expected WM/GM/CSF distributions at each vertex's position.
 

@@ -80,7 +80,9 @@ The subject must have a completed FreeSurfer reconstruction (needs `mri/brainmas
 
 BBR minimizes a cost function that measures the similarity of image intensity to the expected signal profile across the white-matter/grey-matter boundary:
 
-$$C(\mathbf{T}) = \frac{1}{N} \sum_{i=1}^{N} \rho\!\left( \text{sgn}(c) \cdot \frac{I_{\text{WM},i}(\mathbf{T}) - I_{\text{GM},i}(\mathbf{T})}{\sigma} \right)$$
+$$
+C(\mathbf{T}) = \frac{1}{N} \sum_{i=1}^{N} \rho\!\left( \text{sgn}(c) \cdot \frac{I_{\text{WM},i}(\mathbf{T}) - I_{\text{GM},i}(\mathbf{T})}{\sigma} \right)
+$$
 
 where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{\text{GM},i}$ are intensities sampled on the white-matter and grey-matter sides of each surface vertex $i$, $c$ is the contrast sign (+1 for T2/BOLD/DTI, -1 for T1), and $\rho$ is a robust penalty function. $N$ is the number of surface vertices sampled. Optimization is performed with Powell's method.
 

@@ -73,7 +73,9 @@ Cortical regions are defined by the Desikan-Killiany label convention with:
 
 The total energy of a spline configuration is:
 
-$$E = \lambda_{\text{WM}} E_{\text{WM\_dist}} + \lambda_L E_{\text{length}}$$
+$$
+E = \lambda_{\text{WM}} E_{\text{WM\_dist}} + \lambda_L E_{\text{length}}
+$$
 
 where:
 - $E_{\text{WM\_dist}}$ penalizes spline control points outside white matter (via `SPLINE_WM_DIST`)

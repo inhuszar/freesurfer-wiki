@@ -67,7 +67,9 @@ This tool is simpler than [[mri_average]] (which performs registration) and [[mr
 ## Mathematical Foundations
 
 For each voxel at location $(x, y, z, f)$ across $N$ input volumes:
-$$\text{out}(x,y,z,f) = \frac{1}{N} \sum_{n=1}^{N} \text{vol}_n(x,y,z,f)$$
+$$
+\text{out}(x,y,z,f) = \frac{1}{N} \sum_{n=1}^{N} \text{vol}_n(x,y,z,f)
+$$
 
 No weighting, outlier removal, or robust estimation. Simple arithmetic mean.
 

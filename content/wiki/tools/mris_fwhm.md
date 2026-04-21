@@ -68,7 +68,9 @@ This tool overlaps in smoothing functionality with `mri_surf2surf` but is specif
 
 FWHM estimation uses the spatial autocorrelation function at lag 1 (AR1). For each vertex $v$, the AR1 is computed as the correlation between the vertex value and the average of its immediate neighbors:
 
-$$\text{AR1}(v) = \frac{\sum_{f=1}^{F} y_f(v) \cdot \bar{y}_f^{\text{nbr}}(v)}{\sqrt{\sum_f y_f(v)^2 \cdot \sum_f [\bar{y}_f^{\text{nbr}}(v)]^2}}$$
+$$
+\text{AR1}(v) = \frac{\sum_{f=1}^{F} y_f(v) \cdot \bar{y}_f^{\text{nbr}}(v)}{\sqrt{\sum_f y_f(v)^2 \cdot \sum_f [\bar{y}_f^{\text{nbr}}(v)]^2}}
+$$
 
 where $\bar{y}_f^{\text{nbr}}(v)$ is the average value over the immediate neighbors of vertex $v$ in frame $f$.
 
@@ -76,7 +78,9 @@ The mean AR1 over all vertices is then converted to an equivalent Gaussian FWHM 
 
 Surface smoothing is performed by iteratively averaging vertex values with their neighbors. The relationship between number of iterations $N_{\text{iter}}$ and FWHM (in mm) is:
 
-$$\text{FWHM} \approx \sqrt{N_{\text{iter}}} \cdot k$$
+$$
+\text{FWHM} \approx \sqrt{N_{\text{iter}}} \cdot k
+$$
 
 where $k$ depends on the average inter-vertex spacing of the surface.
 

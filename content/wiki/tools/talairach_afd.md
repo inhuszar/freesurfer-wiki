@@ -83,7 +83,9 @@ This is called in `recon-all autorecon1` to catch catastrophic registration fail
 **Transform parameterization:** The 12-parameter affine matrix $M \in \mathbb{R}^{3 \times 4}$ is extracted and flattened into a vector $\mathbf{t} \in \mathbb{R}^{12}$ (translation, rotation, scale, shear).
 
 **Multivariate normal evaluation:** Given population mean $\boldsymbol{\mu}$ and covariance $\boldsymbol{\Sigma}$ from the training distribution:
-$$f(\mathbf{t}) = \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{t}-\boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{t}-\boldsymbol{\mu})\right)$$
+$$
+f(\mathbf{t}) = \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{t}-\boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{t}-\boldsymbol{\mu})\right)
+$$
 
 The p-value is computed by integrating this density from $-\infty$ to the observed value.
 

@@ -64,7 +64,9 @@ Optional:
 
 The expansion is formulated as an energy minimisation. Starting from the input surface, each vertex is moved along its normal by `mm_out` mm, subject to:
 
-$$E_{\text{total}} = \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{loc}} E_{\text{loc}} + \lambda_{\text{repulse}} E_{\text{repulse}}$$
+$$
+E_{\text{total}} = \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{loc}} E_{\text{loc}} + \lambda_{\text{repulse}} E_{\text{repulse}}
+$$
 
 Default parameters:
 - $\lambda_{\text{spring}} = 0.05$ — spring energy constraining inter-vertex distances
@@ -78,7 +80,9 @@ Integration uses momentum-based gradient descent (`INTEGRATE_MOMENTUM`) with:
 
 When `--thickness` is used, the expansion distance at each vertex is scaled by the local cortical thickness:
 
-$$d_i = \text{mm\_out} \times T_i / T_{\max}$$
+$$
+d_i = \text{mm\_out} \times T_i / T_{\max}
+$$
 
 where $T_i$ is the cortical thickness at vertex $i$ (clipped to `[tmap_min, tmap_max]` and optionally averaged over `tmap_avgs` iterations).
 

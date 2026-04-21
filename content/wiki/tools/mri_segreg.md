@@ -63,7 +63,9 @@ Accurate registration between functional and anatomical MRI is critical for EEG/
 
 The cost function measures the grey/white contrast sampled from the functional volume at surface vertices projected inward (WM side) and outward (GM side). For T2/BOLD contrast (default), GM is expected to be brighter than WM:
 
-$$C(\mathbf{T}) = -\frac{1}{N} \sum_{v} \left[ I_{\text{WM}}(T\cdot v_{\text{WM}}) - I_{\text{GM}}(T\cdot v_{\text{GM}}) \right] \cdot s$$
+$$
+C(\mathbf{T}) = -\frac{1}{N} \sum_{v} \left[ I_{\text{WM}}(T\cdot v_{\text{WM}}) - I_{\text{GM}}(T\cdot v_{\text{GM}}) \right] \cdot s
+$$
 
 where $\mathbf{T}$ is the rigid registration matrix, $v_{\text{WM}}$ and $v_{\text{GM}}$ are surface vertices projected into WM and GM respectively, $I$ is the interpolated functional intensity, and $s$ is the slope parameter controlling cost sensitivity.
 

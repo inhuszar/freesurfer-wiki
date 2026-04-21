@@ -88,7 +88,9 @@ The network learns the inverse of the degradation process. At inference:
 
 > [!math] Unsharp masking (post-processing)
 > When enabled (default: on), the output $I_{\text{sharp}}$ is computed as:
-> $$I_{\text{sharp}} = I + \alpha (I - G_\sigma * I)$$
+> $$
+> I_{\text{sharp}} = I + \alpha (I - G_\sigma * I)
+> $$
 > where $G_\sigma$ is a Gaussian blurring kernel and $\alpha$ is the sharpening strength. This enhances edges in the synthetic T1w output.
 
 ## Configuration Options

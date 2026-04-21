@@ -61,7 +61,9 @@ Cortical thickness varies systematically between subject groups (e.g., Alzheimer
 
 Random forests are ensemble classifiers that aggregate predictions from $T$ decision trees:
 
-$$\hat{y} = \text{majority\_vote}\left(\{T_t(\mathbf{x})\}_{t=1}^{T}\right)$$
+$$
+\hat{y} = \text{majority\_vote}\left(\{T_t(\mathbf{x})\}_{t=1}^{T}\right)
+$$
 
 where $\mathbf{x}$ is the thickness vector for a subject (one value per vertex in the common surface space). Each tree $T_t$ is trained on a bootstrap sample of subjects and a random subset of vertices.
 

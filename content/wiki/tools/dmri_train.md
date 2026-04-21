@@ -95,7 +95,9 @@ From global variables:
 For each training subject, the manually labeled tract is registered to a common atlas space. At each control point along the tract, the following statistics are computed across training subjects:
 
 **Spatial prior:** Gaussian distribution over the xyz coordinates of each control point:
-$$p(q_k) = \mathcal{N}(q_k; \bar{q}_k, \Sigma_k)$$
+$$
+p(q_k) = \mathcal{N}(q_k; \bar{q}_k, \Sigma_k)
+$$
 where $q_k$ is the position of control point $k$, $\bar{q}_k$ is the mean position, and $\Sigma_k$ is the covariance.
 
 **Tangent prior:** Von Mises–Fisher distribution (or Gaussian in tangent space) over fiber direction at each control point.

@@ -88,7 +88,9 @@ Each MRISP frame contains one `float` value per grid cell, representing the over
 
 The forward parameterization maps each surface vertex $v$ with spherical coordinates $(\theta_v, \phi_v)$ to a grid cell $(u, w)$:
 
-$$u = \lfloor \phi_v / (2\pi) \cdot W \rfloor, \quad w = \lfloor \theta_v / \pi \cdot H \rfloor$$
+$$
+u = \lfloor \phi_v / (2\pi) \cdot W \rfloor, \quad w = \lfloor \theta_v / \pi \cdot H \rfloor
+$$
 
 where $W$ and $H$ are the grid width and height respectively (default 512 and 256). The vertex's curvature value is scatter-accumulated into the corresponding grid cell. Grid cells covered by multiple vertices are averaged; empty cells are filled by interpolation.
 

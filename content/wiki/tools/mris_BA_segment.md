@@ -65,7 +65,9 @@ This is a specialised research tool for mapping myeloarchitectonic or cytoarchit
 
 For each candidate region (defined by a centre vertex $v_0$ and radius $r$), the log-likelihood of the observed intensity profiles given a MT-like cytoarchitectonic model is computed:
 
-$$\mathcal{L}(v_0, r) = \sum_{v \in \mathcal{N}(v_0, r)} \log p(\text{profile}(v) \mid \text{MT model})$$
+$$
+\mathcal{L}(v_0, r) = \sum_{v \in \mathcal{N}(v_0, r)} \log p(\text{profile}(v) \mid \text{MT model})
+$$
 
 The MT log-likelihood function `compute_MT_log_likelihood()` is parameterised by the mean radius $\bar{r} = 7.79$ mm and standard deviation $\sigma_r = 1.13$ mm (from Zilles dataset), combined with within-region profile statistics.
 

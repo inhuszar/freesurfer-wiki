@@ -88,7 +88,9 @@ The tool calls:
 
 The `MRISwriteAreaError()` function (in `mrisurf.c`) computes the areal distortion per vertex. The exact functional form is:
 
-$$\text{area\_error}_i = \frac{A_i^{\text{morph}} - A_i^{\text{orig}}}{A_i^{\text{orig}}}$$
+$$
+\text{area\_error}_i = \frac{A_i^{\text{morph}} - A_i^{\text{orig}}}{A_i^{\text{orig}}}
+$$
 
 or a related quantity — exact form should be verified from `mrisurf.c`.
 

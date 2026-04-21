@@ -64,7 +64,9 @@ This approach is different from thickness differencing (see [[mris_thickness_dif
 
 For each vertex $v$ on surface 1, the displacement is computed as the signed distance to the corresponding vertex on surface 2, projected onto the surface normal:
 
-$$d_v = (\mathbf{p}_{v,2} - \mathbf{p}_{v,1}) \cdot \hat{\mathbf{n}}_v$$
+$$
+d_v = (\mathbf{p}_{v,2} - \mathbf{p}_{v,1}) \cdot \hat{\mathbf{n}}_v
+$$
 
 where $\mathbf{p}_{v,1}$ and $\mathbf{p}_{v,2}$ are the 3D positions of vertex $v$ on surface 1 and surface 2, and $\hat{\mathbf{n}}_v$ is the unit surface normal at vertex $v$ on surface 1. Negative values indicate inward displacement (atrophy); positive values indicate outward displacement (expansion).
 

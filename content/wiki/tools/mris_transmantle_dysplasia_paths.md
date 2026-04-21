@@ -79,7 +79,9 @@ Positional arguments (exact order from `usage_exit()` and `main()`):
 **Spline parameterisation:** Each path is a Catmull-Rom spline with `spline_control_points` (default 5) control points, initialised along the shortest path from the cortical vertex to the ventricle.
 
 **MCMC sampling:** The MCMC algorithm (Metropolis-Hastings) proposes perturbations to spline control points drawn from a Gaussian with standard deviation `proposal_sigma` (default 5.0 mm). Proposals are accepted with probability:
-$$\alpha = \min\left(1, \frac{P(s') \cdot \mathcal{L}(s')}{P(s) \cdot \mathcal{L}(s)}\right)$$
+$$
+\alpha = \min\left(1, \frac{P(s') \cdot \mathcal{L}(s')}{P(s) \cdot \mathcal{L}(s)}\right)
+$$
 
 **Energy function:** The spline energy combines several terms weighted by flags in `energy_flags`:
 - `SPLINE_WM_DIST` — distance from white matter (penalise paths outside WM).

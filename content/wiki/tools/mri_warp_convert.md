@@ -81,23 +81,33 @@ All formats ultimately represent a mapping from destination voxels to source vox
 
 **FreeSurfer (FSWARP):** Stores absolute source-space voxel coordinates for each destination voxel:
 
-$$\text{GCAM}[c, r, s] = (x_{\text{src}}, y_{\text{src}}, z_{\text{src}})$$
+$$
+\text{GCAM}[c, r, s] = (x_{\text{src}}, y_{\text{src}}, z_{\text{src}})
+$$
 
 **FSL (fnirt):** Stores displacements in fslRAS space:
-$$\text{delta}_{\text{fslRAS}} = \text{src}_{\text{fslRAS}} - \text{dst}_{\text{fslRAS}}$$
+$$
+\text{delta}_{\text{fslRAS}} = \text{src}_{\text{fslRAS}} - \text{dst}_{\text{fslRAS}}
+$$
 
 Conversion from FSL to FSWARP:
-$$M_{\text{fslRAS2vox\_src}} \cdot (M_{\text{vox2fslRAS\_dst}} \cdot \mathbf{d}_{\text{dst}} + \boldsymbol{\delta}_{\text{fslRAS}})$$
+$$
+M_{\text{fslRAS2vox\_src}} \cdot (M_{\text{vox2fslRAS\_dst}} \cdot \mathbf{d}_{\text{dst}} + \boldsymbol{\delta}_{\text{fslRAS}})
+$$
 
 **ITK/ANTs (LPS):** Uses LPS coordinates (Left-Posterior-Superior), related to RAS by negating x and y components:
 
-$$x_{\text{LPS}} = -x_{\text{RAS}}, \quad y_{\text{LPS}} = -y_{\text{RAS}}, \quad z_{\text{LPS}} = z_{\text{RAS}}$$
+$$
+x_{\text{LPS}} = -x_{\text{RAS}}, \quad y_{\text{LPS}} = -y_{\text{RAS}}, \quad z_{\text{LPS}} = z_{\text{RAS}}
+$$
 
 **SPM y-warp:** Stores absolute coordinates in either RAS or 1-based CRS of the source space. The default for `--inspm` is `abs-ras` (can be overridden with `--in-interp abs-crs`).
 
 **LTA composition:** When `--lta1` and/or `--lta2` are specified, the composite transform is:
 
-$$\text{src} \leftarrow \text{LTA1} \leftarrow \text{GCAM} \leftarrow \text{LTA2} \leftarrow \text{dst}$$
+$$
+\text{src} \leftarrow \text{LTA1} \leftarrow \text{GCAM} \leftarrow \text{LTA2} \leftarrow \text{dst}
+$$
 
 using `GCAMconcat3()`.
 

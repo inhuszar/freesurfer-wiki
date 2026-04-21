@@ -56,7 +56,9 @@ A single composite transform file (format determined by output filename extensio
 ## Mathematical Foundations
 
 Transform composition:
-$$T_\text{out} = T_1 \circ T_2 \circ \cdots \circ T_N$$
+$$
+T_\text{out} = T_1 \circ T_2 \circ \cdots \circ T_N
+$$
 
 where $T_1$ is the first positional argument and $T_N$ is the last input (second-to-last positional argument). The output maps from the source space of $T_1$ to the destination space of $T_N$.
 

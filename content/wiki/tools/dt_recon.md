@@ -69,11 +69,15 @@ All outputs are written to `<outputdir>/`. Key files:
 
 The diffusion tensor $\mathbf{D}$ is estimated by fitting the Stejskal-Tanner equation:
 
-$$S_i = S_0 \exp(-b_i \mathbf{g}_i^\top \mathbf{D} \mathbf{g}_i)$$
+$$
+S_i = S_0 \exp(-b_i \mathbf{g}_i^\top \mathbf{D} \mathbf{g}_i)
+$$
 
 where $S_i$ is the signal in the $i$-th diffusion-weighted direction, $b_i$ is the b-value, $\mathbf{g}_i$ is the gradient direction unit vector, and $S_0$ is the non-diffusion-weighted signal. Taking the log linearises the equation:
 
-$$\ln(S_i / S_0) = -b_i \mathbf{g}_i^\top \mathbf{D} \mathbf{g}_i$$
+$$
+\ln(S_i / S_0) = -b_i \mathbf{g}_i^\top \mathbf{D} \mathbf{g}_i
+$$
 
 This is solved as a general linear model via `mri_glmfit --dti`. The six unique tensor elements ($D_{xx}, D_{yy}, D_{zz}, D_{xy}, D_{xz}, D_{yz}$) are the regression coefficients.
 

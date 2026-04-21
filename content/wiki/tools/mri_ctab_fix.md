@@ -62,7 +62,9 @@ Depends on mode:
 ## Mathematical Foundations
 
 An "annotation" is a packed integer computed from the RGBA color:
-$$\text{annotation} = R + G \cdot 256 + B \cdot 256^2$$
+$$
+\text{annotation} = R + G \cdot 256 + B \cdot 256^2
+$$
 
 Label consistency requires that for any label name $n$:
 - Across both LUTs: the same annotation value is assigned to the same name

@@ -80,12 +80,16 @@ The result is the atlas surface geometry expressed on the subject's spherical co
 ## Mathematical Foundations
 
 **Step 1 — Nearest vertex search:** For each vertex $i$ in the atlas sphere, find the nearest vertex $j^*$ on the subject sphere using ANN (approximate nearest neighbours):
-$$j^* = \arg\min_{j} \| \mathbf{s}_i^{\text{atlas}} - \mathbf{s}_j^{\text{subj}} \|$$
+$$
+j^* = \arg\min_{j} \| \mathbf{s}_i^{\text{atlas}} - \mathbf{s}_j^{\text{subj}} \|
+$$
 
 **Step 2 — Closest face:** Among faces adjacent to $j^*$, find the face $f^*$ minimising the distance from $\mathbf{s}_i^{\text{atlas}}$ to the face.
 
 **Step 3 — Barycentric interpolation:** Express $\mathbf{s}_i^{\text{atlas}}$ in barycentric coordinates $(\lambda_1, \lambda_2, \lambda_3)$ within face $f^*$, with $\lambda_k \geq 0$ and $\sum_k \lambda_k = 1$. Apply these same barycentric weights to the corresponding vertex positions in the subject surface:
-$$\mathbf{p}_i^{\text{out}} = \lambda_1 \mathbf{p}_{v_1} + \lambda_2 \mathbf{p}_{v_2} + \lambda_3 \mathbf{p}_{v_3}$$
+$$
+\mathbf{p}_i^{\text{out}} = \lambda_1 \mathbf{p}_{v_1} + \lambda_2 \mathbf{p}_{v_2} + \lambda_3 \mathbf{p}_{v_3}
+$$
 
 where $\mathbf{p}_{v_k}$ are the positions of the subject surface vertices.
 

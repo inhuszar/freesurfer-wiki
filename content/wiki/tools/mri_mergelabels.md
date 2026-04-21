@@ -55,7 +55,9 @@ FreeSurfer label files (`.label`) define sets of surface vertices that belong to
 
 Label merging is purely concatenative:
 
-$$L_{merged} = L_1 \cup L_2 \cup \cdots \cup L_N$$
+$$
+L_{merged} = L_1 \cup L_2 \cup \cdots \cup L_N
+$$
 
 The output vertex count is $\sum_{i=1}^N |L_i|$. No deduplication is performed — if a vertex appears in multiple input labels, it will appear multiple times in the output. Downstream tools that read the merged label should handle duplicates appropriately (most will treat the label as a set and deduplicate).
 

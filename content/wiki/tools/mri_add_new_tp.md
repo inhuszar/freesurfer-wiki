@@ -63,7 +63,9 @@ The new time point is registered to the base volume (`norm.mgz`) using `mri_robu
 
 The registration uses the same robust registration approach as the original base creation:
 
-$$T^* = \arg\min_{T} \rho\left(\sum_i w_i \|I_1(\mathbf{x}_i) - I_2(T\mathbf{x}_i)\|^2\right)$$
+$$
+T^* = \arg\min_{T} \rho\left(\sum_i w_i \|I_1(\mathbf{x}_i) - I_2(T\mathbf{x}_i)\|^2\right)
+$$
 
 where $\rho$ is a robust cost function and $w_i$ are per-voxel weights.
 

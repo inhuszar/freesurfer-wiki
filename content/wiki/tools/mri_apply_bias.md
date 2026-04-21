@@ -65,12 +65,16 @@ $$
 
 The bias field is sampled at the transformed position using trilinear interpolation (`MRIsampleVolume`). The vox2vox transform $M$ maps input voxel coordinates to bias field voxel coordinates:
 
-$$M = M_{\text{bias}}^{-1} \cdot M_{\text{in}}$$
+$$
+M = M_{\text{bias}}^{-1} \cdot M_{\text{in}}
+$$
 
 computed by `MRIgetVoxelToVoxelXform`.
 
 For UCHAR output, values are clamped:
-$$V_{\text{out}}(x) \leftarrow \min(255, \max(0, V_{\text{out}}(x)))$$
+$$
+V_{\text{out}}(x) \leftarrow \min(255, \max(0, V_{\text{out}}(x)))
+$$
 
 ## Configuration Options
 

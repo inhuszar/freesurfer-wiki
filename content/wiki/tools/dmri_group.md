@@ -74,7 +74,9 @@ The tool implements arc-length parameterization: each subject's path is paramete
 
 **Arc-length parameterization:** For each subject $s$, the path is parameterized by arc length. The arc length from the start to point $i$ is:
 
-$$\text{arc}_i = \sum_{j=1}^{i} \|p_j - p_{j-1}\|_2$$
+$$
+\text{arc}_i = \sum_{j=1}^{i} \|p_j - p_{j-1}\|_2
+$$
 
 where $p_j$ are path point coordinates. Measures at equivalent fractional positions $\alpha \in [0,1]$ across subjects are compared by interpolating to uniform arc-length samples.
 

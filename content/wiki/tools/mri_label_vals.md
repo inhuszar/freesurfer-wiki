@@ -55,13 +55,17 @@ Surface and volume labels (`.label` files) define sets of spatial locations. `mr
 
 For each point $(\mathbf{x}_\text{RAS})$ in the label, the tool converts coordinates to voxel space:
 
-$$\mathbf{x}_\text{vox} = M_\text{ras2vox} \cdot \mathbf{x}_\text{RAS}$$
+$$
+\mathbf{x}_\text{vox} = M_\text{ras2vox} \cdot \mathbf{x}_\text{RAS}
+$$
 
 and samples the volume using trilinear interpolation or nearest-neighbour, depending on the flags set.
 
 If `-cras` is active, the c_ras offset is applied before coordinate conversion to account for the difference between scanner RAS and surface RAS (tkRAS):
 
-$$\mathbf{x}_\text{scanner RAS} = \mathbf{x}_\text{tkRAS} + \mathbf{c}_{RAS}$$
+$$
+\mathbf{x}_\text{scanner RAS} = \mathbf{x}_\text{tkRAS} + \mathbf{c}_{RAS}
+$$
 
 ## Configuration Options
 

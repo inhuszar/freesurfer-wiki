@@ -61,7 +61,9 @@ Optional: transform file (`xfname`).
 
 The `Vertex` equality operator uses a spatial tolerance:
 
-$$\text{equal}(A, B) \iff |A_x - B_x| < v_x/2 \text{ and } |A_y - B_y| < v_y/2 \text{ and } |A_z - B_z| < v_z/2$$
+$$
+\text{equal}(A, B) \iff |A_x - B_x| < v_x/2 \text{ and } |A_y - B_y| < v_y/2 \text{ and } |A_z - B_z| < v_z/2
+$$
 
 where $v_x, v_y, v_z$ are the voxel dimensions.
 

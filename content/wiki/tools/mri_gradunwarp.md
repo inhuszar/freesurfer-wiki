@@ -70,11 +70,15 @@ The tool can also save the displacement field as an m3z (GCAM) transform for lat
 
 The gradient field non-linearity is modeled as a spherical harmonic expansion. The ideal gradient $G_\text{ideal}(x,y,z)$ differs from the actual gradient $G_\text{actual}(x,y,z)$ by a displacement $\Delta(x,y,z)$:
 
-$$\mathbf{r}_\text{unwarped} = \mathbf{r}_\text{warped} + \boldsymbol{\Delta}(\mathbf{r}_\text{warped})$$
+$$
+\mathbf{r}_\text{unwarped} = \mathbf{r}_\text{warped} + \boldsymbol{\Delta}(\mathbf{r}_\text{warped})
+$$
 
 where $\boldsymbol{\Delta}$ is computed from the Siemens Legendre normalization factors applied to the spherical harmonic coefficients:
 
-$$\Delta_x = \sum_{n,m} a_{nm} \cdot L_{nm}(\mathbf{r}) \cdot \cos(m\phi) \cdot P_n^m(\cos\theta)$$
+$$
+\Delta_x = \sum_{n,m} a_{nm} \cdot L_{nm}(\mathbf{r}) \cdot \cos(m\phi) \cdot P_n^m(\cos\theta)
+$$
 
 and similarly for $\Delta_y$, $\Delta_z$. Here $L_{nm}$ are the Legendre normalization factors, $P_n^m$ are associated Legendre polynomials, and $(r, \theta, \phi)$ are spherical coordinates.
 

@@ -60,7 +60,9 @@ The named frame fields produced include:
 
 For each target structure label $L$, a 3D volumetric distance field $D_L(x)$ is computed via the fast-marching algorithm from the segmentation volume:
 
-$$D_L(x) = \min_{y \in L} \|x - y\|_2$$
+$$
+D_L(x) = \min_{y \in L} \|x - y\|_2
+$$
 
 The signed distance is clipped to $[-d_{\max}, +d_{\max}]$ where $d_{\max}$ is controlled by `fdistance` (default 20 mm). Values are then sampled at each surface vertex location via nearest-neighbour interpolation in the volume.
 

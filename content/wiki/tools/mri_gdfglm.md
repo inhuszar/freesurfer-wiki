@@ -67,15 +67,21 @@ Its primary use was for ROI-based or summary-statistic analyses where data had b
 
 The GLM forward model is:
 
-$$\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$$
+$$
+\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}
+$$
 
 where $\mathbf{X}$ is the design matrix constructed from the FSGD file (classes and covariates), $\mathbf{y}$ is the dependent variable vector, and $\boldsymbol{\beta}$ are the regression coefficients estimated via ordinary least squares:
 
-$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$$
+$$
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+$$
 
 The contrast variance magnification factor (VMF) is computed per contrast to quantify efficiency:
 
-$$\text{VMF}(C) = \text{tr}\left(C (\mathbf{X}^T \mathbf{X})^{-1} C^T\right)$$
+$$
+\text{VMF}(C) = \text{tr}\left(C (\mathbf{X}^T \mathbf{X})^{-1} C^T\right)
+$$
 
 ## Configuration Options
 

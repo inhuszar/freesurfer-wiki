@@ -78,10 +78,14 @@ Global defaults: `T = 100`, `D = .001`.
 
 **Within-volume motion** (slice dropout detection): For each slice in each DWI volume, the observed signal is compared to the signal predicted from a diffusion model. A slice is flagged as "bad" if:
 
-$$\frac{S_{\text{observed}}}{S_{\text{predicted}}} < T$$
+$$
+\frac{S_{\text{observed}}}{S_{\text{predicted}}} < T
+$$
 
 where the predicted signal uses the Stejskal-Tanner equation:
-$$S = S_0 \exp(-b \cdot D)$$
+$$
+S = S_0 \exp(-b \cdot D)
+$$
 
 with $D$ as the apparent diffusion coefficient (default $D = 0.001$ mm²/s).
 

@@ -81,7 +81,9 @@ This is distinct from [[mris_apply_reg]] (which is designed for spherical regist
 2. Apply `LTAreduce()` to compose all chained transforms in the LTA array.
 3. If source or destination geometry is missing, read from the specified volumes.
 4. Convert to `LINEAR_VOX_TO_VOX` type via `LTAchangeType()`, which converts between RAS, vox, and tkRAS representations:
-$$M_{\text{vox2vox}} = M_{\text{dst\_vox2ras}}^{-1} \cdot M_{\text{ras2ras}} \cdot M_{\text{src\_vox2ras}}$$
+$$
+M_{\text{vox2vox}} = M_{\text{dst\_vox2ras}}^{-1} \cdot M_{\text{ras2ras}} \cdot M_{\text{src\_vox2ras}}
+$$
 5. Apply the vox-to-vox matrix to each surface vertex (first converting from surface RAS to voxel coordinates, then applying the matrix, then converting back).
 
 **Nonlinear (GCAM) path:**

@@ -79,10 +79,14 @@ AnatomiCuts uses **normalized spectral clustering** (the Normalized Cuts algorit
    - **Label entropy/intersection:** Based on overlap of label histograms
 
    The Gaussian affinity is:
-   $$W_{ij} = \exp\!\left(-\frac{d(s_i, s_j)^2}{2\sigma^2}\right)$$
+$$
+   W_{ij} = \exp\!\left(-\frac{d(s_i, s_j)^2}{2\sigma^2}\right)
+$$
 
 3. **Normalized cuts:** The graph Laplacian is computed, and the generalized eigenvalue problem:
-   $$(\mathbf{D} - \mathbf{W})\mathbf{v} = \lambda \mathbf{D}\mathbf{v}$$
+$$
+   (\mathbf{D} - \mathbf{W})\mathbf{v} = \lambda \mathbf{D}\mathbf{v}
+$$
    is solved for the $k$ smallest non-zero eigenvalues (where $k$ = number of clusters). The resulting eigenvectors form a spectral embedding of the streamlines, which is then partitioned by $k$-means.
 
 4. **Hierarchical agglomeration:** Clusters are hierarchically merged to produce the dendrogram stored in `HierarchicalHistory.csv`.

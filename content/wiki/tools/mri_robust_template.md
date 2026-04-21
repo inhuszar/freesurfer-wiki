@@ -80,7 +80,9 @@ The robust registration uses the Riemannian geometry of the rotation group to av
 
 For the longitudinal template, the group mean is computed in a symmetric fashion so that all time points contribute equally — a critical property for longitudinal morphometric studies.
 
-$$\hat{T}_i = \arg\min_{T_i} \sum_v w_v \cdot \rho\!\left(\frac{V_i(T_i^{-1}(v)) - \bar{V}(v)}{\sigma}\right)$$
+$$
+\hat{T}_i = \arg\min_{T_i} \sum_v w_v \cdot \rho\!\left(\frac{V_i(T_i^{-1}(v)) - \bar{V}(v)}{\sigma}\right)
+$$
 
 where $\rho$ is the Tukey biweight function, $w_v$ are voxel weights, and $\sigma$ is estimated from the data or set via `--sat`.
 

@@ -73,7 +73,9 @@ The normalization procedure follows the same bias field estimation as [[mri_norm
 2. A bias field $B(v)$ is estimated by fitting a smooth surface through the intensities at the control point locations, targeting a uniform white matter intensity.
 3. The corrected volume is:
 
-$$I_\text{corrected}(v) = \frac{I(v)}{B(v)}$$
+$$
+I_\text{corrected}(v) = \frac{I(v)}{B(v)}
+$$
 
 The bias field is estimated using local averaging with a Gaussian kernel of sigma `bias_sigma = 8.0` voxels (default).
 
@@ -81,7 +83,9 @@ The code also computes intensity scale statistics: mean ($\mu_1$, $\mu_2$), stan
 
 > [!math] Inter-timepoint intensity scaling
 > A linear model maps `tp1` intensities to `tp2` intensities:
-> $$I_{tp2} = \text{slope} \cdot I_{tp1} + \text{offset}$$
+> $$
+> I_{tp2} = \text{slope} \cdot I_{tp1} + \text{offset}
+> $$
 > The slope and offset are computed from the masked white-matter statistics.
 
 ## Configuration Options

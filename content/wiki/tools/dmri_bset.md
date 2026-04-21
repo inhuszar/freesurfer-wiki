@@ -66,7 +66,9 @@ Default output b-value and gradient file names are derived from the output DWI f
 
 Frame selection is purely index-based. For each requested b-value $b_t$ with tolerance $\tau$ (default 0.05 = 5%), the frames satisfying:
 
-$$b_t(1 - \tau) \leq b_{\text{frame}} \leq b_t(1 + \tau)$$
+$$
+b_t(1 - \tau) \leq b_{\text{frame}} \leq b_t(1 + \tau)
+$$
 
 are selected. The minimum b-value (typically $b=0$) in the dataset is always prepended to the extraction list to ensure a reference volume is present.
 

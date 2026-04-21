@@ -66,13 +66,17 @@ The warping proceeds as follows:
 
 2. **Convert to input voxel indices**: Using the inverse of the input image affine $A_{\text{src}}^{-1}$:
 
-$$\begin{pmatrix} I \\ J \\ K \\ 1 \end{pmatrix} = A_{\text{src}}^{-1} \begin{pmatrix} \phi_x(i,j,k) \\ \phi_y(i,j,k) \\ \phi_z(i,j,k) \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} I \\ J \\ K \\ 1 \end{pmatrix} = A_{\text{src}}^{-1} \begin{pmatrix} \phi_x(i,j,k) \\ \phi_y(i,j,k) \\ \phi_z(i,j,k) \\ 1 \end{pmatrix}
+$$
 
 where $A_{\text{src}}$ is the $4 \times 4$ voxel-to-RAS affine of the input image.
 
 3. **Trilinear interpolation** (default): For fractional voxel coordinates $(I_v, J_v, K_v)$:
 
-$$Y(i,j,k) = \sum_{a \in \{f,c\}} \sum_{b \in \{f,c\}} \sum_{e \in \{f,c\}} w_a^x \, w_b^y \, w_e^z \, X(I_a, J_b, K_e)$$
+$$
+Y(i,j,k) = \sum_{a \in \{f,c\}} \sum_{b \in \{f,c\}} \sum_{e \in \{f,c\}} w_a^x \, w_b^y \, w_e^z \, X(I_a, J_b, K_e)
+$$
 
 where $f = \lfloor \cdot \rfloor$, $c = f+1$, and $w_c = v - f$, $w_f = 1 - w_c$.
 

@@ -103,23 +103,31 @@ Not called by [[recon-all]] directly.
 ### Core Rasterization Algorithm
 
 The transform from label point to template voxel:
-$$\mathbf{T}_{\text{ras}\to\text{vox}} = \mathbf{T}_\text{vol}^{-1} \cdot \mathbf{R}$$
+$$
+\mathbf{T}_{\text{ras}\to\text{vox}} = \mathbf{T}_\text{vol}^{-1} \cdot \mathbf{R}
+$$
 
 where $\mathbf{T}_\text{vol}$ is the template's vox-to-RAS (tkregister style by
 default, or scanner-RAS with `--native-vox2ras`) and $\mathbf{R}$ is the
 registration matrix.
 
 For each label point $(x, y, z)$:
-$$(c, r, s)^T = \mathbf{T}_{\text{ras}\to\text{vox}} \cdot (x, y, z, 1)^T$$
+$$
+(c, r, s)^T = \mathbf{T}_{\text{ras}\to\text{vox}} \cdot (x, y, z, 1)^T
+$$
 rounded to nearest integer. Out-of-bounds points are silently skipped.
 
 **Hit counting:** Each label point increments a counter in a `MRI_SHORT` hit
 volume `HitVol[c,r,s,label_index]`. After all points are processed, a voxel is
 assigned to label $k$ if:
-$$\text{HitVol}[c,r,s,k] > \text{nHitsThresh}$$
+$$
+\text{HitVol}[c,r,s,k] > \text{nHitsThresh}
+$$
 
 where:
-$$\text{nHitsThresh} = \text{FillThresh} \times \frac{\text{TempVoxVol}}{\text{LabelVoxVol}}$$
+$$
+\text{nHitsThresh} = \text{FillThresh} \times \frac{\text{TempVoxVol}}{\text{LabelVoxVol}}
+$$
 
 - `FillThresh` (default 0.0): fraction of template voxel that must be covered
 - `TempVoxVol` = $x_s \cdot y_s \cdot z_s$ of the template

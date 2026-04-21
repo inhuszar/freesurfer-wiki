@@ -73,7 +73,9 @@ For each iteration $i$ out of $N_{rep}$:
 
 The empirical CSD is:
 
-$$\hat{F}(k) = P(\max \text{cluster size} \geq k) \approx \frac{1}{N_{rep}} \sum_{i=1}^{N_{rep}} \mathbf{1}[C_i \geq k]$$
+$$
+\hat{F}(k) = P(\max \text{cluster size} \geq k) \approx \frac{1}{N_{rep}} \sum_{i=1}^{N_{rep}} \mathbf{1}[C_i \geq k]
+$$
 
 A cluster of size $k$ in a real analysis is significant at level $\alpha$ if $\hat{F}(k) \leq \alpha$.
 

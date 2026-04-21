@@ -79,7 +79,9 @@ Output to stdout:
 For two annotation sets $A$ and $B$ and label $k$:
 
 **Dice coefficient:**
-$$D_k = \frac{2 |A_k \cap B_k|}{|A_k| + |B_k|}$$
+$$
+D_k = \frac{2 |A_k \cap B_k|}{|A_k| + |B_k|}
+$$
 
 where $|A_k|$ is the number of vertices labelled $k$ in annotation $A$.
 
@@ -87,7 +89,9 @@ where $|A_k|$ is the number of vertices labelled $k$ in annotation $A$.
 
 Let $\partial A_k$ be the set of boundary vertices of label $k$ in annotation $A$ (vertices labelled $k$ adjacent to a vertex with a different label). Then:
 
-$$d_k = \frac{1}{|\partial A_k|} \sum_{v \in \partial A_k} \min_{u \in \partial B_k} \|v - u\|$$
+$$
+d_k = \frac{1}{|\partial A_k|} \sum_{v \in \partial A_k} \min_{u \in \partial B_k} \|v - u\|
+$$
 
 The `meanMinDist` field in `LABEL_INFO` stores this per-label value.
 

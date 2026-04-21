@@ -56,12 +56,18 @@ Positional arguments (in order):
 
 FSL FLIRT stores the transform as a voxel-to-voxel matrix $M_{\text{FSL}}$ that accounts for voxel sizes. The conversion to a standard voxel-to-voxel matrix $V_{\text{to\_V}}$ is:
 
-$$V_{\text{to\_V}} = D_{\text{dst}}^{-1} \cdot M_{\text{FSL}} \cdot D_{\text{src}}$$
+$$
+V_{\text{to\_V}} = D_{\text{dst}}^{-1} \cdot M_{\text{FSL}} \cdot D_{\text{src}}
+$$
 
 where $D_{\text{src}}$ and $D_{\text{dst}}$ are diagonal matrices of source and destination voxel sizes:
 
-$$D_{\text{src}} = \text{diag}(\Delta x_{\text{src}}, \Delta y_{\text{src}}, \Delta z_{\text{src}}, 1)$$
-$$D_{\text{dst}}^{-1} = \text{diag}(1/\Delta x_{\text{dst}}, 1/\Delta y_{\text{dst}}, 1/\Delta z_{\text{dst}}, 1)$$
+$$
+D_{\text{src}} = \text{diag}(\Delta x_{\text{src}}, \Delta y_{\text{src}}, \Delta z_{\text{src}}, 1)
+$$
+$$
+D_{\text{dst}}^{-1} = \text{diag}(1/\Delta x_{\text{dst}}, 1/\Delta y_{\text{dst}}, 1/\Delta z_{\text{dst}}, 1)
+$$
 
 This is implemented as:
 ```

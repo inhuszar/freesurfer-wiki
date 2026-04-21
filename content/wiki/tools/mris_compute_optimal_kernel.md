@@ -63,7 +63,9 @@ After spherical registration, individual subjects are aligned to an atlas. Howev
 
 The tool finds $\sigma^*$ that minimises the LMS difference between the individual label $L_{\text{sub}}$ smoothed with a Gaussian of width $\sigma$ and the group label $L_{\text{grp}}$:
 
-$$\sigma^* = \arg\min_\sigma \sum_v \left[ G_\sigma * L_{\text{sub}}(v) - L_{\text{grp}}(v) \right]^2$$
+$$
+\sigma^* = \arg\min_\sigma \sum_v \left[ G_\sigma * L_{\text{sub}}(v) - L_{\text{grp}}(v) \right]^2
+$$
 
 where $G_\sigma$ denotes convolution with an isotropic Gaussian of standard deviation $\sigma$.
 

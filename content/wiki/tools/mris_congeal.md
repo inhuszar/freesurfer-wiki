@@ -77,7 +77,9 @@ Positional arguments:
 
 The congealing objective minimises the total registration energy across all subjects:
 
-$$E_{\text{total}} = \sum_{s=1}^{N} \left[ E_{\text{corr}}(s, \text{atlas}) + \lambda E_{\text{metric}}(s) \right]$$
+$$
+E_{\text{total}} = \sum_{s=1}^{N} \left[ E_{\text{corr}}(s, \text{atlas}) + \lambda E_{\text{metric}}(s) \right]
+$$
 
 where $E_{\text{corr}}$ is the GCSA-based label correlation term and $E_{\text{metric}}$ penalises surface distortion.
 

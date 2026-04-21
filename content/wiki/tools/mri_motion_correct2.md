@@ -59,7 +59,9 @@ tags:
 
 Identical to [[mri_motion_correct]]: each run $I_i$ is registered to a target (first run by default, or user-specified) via 6-DOF rigid-body registration using `minctracc`. The registered runs are averaged with `mincaverage`:
 
-$$I_{out} = \frac{1}{N} \sum_{i=1}^{N} I_i \circ T_i^{-1}$$
+$$
+I_{out} = \frac{1}{N} \sum_{i=1}^{N} I_i \circ T_i^{-1}
+$$
 
 ## Configuration Options
 

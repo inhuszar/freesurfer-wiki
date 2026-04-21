@@ -70,7 +70,9 @@ The normalization procedure in `MRIconvertToUchar()`:
 5. Find the intensity $I_{WM}$ at the `WM_PERCENTILE` (default 90th percentile) — represents the white matter peak.
 6. Compute a linear rescaling:
 
-$$I_{out} = \frac{I_{in} - I_1}{I_{WM} - I_1} \times 110$$
+$$
+I_{out} = \frac{I_{in} - I_1}{I_{WM} - I_1} \times 110
+$$
 
 7. Clip the result to [0, 255] and cast to `UCHAR`.
 

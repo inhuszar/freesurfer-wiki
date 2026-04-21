@@ -73,15 +73,23 @@ When comparing two brain maps (e.g., a genetic gradient and a functional connect
 
 **Spin rotation:** For each permutation, the test map is rotated on the unit sphere by Euler angles $(\alpha, \beta, \gamma)$ drawn from a uniform distribution on SO(3). The rotation is applied to the vertex coordinates of the sphere, and the map values are re-sampled at the rotated positions using the sphere hash table:
 
-$$R = R_z(\alpha) \cdot R_y(\beta) \cdot R_z(\gamma)$$
+$$
+R = R_z(\alpha) \cdot R_y(\beta) \cdot R_z(\gamma)
+$$
 
 where $R_z$ and $R_y$ are rotation matrices about the z and y axes.
 
 **P-value computation:** Given the observed correlation vector $\mathbf{c}$ and permutation distribution $\{c_p^{(i)}\}_{i=1}^{N_{\text{perm}}}$:
 
-$$p_{\text{pos}} = \frac{|\{i : c_p^{(i)} > c\}|}{N_{\text{perm}}}$$
-$$p_{\text{neg}} = \frac{|\{i : c_p^{(i)} < c\}|}{N_{\text{perm}}}$$
-$$p_{\text{abs}} = \frac{|\{i : |c_p^{(i)}| > |c|\}|}{N_{\text{perm}}}$$
+$$
+p_{\text{pos}} = \frac{|\{i : c_p^{(i)} > c\}|}{N_{\text{perm}}}
+$$
+$$
+p_{\text{neg}} = \frac{|\{i : c_p^{(i)} < c\}|}{N_{\text{perm}}}
+$$
+$$
+p_{\text{abs}} = \frac{|\{i : |c_p^{(i)}| > |c|\}|}{N_{\text{perm}}}
+$$
 
 ## Configuration Options
 

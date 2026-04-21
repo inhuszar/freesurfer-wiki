@@ -81,7 +81,9 @@ Output files are written to the directory specified by `--o`:
 
 The tool computes pairwise connectivity between all masked voxels/vertices. Based on the variable names in the source (`rholist`, `rhomean`, connectivity), the primary metric is the Pearson correlation $\rho$ between timeseries:
 
-$$\rho_{ij} = \frac{\sum_t (f_i(t) - \bar{f}_i)(f_j(t) - \bar{f}_j)}{\sqrt{\sum_t (f_i(t)-\bar{f}_i)^2} \sqrt{\sum_t (f_j(t)-\bar{f}_j)^2}}$$
+$$
+\rho_{ij} = \frac{\sum_t (f_i(t) - \bar{f}_i)(f_j(t) - \bar{f}_j)}{\sqrt{\sum_t (f_i(t)-\bar{f}_i)^2} \sqrt{\sum_t (f_j(t)-\bar{f}_j)^2}}
+$$
 
 Short-range vs. long-range connectivity is separated by a distance threshold (`--distthresh`):
 - Short: pairs with spatial distance $< d_{\text{thresh}}$

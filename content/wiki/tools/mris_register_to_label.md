@@ -65,7 +65,9 @@ The similarity function is based on gradient magnitude across the surface bounda
 
 For translation parameters $\mathbf{t}$ and rotation angles $(\alpha, \beta, \gamma)$:
 
-$$\text{cost}(\mathbf{t}, \mathbf{R}) = -\frac{\sum_{v} |\nabla D(R v + t)|}{\text{Var}(|\nabla D|)}$$
+$$
+\text{cost}(\mathbf{t}, \mathbf{R}) = -\frac{\sum_{v} |\nabla D(R v + t)|}{\text{Var}(|\nabla D|)}
+$$
 
 where $D$ is the distance transform of the target label and $R$ is the rotation matrix.
 

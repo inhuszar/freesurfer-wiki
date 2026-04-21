@@ -76,7 +76,9 @@ The tool reads `surf/<hemi>.orig` as the surface topology.
 ## Mathematical Foundations
 
 The translation operation is a per-vertex label remapping:
-$$l_i' = T(l_i)$$
+$$
+l_i' = T(l_i)
+$$
 where $l_i$ is the annotation value at vertex $i$ and $T$ is the translation function defined by the translation file. Labels not present in the table are typically left unchanged or set to a background/unknown value.
 
 ## Configuration Options

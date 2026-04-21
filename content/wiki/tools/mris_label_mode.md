@@ -70,11 +70,17 @@ The tool uses a 2D spherical parameterization grid (256 × 128 by default, store
 
 **Spherical parameterization:** Each surface vertex is mapped to $(u, v)$ coordinates on a $udim \times vdim$ grid via spherical coordinates $(\phi, \theta)$:
 
-$$u = \lfloor (1 + \sin\phi) \cdot udim / 2 \rfloor$$
-$$v = \lfloor (1 + \cos\theta) \cdot vdim / 2 \rfloor$$
+$$
+u = \lfloor (1 + \sin\phi) \cdot udim / 2 \rfloor
+$$
+$$
+v = \lfloor (1 + \cos\theta) \cdot vdim / 2 \rfloor
+$$
 
 **Mode computation:** At each grid cell $(u, v)$, a histogram counts the frequency of each annotation label assigned to that location. The mode is:
-$$L_{\text{mode}}(u, v) = \arg\max_{\ell} \text{count}(u, v, \ell)$$
+$$
+L_{\text{mode}}(u, v) = \arg\max_{\ell} \text{count}(u, v, \ell)
+$$
 
 The `AnnotHistLabel` and `AnnotHistCount` 3D arrays track these histograms.
 

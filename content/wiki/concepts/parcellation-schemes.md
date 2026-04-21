@@ -239,7 +239,9 @@ When the surface annotation is projected into volumetric space by
 annotation index `i` is mapped to a volume voxel integer by adding a
 hemisphere- and scheme-specific base:
 
-$$\text{volume\_label} = i + \text{base}$$
+$$
+\text{volume\_label} = i + \text{base}
+$$
 
 The bases for each scheme and hemisphere are defined in `recon-all` lines
 5074–5080 and confirmed in `include/cma.h`:

@@ -100,11 +100,15 @@ Additional operation flags:
 ## Mathematical Foundations
 
 **Affine transformation:** Each streamline point $\mathbf{p}$ is transformed as:
-$$\mathbf{p}' = \mathbf{A}\mathbf{p} + \mathbf{t}$$
+$$
+\mathbf{p}' = \mathbf{A}\mathbf{p} + \mathbf{t}
+$$
 where $\mathbf{A}$ is the $3 \times 3$ rotation/scale matrix and $\mathbf{t}$ is the translation vector from the affine transform file.
 
 **Non-linear transformation:** A displacement field $\mathbf{d}(\mathbf{p})$ is added:
-$$\mathbf{p}' = \mathbf{p} + \mathbf{d}(\mathbf{p})$$
+$$
+\mathbf{p}' = \mathbf{p} + \mathbf{d}(\mathbf{p})
+$$
 interpolated at $\mathbf{p}$ from the warp volume. The `--invnl` flag inverts the non-linear warp.
 
 **TrackVis coordinate system:** `.trk` files use a coordinate system defined by their header (voxel size, origin, orientation). `dmri_trk2trk` reads the input and output reference volumes to determine the correct voxel-to-RAS transforms and updates the `.trk` header accordingly.

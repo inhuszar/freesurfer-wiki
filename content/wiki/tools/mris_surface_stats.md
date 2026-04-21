@@ -76,7 +76,9 @@ For $N$ subjects with per-vertex scalars $\{x_{i,v}\}_{i=1..N, v=1..V}$:
 **Absolute mean:** $\overline{|x|}_v = \frac{1}{N}\sum_i |x_{i,v}|$
 
 **Two-group z-score:** For first group (size $N_1$) and second group (size $N_2$):
-$$z_v = \frac{\bar{x}_{1,v} - \bar{x}_{2,v}}{\sqrt{\sigma_{1,v}^2/N_1 + \sigma_{2,v}^2/N_2}}$$
+$$
+z_v = \frac{\bar{x}_{1,v} - \bar{x}_{2,v}}{\sqrt{\sigma_{1,v}^2/N_1 + \sigma_{2,v}^2/N_2}}
+$$
 
 Optional spatial smoothing via `MyMRISsmoothMRI()` (heat kernel smoothing, `nSmoothSteps` iterations) is applied to each input overlay before statistics.
 

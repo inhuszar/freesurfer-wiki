@@ -96,7 +96,9 @@ Output is in FreeSurfer MGZ format with the same geometry as the input segmentat
 The hash table uses the surface vertex coordinates (in surface RAS) to enable $O(1)$ approximate nearest-vertex queries in a fixed spatial resolution grid (`hashres = 16` mm by default).
 
 **Label offset convention:**
-$$\text{label}_{\text{vol}} = \text{annotation\_index} + \text{hemisphere\_offset}$$
+$$
+\text{label}_{\text{vol}} = \text{annotation\_index} + \text{hemisphere\_offset}
+$$
 where `lhbaseoffset = 1000` and `rhbaseoffset = 2000`.
 
 **WM parcellation:** For voxels in white matter (within `wmparc_dist_thresh = 5.0` mm of the white surface), the nearest white surface vertex annotation is similarly assigned with a WM-specific offset.

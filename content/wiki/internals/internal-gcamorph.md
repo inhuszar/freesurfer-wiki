@@ -112,7 +112,9 @@ Optimisation hyperparameter bag passed to `GCAMregister()` and related functions
 
 The Lamé constants satisfy the physical relationships:
 
-$$\mu = \frac{E}{2(1+\nu)}, \quad \lambda = \frac{E\nu}{(1+\nu)(1-2\nu)}$$
+$$
+\mu = \frac{E}{2(1+\nu)}, \quad \lambda = \frac{E\nu}{(1+\nu)(1-2\nu)}
+$$
 
 where $E$ is Young's modulus and $\nu$ is Poisson's ratio.
 
@@ -173,7 +175,9 @@ After the node data the file contains tagged blocks (using `znzTAGreadStart`):
 
 Registration is framed as the minimisation of a composite sum-of-squared-errors (SSE) objective computed in `gcamComputeSSE()` (`utils/gcamorph.cpp`, line 5633). The total energy is:
 
-$$E = \lambda_\text{ll} \, E_\text{ll} + \lambda_J \, E_J + \lambda_s \, E_s + \lambda_l \, E_l + \lambda_d \, E_d + \lambda_b \, E_b + \cdots$$
+$$
+E = \lambda_\text{ll} \, E_\text{ll} + \lambda_J \, E_J + \lambda_s \, E_s + \lambda_l \, E_l + \lambda_d \, E_d + \lambda_b \, E_b + \cdots
+$$
 
 where each $\lambda$ is the corresponding `GCA_MORPH_PARMS::l_*` coefficient. Only terms with non-zero coefficients are evaluated. The dominant terms in the default `mri_nl_align` configuration are:
 
@@ -181,11 +185,15 @@ where each $\lambda$ is the corresponding `GCA_MORPH_PARMS::l_*` coefficient. On
 
 At each valid, non-ignored node $i$, the atlas provides a Gaussian classifier `gc` describing the expected intensity distribution for the node's label. The source image is sampled at the displaced position $(x_i, y_i, z_i)$ using trilinear interpolation, yielding intensity vector $\mathbf{v}_i$. The per-node contribution is:
 
-$$e_i = D^2_M(\mathbf{v}_i;\, \boldsymbol{\mu}_i, \Sigma_i) + \log|\Sigma_i|$$
+$$
+e_i = D^2_M(\mathbf{v}_i;\, \boldsymbol{\mu}_i, \Sigma_i) + \log|\Sigma_i|
+$$
 
 where $D^2_M$ is the squared Mahalanobis distance. The full term sums over valid nodes:
 
-$$E_\text{ll} = \sum_{i \in \text{valid}} e_i$$
+$$
+E_\text{ll} = \sum_{i \in \text{valid}} e_i
+$$
 
 When no Gaussian classifier is present at a node, a fallback uses $e_i = \sum_n v_{i,n}^2 / \sigma^2_\text{min}$ (minimum variance prior).
 
@@ -193,17 +201,23 @@ When no Gaussian classifier is present at a node, a fallback uses $e_i = \sum_n 
 
 Prevents the warp from folding. For each non-invalid node $i$, two oriented tetrahedral volumes $a_{i,1}$ and $a_{i,2}$ are maintained (one per handedness). The penalty uses a soft barrier via a softplus function:
 
-$$e_{i,k} = \log\!\left(1 + \exp\!\left(-k \cdot \frac{a_{i,k}}{a^\text{orig}_{i,k}}\right)\right), \quad k \in \{1,2\}$$
+$$
+e_{i,k} = \log\!\left(1 + \exp\!\left(-k \cdot \frac{a_{i,k}}{a^\text{orig}_{i,k}}\right)\right), \quad k \in \{1,2\}
+$$
 
 where $k = \texttt{exp\_k} = 20$ by default. This approaches zero when $a_{i,k} / a^\text{orig}_{i,k} \gg 0$ (no fold) and grows without bound as the ratio approaches zero or goes negative:
 
-$$E_J = \sum_i \left(e_{i,1} + e_{i,2}\right)$$
+$$
+E_J = \sum_i \left(e_{i,1} + e_{i,2}\right)
+$$
 
 ### Smoothness term $E_s$ (`gcamSmoothnessEnergy`)
 
 Measures variation in the displacement field across the lattice. For each valid node $i$ with displacement $\mathbf{u}_i = (x_i - x^\text{orig}_i,\; y_i - y^\text{orig}_i,\; z_i - z^\text{orig}_i)$, the term compares $\mathbf{u}_i$ against each of its 26 neighbours $j \in \mathcal{N}(i)$:
 
-$$E_s = \sum_i \frac{1}{|\mathcal{N}(i)|} \sum_{j \in \mathcal{N}(i)} \|\mathbf{u}_i - \mathbf{u}_j\|^2$$
+$$
+E_s = \sum_i \frac{1}{|\mathcal{N}(i)|} \sum_{j \in \mathcal{N}(i)} \|\mathbf{u}_i - \mathbf{u}_j\|^2
+$$
 
 This penalises spatially inhomogeneous displacements.
 

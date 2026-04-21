@@ -66,11 +66,15 @@ Positional arguments: `surface1 data1 surface2 data2`
 
 For each vertex $v$ on surface 1 at position $\mathbf{p}_{v,1}$, find the nearest vertex $w^*$ on surface 2:
 
-$$w^* = \arg\min_{w \in \text{surface2}} \|\mathbf{p}_{v,1} - \mathbf{p}_{w,2}\|_2$$
+$$
+w^* = \arg\min_{w \in \text{surface2}} \|\mathbf{p}_{v,1} - \mathbf{p}_{w,2}\|_2
+$$
 
 Compute the signed difference:
 
-$$\Delta_v = f_2(w^*) - f_1(v)$$
+$$
+\Delta_v = f_2(w^*) - f_1(v)
+$$
 
 where $f_1$ and $f_2$ are the scalar maps on surface 1 and 2 respectively.
 

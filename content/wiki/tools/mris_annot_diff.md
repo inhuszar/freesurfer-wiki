@@ -65,9 +65,13 @@ Exit code is `0` if annotations are identical, `1` if differences are found.
 
 No mathematical transform is performed. The comparison is an exact integer equality test on packed annotation values:
 
-$$\text{diff}(v) = \mathbb{1}[\text{annot1}[v] \neq \text{annot2}[v]]$$
+$$
+\text{diff}(v) = \mathbb{1}[\text{annot1}[v] \neq \text{annot2}[v]]
+$$
 
-$$\text{ndiffs} = \sum_{v=0}^{N-1} \text{diff}(v)$$
+$$
+\text{ndiffs} = \sum_{v=0}^{N-1} \text{diff}(v)
+$$
 
 For the colour table comparison, label names and integer RGBA components are compared with `strcmp` and integer equality checks respectively.
 

@@ -81,10 +81,14 @@ For each icosahedron vertex $v$ at spherical coordinates $(\theta_v, \phi_v)$:
 1. For each subject $s$, find the surface vertex $w_s(v)$ that maps to the nearest point on the subject's `sphere.reg` to $(\theta_v, \phi_v)$.
 
 2. Apply the subject's Talairach transform $T_s$ to get Talairach-space coordinates:
-$$\mathbf{x}_s^{\text{tal}}(v) = T_s \cdot \mathbf{x}_s^{\text{surf}}(w_s(v))$$
+$$
+\mathbf{x}_s^{\text{tal}}(v) = T_s \cdot \mathbf{x}_s^{\text{surf}}(w_s(v))
+$$
 
 3. Average over subjects:
-$$\bar{\mathbf{x}}(v) = \frac{1}{N} \sum_{s=1}^N \mathbf{x}_s^{\text{tal}}(v)$$
+$$
+\bar{\mathbf{x}}(v) = \frac{1}{N} \sum_{s=1}^N \mathbf{x}_s^{\text{tal}}(v)
+$$
 
 Area normalization (unless `-nonorm`): the average surface area is normalized to match the expected icosahedron area.
 

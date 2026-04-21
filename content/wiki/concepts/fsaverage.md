@@ -111,7 +111,9 @@ path since FreeSurfer ~7 uses the `MakeAverageSurf()` function
    subjects ($N = 40$) to obtain the mean vertex position at each icosahedron
    vertex:
 
-   $$\bar{x}_i = \frac{1}{N}\sum_{j=1}^{N} T_j \cdot \phi_j(x_i^{(j)})$$
+$$
+   \bar{x}_i = \frac{1}{N}\sum_{j=1}^{N} T_j \cdot \phi_j(x_i^{(j)})
+$$
 
    where $\bar{x}_i$ is the average position of vertex $i$, $T_j$ is subject
    $j$'s Talairach transform, $\phi_j$ is the mapping from subject $j$'s sphere
@@ -271,7 +273,9 @@ fsaverage's sphere. Concretely, if subject vertex $v$ has position
 $\mathbf{p}_v^{\text{sphere.reg}}$ on the fsaverage sphere, then the nearest
 fsaverage vertex $u$ satisfies:
 
-$$u = \arg\min_{u' \in V_{\text{fsaverage}}} \left\|\mathbf{p}_v^{\text{sphere.reg}} - \mathbf{p}_{u'}^{\text{sphere}}\right\|$$
+$$
+u = \arg\min_{u' \in V_{\text{fsaverage}}} \left\|\mathbf{p}_v^{\text{sphere.reg}} - \mathbf{p}_{u'}^{\text{sphere}}\right\|
+$$
 
 This nearest-vertex correspondence is used by `mri_surf2surf`, `mris_preproc`,
 and `mris_apply_reg` to resample any per-vertex scalar map (thickness, curvature,

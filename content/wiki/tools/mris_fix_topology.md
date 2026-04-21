@@ -84,7 +84,9 @@ The tool reads files from the standard FreeSurfer subject directory layout based
 
 For a closed orientable surface, the Euler number is:
 
-$$\chi = V - E + F = 2 - 2g$$
+$$
+\chi = V - E + F = 2 - 2g
+$$
 
 where $V$ = vertices, $E$ = edges, $F$ = faces, $g$ = genus (number of handles). A cortical hemisphere is topologically a sphere ($g = 0$, $\chi = 2$). Any defect increases the genus. The code prints:
 
@@ -111,7 +113,9 @@ The default search is **greedy** (`GREEDY_SEARCH`). The genetic algorithm (`-gen
 
 The cost functional used in the retessellation search includes terms:
 
-$$E = l_{\text{mri}} \cdot E_{\text{MRI}} + l_{\text{curv}} \cdot E_{\text{curv}} + l_{\text{qcurv}} \cdot E_{\text{Qcurv}} + l_{\text{unmri}} \cdot E_{\text{unmri}}$$
+$$
+E = l_{\text{mri}} \cdot E_{\text{MRI}} + l_{\text{curv}} \cdot E_{\text{curv}} + l_{\text{qcurv}} \cdot E_{\text{Qcurv}} + l_{\text{unmri}} \cdot E_{\text{unmri}}
+$$
 
 Default weights: $l_{\text{mri}} = l_{\text{curv}} = l_{\text{qcurv}} = l_{\text{unmri}} = 1$.
 

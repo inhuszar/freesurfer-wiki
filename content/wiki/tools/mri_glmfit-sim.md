@@ -91,7 +91,9 @@ The empirical null distribution of maximum cluster size is $\{C_j^\text{max}\}_{
 
 For the observed data, a cluster of size $C_\text{obs}$ has corrected cluster-wise p-value:
 
-$$p_\text{cluster} = \frac{\#\{C_j^\text{max} \geq C_\text{obs}\}}{N_\text{sim}}$$
+$$
+p_\text{cluster} = \frac{\#\{C_j^\text{max} \geq C_\text{obs}\}}{N_\text{sim}}
+$$
 
 **FDR correction:**
 

@@ -75,11 +75,15 @@ In subject mode, outputs are written to `$SUBJECTS_DIR/<subject>/mri/` and `$SUB
 
 The segmentation is performed by a convolutional neural network trained on manually labelled T1 images. The network outputs a per-voxel probability distribution over $K$ label classes:
 
-$$p(y_v = k \mid \mathbf{I}) \quad k \in \{0, 1, \ldots, K-1\}$$
+$$
+p(y_v = k \mid \mathbf{I}) \quad k \in \{0, 1, \ldots, K-1\}
+$$
 
 The final segmentation assigns:
 
-$$\hat{y}_v = \arg\max_k \; p(y_v = k \mid \mathbf{I})$$
+$$
+\hat{y}_v = \arg\max_k \; p(y_v = k \mid \mathbf{I})
+$$
 
 Input intensities are normalised using percentile-based scaling (default percentile, or `--percentile` for custom).
 

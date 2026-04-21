@@ -78,9 +78,13 @@ Note: when `--reg` is specified, the alpha/beta/gamma values are still required 
 ## Mathematical Foundations
 
 **Euler angle rotation:** The rotation is composed of three sequential rotations about the X, Y, and Z axes:
-$$R = R_z(\gamma) \cdot R_y(\beta) \cdot R_x(\alpha)$$
+$$
+R = R_z(\gamma) \cdot R_y(\beta) \cdot R_x(\alpha)
+$$
 where each $R_i(\theta)$ is the standard rotation matrix for angle $\theta$ about axis $i$. Applied to each vertex:
-$$(x', y', z')^T = R \cdot (x, y, z)^T$$
+$$
+(x', y', z')^T = R \cdot (x, y, z)^T
+$$
 
 **Registration-based rotation:** When `--reg` is specified:
 1. The LTA is read and converted to `REGISTER_DAT` (tkregister) type via `LTAchangeType()`.

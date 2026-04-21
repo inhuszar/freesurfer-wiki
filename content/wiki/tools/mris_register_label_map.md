@@ -68,13 +68,17 @@ Constants:
 
 The correlation between vertex $v$ on the surface and voxel $x$ in the volume is:
 
-$$C(v, x) = \frac{\text{cov}(s_v, f_x)}{\sigma_{s_v} \sigma_{f_x}}$$
+$$
+C(v, x) = \frac{\text{cov}(s_v, f_x)}{\sigma_{s_v} \sigma_{f_x}}
+$$
 
 where $s_v$ is the surface time series at vertex $v$ and $f_x$ is the volume time series at voxel $x$.
 
 Registration minimises the error between the moving subject's correlation map and the fixed group-average map:
 
-$$E(\phi) = \text{error}(\phi \circ C_{mov}, C_{fixed})$$
+$$
+E(\phi) = \text{error}(\phi \circ C_{mov}, C_{fixed})
+$$
 
 The warp gradient is computed by `compute_warp_gradient` / `compute_hemi_warp_gradient` and applied via `warp_hemi` / `warp_surface`.
 

@@ -60,7 +60,9 @@ Written to `--outdir`:
 
 For each mode $m \in \{1, 2\}$, a GLM is fitted:
 
-$$\mathbf{y}_m = X_m \boldsymbol{\beta}_m + \boldsymbol{\varepsilon}_m$$
+$$
+\mathbf{y}_m = X_m \boldsymbol{\beta}_m + \boldsymbol{\varepsilon}_m
+$$
 
 The cross-mode statistic is based on the spatial correlation between the two residualised or test-statistic maps. Under the null hypothesis, the two modes are independent; permutation destroys this independence.
 
@@ -73,7 +75,9 @@ The `perm12` statistic tests whether the two modes are spatially correlated beyo
 
 > [!math] Dual permutation p-value
 > Let $T$ be the observed cross-mode statistic. Under $N$ permutations:
-> $$p = \frac{\#\{T_i > T\}}{N}$$
+> $$
+> p = \frac{\#\{T_i > T\}}{N}
+> $$
 > where $T_i$ is the cross-mode statistic under the $i$-th permutation.
 
 > [!gap] Complete statistical model

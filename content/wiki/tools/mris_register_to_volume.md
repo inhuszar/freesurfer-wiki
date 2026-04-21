@@ -63,13 +63,17 @@ Applications include:
 
 The default similarity maximises:
 
-$$S(R, t) = \frac{\sum_v |\nabla I(Rv + t)|^2}{\text{Var}(|\nabla I|)}$$
+$$
+S(R, t) = \frac{\sum_v |\nabla I(Rv + t)|^2}{\text{Var}(|\nabla I|)}
+$$
 
 where $I$ is the input intensity volume, $R$ is the rotation matrix, and $t$ is the translation.
 
 The CNR-based similarity uses:
 
-$$S_{CNR}(R, t) = \text{CNR between WM and GM at surface vertices}$$
+$$
+S_{CNR}(R, t) = \text{CNR between WM and GM at surface vertices}
+$$
 
 A Gaussian blurring kernel of sigma $\sigma$ is optionally applied before computing gradients (`--sigma`).
 

@@ -58,11 +58,15 @@ MRI volume headers often contain incorrect metadata — wrong direction cosines 
 
 The vox2ras matrix $M$ maps voxel coordinates $(c, r, s)$ to scanner RAS coordinates $(R, A, S)$:
 
-$$\begin{pmatrix} R \\ A \\ S \\ 1 \end{pmatrix} = M \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} R \\ A \\ S \\ 1 \end{pmatrix} = M \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 where $M$ is constructed from the volume geometry fields:
 
-$$M = \begin{pmatrix} x_r \cdot d_x & y_r \cdot d_y & z_r \cdot d_z & c_r \\ x_a \cdot d_x & y_a \cdot d_y & z_a \cdot d_z & c_a \\ x_s \cdot d_x & y_s \cdot d_y & z_s \cdot d_z & c_s \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+$$
+M = \begin{pmatrix} x_r \cdot d_x & y_r \cdot d_y & z_r \cdot d_z & c_r \\ x_a \cdot d_x & y_a \cdot d_y & z_a \cdot d_z & c_a \\ x_s \cdot d_x & y_s \cdot d_y & z_s \cdot d_z & c_s \\ 0 & 0 & 0 & 1 \end{pmatrix}
+$$
 
 Here $(x_r, x_a, x_s)$ is the x-direction cosine (set by `-xras`), $d_x$ is the x-voxel size (set by `-xsize`), and $(c_r, c_a, c_s)$ is the centre RAS coordinate (set by `-cras`).
 

@@ -75,7 +75,9 @@ For $K$ tissue classes and $V$ input channels (FLASH volumes), let $\mathbf{y}_i
 
 The GMM model assumes:
 
-$$p(\mathbf{y}_i) = \sum_{k=1}^K \pi_k \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$$
+$$
+p(\mathbf{y}_i) = \sum_{k=1}^K \pi_k \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)
+$$
 
 where $\pi_k$ are class priors, $\boldsymbol{\mu}_k$ are class mean vectors (in the multi-spectral space), and $\boldsymbol{\Sigma}_k$ are class covariance matrices.
 

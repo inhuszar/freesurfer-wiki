@@ -76,10 +76,14 @@ For each scale $i$:
 
 The full feature vector for the $3^3 = 27$ window locations × 4 scales × 4 channels gives:
 
-$$n_{\text{inputs}} = 3^3 \times N_{\text{scales}} \times (3 + 1) = 432$$
+$$
+n_{\text{inputs}} = 3^3 \times N_{\text{scales}} \times (3 + 1) = 432
+$$
 
 **SVM classification:**
-$$\text{decision} = \mathbf{w}^T \mathbf{x} + b$$
+$$
+\text{decision} = \mathbf{w}^T \mathbf{x} + b
+$$
 
 If $\text{decision} < 0$, the voxel is relabeled.
 

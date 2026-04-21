@@ -74,10 +74,14 @@ For each vertex $v$ with white surface position $\mathbf{w}_v$ and pial surface 
 
 The sample position at fractional depth $t \in [0, 1]$ is:
 
-$$\mathbf{x}_v(t) = (1-t)\mathbf{w}_v + t\mathbf{p}_v$$
+$$
+\mathbf{x}_v(t) = (1-t)\mathbf{w}_v + t\mathbf{p}_v
+$$
 
 MRI intensity is sampled at $N = $ `max_samples` equally-spaced depth levels:
-$$I_v(n) = I_{\text{MRI}}\left(\mathbf{x}_v\left(\frac{n}{N-1}\right)\right), \quad n = 0, 1, \ldots, N-1$$
+$$
+I_v(n) = I_{\text{MRI}}\left(\mathbf{x}_v\left(\frac{n}{N-1}\right)\right), \quad n = 0, 1, \ldots, N-1
+$$
 
 Normalization modes (controlled by various flags):
 - `norm_gw`: normalize by (gray - white) intensity contrast

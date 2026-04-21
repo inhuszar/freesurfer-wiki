@@ -67,7 +67,9 @@ The method solves for rigid body transforms for each slice group by minimizing t
 
 For three volumes $V_1$, $V_2$, $V_3$ with rigid transforms $T_1$, $T_2$, $T_3$, the IBMC objective function minimizes:
 
-$$\mathcal{E} = \sum_{(i,j), i \neq j} \sum_{\text{intersections}} \left[V_i(T_i(\mathbf{x})) - V_j(T_j(\mathbf{x}))\right]^2$$
+$$
+\mathcal{E} = \sum_{(i,j), i \neq j} \sum_{\text{intersections}} \left[V_i(T_i(\mathbf{x})) - V_j(T_j(\mathbf{x}))\right]^2
+$$
 
 where the sum is over all geometric intersection lines between slices of volumes $i$ and $j$.
 

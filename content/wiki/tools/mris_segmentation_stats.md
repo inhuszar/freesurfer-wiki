@@ -66,10 +66,18 @@ This is a research/validation tool, not part of the standard `recon-all` pipelin
 
 For each subject, at each threshold $t$ applied to the overlay, the tool classifies each vertex as:
 
-$$\text{TP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 1\}|$$
-$$\text{FP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 0\}|$$
-$$\text{FN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 1\}|$$
-$$\text{TN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 0\}|$$
+$$
+\text{TP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 1\}|
+$$
+$$
+\text{FP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 0\}|
+$$
+$$
+\text{FN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 1\}|
+$$
+$$
+\text{TN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 0\}|
+$$
 
 ROC coordinates: sensitivity $= \text{TP}/(\text{TP}+\text{FN})$, specificity $= \text{TN}/(\text{TN}+\text{FP})$.
 

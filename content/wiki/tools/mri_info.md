@@ -91,23 +91,31 @@ statistics flags). It exposes the matrices stored in or derivable from the
 volume header:
 
 **vox2ras** — the native scanner-RAS transform, constructed as:
-$$\mathbf{M}_{\text{vox2ras}} = \begin{pmatrix} D_c \cdot x_{\text{size}} & D_r \cdot y_{\text{size}} & D_s \cdot z_{\text{size}} & P_0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+$$
+\mathbf{M}_{\text{vox2ras}} = \begin{pmatrix} D_c \cdot x_{\text{size}} & D_r \cdot y_{\text{size}} & D_s \cdot z_{\text{size}} & P_0 \\ 0 & 0 & 0 & 1 \end{pmatrix}
+$$
 where $D_c, D_r, D_s$ are the direction cosine column vectors and $P_0$ is the
 RAS position of voxel (0,0,0). See [[coordinate-systems]] for derivation.
 
 **vox2ras-tkr** — the Surface RAS (tkregister) transform: uses the same
 direction cosines but sets $P_0$ so that the origin falls at the volume's
 geometric centre:
-$$c_\text{ras} = - \tfrac{1}{2}(N_c \cdot x_s, N_r \cdot y_s, N_s \cdot z_s)$$
+$$
+c_\text{ras} = - \tfrac{1}{2}(N_c \cdot x_s, N_r \cdot y_s, N_s \cdot z_s)
+$$
 Computed by `MRIxfmCRS2XYZtkreg()` in `utils/mri.cpp`.
 
 **tkr2scanner** — derived on the fly as:
-$$\mathbf{T}_{\text{tkr}\to\text{scan}} = \mathbf{M}_{\text{vox2ras}} \cdot \mathbf{M}_{\text{vox2ras-tkr}}^{-1}$$
+$$
+\mathbf{T}_{\text{tkr}\to\text{scan}} = \mathbf{M}_{\text{vox2ras}} \cdot \mathbf{M}_{\text{vox2ras-tkr}}^{-1}
+$$
 
 **scanner2tkr** — computed via `surfaceRASFromRAS_()` (inverse of the above).
 
 **entropy** — Shannon entropy of a 256-bin intensity histogram:
-$$H = -\sum_{i=0}^{255} p_i \log_2 p_i$$
+$$
+H = -\sum_{i=0}^{255} p_i \log_2 p_i
+$$
 
 ## Configuration Options
 

@@ -62,7 +62,9 @@ Optional diagnostic outputs:
 
 The bias field model assumes:
 
-$$\log I(x) = \log S(x) + \log B(x) + \epsilon$$
+$$
+\log I(x) = \log S(x) + \log B(x) + \epsilon
+$$
 
 where $I(x)$ is observed intensity, $S(x)$ is true tissue signal, $B(x)$ is bias field, and $\epsilon$ is noise.
 
@@ -70,7 +72,9 @@ where $I(x)$ is observed intensity, $S(x)$ is true tissue signal, $B(x)$ is bias
 
 The bias field $\log B(x)$ is represented as a linear combination of DCT basis functions $\{\psi_k(x)\}$:
 
-$$\log B(x) = \sum_k \beta_k \psi_k(x)$$
+$$
+\log B(x) = \sum_k \beta_k \psi_k(x)
+$$
 
 The low-pass cutoff for the DCT basis is controlled by `lpfcutoffmm = 23` mm (default). DCT coefficients above this frequency are excluded.
 
@@ -78,7 +82,9 @@ The low-pass cutoff for the DCT basis is controlled by `lpfcutoffmm = 23` mm (de
 
 For voxels in the tissue mask, the design matrix $X$ has rows $[\psi_1(x), \ldots, \psi_K(x)]$ and the observation vector $y$ contains log-intensity values. The ordinary least-squares estimate is:
 
-$$\hat{\beta} = (X^T X)^{-1} X^T y$$
+$$
+\hat{\beta} = (X^T X)^{-1} X^T y
+$$
 
 The bias field is then $B(x) = \exp(\sum_k \hat{\beta}_k \psi_k(x))$, and the corrected volume is $I(x) / B(x)$.
 

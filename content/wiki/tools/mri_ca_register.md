@@ -66,7 +66,9 @@ Key required input in most usage:
 
 The optimization minimizes the joint energy:
 
-$$E(\mathbf{u}) = -\sum_{v \in \Omega} \log p\!\left(I(v) \mid k_v, \mathbf{u}(v)\right) \cdot p\!\left(k_v \mid \mathbf{u}(v)\right) + \lambda_{\text{smooth}} E_{\text{smooth}}(\mathbf{u})$$
+$$
+E(\mathbf{u}) = -\sum_{v \in \Omega} \log p\!\left(I(v) \mid k_v, \mathbf{u}(v)\right) \cdot p\!\left(k_v \mid \mathbf{u}(v)\right) + \lambda_{\text{smooth}} E_{\text{smooth}}(\mathbf{u})
+$$
 
 where:
 - $\mathbf{u}$ is the displacement field at each control point

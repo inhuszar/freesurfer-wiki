@@ -100,7 +100,9 @@ The inflation is driven by minimising a spring energy functional. Based on the
 source header and the INTEGRATION_PARMS structure, the objective combines
 several terms:
 
-$$E = \lambda_{\text{spring}} \sum_{\langle i,j \rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2 + \lambda_{\text{sphere}} E_{\text{sphere}}$$
+$$
+E = \lambda_{\text{spring}} \sum_{\langle i,j \rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2 + \lambda_{\text{sphere}} E_{\text{sphere}}
+$$
 
 where:
 - $d_{ij}$ = edge length between adjacent vertices $i$ and $j$

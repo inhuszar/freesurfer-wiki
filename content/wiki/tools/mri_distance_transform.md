@@ -74,7 +74,9 @@ A float-type [[mgz]] volume where each voxel contains the distance (in mm) to th
 
 **Fast marching** (Sethian, 1996): the core algorithm `MRIextractDistanceMap()` uses a priority queue to propagate distance values from the label boundary outward (or inward), solving the Eikonal equation:
 
-$$|\nabla d(\mathbf{x})| = 1$$
+$$
+|\nabla d(\mathbf{x})| = 1
+$$
 
 with boundary condition $d(\mathbf{x}) = 0$ for $\mathbf{x}$ on the label boundary.
 
@@ -87,7 +89,9 @@ with boundary condition $d(\mathbf{x}) = 0$ for $\mathbf{x}$ on the label bounda
 | 4 | Both (unsigned): absolute distance from boundary for all voxels |
 
 **Normalization** (when `-normalize` is active and a surface is provided):
-$$d_\text{norm}(\mathbf{x}) = \frac{d(\mathbf{x})}{\sqrt{A_\text{surface}}}$$
+$$
+d_\text{norm}(\mathbf{x}) = \frac{d(\mathbf{x})}{\sqrt{A_\text{surface}}}
+$$
 
 where $A_\text{surface}$ is the total surface area (`mris->total_area`).
 

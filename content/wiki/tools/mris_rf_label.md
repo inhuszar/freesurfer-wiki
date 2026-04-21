@@ -83,12 +83,16 @@ Environment variable `SUBJECTS_DIR` must be set, or provided via `--sdir`.
 
 Random forests classify by aggregating decisions from an ensemble of decision trees:
 
-$$P(\text{class}=1 | \mathbf{x}) = \frac{1}{T} \sum_{t=1}^{T} h_t(\mathbf{x})$$
+$$
+P(\text{class}=1 | \mathbf{x}) = \frac{1}{T} \sum_{t=1}^{T} h_t(\mathbf{x})
+$$
 
 where $h_t$ is the $t$-th tree's prediction for input feature vector $\mathbf{x}$, and $T$ is the number of trees. The `RFclassify()` function returns both the majority class and the posterior probability.
 
 The feature vector for each vertex is constructed from the overlay values at that vertex across all features:
-$$\mathbf{x}_i = [f_1(i), f_2(i), \ldots, f_K(i)]$$
+$$
+\mathbf{x}_i = [f_1(i), f_2(i), \ldots, f_K(i)]
+$$
 
 If `nbhd_size > 0`, neighbourhood features are included (features from neighbouring vertices within `nbhd_size` hops), making the feature dimension $K \times (\text{nbhd\_size} + 1)$.
 

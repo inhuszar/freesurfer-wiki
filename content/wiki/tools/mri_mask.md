@@ -62,7 +62,9 @@ Skull stripping tools such as [[mri_watershed]] and [[mri_synthstrip]] produce b
 
 For each voxel $\mathbf{x}$:
 
-$$V_{out}(\mathbf{x}) = \begin{cases} V_{in}(\mathbf{x}) & \text{if } M(\mathbf{x}) > \theta \\ v_{fill} & \text{otherwise} \end{cases}$$
+$$
+V_{out}(\mathbf{x}) = \begin{cases} V_{in}(\mathbf{x}) & \text{if } M(\mathbf{x}) > \theta \\ v_{fill} & \text{otherwise} \end{cases}
+$$
 
 where $M$ is the mask, $\theta$ is the threshold (default $-10^{10}$, i.e., any positive value passes), and $v_{fill}$ is the fill value (default 0).
 
@@ -72,7 +74,9 @@ Mask inversion (`-invert-mask`) flips the binary mask before application.
 
 Background noise injection (`-bgnoise`) adds zero-mean Gaussian noise to masked (background) voxels instead of setting them to a constant:
 
-$$V_{out}(\mathbf{x}) = \begin{cases} V_{in}(\mathbf{x}) & M(\mathbf{x}) > \theta \\ \mathcal{N}(0, \sigma_{bg}^2) & \text{otherwise} \end{cases}$$
+$$
+V_{out}(\mathbf{x}) = \begin{cases} V_{in}(\mathbf{x}) & M(\mathbf{x}) > \theta \\ \mathcal{N}(0, \sigma_{bg}^2) & \text{otherwise} \end{cases}
+$$
 
 ## Configuration Options
 

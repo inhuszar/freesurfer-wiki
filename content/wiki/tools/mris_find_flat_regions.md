@@ -62,7 +62,9 @@ The "flatness" criterion is based on the dot product of the surface normal with 
 
 For each vertex $v$ with surface normal $\hat{\mathbf{n}}_v$, the flatness criterion is:
 
-$$\text{flat}(v) = \max\left(|\hat{\mathbf{n}}_v \cdot \hat{\mathbf{x}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{y}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{z}}|\right) > \theta$$
+$$
+\text{flat}(v) = \max\left(|\hat{\mathbf{n}}_v \cdot \hat{\mathbf{x}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{y}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{z}}|\right) > \theta
+$$
 
 where $\theta$ is the threshold (default: 0.99) and $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ are the unit vectors along the cardinal axes.
 

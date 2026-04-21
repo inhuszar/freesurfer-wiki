@@ -76,10 +76,14 @@ The tool works by:
 The tool offers multiple cost functions for measuring alignment quality:
 
 1. **Overlap (default):**
-$$\mathcal{C}_\text{overlap}(T) = -\frac{|\text{hires}(T) \cap \text{lowres}|}{|\text{hires}(T) \cup \text{lowres}|}$$
+$$
+\mathcal{C}_\text{overlap}(T) = -\frac{|\text{hires}(T) \cap \text{lowres}|}{|\text{hires}(T) \cup \text{lowres}|}
+$$
 
 2. **Distance transform SSE:**
-$$\mathcal{C}_\text{DT}(T) = \sum_{v \in \text{hires}} d_\text{lowres}(T(v))^2$$
+$$
+\mathcal{C}_\text{DT}(T) = \sum_{v \in \text{hires}} d_\text{lowres}(T(v))^2
+$$
 
 where $d_\text{lowres}(\mathbf{x})$ is the distance transform of the lowres reference volume.
 

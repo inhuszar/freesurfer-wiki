@@ -66,15 +66,21 @@ For two binary sets $A$ and $B$ in $\mathbb{R}^3$:
 
 **Directed Hausdorff distance from $A$ to $B$:**
 
-$$d(A \to B) = \sup_{a \in \partial A} \inf_{b \in \partial B} \|a - b\|$$
+$$
+d(A \to B) = \sup_{a \in \partial A} \inf_{b \in \partial B} \|a - b\|
+$$
 
 **Symmetric (maximum) Hausdorff distance:**
 
-$$H(A, B) = \max\left(d(A \to B),\; d(B \to A)\right)$$
+$$
+H(A, B) = \max\left(d(A \to B),\; d(B \to A)\right)
+$$
 
 **Modified (mean) Hausdorff distance** (default in `mri_hausdorff_dist`):
 
-$$H_\text{mean}(A, B) = \frac{1}{|\partial A|} \sum_{a \in \partial A} \inf_{b \in \partial B} \|a - b\|$$
+$$
+H_\text{mean}(A, B) = \frac{1}{|\partial A|} \sum_{a \in \partial A} \inf_{b \in \partial B} \|a - b\|
+$$
 
 where $\partial A$ and $\partial B$ are the boundaries (surface voxels) of $A$ and $B$.
 

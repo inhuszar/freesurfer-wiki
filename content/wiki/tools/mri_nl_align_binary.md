@@ -58,7 +58,9 @@ The code defines several alignment modes (`ANGIO`, `HIPPO`, `WM`, `LABEL`, `ASEG
 
 The cost functional is a sum of energy terms minimized by gradient descent on the morph parameters:
 
-$$E = E_\text{binary} + \lambda_J E_\text{jacobian} + \lambda_D E_\text{distance} + \lambda_S E_\text{smoothness}$$
+$$
+E = E_\text{binary} + \lambda_J E_\text{jacobian} + \lambda_D E_\text{distance} + \lambda_S E_\text{smoothness}
+$$
 
 where:
 - $E_\text{binary}$ penalizes mismatch between the warped binary source and target ($l\_binary = 0.025$ by default)

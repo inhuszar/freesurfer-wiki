@@ -75,21 +75,31 @@ For `erode` and `dilate`: `mris_label_calc erode N inlabel surface outlabel`
 ## Mathematical Foundations
 
 **Union:** Combine all vertices from both labels, removing duplicate entries:
-$$L_{\text{out}} = L_1 \cup L_2$$
+$$
+L_{\text{out}} = L_1 \cup L_2
+$$
 Implemented via `LabelCombine` + `LabelRemoveDuplicates`.
 
 **Intersection:** Retain only vertices present in both labels:
-$$L_{\text{out}} = L_1 \cap L_2$$
+$$
+L_{\text{out}} = L_1 \cap L_2
+$$
 
 **Inversion:** Retain all surface vertices NOT in the input label:
-$$L_{\text{out}} = S \setminus L_1$$
+$$
+L_{\text{out}} = S \setminus L_1
+$$
 where $S$ is the full vertex set of the input surface.
 
 **Erosion:** Remove boundary vertices from the label (vertices with any neighbor outside the label). Performed $N$ times:
-$$L^{(k+1)} = \text{erode}(L^{(k)}) = \{v \in L^{(k)} : \mathcal{N}(v) \subseteq L^{(k)}\}$$
+$$
+L^{(k+1)} = \text{erode}(L^{(k)}) = \{v \in L^{(k)} : \mathcal{N}(v) \subseteq L^{(k)}\}
+$$
 
 **Dilation:** Add vertices neighboring the label. Performed $N$ times:
-$$L^{(k+1)} = \text{dilate}(L^{(k)}) = L^{(k)} \cup \{v \notin L^{(k)} : \exists u \in L^{(k)}, u \in \mathcal{N}(v)\}$$
+$$
+L^{(k+1)} = \text{dilate}(L^{(k)}) = L^{(k)} \cup \{v \notin L^{(k)} : \exists u \in L^{(k)}, u \in \mathcal{N}(v)\}
+$$
 
 Erosion and dilation use `LabelErode` and `LabelDilate` from the FreeSurfer label library.
 

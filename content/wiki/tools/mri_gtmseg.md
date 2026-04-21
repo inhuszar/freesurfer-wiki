@@ -75,7 +75,9 @@ The output is a label volume with integer label values corresponding to FreeSurf
 
 The upsampling algorithm inserts the surface boundaries (pial surface = cortical boundary) into the segmentation at a finer voxel grid:
 
-$$\text{USF} = 2 \Rightarrow \text{voxel size} = \frac{d_\text{orig}}{2} \text{ in each dimension}$$
+$$
+\text{USF} = 2 \Rightarrow \text{voxel size} = \frac{d_\text{orig}}{2} \text{ in each dimension}
+$$
 
 where $d_\text{orig}$ is the original voxel size. Each voxel in the upsampled grid is classified by projecting its center to the nearest surface and testing whether it lies inside or outside the pial surface.
 

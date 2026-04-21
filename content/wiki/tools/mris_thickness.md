@@ -84,11 +84,15 @@ Cortical thickness is a fundamental morphometric measure reflecting neuronal den
 
 For each vertex $v$ on the pial surface at position $\mathbf{p}_v$, find the closest point on the white surface and compute the Euclidean distance:
 
-$$t_v = \min_{w \in \text{white surface}} \|\mathbf{p}_v - \mathbf{p}_w\|_2$$
+$$
+t_v = \min_{w \in \text{white surface}} \|\mathbf{p}_v - \mathbf{p}_w\|_2
+$$
 
 The same computation is done from white to pial. The final thickness is the average:
 
-$$T_v = \frac{t_v^{\text{pial}\to\text{white}} + t_v^{\text{white}\to\text{pial}}}{2}$$
+$$
+T_v = \frac{t_v^{\text{pial}\to\text{white}} + t_v^{\text{white}\to\text{pial}}}{2}
+$$
 
 The function `MRISmeasureDistanceBetweenSurfaces(mris, mris2, signed_dist)` implements this with signed distance support.
 
@@ -99,7 +103,9 @@ Maximum allowed thickness is `max_thick = 5.0 mm` (default). Vertices with compu
 ### Laplacian streamline method (`-laplace_thick`)
 
 Solves the Laplace equation $\nabla^2 \phi = 0$ in the cortical ribbon (the volume between white and pial surfaces):
-$$\phi = 0 \text{ on white surface}, \quad \phi = 1 \text{ on pial surface}$$
+$$
+\phi = 0 \text{ on white surface}, \quad \phi = 1 \text{ on pial surface}
+$$
 
 Thickness is measured along the streamlines of $\nabla \phi$ (which are perpendicular to both surfaces). Resolution: `laplace_res = 0.5 mm` by default.
 

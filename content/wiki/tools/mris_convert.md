@@ -98,7 +98,9 @@ Most conversions are format changes with no coordinate transform. Exceptions:
 
 **Coordinate system conversion** (`--to-scanner` / `--to-tkr`):
 
-$$\mathbf{x}_{\text{scanner}} = \mathbf{M}_{\text{vox2ras}} \cdot \mathbf{M}_{\text{vox2ras-tkr}}^{-1} \cdot \mathbf{x}_{\text{tkr}}$$
+$$
+\mathbf{x}_{\text{scanner}} = \mathbf{M}_{\text{vox2ras}} \cdot \mathbf{M}_{\text{vox2ras-tkr}}^{-1} \cdot \mathbf{x}_{\text{tkr}}
+$$
 
 where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}_{\text{vox2ras}}$ is the scanner-to-vox matrix. In FreeSurfer code: `MRIStkr2Scanner()` and `MRISscanner2Tkr()`.
 

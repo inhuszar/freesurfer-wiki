@@ -62,7 +62,9 @@ This script is used in `recon-all` autorecon1 when multiple T1 input volumes are
 
 For $N$ input runs $I_1, \ldots, I_N$, let $T_i$ be the rigid-body transform aligning run $i$ to the reference (typically $I_1$). The output is:
 
-$$I_{out}(\mathbf{x}) = \frac{1}{N} \sum_{i=1}^N I_i(T_i^{-1}(\mathbf{x}))$$
+$$
+I_{out}(\mathbf{x}) = \frac{1}{N} \sum_{i=1}^N I_i(T_i^{-1}(\mathbf{x}))
+$$
 
 The registration is performed using an external tool (MINC's `minctracc` or similar); the script wraps the registration and averaging steps, handling format conversion and temporary file management via [[mri_convert]].
 

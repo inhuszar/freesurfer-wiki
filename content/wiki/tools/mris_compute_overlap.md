@@ -65,13 +65,17 @@ Output to stdout (and optionally to a log file):
 
 Surface area for each label is computed by summing triangle areas for all faces whose vertices belong to that label:
 
-$$A_k = \sum_{v: \text{annot}(v) = k} a_v$$
+$$
+A_k = \sum_{v: \text{annot}(v) = k} a_v
+$$
 
 where $a_v$ is the per-vertex area (area of triangles incident to $v$, divided by 3). `MRIScomputeMetricProperties()` is called first to ensure face areas are current.
 
 The percentage mode divides by total area:
 
-$$A_k\% = \frac{A_k}{A_{\text{total}}} \times 100$$
+$$
+A_k\% = \frac{A_k}{A_{\text{total}}} \times 100
+$$
 
 ## Configuration Options
 

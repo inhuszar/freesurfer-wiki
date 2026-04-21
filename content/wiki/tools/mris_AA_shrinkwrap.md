@@ -67,7 +67,9 @@ mris_AA_shrinkwrap [options] <T1_vol> <PD_vol> <output_dir>
 
 The shrink-wrap deformation minimises a surface energy of the form:
 
-$$E = E_{\text{dist}} + \lambda_s E_{\text{smooth}} + \lambda_r E_{\text{repulse}}$$
+$$
+E = E_{\text{dist}} + \lambda_s E_{\text{smooth}} + \lambda_r E_{\text{repulse}}
+$$
 
 where:
 - $E_{\text{dist}}$ pulls each vertex toward the nearest point on the target iso-surface derived from a distance map of the MRI.

@@ -89,13 +89,17 @@ Optional:
 
 Surface placement is based on finding the maximum of the intensity gradient along the surface normal. The `MRIScomputeBorderValues()` function (CBV) evaluates the intensity profile at each vertex by sampling the input volume at positions:
 
-$$p(t) = v + t \cdot \hat{n}$$
+$$
+p(t) = v + t \cdot \hat{n}
+$$
 
 where $v$ is the current vertex position, $\hat{n}$ is the outward unit normal, and $t \in [-d_{max}, d_{max}]$. The target position is where the gradient magnitude is maximised.
 
 The deformation integrates a spring force term, a gradient-following term, and an optional repulsion force (from `--repulse-surf`):
 
-$$E_{total} = E_{intensity} + \lambda_{spring} E_{spring} + \lambda_{repulse} E_{repulse}$$
+$$
+E_{total} = E_{intensity} + \lambda_{spring} E_{spring} + \lambda_{repulse} E_{repulse}
+$$
 
 For T2/FLAIR pial placement, the `MRIS_MultimodalRefinement` engine is used when `--mm-refine` is specified.
 

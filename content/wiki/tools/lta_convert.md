@@ -111,7 +111,9 @@ All internal processing operates in scanner RAS-to-RAS space. The conversion fro
 
 **ITK/ANTs** uses LPS (Left-Posterior-Superior) coordinates and stores the inverse transform. The sign conversion from LPS to RAS is:
 
-$$\mathbf{M}_{\text{RAS}} = \mathrm{diag}(-1,-1,1,1) \cdot \mathbf{M}_{\text{LPS}}^{-1} \cdot \mathrm{diag}(-1,-1,1,1)$$
+$$
+\mathbf{M}_{\text{RAS}} = \mathrm{diag}(-1,-1,1,1) \cdot \mathbf{M}_{\text{LPS}}^{-1} \cdot \mathrm{diag}(-1,-1,1,1)
+$$
 
 Additionally, a fixed-parameters vector (centre of rotation) must be absorbed into the translation column before applying this flip.
 

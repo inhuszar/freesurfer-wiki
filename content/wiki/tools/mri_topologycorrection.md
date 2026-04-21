@@ -80,7 +80,9 @@ The topology correction procedure:
 
 > [!math] Euler characteristic constraint
 > For a triangulated surface to be genus-0 (sphere), it must satisfy:
-> $$\chi = V - E + F = 2$$
+> $$
+> \chi = V - E + F = 2
+> $$
 > The correction algorithm identifies the minimum set of voxel label changes to make this true after tessellation.
 
 ## Configuration Options

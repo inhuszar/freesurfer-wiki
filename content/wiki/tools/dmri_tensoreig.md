@@ -84,20 +84,28 @@ From global variables:
 
 **Diffusion tensor model:** The signal in direction $\hat{g}_i$ with b-value $b$ is:
 
-$$S_i = S_0 \exp\!\left(-b \hat{g}_i^T \mathbf{D} \hat{g}_i\right)$$
+$$
+S_i = S_0 \exp\!\left(-b \hat{g}_i^T \mathbf{D} \hat{g}_i\right)
+$$
 
 Taking the log and forming a linear system:
 
-$$\ln(S_i / S_0) = -b \hat{g}_i^T \mathbf{D} \hat{g}_i = -b \mathbf{b}_i^T \mathbf{d}$$
+$$
+\ln(S_i / S_0) = -b \hat{g}_i^T \mathbf{D} \hat{g}_i = -b \mathbf{b}_i^T \mathbf{d}
+$$
 
 where $\mathbf{d}$ is the 6-element vectorized tensor and $\mathbf{b}_i$ is the b-matrix row. The source constructs the $B$ matrix and computes the pseudoinverse:
 
-$$\hat{\mathbf{d}} = (\mathbf{B}^T \mathbf{B})^{-1} \mathbf{B}^T \ln(\mathbf{S}/S_0)$$
+$$
+\hat{\mathbf{d}} = (\mathbf{B}^T \mathbf{B})^{-1} \mathbf{B}^T \ln(\mathbf{S}/S_0)
+$$
 
 **Eigensystem:** The symmetric $3 \times 3$ tensor $\mathbf{D}$ is diagonalized to find eigenvalues $\lambda_1, \lambda_2, \lambda_3$ and eigenvectors.
 
 **FA:**
-$$\text{FA} = \sqrt{\frac{3}{2}} \cdot \frac{\sqrt{(\lambda_1 - \bar{\lambda})^2 + (\lambda_2 - \bar{\lambda})^2 + (\lambda_3 - \bar{\lambda})^2}}{\sqrt{\lambda_1^2 + \lambda_2^2 + \lambda_3^2}}$$
+$$
+\text{FA} = \sqrt{\frac{3}{2}} \cdot \frac{\sqrt{(\lambda_1 - \bar{\lambda})^2 + (\lambda_2 - \bar{\lambda})^2 + (\lambda_3 - \bar{\lambda})^2}}{\sqrt{\lambda_1^2 + \lambda_2^2 + \lambda_3^2}}
+$$
 
 **Averaging:** The `nAcq` parameter controls averaging of multiple acquisitions. The code calls `MRIavg4` and `MRIavg5` for averaging along the 4th or 5th dimension of the input volume.
 

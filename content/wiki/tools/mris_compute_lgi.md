@@ -86,7 +86,9 @@ Optional flags:
 
 The local gyrification index at vertex $v$ is defined as:
 
-$$\text{lGI}(v) = \frac{A_{\text{pial}}(v, r)}{A_{\text{outer}}(v, r)}$$
+$$
+\text{lGI}(v) = \frac{A_{\text{pial}}(v, r)}{A_{\text{outer}}(v, r)}
+$$
 
 where:
 - $A_{\text{pial}}(v, r)$ is the pial surface area within a geodesic sphere of radius $r$ centred at $v$

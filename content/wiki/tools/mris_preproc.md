@@ -221,7 +221,9 @@ source-mode flag.
 |------|-----------|---------|-------------|
 | `--cache-out` | `name` (string) | — | Save each per-subject resampled file to `$SUBJECTS_DIR/$subj/$measdir/$hemi.$name.$format` so a later run can pick it up via `--cache-in $name`. |
 | `--cache-out-only` | `tmpdir` (path) | — | Run only the per-subject resampling+caching step and skip the concatenation/output. **Requires** an explicit `tmpdir` argument despite looking like a Boolean. Sets `CacheOutOnly=1`. |
-| `--cache-out-update` | `tmpdir` (path) | — | Like `--cache-out-only` but tags the run as an update (`CacheOutUpdate=1`); the script appends `tmp.mris_preproc.$$` to the supplied path and re-uses an existing cache where possible. |
+| `--cache-out-update` | `tmpdir` (path) | — | Like `--cache-out-only` but tags the run as an update (`CacheOutUpdate=1`); the script appends `tmp.mris_preproc.
+$$
+` to the supplied path and re-uses an existing cache where possible. |
 
 #### Jacobian correction
 

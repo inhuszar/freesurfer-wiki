@@ -59,11 +59,15 @@ The tool is used in smoothing parameter planning:
 
 Surface smoothing by nearest-neighbour averaging is equivalent to discrete convolution with a kernel that approaches a Gaussian as the number of iterations grows. For $k$ iterations on a surface with mean inter-vertex distance $\bar{d}$:
 
-$$\text{FWHM} \approx 2\sqrt{2\ln 2} \cdot \sigma$$
+$$
+\text{FWHM} \approx 2\sqrt{2\ln 2} \cdot \sigma
+$$
 
 where $\sigma$ is estimated from the variance of the smoothed delta function:
 
-$$\sigma^2 \approx k \cdot \bar{d}^2 / 4$$
+$$
+\sigma^2 \approx k \cdot \bar{d}^2 / 4
+$$
 
 The code implements this empirically rather than analytically. It places a delta function at the centre of the icosahedron, smooths it for `nitersmax` iterations (default 100), and at each step computes the actual spatial FWHM by measuring the VRF (variance reduction factor) of the smoothed field.
 

@@ -56,7 +56,9 @@ Binary-based registration is appropriate when aligning structure-specific masks 
 
 Similar to [[mri_linear_align]], but the cost function operates on binary voxel lists:
 
-$$\mathcal{L}(A) = \sum_{i \in \text{binary voxels}} \left(B_T(\mathbf{x}_i) \oplus B_S(A^{-1}\mathbf{x}_i)\right)$$
+$$
+\mathcal{L}(A) = \sum_{i \in \text{binary voxels}} \left(B_T(\mathbf{x}_i) \oplus B_S(A^{-1}\mathbf{x}_i)\right)
+$$
 
 or an overlap-based measure (Dice or similar). The `binary_label` variable (default 128) defines the threshold for binarisation.
 

@@ -65,14 +65,20 @@ In `recon-all`, `mris_curvature` is called after surface inflation to produce `?
 
 The curvature is computed from the **second fundamental form** of the surface. For a smooth embedded surface $\mathcal{S}$, let $\mathbf{n}$ be the unit outward normal at a point $p$. The shape operator $S$ maps tangent vectors to tangent vectors via $S = -d\mathbf{n}$. Its eigenvalues are the principal curvatures $k_1 \geq k_2$.
 
-$$H = \frac{k_1 + k_2}{2} \quad \text{(mean curvature)}$$
-$$K = k_1 \cdot k_2 \quad \text{(Gaussian curvature)}$$
+$$
+H = \frac{k_1 + k_2}{2} \quad \text{(mean curvature)}
+$$
+$$
+K = k_1 \cdot k_2 \quad \text{(Gaussian curvature)}
+$$
 
 On a triangulated mesh, these are estimated by fitting a local quadratic or polynomial model in the neighbourhood of each vertex (neighbourhood size controlled by `--nbrs`, default 2). Iterative averaging (`-a <avgs>`) smooths the curvature estimate by replacing each vertex value with the mean of its neighbours `<avgs>` times.
 
 > [!math] Euler characteristic relation
 > For a closed surface, the Gauss-Bonnet theorem gives:
-> $$\int_\mathcal{S} K \, dA = 2\pi \chi(\mathcal{S})$$
+> $$
+> \int_\mathcal{S} K \, dA = 2\pi \chi(\mathcal{S})
+> $$
 > where $\chi$ is the Euler characteristic (2 for a sphere, 0 for a torus). This is used to verify topological correctness of the surface (a cortical hemisphere after topology fixing should have $\chi = 2$).
 
 ## Configuration Options

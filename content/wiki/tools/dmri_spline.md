@@ -71,7 +71,9 @@ TRACULA represents white-matter paths as sequences of control points that define
 
 The `Spline` class (in `trc/spline.cxx`) fits a parametric curve through the control points. The spline is parameterized by arc length and interpolated to produce a densely-sampled path. At each interior point, the tangent vector $\mathbf{t}$ and curvature $\kappa$ can be computed:
 
-$$\mathbf{t}(s) = \frac{d\mathbf{r}}{ds}, \quad \kappa(s) = \left\|\frac{d\mathbf{t}}{ds}\right\|$$
+$$
+\mathbf{t}(s) = \frac{d\mathbf{r}}{ds}, \quad \kappa(s) = \left\|\frac{d\mathbf{t}}{ds}\right\|
+$$
 
 where $\mathbf{r}(s)$ is the path position at arc length $s$.
 

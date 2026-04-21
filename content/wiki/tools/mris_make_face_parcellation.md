@@ -76,12 +76,16 @@ For each surface vertex $v$, find the nearest icosahedron face $f$ in spherical 
 **Variance energy (ENERGY_VARIANCE):**
 Optimize parcel assignments to minimize within-parcel variance and maximize between-parcel variance:
 
-$$E = \lambda_v \sum_k \sigma^2_{\text{within}}(k) - \lambda_b \sum_{k \neq l} \sigma^2_{\text{between}}(k, l)$$
+$$
+E = \lambda_v \sum_k \sigma^2_{\text{within}}(k) - \lambda_b \sum_{k \neq l} \sigma^2_{\text{between}}(k, l)
+$$
 
 where $k, l$ index parcels and $\sigma^2$ is computed from functional time courses.
 
 **Distance energy (ENERGY_DISTANCE):**
-$$E = \sum_k \sum_{i,j \in k} d_{ij}^2$$
+$$
+E = \sum_k \sum_{i,j \in k} d_{ij}^2
+$$
 
 where $d_{ij}$ is the distance between functional patterns at vertices $i$ and $j$ (from a precomputed distance matrix).
 

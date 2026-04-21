@@ -84,7 +84,9 @@ WMH-SynthSeg is based on the SynthSeg framework:
 
 > [!math] SynthSeg training paradigm
 > All training images are synthesised from anatomical label maps using:
-> $$I_{\text{synth}} = \mathcal{G}(\sigma) * \sum_k \mathcal{N}(\mu_k, \sigma_k^2) \cdot \mathbb{1}[L = k]$$
+> $$
+> I_{\text{synth}} = \mathcal{G}(\sigma) * \sum_k \mathcal{N}(\mu_k, \sigma_k^2) \cdot \mathbb{1}[L = k]
+> $$
 > where $\mathcal{G}(\sigma)$ is a Gaussian smoothing kernel, $L$ is the label map, and $(\mu_k, \sigma_k^2)$ are randomly sampled intensity parameters per label. This makes the model contrast-agnostic.
 
 ## Configuration Options

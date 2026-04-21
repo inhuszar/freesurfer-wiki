@@ -223,7 +223,9 @@ Registration uses a robust M-estimator with iteratively reweighted least-squares
 
 The objective for aligning movable image $M$ to template $T$ with transform $\Phi$ and per-voxel weights $w_i$ is:
 
-$$E(\Phi) = \sum_i w_i \bigl(M(\Phi(\mathbf{x}_i)) - T(\mathbf{x}_i)\bigr)^2$$
+$$
+E(\Phi) = \sum_i w_i \bigl(M(\Phi(\mathbf{x}_i)) - T(\mathbf{x}_i)\bigr)^2
+$$
 
 where weights are updated iteratively using a Geman-McClure or similar M-estimator with saturation parameter `--sat` (default 4.685, chosen for Gaussian noise). The saturation parameter determines the breakpoint beyond which residuals are down-weighted: voxels with $|r_i| > \text{sat} \cdot \sigma$ receive near-zero weight.
 

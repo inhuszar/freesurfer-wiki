@@ -58,7 +58,9 @@ Surface-based distance transforms are used in cortical parcellation refinement, 
 
 The MARS distance transform computes geodesic distances on the triangulated surface mesh. For a label $\mathcal{L}$ and vertex $v_i \notin \mathcal{L}$:
 
-$$d(v_i, \mathcal{L}) = \min_{v_j \in \partial\mathcal{L}} d_{\text{geo}}(v_i, v_j)$$
+$$
+d(v_i, \mathcal{L}) = \min_{v_j \in \partial\mathcal{L}} d_{\text{geo}}(v_i, v_j)
+$$
 
 where $\partial\mathcal{L}$ is the boundary of the label and $d_{\text{geo}}$ is the geodesic distance on the mesh.
 

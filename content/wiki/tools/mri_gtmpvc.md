@@ -81,23 +81,31 @@ All outputs are written to the directory specified by `--o`.
 
 Let $\beta_j$ be the true (corrected) mean activity in region $j$, and $y_i$ be the measured PET value at voxel $i$. The GTM models the measured data as:
 
-$$\mathbf{y} = X \boldsymbol{\beta} + \boldsymbol{\varepsilon}$$
+$$
+\mathbf{y} = X \boldsymbol{\beta} + \boldsymbol{\varepsilon}
+$$
 
 where $X$ is the GTM matrix: $X_{ij}$ is the fraction of region $j$'s activity that contributes to voxel $i$ after convolution with the PSF:
 
-$$X_{ij} = \frac{1}{V_j} \int_{\text{voxel } i} (s_j \ast \text{PSF})(\mathbf{r}) \, d\mathbf{r}$$
+$$
+X_{ij} = \frac{1}{V_j} \int_{\text{voxel } i} (s_j \ast \text{PSF})(\mathbf{r}) \, d\mathbf{r}
+$$
 
 where $s_j$ is the binary indicator function of region $j$ and $\text{PSF}$ is the scanner point spread function (modeled as a 3D isotropic or anisotropic Gaussian with given FWHM).
 
 **GTM solution:**
 
-$$\hat{\boldsymbol{\beta}} = (X^T X)^{-1} X^T \mathbf{y}$$
+$$
+\hat{\boldsymbol{\beta}} = (X^T X)^{-1} X^T \mathbf{y}
+$$
 
 **RBV correction:**
 
 Region-based Voxelwise (RBV) correction applies the GTM regional estimates as scaling factors back to the voxel level, producing a higher-resolution corrected image:
 
-$$y_i^\text{RBV} = y_i \cdot \frac{\sum_j X_{ij} \hat{\beta}_j}{\sum_j X_{ij} \hat{y}_j}$$
+$$
+y_i^\text{RBV} = y_i \cdot \frac{\sum_j X_{ij} \hat{\beta}_j}{\sum_j X_{ij} \hat{y}_j}
+$$
 
 **PSF optimization:**
 

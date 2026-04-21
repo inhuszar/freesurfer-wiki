@@ -61,7 +61,9 @@ Optional: ribbon volume for ribbon-constrained alignment.
 
 The non-linear registration minimises:
 
-$$E(\phi) = E_\text{data}(\phi) + E_\text{reg}(\phi)$$
+$$
+E(\phi) = E_\text{data}(\phi) + E_\text{reg}(\phi)
+$$
 
 where:
 - $E_\text{data}$ measures image similarity (intensity-based, using mean intensity matching by default)

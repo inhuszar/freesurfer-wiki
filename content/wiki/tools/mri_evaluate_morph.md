@@ -61,13 +61,17 @@ Up to `MAX_SUBJECTS = 100` subjects are supported.
 
 The overlap metric is computed by `compute_overlap(mri_seg1, mri_seg2, transform1, transform2)`. The exact metric is not fully specified in the readable portion of the source but is likely a Dice coefficient or Jaccard index:
 
-$$\text{Overlap}(A, B) = \frac{2 |A \cap B|}{|A| + |B|}$$
+$$
+\text{Overlap}(A, B) = \frac{2 |A \cap B|}{|A| + |B|}
+$$
 
 after mapping both segmentations to a common space via their respective transforms.
 
 The total overlap is accumulated across all $\binom{N}{2}$ pairs and averaged:
 
-$$\bar{O} = \frac{1}{\binom{N}{2}} \sum_{i < j} \text{Overlap}(S_i \circ T_i^{-1}, S_j \circ T_j^{-1})$$
+$$
+\bar{O} = \frac{1}{\binom{N}{2}} \sum_{i < j} \text{Overlap}(S_i \circ T_i^{-1}, S_j \circ T_j^{-1})
+$$
 
 > [!gap] Exact overlap metric
 > The body of `compute_overlap()` was not read. Whether it uses Dice, Jaccard, or a voxel-count-based measure is unclear.

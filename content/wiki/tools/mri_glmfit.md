@@ -93,7 +93,9 @@ All outputs are written to the directory specified with `--glmdir`:
 
 The GLM forward model (at each voxel/vertex independently):
 
-$$\mathbf{y} = W \mathbf{X} B + \mathbf{n}$$
+$$
+\mathbf{y} = W \mathbf{X} B + \mathbf{n}
+$$
 
 where:
 - $\mathbf{X}$ is the $N_s \times N_b$ design matrix ($N_s$ subjects, $N_b$ regressors)
@@ -103,23 +105,33 @@ where:
 
 **Parameter estimation (WLS):**
 
-$$\hat{B} = (X^T W^T W X)^{-1} X^T W^T \mathbf{y}$$
+$$
+\hat{B} = (X^T W^T W X)^{-1} X^T W^T \mathbf{y}
+$$
 
 **Signal estimate and residual:**
 
-$$\hat{\mathbf{y}} = \hat{B} X, \quad \mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$$
+$$
+\hat{\mathbf{y}} = \hat{B} X, \quad \mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}
+$$
 
 **Residual variance (random effects OLS):**
 
-$$\hat{\sigma}^2 = \frac{\mathbf{e}^T \mathbf{e}}{N_s - N_b}$$
+$$
+\hat{\sigma}^2 = \frac{\mathbf{e}^T \mathbf{e}}{N_s - N_b}
+$$
 
 **Contrast:**
 
-$$G = C \hat{B}$$
+$$
+G = C \hat{B}
+$$
 
 **F-ratio (J-row contrast):**
 
-$$F = \frac{G^T \left[ C (X^T W^T W X)^{-1} C^T \right]^{-1} G}{J \hat{\sigma}^2}$$
+$$
+F = \frac{G^T \left[ C (X^T W^T W X)^{-1} C^T \right]^{-1} G}{J \hat{\sigma}^2}
+$$
 
 For $J=1$ (t-test), $t = \text{sign}(G) \sqrt{F}$, and the output `sig.mgh` contains $-\log_{10}(p)$ from the two-tailed F distribution.
 

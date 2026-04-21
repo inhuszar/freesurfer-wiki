@@ -60,11 +60,15 @@ tags:
 
 For XYZ comparisons the tool computes per-vertex differences:
 
-$$\Delta v_i = \|v_i^{(1)} - v_i^{(2)}\|_2$$
+$$
+\Delta v_i = \|v_i^{(1)} - v_i^{(2)}\|_2
+$$
 
 and reports the maximum and RMS over all vertices. For normal vectors:
 
-$$\Delta n_i = \arccos\left(\hat{n}_i^{(1)} \cdot \hat{n}_i^{(2)}\right)$$
+$$
+\Delta n_i = \arccos\left(\hat{n}_i^{(1)} \cdot \hat{n}_i^{(2)}\right)
+$$
 
 When `--ComputeNormalDist` is active, a normal-distance metric is reported.
 

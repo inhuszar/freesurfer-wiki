@@ -69,15 +69,21 @@ The workflow:
 ## Mathematical Foundations
 
 For each surface vertex $v$, the displacement in surface RAS coordinates:
-$$\boldsymbol{\delta}_v = \mathbf{x}_v - \mathbf{x}_v^{\text{orig}}$$
+$$
+\boldsymbol{\delta}_v = \mathbf{x}_v - \mathbf{x}_v^{\text{orig}}
+$$
 
 Converted to voxel coordinates via the inverse of the vox2ras matrix:
-$$(\delta x_v^{\text{vox}}, \delta y_v^{\text{vox}}, \delta z_v^{\text{vox}}) = M^{-1}_{\text{vox2ras}} \boldsymbol{\delta}_v$$
+$$
+(\delta x_v^{\text{vox}}, \delta y_v^{\text{vox}}, \delta z_v^{\text{vox}}) = M^{-1}_{\text{vox2ras}} \boldsymbol{\delta}_v
+$$
 
 Scattered into the volume at voxel position $(x_v^{\text{vox}}, y_v^{\text{vox}}, z_v^{\text{vox}})$ using trilinear splatting.
 
 Gaps are filled via iterative Laplacian smoothing over `niter` (default: 500) iterations, solving:
-$$\mathbf{w}_{\text{smooth}} \leftarrow \text{smooth}(\mathbf{w}, \text{niter})$$
+$$
+\mathbf{w}_{\text{smooth}} \leftarrow \text{smooth}(\mathbf{w}, \text{niter})
+$$
 
 with zero boundary conditions at the volume edges (when not in `#if 0` code block).
 

@@ -71,7 +71,9 @@ Positional arguments: `<subject_name> <hemisphere>`
 
 The surface placement follows the same energy functional as `mris_make_surfaces` and `mris_mef_surfaces`:
 
-$$E = w_I E_{\text{intensity}} + w_c E_{\text{curvature}} + w_t E_{\text{tangential}} + w_n E_{\text{normal}} + w_r E_{\text{repulsion}}$$
+$$
+E = w_I E_{\text{intensity}} + w_c E_{\text{curvature}} + w_t E_{\text{tangential}} + w_n E_{\text{normal}} + w_r E_{\text{repulsion}}
+$$
 
 Class statistics (WM mean $\mu_w$, WM std $\sigma_w$, GM mean $\mu_g$, GM std $\sigma_g$) are estimated from both echo channels using `MRIcomputeClassStatistics_mef()`, which computes histograms within the `filled.mgz`-defined WM region and its surrounding GM region.
 

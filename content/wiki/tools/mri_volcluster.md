@@ -88,7 +88,9 @@ This tool is the volumetric analogue of surface-based cluster tools and is frequ
 
 **Coordinate reporting:** Cluster peak coordinates are transformed to MNI305 Talairach space via the registration matrix when `--reg` is provided:
 
-$$\begin{pmatrix} x_{\text{MNI}} \\ y_{\text{MNI}} \\ z_{\text{MNI}} \end{pmatrix} = M_{\text{CRS2MNI}} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} x_{\text{MNI}} \\ y_{\text{MNI}} \\ z_{\text{MNI}} \end{pmatrix} = M_{\text{CRS2MNI}} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 **GRF cluster p-values** (when `--fwhm` is provided): Uses `RFprobZClusterSigThresh()` / `RFprobZCluster()` from the `randomfields` library, implementing Gaussian random field theory for the probability of a cluster of given size at a given threshold under the null hypothesis.
 

@@ -91,7 +91,9 @@ positions approximate the outer edge of the cortex. Key properties:
 
 **Cortical thickness** at vertex $v$ is the Euclidean distance between
 corresponding white and pial vertices:
-$$\tau_v = \|\mathbf{x}_v^\text{pial} - \mathbf{x}_v^\text{white}\|$$
+$$
+\tau_v = \|\mathbf{x}_v^\text{pial} - \mathbf{x}_v^\text{white}\|
+$$
 
 This is stored in `?h.thickness` as a [[curv-format]] file.
 
@@ -105,7 +107,9 @@ Used in some area computations (`area.mid`).
 
 [[mris_anatomical_stats]] computes grey matter volume using the TH3 (prism
 integration) method. For each face $(v_1, v_2, v_3)$:
-$$V_\text{prism} = \frac{1}{3}(A^\text{white} \cdot \tau_1 + A^\text{pial} \cdot \tau_2 + A^\text{mid} \cdot \tau_3)$$
+$$
+V_\text{prism} = \frac{1}{3}(A^\text{white} \cdot \tau_1 + A^\text{pial} \cdot \tau_2 + A^\text{mid} \cdot \tau_3)
+$$
 where $A$ is the face area and $\tau$ is the local thickness. This gives a
 more accurate estimate than simple area × thickness.
 
@@ -133,7 +137,9 @@ local area and shape. Key properties:
   without the folding pattern obscuring interior regions
 - The signed sulcal depth map `?h.sulc` records how much each vertex moved
   during inflation, serving as a proxy for sulcal depth:
-  $$s_v = \text{sign}(\kappa_v) \cdot \|\mathbf{x}_v^\text{inflated} - \mathbf{x}_v^\text{white}\|$$
+$$
+  s_v = \text{sign}(\kappa_v) \cdot \|\mathbf{x}_v^\text{inflated} - \mathbf{x}_v^\text{white}\|
+$$
   where negative $s_v$ indicates sulcal walls (vertices that moved outward)
   and positive $s_v$ indicates gyral crowns (vertices that moved less)
 
@@ -154,7 +160,9 @@ unit sphere that minimises metric distortion. Key properties:
 - This surface is the input to [[mris_register]] for cross-subject alignment
 
 The metric distortion energy functional:
-$$E_\text{dist} = l_\text{dist} \sum_{(i,j)} (e_{ij} - e_{ij}^0)^2 + l_\text{area} \sum_f (A_f - A_f^0)^2$$
+$$
+E_\text{dist} = l_\text{dist} \sum_{(i,j)} (e_{ij} - e_{ij}^0)^2 + l_\text{area} \sum_f (A_f - A_f^0)^2
+$$
 where $e_{ij}$ are edge lengths and $A_f$ face areas, and superscript $0$
 denotes the reference (inflated) values. See [[mris_sphere]] for full details.
 
@@ -164,7 +172,9 @@ The sphere after registration to the group-average atlas (Buckner40 atlas by
 default). [[mris_register]] aligns the subject's folding pattern (as encoded in
 `?h.sulc` and `?h.curv` on the inflated surface) to the atlas folding pattern
 by optimising:
-$$E_\text{reg} = l_\text{corr} \cdot E_\text{correlation} + l_\text{dist} \cdot E_\text{distortion} + l_\text{area} \cdot E_\text{area}$$
+$$
+E_\text{reg} = l_\text{corr} \cdot E_\text{correlation} + l_\text{dist} \cdot E_\text{distortion} + l_\text{area} \cdot E_\text{area}
+$$
 
 Key properties:
 - Used by `mri_surf2surf` and [[mris_preproc]] to resample between subjects

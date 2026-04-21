@@ -61,7 +61,9 @@ The MINMAX filter is a nonlinear operator designed to sharpen tissue boundaries.
 
 **Gaussian filter:**
 
-$$I_\text{out}(v) = (I * G_\sigma)(v)$$
+$$
+I_\text{out}(v) = (I * G_\sigma)(v)
+$$
 
 where $G_\sigma$ is a 1-D separable Gaussian kernel with standard deviation $\sigma$ (default: 2.0).
 

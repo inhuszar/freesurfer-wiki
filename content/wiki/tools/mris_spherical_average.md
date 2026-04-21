@@ -68,14 +68,18 @@ The tool is used in two main contexts:
 
 For each subject $s$ and each vertex $v$ on the icosahedral template, the subject's data value is obtained by nearest-neighbor lookup on the subject's registered sphere (using `MRIS_HASH_TABLE` for efficient lookup):
 
-$$\bar{D}(v) = \frac{1}{N} \sum_{s=1}^{N} D_s(\text{nn}(v, \text{sphere}_s))$$
+$$
+\bar{D}(v) = \frac{1}{N} \sum_{s=1}^{N} D_s(\text{nn}(v, \text{sphere}_s))
+$$
 
 where $\text{nn}(v, \text{sphere}_s)$ is the nearest neighbor on subject $s$'s sphere to the template vertex $v$.
 
 **For `label` averaging:** A label is treated as a binary mask; the average gives the fraction of subjects with that label at each vertex.
 
 **For `logodds` averaging:** The per-vertex log-odds spatial prior is computed as:
-$$\text{logodds}(v) = \log\frac{p(v)}{1-p(v)}$$
+$$
+\text{logodds}(v) = \log\frac{p(v)}{1-p(v)}
+$$
 where $p(v)$ is the fraction of subjects with the label at vertex $v$. This is used by [[mris_ca_label]] as a spatial prior.
 
 **Erode/dilate:** Before averaging, labels can be morphologically eroded or dilated.

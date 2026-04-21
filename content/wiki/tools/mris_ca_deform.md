@@ -72,7 +72,9 @@ The deformation minimises an energy functional combining:
 2. **Gradient term** $E_{\text{grad}}$: alignment to intensity gradients.
 3. **Internal smoothness** term enforced by `INTEGRATION_PARMS`.
 
-$$E_{\text{total}} = w_{\text{LL}} E_{\text{LL}} + w_{\text{grad}} E_{\text{grad}} + E_{\text{smooth}}$$
+$$
+E_{\text{total}} = w_{\text{LL}} E_{\text{LL}} + w_{\text{grad}} E_{\text{grad}} + E_{\text{smooth}}
+$$
 
 The GCA model provides a probabilistic map of expected intensities near each label boundary. The GCAB (Gaussian Classifier Atlas Boundary) extension adds additional boundary-specific priors.
 

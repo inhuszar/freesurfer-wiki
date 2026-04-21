@@ -63,7 +63,9 @@ Conventional volume-based cortical analysis assigns each voxel entirely to one t
 
 For each voxel, the partial volume fraction $f_i$ is estimated as the proportion of the voxel volume occupied by the cortical ribbon:
 
-$$f_i = \frac{V_i \cap \text{ribbon}}{V_i}$$
+$$
+f_i = \frac{V_i \cap \text{ribbon}}{V_i}
+$$
 
 where $V_i$ is the voxel volume and `ribbon` is the region between the inner (white) and outer (pial) surfaces.
 

@@ -88,7 +88,9 @@ Output files include:
 
 The edge cost between adjacent vertices $i$ and $j$ is:
 
-$$p_{ij} = w_d \cdot d_{ij} + w_c \cdot c_i + w_h \cdot h_i + w_{dc} \cdot d_{ij} c_i + w_{dh} \cdot d_{ij} h_i + w_{ch} \cdot c_i h_i + w_{dch} \cdot d_{ij} c_i h_i + w_{dir} \cdot \text{dir}_{ij}$$
+$$
+p_{ij} = w_d \cdot d_{ij} + w_c \cdot c_i + w_h \cdot h_i + w_{dc} \cdot d_{ij} c_i + w_{dh} \cdot d_{ij} h_i + w_{ch} \cdot c_i h_i + w_{dch} \cdot d_{ij} c_i h_i + w_{dir} \cdot \text{dir}_{ij}
+$$
 
 where:
 - $d_{ij}$ — Euclidean distance between vertices $i$ and $j$
@@ -101,7 +103,9 @@ An optional non-linear transition penalty can be applied when the curvature sign
 
 Dijkstra's algorithm then finds:
 
-$$\text{path}^* = \arg\min_{\text{path}} \sum_{(i,j) \in \text{path}} p_{ij}$$
+$$
+\text{path}^* = \arg\min_{\text{path}} \sum_{(i,j) \in \text{path}} p_{ij}
+$$
 
 ## Configuration Options
 

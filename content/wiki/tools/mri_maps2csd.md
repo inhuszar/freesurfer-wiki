@@ -69,7 +69,9 @@ For each input map $f$, the tool:
 
 The CSD is an empirical distribution:
 
-$$\hat{P}(\text{max cluster size} \geq k) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}[\text{maxcluster}_i \geq k]$$
+$$
+\hat{P}(\text{max cluster size} \geq k) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}[\text{maxcluster}_i \geq k]
+$$
 
 This distribution is used to determine cluster-level p-values: a cluster of size $k$ in the real data is significant at level $\alpha$ if $\hat{P}(\text{max cluster size} \geq k) \leq \alpha$.
 

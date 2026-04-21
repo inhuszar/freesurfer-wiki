@@ -62,7 +62,9 @@ For each voxel $v$ with neighborhood $\mathcal{N}(v)$ of size $W^3$ (default $W 
 
 2. Select the normal $\hat{n}^*$ that minimizes the within-plane variance:
 
-$$\hat{n}^* = \arg\min_{\hat{n}} \text{Var}\{I(v') : v' \in \mathcal{N}(v) \cap \text{plane}(\hat{n})\}$$
+$$
+\hat{n}^* = \arg\min_{\hat{n}} \text{Var}\{I(v') : v' \in \mathcal{N}(v) \cap \text{plane}(\hat{n})\}
+$$
 
 3. The selected $\hat{n}^*$ is stored as the POLV normal for voxel $v$.
 

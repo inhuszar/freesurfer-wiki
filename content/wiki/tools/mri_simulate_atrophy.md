@@ -68,10 +68,14 @@ The simulation works by modifying T1 intensities at the boundary of a target lab
 The simulation darkens boundary voxels of the target structure by `atrophy_pct` (default: 5%):
 
 For each voxel at the boundary between the target label and neighboring border labels:
-$$I_{\text{out}}(x) = I_{\text{in}}(x) \cdot (1 - \text{atrophy\_pct})$$
+$$
+I_{\text{out}}(x) = I_{\text{in}}(x) \cdot (1 - \text{atrophy\_pct})
+$$
 
 Gaussian noise with zero mean and standard deviation `noise_sigma` (default: 4 intensity units) is then added to the entire brain:
-$$I_{\text{final}} = I_{\text{out}} + \mathcal{N}(0, \sigma^2_n)$$
+$$
+I_{\text{final}} = I_{\text{out}} + \mathcal{N}(0, \sigma^2_n)
+$$
 
 where $\sigma_n = 4$ by default. The noise is masked to exclude non-brain voxels (using `MRImaskZero`).
 

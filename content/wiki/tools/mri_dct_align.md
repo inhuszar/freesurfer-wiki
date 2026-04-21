@@ -68,12 +68,16 @@ Optional:
 
 The deformation is represented as a DCT basis expansion:
 
-$$d(x) = \sum_{k=0}^{N} c_k \phi_k(x)$$
+$$
+d(x) = \sum_{k=0}^{N} c_k \phi_k(x)
+$$
 
 where $\phi_k$ are DCT basis functions and $c_k$ are the coefficients optimized. The number of coefficients `Gncoef` defaults to 5.
 
 **Cost function:** sum of squared intensity differences between the smoothed source (warped) and target volumes:
-$$E = \sum_{\mathbf{x}} \left[ I_\text{src}(T(\mathbf{x})) - I_\text{tgt}(\mathbf{x}) \right]^2$$
+$$
+E = \sum_{\mathbf{x}} \left[ I_\text{src}(T(\mathbf{x})) - I_\text{tgt}(\mathbf{x}) \right]^2
+$$
 
 with Gaussian smoothing applied at each scale (sigma decreasing from initial value to 0.25).
 

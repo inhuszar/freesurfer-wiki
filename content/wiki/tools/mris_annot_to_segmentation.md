@@ -66,11 +66,15 @@ It is a lower-level alternative to [[mri_aparc2aseg]], which does the same job b
 
 For each annotated vertex $v$, the tool finds the direction vector from the current (white) surface position $(x_w, y_w, z_w)$ to the pial position $(x_p, y_p, z_p)$:
 
-$$\mathbf{d} = \frac{(x_p - x_w, \; y_p - y_w, \; z_p - z_w)}{\|(x_p - x_w, y_p - y_w, z_p - z_w)\|}$$
+$$
+\mathbf{d} = \frac{(x_p - x_w, \; y_p - y_w, \; z_p - z_w)}{\|(x_p - x_w, y_p - y_w, z_p - z_w)\|}
+$$
 
 It then steps along this direction from $d=0$ to $d=\|\mathbf{pial} - \mathbf{white}\|$ in increments of 0.1:
 
-$$(x, y, z)_d = (x_w, y_w, z_w) + d \cdot \mathbf{d}$$
+$$
+(x, y, z)_d = (x_w, y_w, z_w) + d \cdot \mathbf{d}
+$$
 
 Each 3D point is converted to voxel indices via `MRIsurfaceRASToVoxel` (or `MRIworldToVoxel` if `useRealRAS` is set) and the voxel is assigned the structure index.
 

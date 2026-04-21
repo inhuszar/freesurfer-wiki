@@ -77,7 +77,9 @@ All outputs are written to an output directory:
 
 For a spoiled gradient echo (FLASH) acquisition with flip angle $\alpha$, TR, and TE, the signal is modelled by the Ernst equation:
 
-$$S = S_0 \cdot PD \cdot \frac{\sin\alpha (1 - e^{-TR/T_1})}{1 - \cos\alpha \cdot e^{-TR/T_1}} \cdot e^{-TE/T_2^*}$$
+$$
+S = S_0 \cdot PD \cdot \frac{\sin\alpha (1 - e^{-TR/T_1})}{1 - \cos\alpha \cdot e^{-TR/T_1}} \cdot e^{-TE/T_2^*}
+$$
 
 where $S_0$ is a scanner gain factor, $T_1$ is the longitudinal relaxation time, and $T_2^*$ is the effective transverse relaxation time (often neglected for short TE).
 
@@ -85,7 +87,9 @@ Given measurements $S_1, \ldots, S_N$ at flip angles $\alpha_1, \ldots, \alpha_N
 
 Simultaneous rigid-body registration minimizes the overall objective:
 
-$$E = \sum_{i=1}^N SSE(S_i, \hat{S}_i(T_1, PD, T_i))$$
+$$
+E = \sum_{i=1}^N SSE(S_i, \hat{S}_i(T_1, PD, T_i))
+$$
 
 where $T_i$ is the per-volume rigid transform, using gradient descent with momentum (`base_dt=1e-6`, `momentum=0.9`).
 

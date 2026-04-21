@@ -68,7 +68,9 @@ Surface-based SVM classification allows automated labeling of cortical regions b
 
 An SVM classifier learns a decision boundary in a high-dimensional feature space:
 
-$$f(\mathbf{x}) = \text{sign}\!\left(\sum_i \alpha_i y_i K(\mathbf{x}_i, \mathbf{x}) + b\right)$$
+$$
+f(\mathbf{x}) = \text{sign}\!\left(\sum_i \alpha_i y_i K(\mathbf{x}_i, \mathbf{x}) + b\right)
+$$
 
 where $K(\cdot, \cdot)$ is the kernel function (linear, polynomial degree `poly_d`, or RBF with `rbf_sigma`), $\alpha_i$ are the support vector weights, $y_i \in \{-1, +1\}$ are training labels, and $b$ is the bias.
 

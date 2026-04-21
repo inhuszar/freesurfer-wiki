@@ -63,9 +63,13 @@ This tool provides a per-subject summary of the relationship between cortical fo
 
 Within the specified label (or all cortical vertices if no label), the tool computes:
 
-$$\bar{t} = \frac{1}{N} \sum_{v \in \text{label}} t_v, \quad \sigma_t^2 = \frac{1}{N-1} \sum_{v \in \text{label}} (t_v - \bar{t})^2$$
+$$
+\bar{t} = \frac{1}{N} \sum_{v \in \text{label}} t_v, \quad \sigma_t^2 = \frac{1}{N-1} \sum_{v \in \text{label}} (t_v - \bar{t})^2
+$$
 
-$$\bar{w} = \frac{1}{N} \sum_{v \in \text{label}} w_v, \quad \sigma_w^2 = \frac{1}{N-1} \sum_{v \in \text{label}} (w_v - \bar{w})^2$$
+$$
+\bar{w} = \frac{1}{N} \sum_{v \in \text{label}} w_v, \quad \sigma_w^2 = \frac{1}{N-1} \sum_{v \in \text{label}} (w_v - \bar{w})^2
+$$
 
 where $t_v$ is the thickness and $w_v$ is the w-value at vertex $v$.
 

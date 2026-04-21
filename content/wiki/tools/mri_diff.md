@@ -63,7 +63,9 @@ A key feature is the distinct exit status per difference type, allowing scripts 
 
 **Pixel difference check:**
 
-$$\text{differs} = \exists (x,y,z,f) : |V_1(x,y,z,f) - V_2(x,y,z,f)| > \text{thresh}$$
+$$
+\text{differs} = \exists (x,y,z,f) : |V_1(x,y,z,f) - V_2(x,y,z,f)| > \text{thresh}
+$$
 
 where `thresh` defaults to 0 (exact comparison) and can be raised with `--thresh`.
 

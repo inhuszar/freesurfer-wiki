@@ -67,13 +67,19 @@ Per subject (read from `$SUBJECTS_DIR/<subject>/mri/`):
 
 For each subject and each label $k$, the tool accumulates:
 
-$$\bar{T1}_k = \frac{1}{N_k} \sum_{v \in k} T1(v)$$
-$$\bar{PD}_k = \frac{1}{N_k} \sum_{v \in k} PD(v)$$
+$$
+\bar{T1}_k = \frac{1}{N_k} \sum_{v \in k} T1(v)
+$$
+$$
+\bar{PD}_k = \frac{1}{N_k} \sum_{v \in k} PD(v)
+$$
 
 via `GCAhistogramTissueStatistics()`. After processing all subjects, `GCAnormalizeTissueStatistics()` normalizes the accumulated sums by the training count.
 
 For FLASH sequences, the signal model at each voxel enables computing expected intensities:
-$$S(v) = M_0 \cdot \sin\alpha \cdot \frac{1 - e^{-TR/T1}}{1 - \cos\alpha \cdot e^{-TR/T1}} \cdot e^{-TE/T2^*}$$
+$$
+S(v) = M_0 \cdot \sin\alpha \cdot \frac{1 - e^{-TR/T1}}{1 - \cos\alpha \cdot e^{-TR/T1}} \cdot e^{-TE/T2^*}
+$$
 
 where $M_0 \propto PD$.
 

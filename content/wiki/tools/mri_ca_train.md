@@ -74,16 +74,24 @@ Per subject (read from `<subjects_dir>/<subject>/mri/`):
 
 The GCA models the joint probability at each atlas location $\mathbf{x}_p$ as:
 
-$$p(\mathbf{I}, k | \mathbf{x}_p) = p(k | \mathbf{x}_p) \cdot \prod_{c=1}^{C} p(I_c | k, \mathbf{x}_p)$$
+$$
+p(\mathbf{I}, k | \mathbf{x}_p) = p(k | \mathbf{x}_p) \cdot \prod_{c=1}^{C} p(I_c | k, \mathbf{x}_p)
+$$
 
 where $C$ is the number of input image channels.
 
 **Prior estimation:**
-$$\hat{p}(k | \mathbf{x}_p) = \frac{\#\{v : k(v) = k, v \in \text{node}(\mathbf{x}_p)\}}{\#\{v : v \in \text{node}(\mathbf{x}_p)\}}$$
+$$
+\hat{p}(k | \mathbf{x}_p) = \frac{\#\{v : k(v) = k, v \in \text{node}(\mathbf{x}_p)\}}{\#\{v : v \in \text{node}(\mathbf{x}_p)\}}
+$$
 
 **Conditional intensity Gaussian:**
-$$\hat{\mu}_k(\mathbf{x}_p) = \frac{1}{N_k(\mathbf{x}_p)} \sum_{v \in k, \text{node}(\mathbf{x}_p)} I(v)$$
-$$\hat{\sigma}_k^2(\mathbf{x}_p) = \frac{1}{N_k(\mathbf{x}_p)} \sum_{v \in k, \text{node}(\mathbf{x}_p)} \left(I(v) - \hat{\mu}_k\right)^2$$
+$$
+\hat{\mu}_k(\mathbf{x}_p) = \frac{1}{N_k(\mathbf{x}_p)} \sum_{v \in k, \text{node}(\mathbf{x}_p)} I(v)
+$$
+$$
+\hat{\sigma}_k^2(\mathbf{x}_p) = \frac{1}{N_k(\mathbf{x}_p)} \sum_{v \in k, \text{node}(\mathbf{x}_p)} \left(I(v) - \hat{\mu}_k\right)^2
+$$
 
 The dual-resolution design (node_spacing for conditional densities, prior_spacing for priors) allows finer spatial resolution for priors than for intensity models.
 

@@ -60,7 +60,9 @@ Standard GCA models represent each tissue class with a Gaussian intensity distri
 
 The GCAB model augments the GCA with boundary deformation statistics. For each pair of adjacent labels, the model learns the distribution of boundary displacement vectors:
 
-$$P(\delta | \text{label}_A, \text{label}_B) = \mathcal{N}(\mu_\delta, \Sigma_\delta)$$
+$$
+P(\delta | \text{label}_A, \text{label}_B) = \mathcal{N}(\mu_\delta, \Sigma_\delta)
+$$
 
 where $\delta$ is the boundary displacement from the GCA-predicted position.
 

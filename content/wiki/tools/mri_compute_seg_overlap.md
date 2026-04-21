@@ -72,18 +72,26 @@ Optional log files (all append-mode):
 Let $A_i$ = voxels of label $i$ in seg1, $B_i$ = same in seg2.
 
 **Jaccard:**
-$$J_i = \frac{|A_i \cap B_i|}{|A_i \cup B_i| + 10^{-10}}$$
+$$
+J_i = \frac{|A_i \cap B_i|}{|A_i \cup B_i| + 10^{-10}}
+$$
 
 **Dice:**
-$$D_i = \frac{2 |A_i \cap B_i|}{|A_i| + |B_i| + 10^{-10}}$$
+$$
+D_i = \frac{2 |A_i \cap B_i|}{|A_i| + |B_i| + 10^{-10}}
+$$
 
 A small epsilon ($10^{-10}$) prevents division by zero when both volumes contain zero voxels for a given label.
 
 **Overall subcortical Dice** (18 structures):
-$$D_\text{subcort} = \frac{2 \cdot \text{subcor\_overlap}}{\text{subcor\_vol1} + \text{subcor\_vol2}}$$
+$$
+D_\text{subcort} = \frac{2 \cdot \text{subcor\_overlap}}{\text{subcor\_vol1} + \text{subcor\_vol2}}
+$$
 
 **True positive rate (TPR)** and **false discovery rate (FDR)** in `-dice` mode:
-$$\text{TPR} = \frac{|A \cap B|}{|A|} \qquad \text{FDR} = \frac{|B \setminus A|}{|B|}$$
+$$
+\text{TPR} = \frac{|A \cap B|}{|A|} \qquad \text{FDR} = \frac{|B \setminus A|}{|B|}
+$$
 
 ## Configuration Options
 

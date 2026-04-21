@@ -83,11 +83,15 @@ Outputs are organized per-subject in `$ODMRI_DIR/<subject>/dmri.ac/<length>/`:
 
 **AnatomiCuts** uses a normalized cuts spectral clustering algorithm on a graph of streamlines. Streamlines are represented as sequences of anatomical label pairs at $n$ equidistant points. The similarity between streamlines $i$ and $j$ is computed using a membership function (Euclidean, Hausdorff, or label-based entropy/intersection):
 
-$$W_{ij} = \exp\!\left(-\frac{d(s_i, s_j)^2}{\sigma^2}\right)$$
+$$
+W_{ij} = \exp\!\left(-\frac{d(s_i, s_j)^2}{\sigma^2}\right)
+$$
 
 The normalized cuts criterion partitions the graph to minimize the cut cost normalized by association:
 
-$$\text{Ncut}(A, B) = \frac{\text{cut}(A,B)}{\text{assoc}(A,V)} + \frac{\text{cut}(A,B)}{\text{assoc}(B,V)}$$
+$$
+\text{Ncut}(A, B) = \frac{\text{cut}(A,B)}{\text{assoc}(A,V)} + \frac{\text{cut}(A,B)}{\text{assoc}(B,V)}
+$$
 
 **Cross-subject correspondence** is solved as an assignment problem using the Hungarian (Kuhn-Munkres) algorithm, minimizing total distance between cluster representatives across subjects.
 

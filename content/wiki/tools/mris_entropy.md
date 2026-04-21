@@ -57,11 +57,15 @@ The tool reads the original surface (`orig`) from `$SUBJECTS_DIR/<subj>/surf/<he
 
 Let $w_i$ be the absolute value of the overlay at vertex $i$. The L2 normalised weight is:
 
-$$p_i = \frac{w_i}{\|w\|_2} = \frac{w_i}{\sqrt{\sum_j w_j^2}}$$
+$$
+p_i = \frac{w_i}{\|w\|_2} = \frac{w_i}{\sqrt{\sum_j w_j^2}}
+$$
 
 The entropy is then:
 
-$$H = -\sum_{i} p_i \log p_i$$
+$$
+H = -\sum_{i} p_i \log p_i
+$$
 
 > [!math] Normalisation convention
 > The tool first takes the absolute value of all vertex values (`v->val = fabs(v->val)`), then normalises by the L2 norm (root-sum-of-squares) rather than L1 norm. This means the entropy reflects the spread of squared overlay magnitudes rather than a standard probability-mass entropy.

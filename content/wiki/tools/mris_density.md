@@ -56,7 +56,9 @@ The tool provides a surface-registered measure of local volumetric density near 
 
 For each vertex $v_i$ with position $(x_i, y_i, z_i)$, the tool constructs a spherical neighbourhood of radius $r$ at resolution $\delta$ and counts the number of voxels $N_i$ that lie interior to the surface:
 
-$$D(v_i) = N_i(\{x \in \mathbb{R}^3 : \|x - v_i\| \le r,\ x\ \text{interior to surface}\})$$
+$$
+D(v_i) = N_i(\{x \in \mathbb{R}^3 : \|x - v_i\| \le r,\ x\ \text{interior to surface}\})
+$$
 
 The intermediate density volume is computed at the resolution specified by `-R` (default $1/8$ mm), allowing sub-voxel precision relative to the input volume grid.
 

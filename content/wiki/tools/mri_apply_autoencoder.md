@@ -63,7 +63,9 @@ Stacked autoencoders (SAEs) are deep unsupervised neural networks that learn com
 
 A stacked autoencoder consists of $L$ layers. Each layer $l$ implements:
 
-$$\mathbf{h}^{(l)} = \sigma\left(W^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}\right)$$
+$$
+\mathbf{h}^{(l)} = \sigma\left(W^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}\right)
+$$
 
 where $\sigma$ is an activation function (typically sigmoid), $W^{(l)}$ is the weight matrix, and $\mathbf{b}^{(l)}$ is the bias. The deepest encoder layer $\mathbf{h}^{(L)}$ provides the feature representation.
 

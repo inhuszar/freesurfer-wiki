@@ -57,7 +57,9 @@ Multiple input files are accepted; they are multiplied in order.
 
 Given $N$ input matrices $M_1, M_2, \ldots, M_N$ (with optional inversion $M_i^{-1}$ for selected matrices), the result is:
 
-$$R = M_1 \cdot M_2 \cdot \cdots \cdot M_N$$
+$$
+R = M_1 \cdot M_2 \cdot \cdots \cdot M_N
+$$
 
 Matrix inversion uses the standard 4×4 matrix inverse (`MatrixInverse()`). All arithmetic is done in double precision.
 

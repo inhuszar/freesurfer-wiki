@@ -61,13 +61,17 @@ The number of input volumes and transforms is inferred from the argument count: 
 
 The log-likelihood under the GCA model is:
 
-$$\log P(\mathbf{I} | \text{GCA}, T) = \sum_{\mathbf{x}} \log P(I(\mathbf{x}) | \text{GCA}(T(\mathbf{x})))$$
+$$
+\log P(\mathbf{I} | \text{GCA}, T) = \sum_{\mathbf{x}} \log P(I(\mathbf{x}) | \text{GCA}(T(\mathbf{x})))
+$$
 
 where $T(\mathbf{x})$ maps from image voxel space to atlas space, and $P(I | \text{GCA}(\mathbf{x}))$ is the Gaussian mixture probability of the observed intensity given the atlas label distributions at that atlas location.
 
 For multi-input (FLASH) data, the joint likelihood over all input channels is used:
 
-$$\log P(\mathbf{I}_1, \ldots, \mathbf{I}_K | \text{GCA}, T) = \sum_\mathbf{x} \log P\left((I_1(\mathbf{x}), \ldots, I_K(\mathbf{x})) \middle| \text{GCA}(T(\mathbf{x}))\right)$$
+$$
+\log P(\mathbf{I}_1, \ldots, \mathbf{I}_K | \text{GCA}, T) = \sum_\mathbf{x} \log P\left((I_1(\mathbf{x}), \ldots, I_K(\mathbf{x})) \middle| \text{GCA}(T(\mathbf{x}))\right)
+$$
 
 ## Configuration Options
 

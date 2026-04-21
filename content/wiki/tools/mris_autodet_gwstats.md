@@ -78,7 +78,9 @@ The `AutoDetGWStats` class samples intensity values from the MRI volume near the
 
 These are used in `MRIScomputeBorderValues()` to define the target intensity for each surface vertex during deformation. The boundary placement target for each vertex is approximately:
 
-$$t(v) = \mu_{\text{WM}} - k \cdot (\mu_{\text{WM}} - \mu_{\text{GM}})$$
+$$
+t(v) = \mu_{\text{WM}} - k \cdot (\mu_{\text{WM}} - \mu_{\text{GM}})
+$$
 
 where $k$ is a fractional offset controlling where along the WM-GM gradient the surface is placed.
 

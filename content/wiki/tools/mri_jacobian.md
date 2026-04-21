@@ -64,13 +64,17 @@ The input is typically a GCAM (`.m3z`) morph file produced by nonlinear registra
 
 For a deformation field $\phi: \mathbb{R}^3 \to \mathbb{R}^3$, the Jacobian matrix at point $\mathbf{x}$ is:
 
-$$J(\mathbf{x}) = \frac{\partial \phi}{\partial \mathbf{x}} = \begin{pmatrix} \frac{\partial \phi_1}{\partial x_1} & \frac{\partial \phi_1}{\partial x_2} & \frac{\partial \phi_1}{\partial x_3} \\ \frac{\partial \phi_2}{\partial x_1} & \cdots & \cdots \\ \frac{\partial \phi_3}{\partial x_1} & \cdots & \frac{\partial \phi_3}{\partial x_3} \end{pmatrix}$$
+$$
+J(\mathbf{x}) = \frac{\partial \phi}{\partial \mathbf{x}} = \begin{pmatrix} \frac{\partial \phi_1}{\partial x_1} & \frac{\partial \phi_1}{\partial x_2} & \frac{\partial \phi_1}{\partial x_3} \\ \frac{\partial \phi_2}{\partial x_1} & \cdots & \cdots \\ \frac{\partial \phi_3}{\partial x_1} & \cdots & \frac{\partial \phi_3}{\partial x_3} \end{pmatrix}
+$$
 
 The Jacobian determinant $\det(J(\mathbf{x}))$ measures local volume change.
 
 In the GCAM representation, local volume changes are computed as the ratio of current voxel areas to original voxel areas:
 
-$$J_\text{det} = \frac{A_\text{current}}{A_\text{original}}$$
+$$
+J_\text{det} = \frac{A_\text{current}}{A_\text{original}}
+$$
 
 where areas are the metric-space areas stored in the GCAM nodes.
 
@@ -78,13 +82,17 @@ The computation (`GCAMmorphFieldFromAtlas` or `GCAMwriteMRI` with `GCAM_AREA`) e
 
 **Log-Jacobian (with `-log`):**
 
-$$\log J = \log_{10}\left(\frac{A_\text{current}}{A_\text{original}}\right)$$
+$$
+\log J = \log_{10}\left(\frac{A_\text{current}}{A_\text{original}}\right)
+$$
 
 **Smoothing:** If `-sigma <s>` is specified, a Gaussian kernel with standard deviation $s$ is convolved with the Jacobian map before writing.
 
 **LTA correction:** If a linear transform is provided via `-lta`, the Jacobian determinant is divided by the linear part of the transform's determinant:
 
-$$J_\text{corrected} = \frac{J}{\det(M_L)}$$
+$$
+J_\text{corrected} = \frac{J}{\det(M_L)}
+$$
 
 This isolates the nonlinear component of volume change.
 

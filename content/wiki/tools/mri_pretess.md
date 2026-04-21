@@ -109,7 +109,9 @@ $(i+1, j+1, k)$ are both labelled, but neither $(i, j+1, k)$ nor
 $(i+1, j, k)$ is labelled. The tool resolves this by adding the neighbour with
 the higher intensity in `normvol` to the labelled set:
 
-$$v^* = \arg\max_{v \in \{(i,j+1,k),\, (i+1,j,k)\}} I(v)$$
+$$
+v^* = \arg\max_{v \in \{(i,j+1,k),\, (i+1,j,k)\}} I(v)
+$$
 
 This is applied iteratively in all four diagonal directions of each cardinal
 plane (XY, XZ, YZ) until no modifications remain (`nfound == 0`).

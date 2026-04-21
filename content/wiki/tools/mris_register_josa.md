@@ -75,13 +75,17 @@ Alternatively, individual files can be specified:
 
 SphereMorph learns a registration function:
 
-$$\phi^* = f_\theta(\mathbf{x}_{subject})$$
+$$
+\phi^* = f_\theta(\mathbf{x}_{subject})
+$$
 
 where $\mathbf{x}_{subject}$ is a feature vector derived from the subject's sulcal depth, curvature, and mean curvature maps projected onto the sphere, and $\phi^*$ is the deformation field on $S^2$.
 
 The network $f_\theta$ is a convolutional architecture trained to minimise a similarity loss (e.g., normalised cross-correlation between warped subject features and atlas features) plus a regularisation term:
 
-$$L = L_{similarity}(\phi \circ x, x_{atlas}) + \lambda L_{reg}(\phi)$$
+$$
+L = L_{similarity}(\phi \circ x, x_{atlas}) + \lambda L_{reg}(\phi)
+$$
 
 The trained model parameters are stored in the `.h5` files. Registration at inference time is a single forward pass through the network.
 

@@ -74,9 +74,13 @@ The decorrelation operates as follows:
 1. Read `<var_curv>` into per-vertex values (`MRISreadCurvatureFile` + `MRIScopyCurvatureToValues`).
 2. Read `<in_curv>` into per-vertex curvature values.
 3. Compute the Pearson correlation coefficient $r$ between the curvature and value arrays across all vertices:
-$$r = \frac{\sum_i (c_i - \bar{c})(v_i - \bar{v})}{\sqrt{\sum_i (c_i - \bar{c})^2 \sum_i (v_i - \bar{v})^2}}$$
+$$
+r = \frac{\sum_i (c_i - \bar{c})(v_i - \bar{v})}{\sqrt{\sum_i (c_i - \bar{c})^2 \sum_i (v_i - \bar{v})^2}}
+$$
 4. Remove the variance component: for each vertex, compute the residual:
-$$c_i' = c_i - r \cdot \frac{\sigma_c}{\sigma_v} \cdot v_i$$
+$$
+c_i' = c_i - r \cdot \frac{\sigma_c}{\sigma_v} \cdot v_i
+$$
 (or equivalent linear regression residual — exact formula from `MRISremoveValueVarianceFromCurvature()` in `mrisurf.c` should be verified).
 5. Optionally smooth the residuals (`MRISaverageCurvatures(mris, navgs)`).
 6. Write residuals to `<out_curv>`.

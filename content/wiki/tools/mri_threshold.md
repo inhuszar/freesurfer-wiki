@@ -61,13 +61,19 @@ mri_threshold [options] <in_vol> <thresh> <out_vol>
 ## Mathematical Foundations
 
 Default (lower threshold):
-$$\text{out}(v) = \begin{cases} \text{in}(v) & \text{if } \text{in}(v) \geq \text{thresh} \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{out}(v) = \begin{cases} \text{in}(v) & \text{if } \text{in}(v) \geq \text{thresh} \\ 0 & \text{otherwise} \end{cases}
+$$
 
 Upper threshold (`-u`):
-$$\text{out}(v) = \begin{cases} \text{in}(v) & \text{if } \text{in}(v) \leq \text{thresh} \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{out}(v) = \begin{cases} \text{in}(v) & \text{if } \text{in}(v) \leq \text{thresh} \\ 0 & \text{otherwise} \end{cases}
+$$
 
 With binarization (`-b bval`):
-$$\text{out}(v) = \begin{cases} bval & \text{if } \text{in}(v) \geq \text{thresh} \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{out}(v) = \begin{cases} bval & \text{if } \text{in}(v) \geq \text{thresh} \\ 0 & \text{otherwise} \end{cases}
+$$
 
 Multi-frame logic: when no specific frame is selected, if **any** frame has a value below threshold at a voxel, that voxel is rejected (set to zero) in **all** frames. This is an all-frames intersection semantics.
 

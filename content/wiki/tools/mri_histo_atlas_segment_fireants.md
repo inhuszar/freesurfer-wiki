@@ -81,7 +81,9 @@ Output files are written to the specified output directory and include:
 
 The segmentation uses a generative Bayesian model:
 
-$$p(\text{label} \mid \mathbf{y}) \propto p(\mathbf{y} \mid \text{label}) \cdot p(\text{label} \mid \text{atlas registration})$$
+$$
+p(\text{label} \mid \mathbf{y}) \propto p(\mathbf{y} \mid \text{label}) \cdot p(\text{label} \mid \text{atlas registration})
+$$
 
 where:
 - $p(\text{label} \mid \text{atlas registration})$ is the atlas prior (deformed to the subject's space via FireANTs registration)
@@ -91,7 +93,9 @@ The bias field is parameterized as a polynomial in spatial coordinates (polynomi
 
 The cost function for bias field estimation combines intensity likelihood and label posterior:
 
-$$\mathcal{L}(\theta) = \sum_\text{voxels} \log\left[\sum_l p(l \mid \text{atlas}) \cdot \mathcal{N}(y \cdot e^{B_\theta} \mid \mu_l, \sigma_l^2) \cdot e^{B_\theta}\right]$$
+$$
+\mathcal{L}(\theta) = \sum_\text{voxels} \log\left[\sum_l p(l \mid \text{atlas}) \cdot \mathcal{N}(y \cdot e^{B_\theta} \mid \mu_l, \sigma_l^2) \cdot e^{B_\theta}\right]
+$$
 
 where $B_\theta$ is the bias field parameterized by $\theta$.
 

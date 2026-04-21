@@ -60,13 +60,17 @@ Written to an output directory:
 
 The multivariate GLM models:
 
-$$\mathbf{Y} = \mathbf{X}\mathbf{B} + \mathbf{E}$$
+$$
+\mathbf{Y} = \mathbf{X}\mathbf{B} + \mathbf{E}
+$$
 
 where $\mathbf{Y}$ is $n \times q$ (observations × response variables), $\mathbf{X}$ is $n \times p$ (design matrix), $\mathbf{B}$ is $p \times q$ (coefficients), and $\mathbf{E}$ is $n \times q$ (residuals).
 
 The parameter estimates are:
 
-$$\hat{\mathbf{B}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$$
+$$
+\hat{\mathbf{B}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}
+$$
 
 The `fMRIarrayToMatrix()` function converts a list of MRI frames into the $\mathbf{Y}$ matrix.
 

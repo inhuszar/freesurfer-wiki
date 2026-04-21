@@ -70,7 +70,9 @@ Default: 6 cortical layers (`NLAYERS = 6`).
 
 For each voxel $x$ and layer $l$:
 
-$$I_l(x) = \frac{\int_{\Omega_l(x)} I(\xi) \, d\xi}{\int_{\Omega_l(x)} d\xi} \approx \frac{\sum_\xi f_l(\xi, x) \cdot I(\xi)}{\sum_\xi f_l(\xi, x)}$$
+$$
+I_l(x) = \frac{\int_{\Omega_l(x)} I(\xi) \, d\xi}{\int_{\Omega_l(x)} d\xi} \approx \frac{\sum_\xi f_l(\xi, x) \cdot I(\xi)}{\sum_\xi f_l(\xi, x)}
+$$
 
 where $f_l(\xi, x)$ is the volume fraction of voxel $\xi$ attributed to layer $l$ of the cortex passing through voxel $x$, computed by [[mris_compute_volume_fractions]] or related tools.
 

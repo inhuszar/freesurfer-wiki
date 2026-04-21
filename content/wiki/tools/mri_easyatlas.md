@@ -76,7 +76,9 @@ Atlas construction follows an unbiased group registration strategy:
 
 The internal atlas affine is initialized to:
 
-$$A = \begin{pmatrix} -1 & 0 & 0 & 79 \\ 0 & 0 & 1 & -104 \\ 0 & -1 & 0 & 79 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+$$
+A = \begin{pmatrix} -1 & 0 & 0 & 79 \\ 0 & 0 & 1 & -104 \\ 0 & -1 & 0 & 79 \\ 0 & 0 & 0 & 1 \end{pmatrix}
+$$
 
 with volume size $[160, 160, 192]$ voxels (a standard 1 mm MNI-like space used by EasyReg internally).
 

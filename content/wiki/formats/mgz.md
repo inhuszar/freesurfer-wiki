@@ -141,7 +141,9 @@ Known tags:
 ## Version / Intent Encoding
 
 The `version` field encodes two values:
-$$\text{version} = (\text{intent} \mathbin{\&} \texttt{0xffff}) \ll 8 \;\big|\; \text{MGH\_VERSION}$$
+$$
+\text{version} = (\text{intent} \mathbin{\&} \texttt{0xffff}) \ll 8 \;\big|\; \text{MGH\_VERSION}
+$$
 
 - Bits 0–7: format version (always `1 = MGH_VERSION`)
 - Bits 8–23: content intent code (`mri->intent`)
@@ -158,12 +160,14 @@ The intent code is extracted on read as `(version >> 8) & 0xffff`.
 The direction cosines and $c_\text{ras}$ values encode the **Scanner RAS**
 coordinate system. The vox-to-RAS matrix is:
 
-$$\mathbf{M}_{\text{vox2ras}} = \begin{pmatrix}
+$$
+\mathbf{M}_{\text{vox2ras}} = \begin{pmatrix}
 x_r \cdot d_x & y_r \cdot d_y & z_r \cdot d_z & P_{0,r} \\
 x_a \cdot d_x & y_a \cdot d_y & z_a \cdot d_z & P_{0,a} \\
 x_s \cdot d_x & y_s \cdot d_y & z_s \cdot d_z & P_{0,s} \\
 0 & 0 & 0 & 1
-\end{pmatrix}$$
+\end{pmatrix}
+$$
 
 where $P_0 = c_\text{ras} - \mathbf{M}_{3\times3} \cdot [\lfloor N_c/2 \rfloor, \lfloor N_r/2 \rfloor, \lfloor N_s/2 \rfloor]^T$.
 

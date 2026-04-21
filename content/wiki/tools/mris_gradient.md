@@ -64,14 +64,18 @@ The surface and overlay must have compatible vertex counts. The overlay is read 
 The gradient at each vertex $v$ is estimated via least-squares using a Taylor expansion over the vertex neighborhood $\mathcal{N}(v)$:
 
 For each neighbor $u \in \mathcal{N}(v)$:
-$$f(u) \approx f(v) + \Delta x_{vu} \cdot \partial_x f + \Delta y_{vu} \cdot \partial_y f$$
+$$
+f(u) \approx f(v) + \Delta x_{vu} \cdot \partial_x f + \Delta y_{vu} \cdot \partial_y f
+$$
 
 where $(\Delta x_{vu}, \Delta y_{vu})$ are the components of the displacement vector from $v$ to $u$ projected onto the local tangent plane.
 
 The least-squares solution gives the local gradient vector $\nabla f(v) = (\partial_x f, \partial_y f)$ in the tangent plane.
 
 The Frobenius norm (scalar collapse) is then:
-$$|\nabla f(v)| = \sqrt{(\partial_x f)^2 + (\partial_y f)^2}$$
+$$
+|\nabla f(v)| = \sqrt{(\partial_x f)^2 + (\partial_y f)^2}
+$$
 
 The default norm type is `FROBENIUS_NORM` (value 0), defined as a compile-time constant.
 

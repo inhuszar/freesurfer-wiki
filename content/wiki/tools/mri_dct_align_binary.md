@@ -64,13 +64,17 @@ Optional: an affine LTA initialization (via `-lta`).
 
 **Overlap cost** (`compute_overlap`):
 
-$$C_\text{overlap} = -\frac{|S \cap T|}{|S \cup T|}$$
+$$
+C_\text{overlap} = -\frac{|S \cap T|}{|S \cup T|}
+$$
 
 where $S$ and $T$ are the sets of voxels labeled as target label in source and target respectively. This is the negative Jaccard index.
 
 **Distance transform cost** (`compute_distance_transform_sse`):
 
-$$C_\text{dist} = \sum_{\mathbf{x} \in S} d_T(\mathbf{x})^2$$
+$$
+C_\text{dist} = \sum_{\mathbf{x} \in S} d_T(\mathbf{x})^2
+$$
 
 where $d_T(\mathbf{x})$ is the distance from source label voxel $\mathbf{x}$ to the nearest target label voxel.
 

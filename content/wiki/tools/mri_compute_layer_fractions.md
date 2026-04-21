@@ -68,7 +68,9 @@ The number of frames is `nlayers + 4` where `nlayers` defaults to 6.
 
 Laminar fractions are computed via a high-resolution internal label volume built at the specified `resolution` (default 0.5 mm). Each voxel in the internal volume is assigned a laminar label based on its fractional depth $d$ between the white surface ($d=0$) and the pial surface ($d=1$):
 
-$$\text{layer} = \left\lfloor d \cdot N_\text{layers} \right\rfloor + 1$$
+$$
+\text{layer} = \left\lfloor d \cdot N_\text{layers} \right\rfloor + 1
+$$
 
 where $N_\text{layers} = 6$ by default.
 
@@ -76,7 +78,9 @@ The fractional contributions to the lower-resolution target volume are then comp
 
 > [!math] Vox-to-vox transform
 > The registration `.dat` file encodes a tkRAS-to-tkRAS matrix. The vox-to-vox transform used internally is:
-> $$M_\text{vox2vox} = V_\text{dst}^{-1} \cdot R \cdot V_\text{src}$$
+> $$
+> M_\text{vox2vox} = V_\text{dst}^{-1} \cdot R \cdot V_\text{src}
+> $$
 > where $V$ are the vox-to-ras matrices and $R$ is the RAS-to-RAS registration matrix from the `.dat` file.
 
 ## Configuration Options

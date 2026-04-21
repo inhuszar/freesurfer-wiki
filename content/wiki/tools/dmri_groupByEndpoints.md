@@ -67,7 +67,9 @@ The tool can be used independently or as a pre-processing step before `dmri_Anat
 
 Each streamline's first point (start endpoint) and last point (end endpoint) are mapped to voxel indices in the parcellation image:
 
-$$l_{\text{start}} = \text{seg}[\text{vox}(p_0)], \quad l_{\text{end}} = \text{seg}[\text{vox}(p_N)]$$
+$$
+l_{\text{start}} = \text{seg}[\text{vox}(p_0)], \quad l_{\text{end}} = \text{seg}[\text{vox}(p_N)]
+$$
 
 where $\text{vox}(\cdot)$ converts a coordinate to voxel indices using the parcellation image geometry, and $\text{seg}[\cdot]$ looks up the label at that voxel. Streamlines are assigned to the output bundle corresponding to the label pair $(l_{\text{start}}, l_{\text{end}})$, treating $(A, B)$ and $(B, A)$ as the same bundle.
 

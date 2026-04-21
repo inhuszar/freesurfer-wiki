@@ -235,7 +235,9 @@ caller must supply one externally.
 The annotation value per vertex is **not the label index directly**. It is
 the packed RGB integer of the entry's color:
 
-$$\text{annotation} = R + (G \times 256) + (B \times 65536)$$
+$$
+\text{annotation} = R + (G \times 256) + (B \times 65536)
+$$
 
 equivalently, as implemented in `CTABrgb2Annotation()`:
 
@@ -387,7 +389,9 @@ FreeSurfer surface annotations use color as a proxy for structure identity.
 Each vertex stores one 32-bit integer whose low 24 bits encode the RGB of the
 assigned label:
 
-$$\text{annotation} = R \,|\, (G \ll 8) \,|\, (B \ll 16)$$
+$$
+\text{annotation} = R \,|\, (G \ll 8) \,|\, (B \ll 16)
+$$
 
 The macros in `include/colortab.h` and `include/mrisurf.h`:
 

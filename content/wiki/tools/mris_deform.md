@@ -73,16 +73,20 @@ For each vertex $v$, the tool extracts an intensity profile $I(d)$ along the sur
 
 A piecewise-constant model is fit:
 
-$$\hat{I}(d) = \begin{cases}
+$$
+\hat{I}(d) = \begin{cases}
 \mu_{\text{WM}} & d < d_w \\
 \mu_{\text{IG}} & d_w \leq d < d_{\text{ig}} \\
 \mu_{\text{SG}} & d_{\text{ig}} \leq d < d_p \\
 \mu_{\text{out}} & d \geq d_p
-\end{cases}$$
+\end{cases}
+$$
 
 The optimal boundary positions $(d_w, d_{\text{ig}}, d_p)$ and mean intensities $(\mu_{\text{WM}}, \mu_{\text{IG}}, \mu_{\text{SG}}, \mu_{\text{out}})$ are found by minimising the residual:
 
-$$\text{RMS} = \sqrt{\frac{1}{N}\sum_{i=1}^N (I(d_i) - \hat{I}(d_i))^2}$$
+$$
+\text{RMS} = \sqrt{\frac{1}{N}\sum_{i=1}^N (I(d_i) - \hat{I}(d_i))^2}
+$$
 
 Multiple error functions are supported (L1, L2, normalised cross-correlation, L1+NCC combination), selected via `DEFORMATION_PARMS.error_type`.
 

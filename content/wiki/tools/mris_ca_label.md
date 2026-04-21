@@ -111,7 +111,9 @@ Each GCSA atlas node (at a spherical location) stores a Gaussian mixture model
 over the feature space (curvature and sulcal depth). Classification uses MAP
 assignment:
 
-$$l^*(v) = \arg\max_l \; p(l | \theta_{\text{atlas}(\phi(v))}) \cdot p(\mathbf{f}(v) | l, \theta_{\text{atlas}(\phi(v))})$$
+$$
+l^*(v) = \arg\max_l \; p(l | \theta_{\text{atlas}(\phi(v))}) \cdot p(\mathbf{f}(v) | l, \theta_{\text{atlas}(\phi(v))})
+$$
 
 where:
 - $\phi(v)$ = spherical coordinates of vertex $v$ in `sphere.reg`

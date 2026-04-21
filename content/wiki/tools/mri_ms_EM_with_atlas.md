@@ -72,7 +72,9 @@ This tool extends [[mri_ms_EM]] with two major enhancements:
 
 Extends the [[mri_ms_EM]] GMM-EM with atlas-derived spatial priors:
 
-$$q_{ik} \propto \pi_k^{atlas}(\mathbf{x}_i) \cdot \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$$
+$$
+q_{ik} \propto \pi_k^{atlas}(\mathbf{x}_i) \cdot \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)
+$$
 
 where $\pi_k^{atlas}(\mathbf{x}_i)$ is the GCA-derived prior probability for class $k$ at voxel $\mathbf{x}_i$.
 

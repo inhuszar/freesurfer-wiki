@@ -57,7 +57,9 @@ Autoencoder-based MRI processing (dimensionality reduction, anomaly detection, s
 ## Mathematical Foundations
 
 An autoencoder is a neural network trained to reconstruct its input through a bottleneck:
-$$\hat{x} = D(E(x))$$
+$$
+\hat{x} = D(E(x))
+$$
 where $E$ is an encoder mapping input $x$ to a lower-dimensional latent code, and $D$ is a decoder reconstructing the input. Training minimises $\|x - \hat{x}\|^2$.
 
 The C++ implementation likely uses a custom back-propagation implementation in the FreeSurfer `rforest` or similar framework.

@@ -63,7 +63,9 @@ The tool supports two table formats (informally named "David's table" and "Sue's
 
 The operation is a simple lookup:
 
-$$\text{output}(x,y,z) = \begin{cases} \text{stat}[\text{seg}(x,y,z)] & \text{if } \text{seg}(x,y,z) \neq 0 \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{output}(x,y,z) = \begin{cases} \text{stat}[\text{seg}(x,y,z)] & \text{if } \text{seg}(x,y,z) \neq 0 \\ 0 & \text{otherwise} \end{cases}
+$$
 
 where $\text{stat}[\cdot]$ is the lookup table indexed by anatomical label ID, and $\text{seg}(x,y,z)$ is the label at each voxel.
 

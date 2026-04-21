@@ -82,7 +82,9 @@ The CC center $(x_c, y_c, z_c)$ in Talairach space is anchored at approximately 
 
 After finding all CC voxels, principal component analysis (PCA) of the 3D voxel distribution gives eigenvectors $\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3$. The primary eigenvector $\mathbf{e}_1$ is projected onto each CC voxel to compute its position along the AP axis. Voxels are sorted and divided into five equal-volume bins:
 
-$$\text{label}(v) = \text{CC}_{\lfloor 5 \cdot r(v) \rfloor}$$
+$$
+\text{label}(v) = \text{CC}_{\lfloor 5 \cdot r(v) \rfloor}
+$$
 
 where $r(v)$ is the fractional rank of voxel $v$ along the primary eigendirection.
 

@@ -70,7 +70,9 @@ Positional arguments:
 
 For each bin of geodesic distances $d_i$, the spatial autocorrelation is:
 
-$$\text{acorr}(d_i) = \frac{\sum_{(u,v): \|u-v\|=d_i} f(u) \cdot f(v)}{\text{count}(d_i)}$$
+$$
+\text{acorr}(d_i) = \frac{\sum_{(u,v): \|u-v\|=d_i} f(u) \cdot f(v)}{\text{count}(d_i)}
+$$
 
 where $f(v)$ is the scalar field value at vertex $v$ (e.g., residual or class mean difference).
 

@@ -83,7 +83,9 @@ For each streamline in each cluster, the tool:
 5. Computes mean/std summary statistics per cluster.
 
 Surface proximity is determined by nearest-neighbor search:
-$$v^* = \arg\min_{v \in \text{surface}} \|\mathbf{p}_{\text{endpoint}} - \mathbf{v}\|_2$$
+$$
+v^* = \arg\min_{v \in \text{surface}} \|\mathbf{p}_{\text{endpoint}} - \mathbf{v}\|_2
+$$
 
 where $\mathbf{p}_{\text{endpoint}}$ is the streamline endpoint coordinate transformed into the surface space via the provided registration.
 

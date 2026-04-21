@@ -61,13 +61,17 @@ This tool is called during `recon-all -base` to initialise the segmentation of t
 
 For each voxel in the target volume, the fused label is determined by a weighted vote across time-point segmentations. The weight for each time point is based on the intensity similarity between the normalised volumes, modulated by a Gaussian temporal kernel:
 
-$$w_t = \exp\left(-\frac{d_t^2}{2\sigma_t^2}\right)$$
+$$
+w_t = \exp\left(-\frac{d_t^2}{2\sigma_t^2}\right)
+$$
 
 where $d_t$ is a measure of intensity dissimilarity (or temporal distance in a study design) and $\sigma_t$ is the cross-time sigma parameter (default 3.0 mm or 3.0 time units).
 
 The fused label is:
 
-$$L^*(\mathbf{x}) = \arg\max_l \sum_t w_t \cdot \mathbf{1}[L_t(\mathbf{x}) = l]$$
+$$
+L^*(\mathbf{x}) = \arg\max_l \sum_t w_t \cdot \mathbf{1}[L_t(\mathbf{x}) = l]
+$$
 
 Time-point volumes are resampled into the base space using the supplied transforms before fusion. The `aseg_nocc` (no corpus callosum) versions are used alongside the full asegs.
 

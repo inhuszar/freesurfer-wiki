@@ -82,10 +82,14 @@ Edit detection uses edit marker voxel values (`WM_EDITED_OFF_VAL`, `WM_EDITED_ON
 The tool performs voxel-wise comparisons:
 
 For WM/brain edit markers:
-$$\text{edit}(v) = \begin{cases} \text{EDIT\_WM\_OFF} & \text{if } wm(v) = \text{WM\_EDITED\_OFF\_VAL} \\ \text{EDIT\_WM\_ON} & \text{if } wm(v) = \text{WM\_EDITED\_ON\_VAL} \end{cases}$$
+$$
+\text{edit}(v) = \begin{cases} \text{EDIT\_WM\_OFF} & \text{if } wm(v) = \text{WM\_EDITED\_OFF\_VAL} \\ \text{EDIT\_WM\_ON} & \text{if } wm(v) = \text{WM\_EDITED\_ON\_VAL} \end{cases}
+$$
 
 For mask and aseg comparisons:
-$$\text{edit}(v) = \text{EDIT\_BM\_CHANGED} \text{ if } \text{brainmask}(v) \neq \text{brainmask.auto}(v)$$
+$$
+\text{edit}(v) = \text{EDIT\_BM\_CHANGED} \text{ if } \text{brainmask}(v) \neq \text{brainmask.auto}(v)
+$$
 
 ## Configuration Options
 

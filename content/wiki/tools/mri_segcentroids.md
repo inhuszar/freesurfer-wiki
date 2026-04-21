@@ -63,14 +63,20 @@ Centroid computation is used in registration, atlas construction, and visualisat
 For a label $\ell$ with voxel set $\mathcal{V}_\ell$, the centroid is:
 
 **Unweighted:**
-$$\bar{x}_\ell = \frac{1}{|\mathcal{V}_\ell|} \sum_{v \in \mathcal{V}_\ell} x_v$$
+$$
+\bar{x}_\ell = \frac{1}{|\mathcal{V}_\ell|} \sum_{v \in \mathcal{V}_\ell} x_v
+$$
 
 **Intensity-weighted** (with weight volume $w$):
-$$\bar{x}_\ell = \frac{\sum_{v \in \mathcal{V}_\ell} w(v) \cdot x_v}{\sum_{v \in \mathcal{V}_\ell} w(v)}$$
+$$
+\bar{x}_\ell = \frac{\sum_{v \in \mathcal{V}_\ell} w(v) \cdot x_v}{\sum_{v \in \mathcal{V}_\ell} w(v)}
+$$
 
 Coordinates are reported in surface RAS by default. When `--reg` is supplied, the LTA transform is applied:
 
-$$\bar{x}'_\ell = T_{\text{LTA}} \cdot \bar{x}_\ell$$
+$$
+\bar{x}'_\ell = T_{\text{LTA}} \cdot \bar{x}_\ell
+$$
 
 ## Configuration Options
 

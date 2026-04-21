@@ -64,7 +64,9 @@ Standard voxel-based tissue classification assigns each voxel a single tissue cl
 
 For each voxel $x$ and surface $S$, the volume fraction is:
 
-$$f(x) = \frac{V(x \cap \text{interior}(S))}{V(x)}$$
+$$
+f(x) = \frac{V(x \cap \text{interior}(S))}{V(x)}
+$$
 
 where $V$ denotes volume and "interior" is the region enclosed by the surface $S$.
 

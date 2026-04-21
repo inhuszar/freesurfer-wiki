@@ -42,7 +42,9 @@ tags:
 
 The Jacobian of a surface mapping quantifies how much each local area element has been stretched or compressed by the mapping. For a surface registration (e.g., `mris_register` mapping to fsaverage):
 
-$$J(v) = \frac{A_{\text{mapped}}(v)}{A_{\text{original}}(v)}$$
+$$
+J(v) = \frac{A_{\text{mapped}}(v)}{A_{\text{original}}(v)}
+$$
 
 Values > 1 indicate local areal expansion; values < 1 indicate contraction.
 
@@ -82,7 +84,9 @@ Face area ratio: $r_k = A_k^{\text{mapped}} / A_k^{\text{orig}}$
 
 Vertex Jacobian (area-weighted average over incident faces):
 
-$$J(v) = \frac{\sum_{k \ni v} A_k^{\text{mapped}} \cdot r_k}{\sum_{k \ni v} A_k^{\text{mapped}}}$$
+$$
+J(v) = \frac{\sum_{k \ni v} A_k^{\text{mapped}} \cdot r_k}{\sum_{k \ni v} A_k^{\text{mapped}}}
+$$
 
 The `compute_area_ratios` function implements this computation in `mris_jacobian.cpp`. After calling `MRISreadVertexPositions` to load mapped positions, `MRIScomputeMetricProperties` is called to recompute areas.
 

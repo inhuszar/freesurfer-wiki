@@ -76,7 +76,9 @@ This functionality may have since been integrated into `mris_make_surfaces` via 
 
 Identical to [[mris_make_surfaces]] — places surfaces by minimizing a deformable model energy functional:
 
-$$E = \lambda_I E_{\text{intensity}} + \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{curv}} E_{\text{curvature}}$$
+$$
+E = \lambda_I E_{\text{intensity}} + \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{curv}} E_{\text{curvature}}
+$$
 
 where the intensity term drives the surface toward MRI-derived tissue boundaries and the regularization terms maintain smoothness.
 

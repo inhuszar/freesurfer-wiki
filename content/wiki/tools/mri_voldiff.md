@@ -67,13 +67,17 @@ Exit codes:
 
 The tool computes the maximum absolute difference between corresponding voxels:
 
-$$d_{\max} = \max_{c,r,s,f} \left| V_1(c,r,s,f) - V_2(c,r,s,f) \right|$$
+$$
+d_{\max} = \max_{c,r,s,f} \left| V_1(c,r,s,f) - V_2(c,r,s,f) \right|
+$$
 
 where $(c,r,s,f)$ indexes columns, rows, slices, and frames. The location of $d_{\max}$ is recorded and reported.
 
 The vox2ras comparison uses a configurable threshold $\epsilon$:
 
-$$\|M_1 - M_2\|_{\text{element}} \leq \epsilon$$
+$$
+\|M_1 - M_2\|_{\text{element}} \leq \epsilon
+$$
 
 ## Configuration Options
 

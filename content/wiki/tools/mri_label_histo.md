@@ -55,7 +55,9 @@ Understanding the intensity distribution of a segmented region is useful for qua
 
 The histogram is computed as:
 
-$$H[k] = |\{i : I(\mathbf{x}_i) = k \text{ and } L(\mathbf{x}_i) = \ell\}|$$
+$$
+H[k] = |\{i : I(\mathbf{x}_i) = k \text{ and } L(\mathbf{x}_i) = \ell\}|
+$$
 
 where $I(\mathbf{x})$ is the intensity volume, $L(\mathbf{x})$ is the label volume, and $\ell$ is the target label. The number of bins is determined by the `MRIhistogramLabel()` function (auto-determined from the data range).
 

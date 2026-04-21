@@ -56,19 +56,25 @@ Computing the volume of brain structures is a fundamental morphometric measureme
 
 Volume is computed as:
 
-$$V = N_\ell \cdot v_x \cdot v_y \cdot v_z$$
+$$
+V = N_\ell \cdot v_x \cdot v_y \cdot v_z
+$$
 
 where $N_\ell$ is the number of voxels with label $\ell$, and $v_x, v_y, v_z$ are the voxel dimensions in mm.
 
 For partial volume estimation (`-pv <vals_vol>`), the volume is computed as:
 
-$$V_\text{PV} = \sum_{i : L_i = \ell} p_i \cdot v_x v_y v_z$$
+$$
+V_\text{PV} = \sum_{i : L_i = \ell} p_i \cdot v_x v_y v_z
+$$
 
 where $p_i \in [0, 1]$ is the partial volume fraction from the supplementary volume.
 
 When `-brain <vol>` is provided, the percentage is:
 
-$$\%V = 100 \cdot \frac{V_\ell}{V_\text{brain}}$$
+$$
+\%V = 100 \cdot \frac{V_\ell}{V_\text{brain}}
+$$
 
 When `-icv <vol>` is provided or `-atlas_icv <mm3>` is specified, ICV-normalised volumes are computed.
 

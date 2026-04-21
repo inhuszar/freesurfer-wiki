@@ -109,19 +109,25 @@ Frames are paired as $(1,2), (3,4), \ldots$. Output has $F/2$ frames.
 
 The conjunction (Nichols et al., NeuroImage 2005) is the minimum of absolute
 values across frames, preserving the sign of the minimum:
-$$C_{ijk} = \min_f |V_{ijk}^{(f)}| \cdot \text{sign}\!\left(\arg\min_f |V_{ijk}^{(f)}|\right)$$
+$$
+C_{ijk} = \min_f |V_{ijk}^{(f)}| \cdot \text{sign}\!\left(\arg\min_f |V_{ijk}^{(f)}|\right)
+$$
 
 ### Matrix multiplication
 
 `--mtx M.asc`: given a $P \times F$ ASCII matrix $M$, the output is $P$
 frames where output frame $p$ is a linear combination of input frames:
-$$O^{(p)}_{ijk} = \sum_f M_{pf} \cdot V^{(f)}_{ijk}$$
+$$
+O^{(p)}_{ijk} = \sum_f M_{pf} \cdot V^{(f)}_{ijk}
+$$
 
 ### Pruning
 
 `--prune`: for each voxel, if **any** frame is zero, set **all** frames of that
 voxel to zero. Formally:
-$$V_{ijk}^{(f)} \leftarrow 0 \quad \text{if } \exists f': V_{ijk}^{(f')} = 0$$
+$$
+V_{ijk}^{(f)} \leftarrow 0 \quad \text{if } \exists f': V_{ijk}^{(f')} = 0
+$$
 
 ## Configuration Options
 
