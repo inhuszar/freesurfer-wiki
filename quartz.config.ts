@@ -14,7 +14,7 @@ import * as Plugin from "./quartz/plugins"
     enablePopovers: true,
     analytics: null,
     locale: "en-US",
-    baseUrl: "",
+    baseUrl: "inhuszar.github.io/freesurfer-wiki",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
