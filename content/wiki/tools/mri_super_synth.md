@@ -17,9 +17,8 @@ related:
   - "[[mri_synthstrip]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "inference.py not read — exact command-line interface unknown."
   - "SuperSynth model architecture (frugal_models.py) not read in detail."
   - "Relationship to SynthSR unclear — whether this supersedes or supplements it."
 tags:
@@ -59,10 +58,8 @@ The tool includes a pre-bundled MNI symmetric atlas and a QC segmentation atlas 
 
 ### Required Inputs
 
-- Input MRI volume in any format supported by FreeSurfer/NiBabel.
-
-> [!gap] Exact command-line interface
-> The `inference.py` script was not read. Required and optional arguments are unknown.
+- Input MRI volume (`--i`) in any format supported by FreeSurfer/NiBabel, or a CSV file with `input,output,mode` triplets for batch processing.
+- Model checkpoint file (`--model_file`): the `.pth` file for the trained SuperSynth network.
 
 ### Input Assumptions
 
@@ -87,16 +84,36 @@ The tool uses "frugal models" (defined in `frugal_models.py`), which are computa
 
 ## Configuration Options
 
-> [!gap] Command-line interface unknown
-> `inference.py` was not read. Flags, required arguments, and optional parameters are unknown.
+Flags are parsed by `mri_super_synth/SuperSynth/scripts/inference.py` using Python `argparse`.
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | file | required | Input image to analyse, or path to a CSV file containing `input,output,mode` triplets for batch processing. |
+| `--o` | dir | — | Output directory (ignored when `--i` points to a CSV file). |
+| `--mode` | string | — | Segmentation mode: `invivo`, `cerebrum`, `left-hemi`, `right-hemi`, or `exvivo`. Ignored when `--i` is a CSV file. Required in single-file mode. |
+| `--model_file` | file | required | Path to the model checkpoint `.pth` file. |
+| `--device` | string | (auto) | Compute device: `cpu` or `cuda`. Defaults to `cuda` if a GPU is available, otherwise `cpu`. |
+| `--sharpen_synths` | — | off | Apply unsharp masking to sharpen the synthesised 1 mm isotropic T1/T2/FLAIR output. |
+| `--test_time_flipping` | — | off | Enable left-right flipping for test-time augmentation (averages predictions across the original and flipped image). |
+| `--threads` | int | -1 | Number of CPU cores to use. `-1` uses all available cores (default). |
+
+> [!note] Noise tokens filtered from audit
+> The audit also reported `--o/--mode` as a missing flag. This is not a real flag; it is a combined token extracted from the help text explaining that both `--o` and `--mode` are ignored in CSV batch mode. Both `--o` and `--mode` are separate flags documented above.
 
 ## Typical Use Cases
 
 ```bash
-mri_super_synth --i input_lowres.mgz --o output_hires.mgz
-```
+# Single-file synthesis in invivo mode
+mri_super_synth --i input_lowres.mgz --o output_dir/ \
+  --mode invivo --model_file /path/to/model.pth
 
-Note: exact flag syntax unconfirmed.
+# Batch mode via CSV (columns: input,output,mode)
+mri_super_synth --i batch_list.csv --model_file /path/to/model.pth
+
+# Force CPU execution
+mri_super_synth --i input.mgz --o out/ --mode invivo \
+  --model_file model.pth --device cpu
+```
 
 ## Pipeline Context
 
@@ -115,10 +132,7 @@ Not part of standard `recon-all`. Used as a preprocessing step for processing no
 
 ## Confidence and Gaps
 
-Confidence is **medium** for tool purpose, **low** for command-line interface details.
-
-> [!gap] Read inference.py
-> The main inference script should be read to document the command-line interface and confirm input/output specifications.
+Confidence is **medium** for tool purpose, **high** for command-line interface (read directly from `inference.py`).
 
 > [!gap] Distinguish from mri_synthsr
 > Document the precise relationship and recommended use cases for `mri_super_synth` vs. `mri_synthsr`.

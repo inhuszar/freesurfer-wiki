@@ -14,7 +14,7 @@ related:
   - "[[mri_segstats]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Name or architecture of the internal Keras model is not exposed in the argument parser."
   - "Specific hypothalamic subunit label IDs are not listed in the source excerpt."
@@ -87,6 +87,8 @@ $$
 | `--resample` | `<path>` | — | Write resampled T1 image(s) (T1 mode) |
 | `--threads` | `<int>` | 1 | Number of CPU threads |
 | `--cpu` | — | off | Force CPU usage (disable GPU) |
+| `--vol` | `<path>` | — | (T1 mode, optional) Override the default input volume path (alternative to `--i`) |
+| `--crop` | `<x1> <x2> <y1> <y2> <z1> <z2>` | — | (T1 mode, optional) Crop bounding box indices applied before segmentation |
 | `--help` / `-h` | — | — | Print usage and exit |
 
 ## Configuration Interactions

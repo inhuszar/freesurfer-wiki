@@ -81,25 +81,25 @@ Alternative similarity functions:
 
 ## Configuration Options
 
-| Flag | Description |
-|---|---|
-| `--reg regfile` | Registration file (input/output) |
-| `--mov fvol` | Moving volume |
-| `--surf surface` | Surface file |
-| `--pial pial` | Pial surface (optional) |
-| `--pial_only pial` | Pial only (exclude white from similarity) |
-| `--targ vol` | Target label volume |
-| `--res resolution` | Distance transform resolution (mm) |
-| `--angle_init ax ay az` | Initial rotation search centre (degrees) |
-| `--trans_init tx ty tz` | Initial translation search centre (mm) |
-| `--median` | Use median similarity function |
-| `--L1` | Use L1 norm similarity function |
-| `--patch patch` | Surface patch to use |
-| `--cost costfile` | Output cost file |
-| `--interp type` | Interpolation: `trilinear` or `nearest` (default trilinear) |
-| `--profile` | Print execution time information |
-| `--border border` | Ignore border region of this size |
-| `--out-reg outreg` | Output registration at lowest cost |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--reg` | `<regfile>` | identity | Input registration file (LTA format); if omitted, identity matrix is used as initial registration |
+| `--mov` | `<fvol>` | — | Moving volume (reference space for the label coordinates) |
+| `--surf` | `<surface>` | — | Surface file to register |
+| `--targ` | `<vol>` | — | Target label volume |
+| `--pial` | `<pial>` | — | Pial surface (optional); adds pial contribution to similarity function |
+| `--pial_only` | `<pial>` | — | Use pial surface only; excludes white surface from similarity |
+| `--res` | `<mm>` | `0.5` | Distance transform resolution in mm |
+| `--angle_init` | `<ax> <ay> <az>` | `0 0 0` | Centre of rotation search grid (degrees) |
+| `--trans_init` | `<tx> <ty> <tz>` | `0 0 0` | Centre of translation search grid (mm) |
+| `--median` | none | off | Use median cost function (default is RMS) |
+| `--L1` | none | off | Use L1 norm cost function (default is RMS) |
+| `--patch` | `<patch>` | — | Surface patch file to restrict registration to a patch |
+| `--cost` | `<costfile>` | — | Output cost file (optional) |
+| `--interp` | `<type>` | `trilinear` | Interpolation method: `trilinear` or `nearest` |
+| `--profile` | none | off | Print execution time information |
+| `--border` | `<border>` | — | Size of border region to ignore (optional) |
+| `--out-reg` | `<outreg>` | — | Output registration file at lowest cost (updated continuously) |
 
 ## Configuration Interactions
 

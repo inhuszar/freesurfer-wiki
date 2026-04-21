@@ -112,7 +112,7 @@ where $K = \text{noverlays} \times (\text{nbhd\_size} + 1)$. With `nbhd_size > 0
 | `--version` | boolean | — | Print version string and exit. |
 
 > [!gotcha] Dead code: `--ndilates`, `--nbhd_size`, `--ntrees`, `--max_depth`, `--training_fraction`, `--label`, `--cortex`
-> These flags **do not exist** in the source `get_option()`. The actual flags for label name, neighbourhood size, and tree count are single-character flags `-L`, `-N`, `-T`. The `ndilates`, `cortex_label_name`, `max_depth`, and `training_fraction` globals exist and affect behaviour, but no corresponding command-line flags are implemented; they take their hard-coded defaults: `ndilates=3`, `cortex_label_name="cortex"`, `max_depth=12`, `training_fraction=0.5`. Only `-L`, `-N`, `-T`, `--sdir`, `--hemi`, `--surf`, and `--overlay` are parsed.
+> These flags **do not exist** in the source `get_option()`. The actual flags for label name, neighbourhood size, and tree count are single-character flags `-L`, `-N`, `-T`. The `ndilates`, `cortex_label_name`, `max_depth`, and `training_fraction` globals exist and affect behaviour, but no corresponding command-line flags are implemented; they take their hard-coded defaults: `ndilates=3`, `cortex_label_name="cortex"`, `max_depth=12`, `training_fraction=0.5`. Only `-L`, `-N`, `-T`, --sdir, --hemi, --surf, and --overlay are parsed.
 
 > [!gotcha] `-N` (`nbhd_size`) is dead code at runtime
 > The source calls `ErrorExit(ERROR_UNSUPPORTED, ...)` whenever `nbhd_size > 0`. Setting `-N` to any value greater than 0 will abort the program.

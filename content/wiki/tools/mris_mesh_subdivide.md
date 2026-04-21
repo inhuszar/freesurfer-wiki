@@ -106,7 +106,7 @@ where $\beta$ depends on vertex valence $n$. This scheme does not interpolate or
 
 - `--method loop` is the only scheme that modifies original vertex positions. Do not use it when exact preservation of pre-existing surface vertex positions is required.
 - `--iter 2` with butterfly produces approximately 16× the original face count; memory usage scales accordingly.
-- If `--out` does not contain a `/`, the output is placed in the same directory as `--surf` (convenient for working within a subject's `surf/` directory).
+- If --out does not contain a `/`, the output is placed in the same directory as `--surf` (convenient for working within a subject's `surf/` directory).
 
 > [!gotcha] Subsurface subdivision not implemented
 > The source code contains a `TODO` comment indicating that label-constrained subsurface subdivision (applying subdivision only within a specified label region) is planned but not implemented. Attempting to use any related flags (if they exist) will have no effect.

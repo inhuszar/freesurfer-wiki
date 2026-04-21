@@ -53,13 +53,11 @@ The tool supports single-surface mode (`-1`) for registering to another individu
 
 ## Inputs
 
-| Flag/Positional | Description |
-|-----------------|-------------|
+| Positional | Description |
+|------------|-------------|
 | `argv[1]` | Input surface to register |
 | `argv[2]` | Target surface (atlas or mirror hemisphere) |
 | `argv[3]` | Output registered surface |
-| `-1` | Single surface mode: register directly to another individual surface |
-| `--annot annot` | Use this annotation for registration |
 
 ## Outputs
 

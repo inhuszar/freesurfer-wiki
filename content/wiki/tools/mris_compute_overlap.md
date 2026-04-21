@@ -79,13 +79,13 @@ $$
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-l <fname>` | Log file path | stdout |
-| `--in-label <n>` | Restrict to input label integer | -1 (all) |
-| `--out-label <n>` | Restrict to output label integer | -1 (all) |
-| `--pct` | Report areas as percentages | off |
-| `-sdir <dir>` | Override SUBJECTS_DIR | env var |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-l <fname>` | path | stdout | Log file path |
+| `--in-label <n>` | int | -1 (all) | Restrict to input label integer |
+| `--out-label <n>` | int | -1 (all) | Restrict to output label integer |
+| `--pct` | — | off | Report areas as percentages |
+| `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
 
 ## Configuration Interactions
 

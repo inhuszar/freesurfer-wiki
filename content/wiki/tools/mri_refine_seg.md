@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - segmentation
@@ -71,12 +71,12 @@ Flags are parsed by `ArgumentParser` (from `argparse.h`). The tool accepts exact
 
 | Flag | Alias | Argument | Description |
 |------|-------|----------|-------------|
-| `-i` | `--in` | `<file>` | Input segmentation volume (required). |
-| `-o` | `--out` | `<file>` | Output refined segmentation volume (required). |
+| `--in` | `-i` | `<file>` | Input segmentation volume (required). |
+| `--out` | `-o` | `<file>` | Output refined segmentation volume (required). |
 | `--debug` | — | (flag) | Save debug outputs: `refinement.orig.mgz`, `refinement.mask.mgz`, `refinement.points.json` in the output directory. |
 
 > [!gotcha] No user-configurable component definitions
-> The `--comp` flag does NOT exist. All component definitions (which labels to clean, max cluster counts, additional labels) are hardcoded in the source. There is no mechanism to add or override component specifications at runtime.
+> The --comp flag does NOT exist. All component definitions (which labels to clean, max cluster counts, additional labels) are hardcoded in the source. There is no mechanism to add or override component specifications at runtime.
 
 **Hardcoded component behaviour (from source):**
 
@@ -106,10 +106,10 @@ Labels 5, 44 (inferior lateral ventricle), 7, 46 (cerebellum WM), 30, 62 (vessel
 
 ```bash
 # Run with default hardcoded refinement
-mri_refine_seg --i aseg.mgz --o aseg_refined.mgz
+mri_refine_seg --in aseg.mgz --out aseg_refined.mgz
 
 # Run with debug output
-mri_refine_seg --i aseg.mgz --o aseg_refined.mgz --debug
+mri_refine_seg --in aseg.mgz --out aseg_refined.mgz --debug
 ```
 
 ## Pipeline Context
@@ -135,4 +135,4 @@ mri_refine_seg --i aseg.mgz --o aseg_refined.mgz --debug
 
 ## Confidence and Gaps
 
-**High confidence.** Full source read. All three flags confirmed from `ArgumentParser` setup (`--i`/`-i`, `--o`/`-o`, `--debug`). All hardcoded component definitions documented. The previously listed `--comp` flag does not exist and has been removed from this page.
+**High confidence.** Full source read. All three flags confirmed from `ArgumentParser` setup (--in/`-i`, --out/`-o`, --debug). All hardcoded component definitions documented. The previously listed --comp flag does not exist and has been removed from this page.

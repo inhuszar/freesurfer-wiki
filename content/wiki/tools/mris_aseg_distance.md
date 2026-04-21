@@ -77,22 +77,22 @@ With `--normalize`, values are divided by the maximum distance.
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--sdir <dir>` | Override SUBJECTS_DIR | env var |
-| `--surf <name>` | Surface name to use | `white` |
-| `--notransform` | Skip LTA coordinate transform | off |
-| `--dist` | Compute distance (default behaviour) | on |
-| `--dot` | Compute dot product with surface normal | off |
-| `--normalize` | Normalise output values | off |
-| `--divide <n>` | Divide label into `n` spatial units | 1 |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `--surf <name>` | string | `white` | Surface name to use |
+| `--notransform` | — | off | Skip LTA coordinate transform |
+| `--dist` | — | on | Compute distance (default behaviour) |
+| `--dot` | — | off | Compute dot product with surface normal |
+| `--normalize` | — | off | Normalise output values |
+| `--divide <n>` | int | 1 | Divide label into `n` spatial units |
 
 > [!gap] Flag set incomplete
 > Flags were inferred from global variables in the source. The `get_option()` function body was not fully read. Verify against the source for the complete flag list.
 
 ## Configuration Interactions
 
-- `--dist` and `--dot` are mutually exclusive modes; using `--dot` overrides the distance calculation.
+- `--dist` and `--dot` are mutually exclusive modes; using --dot overrides the distance calculation.
 - `--divide` splits the aseg label into spatial subunits and computes a separate distance map for each unit; this enables resolving directional structure relationships.
 
 ## Typical Use Cases

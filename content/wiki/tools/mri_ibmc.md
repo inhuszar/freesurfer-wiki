@@ -12,11 +12,10 @@ related:
   - "[[mri_linear_register]]"
   - "[[coordinate-systems]]"
 status: draft
-confidence: low
-last_agent_update: 2026-04-15
+confidence: medium
+last_agent_update: 2026-04-21
 gaps:
   - "Tool is in attic/ — may not be distributed in v8.2.0"
-  - "Full command-line interface not available from source"
   - "Exact implementation of IBMC algorithm not fully traced"
 tags:
   - motion-correction
@@ -77,19 +76,47 @@ The 3D rotation matrix is parameterized as a product of three axis rotations, im
 
 ## Configuration Options
 
-> [!gap] CLI not fully traced
-> No BEGINUSAGE block found in source. Flags inferred from variable names only.
+> [!gotcha] `print_usage()` vs actual parser mismatch
+> `print_usage()` lists `--v1/--v2/--v3`, `--nmax`, `--tol`, and `--tol1d`, but none of these flags appear in `parse_commandline()`. They are vestigial stubs. The correct flag for specifying input volumes is `--stack`.
 
-| Flag | Description |
-|------|-------------|
-| (positional) | Three input volume paths |
-| Various numerical parameters | Transform search space (inferred) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--stack` | `vol reg [params]` | required | Add an input volume stack with its tkreg registration file. Optional third argument loads pre-computed IBMC params from a `.ibmc` file. Repeat three times for three stacks. |
+| `--o` | path | required | Output directory for results |
+| `--par` | string | required | Base name for output parameter files (e.g., `stack0.ibmc`) |
+| `--s` | string | `subject-unknown` | Subject name written into output registration files |
+| `--a2b-rigid` | — | on (default) | Use rigid-body parameterization: 6 alpha params per stack, shared by all slices |
+| `--a2b-equal` | — | off | Use per-slice parameterization: 6 alpha params per slice (6×depth per stack) |
+| `--v1` | `vol [regfile]` | — | Template volume 1 (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--stack` instead) |
+| `--v2` | `vol [regfile]` | — | Template volume 2 (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--stack` instead) |
+| `--v3` | `vol [regfile]` | — | Template volume 3 (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--stack` instead) |
+| `--nmax` | `nmax` | 36 | Maximum number of Powell iterations (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--low-tol` for tolerance instead) |
+| `--tol` | `tol` | — | Powell inter-iteration tolerance on cost (listed in `print_usage()` only; not implemented in `parse_commandline()`) |
+| `--tol1d` | `tol1d` | — | Tolerance on Powell 1D minimizations (listed in `print_usage()` only; not implemented in `parse_commandline()`) |
+| `--targ` | vol | — | Optional target/reference volume (read but not used in main optimization flow) |
+| `--mov` | `vol reg` | — | Optional moving volume with tkreg file (read but not used in main optimization flow) |
+| `--alpha` | file | — | Load initial alpha parameters from a `.ibmc` file |
+| `--print-params` | file | — | Print contents of a `.ibmc` params file to stdout and exit |
+| `--profile` | `file param` | — | Profile cost function for parameter index `param`, write result to `file`, then exit |
+| `--synth` | `src tmpl reg params out` | — | Synthesize a volume by applying IBMC params to a source; write slices to `out`; exits immediately |
+| `--synth-params` | file | — | Write a synthetic set of IBMC params (30 slices, rotation sweep) to `file` and exit |
+| `--smooth` | — | off | Enable 3-point running-average smoothing of intersection differences before cost evaluation |
+| `--line-min` | — | off | Run a coarse 1D line minimization across each parameter before Powell optimization |
+| `--low-tol` | — | off | Set Powell and line-min tolerances to `1e-1` instead of `1e-8` (faster, less precise) |
+| `--force-update` | — | off | Force recomputation of all pair costs even when parameters have not changed |
+| `--debug` | — | off | Enable debug output |
+| `--checkopts` | — | off | Parse and validate options only; do not run optimization |
 
 ## Typical Use Cases
 
-**IBMC motion correction of three-plane acquisition (inferred):**
+**IBMC motion correction of three-plane acquisition:**
 ```bash
-mri_ibmc axial.mgz coronal.mgz sagittal.mgz
+mri_ibmc \
+  --stack axial.mgz axial.reg.dat \
+  --stack coronal.mgz coronal.reg.dat \
+  --stack sagittal.mgz sagittal.reg.dat \
+  --o /output/ibmc/ \
+  --par stack
 ```
 
 ## Pipeline Context
@@ -102,9 +129,9 @@ Not part of `recon-all`. Specialized motion correction tool for research applica
 
 ## Confidence and Gaps
 
-**Confident (from source):** Three-volume registration, IBMC algorithm reference (Kim TMI 2010), rotation parameterization (`MRIangles2RotMatB`), IBMC_NL_MAX=500.
+**Confident (from source):** Three-stack registration via `--stack`, output via `--o`/`--par`, rigid vs. per-slice parameterization (`--a2b-rigid`/`--a2b-equal`), IBMC algorithm reference (Kim TMI 2010), rotation parameterization (`MRIangles2RotMatB`), `IBMC_NL_MAX=500`, Powell optimization with configurable tolerances.
 
-**Uncertain:** Full CLI; output format; whether tool is functional in v8.2.0; exact optimization strategy.
+**Uncertain:** Whether tool is functional in v8.2.0; exact output format of `.ibmc` parameter files (binary vs. ASCII).
 
 > [!gap] Verify availability and functionality
 > As an attic tool, confirm whether `mri_ibmc` is installed in FreeSurfer 8.2.0 before documenting further.

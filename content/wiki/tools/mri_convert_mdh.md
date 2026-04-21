@@ -13,10 +13,9 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Source is in attic/ — unclear if binary is still shipped in 8.2.0 or deprecated"
-  - "Full option list not confirmed (source partially read)"
   - "Format of MDH raw data output not fully documented"
 tags:
   - format-conversion
@@ -68,8 +67,38 @@ Flags of interest for image reconstruction:
 
 ## Configuration Options
 
-> [!gap] Options not fully documented
-> The argument parsing logic was not included in the portion of the source read. Options should be confirmed by running the binary with `--help` or `-u`.
+All flags confirmed from `parse_commandline()` in `attic/mri_convert_mdh/mri_convert_mdh.cpp`.
+
+### Input / Output
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--srcdir` | `dir` | (required) | Directory containing the `meas.out` raw k-space file and the accompanying ASCII protocol file (`MrProt.asc`, `mrprot.asc`, or `meas.asc`). |
+| `--base` | `basename` | `meas` | Base filename used to locate `<basename>.out` and `<basename>.asc` inside `--srcdir`. |
+| `--outdir` | `dir` | none | Output directory. Setting this flag clears `--info` mode. If the directory does not exist, it is created (one level only). |
+
+### Geometry and Timing
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--dim` | `nframes nslices nechoes nlines nperline npcns` | auto-detected | Override all dimension parameters at once. Accepts exactly 6 integers: number of frames, slices, echoes, phase-encode lines, samples per line, and phase-correction navigators. |
+| `--fasterdim` | `echo` \| `line` | `0` (auto) | Set the fastest-varying dimension in the raw data layout. Accepts `echo` (sets `FastestDim=1`) or `line` (sets `FastestDim=2`). |
+| `--TR` | `TR` | `0.0` | Repetition time in milliseconds. Case-sensitive flag (`--TR`). |
+| `--TE` | `TE1 TE2 …` | all zeros | Echo times in milliseconds; one value per echo. Must follow `--dim` (so that `nEchos` is known). Consumes exactly `nEchos` arguments. Case-sensitive flag (`--TE`). |
+
+### ADC Dump / Diagnostics
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--info` | — | on (default mode) | Probe the MDH file and print scan parameters to stdout without writing any output volume. Disabled automatically when `--outdir` is given. |
+| `--dump` | — | off | Print the MDH mini-header for every readout line to the terminal (but not the ADC data itself). Only `--srcdir` is required. |
+| `--dumpadc` | `file` | none | Dump raw ADC data to a file. Output is ASCII by default; add `--binary` for binary format. |
+| `--binary` | — | off | Write ADC dump in binary format instead of ASCII. Used together with `--dumpadc`. |
+| `--nopcn` | — | off (PCNs are dumped) | Suppress dumping of phase-correction navigator (PCN) readouts. |
+| `--adcstats` | — | off | Print minimum, maximum, and average value over all ADCs to stdout. |
+
+> [!gotcha] `--rev` is non-functional
+> The `--rev` flag (intended to reverse readouts for even-numbered lines) appears in the help text but is commented out in `parse_commandline()`. Passing `--rev` will trigger an "unknown option" error. The help text itself warns: "DOES NOT WORK".
 
 ## Configuration Interactions
 

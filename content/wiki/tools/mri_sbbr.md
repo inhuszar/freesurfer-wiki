@@ -14,11 +14,10 @@ related:
   - "[[mri_convert]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full flag set from parse_commandline() not verified."
-  - "Optimisation algorithm (gradient vs. grid search) details need confirmation."
-  - "BBR cost function slope/center/sign parameters undocumented here."
+  - "The meaning of --opt integer values (optschema) not documented."
+  - "--search1d argument order appears buggy in source (pargv[0] used twice)."
 tags:
   - registration
   - surface
@@ -44,39 +43,41 @@ Boundary-based registration (BBR) is a cost function that measures the contrast 
 
 ## Inputs
 
-| Input | Description |
-|-------|-------------|
-| `--mov <file>` | Moving image (the slice or volume to register) |
-| `--surf <file>` | Surface file for BBR cost function |
-| `--initreg <file>` | Initial registration file (`.dat` or `.lta`) |
-| `--slice <n>` | Slice index to use (if `--mov` is a volume) |
-| `--outreg <file>` | Output registration file |
-| `--outreginv <file>` | Output inverse registration |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--mov` | `file` | — | Moving image (the slice or volume to register) |
+| `--surf` | `file` | — | Surface file for BBR cost function |
+| `--init-reg` | `file` | — | Initial registration file (`.dat` or `.lta`) |
+| `--slice` | `n` | `0` | Slice index to use (if `--mov` is a volume) |
+| `--reg` | `file` | — | Output registration file (required) |
+| `--reg-inv` | `file` | — | Output inverse registration |
+| `--out-surf` | `file` | — | Save the surface with registered coordinates |
 
 Optional optimisation parameters:
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--ftol <val>` | Function value tolerance for convergence | — |
-| `--linmintol <val>` | Line minimisation tolerance | — |
-| `--nitersmax <n>` | Maximum iterations | — |
-| `--bbrslope <val>` | BBR cost slope parameter | — |
-| `--bbrcenter <val>` | BBR cost centre parameter | — |
-| `--bbrsign <val>` | BBR cost sign parameter | — |
-| `--outdist <mm>` | Distance outside white surface to sample | — |
-| `--indist <mm>` | Distance inside white surface to sample | — |
-| `--outsurffile <file>` | Save the surface with registered coordinates | — |
-
-> [!gap] Full flag set not verified
-> The `parse_commandline()` function was only partially read. Many additional flags may exist.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--t1` | — | — | Set BBR sign to +1 (T1-weighted contrast) |
+| `--t2` | — | — | Set BBR sign to −1 (T2-weighted contrast) |
+| `--slope <val>` | float | `0.5` | BBR cost slope parameter |
+| `--din <mm>` | float | `1.0` | Distance inside white surface to sample |
+| `--dout <mm>` | float | `2.0` | Distance outside white surface to sample |
+| `--opt <n>` | int | `1` | Optimisation schema index |
+| `--search <nper> <mul>` | int float | `off` | Grid search parameters (n-per-axis, multiplier) |
+| `--search1d <iters> <nper> <mul>` | int int float | `off` | 1-D grid search parameters |
+| `--niters-max <n>` | int | `10` | Maximum optimisation iterations |
+| `--ftol <val>` | float | `1e-8` | Function value tolerance for convergence |
+| `--linmintol <val>` | float | `1e-8` | Line minimisation tolerance |
+| `--inc <n>` | int | `1` | Increment parameter for search schema |
+| `--p <paramno> <val>` | int float | — | Set initial registration parameter `paramno` to `val` |
 
 ## Outputs
 
-| Output | Description |
-|--------|-------------|
-| `--outreg <file>` | Registration file (`.dat` / `.lta`) from slice to volume |
-| `--outreginv <file>` | Inverse registration |
-| `--outsurffile <file>` | Surface with positions in the registered space |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--reg` | `file` | — | Registration file (`.dat` / `.lta`) from slice to volume (required) |
+| `--reg-inv` | `file` | — | Inverse registration |
+| `--out-surf` | `file` | — | Surface with positions in the registered space |
 
 ## Mathematical Foundations
 
@@ -86,7 +87,7 @@ $$
 C(\mathbf{T}) = \frac{1}{N} \sum_{v=1}^{N} \text{cost}\!\left(\frac{I(\mathbf{T}(x_{\text{out},v})) - I(\mathbf{T}(x_{\text{in},v}))}{\text{contrast}}\right)
 $$
 
-where $x_{\text{out},v}$ and $x_{\text{in},v}$ are points just outside and inside the white surface at vertex $v$, and `cost` is a robust function parameterised by slope and centre (the `bbrslope` and `bbrcenter` parameters).
+where $x_{\text{out},v}$ and $x_{\text{in},v}$ are points just outside and inside the white surface at vertex $v$, and `cost` is a robust function parameterised by slope (`--slope`). The contrast sign is set by `--t1` (+1) or `--t2` (−1).
 
 The slice-to-volume extension constrains the transform to be a 2D in-plane rigid body (3 DOF: 2 translations + 1 rotation) applied to the specified slice.
 
@@ -97,8 +98,11 @@ See Inputs section above. The `CMDARGS` struct (defined in the source) enumerate
 ## Configuration Interactions
 
 - `--slice` selects which slice of a multi-slice volume to register.
-- `--bbrslope`, `--bbrcenter`, `--bbrsign` together parameterise the robust cost function shape.
-- `--outdist` and `--indist` control the sampling distance from the surface — larger values average more signal but may include non-boundary voxels.
+- `--t1` and `--t2` set the BBR contrast sign to +1 and −1 respectively. These are mutually exclusive.
+- `--slope` parameterises the robust cost function shape.
+- `--dout` and `--din` control the sampling distance outside and inside the white surface — larger values average more signal but may include non-boundary voxels.
+- `--opt` selects the optimisation schema (integer index); `--search` and `--search1d` enable grid-search modes with configurable search density.
+- `--p <paramno> <val>` overrides individual initial registration parameters by index.
 
 ## Typical Use Cases
 
@@ -108,8 +112,9 @@ mri_sbbr \
     --mov func.nii.gz \
     --surf $SUBJECTS_DIR/bert/surf/lh.white \
     --slice 20 \
-    --initreg func2anat.dat \
-    --outreg slice20_reg.dat
+    --t1 \
+    --init-reg func2anat.dat \
+    --reg slice20_reg.dat
 ```
 
 ## Pipeline Context
@@ -131,7 +136,10 @@ Not part of the standard `recon-all` pipeline. Used in specialised functional MR
 
 ## Confidence and Gaps
 
-**Confident:** Tool purpose, BBR cost function concept, and basic I/O confirmed from source.
+**Confident:** Tool purpose, BBR cost function concept, and full I/O flag set confirmed from `parse_commandline()` in source.
 
-> [!gap] Full flag set and optimisation schema
-> The complete `parse_commandline()` body was not read. The `optschema` parameter and multi-scheme search behaviour are not documented.
+> [!gap] Optimisation schema details
+> The meaning of each `--opt <n>` integer value (the `optschema` parameter) is not documented in the source header. Deeper source reading would be needed to enumerate valid values.
+
+> [!gap] `--search1d` argument order
+> The `--search1d` handler assigns `pargv[0]` to both `search1diters` and `searchnper`, which appears to be a bug in the source. The exact three argument semantics are unclear.

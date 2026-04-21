@@ -14,7 +14,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Path file format specification not yet documented as a format page"
 tags:
@@ -52,10 +52,10 @@ FreeSurfer uses two related file formats for marking sets of surface vertices:
 
 | Input | Description |
 |-------|-------------|
-| Source file | A `.path` or `.label` file (format auto-detected from file extension and content) |
-| `--subject` | Subject name (for surface-aware operations like connect/fill) |
-| `--hemi` | Hemisphere (`lh` or `rh`) |
-| `--surface` | Path to a surface file (for `--conx`/`--fillx` operations) |
+| `--i <file>` | Input path or label file (auto-detected from content) |
+| `--o <file>` | Output label or path file |
+| Subject/hemi | Passed as arguments to `--connect`/`--fill`/`--confill` |
+| Surface file | Passed as argument to `--confillx`/`--confillxfn` |
 
 ## Outputs
 
@@ -68,28 +68,32 @@ FreeSurfer uses two related file formats for marking sets of surface vertices:
 
 **Geodesic path connection:** When `--connect` is specified, the tool calls `MRISfindPath()` (or equivalent surface topology traversal) to find the shortest surface path between consecutive manually placed path vertices.
 
-**Surface fill:** The `--fill` operation uses a breadth-first flood-fill (`MRISfill()`) starting from the seed vertex (`--fillseed`) to mark all vertices enclosed by the boundary path.
+**Surface fill:** The `--fill` operation uses a breadth-first flood-fill (`MRISfill()`) starting from the seed vertex (passed as an argument to `--fill`/`--confill`/`--confillx`) to mark all vertices enclosed by the boundary path.
 
 **Multiple-path encoding:** Multiple paths in a label file are separated by a sentinel row with all columns set to `-99999`. The `--single` flag disables this sentinel and produces a flat label file.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--p2l` | (none) | Force conversion path → label |
-| `--l2p` | (none) | Force conversion label → path |
-| `--single` | (none) | Single-path mode: no sentinel separators in label file |
-| `--connect` | `<subject> <hemi>` | Connect path fragments using shortest surface path |
-| `--fill` | `<subject> <hemi> <seed>` | Fill path boundary from seed vertex |
-| `--conx` | `<surface_fname>` | Connect using explicit surface file (instead of subject/hemi) |
-| `--fillx` | `<surface_fname> <seed>` | Fill using explicit surface file |
-| `--debug` | (none) | Enable verbose debug output |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `<file>` | — | Input path file (when path-to-label) |
+| `--o` | `<file>` | — | Output label file (when path-to-label) |
+| `--path2label` | (none) | off | Force conversion path → label |
+| `--label2path` | (none) | off | Force conversion label → path |
+| `--single` | (none) | off | Single-path mode: no sentinel separators in label file |
+| `--connect` | `<subject> <hemi>` | — | Connect path fragments using shortest surface path |
+| `--fill` | `<subject> <hemi> <seed>` | — | Fill path boundary from seed vertex |
+| `--confill` | `<subject> <hemi> <seed>` | — | Connect and fill path (combined operation) |
+| `--confillx` | `<surface_fname> <seed>` | — | Connect and fill using explicit surface file |
+| `--confillxfn` | `<surface_fname> <batchfile>` | — | Connect and fill using explicit surface; read batch of paths from file |
+| `--debug` | (none) | off | Enable verbose debug output |
 
 ## Configuration Interactions
 
-- `--p2l` and `--l2p` are mutually exclusive; if neither is given, the format is auto-detected.
-- `--connect` and `--fill` require `--subject` and `--hemi`; the tool will look up the surface from `$SUBJECTS_DIR/<subject>/surf/<hemi>.white`.
-- `--conx` and `--fillx` take an explicit surface file instead, bypassing the subjects directory lookup.
+- `--path2label` and `--label2path` are mutually exclusive; if neither is given, the format is auto-detected.
+- `--connect` and `--fill` take `<subject> <hemi>` as arguments; the tool looks up the surface from `$SUBJECTS_DIR/<subject>/surf/<hemi>.white`.
+- `--confillx` and `--confillxfn` take an explicit surface file instead, bypassing the subjects directory lookup.
+- `--confill` is a convenience flag that combines connect and fill in one step, using a subject/hemi lookup.
 - `--single` is only relevant in path-to-label direction; it has no effect when converting label-to-path.
 - `--fill` without a prior `--connect` will flood from the seed along the raw (potentially disconnected) path.
 
@@ -97,16 +101,16 @@ FreeSurfer uses two related file formats for marking sets of surface vertices:
 
 ```bash
 # Convert a manually drawn path file to a label
-mri_path2label drawn_path.path output.label
+mri_path2label --i drawn_path.path --o output.label
 
 # Convert with explicit direction and single-path mode
-mri_path2label --p2l --single path.path output.label
+mri_path2label --path2label --single --i path.path --o output.label
 
 # Connect path fragments and then fill to create a region label
-mri_path2label --connect fssubject lh path.path connected_filled.label --fill fssubject lh 1234
+mri_path2label --confill fssubject lh 1234 --i path.path --o connected_filled.label
 
-# Use explicit surface file for fill
-mri_path2label --fillx /subjects/fssubject/surf/lh.white 1234 path.path output.label
+# Use explicit surface file for connect-and-fill
+mri_path2label --confillx /subjects/fssubject/surf/lh.white 1234 --i path.path --o output.label
 ```
 
 ## Pipeline Context
@@ -119,10 +123,10 @@ mri_path2label --fillx /subjects/fssubject/surf/lh.white 1234 path.path output.l
 > When multiple paths are encoded in a label file, each path is separated by a row with all values set to `-99999`. This sentinel is not a valid vertex index and must be handled by any tool consuming the label. Use `--single` if downstream tools do not handle sentinels.
 
 > [!gotcha] Format auto-detection can fail
-> If the file has no `.path` or `.label` extension and the first line is ambiguous, auto-detection fails. Use `--p2l` or `--l2p` explicitly to override.
+> If the file has no `.path` or `.label` extension and the first line is ambiguous, auto-detection fails. Use `--path2label` or `--label2path` explicitly to override.
 
 > [!gotcha] Subject directory dependency
-> `--connect` and `--fill` require `$SUBJECTS_DIR` to be set and the subject's surface file to exist. Use `--conx`/`--fillx` with an explicit surface path to avoid this dependency.
+> `--connect`, `--fill`, and `--confill` require `$SUBJECTS_DIR` to be set and the subject's surface file to exist. Use `--confillx` or `--confillxfn` with an explicit surface path to avoid this dependency.
 
 ## Related Tools
 

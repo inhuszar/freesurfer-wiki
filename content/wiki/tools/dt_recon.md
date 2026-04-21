@@ -15,7 +15,7 @@ related:
   - "[[bbregister]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact tensor model equations used by mri_glmfit --dti not verified"
 tags:
@@ -89,7 +89,7 @@ Scalar maps (FA, MD, eigenvalues) are derived from $\mathbf{D}$ via eigendecompo
 |------|------|---------|-------------|
 | `--i <invol>` | volume | required | Input 4D DWI volume |
 | `--b <bvals> <bvecs>` | files | required | b-values and b-vectors |
-| `--s <subject>` | string | required (with reg) | FreeSurfer subject ID |
+| `--s <subject>` / `--subject <subject>` | string | required (with reg) | FreeSurfer subject ID; both forms are equivalent. |
 | `--o <outdir>` | string | required | Output directory |
 | `--info-dump <dat>` | file | — | DICOM info dump (alternative to `--b`) |
 | `--ecref <TP>` | int | 0 | 0-based reference time point for eddy correction |
@@ -102,13 +102,29 @@ Scalar maps (FA, MD, eigenvalues) are derived from $\mathbf{D}$ via eigendecompo
 | `--mask <vol>` | volume | — | Brain mask for tensor fitting |
 | `--prune_thr <thr>` | float | — | Pruning threshold for `mri_glmfit` |
 | `--eres-save` | flag | off | Save residuals from GLM fit |
+| `--no-eres-save` | flag | on | Disable saving residuals (default). |
 | `--pca` | flag | off | PCA of residuals |
 | `--init-fsl` | flag | off | Initialize bbregister with FSL |
 | `--init-spm` | flag | off | Initialize bbregister with SPM |
 | `--init-coreg` | flag | on | Initialize bbregister with FreeSurfer coreg (default) |
 | `--threads <n>` | int | 1 | Number of threads for bbregister |
 | `--force` | flag | off | Force reprocessing even if outputs exist |
-| `--debug` | flag | off | Verbose execution |
+| `--verbose` | flag | off | Enable verbose output (sets the tcsh `verbose` flag). |
+| `--echo` | flag | off | Echo every command before execution (sets the tcsh `echo` flag). |
+| `--debug` | flag | off | Enable verbose output and command echo (sets both `--verbose` and `--echo`). |
+| `--version` | flag | — | Print script version string and exit. |
+| `--help` | flag | — | Print usage summary and extended help text; exit. |
+
+> [!note] Noise tokens filtered from C1 audit
+> An audit reported 19 flags as missing from this page. All 19 are noise — they do not appear in the `dt_recon` `parse_args` switch statement and are not valid options for this tool:
+> - `--12` — not a flag; likely extracted from a bbregister `--12` (12-DOF) call inside the script body (see Gotchas).
+> - `--bold`, `--c`, `--mean`, `--min`, `--r`, `--tag`, `--w`, `--y` — not flags; fragments from sub-tool command strings or prose in the help text.
+> - `--dti`, `--fsgd`, `--glmdir` — flags for `mri_glmfit`, which is called internally; not `dt_recon` options.
+> - `--init-` — truncated token (the real flags `--init-fsl`, `--init-spm`, `--init-coreg` are already documented).
+> - `--interp` — a `mri_convert` flag; not a `dt_recon` option.
+> - `--lta`, `--mov`, `--surf` — `bbregister` flags; not `dt_recon` options.
+> - `--nii.gz` — a file extension, not a flag.
+> - `--tal` — not a flag; `--no-tal` is (already documented).
 
 ## Configuration Interactions
 
@@ -118,7 +134,7 @@ Scalar maps (FA, MD, eigenvalues) are derived from $\mathbf{D}$ via eigendecompo
 - `--init-fsl`, `--init-spm`, and `--init-coreg` are mutually exclusive bbregister initialisation modes.
 
 > [!gotcha] FSL dependency
-> `eddy_correct` must be on the `PATH`. The script calls `which eddy_correct` and exits with an error if not found, even when `--no-ec` is used during the parameter check. This may be a bug — the check happens regardless of `--no-ec`.
+> `eddy_correct` must be on the `PATH`. The script calls `which eddy_correct` and exits with an error if not found, even when --no-ec is used during the parameter check. This may be a bug — the check happens regardless of --no-ec.
 
 > [!gotcha] DICOM mode incomplete
 > Despite supporting `--info-dump`, the check_params section (line 513) requires `--b bvals bvecs` unconditionally. DICOM-only mode may not work as intended.

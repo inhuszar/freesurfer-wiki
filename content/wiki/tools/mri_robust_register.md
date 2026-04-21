@@ -21,7 +21,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact saturation parameter auto-detection (--satit) algorithm"
 tags:
@@ -134,6 +134,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 | `--wlimit` | `<float>` | 0.16 | Target maximum outlier fraction used by `--satit` |
 | `--cost` | `<string>` | `ROB` | Cost function: `ROB` (robust M-estimator), `LS` (least-squares), `MI`, `NMI`, `ECC`, `NCC`, `SCR`, `TB`, `LNCC`, `SAD`, `SB`, `ROBENT` (robust + entropy) |
 | `--leastsquares` | (none) | off | Shorthand for `--cost LS`; disables robust outlier rejection |
+| `--satest` | (none) | off | Attempt to estimate saturation value (parsed but effectively dead code — the implementing block is annotated "never reached???"; use `--satit` instead) |
 
 ### Initialisation
 
@@ -193,7 +194,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--entradius` / `--radius` | `<int>` | 5 | Half-side of the local box used for entropy computation; box side = 2·radius + 1 |
+| `--entradius` | `<int>` | 5 | Half-side of the local box used for entropy computation; box side = 2·radius + 1 |
 | `--entball` | (none) | off | Use a spherical neighbourhood instead of a cubic box for entropy computation |
 | `--entcorrection` | (none) | off | Enable 'correction' mode in entropy image computation |
 | `--entmov` | `<fname>` | none | Save the entropy image computed from the moving volume |
@@ -223,9 +224,12 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 |------|----------|---------|-------------|
 | `--verbose` | `<int>` | 1 | Verbosity level (0 = silent, 1 = normal, higher = more detail) |
 | `--debug` | (none) | off | Enable debug output and write intermediate files |
+| `--test` | `<int> <file>` | — | Developer test mode: calls `RegRobust::testRobust(file, int)` and exits immediately; not intended for production use |
+| `--help` | (none) | — | Print usage and exit (also accepted as `-h`) |
+| `--version` | (none) | — | Print version string and exit |
 
 > [!gotcha] Dead code: `--satest`
-> The `--satest` flag is parsed (sets `P.dosatest = true`) but the source comment explicitly marks the block "never reached???" and advises using `--satit` instead. This flag has no functional effect.
+> The `--satest` flag is parsed (sets `P.dosatest = true`) but the source comment explicitly marks the block "never reached???" and advises using --satit instead. This flag has no functional effect.
 
 ## Configuration Interactions
 
@@ -233,7 +237,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 - `--satit` iteratively adjusts `--sat`; providing `--sat <val>` directly bypasses iteration. When neither is given the tool will error unless `--cost` is non-ROB or `--leastsquares` is set.
 - Symmetric registration is enabled by default. Disable with `--nosym` to produce a direct source-to-destination LTA. All `--half*` outputs require the default symmetric mode.
 - `--iscaleout` implies `--iscale`; specifying `--iscaleout` without `--iscale` is legal (the flag adds `--iscale` automatically).
-- `--mapmov` and `--weights` cannot be the same filename (checked at startup).
+- `--mapmov` and --weights cannot be the same filename (checked at startup).
 - `--cost ROBENT` is equivalent to `--cost ROB --entradius <default>` and activates entropy-based robust cost.
 - `--leastsquares` is equivalent to `--cost LS`; both set `P.leastsquares = true`.
 - `--maskmov` / `--maskdst` restrict the optimisation to brain voxels; without masks the full FOV is used, which may include neck/skull.

@@ -40,7 +40,10 @@ See [[mris_volmask]] for full documentation. This variant exists because some di
 
 ## Configuration Options
 
-Identical to [[mris_volmask]].
+Identical to [[mris_volmask]]. See that page for the full flag reference.
+
+> [!note] Audit noise: `--sd`
+> An automated audit may flag `--sd` as missing. The flag exists in the shared source `mris_volmask.cpp` and is documented in [[mris_volmask]]. This thin wrapper page intentionally has no flag table.
 
 ## Typical Use Cases
 

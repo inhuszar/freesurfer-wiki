@@ -15,10 +15,13 @@ related:
   - "[[mris_register]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full flag enumeration not verified from help output"
-  - "usepathfiles mode details"
+  - "usepathfiles (tksurfer path file) format and behaviour not fully verified"
+  - "--paint mode exact distance metric not traced"
+audit_fixes:
+  - "C2 2026-04-21: added Default column to Configuration Options table (52 flags)"
+  - "C1 2026-04-21: --annot-trg, --reg2, --regdiff not found in source — not added; added --hashres (was in source but missing from table)"
 tags:
   - label
   - registration
@@ -103,54 +106,77 @@ For each source label vertex:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--srclabel` | `<file>` | Source label file |
-| `--srcsubject` | `<subject>` | Source subject name |
-| `--trglabel` | `<file>` | Output target label file |
-| `--trgsubject` | `<subject>` | Target subject name |
-| `--regmethod` | `surface` or `volume` | Registration method |
-| `--hemi` | `lh` or `rh` | Hemisphere (for surface method) |
-| `--srchemi` | `lh` or `rh` | Source hemisphere (for cross-hemi mapping) |
-| `--trghemi` | `lh` or `rh` | Target hemisphere (for cross-hemi mapping) |
-| `--surfreg` | `<surf>` | Registration surface (default: `sphere.reg`) |
-| `--srcsurfreg` | `<surf>` | Source registration surface override |
-| `--trgsurfreg` | `<surf>` | Target registration surface override |
-| `--trgsurface` | `<surf>` | Target coordinate surface (default: `white`) |
-| `--projabs` | `<mm>` | Project along normal by absolute distance |
-| `--projfrac` | `<frac>` | Project along normal by fraction of thickness |
-| `--xfm` | `<file>` | Volumetric transform (for volume method) |
-| `--reg` | `<file>` | Registration file (for volume method) |
-| `--invertxfm` | — | Invert the volumetric transform |
-| `--srcmask` | `<file>` | Mask for source label |
-| `--srcmaskthresh` | `<val>` | Threshold for source mask |
-| `--outmask` | `<file>` | Output binary mask |
-| `--srcicoorder` | `<N>` | Source icosahedral order (if source is on ico) |
-| `--trgicoorder` | `<N>` | Target icosahedral order |
-| `--usepathfiles` | — | Read/write from tksurfer path files |
-| `--label-erode` | `<N>` | Erode result label by N vertices |
-| `--label-dilate` | `<N>` | Dilate result label by N vertices |
-| `--label-open` | `<N>` | Morphological open (erode then dilate) |
-| `--label-close` | `<N>` | Morphological close (dilate then erode) |
-| `--label-ring` | `<N>` | Ring around label boundary |
-| `--direct` | — | Direct surface-to-surface mapping without sphere |
-| `--scanner` | — | Use scanner RAS coordinates |
-| `--to-scanner` | `<vol>` | Convert label coordinates to scanner RAS |
-| `--to-tkr` | `<vol>` | Convert label coordinates to tkr RAS |
-| `--paint` | `<surf> <maxdist>` | Paint label onto surface (nearest vertex within maxdist) |
-| `--no-rescale` | — | Disable coordinate rescaling |
-| `--src-annot` | `<file>` | Source annotation file |
-| `--trg-annot` | `<file>` | Target annotation file |
-| `--debug` | — | Enable debug output |
+Flag list verified against `mri_label2label/mri_label2label.cpp` (`parse_commandline()`, lines 914–1249).
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--srclabel` | `<file>` | *(required)* | Source label file |
+| `--srcsubject` | `<subject>` | *(required)* | Source subject name |
+| `--trglabel` | `<file>` | *(required)* | Output target label file |
+| `--trgsubject` | `<subject>` | *(required)* | Target subject name |
+| `--s` | `<subject>` | — | Use the same subject as both source and target |
+| `--regmethod` | `surface` or `volume` | *(required)* | Registration method (`surf` and `vol` are accepted aliases) |
+| `--hemi` | `lh` or `rh` | — | Hemisphere (for surface method; sets both `--srchemi` and `--trghemi`) |
+| `--srchemi` | `lh` or `rh` | *(from `--hemi`)* | Source hemisphere (for cross-hemi mapping) |
+| `--trghemi` | `lh` or `rh` | *(from `--hemi`)* | Target hemisphere (for cross-hemi mapping) |
+| `--surfreg` | `<surf>` | `sphere.reg` | Registration surface name for both source and target |
+| `--srcsurfreg` | `<surf>` | *(from `--surfreg`)* | Source registration surface name override |
+| `--trgsurfreg` | `<surf>` | *(from `--surfreg`)* | Target registration surface name override |
+| `--srcsurfreg-file` | `<path>` | — | Full path to source registration surface (bypasses name construction) |
+| `--trgsurfreg-file` | `<path>` | — | Full path to target registration surface (bypasses name construction) |
+| `--trgsurface` / `--trgsurf` | `<surf>` | `white` | Target coordinate surface for output label xyz |
+| `--projabs` | `<mm>` | — | Project along surface normal by absolute distance (mm) |
+| `--projfrac` | `<frac>` | — | Project along surface normal by fraction of cortical thickness |
+| `--xfm` | `<file>` | — | Volumetric transform file (for volume method; mutually exclusive with `--reg`) |
+| `--reg` | `<file>` | — | Registration `.dat` file (for volume method; sets regmethod to volume) |
+| `--xfm-invert` | — | off | Invert the volumetric transform or reg file |
+| `--src-invert` | — | off | Invert source label (surface method only) |
+| `--trg-invert` | — | off | Invert target label (surface method only) |
+| `--srcmask` | `<file> <thresh> [fmt]` | — | Mask for source label; removes vertices below threshold |
+| `--srcmasksign` | `abs`, `pos`, or `neg` | `abs` | Sign convention for source mask threshold |
+| `--srcmaskframe` | `<N>` | `0` | 0-based frame index for source mask |
+| `--outmask` | `<file>` | — | Output binary mask of mapped label (surface method only) |
+| `--outstat` | `<file>` | — | Output label statistics as a mask (sets `DoOutMaskStat=1`) |
+| `--srcicoorder` | `<N>` | `-1` | Source icosahedral order (required when `--srcsubject ico`) |
+| `--trgicoorder` | `<N>` | `-1` | Target icosahedral order (required when `--trgsubject ico`) |
+| `--usepathfiles` | — | off | Read/write from tksurfer path files instead of label files |
+| `--erode` | `<N>` | `0` | Erode result label by N vertices after mapping |
+| `--dilate` | `<N>` | `0` | Dilate result label by N vertices after mapping |
+| `--open` | `<N>` | `0` | Morphological open (erode N then dilate N) after mapping |
+| `--close` | `<N>` | `0` | Morphological close (dilate N then erode N) after mapping |
+| `--ring` | `<N>` | `0` | Dilate N times then remove original (boundary ring) after mapping |
+| `--direct` | `<src_annot> <trg_annot>` | — | Direct surface-to-surface mapping using xyz coords; takes source and target annotation filenames |
+| `--sample` | `<surf>` | — | Sample label onto output subject's surface after mapping |
+| `--paint` | `<maxdist> <surfname>` | — | Map to closest vertex on source surface if distance < maxdist; sets `DoRescale=0`, `reversemap=0` |
+| `--dminmin` | `<file>` | — | Save binary mask at vertex of closest label point (for `--paint`) |
+| `--revmap` | — | on | Use reverse mapping for nearest-vertex search (`reversemap=1`) |
+| `--norevmap` | — | — | Disable reverse mapping (`reversemap=0`) |
+| `--hash` | — | on | Use hash table for nearest-vertex lookup (`usehash=1`) |
+| `--nohash` | — | — | Disable hash table (`usehash=0`) |
+| `--hashres` | `<float>` | `16` | Hash table resolution for nearest-vertex lookup |
+| `--scanner` | — | off | Set output coordinate type label to `scanner` (changes label metadata string only) |
+| `--to-scanner` | `<vol>` | — | Convert label coordinates to scanner RAS before operations |
+| `--to-tkr` | `<vol>` | — | Convert label coordinates to tkr RAS before operations |
+| `--surf-label2mask` | `<label> <surf> <mask>` | — | Standalone: convert a label to a binary mask; exits immediately |
+| `--label-cortex` | `<surf> <aseg> <KeepHipAmyg01> <outlabel>` | — | Standalone: create a cortex label like `?h.cortex.label`; exits immediately |
+| `--baryfill` | `<surf> <label> <delta> <outlabel>` | — | Standalone: fill label using barycentric interpolation; exits immediately |
+| `--annot-fill-holes` | `<surf> <inannot> <outannot>` | — | Standalone: fill holes in an annotation/parcellation overlay; exits immediately |
+| `--sd` | `<dir>` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `--debug` | — | off | Enable debug output |
+| `--Gdiag_no` | `<n>` | — | Set Gdiag_no diagnostic number for selective debug output |
 
 ## Configuration Interactions
 
 - `--regmethod surface` requires `--hemi` and both subjects to have `sphere.reg` surfaces.
-- `--regmethod volume` does not require `--hemi` but requires valid Talairach transforms for both subjects.
+- --regmethod volume does not require `--hemi` but requires valid Talairach transforms for both subjects.
 - Cross-hemisphere mapping (e.g., `--srchemi lh --trghemi rh`) uses `rh.lh.sphere.reg` as the registration surface; this surface must exist in the target subject directory.
 - `--projabs` and `--projfrac` are mutually exclusive projection modes.
-- `--label-erode`, `--label-dilate`, `--label-open`, `--label-close`, `--label-ring` are morphological operations applied to the target label after mapping.
-- `--srcmask` with `--srcmaskthresh` removes vertices from the source label that don't meet the mask threshold.
+- `--erode`, `--dilate`, `--open`, `--close`, `--ring` are morphological operations applied to the target label after mapping.
+- `--srcmask` takes the threshold inline as its second argument (`--srcmask <file> <thresh>`); use `--srcmasksign` and `--srcmaskframe` to control which values and frames are used.
+- `--xfm-invert` inverts the transform provided by `--xfm` or `--reg`. `--src-invert` and `--trg-invert` apply to the surface-method inversion; these cannot be used with volume registration.
+- `--direct` takes two arguments (source annotation, target annotation) and performs direct xyz-coordinate lookup rather than sphere-based registration.
+- `--paint` sets `DoRescale=0` and `reversemap=0` internally; these cannot be independently overridden when `--paint` is active.
+- `--surf-label2mask`, `--label-cortex`, `--baryfill`, and `--annot-fill-holes` are standalone operations that exit immediately after completing their task, ignoring all other flags.
 
 ## Typical Use Cases
 
@@ -224,6 +250,6 @@ mri_label2label \
 
 ## Confidence and Gaps
 
-**Confident (from source):** Both registration methods (surface and volume), spherical nearest-vertex mapping via hash tables, morphological operations on labels, cross-hemisphere support, projection along normals.
+**Confident (from source):** Both registration methods (surface and volume), spherical nearest-vertex mapping via hash tables, all morphological operations (`--erode`, `--dilate`, `--open`, `--close`, `--ring`), cross-hemisphere support, projection along normals, all flag names verified against `parse_commandline()`.
 
-**Uncertain:** Exact usepathfiles (tksurfer path file) format and behavior; `--paint` mode details; complete set of all flags.
+**Uncertain:** Exact usepathfiles (tksurfer path file) format and behaviour; `--paint` distance metric details.

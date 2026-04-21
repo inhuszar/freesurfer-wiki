@@ -102,16 +102,16 @@ Iterative line minimization in the parameter space of the linear transform (typi
 > [!gap] Flag list not fully verified
 > Flags inferred from source code variable declarations and function signatures.
 
-| Flag | Description |
-|------|-------------|
-| `--apply` | Apply the transform after registration (default on) |
-| `--no-apply` | Compute transform only, don't apply |
-| `--angio` | Angiography mode |
-| `--find-label <label> <x> <y> <z>` | Find GCAM node at label near given voxel |
-| `--regrid` | Enable regridding |
-| `--max-trans <mm>` | Maximum translation search range (default: 30mm) |
-| `--max-angle <deg>` | Maximum rotation search range (default: 25°) |
-| `--fix-intensity` | Fix intensity scaling during registration |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--apply` | — | on | Apply the transform after registration |
+| `--no-apply` | — | off | Compute transform only, don't apply |
+| `--angio` | — | off | Angiography mode |
+| `--find-label` | `<label> <x> <y> <z>` | — | Find GCAM node at label near given voxel |
+| `--regrid` | — | off | Enable regridding |
+| `--max-trans` | `<mm>` | `30` | Maximum translation search range (mm) |
+| `--max-angle` | `<deg>` | `25` | Maximum rotation search range (degrees) |
+| `--fix-intensity` | — | off | Fix intensity scaling during registration |
 
 ## Configuration Interactions
 

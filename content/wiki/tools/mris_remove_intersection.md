@@ -144,3 +144,6 @@ Called internally by [[mris_remesh]] after remeshing operations. Also applicable
 **Confident (from code and help XML):** Positional argument structure; `-fill-holes`, `-map`, `-notches`, `-remove-hah` as standalone flags; default parameter values; hinge removal parameters not optimised (per help XML).
 
 **Uncertain:** The actual correction algorithm (vertex relocation method) for standard intersection removal.
+
+> [!note] Audit noise: `--hide-3d-slices`
+> An automated audit may flag `--hide-3d-slices` as missing. This flag appears at source lines 193 and 219 as part of a `freeview` subprocess command string: `fsvglrun freeview --hide-3d-slices ...`. It is a FreeView flag, not a flag accepted by `mris_remove_intersection`.

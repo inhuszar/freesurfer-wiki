@@ -90,7 +90,6 @@ $$
 | `--ctab` | `<file>` | — | Colour lookup table |
 | `--ctab-default` | — | off | Use FreeSurfer default colour LUT |
 | `--include-zero` | — | off | Include label 0 in output |
-| `--precision` | `<int>` | default | Decimal precision for output coordinates |
 
 ## Configuration Interactions
 
@@ -132,6 +131,6 @@ Not called by `recon-all`. Used in post-processing workflows alongside [[mri_seg
 
 ## Confidence and Gaps
 
-**Confident (from source):** All flags, weighted/unweighted centroid formula, `--reg` LTA support, pointset output.
+**Confident (from source):** All flags (verified from `parse_commandline()`), weighted/unweighted centroid formula, --reg LTA support, pointset output. Note: --precision does not exist as a CLI flag (internal struct field only).
 
 **Uncertain:** Exact text format of `--o` output (column names, separator).

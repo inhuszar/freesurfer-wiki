@@ -13,7 +13,7 @@ related:
   - "[[dt_recon]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - diffusion
@@ -37,7 +37,7 @@ tags:
 
 ## Purpose and Context
 
-Multi-shell diffusion acquisitions contain volumes acquired at multiple b-values (e.g., b=0, b=1000, b=2000, b=3000). Many downstream analyses require only a subset of shells. `dmri_bset` automates the extraction of specific b-shells while keeping b-values, gradient vectors, and image volumes synchronized. It delegates the actual volume extraction to `mri_convert` (using `--frame` selection) and handles the text-file-based bvals/bvecs extraction with `sed`.
+Multi-shell diffusion acquisitions contain volumes acquired at multiple b-values (e.g., b=0, b=1000, b=2000, b=3000). Many downstream analyses require only a subset of shells. `dmri_bset` automates the extraction of specific b-shells while keeping b-values, gradient vectors, and image volumes synchronized. It delegates the actual volume extraction to `mri_convert` (using --frame selection) and handles the text-file-based bvals/bvecs extraction with `sed`.
 
 This is a preprocessing utility used before DTI fitting, tractography, or other shell-specific analyses.
 
@@ -88,6 +88,9 @@ Frame extraction is performed by `mri_convert --frame <indices>`.
 | `--btol <frac>` | float | 0.05 | Fractional tolerance around each b-value |
 | `--bsort` | flag | off | Reorder output by b-shell (default: maintain acquisition order) |
 | `--bmax <num>` | float | — | Extract all frames with b ≤ this maximum |
+| `-verbose` | flag | off | Enable verbose output (`set verbose = 1`) |
+| `-echo` | flag | off | Enable command echo to stdout (`set echo = 1`) |
+| `-debug` | flag | off | Enable both verbose and echo (`set verbose = 1; set echo = 1`) |
 
 ## Configuration Interactions
 
@@ -96,7 +99,7 @@ Frame extraction is performed by `mri_convert --frame <indices>`.
 - `--btol` applies only to `--b` mode; `--bmax` does an exact inequality test.
 - `--bsort` changes the ordering of output frames when multiple shells are extracted. Without `--bsort`, frames appear in their original acquisition order. With `--bsort`, frames are grouped by b-shell.
 - The minimum b-value in the input is **always included** regardless of shell specification, ensuring a b=0 reference is available.
-- If `--inb` is not specified, the script looks for a file with the same base name as `--in` but with `.bvals` extension.
+- If --inb is not specified, the script looks for a file with the same base name as `--in` but with `.bvals` extension.
 
 > [!gotcha] Tolerance applies bidirectionally
 > `--btol 0.05` with `--b 1000` matches frames where 950 ≤ b ≤ 1050. Frames nominally acquired at b=1000 but written as 998 or 1002 by scanner software will still be matched.

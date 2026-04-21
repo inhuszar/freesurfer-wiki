@@ -14,9 +14,9 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "The --vox2ras-thresh flag's exact comparison logic was not traced."
+  - "The --vox2ras threshold comparison logic was not fully traced."
 tags:
   - comparison
   - validation
@@ -81,23 +81,23 @@ $$
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--v1` | `vol1` | First input volume |
-| `--v2` | `vol2` | Second input volume |
-| `--allow-resolution` | — | Do not fail on resolution mismatch |
-| `--allow-precision` | — | Do not fail on precision mismatch |
-| `--allow-vox2ras` | — | Do not fail on vox2ras mismatch |
-| `--vox2ras-thresh` | `thresh` | Tolerance for vox2ras comparison |
-| `--pixdiff-thresh` | `thresh` | Tolerance for pixel value comparison |
-| `--debug` | — | Enable debug output |
-| `--version` | — | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--v1` | `vol1` | — | First input volume |
+| `--v2` | `vol2` | — | Second input volume |
+| `--allow-res` | — | off | Do not fail on resolution mismatch |
+| `--allow-prec` | — | off | Do not fail on precision mismatch |
+| `--allow-vox2ras` | — | off | Do not fail on vox2ras mismatch |
+| `--vox2ras` | `thresh` | 0 | Tolerance for vox2ras comparison |
+| `--pix` | `thresh` | 0 | Tolerance for pixel value comparison |
+| `--debug` | — | off | Enable debug output |
+| `--version` | — | off | Print version |
 
 ## Configuration Interactions
 
-- `--allow-resolution`, `--allow-precision`, `--allow-vox2ras` suppress specific exit codes. They do not affect pixel-level comparison.
-- `--pixdiff-thresh` sets an absolute tolerance; differences below this value are not reported as failures (exit code 6).
-- `--vox2ras-thresh` sets an element-wise tolerance for the 4×4 vox2ras matrix.
+- `--allow-res`, `--allow-prec`, `--allow-vox2ras` suppress specific exit codes. They do not affect pixel-level comparison.
+- `--pix` sets an absolute tolerance; differences below this value are not reported as failures (exit code 6).
+- `--vox2ras` sets an element-wise tolerance for the 4×4 vox2ras matrix.
 
 ## Typical Use Cases
 
@@ -106,14 +106,14 @@ $$
 mri_voldiff --v1 output.mgz --v2 reference.mgz
 
 # Allow floating-point precision differences up to 1e-5
-mri_voldiff --v1 output.mgz --v2 reference.mgz --pixdiff-thresh 1e-5
+mri_voldiff --v1 output.mgz --v2 reference.mgz --pix 1e-5
 
 # Check only pixel values, ignore header differences
 mri_voldiff \
     --v1 output.mgz \
     --v2 reference.mgz \
-    --allow-resolution \
-    --allow-precision \
+    --allow-res \
+    --allow-prec \
     --allow-vox2ras
 
 # Use in a shell script for regression testing
@@ -149,4 +149,4 @@ fi
 **High confidence:** exit codes (from `#define` constants in source), command-line flags (from variable declarations), max-diff computation logic (from main() function body).
 
 > [!gap] Vox2ras comparison details
-> The exact matrix norm or element-wise comparison logic for `--vox2ras-thresh` was not fully traced in the parse/check logic.
+> The exact matrix norm or element-wise comparison logic for `--vox2ras` was not fully traced in the parse/check logic.

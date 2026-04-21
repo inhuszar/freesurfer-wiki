@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "fMRIcovariance() variance/std implementation not traced"
   - "MRIpca() PCA algorithm not traced beyond entry point"
@@ -135,58 +135,58 @@ $$
 
 #### Input specification
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--i` | `vol` (string) | Input volume; repeatable. Bare filenames (without `--i`) are also accepted as inputs. Total inputs across `--i` and `--f` capped at `NInMAX = 400000`. |
-| `--f` | `listfile` (string) | Text file with one input path per line; all entries appended to the input list. |
-| `--in-frame` | `N` (int, default −1 = all) | Extract only frame `N` (0-based) from each input via `fMRIframe()` after loading. |
-| `--check` | — | Enable dimension consistency check across inputs (default: on). |
-| `--no-check` | — | Skip dimension check (faster; assumes all inputs match). |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--i` | `vol` (string) | — | Input volume; repeatable. Bare filenames (without `--i`) are also accepted as inputs. Total inputs across `--i` and `--f` capped at `NInMAX = 400000`. |
+| `--f` | `listfile` (string) | — | Text file with one input path per line; all entries appended to the input list. |
+| `--in-frame` | `N` (int) | −1 (all frames) | Extract only frame `N` (0-based) from each input via `fMRIframe()` after loading. |
+| `--check` | — | on | Enable dimension consistency check across inputs. |
+| `--no-check` | — | — | Skip dimension check (faster; assumes all inputs match). |
 
 #### Per-input pre-processing
 
-| Flag | Description |
-|------|-------------|
-| `--abs` | Take voxel-wise absolute value of each input before any further operation. |
-| `--pos` | Set negative values to 0 in each input (rectification). |
-| `--neg` | Set positive values to 0 in each input. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--abs` | — | off | Take voxel-wise absolute value of each input before any further operation. |
+| `--pos` | — | off | Set negative values to 0 in each input (rectification). |
+| `--neg` | — | off | Set positive values to 0 in each input. |
 
 Only one of `--abs`, `--pos`, `--neg` may be used (enforced in `check_options()`).
 
 #### Frame reduction (output: 1 frame)
 
-| Flag | Description |
-|------|-------------|
-| `--mean` | Per-voxel mean across frames. |
-| `--median` | Per-voxel median across frames. |
-| `--mean-div-n` | Per-voxel sum divided by `N` (i.e. mean). Documented as "good for var". |
-| `--mean2` | Alias for `--mean-div-n`. |
-| `--sum` | Per-voxel sum across frames. |
-| `--std` | Per-voxel sample standard deviation (uses `fMRIcovariance()` internally). |
-| `--var` | Per-voxel variance (uses `fMRIcovariance()` internally). Mutually exclusive with `--std`. |
-| `--max` | Per-voxel maximum value across frames. |
-| `--min` | Per-voxel minimum value across frames. |
-| `--max-index` | 1-based frame index of the per-voxel maximum value. |
-| `--rms` | Temporal root-mean-square: square, sum, divide by `nframes`, square root. Designed for a single multi-frame input (e.g. combine MEMPRAGE echoes). |
-| `--conjunct` | Voxel-wise conjunction (Nichols et al. 2005): minimum of absolute values across frames, with sign of that minimum preserved. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--mean` | — | off | Per-voxel mean across frames. |
+| `--median` | — | off | Per-voxel median across frames. |
+| `--mean-div-n` | — | off | Per-voxel sum divided by `N` (i.e. mean). Documented as "good for var". |
+| `--mean2` | — | off | Alias for `--mean-div-n`. |
+| `--sum` | — | off | Per-voxel sum across frames. |
+| `--std` | — | off | Per-voxel sample standard deviation (uses `fMRIcovariance()` internally). |
+| `--var` | — | off | Per-voxel variance (uses `fMRIcovariance()` internally). Mutually exclusive with `--std`. |
+| `--max` | — | off | Per-voxel maximum value across frames. |
+| `--min` | — | off | Per-voxel minimum value across frames. |
+| `--max-index` | — | off | 1-based frame index of the per-voxel maximum value. |
+| `--rms` | — | off | Temporal root-mean-square: square, sum, divide by `nframes`, square root. Designed for a single multi-frame input (e.g. combine MEMPRAGE echoes). |
+| `--conjunct` | — | off | Voxel-wise conjunction (Nichols et al. 2005): minimum of absolute values across frames, with sign of that minimum preserved. |
 
 #### Variants of `--max-index`
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--max-index-prune` | — | Implies `--max-index`. After max-index, set the output to 0 at any voxel where all input frames are 0. Distinct from the global `--prune`. |
-| `--max-index-add` | `val` (int) | Add `val` to all non-zero max-index values. Argument must be a number (digit, `+`, or `-` start) — otherwise the program errors out and points to `fscalc`. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--max-index-prune` | — | off | Implies `--max-index`. After max-index, set the output to 0 at any voxel where all input frames are 0. Distinct from the global `--prune`. |
+| `--max-index-add` | `val` (int) | 0 | Add `val` to all non-zero max-index values. Argument must be a number (digit, `+`, or `-` start) — otherwise the program errors out and points to `fscalc`. |
 
 #### Paired-frame operations (output: N/2 frames)
 
-| Flag | Description |
-|------|-------------|
-| `--paired-diff` | Frame‑pair difference: `frame1−frame2`, `frame3−frame4`, … |
-| `--paired-avg` | Frame‑pair average: `(frame1+frame2)/2`, … |
-| `--paired-sum` | Frame‑pair sum: `frame1+frame2`, … |
-| `--paired-diff-norm` | `(frame1−frame2) / ((frame1+frame2)/2)`; output 0 when the average is 0. |
-| `--paired-diff-norm1` | `(frame1−frame2) / frame1`; output 0 when `frame1` is 0. |
-| `--paired-diff-norm2` | `(frame1−frame2) / frame2`; output 0 when `frame2` is 0. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--paired-diff` | — | off | Frame‑pair difference: `frame1−frame2`, `frame3−frame4`, … |
+| `--paired-avg` | — | off | Frame‑pair average: `(frame1+frame2)/2`, … |
+| `--paired-sum` | — | off | Frame‑pair sum: `frame1+frame2`, … |
+| `--paired-diff-norm` | — | off | `(frame1−frame2) / ((frame1+frame2)/2)`; output 0 when the average is 0. |
+| `--paired-diff-norm1` | — | off | `(frame1−frame2) / frame1`; output 0 when `frame1` is 0. |
+| `--paired-diff-norm2` | — | off | `(frame1−frame2) / frame2`; output 0 when `frame2` is 0. |
 
 All paired operations require an even total frame count. `--paired-avg` and any
 `--paired-diff*` are mutually exclusive, as are `--paired-diff-norm`,
@@ -194,84 +194,84 @@ All paired operations require an even total frame count. `--paired-avg` and any
 
 #### Normalization
 
-| Flag | Description |
-|------|-------------|
-| `--norm-mean` | Per voxel, divide every frame by the mean of all frames at that voxel. |
-| `--norm1` | Per voxel, divide every frame by the value at the first frame. |
-| `--fnorm` | Per voxel, remove the temporal mean and divide by the square root of the sum of squared deviations (zero-mean, unit-SS time series). |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--norm-mean` | — | off | Per voxel, divide every frame by the mean of all frames at that voxel. |
+| `--norm1` | — | off | Per voxel, divide every frame by the value at the first frame. |
+| `--fnorm` | — | off | Per voxel, remove the temporal mean and divide by the square root of the sum of squared deviations (zero-mean, unit-SS time series). |
 
 #### Matrix operations
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--mtx` | `matrix.asc` (string) | Read an ASCII matrix `M` via `MatrixReadTxt()` and multiply the input data (frames) by it (`fMRImatrixMultiply`). With `M` of shape `P×F`, output has `P` frames where output frame `p` is the linear combination $\sum_f M_{pf} \cdot V^{(f)}$. |
-| `--w` | `weights.asc` (string) | Read a per-frame weight column via `MatrixReadTxt()` and scale each frame by its weight. |
-| `--wn` | `weights.asc` (string) | Same as `--w`, but first normalize the weights to sum to 1. |
-| `--gmean` | `Ng` (int) | Construct a grouped-mean matrix `M = GroupedMeanMatrix(Ng, Ntotal)` with `nper = Ntotal/Ng` rows and apply it via `fMRImatrixMultiply`. Errors if `Ntotal` is not an integer multiple of `Ng`. Output has `Ntotal/Ng` frames. |
-| `--asl` | — | Apply the ASL label/control interpolation matrix via `fMRIaslSubtraction()`. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--mtx` | `matrix.asc` (string) | — | Read an ASCII matrix `M` via `MatrixReadTxt()` and multiply the input data (frames) by it (`fMRImatrixMultiply`). With `M` of shape `P×F`, output has `P` frames where output frame `p` is the linear combination $\sum_f M_{pf} \cdot V^{(f)}$. |
+| `--w` | `weights.asc` (string) | — | Read a per-frame weight column via `MatrixReadTxt()` and scale each frame by its weight. |
+| `--wn` | `weights.asc` (string) | — | Same as `--w`, but first normalize the weights to sum to 1. |
+| `--gmean` | `Ng` (int) | 0 (disabled) | Construct a grouped-mean matrix `M = GroupedMeanMatrix(Ng, Ntotal)` with `nper = Ntotal/Ng` rows and apply it via `fMRImatrixMultiply`. Errors if `Ntotal` is not an integer multiple of `Ng`. Output has `Ntotal/Ng` frames. |
+| `--asl` | — | off | Apply the ASL label/control interpolation matrix via `fMRIaslSubtraction()`. |
 
 #### Scalar operations (applied to output)
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--mul` | `val` (double) | Multiply every voxel by the scalar `val`. Argument must parse as a number; otherwise the program errors out and points to `fscalc` for image-image multiplication. |
-| `--div` | `val` (double) | Divide every voxel by `val` (internally converted to `--mul 1/val`). Same numeric-only constraint as `--mul`. |
-| `--add` | `val` (double) | Add scalar `val` to every voxel. Numeric-only argument. |
-| `--max-bonfcor` | — | Implies `--max`. After computing max, subtract $\log_{10}(N_{\text{frames}})$ — Bonferroni correction assuming inputs are $-\log_{10}(p)$ values. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--mul` | `val` (double) | — | Multiply every voxel by the scalar `val`. Argument must parse as a number; otherwise the program errors out and points to `fscalc` for image-image multiplication. |
+| `--div` | `val` (double) | — | Divide every voxel by `val` (internally converted to `--mul 1/val`). Same numeric-only constraint as `--mul`. |
+| `--add` | `val` (double) | — | Add scalar `val` to every voxel. Numeric-only argument. |
+| `--max-bonfcor` | — | off | Implies `--max`. After computing max, subtract $\log_{10}(N_{\text{frames}})$ — Bonferroni correction assuming inputs are $-\log_{10}(p)$ values. |
 
 #### Aggregation and special modes
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--combine` | — | Per voxel, average across frames the values that are non-zero. Designed e.g. for combining `lh.ribbon.mgz` + `rh.ribbon.mgz`. |
-| `--vote` | — | Per voxel, output the most frequent value across frames; output frame 0 is the winning value, frame 1 is its fraction of occurrences. |
-| `--vote-ex0` | — | Same as `--vote`, but voxels with value 0 are excluded from the count. |
-| `--first-non-zero` | — | Per voxel, output the first non-zero value encountered as frames are scanned in order. |
-| `--sort` | — | Sort the frames at each voxel into ascending order. |
-| `--prune` | — | Per voxel, if **any** frame is 0 then set **all** frames at that voxel to 0. Default off. |
-| `--no-prune` | — | Disable pruning (default state; meaningful when overriding e.g. a caller that already passed `--prune`). |
-| `--cumsum` | — | Replace each frame with the cumulative sum across frames at that voxel. |
-| `--tar1` | `dofadjust` (int) | Compute the temporal lag-1 autocorrelation across frames with the given DOF adjustment (`fMRItemporalAR1`). |
-| `--scm` | — | Compute the spatial covariance matrix (frame×frame). Output can be huge — a single mask-less surface overlay yields an `Nvox × Nvox` matrix. |
-| `--rep` | `N` (int) | Replicate the entire input frame stack `N` times (output has `N × ninframes` frames). |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--combine` | — | off | Per voxel, average across frames the values that are non-zero. Designed e.g. for combining `lh.ribbon.mgz` + `rh.ribbon.mgz`. |
+| `--vote` | — | off | Per voxel, output the most frequent value across frames; output frame 0 is the winning value, frame 1 is its fraction of occurrences. |
+| `--vote-ex0` | — | off | Same as `--vote`, but voxels with value 0 are excluded from the count. |
+| `--first-non-zero` | — | off | Per voxel, output the first non-zero value encountered as frames are scanned in order. |
+| `--sort` | — | off | Sort the frames at each voxel into ascending order. |
+| `--prune` | — | off | Per voxel, if **any** frame is 0 then set **all** frames at that voxel to 0. |
+| `--no-prune` | — | — | Disable pruning (default state; meaningful when overriding e.g. a caller that already passed `--prune`). |
+| `--cumsum` | — | off | Replace each frame with the cumulative sum across frames at that voxel. |
+| `--tar1` | `dofadjust` (int) | off | Compute the temporal lag-1 autocorrelation across frames with the given DOF adjustment (`fMRItemporalAR1`). |
+| `--scm` | — | off | Compute the spatial covariance matrix (frame×frame). Output can be huge — a single mask-less surface overlay yields an `Nvox × Nvox` matrix. |
+| `--rep` | `N` (int) | 0 (disabled) | Replicate the entire input frame stack `N` times (output has `N × ninframes` frames). |
 
 #### PCA
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--pca` | — | Run PCA on the concatenated stack via `MRIpca()`. Spatial components are written to the main output; temporal components to `<output_stem>.u.mtx`; singular values to `<output_stem>.stats.dat`. |
-| `--pca-mask` | `mask` (string) | Restrict PCA to voxels where the supplied mask volume is > 0.5. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--pca` | — | off | Run PCA on the concatenated stack via `MRIpca()`. Spatial components are written to the main output; temporal components to `<output_stem>.u.mtx`; singular values to `<output_stem>.stats.dat`. |
+| `--pca-mask` | `mask` (string) | — | Restrict PCA to voxels where the supplied mask volume is > 0.5. |
 
 #### Masking
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--mask` | `file` (string) | Mask volume; only valid in combination with `--vote` or `--sort`. Specifying `--mask` without one of these raises an error in `check_options()`. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--mask` | `file` (string) | — | Mask volume; only valid in combination with `--vote` or `--sort`. Specifying `--mask` without one of these raises an error in `check_options()`. |
 
 #### Output
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--o` | `vol` (string) | Output volume path. Required. |
-| `--keep-datatype` | — | Write output in the same datatype as the (last) input rather than the default `MRI_FLOAT`. |
-| `--ctab` | `file` (string) | Read an ASCII colour table via `CTABreadASCII()` and embed it in the output. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--o` | `vol` (string) | — | Output volume path. Required. |
+| `--keep-datatype` | — | off | Write output in the same datatype as the (last) input rather than the default `MRI_FLOAT`. |
+| `--ctab` | `file` (string) | — | Read an ASCII colour table via `CTABreadASCII()` and embed it in the output. |
 
 #### Special standalone mode
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--zconcat` | `mri1 mri2 nskip out` (4 strings) | Standalone short-circuit mode: load `mri1` and `mri2`, drop the first `nskip` slices of `mri2`, concatenate them along the slice (z) direction via `MRIzconcat()`, write to `out`, then `exit()`. All other options are ignored. Designed for combining hires susceptibility slabs where the top slice of one slab overlaps the bottom of the next. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--zconcat` | `mri1 mri2 nskip out` (4 strings) | — | Standalone short-circuit mode: load `mri1` and `mri2`, drop the first `nskip` slices of `mri2`, concatenate them along the slice (z) direction via `MRIzconcat()`, write to `out`, then `exit()`. All other options are ignored. Designed for combining hires susceptibility slabs where the top slice of one slab overlaps the bottom of the next. |
 
 #### Miscellaneous
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--chunk` | — | Set environment variable `FS_USE_MRI_CHUNK=1`, enabling chunked MRI buffer allocation in subsequent loads. |
-| `--no-chunk` | — | Unset `FS_USE_MRI_CHUNK`. |
-| `--rusage` | `file` (string) | Write process resource usage (`getrusage`) to `file` at exit. |
-| `--debug` | — | Set the global `debug` flag (extra diagnostic prints). |
-| `--help` | — | Print full help (usage + examples + conjunction note) and exit. |
-| `--version` | — | Print build version and exit. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--chunk` | — | off | Set environment variable `FS_USE_MRI_CHUNK=1`, enabling chunked MRI buffer allocation in subsequent loads. |
+| `--no-chunk` | — | — | Unset `FS_USE_MRI_CHUNK`. |
+| `--rusage` | `file` (string) | — | Write process resource usage (`getrusage`) to `file` at exit. |
+| `--debug` | — | off | Set the global `debug` flag (extra diagnostic prints). |
+| `--help` | — | — | Print full help (usage + examples + conjunction note) and exit. |
+| `--version` | — | — | Print build version and exit. |
 
 ### Configuration Interactions
 
@@ -382,6 +382,9 @@ resampled per-subject files.
 
 High confidence on all operations and flag interactions — derived from the full
 `check_options()`, main loop, and reduction function calls in the source.
+
+> [!gap] Audit note: C1-flagged strings are error message text, not real flags
+> The C1 audit flagged `--paired-xxx`, `--paried-avg`, `--paried-diff-norm`, `--paried-diff-norm1`, `--paried-diff-norm2`, and `--paried-diff-xxx`. Verification against `mri_concat/mri_concat.cpp`: `--paired-xxx` appears only in an error message string on line 278 (`"ERROR: --paired-xxx specified but there are an..."`), not as a parsed option. The `--paried-*` strings (note the typo: `paried` instead of `paired`) appear only in `check_options()` error messages on lines 1324–1339. All real paired-frame flags (`--paired-avg`, `--paired-diff`, `--paired-diff-norm`, `--paired-diff-norm1`, `--paired-diff-norm2`, `--paired-sum`) are already documented in the Paired-frame operations table above.
 
 > [!gap] `fMRIcovariance()` variance implementation
 > The internal variance computation (used by `--std` and `--var`) calls

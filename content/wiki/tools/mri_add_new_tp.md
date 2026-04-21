@@ -13,7 +13,7 @@ related:
   - "[[mri_align_long.csh]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - longitudinal
@@ -74,12 +74,28 @@ where $\rho$ is a robust cost function and $w_i$ are per-voxel weights.
 
 ## Configuration Options
 
-| Argument | Description |
-|----------|-------------|
-| `<base-id>` | (positional) Existing longitudinal base subject ID |
-| `<newtp-id>` | (positional) New cross-sectionally processed time-point subject ID |
+### Complete Flag Reference
 
-No optional flags. Both `$FREESURFER_HOME` and `$SUBJECTS_DIR` must be set.
+`mri_add_new_tp` takes no option flags. The entire interface is two positional arguments:
+
+> [!note] Audit noise — sub-tool flags not accepted by mri_add_new_tp
+> The C1 audit reported 11 flags as missing from this page:
+> `--affine`, `--dst`, `--ixform`, `--ixforms`, `--lta`, `--mov`, `--noit`,
+> `--pix-only`, `--sat`, `--ssd`, `--template`.
+> All 11 are flags passed to **sub-tools** called by the script:
+> `--mov`, `--dst`, `--sat`, `--lta`, `--ixform`, `--affine` → `mri_robust_register`;
+> `--mov`, `--template`, `--ixforms`, `--noit` → `mri_robust_template`;
+> `--pix-only`, `--ssd` → `mri_diff`.
+> `mri_add_new_tp` itself performs no option parsing beyond checking `$#argv < 2`
+> (verified from full source at `scripts/mri_add_new_tp`, which contains no
+> `switch`/`case` flag-parsing block). Do not add these flags to this page.
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| (positional 1) | `<base-id>` | required | Subject ID of the existing longitudinal base template. The directory `$SUBJECTS_DIR/<base-id>` must exist and contain a valid `base-tps` file and `mri/norm.mgz`. |
+| (positional 2) | `<newtp-id>` | required | Subject ID of the new cross-sectionally processed time point. The directory `$SUBJECTS_DIR/<newtp-id>` must exist and `mri/norm.mgz` must be present. |
+
+Both `$FREESURFER_HOME` and `$SUBJECTS_DIR` must be set in the environment; the script exits with an error if either is absent or if `$SUBJECTS_DIR` does not exist on disk.
 
 ## Configuration Interactions
 

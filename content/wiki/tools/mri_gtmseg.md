@@ -14,11 +14,12 @@ related:
   - "[[mri_ca_label]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full flag list requires help output verification"
   - "Upsampling factor interaction with output resolution not fully characterized"
-  - "ctMerge color table format"
+  - "ctMerge color table format (--ctab argument)"
+  - "Semantics of --lhminmax / --rhminmax (label range filtering details)"
+  - "Semantics of --merge (merge seg IDs from external file into output)"
 tags:
   - pet
   - segmentation
@@ -88,35 +89,46 @@ The output can optionally be returned to the original resolution by downsampling
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--s` | `<subject>` | FreeSurfer subject name |
-| `--o` | `<vol>` | Output segmentation file (default: `gtmseg.mgz` in subject mri/) |
-| `--usf` | `<N>` | Upsampling factor (default: 2) |
-| `--output-usf` | `<N>` | Output resolution USF (default: same as `--usf`) |
-| `--apas` | `<file>` | Subcortical segmentation file (default: `apas+head.mgz`) |
-| `--ctxannot` | `<annot>` | Cortical annotation (default: `aparc.annot`) |
-| `--lhbase` | `<N>` | LH cortical label base (default: 1000) |
-| `--rhbase` | `<N>` | RH cortical label base (default: 2000) |
-| `--subseg-wm` | — | Subdivide white matter by lobe annotation |
-| `--wmannot` | `<annot>` | WM annotation for subdivision (default: `lobes.annot`) |
-| `--wmlhbase` | `<N>` | LH WM label base (default: 3200) |
-| `--wmrhbase` | `<N>` | RH WM label base (default: 4200) |
-| `--keep-hypo` | — | Keep hypointensity labels (don't merge into WM) |
-| `--keep-cc` | — | Keep corpus callosum label (don't merge) |
-| `--erode-wm` | `<N>` | Erode WM by N iterations (3D or topological) |
-| `--no-erode-wm-topo` | — | Use simple erosion instead of topological |
-| `--merge-ctab` | `<ctab>` | Merge an additional color table |
-| `--dmax` | `<mm>` | Maximum distance (mm) for surface search (default: 5.0) |
-| `--nthreads` | `<N>` | OpenMP threads |
-| `--debug` | — | Debug output |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--s` | `<subject>` | (required) | FreeSurfer subject name |
+| `--o` | `<vol>` | `gtmseg.mgz` | Output segmentation file (written to subject's `mri/` directory) |
+| `--usf` / `--internal-usf` | `<N>` | 2 | Upsampling factor for high-resolution internal grid |
+| `--output-usf` | `<N>` | same as `--usf` | Output resolution USF; if less than `--usf`, result is downsampled |
+| `--apas` | `<file>` | `apas+head.mgz` | Subcortical segmentation + head file |
+| `--ctab` | `<ctab>` | — | Read a color table (ASCII) and merge/overwrite into master ctab |
+| `--ctx-annot` | `<annot> <lhbase> <rhbase>` | `aparc.annot 1000 2000` | Cortical annotation file and LH/RH label bases |
+| `--subseg-wm` | — | off | Subdivide white matter by lobe (sets default: `lobes.annot`, lhbase 3200, rhbase 4200) |
+| `--no-subseg-wm` | — | — | Disable WM subdivision (default) |
+| `--wm-annot` | `<annot> <lhbase> <rhbase>` | — | WM annotation file and LH/RH WM bases; also enables `--subseg-wm` |
+| `--keep-hypo` | — | off | Keep hypointensity labels (do not merge into WM) |
+| `--no-keep-hypo` | — | — | Merge hypointensity labels into WM (default) |
+| `--keep-cc` | — | off | Keep corpus callosum label |
+| `--no-keep-cc` | — | — | Merge corpus callosum label (default) |
+| `--wm-erode` | `<N>` | 0 | Erode WM labels (2, 41) by N iterations, replacing surviving voxels with 5001/5002 |
+| `--wm-erode-topo` | `<topo>` | 1 | Topology for WM erosion: 1, 2, or 3 (face, edge, or corner connectivity) |
+| `--merge` | `<segfile> <id1> [<id2> ...]` | — | Merge specified seg IDs from `<segfile>` into the output |
+| `--lhminmax` | `<min> <max>` | 1000 1900 | Restrict LH cortical labels to this range |
+| `--rhminmax` | `<min> <max>` | 2000 2900 | Restrict RH cortical labels to this range |
+| `--dmax` | `<mm>` | 5.0 | Maximum distance (mm) from cortex for WM voxels to be considered unsegmented |
+| `--sd` | `<dir>` | `$SUBJECTS_DIR` | Set `SUBJECTS_DIR` |
+| `--threads` | `<N>` | 1 | Number of OpenMP threads |
+| `--max-threads` | — | — | Use maximum available OpenMP threads |
+| `--max-threads-1` | — | — | Use (max − 1) OpenMP threads |
+| `--debug` | — | off | Debug output |
+| `--checkopts` | — | off | Check options and exit without running |
+
+> [!gotcha] `--threads-max` and `--threads-max-1` do not exist
+> The `print_usage()` text in the source mentions `--threads-max` and `--threads-max-1`, but the actual command-line parser (at `parse_commandline()`) handles `--max-threads` and `--max-threads-1`. Passing `--threads-max` will produce an "Option unknown" error. Use `--max-threads` and `--max-threads-1` instead.
 
 ## Configuration Interactions
 
-- `--usf` and `--output-usf` can differ: `--usf` controls the intermediate high-resolution grid (for accurate surface placement), while `--output-usf` controls the final output resolution. If `--output-usf < --usf`, the result is downsampled from the fine grid.
-- `--subseg-wm` activates white matter subdivision and requires `--wmannot` to specify the annotation used for WM labeling.
+- `--usf` / `--internal-usf` and `--output-usf` can differ: `--usf` controls the intermediate high-resolution grid (for accurate surface placement), while `--output-usf` controls the final output resolution. If `--output-usf < --usf`, the result is downsampled from the fine grid. Default `OutputUSF` is set equal to `USF` at startup.
+- `--ctx-annot` takes three arguments: the annotation filename and LH/RH integer label bases. This replaces the former separate `--ctxannot`, `--lhbase`, `--rhbase` flags, which do **not** exist in the source.
+- `--wm-annot` takes three arguments: annotation filename, LH WM base, RH WM base. It also sets `SubSegWM=1`. This replaces the former separate `--wmannot`, `--wmlhbase`, `--wmrhbase` flags, which do **not** exist in the source.
+- `--subseg-wm` pre-populates defaults (lobes.annot, lhbase 3200, rhbase 4200); `--wm-annot` can subsequently override those values.
 - `--keep-hypo` and `--keep-cc` prevent merging of hypointensity and corpus callosum labels, which otherwise are absorbed into adjacent WM labels.
-- `--erode-wm` can improve cortical/WM boundary accuracy at the cost of reducing WM region sizes.
+- `--wm-erode` specifies a count of simple volumetric WM erosion iterations; `--wm-erode-topo` specifies the connectivity topology used during erosion (default 1 = face connectivity). When `--wm-erode N` is used, the surviving LH WM voxels are labeled 5001 ("Left-Shell-Cerebral-White-Matter") and RH WM voxels are labeled 5002.
 
 ## Typical Use Cases
 
@@ -162,6 +174,17 @@ mri_gtmseg --s bert --usf 4 --output-usf 2 --o bert_gtmseg_usf4.mgz
 
 ## Confidence and Gaps
 
-**Confident (from source):** Default parameter values (USF=2, dmax=5.0, apas+head input, aparc annotation, lhbase/rhbase labels), WM subdivision option, erosion options.
+**Confident (from source):** Full flag list verified against `parse_commandline()`. Default parameter values (USF=2, dmax=5.0, apas+head input, aparc annotation, ctx-annot bases 1000/2000, wm-annot bases 3200/4200 when `--subseg-wm` is active, KeepHypo=0, KeepCC=0, lhmin=1000/lhmax=1900, rhmin=2000/rhmax=2900), WM subdivision option, erosion options, thread control (`--max-threads` and `--max-threads-1`), `--merge`, `--lhminmax`, `--rhminmax`, `--ctab`, `--sd`.
 
-**Uncertain:** Full flag list needs help output verification; exact algorithm for high-resolution surface-driven segmentation; ctMerge color table format.
+**Confirmed:** `--threads-max` and `--threads-max-1` appear only in the help text (`print_usage()`), not in the parser; the actual accepted flags are `--max-threads` and `--max-threads-1`.
+
+> [!gap] `--ctab` format
+> `--ctab` reads an ASCII color table via `CTABreadASCII()`. The exact file format is documented in FreeSurfer's color table conventions but the merge semantics (which labels are overridden) are not explicitly described in the source.
+
+> [!gap] `--merge` semantics
+> `--merge segfile id1 id2 ...` merges the specified integer label IDs from an external segmentation file into the output. The exact behavior when a label already exists in the GTM segmentation is not documented in the source.
+
+> [!gap] `--lhminmax` / `--rhminmax` semantics
+> These flags set `lhmin`/`lhmax` and `rhmin`/`rhmax` fields on the GTM segmentation structure. The filtering effect (which labels are excluded) is implemented in the GTM library and not verified from this source alone.
+
+**Uncertain:** Exact algorithm for high-resolution surface-driven segmentation (in `gtm.h`).

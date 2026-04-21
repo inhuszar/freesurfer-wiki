@@ -54,9 +54,9 @@ Use cases include:
 ## Inputs
 
 - `--ref <path>`: Reference image (the target/fixed space). Formats: `.nii`, `.nii.gz`, `.mgz`.
-- `--ref_seg <path>`: SynthSeg segmentation of the reference image. Created automatically if it does not exist on disk.
+- --ref_seg <path>: SynthSeg segmentation of the reference image. Created automatically if it does not exist on disk.
 - `--flo <path>`: Floating image (the source/moving image).
-- `--flo_seg <path>`: SynthSeg segmentation of the floating image. Created automatically if it does not exist.
+- --flo_seg <path>: SynthSeg segmentation of the floating image. Created automatically if it does not exist.
 
 Both segmentations must include cortical parcellation labels (values > 1000). If loaded from disk, the tool validates this requirement.
 

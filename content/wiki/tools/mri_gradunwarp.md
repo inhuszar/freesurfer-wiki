@@ -13,11 +13,11 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Siemens gradient coefficient file format details"
-  - "Full help output not verified"
   - "m3z output format compatibility with mri_morph tools"
+  - "sinchw variable is referenced internally but --sinchw flag is commented out"
 tags:
   - gradient-unwarping
   - distortion-correction
@@ -86,28 +86,37 @@ After computing the displacement field, the corrected image is obtained by trili
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--gradcoeff` | `<file>` | Siemens gradient coefficient file |
-| `--i` | `<file>` | Input volume or surface to unwarp |
-| `--o` | `<file>` | Output corrected volume or surface |
-| `--load_transtbl` | `<file>` | Load precomputed transform table (instead of `--gradcoeff`) |
-| `--out_transtbl` / `--gcam` | `<file>` | Save displacement field as m3z/GCAM |
-| `--interp` | `method` | Interpolation method: `trilinear` (default) or `sinc` |
-| `--sinchw` | `halfwidth` | Sinc interpolation half-window width |
-| `--nthreads` | `N` | Number of OpenMP threads |
-| `--m3zonly` | — | Only create the m3z transform, do not apply to volume |
-| `--ras` | `x,y,z` | (Debug) Evaluate displacement at given RAS coordinate |
-| `--crs` | `c,r,s` | (Debug) Evaluate displacement at given voxel CRS index |
-| `--checkopts` | — | Check options and exit |
-| `--help` | — | Print help |
-| `--version` | — | Print version |
+Flag list verified against `mri_gradunwarp/mri_gradunwarp.cpp`.
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--gradcoeff` | `<file>` | — | Siemens gradient coefficient file |
+| `--i` | `<file>` | — | Input volume or surface to unwarp |
+| `--o` | `<file>` | — | Output corrected volume or surface |
+| `--load_transtbl` | `<file>` | — | Load precomputed transform table (instead of `--gradcoeff`) |
+| `--out_transtbl` / `--gcam` | `<file>` | — | Save displacement field as m3z/GCAM |
+| `--inv-gcam` | `<file>` | — | Load an inverse GCAM transform |
+| `--save_transtbl_only` / `--gcam-only` | — | off | Create the m3z transform only; do not apply to input volume; replaces incorrect --m3zonly |
+| `--interp` | `<method>` | `trilinear` | Interpolation method: `trilinear` or `sinc` |
+| `--threads` / `--nthreads` | `<N>` | 1 | Number of OpenMP threads |
+| `--ras` | `<x> <y> <z>` | — | (Debug) Evaluate displacement at given RAS coordinate |
+| `--crs` | `<c> <r> <s>` | — | (Debug) Evaluate displacement at given voxel CRS index |
+| `--checkopts` | — | off | Check options and exit |
+| `--nocheckopts` | — | off | Do not exit after checking options |
+| `--help` | — | off | Print help |
+| `--version` | — | off | Print version |
+
+> [!gap] `--sinchw` is commented out
+> The `sinchw` variable exists in the source and is referenced in the sinc interpolation calls, but the command-line parsing block for `--sinchw` is commented out in the source (`/* ... */`). Sinc half-width cannot be set from the command line; it defaults to 0. Do not document `--sinchw` as a usable flag.
+
+> [!gap] `--gradfile` not a real flag
+> The internal variable is named `gradfile` in the source, but the command-line flag is --gradcoeff. There is no --gradfile option.
 
 ## Configuration Interactions
 
 - `--gradcoeff` and `--load_transtbl` are mutually exclusive; one must be specified.
-- `--m3zonly` can be combined with `--gradcoeff` to create a reusable displacement field without applying it to any input volume.
-- `--out_transtbl` saves the displacement table regardless of whether a volume was unwarped; useful for generating the transform once and reusing it on multiple volumes.
+- `--save_transtbl_only` (alias `--gcam-only`) can be combined with `--gradcoeff` to create a reusable displacement field without applying it to any input volume. The old flag name `--m3zonly` does **not** exist in the source.
+- `--out_transtbl` / `--gcam` saves the displacement table regardless of whether a volume was unwarped; useful for generating the transform once and reusing it on multiple volumes.
 - If `GRADUNWARP_USE_GRADFILE` environment variable is set, the tool evaluates displacements directly from the gradient file at each voxel rather than using the precomputed table (slower but useful for debugging).
 - `--nthreads` enables OpenMP parallelism for the displacement field computation.
 
@@ -132,8 +141,8 @@ mri_gradunwarp \
 
 **Apply precomputed transform to multiple volumes:**
 ```bash
-# First, create the transform:
-mri_gradunwarp --gradcoeff coeff.grad --i orig.mgz --m3zonly \
+# First, create the transform (--save_transtbl_only replaces the old --m3zonly):
+mri_gradunwarp --gradcoeff coeff.grad --i orig.mgz --save_transtbl_only \
   --out_transtbl unwarping.m3z
 
 # Then apply to each volume:
@@ -179,6 +188,6 @@ When applied before `recon-all`, the unwarped volume should be used as the input
 
 ## Confidence and Gaps
 
-**Confident (from source):** Spherical harmonic model, Legendre normalization, trilinear/sinc interpolation, m3z output, volume and surface support, OpenMP threading.
+**Confident (from source):** Full flag list verified from source. Correct flag names `--save_transtbl_only` / `--gcam-only` (not --m3zonly), `--inv-gcam` existence, `--sinchw` commented out (not usable), spherical harmonic model, Legendre normalization, trilinear/sinc interpolation, m3z output, volume and surface support, OpenMP threading.
 
 **Uncertain:** Exact gradient coefficient file format; numerical accuracy of the spherical harmonic expansion for high-order coefficients; behavior when `GRADUNWARP_USE_GRADFILE` env var is set.

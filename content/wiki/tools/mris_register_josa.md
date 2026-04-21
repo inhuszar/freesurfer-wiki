@@ -2,7 +2,7 @@
 title: "mris_register_josa"
 type: tool
 fs_version: "8.2.0"
-source_language: "Python"
+source_language: "Python/TensorFlow"
 source_files:
   - "mris_register_josa/mris_register_josa"
   - "mris_register_josa/spheremorph/"
@@ -17,9 +17,8 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Source language needs verification (the binary appears to be a script; the spheremorph/ directory suggests Python/deep learning)"
   - "Architecture of the spheremorph model is not determined"
   - "Whether H5 model files are updated in releases"
 tags:
@@ -38,12 +37,12 @@ tags:
 
 ## Source Information
 
-- **Language:** Python (script-based binary) / deep learning framework
-- **Source file:** `mris_register_josa/mris_register_josa` (executable script)
+- **Language:** Python
+- **Framework:** TensorFlow, with `surfa` for surface I/O and `spheremorph` for the registration model
+- **Source file:** `mris_register_josa/mris_register_josa` (executable Python script)
 - **Model files:** 
   - `mris_register_josa/mris_register_josa_20241121_lh.h5` (left hemisphere)
   - `mris_register_josa/mris_register_josa_20241121_rh.h5` (right hemisphere)
-- **Framework:** `spheremorph/` — likely a VoxelMorph/SphereMorph variant
 
 ## Purpose and Context
 
@@ -56,11 +55,11 @@ Spherical surface registration maps each subject's cortical surface to a common 
 
 ## Inputs
 
-- `-s subject` — subject name (reads from `SUBJECTS_DIR/subject/surf/`)
-- `-h hemi` — hemisphere (`lh` or `rh`)
+- `-s <subject_dir>` — path to subject directory (does not use `$SUBJECTS_DIR`; reads `surf/?h.*` files from within it)
+- `-h lh|rh` — hemisphere
 - `-m model.h5` — model file path (HDF5 format)
 
-Alternatively, individual files can be specified:
+Alternatively, individual surface feature files can be specified directly:
 - `-S lh.sulc` — sulcal depth file
 - `-C lh.curv` — curvature file  
 - `-H lh.inflated.H` — mean curvature of inflated surface
@@ -68,8 +67,8 @@ Alternatively, individual files can be specified:
 
 ## Outputs
 
-- Default: `SUBJECTS_DIR/subject/surf/lh.sphere.reg` (or `rh.sphere.reg`)
-- Custom: `-o my.sphere` — specify output filename
+- Default: `<subject_dir>/surf/?h.sphere.reg` (where `<subject_dir>` is the path passed to `-s`)
+- Custom: `-o <file>` — specify a full output file path; required if `-s` is not provided
 
 ## Mathematical Foundations
 
@@ -93,35 +92,41 @@ The trained model parameters are stored in the `.h5` files. Registration at infe
 
 ## Configuration Options
 
-| Flag | Description |
-|---|---|
-| `-h hemi` | Hemisphere: `lh` or `rh` |
-| `-s subject` | Subject name (SUBJECTS_DIR-relative) |
-| `-m model.h5` | Model file path |
-| `-o output_sphere` | Output sphere filename (default: `hemi.sphere.reg`) |
-| `-S sulc` | Sulcal depth file (when not using -s) |
-| `-C curv` | Curvature file (when not using -s) |
-| `-H inflated.H` | Mean curvature of inflated (when not using -s) |
-| `-t sphere.rot` | Initial rotated sphere (when not using -s) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-h`, `--hmsp` | `lh\|rh` | — | Hemisphere; required |
+| `-s`, `--subject_dir` | `<path>` | `None` | Path to subject directory (does not use `$SUBJECTS_DIR`); reads `surf/?h.*` files from within it |
+| `-m`, `--model` | `<file.h5>` | — | Path to model weights HDF5 file; required |
+| `-o`, `--output` | `<file>` | `<subject_dir>/surf/?h.sphere.reg` | Custom output file path; required if `-s` is not provided |
+| `-a`, `--arch` | `<name>` | `spm2000` | Network architecture; currently only `spm2000` is supported |
+| `-S`, `--sulc` | `<file>` | `<surf_dir>/?h.sulc` | Sulcal depth file; overrides the file read from the subject directory |
+| `-C`, `--curv` | `<file>` | `<surf_dir>/?h.curv` | Curvature file; overrides the file read from the subject directory |
+| `-H`, `--inflated_curv` | `<file>` | `<surf_dir>/?h.inflated.H` | Mean curvature of inflated surface; overrides the file read from the subject directory |
+| `-t`, `--sphere_rot` | `<file>` | `<surf_dir>/?h.sphere.rot` | Initial rotated sphere surface |
+| `-T`, `--threads` | `<num>` | `1` | Number of TensorFlow inter-op parallelism threads |
 
 ## Configuration Interactions
 
-- `-s subject` and individual file flags (`-S`, `-C`, `-H`, `-t`) are alternative input modes.
-- `-m model.h5` is required; the model files for lh and rh are different.
+- `-s <subject_dir>` takes a full path directly — it does not look up names in `$SUBJECTS_DIR`. When provided, all four surface files (`?h.sulc`, `?h.curv`, `?h.inflated.H`, `?h.sphere.rot`) are read from `<subject_dir>/surf/`. The `-S`, `-C`, `-H`, and `-t` flags override individual files from that directory.
+- If `-s` is not provided, individual files must cover all four inputs and `-o` must specify the output path.
+- `-m model.h5` is required; the lh and rh model files are distinct and must match the `-h` hemisphere flag.
+- `-a`/`--arch` selects the network architecture. Only `spm2000` is currently implemented; any other value raises an error.
+- `-T`/`--threads` sets TensorFlow inter-op parallelism. The tool is CPU-based; increasing threads may reduce runtime on multi-core systems.
 - The output is a spherical surface file in FreeSurfer binary format with deformed vertex positions representing the registration to atlas space.
 
 ## Typical Use Cases
 
 ```bash
-# Register left hemisphere for subject bert using bundled model
-mris_register_josa -h lh -s bert \
-  -m $FREESURFER_HOME/../mris_register_josa/mris_register_josa_20241121_lh.h5
+# Register left hemisphere using full subject directory path and bundled model
+mris_register_josa -h lh -s /data/subjects/bert \
+  -m $FREESURFER_HOME/mris_register_josa/mris_register_josa_20241121_lh.h5
 
-# Specify custom output filename
-mris_register_josa -h lh -s bert \
-  -m /path/to/lh.model.h5 -o my_sphere
+# Same, but specify a custom output path and use 4 threads
+mris_register_josa -h lh -s /data/subjects/bert \
+  -m $FREESURFER_HOME/mris_register_josa/mris_register_josa_20241121_lh.h5 \
+  -o /data/subjects/bert/surf/lh.sphere.reg -T 4
 
-# Specify individual files instead of subject directory
+# Specify individual files instead of subject directory (output path is required)
 mris_register_josa -h lh \
   -S lh.sulc -C lh.curv -H lh.inflated.H -t lh.sphere.rot \
   -m lh.model.h5 -o lh.sphere.reg
@@ -142,7 +147,7 @@ Standard pipeline position:
 > The bundled model files (`mris_register_josa_20241121_*.h5`) were trained on a specific dataset with a specific atlas. Results may differ from [[mris_register]] and may not be appropriate for all populations (children, clinical populations, atypical morphology).
 
 > [!gotcha] Deep learning runtime dependency
-> The tool requires a Python environment with the SphereMorph package (likely TensorFlow or PyTorch) installed. If the FreeSurfer Python environment is not activated or the correct packages are missing, the tool will fail.
+> The tool requires a Python environment with TensorFlow, `surfa`, and the `spheremorph` package installed. If the FreeSurfer Python environment is not activated or the correct packages are missing, the tool will fail.
 
 > [!gotcha] Left/right model files are different
 > The `lh` and `rh` model files are distinct — do not use the wrong hemisphere model. The `-h` flag selects the hemisphere and should match the `-m` model file.
@@ -155,8 +160,8 @@ Standard pipeline position:
 
 ## Confidence and Gaps
 
-**Confident (from README and file listing):** Usage examples from README.md; hemisphere and subject flags; model file naming and hemisphere specificity; output defaults to `hemi.sphere.reg`.
+**Confident (from source):** All CLI flags and their defaults; framework is TensorFlow with `surfa` and `spheremorph`; `-s` takes a full path, not a `$SUBJECTS_DIR`-relative name; only `spm2000` architecture is implemented; model files are HDF5; output defaults to `<subject_dir>/surf/?h.sphere.reg`.
 
-**Uncertain:** Deep learning framework (TensorFlow vs PyTorch); training data and atlas; whether this is called by `recon-all` in FS 8.2.0 or is optional.
+**Uncertain:** Training data and atlas used for the bundled model files; whether `mris_register_josa` is invoked by `recon-all` in FS 8.2.0 or is only available as a standalone tool.
 
 > [!gap] The SphereMorph architecture and training details are not documented in the source tree. The JOSA paper should be consulted for technical details. The tool's relationship to the standard `recon-all` pipeline in FS 8.2.0 is not confirmed.

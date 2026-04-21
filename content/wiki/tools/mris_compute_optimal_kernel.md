@@ -73,12 +73,12 @@ The search is implemented by `MRIScomputeOptimalGaussianKernel()`, which iterate
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-step <n>` | Step size for kernel search | 10 |
-| `-max <n>` | Maximum averaging steps | 1000 |
-| `-w <file>` | Write kernel output to file | `""` (no write) |
-| `--orig <name>` | Original surface name | `orig` |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-step <n>` | int | 10 | Step size for kernel search |
+| `-max <n>` | int | 1000 | Maximum averaging steps |
+| `-w <file>` | path | `""` (no write) | Write kernel output to file |
+| `--orig <name>` | string | `orig` | Original surface name |
 
 > [!gap] Flag names need verification
 > Inferred from global variables. Confirm from `get_option()`.

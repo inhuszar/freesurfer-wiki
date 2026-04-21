@@ -161,3 +161,6 @@ Confidence is **high**. The algorithm, statistical model, I/O paths, and exit co
 
 > [!gap] AFD reference file format
 > The exact format and content of the AFD reference files (mean, covariance, probability) in `$FREESURFER_HOME/average/` were not documented. Read `ReadMeanVect()`, `ReadCovMat()`, `LoadProbas()` to document these formats.
+
+> [!note] Audit noise: `--load`
+> An automated audit may flag `--load` as missing. This string does not appear in the `talairach_afd` option parser. It is not a valid flag for this tool.

@@ -13,9 +13,10 @@ related:
   - "[[stats-format]]"
   - "[[color-lut]]"
   - "[[aparcstats2table]]"
+  - "[[fsgd-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Placeholder_Segmentation resolution logic uses Python 2-style iteritems() — may fail in some Python 3 environments"
   - "stiv scaling uses SegmentedTotalIntracranialVol key; not confirmed whether this matches the ShortName used in all FS versions"
@@ -196,16 +197,16 @@ after any eTIV/sTIV normalization.
 
 ### Subject / Input Specification (mutually exclusive — exactly one required)
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `--subjects sub1 sub2 ...` | string list | Variadic list of subject names. Uses `fsutils.callback_var`. |
-| `-s subjectname` | string (repeatable) | Specify subjects one at a time; can be repeated. |
-| `--subjectsfile <file>` | path | Text file with one subject name per line. |
-| `--qdec <file>` | path | QDEC table (CSV); reads the `fsid` column. |
-| `--qdec-long <file>` | path | Longitudinal QDEC table; constructs `<fsid>.long.<fsid-base>` names. |
-| `--fsgd <file>` | path | FSGD group descriptor; extracts subjects from `INPUT` lines. |
-| `--inputs file1 file2 ...` | path list | Direct stats file paths; bypasses `$SUBJECTS_DIR`. Row labels become integers. |
-| `-i filepath` | path (repeatable) | Single stats file path; can be repeated. Same effect as `--inputs`. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--subjects sub1 sub2 ...` | string list | — | Variadic list of subject names. Uses `fsutils.callback_var`. |
+| `-s subjectname` | string (repeatable) | — | Specify subjects one at a time; can be repeated. |
+| `--subjectsfile <file>` | path | — | Text file with one subject name per line. |
+| `--qdec <file>` | path | — | QDEC table (CSV); reads the `fsid` column. |
+| `--qdec-long <file>` | path | — | Longitudinal QDEC table; constructs `<fsid>.long.<fsid-base>` names. |
+| `--fsgd <file>` | path | — | [[fsgd-format\|FSGD]] group descriptor; extracts subjects from `INPUT` lines. |
+| `--inputs file1 file2 ...` | path list | — | Direct stats file paths; bypasses `$SUBJECTS_DIR`. Row labels become integers. |
+| `-i filepath` | path (repeatable) | — | Single stats file path; can be repeated. Same effect as `--inputs`. |
 
 ### Required Option
 
@@ -295,7 +296,7 @@ after any eTIV/sTIV normalization.
 
 > [!gotcha] Global volume extras cannot be filtered by `--segno` or `--no-segno`
 > The `# Measure` header entries (appended as extra columns when
-> `--meas volume` and `--no-vol-extras` is not set) are parsed in a second
+> `--meas volume` and --no-vol-extras is not set) are parsed in a second
 > pass through the file and are added unconditionally. The `--segno` and
 > `--no-segno` filters only apply to the data-block rows (the actual
 > segmentation entries), not to the header-block extras.
@@ -455,8 +456,8 @@ The complementary tool for cortical parcellation data is
 > The most common error when running this tool across a diverse cohort is:
 > `"ERROR: All stat files should have the same segmentations."`
 > This occurs when one or more subjects has a different set of labels in their
-> `aseg.stats` (e.g., due to different FreeSurfer versions, different `--excl`
-> flags in `mri_segstats`, or pathological anatomy). Use `--common-segs` to
+> `aseg.stats` (e.g., due to different FreeSurfer versions, different exclusion
+> flags passed to `mri_segstats`, or pathological anatomy). Use `--common-segs` to
 > take the intersection or `--all-segs` to take the union.
 
 > [!gotcha] Global volume extras are always appended for `--meas volume`

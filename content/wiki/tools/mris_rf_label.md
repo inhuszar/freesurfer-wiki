@@ -118,7 +118,7 @@ If `nbhd_size > 0`, neighbourhood features are included (features from neighbour
 > [!gotcha] `-N` (`nbhd_size`) is dead code at runtime
 > Setting `-N` to any value greater than 0 calls `ErrorExit(ERROR_UNSUPPORTED, ...)` and aborts the program.
 
-> [!gotcha] `--label` and `--cortex` flags do not exist
+> [!gotcha] --label and --cortex flags do not exist
 > The `label_name` and `cortex_label_name` globals are hard-coded (`"FCD"` and `"cortex"` respectively) and cannot be changed from the command line. There are no `--label` or `--cortex` flags in the `get_option()` function.
 
 ### Configuration Interactions

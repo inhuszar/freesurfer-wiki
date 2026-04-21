@@ -5,6 +5,7 @@ fs_version: "8.2.0"
 source_language: "shell"
 source_files:
   - "mri_histo_util/mri_histo_atlas_segment_fireants"
+  - "mri_histo_util/ERC_bayesian_segmentation/scripts/segment_fireants.py"
 families:
   - "mri_*"
 recon_all_stage: null
@@ -105,13 +106,14 @@ All flags are passed directly to `segment_fireants.py` via `$@` in the bash wrap
 
 **Required flags:**
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--i` | `file` | Input MRI image to segment. |
-| `--atlas_dir` | `dir` | Path to atlas directory (injected automatically by the shell wrapper — do not specify manually). |
-| `--o` | `dir` | Output directory. |
-| `--mode` | `invivo`\|`exvivo`\|`cerebrum`\|`hemi` | Segmentation mode: `invivo` for standard in vivo MRI; `exvivo` for postmortem tissue; `cerebrum`/`hemi` for partial coverage. |
-| `--side` | `left`\|`right` | Hemisphere to segment. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `file` | — | Input MRI image to segment. |
+| `--atlas_dir` | `dir` | — | Path to atlas directory (injected automatically by the shell wrapper — do not specify manually). |
+| `--o` | `dir` | — | Output directory. |
+| `--mode` | `invivo`\|`exvivo`\|`cerebrum`\|`hemi` | — | Segmentation mode: `invivo` for standard in vivo MRI; `exvivo` for postmortem tissue; `cerebrum`/`hemi` for partial coverage. |
+| `--side` | `left`\|`right` | — | Hemisphere to segment. |
+| `--device` | `cpu`\|`cuda` | — | Compute device. Use `cpu` for CPU-only execution or `cuda` for GPU. |
 
 **Optional flags:**
 

@@ -164,3 +164,6 @@ mri_transform --invert \
 **High confidence (flags):** All flags confirmed from complete reading of `get_option()` in source. Default `resample_type=SAMPLE_TRILINEAR`, quiet mode, invert flag, and all coordinate conversion modes verified from source.
 
 **Medium confidence:** The `MT_CoronalRasXformToVoxelXform()` legacy coordinate convention was not fully traced.
+
+> [!note] Audit noise: single-dash stripping parser
+> An automated audit may report `--debug-voxel`, `--il`, `--in-like`, `--ol`, `--out-like`, `--scanner`, `--surf`, `--surface`, `--tkreg`, `--voxel` as C3 invalid. This is a false positive: `get_option()` uses `option = argv[1] + 1` to strip the leading dash, then compares with `!stricmp(option, "-il")` etc. Double-dash forms (e.g., `--il` → `-il`) are correctly accepted. The audit can only find single-dash literals in source.

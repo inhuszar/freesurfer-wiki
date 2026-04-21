@@ -13,7 +13,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Source in attic/; tool purpose and algorithm not confirmed beyond header description"
   - "MRIfcIntrinsicLI() algorithm details unknown"
@@ -76,9 +76,9 @@ The `DenThresh` parameter likely controls a minimum denominator to avoid divisio
 | `--rh <file>` | path | required | Right hemisphere input |
 | `--o <dir>` | path | required | Output directory |
 | `--fmt <ext>` | string | `nii.gz` | Output format extension |
-
-> [!gap] Full flag list not confirmed
-> The above is from global variable initializations. The `parse_commandline()` body was not read.
+| `--den-thresh <f>` | float | — | Density threshold for laterality index computation |
+| `--checkopts` | — | off | Check options and exit without processing |
+| `--nocheckopts` | — | off | Do not exit after checking options |
 
 ## Configuration Interactions
 

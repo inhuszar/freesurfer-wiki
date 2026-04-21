@@ -18,7 +18,7 @@ related:
   - "[[mgz]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "MRIsurfaceLabel2VolOpt (--fill-ribbon method) internals not traced beyond entry point"
   - "MRIaseg2volMU and MRIseg2SegPVF algorithm details not traced"
@@ -249,7 +249,7 @@ Sampling is performed at all depths from `start` to `stop` by `delta`.
 ### Configuration Interactions
 
 > [!gotcha] Input modes are mutually exclusive
-> `--label`, `--annot`, `--seg`, and `--aparc+aseg` cannot be combined.
+> `--label`, `--annot`, `--seg`, and --aparc+aseg cannot be combined.
 > Specifying multiple raises a fatal error.
 
 > [!gotcha] Registration methods are mutually exclusive
@@ -266,7 +266,7 @@ Sampling is performed at all depths from `start` to `stop` by `delta`.
 > is undefined.
 
 > [!gotcha] `--label-stat` is only valid with `--label`
-> Using `--label-stat` with `--annot` or `--seg` raises an error. The stat
+> Using --label-stat with `--annot` or `--seg` raises an error. The stat
 > field is specific to `.label` file format (5th column).
 
 > [!gotcha] `--temp` is required unless `--fill-ribbon`
@@ -294,7 +294,7 @@ Sampling is performed at all depths from `start` to `stop` by `delta`.
 > Without one of these, the parser cannot locate the subject's
 > `mri/aparc+aseg.mgz` and exits.
 
-> [!gotcha] `--fillthresh`, not `--fill-thresh`
+> [!gotcha] `--fillthresh`, not --fill-thresh
 > The accepted spelling is `--fillthresh` (one word). The hyphenated form is
 > not registered in the option parser and silently fails the unknown-option
 > check.

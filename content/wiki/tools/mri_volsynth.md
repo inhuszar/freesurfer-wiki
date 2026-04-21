@@ -15,10 +15,10 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "The --pdf checker, cp, F, Fr, geodesic modes were not fully documented."
-  - "The --hsc (heteroscedastic noise) parameters HSCMin/HSCMax were not traced from the full parse section."
+  - "The --pdf F, Fr, geodesic modes were not fully documented."
+  - "The --hsynth flag writes output directly and exits; its interaction with other flags is not fully traced."
 tags:
   - synthesis
   - testing
@@ -49,30 +49,30 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 
 ## Inputs
 
-| Flag | Description |
-|------|-------------|
-| `--temp templatevol` | Template volume (copies header geometry; overrides `--dim` and `--res`) |
-| `--dim Nc Nr Ns [Nf]` | Specify dimensions directly |
-| `--res Xc Xr Xs [Xt]` | Voxel size in mm (and TR in ms) |
-| `--cras Cx Cy Cz` | Set centre RAS coordinate |
-| `--cdircos dx dy dz` | Column direction cosines |
-| `--rdircos dx dy dz` | Row direction cosines |
-| `--sdircos dx dy dz` | Slice direction cosines |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--temp templatevol` | — | Template volume (copies header geometry; overrides `--dim` and `--res`) |
+| `--dim Nc Nr Ns [Nf]` | — | Specify dimensions directly |
+| `--res Xc Xr Xs [Xt]` | `1 1 1 2000` | Voxel size in mm (and TR in ms) |
+| `--c_ras Cx Cy Cz` | `0 0 0` | Set centre RAS coordinate |
+| `--cdircos dx dy dz` | `1 0 0` | Column direction cosines |
+| `--rdircos dx dy dz` | `0 1 0` | Row direction cosines |
+| `--sdircos dx dy dz` | `0 0 1` | Slice direction cosines |
 
 ## Outputs
 
-| Flag | Description |
-|------|-------------|
-| `--vol outfile` | Output synthesised volume |
-| `--sum2 sumfile` | Write sum-of-squares over frames |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--vol outfile` / `--o outfile` | — | Output synthesised volume |
+| `--sum2 sumfile` | — | Write sum-of-squares over frames |
 
 ## Mathematical Foundations
 
 **Supported PDFs (`--pdf name`):**
 
 | Name | Distribution |
-|------|-------------|
-| `gaussian` (default) | $\mathcal{N}(\mu, \sigma^2)$, configurable via `--gausmean` and `--gausstd` |
+|------|------------|
+| `gaussian` (default) | $\mathcal{N}(\mu, \sigma^2)$, configurable via `--gmean` and `--gstd` |
 | `uniform` | $\mathcal{U}[0,1]$ |
 | `const` | Constant value $A$ (from `--val-a`) |
 | `delta` | Zero everywhere except a single voxel set to $A$ |
@@ -92,47 +92,59 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--vol` | `outfile` | Output volume filename |
-| `--temp` | `templatevol` | Template for geometry |
-| `--dim` | `Nc Nr Ns [Nf]` | Volume dimensions |
-| `--nframes` | `Nf` | Number of frames |
-| `--res` | `Xc Xr Xs [Xt]` | Voxel resolution in mm |
-| `--pdf` | `name` | Probability distribution (see table above) |
-| `--gausmean` | `mean` | Mean for Gaussian (default 0) |
-| `--gausstd` | `std` | Std dev for Gaussian (default 1) |
-| `--val-a` | `val` | Primary value (const PDF, delta value) |
-| `--val-b` | `val` | Off-value for delta PDF |
-| `--numdof` | `dof` | Numerator DOF for t, chi2, F |
-| `--dendof` | `dof` | Denominator DOF for F |
-| `--fwhm` | `fwhm` | FWHM for spatial Gaussian smoothing (mm) |
-| `--fft` | — | Use FFT for Gaussian smoothing |
-| `--rescale` | — | Rescale after smoothing (statistical PDFs only) |
-| `--gmnnorm` | `val` | Normalisation for Gaussian smoothing kernel (default 1) |
-| `--delta-crsf` | `c r s f` | Location of delta voxel |
-| `--sphere-center` | `c r s` | Centre of sphere mask |
-| `--sphere-radius` | `vox` | Sphere radius in voxels |
-| `--mm-radius` | `mm` | Sphere radius in mm |
-| `--seed` | `seed` | Random seed (default: from clock) |
-| `--seedfile` | `file` | Read seed from file |
-| `--spike` | `tp` | Add spike at time point tp (for testing spike detection) |
-| `--curv` | — | Output as surface curvature format |
-| `--subject` | `subj` | Subject (with `--curv`) |
-| `--hemi` | `hemi` | Hemisphere (with `--curv`) |
-| `--sum2` | `file` | Output sum-of-squares |
-| `--no-output` | — | Do not write output volume (for testing only) |
-| `--hsc` | — | Apply heteroscedastic noise scaling |
-| `--p0` | `x y z` | Set p0 origin instead of CRAS |
-| `--cras` | `x y z` | Set centre RAS |
-| `--cdircos` | `dx dy dz` | Column direction cosines |
-| `--rdircos` | `dx dy dz` | Row direction cosines |
-| `--sdircos` | `dx dy dz` | Slice direction cosines |
-| `--precision` | `prec` | Output data type |
-| `--TR` | `ms` | TR in milliseconds |
-| `--add-offset` | `frame` | Add an offset frame |
-| `--debug` | — | Debug output |
-| `--version` | — | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--vol` / `--o` | `outfile` | — | Output volume filename |
+| `--temp` / `--template` | `templatevol` | — | Template for geometry |
+| `--dim` | `Nc Nr Ns [Nf]` | — | Volume dimensions |
+| `--nframes` | `Nf` | from template | Number of frames |
+| `--res` | `Xc Xr Xs [Xt]` | `1 1 1 2000` | Voxel resolution in mm (Xt is TR in ms) |
+| `--pdf` | `name` | `gaussian` | Probability distribution (see table above) |
+| `--gmean` | `mean` | `0` | Mean for Gaussian |
+| `--gstd` | `std` | `1` | Std dev for Gaussian |
+| `--val-a` | `val` | `1` | Primary value (const PDF, delta value) |
+| `--val-b` | `val` | `0` | Off-value for delta PDF |
+| `--dof-num` | `dof` | `2` | Numerator DOF for F |
+| `--dof-den` / `--dof` | `dof` | `20` | Denominator DOF for t, chi2, F |
+| `--fwhm` | `fwhm` | `0` (off) | FWHM for spatial Gaussian smoothing (mm) |
+| `--fft` | — | off | Use FFT for Gaussian smoothing |
+| `--rescale` | — | off | Rescale after smoothing (statistical PDFs only) |
+| `--norescale` | — | off | Explicitly disable rescale (overrides `--rescale`) |
+| `--nogmnnorm` | — | off | Disable normalisation of Gaussian smoothing kernel |
+| `--delta-crsf` | `c r s f` | centre of volume | Location of delta voxel |
+| `--delta-val` | `val` | `1` | Value of the impulse voxel for delta PDF |
+| `--delta-val-off` | `offval` | `0` | Background value for delta PDF |
+| `--sphere-center` | `c r s` | centre of volume | Centre of sphere mask |
+| `--vox-radius` / `--radius` | `vox` | — | Sphere radius in voxels |
+| `--mm-radius` | `mm` | — | Sphere radius in mm |
+| `--seed` | `seed` | from clock | Random seed |
+| `--seedfile` | `file` | — | Write seed value to this file |
+| `--spike` | `tp` | — | Add spike at time point tp (for testing spike detection) |
+| `--curv` | `subject hemi` | — | Output as surface curvature format (uses lh.thickness as template) |
+| `--sum2` | `file` | — | Output sum-of-squares |
+| `--no-output` | — | off | Do not write output volume (for testing only) |
+| `--hsc` | `min max` | off | Apply heteroscedastic noise scaling (multiply each frame by random in [min, max]) |
+| `--hsynth` | `eres mask DoTNorm out` | — | Synthesise heteroscedastic noise volume from residual image and mask; writes directly to `out` and exits |
+| `--abs` | — | off | Compute absolute value |
+| `--p0` | `x y z` | — | Set p0 origin instead of CRAS |
+| `--c_ras` | `x y z` | `0 0 0` | Set centre RAS |
+| `--cdircos` | `dx dy dz` | `1 0 0` | Column direction cosines |
+| `--rdircos` | `dx dy dz` | `0 1 0` | Row direction cosines |
+| `--sdircos` | `dx dy dz` | `0 0 1` | Slice direction cosines |
+| `--precision` | `prec` | from template | Output data type (uchar, short, int, float) |
+| `--TR` | `ms` | `2000` | TR in milliseconds |
+| `--offset` | — | off | Use template as intensity offset |
+| `--offset-mid` | — | off | Use middle frame of template as intensity offset |
+| `--bb` | `c r s dc dr ds` | — | Bounding box (inside=ValA, outside=ValB) |
+| `--grid` | `dcol drow dslice` | `8 8 2` | Grid pattern spacing |
+| `--cube` | `edgemm` | — | Cube pattern with given edge length in mm |
+| `--checker` | — | — | Checkerboard pattern |
+| `--cp` | `control.dat` | — | Set control point voxels to 1 |
+| `--ctab` | `colortable` | — | Embed colour table in output |
+| `--dim-surf` | `surffile` | — | Set dimensions to nvertices x 1 x 1 |
+| `--vox-size` | `dc dr ds` | — | Change template voxel resolution and dimensions |
+| `--debug` | — | off | Debug output |
+| `--version` | — | — | Print version |
 
 ## Configuration Interactions
 
@@ -141,7 +153,7 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 - `--fwhm` and `--fft` interact: `--fft` applies Gaussian smoothing in Fourier space instead of real space (faster for large volumes).
 - `--rescale` is meaningful only for statistical PDFs (z, t, chi2, F, Fr) and should be used with `--fwhm` to maintain correct marginal distributions after smoothing.
 - `--seed` and `--seedfile` are alternative seed sources; `--seedfile` takes precedence.
-- `--curv` mode requires `--subject` and `--hemi` and outputs in surface overlay format rather than volume format.
+- `--curv subject hemi` mode takes subject and hemisphere as positional arguments (not as separate --subject/--hemi flags) and outputs in surface overlay format rather than volume format.
 
 ## Typical Use Cases
 
@@ -190,7 +202,7 @@ Not called by `recon-all`. Used in:
 
 - Testing and validating statistical inference tools ([[mri_volcluster]], `mri_glmfit`)
 - Generating null-distribution simulations for empirical cluster thresholds
-- Checking interpolation behaviour in [[mri_vol2vol]] (using `--pdf delta`)
+- Checking interpolation behaviour in [[mri_vol2vol]] (using --pdf delta)
 - FreeSurfer regression tests (`test.sh` files)
 
 ## Gotchas and Caveats

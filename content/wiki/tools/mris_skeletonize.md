@@ -13,9 +13,8 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full command-line interface not captured; help text is embedded as a class/function structure."
   - "DTK output format details not verified."
 tags:
   - skeleton
@@ -71,24 +70,33 @@ The `SurfSkeleton` class implements a surface-based skeletonization algorithm:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--surf` | surface file | Input surface mesh |
-| `--sphere` | sphere file | Spherical surface for neighbor ordering |
-| `--mask` | mask file | Binary mask restricting analysis |
-| `--threshold T` | float | Skeleton threshold (default: 0.3) |
-| `--fwhm F` | float | Gaussian smoothing FWHM before thresholding (default: 0, no smoothing) |
-| `--nkeep N` | integer | Keep only N largest clusters (default: 0, keep all) |
-| `--nbrs N` | integer | Neighborhood size for topology analysis (default: 2) |
-
-> [!gap] Full flag list
-> The complete command-line interface is implemented via `parse_commandline()`. The flags listed above are inferred from the `SurfSkeleton` class member variables. Full documentation requires reading the argument parsing code.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--surf` | surface file | — | Input surface mesh |
+| `--sphere` | sphere file | — | Spherical surface for neighbor ordering (required with `--curv-nonmaxsup`) |
+| `--s` | subject hemi surfname | — | Subject name plus hemisphere and surface name; resolves surface paths via `$SUBJECTS_DIR` |
+| `--mask` | mask file | — | Binary mask restricting analysis |
+| `--surfvals` | overlay file | — | Load scalar values from a surface overlay file |
+| `--out-surfvals` | path | — | Write computed surface values to file |
+| `--threshold` / `--thresh` | float | `0.3` | Skeleton threshold |
+| `--fwhm` | float | `0` | Gaussian smoothing FWHM before thresholding; 0 means no smoothing |
+| `--cluster` | integer | `0` | Keep only N largest clusters; 0 keeps all |
+| `--nbrsize` | integer | `2` | Neighborhood size for topology analysis |
+| `--gyrus` / `--crown` | — | on | Use negative curvature scale (gyral crowns); this is the default mode |
+| `--sulcus` / `--fundus` | — | off | Use positive curvature scale (sulcal fundi) |
+| `--k1` | — | off | Use principal curvature k1 as the scalar input |
+| `--curv-nonmaxsup` | — | off | Use non-maximum-suppressed curvature as the scalar input |
+| `--outdir` | path | — | Output directory; creates if needed |
+| `--ps` | path | — | Output pointset file |
+| `--l` | path | — | Output label file |
+| `--tract` | path | — | Output DTK tractography file (.trk) |
 
 ## Configuration Interactions
 
 - `--fwhm` and `--threshold` interact: smoothing is applied before thresholding, so higher smoothing broadens the ridges and may merge nearby skeletal structures.
-- `--nkeep` is applied after thresholding and skeleton construction; it prunes small fragments. Setting `nkeep = 1` retains only the dominant gyral/sulcal skeleton.
-- `--nbrs` controls the neighborhood size for local topology analysis; larger values make branch detection more robust but slower.
+- `--cluster` is applied after thresholding and skeleton construction; it prunes small fragments. Setting `--cluster 1` retains only the dominant gyral/sulcal skeleton.
+- `--nbrsize` controls the neighborhood size for local topology analysis; larger values make branch detection more robust but slower.
+- `--gyrus`/`--crown` and `--sulcus`/`--fundus` are mutually exclusive; they set the sign of the curvature scale factor used when `--k1` or `--curv-nonmaxsup` is active.
 
 ## Typical Use Cases
 
@@ -97,10 +105,11 @@ The `SurfSkeleton` class implements a surface-based skeletonization algorithm:
 mris_skeletonize \
   --surf lh.white \
   --sphere lh.sphere \
+  --surfvals lh.meancurv.mgh \
   --threshold 0.3 \
   --fwhm 5 \
-  --nkeep 10 \
-  lh.meancurv.mgh lh.sulcal_skeleton
+  --cluster 10 \
+  --l lh.sulcal_skeleton.label
 ```
 
 ## Pipeline Context
@@ -118,8 +127,8 @@ mris_skeletonize \
 > [!gotcha] Threshold sensitivity
 > The skeleton is highly sensitive to the threshold value. Too low: skeleton becomes a large connected mesh rather than a one-dimensional structure. Too high: skeleton fragments. Empirical tuning per dataset is typically required.
 
-> [!gap] DTK output
-> The DTK streamline output format (`dtk.fs.h` is included) suggests the tool can export TrackVis-compatible `.trk` files. The exact flag to enable this is not captured in the first 120 lines.
+> [!gap] DTK output format
+> The DTK streamline output format (`dtk.fs.h` is included) and `--tract` flag write TrackVis-compatible `.trk` files. The exact internal format details are not yet verified.
 
 ## Related Tools
 
@@ -128,4 +137,4 @@ mris_skeletonize \
 
 ## Confidence and Gaps
 
-**Medium confidence.** The `SurfSkeleton` class and its algorithm are well-exposed in the source. The command-line interface requires deeper reading of `parse_commandline()`.
+**Medium confidence.** The `SurfSkeleton` class algorithm and the complete `parse_commandline()` function have been read. Flag list is confirmed from source.

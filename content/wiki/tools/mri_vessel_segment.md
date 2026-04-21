@@ -86,13 +86,13 @@ In `--shape` mode: a label image classifying objects as label 1 (small round), l
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-t1 <file>` | T1-weighted input volume |
-| `-t2 <file>` | T2-weighted input volume (default mode only) |
-| `-aseg <file>` | Optional aseg segmentation to guide vessel detection |
-| `-o <file>` | Output filename |
-| `--shape` | Enable shape-analysis mode instead of multimodal intensity segmentation |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-t1` | `<file>` | — | T1-weighted input volume |
+| `-t2` | `<file>` | — | T2-weighted input volume (default mode only) |
+| `-aseg` | `<file>` | — | Optional aseg segmentation to guide vessel detection |
+| `-o` | `<file>` | — | Output filename |
+| `--shape` | — | off | Enable shape-analysis mode instead of multimodal intensity segmentation |
 
 ## Configuration Interactions
 

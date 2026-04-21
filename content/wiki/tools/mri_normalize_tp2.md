@@ -90,18 +90,18 @@ The code also computes intensity scale statistics: mean ($\mu_1$, $\mu_2$), stan
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--ctrl1` | `<fname>` | Control point volume from tp1 (required) |
-| `--T1_1` | `<fname>` | T1 volume from tp1 (required) |
-| `--xform` | `<fname>` | LTA registration transform from tp2 to tp1 (required) |
-| `--invert` | (none) | Invert the LTA transform direction |
-| `--lta_src` | `<fname>` | Source volume geometry for LTA (optional override) |
-| `--lta_dst` | `<fname>` | Destination volume geometry for LTA (optional override) |
-| `--mask1` | `<fname>` | Brain mask for tp1 |
-| `--mask2` | `<fname>` | Brain mask for tp2 |
-| `--bias_sigma` | `<float>` | Sigma of bias field smoothing kernel (default: 8.0) |
-| `--noise_threshold` | `<float>` | Voxels below this intensity are excluded from statistics (default: 1.0) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--ctrl1` | `<fname>` | — | Control point volume from tp1 (required) |
+| `--T1_1` | `<fname>` | — | T1 volume from tp1 (required) |
+| `--xform` | `<fname>` | — | LTA registration transform from tp2 to tp1 (required) |
+| `--invert` | (none) | off | Invert the LTA transform direction |
+| `--lta_src` | `<fname>` | — | Source volume geometry for LTA (optional override) |
+| `--lta_dst` | `<fname>` | — | Destination volume geometry for LTA (optional override) |
+| `--mask1` | `<fname>` | — | Brain mask for tp1 |
+| `--mask2` | `<fname>` | — | Brain mask for tp2 |
+| `--bias_sigma` | `<float>` | `8.0` | Sigma of bias field smoothing kernel |
+| `--noise_threshold` | `<float>` | `1.0` | Voxels below this intensity are excluded from statistics |
 
 ## Configuration Interactions
 
@@ -130,7 +130,7 @@ The standard cross-sectional normalization is done by [[mri_normalize]]; this to
 ## Gotchas and Caveats
 
 > [!gotcha] Both tp1 control points and T1 are required
-> The tool will error if either `--ctrl1` or `--T1_1` is not provided. Unlike the cross-sectional `mri_normalize`, there is no fallback to automatic control point detection.
+> The tool will error if either `--ctrl1` or --T1_1 is not provided. Unlike the cross-sectional `mri_normalize`, there is no fallback to automatic control point detection.
 
 > [!gotcha] Transform direction matters
 > The LTA is expected to map `tp2` voxels to `tp1` space so that control points from `tp1` can be mapped back. Providing the wrong-direction transform (without `-invert`) will silently produce an incorrect normalization.

@@ -14,9 +14,10 @@ related:
   - "[[parcellation-schemes]]"
   - "[[asegstats2table]]"
   - "[[mri_segstats]]"
+  - "[[fsgd-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Behaviour of --etiv when eTIV is absent from the stats file (bare except clause silently exits)"
   - "Effect of --scale on the eTIV and BrainSegVolNotVent columns that bypass hemi/measure decoration"
@@ -148,8 +149,8 @@ of each measure.
 **Column index mapping** (from `AparcStatsParser.measure_column_map` in
 `fsbindings/legacy.py`):
 
-| `--meas` value | Column in `.stats` data block | Units |
-|----------------|-------------------------------|-------|
+| Measure value | Column in `.stats` data block | Units |
+|---------------|-------------------------------|-------|
 | `area` (default) | 2 (`SurfArea`) | mm² |
 | `volume` | 3 (`GrayVol`) | mm³ |
 | `thickness` | 4 (`ThickAvg`) | mm |
@@ -177,20 +178,20 @@ after any eTIV normalization. Applied as `table[row][col] *= scale`.
 
 ### Subject / Input Specification (mutually exclusive — exactly one required)
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `--subjects sub1 sub2 ...` | string list | Variadic list of subject names (all after the flag until the next flag). Uses `fsutils.callback_var`. |
-| `-s subjectname` | string (repeatable) | Specify subjects one at a time; can be repeated. Appends to the subjects list. |
-| `--subjectsfile <file>` | path | Text file with one subject name per line. |
-| `--qdec <file>` | path | QDEC table (CSV); reads the `fsid` column, skipping lines beginning with `#`. |
-| `--qdec-long <file>` | path | Longitudinal QDEC table; reads `fsid` and `fsid-base`, constructs names of the form `<fsid>.long.<fsid-base>`. |
-| `--fsgd <file>` | path | FSGD group descriptor file; extracts subject names from `INPUT` lines. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--subjects sub1 sub2 ...` | string list | — | Variadic list of subject names (all after the flag until the next flag). Uses `fsutils.callback_var`. |
+| `-s subjectname` | string (repeatable) | — | Specify subjects one at a time; can be repeated. Appends to the subjects list. |
+| `--subjectsfile <file>` | path | — | Text file with one subject name per line. |
+| `--qdec <file>` | path | — | QDEC table (CSV); reads the `fsid` column, skipping lines beginning with `#`. |
+| `--qdec-long <file>` | path | — | Longitudinal QDEC table; reads `fsid` and `fsid-base`, constructs names of the form `<fsid>.long.<fsid-base>`. |
+| `--fsgd <file>` | path | — | [[fsgd-format\|FSGD]] group descriptor file; extracts subject names from `INPUT` lines. |
 
 ### Required Options
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--hemi lh\|rh` | string | none (required) | Hemisphere. Used to construct the stats file path (`lh.<parc>.stats` or `rh.<parc>.stats`) and as the column title prefix. |
+| `--hemi` | `lh` or `rh` | none (required) | Hemisphere. Used to construct the stats file path (`lh.<parc>.stats` or `rh.<parc>.stats`) and as the column title prefix. |
 | `-t FILE` / `--tablefile FILE` | path | none (required) | Output file path for the assembled table. |
 
 ### Parcellation and Measure Selection
@@ -236,7 +237,7 @@ after any eTIV normalization. Applied as `table[row][col] *= scale`.
 > `--subjects` on the same command line is valid and both are counted as a
 > single input method.
 
-> [!gotcha] `--common-parcs` and `--parcs-from-file` are not mutually exclusive in the code but interact
+> [!gotcha] `--common-parcs` and --parcs-from-file are not mutually exclusive in the code but interact
 > If both `--common-parcs` and `--parcs-from-file` are given, `--parcs-from-file`
 > takes effect first (restricting the parsed parcellations), and then
 > `--common-parcs` further restricts to the intersection of those. In practice,
@@ -254,7 +255,7 @@ after any eTIV normalization. Applied as `table[row][col] *= scale`.
 > If both `--etiv` and `--scale` are specified, all values are first normalized
 > to percent-eTIV and then multiplied by the scale factor.
 
-> [!gotcha] `--append` does not validate table compatibility
+> [!gotcha] --append does not validate table compatibility
 > When appending, no check is made that the new table has the same columns as
 > the existing file. Appending tables with different parcellations or measures
 > produces a malformed file that most parsers will reject.
@@ -444,6 +445,9 @@ The complementary tool for subcortical segmentation data is
 **Medium confidence** (inferred from code; needs user-level validation):
 - Behaviour with parcellation atlases other than `aparc` and `aparc.a2009s`
 - Correctness of `--qdec-long` subject name construction in edge cases
+
+> [!note] Audit noise: `--meas` vs `--measure`
+> An automated audit may flag `--meas` as a missing flag. This string appears in the script's docstring examples (`--meas meancurv`) but is NOT a valid CLI flag. The actual parser flag is `--measure` (with `dest='meas'`). The wiki correctly uses `--measure`.
 
 > [!gap] `--etiv` with non-volume measures
 > The `--etiv` flag divides all column values (except a hardcoded exclusion

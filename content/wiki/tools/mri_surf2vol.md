@@ -18,7 +18,7 @@ related:
   - "[[curv-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "MRIsurf2VolOpt (Method 1) ribbon mask filling across multiple overlapping surfaces not fully traced"
   - "nhits count bug in fillribbon mode documented from code comment but root cause not traced"
@@ -147,7 +147,7 @@ checks (hemisphere, registration, template volume).
 |------|-----------|------|---------|--------|
 | `--so` | `surface overlay` | path path | — (repeatable) | Read a surface and a matching per-vertex overlay; appends them to the internal `surfarray` / `overlayarray`. May be specified multiple times (e.g. lh and rh). Presence of any `--so` switches the program into Method 1. |
 | `--lta` | `ltafile` | path | none | LTA registration (anatomy → output volume); supplies output geometry and overrides `subject`. |
-| `--subject` | `name` | string | none | Subject name; used to locate `$SUBJECTS_DIR/<subject>/mri/ribbon.mgz` when `--ribbon` is not given. |
+| `--subject` | `name` | string | none | Subject name; used to locate `$SUBJECTS_DIR/<subject>/mri/ribbon.mgz` when --ribbon is not given. |
 | `--ribbon` | `ribbonfile` | path | `$SUBJECTS_DIR/<subject>/mri/ribbon.mgz` | Explicit ribbon volume; output geometry follows the ribbon when no LTA is supplied. |
 | `--merge` | `vol` | path | none | After ribbon fill, every output voxel that is still 0 takes the value of the corresponding voxel in `vol` (frame-wise). |
 | `--o` / `--outvol` | `outfile [fmt]` | path [str] | — (required) | Output volume. Optional second argument forces the format (e.g. `mgz`, `nii`). |
@@ -190,22 +190,22 @@ parameter dump, but are **not** wired into the actual output volume
 construction in v8.2.0 — geometry is always taken from the template (or merge)
 volume. Treat them as no-ops unless future versions reactivate them.
 
-| Flag | Arguments | Effect |
-|------|-----------|--------|
-| `--dim` | 3 × int | Sets `dim[0..2]` (unused). |
-| `--res` | 3 × float | Sets voxel size `res[0..2]` (unused). |
-| `--xyz0` | 3 × float | Sets RAS origin (unused). |
-| `--cdircos` | 3 × float | Column direction cosines (unused). |
-| `--rdircos` | 3 × float | Row direction cosines (unused). |
-| `--sdircos` | 3 × float | Slice direction cosines (unused). |
-| `--precision` | string | Output precision tag (unused). |
+| Flag | Arguments | Default | Effect |
+|------|-----------|---------|--------|
+| `--dim` | 3 × int | none | Sets `dim[0..2]` (unused). |
+| `--res` | 3 × float | none | Sets voxel size `res[0..2]` (unused). |
+| `--xyz0` | 3 × float | none | Sets RAS origin (unused). |
+| `--cdircos` | 3 × float | none | Column direction cosines (unused). |
+| `--rdircos` | 3 × float | none | Row direction cosines (unused). |
+| `--sdircos` | 3 × float | none | Slice direction cosines (unused). |
+| `--precision` | string | none | Output precision tag (unused). |
 
 ### Standalone subcommands (exit immediately)
 
-| Flag | Arguments | Effect |
-|------|-----------|--------|
-| `--sphpvf` | `radius nvox voxsize fsubsamp icoorder outvol outsurf` | Generate a synthetic spherical partial-volume-fraction phantom by rasterising an icosahedron-derived sphere into a volume; writes `outvol` and `outsurf` and exits. Bypasses everything else. |
-| `--flat2mri` | `surf patch overlay res avg output` | Resample a flat-patch surface overlay to a 2-D MRI image at resolution `res`; if `avg ≠ 0`, average overlapping vertices. Writes `output` and exits. |
+| Flag | Arguments | Default | Effect |
+|------|-----------|---------|--------|
+| `--sphpvf` | `radius nvox voxsize fsubsamp icoorder outvol outsurf` | — (7 args required) | Generate a synthetic spherical partial-volume-fraction phantom by rasterising an icosahedron-derived sphere into a volume; writes `outvol` and `outsurf` and exits. Bypasses everything else. |
+| `--flat2mri` | `surf patch overlay res avg output` | — (6 args required) | Resample a flat-patch surface overlay to a 2-D MRI image at resolution `res`; if `avg ≠ 0`, average overlapping vertices. Writes `output` and exits. |
 
 ### Diagnostics and environment
 
@@ -273,7 +273,7 @@ volume. Treat them as no-ops unless future versions reactivate them.
 > ignored.
 
 > [!gotcha] Masking flags are mutually exclusive
-> `--mask-to-cortex`, `--mask-to-label`, and `--mask` cannot be combined (each
+> `--mask-to-cortex`, `--mask-to-label`, and --mask cannot be combined (each
 > pair is enforced in `check_options()`).
 
 ## Typical Use Cases

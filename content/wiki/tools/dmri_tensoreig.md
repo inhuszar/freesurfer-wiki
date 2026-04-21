@@ -14,10 +14,9 @@ related:
   - "[[mri_glmfit]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Source is in 'attic' directory — may be deprecated"
-  - "Full argument list requires reading parse_commandline()"
 tags:
   - diffusion
   - tensor
@@ -55,19 +54,19 @@ This predates the more comprehensive `dt_recon` pipeline which uses `mri_glmfit`
 
 ## Inputs
 
-From global variables:
+Confirmed from `parse_commandline()` and global variable initializations in `attic/dmri_tensoreig/dmri_tensoreig.cpp`.
 
 | Variable | Flag | Description | Default |
 |----------|------|-------------|---------|
-| `InFile` | `-i` or similar | Input DWI volume | required |
-| `OutDir` | `-o` | Output directory | required |
-| `bValue` | `-b` | B-value (scalar) | 0.0 |
-| `nAcq` | `-a` | Number of acquisitions to average | 1 |
-| `nDir` | `-d` | Number of gradient directions | 6 |
-| `GradFile` | `-g` | Gradient file | — |
-| `MaskFile` | `-m` | Brain mask | — |
-| `OutFmt` | `-f` | Output format | `nii` |
-| `IsTensorInput` | `-t` | Input is already a tensor volume | 0 |
+| `InFile` | `--i` | Input DWI volume (or tensor volume when `--tensor 1`) | required |
+| `OutDir` | `--o` | Output directory | required |
+| `bValue` | `--b` | B-value (scalar, e.g. 1000) | `0.0` |
+| `nAcq` | `--nacq` | Number of T2 weightings (acquisitions) to average | `1` |
+| `nDir` | `--ndir` | Number of diffusion gradient directions | `6` |
+| `GradFile` | `--g` | Gradient directions file | none |
+| `MaskFile` | `--m` | Brain mask volume | none |
+| `OutFmt` | `--ofmt` | Output file extension / format string | `nii` |
+| `IsTensorInput` | `--tensor` | Pass `1` to treat input as a pre-computed tensor volume (skips fitting) | `0` |
 
 ## Outputs
 
@@ -111,33 +110,43 @@ $$
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> Complete flags require reading `parse_commandline()`. From global variables, likely flags include:
+All flags confirmed from `parse_commandline()` in `attic/dmri_tensoreig/dmri_tensoreig.cpp`.
 
-| Flag | Description |
-|------|-------------|
-| `-i <file>` | Input DWI volume |
-| `-o <dir>` | Output directory |
-| `-b <val>` | B-value |
-| `-g <file>` | Gradient directions file |
-| `-m <file>` | Brain mask |
-| `-n <n>` | Number of gradient directions |
-| `-a <n>` | Number of acquisitions to average |
-| `-f <fmt>` | Output format (default: `nii`) |
-| `-t` | Input is tensor (skip fitting) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `file` | required | Input DWI volume (4D). When `--tensor 1` is set, this should be a pre-computed tensor volume instead. |
+| `--o` | `dir` | required | Output directory where all result volumes are written. |
+| `--b` | `num` | `0.0` | B-value (diffusion weighting factor, e.g. `1000`). Used to construct the B-matrix. |
+| `--ndir` | `num` | `6` | Number of diffusion gradient directions in the input volume. |
+| `--nacq` | `num` | `1` | Number of T2-weighted acquisitions (repetitions) to average before tensor fitting. Triggers `MRIavg4` or `MRIavg5` depending on data layout. |
+| `--g` | `file` | none | Path to gradient directions file. Each row contains three floats (gx, gy, gz). The first row is the b=0 direction; subsequent rows are diffusion directions. |
+| `--m` | `file` | none | Brain mask volume. If not supplied, a mask is computed automatically and written to `mask.<ofmt>`. |
+| `--ofmt` | `fmt` | `nii` | Output file extension / format string appended to output filenames (e.g. `nii`, `nii.gz`, `mgh`). |
+| `--tensor` | `0`\|`1` | `0` | When set to `1`, skip tensor fitting and treat the input (`--i`) as a pre-computed tensor volume. Eigendecomposition still runs. |
+| `--sdcm` / `--infodump` | `file` | — | Pass a Siemens DICOM file or an ASCII info-dump file. Calls `DTIparamsFromSiemensAscii()` to extract `bValue`, `nDir`, and `DiffMode`, and auto-selects a gradient file for known diffusion modes. Both flags are aliases. |
 
 ## Typical Use Cases
-
-> [!gap] Exact command syntax
-> Without the full argument parser, exact command lines cannot be verified.
 
 ```bash
 # Fit tensors from a DWI volume
 dmri_tensoreig \
-  -i dwi.nii.gz \
-  -g gradients.txt \
-  -b 1000 \
-  -o dti_output/
+  --i dwi.nii.gz \
+  --g gradients.txt \
+  --b 1000 \
+  --ndir 6 \
+  --o dti_output/
+
+# Load b-value and gradient count from a Siemens DICOM info dump
+dmri_tensoreig \
+  --i dwi.nii.gz \
+  --sdcm siemens_info.txt \
+  --o dti_output/
+
+# Skip tensor fitting; decompose a pre-computed tensor volume
+dmri_tensoreig \
+  --i dtensor.nii \
+  --tensor 1 \
+  --o dti_output/
 ```
 
 ## Pipeline Context
@@ -153,8 +162,8 @@ DWI acquisition --> dmri_tensoreig --> FA/eigenvalue maps --> dmri_paths / visua
 > [!gotcha] Deprecated/attic tool
 > The `attic/` location of the source suggests this tool is not actively maintained. For tensor fitting, `dt_recon` or FSL's `dtifit` are the recommended alternatives.
 
-> [!gotcha] SNR estimation
-> The source includes an `avgsnr()` function, suggesting SNR computation capabilities, but whether this is exposed as a flag is unknown.
+> [!gotcha] SNR estimation is automatic, not user-configurable
+> The source calls `avgsnr()` internally during tensor fitting (lines 330–333) to print the SNR of the low-b image and the average SNR across all DW images. This is not exposed as a CLI flag and cannot be suppressed or redirected.
 
 ## Related Tools
 
@@ -163,9 +172,6 @@ DWI acquisition --> dmri_tensoreig --> FA/eigenvalue maps --> dmri_paths / visua
 - [[dmri_paths]] — probabilistic tractography using tensor-derived orientation information
 
 ## Confidence and Gaps
-
-> [!gap] Argument parser not read
-> Full flag names require reading `parse_commandline()`.
 
 > [!gap] Deprecation status
 > Whether `dmri_tensoreig` is officially deprecated in favor of `dt_recon` is not confirmed.

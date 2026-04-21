@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The full U-Net architecture and training data for the vsinus model are not described in source."
   - "The exact post-processing pipeline (SynthMorph-based registration, MNI152 prior) was not fully traced."
@@ -53,21 +53,22 @@ The tool uses a supervised U-Net trained on manually labelled data with field-of
 
 ## Inputs
 
-| Flag | Description |
-|------|-------------|
-| `--invol vol` | Input MRI volume |
-| `--outdir dir` | Output directory |
-| `--subject subjectid` | Process a subject from SUBJECTS_DIR |
-| `--threads n` | Number of threads (default 1) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `vol` | — (required) | Input MRI volume |
+| `--o` / `--seg` | `outsegvol` | — | Output segmentation volume |
+| `--outdir` | `dir` | — | Output directory (also turns off cleanup) |
+| `--s` | `subjectid` | — | Process a subject from SUBJECTS_DIR (sets `invol=mri/nu.mgz`, `seg=mri/vsinus.mgz` by default) |
+| `--threads` | `n` | 1 | Number of threads |
 
 ## Outputs
 
 Output files are written to `--outdir`:
 
-| File | Description |
-|------|-------------|
-| Segmentation volume | Venous sinus label map |
-| Log files | Processing log in `outdir/log/` |
+| File | Default path | Description |
+|------|-------------|-------------|
+| Segmentation volume | `outdir/vsinus.mgz` (or `mri/vsinus.mgz` with `--s`) | Venous sinus label map |
+| Log files | `outdir/log/mri_vsinus_seg.Y<year>.M<month>...log` | Processing log in `outdir/log/` |
 
 ## Mathematical Foundations
 
@@ -82,49 +83,69 @@ The segmentation is based on a U-Net architecture:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--invol` | `vol` | Input volume |
-| `--outdir` | `dir` | Output directory |
-| `--subject` | `subjectid` | Subject in SUBJECTS_DIR |
-| `--threads` | `n` | Number of threads |
-| `--seg` | `segvol` | Pre-existing segmentation to use |
-| `--ctxseg` | `ctxseg` | Cortical segmentation for context |
-| `--diceseg` | `vol` | Reference segmentation for Dice evaluation |
-| `--features` | `n` | Number of U-Net features (default 24) |
-| `--fov` | `n` | FOV size (default 144) |
-| `--model` | `modelfile` | Alternative model file |
-| `--priormni` | `vol` | Alternative MNI152 prior |
-| `--synthmorphdir` | `dir` | SynthMorph directory |
-| `--no-post` | — | Skip post-processing |
-| `--rerun` | — | Force re-run even if output exists |
-| `--tmpdir` | `dir` | Temporary directory |
-| `--cleanup` | — | Clean up temporary files |
-| `--nocleanup` | — | Keep temporary files |
-| `--debug` | — | Enable debug mode |
-| `--help` | — | Print help |
-| `--version` | — | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `vol` | — (required) | Input MRI volume |
+| `--o` / `--seg` | `segvol` | `outdir/vsinus.mgz` | Output segmentation volume path |
+| `--outdir` | `dir` | — | Output directory (also disables cleanup) |
+| `--s` | `subjectid` | — | Subject in SUBJECTS_DIR |
+| `--sd` | `dir` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR (setenv SUBJECTS_DIR) |
+| `--threads` | `n` | 1 | Number of threads |
+| `--ctxseg` | `ctxseg` | — | Cortical segmentation; removes vsinus voxels overlapping cortex labels 3 and 42 |
+| `--rca-synthseg` | — | off | Set `ctxseg` to `mri/synthseg.rca.mgz` (requires `--s`) |
+| `--no-rca-synthseg` | — | default | Disable `--rca-synthseg` |
+| `--dice` | `vol` | — | Reference segmentation volume for Dice evaluation |
+| `--features` | `n` | 24 | Number of U-Net features |
+| `--model` / `--m` | `modelfile` | `$FREESURFER_HOME_FSPYTHON/models/vsinus.no-sp.m.all.nstd10-070.h5` | Override default model file |
+| `--ctab` | `ctabfile` | auto-generated in `outdir/` | Override default colour table |
+| `--synthmorphdir` | `dir` | `outdir/synthmorph` | Use existing SynthMorph registration directory (skips re-registration) |
+| `--out-post` | `vol` | — | Output posterior sum volume (also enables `--post`) |
+| `--post` | — | off | Enable posterior output (saved to `mri/vsinus.posterior.mgz` with `--s`) |
+| `--no0post` | — | off | Disable posterior output (`DoPost=0`) |
+| `--direct` | `input output` | — | Run segmentation directly without cropping or preprocessing |
+| `--rerun` | — | off | Rerun only if an intermediate stage is out of date |
+| `--force` | — | off | Force rerun of everything from scratch |
+| `--no-force` | — | default | Disable forced rerun |
+| `--log` | `logfile` | `outdir/log/mri_vsinus_seg.Y...log` | Redirect log to this file |
+| `--nolog` / `--no-log` | — | off | Suppress log output (sets log to `/dev/null`) |
+| `--tmp` / `--tmpdir` | `dir` | `/scratch/tmpdir.mri_vsinus_seg.$$` or `outdir/tmpdir...` | Temporary directory (also disables cleanup) |
+| `--cleanup` | — | on (when `--o` only) | Clean up temporary files |
+| `--no-cleanup` / `--nocleanup` | — | off | Keep temporary files |
+| `--debug` | — | off | Enable verbose debug output |
+| `--help` | — | — | Print help |
+| `--version` | — | — | Print version |
 
 ## Configuration Interactions
 
-- `--invol` and `--subject` are alternative input modes.
-- `--model` overrides the default model path from `$FREESURFER_HOME/models/`.
-- `--no-post` skips post-processing steps (exact steps not documented here).
+- `--i` and `--s` are alternative input modes. `--s` also sets default paths for `--o` and `--outdir`.
+- `--sd` overrides the `SUBJECTS_DIR` environment variable when using `--s`.
+- `--ctxseg` and `--rca-synthseg` are mutually exclusive; `--rca-synthseg` requires `--s`.
+- `--o` and `--outdir` can be used together or separately. Using --o alone causes a temporary `outdir` to be created with cleanup enabled. Using --outdir alone sets `seg` to `outdir/vsinus.mgz` with cleanup disabled.
+- `--model` / `--m` overrides the default model path from `$FREESURFER_HOME_FSPYTHON/models/`.
+- `--post` enables posterior output. `--out-post` additionally specifies the output filename and also sets `DoPost=1`. `--no0post` explicitly sets `DoPost=0`. Posteriors are computed in cropped space and mapped back to native space.
+- `--synthmorphdir` skips SynthMorph-based registration if the `reg.targ_to_invol.lta` file already exists in that directory.
+- `--direct` bypasses all preprocessing (cropping, prior mapping, registration) and calls `mri_sclimbic_seg` directly, then exits.
 
 ## Typical Use Cases
 
 ```bash
 # Segment venous sinuses from a standalone T1 volume
 mri_vsinus_seg \
-    --invol bert/mri/orig.mgz \
-    --outdir bert/mri/vsinus/ \
+    --i bert/mri/orig.mgz \
+    --o bert/mri/vsinus.mgz \
     --threads 4
 
-# Process a subject from SUBJECTS_DIR
+# Process a subject from SUBJECTS_DIR (uses mri/nu.mgz as input by default)
 mri_vsinus_seg \
-    --subject bert \
-    --outdir $SUBJECTS_DIR/bert/mri/vsinus/ \
+    --s bert \
     --threads 4
+
+# Keep intermediate files for debugging
+mri_vsinus_seg \
+    --i bert/mri/orig.mgz \
+    --outdir bert/mri/vsinus/ \
+    --threads 4 \
+    --nocleanup
 ```
 
 ## Pipeline Context
@@ -152,9 +173,9 @@ See also [[mri_vessel_segment]] for multimodal intensity-based vessel segmentati
 
 ## Confidence and Gaps
 
-**Medium confidence:** input/output structure (from script source), model location, general U-Net approach.
+**High confidence:** all flag names and arguments verified against `parse_args` in script source; I/O paths and cleanup logic traced through `check_params`. Default column values verified against variable initialisations at script top.
 
-**Low confidence:** model architecture, prior details, post-processing pipeline.
+**Low confidence:** model architecture, prior details; the Python code invoked by the script was not read.
 
 > [!gap] Python backend
 > The Python code that implements the actual segmentation (beyond the shell wrapper) was not read. Full model architecture and inference details require reading the Python scripts invoked by this wrapper.

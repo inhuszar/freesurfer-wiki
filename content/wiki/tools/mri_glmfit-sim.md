@@ -12,9 +12,10 @@ related:
   - "[[mri_glmfit]]"
   - "[[mri_concat]]"
   - "[[mri_binarize]]"
+  - "[[fsgd-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Full list of --sim-sign interactions with permutation tests not traced"
   - "Cache directory format and usage details"
@@ -105,36 +106,107 @@ Analytic correction based on the Euler characteristic of excursion sets. Require
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--glmdir` | `dir` | GLM output directory from mri_glmfit |
-| `--sim` | `nulltype nsim thresh csdbase` | Simulation: nulltype=`perm`/`mc-full`/`mc-z`; nsim=iterations; thresh=vertex-wise threshold; csdbase=output base name |
-| `--no-sim` | `csdbase` | Skip simulation; threshold with existing CSD files |
-| `--sim-sign` | `abs/pos/neg` | Sign for cluster formation (default: `abs`) |
-| `--cwpvalthresh` | `p` | Cluster-wise p-value threshold (default: 0.05) |
-| `--fwhm` | `fwhm` | Override FWHM (mm) from fwhm.dat |
-| `--fwhm-add` | `delta` | Add delta to FWHM estimate |
-| `--grf` | — | Use GRF (Gaussian Random Field) theory instead of simulation |
-| `--fdr` | — | Use FDR correction instead of simulation |
-| `--bonferroni` | `N` | Bonferroni correction with N independent tests |
-| `--cache` | — | Use pre-computed CSD cache from `$FREESURFER_HOME/average/mult-comp-cor` |
-| `--cache-label` | `label` | Cache label (default: `cortex`) |
-| `--perm-resid` | — | Permute residuals (ter Braak method; default on) |
-| `--perm-force` | — | Force permutation even with non-orthogonal design |
-| `--perm-sign-flip` | — | Use sign-flip permutation (for one-sample tests) |
-| `--nJobs` | `N` | Number of parallel simulation jobs |
-| `--bg` | — | Run simulation jobs in background |
-| `--no-y` | — | Do not require the original y file |
-| `--annot` | `annot` | Annotation for cluster reporting (default: `aparc`) |
-| `--no-annot` | — | Disable annotation-based cluster reporting |
-| `--centroid` | — | Report cluster centroids |
-| `--perm-nonstatcor` | — | Non-stationarity correction for permutation |
-| `--fwhm-map` | `file` | Local FWHM map for non-stationarity correction |
-| `--seed` | `seed` | Random seed for simulation |
-| `--log` | `logfile` | Log file path |
-| `--tmp` | `tmpdir` | Temporary directory |
-| `--nocleanup` | — | Do not clean up temporary files |
-| `--debug` | — | Enable debug output |
+### Simulation method (choose one)
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--sim` | `nulltype nsim thresh csdbase` | Full simulation specification: nulltype=`perm`/`mc-full`/`mc-z`; nsim=iterations; thresh=vertex-wise threshold (-log10 p); csdbase=output base name. | — (required unless `--no-sim`, `--grf`, `--fdr`, or `--cache`) |
+| `--perm` | `nsim thresh sign` | Shorthand for permutation simulation: `nsim` iterations, cluster-forming threshold `thresh` (-log10 p), and `sign` (`pos`/`neg`/`abs`). Sets csdbase automatically to `perm.th<thresh10>.<sign>`. | — |
+| `--no-sim` | `csdbase` | Skip simulation; threshold with existing CSD files named `csdbase`. | — |
+| `--cache` or `--mczsim` or `--mcsim` | `thresh sign` | Use pre-computed CSD cache from `$FREESURFER_HOME/average/mult-comp-cor`. Valid thresholds: 1.3, 2.0, 2.3, 3.0, 3.3, 4.0. Sets DoSim=0. | — |
+| `--grf` | `vwthresh sign` | Use Gaussian Random Field theory (volumes only). Takes vertex-wise threshold (-log10 p) and sign. Sets DoSim=0. | — |
+| `--fdr` | — | Use FDR correction instead of simulation. | off |
+
+### Cache options
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--cache-dir` or `--mczsim-dir` | `dir` | Override directory for pre-computed CSD cache files. | `$FREESURFER_HOME/average/mult-comp-cor` |
+| `--cache-label` or `--mczsim-label` | `label` | Label subdirectory within the cache (e.g., `cortex`, `label`). | `cortex` |
+
+### Cluster thresholding
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--cwpvalthresh` or `--cwp` | `p` | Cluster-wise p-value threshold. Only clusters with p < `p` are reported. | `0.05` |
+| `--sim-sign` | `abs`/`pos`/`neg` | Sign for cluster formation: `abs` tests for any effect, `pos`/`neg` for directed effects. | — (required with `--sim`) |
+| `--bonferroni` | `N` | Additional Bonferroni correction across `N` independent spaces. | `0` (disabled) |
+| `--2spaces` | — | Bonferroni correction across 2 spaces (e.g., lh and rh). Shorthand for `--bonferroni 2`. | off |
+| `--3spaces` | — | Bonferroni correction across 3 spaces (e.g., lh, rh, mni305). Shorthand for `--bonferroni 3`. | off |
+
+### FWHM control
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--fwhm-override` or `--fwhm` | `fwhm` | Override FWHM (mm) read from `fwhm.dat` in glmdir. | — (use value from `fwhm.dat`) |
+| `--fwhm-add` | `delta` | Add `delta` mm to the estimated FWHM before cache table lookup. | `0` |
+
+### Permutation options
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--perm-resid` | — | Permute residuals instead of raw data (ter Braak method). Allows permutation with non-orthogonal designs. Requires `--eres-save` in the original `mri_glmfit` run. | on |
+| `--no-perm-resid` | — | Disable `--perm-resid`; permute the raw input data instead. Also sets `PermForce=0`. | off |
+| `--perm-force` | — | Force permutation even with non-orthogonal design. | on (set by default and by `--perm-resid`) |
+| `--no-perm-force` | — | Disable forced permutation on non-orthogonal designs. | off |
+| `--perm-nonstatcor` | — | Non-stationarity correction for permutation. Requires `--save-fwhm-map` in the original `mri_glmfit` run; the script locates `glmdir/fwhm.*` automatically. | off |
+| `--perm-pvr-override` | — | Override PVR (per-vertex regressor) behavior during permutation. | off |
+| `--no-perm-pvr-override` | — | Disable PVR override during permutation. | off |
+
+> [!note] `--perm-signflip` appears in the help text but is not parsed from the command line
+> The help text mentions `--perm-signflip`, but the option is not present in the script's `parse_args` switch. Sign-flipping permutation is activated automatically when the original `mri_glmfit` run used `--osgm` (detected from `mri_glmfit.log`), not by a user-supplied flag to `mri_glmfit-sim`.
+
+### Input/mask overrides
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--glmdir` | `dir` | GLM output directory from `mri_glmfit` (required). The tool reads `mri_glmfit.log` from this directory to reconstruct the original analysis. | — (required) |
+| `--y` | `file` | Override the input `y` file path (instead of determining it from glmdir). Must exist on disk. | — (determined from glmdir) |
+| `--mask` | `maskfile` | Override brain mask from `glmdir`. Suggested for use with `--base`. | — (read from glmdir) |
+
+### Output control
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--base` | `csdbase` | Explicitly set the CSD output base name. Overrides the automatically generated name. | — (auto-generated from method and threshold) |
+| `--annot` | `annot` | Annotation file for cluster region reporting. | `aparc` |
+| `--a2009s` | — | Use `aparc.a2009s` instead of `aparc` for region reporting. Shorthand for `--annot aparc.a2009s`. | off |
+| `--no-out-annot` | — | Disable writing the cluster annotation output file. | off (annotation is written) |
+| `--centroid` | — | Report cluster centroid coordinates/annotation instead of the peak vertex. | off (reports peak) |
+| `--no-cluster-mean` or `--no-y` | — | Do not compute per-subject means within each cluster. Skips needing the original `y` file. | off (means are computed) |
+| `--spatial-sum` | — | Compute spatial sum over cluster voxels instead of average when building `y.ocn.dat`. Useful when input represents area or volume. | off (average) |
+| `--grf-ocn-anat` | — | Map the OCN (output cluster number) volume into anatomical (fsaverage) space. Only applies when `--grf` is used. | off |
+| `--no-grf-ocn-anat` | — | Disable anatomical-space OCN mapping. | on (off by default; this flag is a no-op at default) |
+
+### Parallel job control
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--bg` | `N` | Divide simulation into `N` background jobs and poll for completion. Sets DoBackground=1 and DoPoll=1. | `1` (no background jobs) |
+| `--no-bg` | — | Disable background job execution and polling. | off |
+| `--pbsubmit` | `N` | Submit `N` cluster jobs via `pbsubmit` (Martinos center cluster scheduler). Sets DoPBSubmit=1 and DoPoll=1. | off |
+| `--sleep` | `seconds` | Number of seconds to sleep between background job completion polls. | `10` |
+
+### Miscellaneous
+
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--seed` | `seed` | Random seed for simulation. | — (unseeded) |
+| `--log` | `logfile` | Log file path. | `<glmdir>/<csdbase>.mri_glmfit-sim.log` |
+| `--tmp` | `tmpdir` | Temporary directory for intermediate files. | `<glmdir>/tmp.mri_glmfit-sim-<PID>` |
+| `--uniform` | `min max` | Use uniform PDF instead of Gaussian for null data synthesis. | off (Gaussian) |
+| `--allowdiag` | — | For volume analyses, allow diagonal (edge/corner) neighbors when forming clusters. Default is on; must match `mri_volcluster` setting. | on |
+| `--no-allowdiag` | — | For volume analyses, only allow face-adjacent neighbors (no diagonal). | off |
+| `--vol-subject` | `subject` | Override the volume subject (used for GRF cache lookup). | `fsaverage` |
+| `--subject-override` | `subject` | Override the subject read from `mri_glmfit.log`. | — (read from log) |
+| `--diag-cluster` | — | Diagnostic cluster mode (incompatible with `--bg` and `--pbsubmit`; requires `--sim`). | off |
+| `--debug` | — | Enable verbose/debug output (sets `verbose` and `echo`). | off |
+
+> [!note] `--hemi`, `--surf`, `--fsgd`, `--label` are read from `mri_glmfit.log`
+> `mri_glmfit-sim` reconstructs the original `mri_glmfit` command line from `mri_glmfit.log`. Flags like `--surf`, `--hemi`, `--fsgd`, and `--label` are therefore parsed from the log, not from the `mri_glmfit-sim` command line directly. The script internally detects the analysis type (surface vs. volume), hemisphere, subject, and label from the logged command.
+
+> [!note] Cluster output flags `--cwsig` and `--vwsig`
+> --cwsig (cluster-wise significance map) and --vwsig (voxel-wise significance map) are output filenames passed internally to `mri_surfcluster` or `mri_volcluster` by the script. They are not user-facing `mri_glmfit-sim` flags; the output paths are determined from `glmdir` and `csdbase` automatically.
 
 ## Configuration Interactions
 
@@ -143,7 +215,9 @@ Analytic correction based on the Euler characteristic of excursion sets. Require
 - `--cache` uses pre-computed null distributions (shipped with FreeSurfer for fsaverage surface analyses); this is faster than re-running simulation but only valid when the data are on fsaverage.
 - `--perm` (permutation) is incompatible with `--wls` analyses (weighted least squares); the script exits with an error if WLS was used in the original GLM.
 - `--sim-sign` must match the direction of the hypothesis being tested; `abs` tests for any effect, `pos`/`neg` for directed effects.
-- `--nJobs` > 1 distributes simulation iterations across parallel processes; `--bg` runs them in the background and polls for completion.
+- `--bg N` divides the simulation into `N` parallel background jobs and polls for completion. If background jobs die uncleanly, the script will poll indefinitely.
+- `--perm-resid` is on by default; it is only meaningful when `nulltype=perm`. It also forces `PermForce=1`.
+- `--no-y`/`--no-cluster-mean` must be placed first on the command line because the script attempts to locate the `y` file while parsing `--glmdir` if `DoClusterMean` is still 1.
 
 ## Typical Use Cases
 
@@ -176,11 +250,8 @@ mri_glmfit-sim \
 ```bash
 mri_glmfit-sim \
   --glmdir lh.thickness.glmfit \
-  --cache \
-  --cache-label cortex \
-  --sim-sign abs \
-  --cwpvalthresh 0.05 \
-  --no-sim mc-z.cache
+  --cache 2.0 abs \
+  --cwpvalthresh 0.05
 ```
 
 ## Pipeline Context
@@ -198,7 +269,7 @@ The output `sig.cluster.summary` files contain tables of significant clusters su
 > `mri_glmfit-sim` reads `mri_glmfit.log` to reconstruct the original analysis. If you move or rename the `--glmdir`, you must ensure the paths embedded in `mri_glmfit.log` still resolve correctly, or the simulation may fail.
 
 > [!gotcha] FWHM from fwhm.dat is critical
-> For `mc-full` and `mc-z` simulation, the FWHM of the residuals (stored in `fwhm.dat`) controls the spatial correlation of the simulated null data. If FWHM estimation was disabled (`--no-est-fwhm` in mri_glmfit), simulation cannot proceed without manually providing `--fwhm`.
+> For `mc-full` and `mc-z` simulation, the FWHM of the residuals (stored in `fwhm.dat`) controls the spatial correlation of the simulated null data. If FWHM estimation was disabled (`--no-est-fwhm` in mri_glmfit), simulation cannot proceed without manually providing `--fwhm-override`.
 
 > [!gotcha] Permutation with WLS fails
 > If the original GLM used `--wls`, permutation testing (`--sim perm`) is not supported. The script explicitly checks and exits with an error.
@@ -209,6 +280,9 @@ The output `sig.cluster.summary` files contain tables of significant clusters su
 > [!gotcha] sig.cluster.mgz sign convention
 > The cluster significance map preserves the sign of the t-statistic: positive clusters have positive values, negative clusters have negative values. This is consistent with [[mri_glmfit]]'s `sig.mgh` output.
 
+> [!gotcha] --no-cluster-mean must be first on the command line
+> The script checks `DoClusterMean` while processing the `--glmdir` path (it attempts to resolve the `y` file immediately). If `--no-cluster-mean` is placed after `--glmdir`, the script will already have tried to find the `y` file and may exit with an error. Always place `--no-cluster-mean` (or `--no-y`) first.
+
 ## Related Tools
 
 - [[mri_glmfit]] — produces the input GLM output that mri_glmfit-sim operates on
@@ -217,9 +291,9 @@ The output `sig.cluster.summary` files contain tables of significant clusters su
 
 ## Confidence and Gaps
 
-**Confident (from source):** Simulation types (perm, mc-z, mc-full), GRF and FDR modes, CSD file structure, cluster thresholding via `mri_surfcluster`/`mri_volcluster`, parallel job support.
+**Confident (from source):** Simulation types (perm, mc-z, mc-full), GRF and FDR modes, CSD file structure, cluster thresholding via `mri_surfcluster`/`mri_volcluster`, parallel job support, full parse_args flag inventory.
 
 **Uncertain:** Exact non-stationarity correction (`--perm-nonstatcor`); full cache directory format; interaction of `--fwhm-map` with cluster statistics.
 
 > [!gap] Non-stationarity correction
-> The `--perm-nonstatcor` and `--fwhm-map` flags enable local FWHM-based correction for non-stationarity. The mathematical details of this correction and the required format of `fwhm-map` are not fully traced from the script source.
+> The `--perm-nonstatcor` flag enables local FWHM-based correction for non-stationarity. The mathematical details of this correction are not fully traced from the script source. The required `fwhm.*` map is located automatically by the script from `glmdir` (requires `--save-fwhm-map` in the original `mri_glmfit` run).

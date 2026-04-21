@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Python model architecture not documented (H5 file)"
   - "Requires GPU or fspython environment"
@@ -53,25 +53,38 @@ The pipeline:
 
 ## Inputs
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--i <invol>` | required | Input MRI volume (any resolution) |
-| `--subject <s>` | — | Subject name (alternative to --i for SUBJECTS_DIR-based lookup) |
-| `--o <outdir>` | required | Output directory for results |
-| `--threads <N>` | 1 | Number of processing threads |
-| `--no-strip` | — | Skip brain extraction step |
-| `--hemi <hemi>` | both | Process only one hemisphere (`lh` or `rh`) |
-| `--surf` | off | Enable surface-based post-processing |
-| `--topo` | off | Enable topology correction |
-| `--post` | off | Enable additional post-processing steps |
-| `--smorphdir <dir>` | auto | Pre-computed SynthMorph registration directory |
-| `--test` | off | Run in test mode (skips nonlinear warp, faster) |
-| `--save-warp` | on | Save SynthMorph warp to output directory |
-| `--save-csv` | off | Save summary CSV table |
-| `--ForceUpdate` | off | Force re-run even if outputs exist |
-| `--model <file>` | `claustrum_seg_20250616.h5` | Override model file |
-| `--cleanup` | on | Remove temporary files after completion |
-| `--LF <logfile>` | auto | Override log file path |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `<invol>` | required | Input MRI volume (any resolution) |
+| `--s` | `<subject>` | — | Subject name; sets invol to `mri/rawavg.mgz` and outdir to `mri/claustrum` under `SUBJECTS_DIR/<subject>` |
+| `--o` | `<outdir>` | required | Output directory for results |
+| `--threads` | `<N>` | 1 | Number of processing threads |
+| `--strip` / `--no-strip` | — | `--strip` | Enable/disable brain extraction step |
+| `--lh` | — | — | Process left hemisphere only (skips rh) |
+| `--rh` | — | — | Process right hemisphere only (skips lh) |
+| `--surf` / `--no-surf` | — | off | Enable/disable surface-based post-processing (inflate, sphere, curvature) |
+| `--topo-correct` / `--no-topo-correct` | — | off | Enable/disable post-hoc topology correction (removes islands via `mri_binarize --fill-holes --remove-islands --fix-vol-topo`) |
+| `--post` / `--no-post` | — | off | Save posterior probability volume to `claustrum.<hemi>.post.mgz` |
+| `--qc` / `--no-qc` | — | off | Run quality control mode: nonlinearly registers segmentation to MNI152 and computes Dice against 18 manual labels; also computes inter-hemi Dice |
+| `--smorphdir` / `--synthmorph-dir` / `--synthmorphdir` | `<dir>` | auto | Pre-computed SynthMorph registration directory (reuse to skip the ~10–20 min registration step) |
+| `--save-warp` / `--no-save-warp` | — | on | Save/delete SynthMorph warp files (`warp.to.mni152.*.nii.gz`) after completion |
+| `--force` | — | off | Force re-run even if outputs already exist |
+| `--no-force` | — | on | Do not force re-run (default; explicit inverse of `--force`) |
+| `--model` | `<file>` | `claustrum_seg_20250616.h5` | Override model file path |
+| `--direct` | `<input> <output>` | — | Run the deep learning model directly on `<input>`, writing result to `<output>`, without any registration or preprocessing. Exits immediately after inference. |
+| `--fovdir` | `<dir>` | — | Reuse the cropped FoV volumes (`<hemi>.crop.nii.gz`) from another claustrum run directory, skipping the prior-based cropping step. Also reuses that directory's SynthMorph registration. |
+| `--manseg-lh` | `<file>` | — | Manual LH claustrum segmentation (label ID 138) to compute Dice against the automatic segmentation. |
+| `--manseg-rh` | `<file>` | — | Manual RH claustrum segmentation (label ID 139) to compute Dice against the automatic segmentation. |
+| `--mni-1.5` | — | active | Set MNI target registration resolution to 1.5 mm (default). |
+| `--mni-1.0` | — | off | Set MNI target registration resolution to 1.0 mm (only relevant for QC mode). |
+| `--rot` | `<dC> <dR> <dS>` | — | Apply a rotation (in degrees about the C/R/S axes) when resampling the input to the cropped FoV. Used for testing/QC. |
+| `--trans` | `<dC> <dR> <dS>` | — | Apply a translation (in mm along C/R/S axes) when resampling the input to the cropped FoV. Used for testing/QC. |
+| `--no-conda` | — | active | Do not require an active conda environment. Since `RequireConda` defaults to 0, this flag is a no-op in normal usage but is available for script compatibility. |
+| `--cleanup` / `--no-cleanup` | — | on | Remove/keep temporary directory after completion |
+| `--tmp` / `--tmpdir` | `<dir>` | `<outdir>/tmpdir.mri_claustrum_seg.$$` | Override temporary directory (setting this also disables cleanup) |
+| `--log` | `<logfile>` | auto | Override log file path |
+| `--nolog` / `--no-log` | — | off | Disable logging (routes log to `/dev/null`) |
+| `--debug` | — | off | Enable tcsh verbose tracing (`set verbose; set echo`) |
 
 ## Outputs
 
@@ -93,9 +106,9 @@ The spatial prior (`segs.warp.claustrum.prior.nii.gz`) is a probability map of c
 
 ## Configuration Interactions
 
-- `--hemi` limits processing to one hemisphere, approximately halving runtime.
-- `--smorphdir` allows reuse of a pre-computed registration, saving the ~10-20 minute SynthMorph step.
-- `--test` mode skips nonlinear registration (affine only), producing coarser but faster results.
+- `--lh` or `--rh` limits processing to one hemisphere, approximately halving runtime.
+- `--smorphdir` (or `--synthmorph-dir` / `--synthmorphdir`) allows reuse of a pre-computed registration, saving the ~10–20 minute SynthMorph step.
+- `--qc` mode skips nonlinear registration (affine only), producing coarser but faster results; also computes dice scores if manual segmentations are supplied.
 - `--no-strip` is useful when the input has already been skull-stripped.
 
 ## Typical Use Cases
@@ -113,7 +126,7 @@ mri_claustrum_seg --i T1.mgz --o ./claustrum_results \
 
 **Left hemisphere only:**
 ```bash
-mri_claustrum_seg --i T1.mgz --o ./claustrum_results --hemi lh
+mri_claustrum_seg --i T1.mgz --o ./claustrum_results --lh
 ```
 
 ## Pipeline Context
@@ -132,7 +145,7 @@ Not a standard [[recon-all]] stage. This is a standalone post-processing tool fo
 > The SynthMorph nonlinear registration to MNI152 space is the dominant runtime. Use `--smorphdir` with a pre-computed registration to avoid repeating this step.
 
 > [!gotcha] MNI target resolution
-> The target registration resolution is hardcoded as `MNITargetRes = 1.5mm`. Changing this requires script modification.
+> The default MNI target registration resolution is 1.5 mm (`--mni-1.5`). Use `--mni-1.0` to switch to 1.0 mm resolution, which is only relevant in `--qc` mode.
 
 ## Related Tools
 
@@ -146,3 +159,6 @@ Script source fully read. Confidence is high for the pipeline flow. Confidence i
 
 > [!gap] Python inference script details
 > The `claustrum-seg.py` script contains the actual model inference logic. Its exact outputs and label assignments are not documented here.
+
+> [!note] Audit noise: version-number filter on `--mni-1.0` and `--mni-1.5`
+> An automated audit may flag `--mni-1.0` and `--mni-1.5` as C3 invalid. These ARE valid flags (tcsh `case` statements at source lines 726–729). The audit filters out any source token ending in `.<digit>` as a version-number artefact, so `--mni-1.0` and `--mni-1.5` are dropped from the source set before comparison.

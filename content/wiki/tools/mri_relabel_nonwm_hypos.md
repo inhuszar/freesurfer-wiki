@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Default seg-id mapping (outsegidlist contents not read in full)"
 tags:
@@ -47,10 +47,10 @@ The FreeSurfer segmentation pipeline identifies voxels that appear hypointense r
 
 ## Inputs
 
-| Input | Description |
-|-------|-------------|
-| `--i <inputseg>` | Input segmentation volume containing non-WM-hypo labels (80, 81, 82) |
-| `--o <outputseg>` | Output segmentation with non-WM-hypos relabeled |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `inputseg` | — | Input segmentation volume containing non-WM-hypo labels (80, 81, 82) |
+| `--o` | `outputseg` | — | Output segmentation with non-WM-hypos relabeled |
 
 ## Outputs
 
@@ -62,14 +62,14 @@ The relabeling is performed by `MRIrelabelNonWMHypos()` (in `mri2.c`). For each 
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--i` | `<inputseg>` | Input segmentation with non-WM-hypo labels |
-| `--o` | `<outputseg>` | Output segmentation path |
-| `--seg` | `<label_in> <label_out>` | Add a source → destination label remapping |
-| `--seg-default` | (none) | Use the built-in default mapping for labels 80, 81, 82 |
-| `--debug` | (none) | Enable debug output |
-| `--checkopts` | (none) | Check options and exit without processing |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `inputseg` | — | Input segmentation with non-WM-hypo labels |
+| `--o` | `outputseg` | — | Output segmentation path |
+| `--seg` | `label_in label_out` | — | Add a source → destination label remapping |
+| `--seg-default` | — | `off` | Use the built-in default mapping for labels 80, 81, 82 |
+| `--debug` | — | `off` | Enable debug output |
+| `--checkopts` | — | `off` | Check options and exit without processing |
 
 ## Configuration Interactions
 

@@ -18,7 +18,7 @@ related:
   - "[[mri_em_register]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "MNI nu_correct's exact B-spline fitting algorithm is only documented in Sled 1997/1998 papers; not re-derived here"
   - "ANTs N4 backend's exact parameter mapping to the tcsh wrapper flags still needs confirmation — only --threads-nondetermistic and -x mask are clearly passed"
@@ -247,8 +247,8 @@ tools that use absolute intensity thresholds.
 
 ### Complete Flag Reference
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
 | `--i <vol>` | path | required | Input volume. |
 | `--o <vol>` | path | required | Output volume. |
 | `--mask <vol>` | path | — | Restrict the fit to `mask > 0`. |
@@ -275,9 +275,7 @@ tools that use absolute intensity thresholds.
 | `--ants-n4-replace-zeros` | bool | off (env override) | Set `ReplaceZeros=1`, which adds `--replace-zeros 0 1 1` to the ANTs N4 call. Default is taken from environment variable `FS_ANTS_N4_REPLACE_ZEROS` (defaults to 0 if unset). Only meaningful with `--ants-n4`. |
 | `--no-ants-n4-replace-zeros` | bool | on | Set `ReplaceZeros=0`. |
 | `--ants4-threads-nondetermistic <n>` | int | — | Thread count for the ANTs N4 backend (passed as `--threads-nondetermistic <n>`). ITK with multiple threads is non-deterministic; the source comment notes this is "convenient for getting answers faster during testing". Only meaningful with `--ants-n4`. |
-| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.
-$$
-` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
+| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.<pid>` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
 | `--cleanup` | bool | on (initial `cleanup=1`) | Delete `tmpdir` at the end of the run. |
 | `--no-cleanup` | bool | off | Keep `tmpdir` (for debugging). |
 | `--log <file>` | path | `<outdir>/mri_nu_correct.mni.log` | Path to the log file. The wrapper renames any pre-existing file at this path to `<file>.bak` before writing. |
@@ -337,7 +335,7 @@ $$
 
 > [!gotcha] `--no-float` silently disables `--uchar`
 > The post-iteration call to `mri_make_uchar` is gated by
-> `if($UseFloat && $DoUchar)` (line 226). Passing `--no-float --uchar`
+> `if($UseFloat && $DoUchar)` (line 226). Passing --no-float --uchar
 > together does **not** error out; it simply skips the histogram
 > rescaling step and the output is left in the input data type.
 
@@ -520,6 +518,9 @@ of `nu.mgz` is stamped with `transforms/talairach.xfm` via
 - **Low confidence**: the exact parameter semantics of
   `AntsN4BiasFieldCorrectionFs` — the wrapper only passes a few
   flags and trusts ANTs defaults.
+
+> [!gap] Audit note: 11 strings flagged by C1 audit are not flags of this tool
+> The C1 audit flagged `--avgwf`, `--conform`, `--dilate`, `--dtype`, `--id`, `--like`, `--min`, `--replace-zeros`, `--seg`, `--sum`, and `--threads-nondetermistic` as potentially missing from this wiki page. Verification against `scripts/mri_nu_correct.mni` confirms that none of these appear in the wrapper's own `switch`/`case` parser. They are flags passed to **internal helper tools** called by the wrapper: `--min` and `--dilate` go to `mri_binarize`; `--id`, `--seg`, `--sum`, and `--avgwf` go to `mri_segstats`; `--conform` and `--like` go to `mri_convert`; `--dtype` and `--replace-zeros` go to `AntsN4BiasFieldCorrectionFs`; and `--threads-nondetermistic` is what the wrapper passes to the ANTs N4 binary (the user-facing flag for this wrapper is `--ants4-threads-nondetermistic`, already documented above). The Configuration Options table is complete and correct.
 
 > [!gap] What are `nu_correct`'s defaults for `-iterations`,
 > `-stop`, `-distance`, `-fwhm`?

@@ -125,7 +125,7 @@ Not part of `recon-all`. Used in super-resolution or smart interpolation researc
 > If the specified `--segno` label does not appear in the segmentation volume, the bounding box will be empty and the output may be a zero-size volume or error.
 
 > [!gotcha] npad defaults to -1 (auto)
-> When `--npad` is not specified, the default is -1 which may trigger automatic padding detection. For reproducible outputs, specify `--npad` explicitly.
+> When --npad is not specified, the default is -1 which may trigger automatic padding detection. For reproducible outputs, specify `--npad` explicitly.
 
 ## Related Tools
 

@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - statistics
@@ -100,6 +100,7 @@ where $\tau$ is the corify threshold (0 = strict: present in all frames, 1 = loo
 | `--corify <invol> <thresh> <outvol>` | — | — | Standalone corify operation (see below) |
 | `--threads <N>` | int | 1 | OpenMP thread count |
 | `--max-threads` | flag | — | Use maximum available threads |
+| `--max-threads-1` / `--max-threads-minus-1` | flag | — | Use maximum available threads minus 1 |
 | `--checkopts` | flag | — | Check options and exit without running |
 | `--debug` | flag | — | Enable debug output |
 

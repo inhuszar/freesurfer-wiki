@@ -91,20 +91,20 @@ WMH-SynthSeg is based on the SynthSeg framework:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--i` | `input` | Input MRI image or directory |
-| `--o` | `output` | Output segmentation file or directory |
-| `--csv_vols` | `file.csv` | Save ROI volumes to CSV |
-| `--device` | `cpu\|cuda` | Device for inference (default: `cpu`) |
-| `--threads` | `n` | CPU threads; -1 for all (default 1) |
-| `--save_lesion_probabilities` | — | Output lesion probability maps |
-| `--crop` | — | Two-pass 192×224×192 crop mode for GPU |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `input` | — | Input MRI image or directory |
+| `--o` | `output` | — | Output segmentation file or directory |
+| `--csv_vols` | `file.csv` | — | Save ROI volumes to CSV |
+| `--device` | `cpu\|cuda` | `cpu` | Device for inference |
+| `--threads` | `n` | 1 | CPU threads; -1 for all |
+| `--save_lesion_probabilities` | — | off | Output lesion probability maps |
+| `--crop` | — | off | Two-pass 192×224×192 crop mode for GPU |
 
 ## Configuration Interactions
 
 - `--device cuda` requires a CUDA-compatible GPU and PyTorch with CUDA support. If CUDA is unavailable, inference falls back or fails.
-- `--crop` is recommended when using `--device cuda` to avoid GPU memory overflow on high-resolution inputs.
+- `--crop` is recommended when using --device cuda to avoid GPU memory overflow on high-resolution inputs.
 - If `--i` is a directory, `--o` must also be a directory. All `.nii`, `.nii.gz`, and `.mgz` files in the input directory are processed.
 - `--threads -1` uses all available CPU cores for parallel inference.
 

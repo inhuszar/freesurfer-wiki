@@ -14,10 +14,9 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Exact blending/stitching algorithm for combining partial-brain T2* slabs is not visible in the portion of script read"
-  - "Full set of intermediate steps after fslregister not confirmed"
+  - "Exact blending/stitching algorithm for combining partial-brain T2* slabs: mri_concat --combine is used; voxel-wise maximum selection behaviour was not independently verified"
 tags:
   - 7T
   - T2
@@ -69,12 +68,14 @@ The registration chain uses:
 1. `fslregister`: rigid-body registration of 7T T1 whole-brain to 3T T1 anatomical
 2. Subsequent registrations propagate from the 7T T1 anchor to each T2* slab
 
-The stitching of partial-brain volumes likely uses a weighted blending or maximum-coverage approach in the overlap zones.
+The stitching of partial-brain volumes uses `mri_concat --combine`, which takes the voxel-wise maximum across the registered slab frames.
 
 > [!gap] Stitching algorithm
-> The full script extends beyond what was read. The exact method for combining the registered slabs (e.g., mean in overlap zones, voxel-by-voxel selection, apodization) was not confirmed.
+> The script uses `mri_concat --combine` to merge the registered slabs. The `--combine` flag in `mri_concat` takes the maximum across frames at each voxel. The exact boundary/overlap behaviour of `mri_concat --combine` was not independently verified from its source.
 
 ## Configuration Options
+
+This script accepts only positional arguments; it has no `--` style option flags of its own. All `--` flags visible in the script body are passed to sub-tools (`tkregister2`, `mri_segreg`, `mri_vol2vol`, `mri_concat`) and are not options of `mri_create_t2combined` itself.
 
 | Argument | Description |
 |----------|-------------|

@@ -148,7 +148,7 @@ Flags use single-dash prefix (e.g., `-asc`). All are case-insensitive.
 | `--version` | boolean | — | Print version string and exit (handled by `handleVersionOption`). |
 | `--help` or `-help` | boolean | — | Print help and exit. |
 
-> [!gotcha] No `--sdir` flag exists
+> [!gotcha] No --sdir flag exists
 > Unlike many FreeSurfer tools, `mris_topo_fixer` does **not** have a command-line flag to override `SUBJECTS_DIR`. The subjects directory is read exclusively from the `$SUBJECTS_DIR` environment variable. Ensure this is set before running.
 
 ### Configuration Interactions

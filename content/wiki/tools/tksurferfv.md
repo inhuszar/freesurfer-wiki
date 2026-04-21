@@ -15,9 +15,9 @@ related:
   - "[[tkmeditfv]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument translation mapping from tksurfer syntax to freeview syntax not documented — script body after line 60 not fully read."
+  - "Full argument translation mapping from tksurfer syntax to freeview syntax not fully documented — freeview command construction logic not traced."
 tags:
   - visualization
   - GUI
@@ -71,7 +71,7 @@ Or with just a surface file:
 tksurferfv -f <surface_path> [options]
 ```
 
-Key options (partial list from first 60 lines of script):
+Key options:
 
 | Flag | Type | Description |
 |---|---|---|
@@ -85,15 +85,12 @@ Key options (partial list from first 60 lines of script):
 | `-curv <name>` | string | Curvature file name (default: `curv`) |
 | `-all-surfs` | boolean | Load all surfaces for subject |
 | `-vtxno <n>` | integer | Jump to vertex number |
-| `-view <direction>` | string | Set initial view direction |
+| `-medial` / `-lateral` / `-inferior` / `-superior` | boolean | Set initial view direction |
 | `-patch <file>` | string | Load surface patch |
 | `-twf <vol>` | string | Timecourse volume (functional data) |
 | `-twfreg <reg>` | string | Registration for timecourse |
 | `-UseTkSurfer` | boolean | Force legacy tksurfer (if available) |
 | `--version` | boolean | Print version and exit. |
-
-> [!gap] Full argument list not read
-> The complete argument parsing loop was not read. Additional flags not listed here may exist.
 
 ### Environment Variables
 
@@ -107,13 +104,30 @@ Launches [[freeview]] as interactive GUI. No files produced unless the user save
 
 ## Configuration Options
 
-See Inputs table above.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-annot-outline` / `-outline` | — | on | Show annotation as coloured outlines rather than filled regions |
+| `--no-outline` / `-no-outline` | — | — | Show annotation as filled colours (disables outline mode) |
+| `--nolog` / `--no-log` | — | — | Suppress log file; redirect log to `/dev/null` |
+| `--tmp` / `--tmpdir` | `dir` | auto | Use `dir` as the temporary directory; also sets `cleanup = 0` |
+| `--nocleanup` | — | — | Do not delete temporary files on exit |
+| `--cleanup` | — | — | Delete temporary files on exit (explicit override) |
+| `--keep-sphere-vol-geom` | — | — | Preserve sphere volume geometry when loading a sphere surface (`FV_SPHERE_IGNORE_VG=0`) |
+| `-medial` | — | — | Set initial view to medial |
+| `-lateral` | — | — | Set initial view to lateral |
+| `-inferior` | — | — | Set initial view to inferior |
+| `-superior` | — | — | Set initial view to superior |
+
+> [!note] `--view` is not a user-facing tksurferfv flag
+> The value `--view <direction>` is passed internally to freeview when the script is called with `-medial`, `-lateral`, `-inferior`, or `-superior`. There is no `--view` option that the user passes directly to `tksurferfv`.
 
 ### Configuration Interactions
 
 - `-annot-outline` is on by default (`annotoutline = 1`); parcellation boundaries are shown as outlines on the surface.
 - `-overlay` and `-annot` can be combined; both are displayed simultaneously in freeview.
 - `-UseTkSurfer` has no effect in FreeSurfer 8.x where tksurfer is not available.
+- `--tmp`/`--tmpdir` implicitly sets `cleanup = 0`; specify `--cleanup` afterwards to re-enable cleanup.
+- `--nocleanup` and `--cleanup` are explicit overrides; the last one on the command line wins.
 
 ## Typical Use Cases
 
@@ -155,7 +169,7 @@ tksurferfv subject lh sphere.reg
 
 ## Confidence and Gaps
 
-Confidence is **medium**. Key variables and feature set are clear from first 60 lines. Full argument mapping requires reading the complete script.
+Confidence is **medium-high**. The complete argument-parsing loop has been read. The freeview command construction logic (how surface, overlay, annotation, and label arguments are assembled into `freeview -f` arguments) has not been fully traced.
 
 > [!gap] Full argument translation
-> Read the complete `tksurferfv` script to document all flag translations from tksurfer to freeview syntax.
+> The freeview command-construction block (the portion of the script that builds the `-f` argument string from overlays, annotations, and labels) has not been fully traced. The complete mapping from tksurfer flag values to freeview syntax is not yet documented.

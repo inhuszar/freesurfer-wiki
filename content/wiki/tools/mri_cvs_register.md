@@ -17,7 +17,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Step 2 elastic registration uses a C binary (not fully identified in source snippet); likely mri_nl_align or fem_elastic"
   - "Step 3 volumetric nonlinear alignment details not confirmed"
@@ -58,7 +58,7 @@ Optional inputs:
 - `--outdir outdir`: output directory (default: `$SUBJECTS_DIR/$movingid/cvs/`)
 - `--asegfname name`: aseg filename without extension (default: `aseg`)
 - `--templatedir dir`: directory for template (default: `$SUBJECTS_DIR`)
-- `--nolog`: suppress log files
+- `--nolog` / `--no-log`: suppress log files
 - `--hemi hemi`: register only one hemisphere
 - `--masktargethemi` / `--maskmovinghemi`: mask full brain to one hemisphere (for ex-vivo)
 
@@ -93,46 +93,53 @@ Refines the elastic registration result by running a volumetric nonlinear alignm
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--mov movingid` | string | required | Moving subject ID |
-| `--template templateid` | string | `cvs_avg35` | Template subject ID |
+| `--template templateid` | string | `cvs_avg35` | Template subject ID (default applied in `check_params` when omitted) |
 | `--outdir dir` | path | `$SUBJECTS_DIR/movingid/cvs/` | Output directory |
 | `--templatedir dir` | path | `$SUBJECTS_DIR` | Template base directory |
-| `--asegfname name` | string | `aseg` | Aseg filename stem |
-| `--nointensity` | — | off | Skip intensity-based registration |
-| `--noaseg` | — | off | Skip aseg-based registration |
+| `--asegfname name` | string | `aseg` | Aseg filename stem (extension stripped automatically) |
+| `--nointensity` | — | off | Skip intensity-based registration (Step 3 norm) |
+| `--noaseg` | — | off | Skip aseg-based registration (Step 3 aseg) |
 | `--step1` | — | off | Run only Step 1 (surface registration) |
 | `--step2` | — | off | Run only Step 2 (elastic registration) |
 | `--step3` | — | off | Run only Step 3 (volumetric nonlinear) |
-| `--nolog` | — | off | Suppress log file creation |
-| `--keepelreg` | — | off | Keep intermediate elastic registration files |
+| `--nolog` / `--no-log` | — | off | Suppress log file creation |
+| `--keepelreg` | — | off | Keep intermediate elastic registration `.tm3d` file |
 | `--keepallm3z` | — | off | Keep all intermediate `.m3z` files |
-| `--usem3d` | — | off | Use `.m3d` format instead of `.m3z` |
+| `--m3d` | — | off | Use `.m3d` (uncompressed) format instead of `.m3z` |
 | `--hemi hemi` | lh or rh | both | Register only one hemisphere |
 | `--masktargethemi` | — | off | Apply hemimask to target (for ex-vivo/single-hemi) |
 | `--maskmovinghemi` | — | off | Apply hemimask to moving subject |
 | `--openmp N` | int | 0 (serial) | Enable OpenMP with N threads |
-| `--downsample` | — | off | Downsample output morphs |
-| `--cvstemplate` | — | off | Use built-in `cvs_avg35` template |
-| `--cvsmnitemplate` | — | off | Use built-in `cvs_avg35_inMNI152` template |
-| `--cleanup` | — | on | Clean up partial/intermediate files |
-| `--no-cleanup` | — | off | Preserve intermediate files |
+| `--downsample N` | int | off | Downsample morphs by factor N |
+| `--mni` | — | off | Use `cvs_avg35_inMNI152` template (sets `usingCVSMNItemplate=1`) |
+| `--nocleanup` | — | off | Preserve intermediate files (sets `keepelreg=1`, `keepallm3z=1`, `cleanup=0`) |
+| `--cleanall` | — | off | Force recompute all three steps (surface, elastic, volumetric) |
+| `--cleansurfreg` | — | off | Force recompute Step 1 surface registration |
+| `--cleanelreg` | — | off | Force recompute Step 2 elastic registration |
+| `--cleanvolreg` | — | off | Force recompute Step 3 volumetric registration |
+| `--voltype type` | string | `norm` | Volume type to use for registration |
+| `--verbose N` | int | — | Verbosity level |
+| `--debug` | — | off | Enable verbose shell tracing (`set echo`); prints every command to stdout |
 
 ## Configuration Interactions
 
-- `--nointensity` and `--noaseg` together skip the entire volumetric component; only Step 1 runs.
-- `--step1`, `--step2`, `--step3` are mutually exclusive with `--noaseg`/`--nointensity` in terms of pipeline control — use the step flags to resume interrupted runs.
-- `--keepelreg` preserves the intermediate Step 2 result; useful for debugging registration quality at each stage.
-- `--cvstemplate` sets template to `cvs_avg35` and points `TEMPLATE_DIR` to `$FREESURFER_HOME/subjects/`. This is the most common use case.
+- `--nointensity` and `--noaseg` together skip the entire volumetric component (`DoAllSteps=0`); only Step 1 surface registration runs.
+- `--step1`, `--step2`, `--step3` are single-step flags for resuming an interrupted run. They do not check that prerequisite outputs from prior steps exist.
+- `--keepelreg` preserves the intermediate Step 2 `.tm3d` elastic morph file; useful for debugging registration quality at each stage.
+- When `--template` is omitted, `check_params` automatically sets the template. If `--mni` was given (or the template name equals `cvs_avg35_inMNI152`), the MNI-space CVS template is used; otherwise `cvs_avg35` is used and `TEMPLATE_DIR` is set to `$FREESURFER_HOME/subjects/`.
+- `--nocleanup` is a composite flag that also sets `keepelreg=1` and `keepallm3z=1`.
+- `--cleanall` forces all three steps to recompute even if outputs exist (equivalent to `--cleansurfreg --cleanelreg --cleanvolreg`).
 
 ## Typical Use Cases
 
-Register subject to the default CVS template:
+Register subject to the default CVS template (`cvs_avg35`):
 ```bash
-mri_cvs_register --mov subject001 --cvstemplate
+mri_cvs_register --mov subject001
 ```
 
-Register to MNI152-space CVS template:
+Register to MNI152-space CVS template (`cvs_avg35_inMNI152`):
 ```bash
-mri_cvs_register --mov subject001 --cvsmnitemplate
+mri_cvs_register --mov subject001 --mni
 ```
 
 Register to a custom template:
@@ -143,7 +150,7 @@ mri_cvs_register --mov subject001 --template mytemplate \
 
 Resume from Step 3 only (Steps 1 and 2 already done):
 ```bash
-mri_cvs_register --mov subject001 --cvstemplate --step3
+mri_cvs_register --mov subject001 --step3
 ```
 
 ## Pipeline Context
@@ -164,13 +171,13 @@ CVS registration is a post-`recon-all` step for group analysis:
 > Steps 1 requires `?h.inflated.H` and `?h.inflated.K` curvature files. If missing, they are computed automatically using `mris_curvature -w -distances 10 10`. This adds extra runtime.
 
 > [!gotcha] Step resume logic is fragile
-> The `--step1/2/3` flags run only that step, but they do not check whether the prerequisite output from previous steps exists. Running Step 3 without Step 2 output will fail.
+> The `--step1`, `--step2`, `--step3` flags each run only that single step. They do not check whether the prerequisite output from previous steps exists. Running `--step3` without Step 2 output will fail.
 
 > [!gotcha] Morph file format gzip issues
-> The comment in source notes that `.m3z` (gzip-compressed) files can cause gzip errors on some systems. Use `--usem3d` to switch to the uncompressed `.m3d` format if this occurs.
+> The source notes that `.m3z` (gzip-compressed) files can cause gzip errors on some systems. Use `--m3d` to switch to the uncompressed `.m3d` format if this occurs.
 
 > [!gotcha] Output directory path
-> If `--outdir` is not specified, outputs go to `$SUBJECTS_DIR/$movingid/cvs/`, which is created automatically. Ensure write permissions.
+> If --outdir is not specified, outputs go to `$SUBJECTS_DIR/$movingid/cvs/`, which is created automatically. Ensure write permissions.
 
 ## Related Tools
 

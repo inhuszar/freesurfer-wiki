@@ -466,3 +466,6 @@ mris_nudge lh.white brain.mgz <vertex_number> 110.0 5 lh.white.nudged
 - Dialogue archive: `raw/dialogue/1776738853-ih967-wm-surface-manual-editing.md` (direct vs. indirect WM-surface correction)
 - FreeSurfer wiki: [WhiteMatterEdits_freeview](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/WhiteMatterEdits_freeview)
 - FreeSurfer wiki: [TopologicalDefect_freeview](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/TopologicalDefect_freeview)
+
+> [!note] Audit noise from MainWindow.cpp
+> This page's `source_files` includes `MainWindow.cpp` for the surface-mesh operation context. The CLI flag `--no-sphere-ignore-vg` appears in a `MainWindow.cpp` help-text printf and may be flagged as C1_MISSING by automated audits. CLI flags are documented in [[freeview-command-line]], not here.

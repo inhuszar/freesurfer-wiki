@@ -96,7 +96,7 @@ All flags are case-insensitive except `--help` (which uses `strcmp`, not `stricm
 > In `get_option()`, the `-xform` branch reads `argv[2]` but does not set `nargs` (it remains 0). This means the filename passed to `-xform` is read, but the parser's loop will then attempt to parse that filename as the next flag — causing an "unknown option" error unless the filename begins with a character that `ISOPTION()` (typically `-`) does not recognise as a flag start. In practice, `-xform` can only be safely used when the filename is the last argument or when the filename does not start with `-`. Use of `-xform` is therefore effectively broken unless positional arguments follow the options.
 
 > [!gotcha] `--help` is case-sensitive
-> The help check uses `strcmp` (not `stricmp`), so only `--help` triggers it; `-Help` or `--HELP` will not.
+> The help check uses `strcmp` (not `stricmp`), so only `--help` triggers it; `-Help` or --HELP will not.
 
 ## Configuration Interactions
 

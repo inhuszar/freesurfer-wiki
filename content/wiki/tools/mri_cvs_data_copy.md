@@ -53,11 +53,11 @@ None — file archiving only.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--subjid` | string | Subject ID |
-| `--olddir` | path | Source base directory |
-| `--newdir` | path | Destination base directory |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--subjid` | string | — | Subject ID |
+| `--olddir` | path | — | Source base directory |
+| `--newdir` | path | — | Destination base directory |
 
 ## Configuration Interactions
 

@@ -14,9 +14,8 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
-gaps:
-  - "Exact FSL FLIRT call parameters used for the LR flip registration"
+last_agent_update: 2026-04-21
+gaps: []
 tags:
   - reorientation
   - coordinate-systems
@@ -55,13 +54,13 @@ This is a utility script intended for specialized preprocessing workflows; it is
 
 | Input | Description |
 |-------|-------------|
-| Input volume (`-i`) | MRI volume to reorient (any format; will be converted to NIfTI if not `.nii`/`.nii.gz`) |
-| Output volume (`-o`) | Reoriented output volume path |
+| Input volume (`--i`) | MRI volume to reorient (any format; will be converted to NIfTI if not `.nii`/`.nii.gz`) |
+| Output volume (`--o`) | Reoriented output volume path |
 
 ## Outputs
 
 - **Reoriented volume:** The input volume reoriented in the L-R direction
-- **Registration file (`-r`):** Optional output file containing the computed reorientation transform
+- **Registration file (`--outreg`):** Optional output file containing the computed reorientation transform
 
 ## Mathematical Foundations
 
@@ -69,28 +68,33 @@ The reorientation is computed by FSL FLIRT rigid-body registration. The registra
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-i` | `<inputvol>` | Input volume |
-| `-o` | `<outputvol>` | Output reoriented volume |
-| `-r` | `<outreg>` | Output registration/transform file (optional) |
-| `-nocleanup` / `-cleanup` | (none) | Whether to remove temporary NIfTI conversion files |
-| `--help` | (none) | Print help |
-| `--version` | (none) | Print version |
+### Complete Flag Reference
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `<inputvol>` | required | Input volume to reorient. Any format accepted by [[mri_convert]]; if not `.nii` or `.nii.gz`, a temporary NIfTI is created before calling FSL FLIRT. |
+| `--o` | `<outputvol>` | required | Output path for the reoriented volume. If the extension is not `.nii`/`.nii.gz`, the result is converted from NIfTI before writing. |
+| `--outreg` | `<outreg>` | — | Write the computed reorientation transform to this file. Extension determines format: `.lta` produces an LTA file (via `tkregister2_cmdl`); any other extension is treated as an FSL `.mat` file (copied directly). |
+| `--disp` | `<0\|1>` | `1` | If `1`, open FreeView after processing to display the original and reoriented volumes side by side. Set to `0` to suppress the display. |
+| `--clean` | `<0\|1>` | `0` | If `1`, delete all auxiliary files created during processing (the LR-flipped NIfTI, FLIRT output, FSL matrix, `avscale.txt`, and the half-angle transform file). The temporary NIfTI for a non-NIfTI input is always removed regardless of this flag. |
+| `--version` | (none) | — | Print the version string and exit. |
+| `--help` | (none) | — | Print usage information and exit. |
 
 ## Configuration Interactions
 
-- If the input is not `.nii` or `.nii.gz`, a temporary NIfTI file is created. `-cleanup` (default: off) controls whether this temporary file is deleted after processing.
-- `-r` is optional; if not specified, only the reoriented volume is written.
+- If the input is not `.nii` or `.nii.gz`, a temporary NIfTI file is always created and always deleted after processing, regardless of `--clean`. The `--clean` flag controls only the larger set of auxiliary files (LR-flipped NIfTI, FLIRT outputs, avscale.txt, half-angle matrix).
+- `--outreg` is optional; if not specified, only the reoriented volume is written.
+- `--disp 1` (the default) launches FreeView interactively — in automated/scripted use, always pass `--disp 0`.
 
 ## Typical Use Cases
 
 ```bash
-# Reorient a neonatal brain scan
-mri_reorient_LR.csh -i baby_brain.mgz -o baby_brain_LR.mgz
+# Reorient a neonatal brain scan (suppress the FreeView display for scripted use)
+mri_reorient_LR.csh --i baby_brain.mgz --o baby_brain_LR.mgz --disp 0
 
 # Reorient and save the registration transform
-mri_reorient_LR.csh -i baby_brain.nii.gz -o baby_brain_reoriented.nii.gz -r LR_reg.mat
+mri_reorient_LR.csh --i baby_brain.nii.gz --o baby_brain_reoriented.nii.gz \
+    --outreg LR_reg.mat --disp 0
 ```
 
 ## Pipeline Context
@@ -102,8 +106,8 @@ mri_reorient_LR.csh -i baby_brain.nii.gz -o baby_brain_reoriented.nii.gz -r LR_r
 > [!gotcha] FSL dependency
 > The script requires FSL's `flirt` to be installed and in the PATH. If FSL is not available, the script will fail silently (or with a command-not-found error).
 
-> [!gotcha] Temporary NIfTI files
-> If the input is in `.mgz` or another non-NIfTI format, a temporary `.nii.gz` file is created. With `-cleanup` off (default), this file persists after the script completes and must be manually deleted.
+> [!gotcha] Auxiliary files accumulate by default
+> The script creates several intermediate files: a left-right-flipped NIfTI, FLIRT outputs, the FSL matrix, `avscale.txt`, and the half-angle transform. With `--clean 0` (the default), all of these persist after the script completes and must be manually deleted. Pass `--clean 1` to remove them automatically. The temporary NIfTI for non-NIfTI inputs is always deleted regardless.
 
 > [!gotcha] tcsh dependency
 > This script uses tcsh-specific syntax and must be run with `tcsh` (or sourced from a tcsh environment). It will not work with bash.
@@ -118,6 +122,6 @@ mri_reorient_LR.csh -i baby_brain.nii.gz -o baby_brain_reoriented.nii.gz -r LR_r
 
 ## Confidence and Gaps
 
-**High confidence:** Source language, file location, dependencies (FSL, mri_convert), purpose (L-R reorientation for infant scans), flag structure.
+**High confidence:** Full source read. All flags, FLIRT call parameters, auxiliary file handling, and registration-to-LTA conversion path confirmed from source.
 
-**Medium confidence:** Exact FLIRT call parameters (the section of the script using FLIRT was not read in full).
+**Confirmed FLIRT call:** `flirt.fsl -dof 6 -in <inputvol> -ref <LR-flipped vol> -out <flirtoutput> -omat <fslmat>` — 6 DOF rigid body registration between the input and its own left-right-reversed copy. The resulting FSL matrix is halved using `avscale` to extract the "forward half transform", which is then applied with `flirt -applyxfm`.

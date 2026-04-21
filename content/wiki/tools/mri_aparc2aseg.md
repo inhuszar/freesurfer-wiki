@@ -163,7 +163,7 @@ Algorithm and labelling:
 | `--wmparc-dmax <d>` | float (mm) | `5.0` | Maximum allowed surface-to-voxel distance when assigning WM voxels in `--labelwm` mode. Voxels farther than this from any cortical vertex are left unlabelled. |
 | `--hypo-as-wm` | bool | OFF | When `--labelwm` is on, also relabel WM-hypointensity voxels (aseg labels 77/78/79) as parcellated WM. |
 | `--rip-unknown` | bool | OFF | Mark vertices labelled "unknown" in the annotation as ripped, so that voxels nearest to them are not assigned a cortical label. |
-| `--fix-parahipwm` | bool | ON (when `--labelwm`) | Repair parahippocampal WM mislabellings during `--labelwm`. Silently disabled if `--labelwm` is not set. |
+| `--fix-parahipwm` | bool | ON (when `--labelwm`) | Repair parahippocampal WM mislabellings during `--labelwm`. Silently disabled if --labelwm is not set. |
 | `--no-fix-parahipwm` | bool | OFF | Disable the parahippocampal WM fix. |
 | `--lh` | bool | OFF | Process left hemisphere only (sets `LHOnly=1`, disables RH). |
 | `--rh` | bool | OFF | Process right hemisphere only (sets `RHOnly=1`, disables LH). |
@@ -190,13 +190,13 @@ Performance and debugging:
 ### Configuration Interactions
 
 > [!gotcha] --new-ribbon, --old-ribbon and --noribbon are mutually exclusive
-> `check_options()` exits with an error if both `--old-ribbon` and `--new-ribbon`/`--volmask` are passed. `--noribbon` clears both. The default is `UseNewRibbon=1` (i.e. `ribbon.mgz` is used) even if no ribbon flag is given, so `recon-all` passes `--volmask` explicitly only for clarity.
+> `check_options()` exits with an error if both --old-ribbon and --new-ribbon/--volmask are passed. --noribbon clears both. The default is `UseNewRibbon=1` (i.e. `ribbon.mgz` is used) even if no ribbon flag is given, so `recon-all` passes --volmask explicitly only for clarity.
 
 > [!gotcha] --ctxseg requires --rip-unknown
-> `check_options()` enforces this; passing `--ctxseg` alone aborts with "can only use --ctxseg with --rip-unknown".
+> `check_options()` enforces this; passing --ctxseg alone aborts with "can only use --ctxseg with --rip-unknown".
 
 > [!gotcha] --fix-parahipwm only takes effect with --labelwm
-> If `--labelwm` is not set, `FixParaHipWM` is silently reset to 0 in `check_options()`, regardless of whether `--fix-parahipwm` was passed.
+> If --labelwm is not set, `FixParaHipWM` is silently reset to 0 in `check_options()`, regardless of whether `--fix-parahipwm` was passed.
 
 > [!gotcha] --hypo-as-wm only matters in --labelwm mode
 > `LabelHypoAsWM` is consumed only inside the WM-parcellation branch; it has no effect on a plain `aparc+aseg` run.

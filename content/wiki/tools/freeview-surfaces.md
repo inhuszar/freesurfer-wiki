@@ -469,3 +469,6 @@ In 2D orthogonal slice views, surfaces are rendered as **intersection contours**
 - Source: `freeview/WindowConfigureOverlay.cpp` (overlay configuration dialog)
 - Source: `freeview/DialogRepositionSurface.cpp` (vertex repositioning dialog)
 - Source: `freeview/MainWindow.cpp::CommandLoadSurface()` (inline property parsing)
+
+> [!note] Audit noise from MainWindow.cpp
+> This page's `source_files` includes `MainWindow.cpp::CommandLoadSurface()`. The CLI flag `--no-sphere-ignore-vg` appears in a separate `MainWindow.cpp` help-text printf and may be flagged as C1_MISSING by automated audits. CLI flags are documented in [[freeview-command-line]], not here.

@@ -95,18 +95,18 @@ The network learns the inverse of the degradation process. At inference:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `--i` | path | Input image or folder |
-| `--o` | path | Output synthetic T1w image |
-| `--ct` | (flag) | Clip input to [0, 80] Hounsfield units for CT |
-| `--disable_sharpening` | (flag) | Disable unsharp masking post-processing |
-| `--disable_flipping` | (flag) | Disable flipping augmentation at test time |
-| `--lowfield` | (flag) | Use model for low-field scans (Hyperfine Swoop etc.) |
-| `--v1` | (flag) | Use version 1 model (July 2021) |
-| `--threads` | N | Number of CPU cores (default: 1) |
-| `--cpu` | (flag) | Force CPU processing |
-| `--model` | h5file | Use custom model weights |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--i` | path | — | Input image or folder |
+| `--o` | path | — | Output synthetic T1w image |
+| `--ct` | (flag) | off | Clip input to [0, 80] Hounsfield units for CT |
+| `--disable_sharpening` | (flag) | off | Disable unsharp masking post-processing |
+| `--disable_flipping` | (flag) | off | Disable flipping augmentation at test time |
+| `--lowfield` | (flag) | off | Use model for low-field scans (Hyperfine Swoop etc.) |
+| `--v1` | (flag) | off | Use version 1 model (July 2021) |
+| `--threads` | N | 1 | Number of CPU cores |
+| `--cpu` | (flag) | off | Force CPU processing |
+| `--model` | h5file | — | Use custom model weights |
 
 ## Configuration Interactions
 

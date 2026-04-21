@@ -14,9 +14,11 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact convergence criterion details for the iterative mean/median estimation loop need verification."
+  - "--outdir is commented out in the source and is not a functional flag; audit flag list if it surfaces in documentation elsewhere."
+  - "The --highit default of 5 is set inside MultiRegistration; not directly verifiable from mri_robust_template.cpp alone."
 tags:
   - registration
   - longitudinal
@@ -90,65 +92,69 @@ where $\rho$ is the Tukey biweight function, $w_v$ are voxel weights, and $\sigm
 
 ### Required
 
-| Flag | Description |
-|------|-------------|
-| `--mov <tp1.mgz> <tp2.mgz> ...` | Input volumes to align (two or more required). |
-| `--template <template.mgz>` | Output template volume. |
-| `--sat <real>` | Outlier sensitivity parameter (e.g., `4.685`). Higher = less sensitive. Mutually exclusive with `--satit`. |
-| `--satit` | Auto-detect sensitivity from data (recommended for full-brain scans). Mutually exclusive with `--sat`. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--mov` | `tp1.mgz tp2.mgz ...` | — | Input volumes to align (two or more required). |
+| `--template` | `template.mgz` | — | Output template volume. |
+| `--sat` | `real` | — | Outlier sensitivity parameter (e.g., `4.685`). Higher = less sensitive. Mutually exclusive with `--satit`. |
+| `--satit` | — | — | Auto-detect sensitivity from data (recommended for full-brain scans). Mutually exclusive with `--sat`. |
 
 ### Optional Outputs
 
-| Flag | Description |
-|------|-------------|
-| `--lta <tp1.lta> <tp2.lta> ...` | Output transforms to template. |
-| `--mapmov <aligned1.mgz> ...` | Resampled inputs in template space. |
-| `--mapmovhdr <aligned1.mgz> ...` | Header-adjusted inputs (no resampling). |
-| `--weights <weights1.mgz> ...` | Outlier weight maps. |
-| `--oneminusw` | Invert weight polarity (0 = outlier). |
-| `--iscaleout <is1.txt> ...` | Output intensity scale factors (activates `--iscale`). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--lta` | `tp1.lta tp2.lta ...` | — | Output transforms to template. |
+| `--mapmov` / `--warp` | `aligned1.mgz ...` | — | Resampled inputs in template space. |
+| `--mapmovhdr` | `aligned1.mgz ...` | — | Header-adjusted inputs (no resampling). |
+| `--weights` | `weights1.mgz ...` | — | Outlier weight maps. |
+| `--oneminusw` | — | off | Invert weight polarity so that 0 = outlier (matches earlier FreeSurfer behaviour). |
+| `--iscaleout` | `is1.txt ...` | — | Output intensity scale factors (activates `--iscale`). |
+| `--conform` | `conform.mgz` | — | Also write a 256³/1 mm conformed version of the template to this path. |
 
 ### Registration Control
 
-| Flag | Description |
-|------|-------------|
-| `--average <#>` | Template type: 0 = mean, 1 = median (default). |
-| `--inittp <#>` | Use timepoint # for spatial initialisation (default: random); 0 = no init. |
-| `--fixtp` | Map everything to the initial timepoint (no resampling of init TP). |
-| `--transonly` | Find 3-parameter translation only. |
-| `--affine` | Find full 12-parameter affine transform. |
-| `--ixforms <t1.lta> ...` | Initial transforms (LTA; `id` = identity). |
-| `--masks <mask1.mgz> ...` | Input masks. |
-| `--iscale` | Allow intensity scaling (default: off). |
-| `--iscaleonly` | Perform intensity scaling only (no geometric transform). |
-| `--iscalein <is1.txt> ...` | Initial intensity scale factors. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--average` | `#` | `1` (median) | Template type: `0` = mean, `1` = median. |
+| `--inittp` | `#` | random | Use timepoint # for spatial initialisation; `0` = no init. |
+| `--fixtp` | — | off | Map everything to the initial timepoint (no resampling of init TP). |
+| `--transonly` | — | off | Find 3-parameter translation only. |
+| `--affine` | — | off | Find full 12-parameter affine transform. |
+| `--allow-diff-vox-size` | — | off | Allow inputs with different voxel sizes (use with caution). |
+| `--ixforms` | `t1.lta ...` | — | Initial transforms (LTA; `id` = identity). |
+| `--masks` | `mask1.mgz ...` | — | Input masks. |
+| `--iscale` | — | off | Allow intensity scaling. |
+| `--iscaleonly` | — | off | Perform intensity scaling only (no geometric transform). |
+| `--iscalein` | `is1.txt ...` | — | Initial intensity scale factors. |
 
 ### Iteration Control
 
-| Flag | Description |
-|------|-------------|
-| `--noit` | Do not iterate; create first template only. |
-| `--maxit <#>` | Maximum outer iterations (default: 6 for >2 TPs, 5 for 2 TPs). |
-| `--highit <#>` | Maximum iterations at highest resolution (default: 5). |
-| `--epsit <real>` | Stop when all TP transform updates fall below threshold (default: 0.03 for >2 TPs, 0.01 for 2 TPs). |
-| `--pairmaxit <#>` | Max iterations for pairwise registrations (default: 5). |
-| `--pairepsit <real>` | Stop pairwise iterations below threshold (default: 0.01). |
-| `--nomulti` | Skip multi-resolution; use highest resolution only. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--noit` | — | off | Do not iterate; create first template only. |
+| `--maxit` | `#` | `6` (>2 TPs) / `5` (2 TPs) | Maximum outer iterations. |
+| `--highit` | `#` | `5` | Maximum iterations at highest resolution. |
+| `--epsit` | `real` | `0.03` (>2 TPs) / `0.01` (2 TPs) | Stop when all TP transform updates fall below threshold. |
+| `--pairmaxit` | `#` | `5` | Max iterations for pairwise registrations. |
+| `--pairepsit` | `real` | `0.01` | Stop pairwise iterations below threshold. |
+| `--nomulti` | — | off | Skip multi-resolution; use highest resolution only. |
 
 ### Numerical / Precision
 
-| Flag | Description |
-|------|-------------|
-| `--subsample <#>` | Subsample if any dimension exceeds # (default: no subsampling). |
-| `--floattype` | Convert inputs to float internally. |
-| `--doubleprec` | Use double precision internally (very high memory usage). |
-| `--finalnearest` | Use nearest-neighbour interpolation in final average step. |
-| `--vox2vox` | Output VOX2VOX LTA files (default: RAS2RAS). |
-| `--leastsquares` | Use least-squares instead of robust M-estimator (testing only). |
-| `--cras` | Centre template at average CRAS instead of average barycenter. |
-| `--res-thresh <val>` | Volume resolution threshold (default: 0.01 mm). |
-| `--frobnorm-thresh <val>` | Matrix Frobenius norm threshold (default: 0.0001). |
-| `--debug` | Enable verbose debug output. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--subsample` | `#` | `-1` (off) | Subsample if any dimension exceeds #; `-1` disables subsampling. |
+| `--floattype` | — | off | Convert inputs to float internally. |
+| `--doubleprec` | — | off | Use double precision internally (very high memory usage). |
+| `--finalnearest` | — | off (cubic B-spline) | Use nearest-neighbour interpolation in final average step. |
+| `--vox2vox` | — | off (RAS2RAS) | Output VOX2VOX LTA files instead of RAS2RAS. |
+| `--leastsquares` | — | off | Use least-squares instead of robust M-estimator (testing only). |
+| `--cras` | — | off | Centre template at average CRAS instead of average barycenter. |
+| `--res-thresh` | `val` | `0.01` mm | Volume resolution threshold for comparing voxel sizes. |
+| `--frobnorm-thresh` | `val` | `0.0001` | Matrix Frobenius norm threshold for convergence. |
+| `--seed` | `#` | `0` (from data) | Random seed for initial TP selection; `0` derives seed from input images. |
+| `--test` | `n file` | — | Developer test mode: runs internal registration test and exits immediately. |
+| `--debug` | — | off | Enable verbose debug output. |
 
 ## Configuration Interactions
 
@@ -215,7 +221,7 @@ In the longitudinal stream (`recon-all -base`), it is the first step: it creates
 > [!gotcha] All inputs must have similar intensity scales
 > Mixing raw scanner inputs with processed images (e.g., `T1.mgz` vs. `001.mgz`) will degrade registration quality unless `--iscale` is used.
 
-> [!gotcha] `--fixtp` with `--noit` does not create a true template
+> [!gotcha] `--fixtp` with --noit does not create a true template
 > In this mode the "template" is simply the fixed reference timepoint resampled to its own space. The median image (`rawavg.mgz`) is the resampled average, not an iteratively computed mean.
 
 > [!gotcha] `--doubleprec` is expensive

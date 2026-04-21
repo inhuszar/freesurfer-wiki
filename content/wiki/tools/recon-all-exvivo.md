@@ -14,7 +14,7 @@ related:
   - "[[mris_make_surfaces]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Full list of pipeline stages run by this script not documented (script body not fully read)."
   - "The SAMSEG integration for ex vivo segmentation not documented in detail."
@@ -108,6 +108,10 @@ The ex vivo pipeline uses the same underlying algorithms as standard `recon-all`
 | `-samseg <seg> <vol>` | pair | — | Use SAMSEG segmentation output. |
 | `-mask <file>` | string | — | Explicit brain mask. |
 | `-bet` / `-run_bet` | boolean | false | Run BET skull stripping. |
+| `-nobet` | boolean | false | Disable BET skull stripping (sets `run_bet = 0`). |
+| `-renorm <file>` | string | — | Use an externally provided intensity renormalization file. |
+| `-fluidthresh <val>` | float | — | Set fluid threshold for intensity normalization. |
+| `-i <base>` | string | — | Explicit base volume path (overrides default input derivation). |
 | `-nocerebellum` | boolean | false | Exclude cerebellum. |
 | `-norecon` | boolean | false | Skip surface reconstruction. |
 | `-sd <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
@@ -117,6 +121,8 @@ The ex vivo pipeline uses the same underlying algorithms as standard `recon-all`
 - `-lh` and `-rh` are mutually exclusive; omitting both processes both hemispheres.
 - `-samseg` requires two arguments (segmentation file + volume file).
 - `-norecon` is useful for running only the volumetric preprocessing stages.
+- `-nobet` and `-bet` are mutually exclusive; `-nobet` takes precedence if both are specified.
+- `-renorm` and `-fluidthresh` affect the intensity normalization stage and are independent of skull stripping.
 
 ## Typical Use Cases
 

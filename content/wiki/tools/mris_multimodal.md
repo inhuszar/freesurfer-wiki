@@ -95,6 +95,10 @@ Flags are parsed by the `GetPot` library (case-sensitive, exact spelling require
 | `-t2` | `image` | — | T2-weighted MRI volume (optional; adds second modality). |
 | `-flair` | `image` | — | FLAIR MRI volume (optional; sets modality index to 2). |
 | `-min` | (flag) | off | Search for the minimum gradient along the normal instead of the maximum (default: maximum). |
+| `--fillHoles` | (flag) | off | Fill holes in the surface after reconstruction. |
+| `--smooth` | (flag) | off | Apply VTK smoothing filter to the output surface. |
+| `--thickness` | (flag) | off | Compute and output per-vertex cortical thickness. |
+| `--curvature` | (flag) | off | Compute surface curvature (Gaussian or PCA-based) and output per-vertex values. |
 
 ## Configuration Interactions
 

@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "FSL output (--outfsl) is not implemented in source (exits with error). Documented as a gotcha."
   - "The --inspm abs-ras vs abs-crs convention difference needs empirical verification."
@@ -54,14 +54,14 @@ Exactly one input type flag must be specified, with the warp file:
 
 | Flag | Format | Description |
 |------|--------|-------------|
-| `--infswarp` / `--inm3z` | FreeSurfer `.m3z`/`.m3d` | FreeSurfer 3D morph |
+| `--infswarp` | FreeSurfer `.m3z`/`.m3d`/`.mgz` | FreeSurfer 3D morph |
 | `--infsl` | FSL NIfTI | FSL fnirt warp field |
 | `--inspm` | NIfTI | SPM y-warp |
-| `--initk` / `--inlps` | ITK/ANTs | ITK displacement field in LPS space |
+| `--inlps` | ITK/ANTs | ITK displacement field in LPS space |
 | `--invox` | NIfTI | Displacement field in voxel space |
 | `--inras` | NIfTI | Displacement field in RAS space |
 
-For `--infsl`, `--inspm`, `--invox`, `--inras`, and `--initk`, a source geometry file may also be needed (`--insrcgeom`).
+For `--infsl`, `--inspm`, `--invox`, `--inras`, and `--inlps`, a source geometry file may also be needed (`--insrcgeom`).
 
 ## Outputs
 
@@ -69,9 +69,9 @@ Exactly one output type flag must be specified:
 
 | Flag | Format | Description |
 |------|--------|-------------|
-| `--outfswarp` / `--outm3z` | FreeSurfer `.m3z` | FreeSurfer 3D morph |
+| `--outfswarp` | FreeSurfer `.m3z`/`.mgz` | FreeSurfer 3D morph |
 | `--outfsl` | FSL NIfTI | **NOT IMPLEMENTED** (exits with error) |
-| `--outitk` / `--outlps` | ITK/ANTs | ITK displacement field in LPS space |
+| `--outlps` | ITK/ANTs | ITK displacement field in LPS space |
 | `--outvox` | NIfTI | Displacement field in voxel space |
 | `--outras` | NIfTI | Displacement field in RAS space |
 
@@ -103,7 +103,7 @@ $$
 
 **SPM y-warp:** Stores absolute coordinates in either RAS or 1-based CRS of the source space. The default for `--inspm` is `abs-ras` (can be overridden with `--in-interp abs-crs`).
 
-**LTA composition:** When `--lta1` and/or `--lta2` are specified, the composite transform is:
+**LTA composition:** When `-lta1` and/or `-lta2` are specified, the composite transform is:
 
 $$
 \text{src} \leftarrow \text{LTA1} \leftarrow \text{GCAM} \leftarrow \text{LTA2} \leftarrow \text{dst}
@@ -113,37 +113,39 @@ using `GCAMconcat3()`.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--infswarp` / `--inm3z` | `warpfile` | Input FreeSurfer m3z morph |
-| `--infsl` | `warpfile` | Input FSL warp |
-| `--inspm` | `warpfile` | Input SPM y-warp |
-| `--initk` / `--inlps` | `warpfile` | Input ITK LPS warp |
-| `--invox` | `warpfile` | Input voxel-displacement warp |
-| `--inras` | `warpfile` | Input RAS-displacement warp |
-| `--outfswarp` / `--outm3z` | `warpfile` | Output FreeSurfer m3z morph |
-| `--outfsl` | `warpfile` | Output FSL warp (NOT IMPLEMENTED) |
-| `--outitk` / `--outlps` | `warpfile` | Output ITK LPS warp |
-| `--outvox` | `warpfile` | Output voxel-displacement warp |
-| `--outras` | `warpfile` | Output RAS-displacement warp |
-| `--insrcgeom` / `-g` | `geomfile` | Source geometry for FSL/SPM/VOX/RAS/ITK input |
-| `--in-interp` | `interp` | Input interpretation: `abs-ras` or `abs-crs` (SPM only) |
-| `--lta1` | `ltafile` | Pre-warp LTA transform |
-| `--lta1-inv` | `ltafile` | Pre-warp LTA (inverted) |
-| `--lta2` | `ltafile` | Post-warp LTA transform |
-| `--lta2-inv` | `ltafile` | Post-warp LTA (inverted) |
-| `--downsample` / `-d` | — | Save output FSWARP at half resolution |
-| `--version` | — | Print version |
-| `--help` | — | Print help |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--infswarp` | `warpfile` | — | Input FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
+| `--infsl` | `warpfile` | — | Input FSL warp |
+| `--inspm` | `warpfile` | — | Input SPM y-warp |
+| `--inlps` | `warpfile` | — | Input ITK/ANTs LPS displacement field |
+| `--invox` | `warpfile` | — | Input voxel-displacement warp |
+| `--inras` | `warpfile` | — | Input RAS-displacement warp |
+| `--outfswarp` | `warpfile` | — | Output FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
+| `--outfsl` | `warpfile` | — | Output FSL warp (NOT IMPLEMENTED) |
+| `--outlps` | `warpfile` | — | Output ITK/ANTs LPS displacement field |
+| `--outvox` | `warpfile` | — | Output voxel-displacement warp |
+| `--outras` | `warpfile` | — | Output RAS-displacement warp |
+| `--insrcgeom` / `-g` | `geomfile` | — | Source geometry for FSL/SPM/VOX/RAS/ITK input |
+| `--in-interp` | `interp` | `abs-crs` | Input warp data interpretation: `abs-crs`, `disp-crs`, `abs-ras`, `disp-ras` |
+| `--out-interp` | `interp` | `abs-crs` | Output warp data interpretation for `--outfswarp`: `abs-crs`, `disp-crs`, `abs-ras`, `disp-ras` |
+| `-lta1` | `ltafile` | — | Pre-warp LTA transform |
+| `-lta1-inv` | `ltafile` | — | Pre-warp LTA (inverted) |
+| `-lta2` | `ltafile` | — | Post-warp LTA transform |
+| `-lta2-inv` | `ltafile` | — | Post-warp LTA (inverted) |
+| `--downsample` / `-d` | — | `off` | Save output FSWARP at half resolution |
+| `--version` | — | — | Print version |
+| `--help` | — | — | Print help |
 
 ## Configuration Interactions
 
 - Exactly one input format flag and one output format flag must be specified. Specifying more than one input or output flag generates a warning about `multi_input` / `multi_output` but does not error.
-- `--insrcgeom` is required for `--infsl`, `--inspm`, `--invox`, `--inras`, and `--initk` — it provides the geometry of the space being warped (the source/atlas).
+- `--insrcgeom` is required for `--infsl`, `--inspm`, `--invox`, `--inras`, and `--inlps` — it provides the geometry of the space being warped (the source/atlas).
 - `--inspm` defaults to `abs-ras` interpretation; use `--in-interp abs-crs` for SPM warps stored in 1-based CRS.
-- `--lta1` and `--lta2` can be used independently; if both are provided, the three-way concatenation is: LTA1 → GCAM → LTA2.
+- `-lta1` and `-lta2` can be used independently; if both are provided, the three-way concatenation is: LTA1 → GCAM → LTA2.
+- `--out-interp` only affects `--outfswarp` output and controls how the warp data is encoded in the output file.
 - `--downsample` only affects `--outfswarp` output.
-- `--outfsl` is recognised but **not implemented** (exits with error).
+- --outfsl is recognised but **not implemented** (exits with error).
 
 ## Typical Use Cases
 
@@ -157,7 +159,7 @@ mri_warp_convert \
 # Convert FreeSurfer m3z to ITK/ANTs format
 mri_warp_convert \
     --infswarp talairach.m3z \
-    --outitk talairach_itk.nii.gz
+    --outlps talairach_itk.nii.gz
 
 # Convert SPM y-warp to FreeSurfer format
 mri_warp_convert \
@@ -169,8 +171,8 @@ mri_warp_convert \
 # Convert with LTA pre- and post-transform
 mri_warp_convert \
     --infswarp warp.m3z \
-    --lta1 pre_transform.lta \
-    --lta2 post_transform.lta \
+    -lta1 pre_transform.lta \
+    -lta2 post_transform.lta \
     --outfswarp composite_warp.m3z
 ```
 
@@ -187,13 +189,13 @@ The converted warp is typically then applied via [[mri_vol2vol]] with `--m3z`.
 ## Gotchas and Caveats
 
 > [!gotcha] FSL output not implemented
-> The `--outfsl` flag is parsed but the corresponding `writeFSL()` function immediately exits with the error message: "ERROR writeFSL is not implemented, sorry!" Do not use this output mode.
+> The --outfsl flag is parsed but the corresponding `writeFSL()` function immediately exits with the error message: "ERROR writeFSL is not implemented, sorry!" Do not use this output mode.
 
 > [!gotcha] SPM warp convention must be specified
 > SPM y-warps can be stored as `abs-ras` or `abs-crs`. The default for `--inspm` is `abs-ras` (based on code logic), but some SPM toolboxes use `abs-crs`. Incorrect specification will produce silently wrong warp conversions.
 
 > [!gotcha] ITK uses LPS not RAS
-> ITK and ANTs tools use LPS (Left-Posterior-Superior) coordinates. The x and y components are negated relative to FreeSurfer's RAS. The `--initk`/`--inlps` and `--outitk`/`--outlps` flags handle this conversion automatically.
+> ITK and ANTs tools use LPS (Left-Posterior-Superior) coordinates. The x and y components are negated relative to FreeSurfer's RAS. The `--inlps` and `--outlps` flags handle this conversion automatically.
 
 > [!gotcha] Source geometry is critical
 > For most non-FreeSurfer formats, the `--insrcgeom` file must exactly match the geometry of the source image that was used to create the warp. A mismatch here will produce subtly incorrect conversions.

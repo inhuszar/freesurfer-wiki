@@ -16,7 +16,7 @@ status: draft
 confidence: high
 last_agent_update: 2026-04-15
 gaps:
-  - "The accuracy parameter semantics (what unit and range) need clarification from mris_compVolFrac.h."
+  - "The --acc parameter semantics (what unit and range) need clarification from mris_compVolFrac.h."
 tags:
   - surface
   - volume-fraction
@@ -51,8 +51,8 @@ Standard voxel-based tissue classification assigns each voxel a single tissue cl
 |------|-------------|----------|
 | `--vol <file>` | Reference volume (defines voxel grid) | yes |
 | `--surf <file>` | Surface file | yes |
-| `--o <file>` | Output volume path | yes |
-| `--accuracy <val>` | Accuracy parameter for volume computation | optional |
+| `--out <file>` | Output volume path | yes |
+| `--acc <val>` | Accuracy parameter for volume computation | optional |
 
 ## Outputs
 
@@ -74,17 +74,17 @@ The computation uses `MRIcomputeVolumeFractionFromSurface()`, which implements a
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--vol <file>` | Reference volume | required |
-| `--surf <file>` | Surface file | required |
-| `--o <file>` | Output file | required |
-| `--accuracy <val>` | Numerical accuracy level | -1000 (default behaviour) |
-| `--debug` | Enable debug output | off |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--vol <file>` | path | — | Reference volume |
+| `--surf <file>` | path | — | Surface file |
+| `--out <file>` | path | — | Output file |
+| `--acc <val>` | float | -1000 | Numerical accuracy level |
+| `--debug` | — | off | Enable debug output |
 
 ## Configuration Interactions
 
-- The `--accuracy` parameter with its unusual default of -1000 suggests an internal interpretation in `MRIcomputeVolumeFractionFromSurface()`. The exact semantics should be verified in `mris_compVolFrac.h`.
+- The `--acc` parameter with its unusual default of -1000 suggests an internal interpretation in `MRIcomputeVolumeFractionFromSurface()`. The exact semantics should be verified in `mris_compVolFrac.h`.
 
 ## Typical Use Cases
 
@@ -93,14 +93,14 @@ The computation uses `MRIcomputeVolumeFractionFromSurface()`, which implements a
 mris_compute_volume_fractions \
     --vol $SUBJECTS_DIR/bert/mri/T1.mgz \
     --surf $SUBJECTS_DIR/bert/surf/lh.white \
-    --o $SUBJECTS_DIR/bert/mri/lh.white_volfrac.mgz
+    --out $SUBJECTS_DIR/bert/mri/lh.white_volfrac.mgz
 
 # With custom accuracy
 mris_compute_volume_fractions \
     --vol $SUBJECTS_DIR/bert/mri/T1.mgz \
     --surf $SUBJECTS_DIR/bert/surf/lh.pial \
-    --accuracy 0.001 \
-    --o lh.pial_volfrac.mgz
+    --acc 0.001 \
+    --out lh.pial_volfrac.mgz
 ```
 
 ## Pipeline Context
@@ -119,7 +119,7 @@ Not part of `recon-all`. Used in laminar MRI analysis pipelines:
 > [!gotcha] Debug message at startup
 > The tool prints "working!" at startup (a developer artefact in the source). This is harmless but unexpected.
 
-> [!gotcha] Accuracy default
+> [!gotcha] `--acc` default
 > The default `Accuracy` of -1000 is unusual. Check `mris_compVolFrac.h` to understand how this value is interpreted.
 
 ## Related Tools
@@ -131,5 +131,5 @@ Not part of `recon-all`. Used in laminar MRI analysis pipelines:
 
 **Confident:** I/O structure, purpose, and core call (`MRIcomputeVolumeFractionFromSurface`) confirmed from source.
 
-> [!gap] Accuracy parameter semantics
-> The default value of -1000 for `Accuracy` is not self-explanatory. Check `mris_compVolFrac.h` for the interpretation.
+> [!gap] `--acc` parameter semantics
+> The default value of -1000 for --acc is not self-explanatory. Check `mris_compVolFrac.h` for the interpretation.

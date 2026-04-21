@@ -17,10 +17,9 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "The exact role of --i (input) vs --init (init) surface is described as needing clarification in the code itself"
-  - "Whether mris_place_surface is called by default in FS 8.2.0 recon-all (replacing mris_make_surfaces) needs verification"
+  - "Whether mris_place_surface is the default in FS 8.2.0 recon-all (replacing mris_make_surfaces) needs verification"
 tags:
   - surface
   - placement
@@ -53,7 +52,7 @@ Cortical surface reconstruction requires finding the precise voxel-level boundar
 - Produces output identical to `mris_make_surfaces` for standard T1w input
 - Adds support for T2/FLAIR-assisted pial placement (`--mmvol`)
 - Uses a JSON-based auto-detection statistics file (`--adgws-in`) to set intensity thresholds
-- Supports longitudinal processing with `--long`
+- Supports multimodal refinement via `--mm-refine` and standalone utility modes (`--thickness`, `--curv-map`, `--area-map`)
 
 From the source code comment:
 > "This version of mris_place_surface yields identical output as mris_make_surfaces under these command-line conditions for simple T1w input for both cross and long."
@@ -73,7 +72,6 @@ Optional:
 - `--aparc ?.aparc.annot` — cortical parcellation for ripping
 - `--rip-label cortex.label` — do not move vertices outside this label
 - `--mmvol vol.mgz Type` — T2 or FLAIR volume for pial placement
-- `--init init_surface` — initialisation surface (for pial)
 - `--repulse-surf white_surface` — surface to repel from (used for pial)
 - `--white-surf white_surface` — sets white{xyz} coordinates
 
@@ -107,87 +105,170 @@ For T2/FLAIR pial placement, the `MRIS_MultimodalRefinement` engine is used when
 
 ### Required
 
-| Flag | Description |
-|---|---|
-| `--o output` | Output surface file |
-| `--i input` | Input surface file |
-| `--adgws-in file.dat` | AutoDetectGrayWhiteStats file |
-| `--invol invol.mgz` | T1-weighted intensity volume |
-| `--white` or `--pial` | Surface type to place |
-| `--lh` or `--rh` | Hemisphere |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--o` | `output` | — | Output surface file |
+| `--i` | `input` | — | Input surface file (sets `tspring=nspring=0.3`) |
+| `--adgws-in` | `file.dat` | — | AutoDetectGrayWhiteStats file (alias: `--adgws`) |
+| `--invol` | `invol.mgz` | — | T1-weighted intensity volume |
+| `--white` or `--pial` | _(none)_ | — | Surface type to place |
+| `--lh` or `--rh` | _(none)_ | — | Hemisphere |
 
 ### Optional — Inputs
 
-| Flag | Description |
-|---|---|
-| `--wm wm.mgz` | White matter segmentation |
-| `--seg seg.mgz` | Whole-brain segmentation |
-| `--aparc parcellation` | Cortical annotation for ripping |
-| `--mmvol vol.mgz Type` | T2 or FLAIR volume (`Type` = `T2` or `FLAIR`) |
-| `--repulse-surf surface` | Surface to repel from (usually white for pial) |
-| `--white-surf surface` | Sets white{xyz} coordinates |
-| `--blend-surf weight surface` | Blend with this surface: `new = (1-w)*input + w*blend` |
-| `--init init_surface` | Initialise pial from this surface |
-| `--cover-seg SegVol` | Force surface to cover a segmentation |
-| `--rip-label label` | Do not move vertices outside this label |
-| `--rip-overlay file` | Rip vertices where overlay > 0.5 |
-| `--ripsurface surface` | Reference surface for ripping midline/BG/WMSA |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--wm` | `wm.mgz` | — | White matter segmentation (enables intensity preprocessing) |
+| `--seg` | `seg.mgz` | — | Whole-brain segmentation |
+| `--no-seg` | _(none)_ | off | Unset a previously specified `--seg` |
+| `--aparc` | `parcellation` | — | Cortical annotation for ripping (also sets `UseAParc=1`) |
+| `--mmvol` | `vol.mgz Type` | — | T2 or FLAIR volume for pial placement (`Type` = `T2` or `FLAIR`); forces `--pial` |
+| `--repulse-surf` | `surface` | — | Surface to repel from (usually white for pial) |
+| `--white-surf` | `surface` | — | Sets white{xyz} coordinates used for T2/FLAIR and `--pin-medial-wall` |
+| `--blend-surf` | `weight surface` | — | Blend input with this surface: `new = (1-w)*input + w*blend` |
+| `--cover-seg` | `SegVol` | — | Force surface to cover a segmentation volume (alias: `--cover_seg`) |
+| `--rip-label` | `label` | — | Do not move vertices outside this label; also sets `RipMidline=0` |
+| `--rip-overlay` | `file` | — | Rip vertices where overlay value > 0.5 |
+| `--rip-surf` | `surface` | — | Reference surface for midline/BG/WMSA ripping (default: use input surface) |
+| `--stopmask` | `mask.mgz` | — | Stop deformation where mask is non-zero |
 
 ### Optional — Ripping Control
 
-| Flag | Description |
-|---|---|
-| `--rip-midline` / `--no-rip-midline` | Freeze midline vertices (default: on) |
-| `--rip-bg` / `--no-rip-bg` | Freeze basal ganglia vertices (default: on) |
-| `--rip-wmsa` / `--no-rip-wmsa` | Freeze WMSA vertices (seg labels 77–79) |
-| `--rip-lesion` / `--no-rip-lesion` | Freeze lesion vertices (seg labels 25, 57) |
-| `--no-rip-freeze` | Do not freeze 247-labelled voxels |
-| `--no-rip` | Disable all ripping |
-| `--rip-bg-lof` | Freeze BG vertices in lateral orbital frontal |
-| `--rip-bg-no-annot` | Do not require annotation when ripping BG |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--rip-midline` / `--no-rip-midline` | _(none)_ | on | Freeze midline vertices |
+| `--rip-bg` / `--no-rip-bg` | _(none)_ | off | Freeze basal ganglia vertices |
+| `--rip-bg-lof` / `--no-rip-bg-lof` | _(none)_ | off | Freeze BG vertices in lateral orbital frontal cortex |
+| `--rip-bg-no-annot` | _(none)_ | off | Do not require annotation when ripping BG (sets `RipBGRequireAnnot=0`) |
+| `--rip-wmsa` / `--no-rip-wmsa` | _(none)_ | off | Freeze WMSA vertices (seg labels 77–79) |
+| `--rip-lesion` / `--no-rip-lesion` | _(none)_ | off | Freeze lesion vertices (seg labels 25, 57) |
+| `--rip-freeze` / `--no-rip-freeze` | _(none)_ | on | Freeze 247-labelled voxels |
+| `--no-rip` | _(none)_ | off | Disable all ripping (sets WMSA, freeze, lesion, BG, midline all to 0) |
+| `--rip-projection` | `dmin dmax dstep` | `-2.0 +2.0 0.5` | Set projection range and step for rip detection (mm) |
 
 ### Optional — Processing
 
-| Flag | Description |
-|---|---|
-| `--nsmooth N` | Smooth input surface by N iterations before placement |
-| `--smooth-after-rip` | Smooth after ripping when `--nsmooth` is used |
-| `--max-cbv-dist dist` | Limit CBV search distance from input surface |
-| `--long` | Longitudinal mode with constrained deformation |
-| `--max-thickness T` | Maximum allowed cortical thickness (longitudinal) |
-| `--use-aparc` | Use parcellation when placing (enables aparc-aware ripping) |
-| `--no-intensity-proc` | Skip input volume intensity preprocessing |
-| `--mm-refine` | Use MRIS_MultimodalRefinement for pial; sets `tspring=nspring=0.3` |
-| `--pin-medial-wall label` | Pin medial wall vertices to white{xyz} after placement |
-| `--restore-255` | Set 255-voxels to 110 after preprocessing (white only) |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--nsmooth` | `N` | `0` | Smooth input surface by N iterations before placement |
+| `--smooth-after-rip` | _(none)_ | off | Smooth after ripping instead of before (requires `--nsmooth`) |
+| `--max-cbv-dist` | `dist` | `5.0` | Limit CBV search distance (mm) from input surface along normal |
+| `--use-aparc` | _(none)_ | off | Use parcellation when placing (enables aparc-aware ripping) |
+| `--no-intensity-proc` | _(none)_ | off | Skip input volume intensity preprocessing |
+| `--mm-refine` | `N vol1type vol1path ...` | — | Use `MRIS_MultimodalRefinement` for pial; takes N image pairs |
+| `--mm-min-p-grey` | `val` | `20` | Minimum P(grey) for `--mm-refine` (default: 20) |
+| `--mm-weights` | _(none)_ | off | Enable MM refinement weights |
+| `--pin-medial-wall` | `label` | — | Pin medial wall vertices to white{xyz} after placement (requires `--white-surf`) |
+| `--no-pin-medial-wall` | _(none)_ | off | Unset a previously set `--pin-medial-wall` |
+| `--restore-255` | _(none)_ | off | Restore 255-voxels to 110 after preprocessing (white surface only) |
+| `--cbv-zero` / `--no-cbv-zero` | _(none)_ | off | Force CBV target value to 0 (disables intensity preprocessing) |
+| `--first-peak-d1` / `--no-first-peak-d1` | _(none)_ | off | Use first-peak D1 mode in CBV |
+| `--first-peak-d2` / `--no-first-peak-d2` | _(none)_ | off | Use first-peak D2 mode in CBV |
+| `--neg-sign` | _(none)_ | off | Negate the sample volume derivative sign in CBV |
+| `--fill-lat-vents` | `mm topo nnbrs` | — | Fill lateral ventricles in invol; dilates by `mm`, topology `topo`, nnbrs `nnbrs` |
+| `--alt-border-low` | `labelfile factor` | — | Use alternate border-low threshold for high-myelin label regions |
+| `--location-mov-len` | `val` | — | Override the `LOCATION_MOVE_LEN` constant used in target-location term |
+| `--shrink` | `thresh` | — | Shrink large triangles on the second iteration |
+| `--subiters` | `N` | `1` | Number of sub-iterations per smoothing level |
+
+### Optional — Multimodal Intensity Limits
+
+These flags override the T2/FLAIR intensity limits set automatically by `--mmvol`. Must be specified after `--mmvol`.
+
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--mm_min_inside` | `val` | T2: `110` / FLAIR: `50` | Minimum intensity inside pial (between white and pial) |
+| `--mm_max_inside` | `val` | T2: `300` / FLAIR: `200` | Maximum intensity inside pial |
+| `--mm_min_outside` | `val` | T2: `130` / FLAIR: `10` | Minimum intensity outside pial |
+| `--mm_max_outside` | `val` | T2: `300` / FLAIR: `50` | Maximum intensity outside pial |
+
+### Optional — Cost Function Weights
+
+These flags override the default energy term weights used during surface deformation.
+
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--intensity` | `weight` | `0.2` | Weight for intensity gradient term (`l_intensity`) |
+| `--location` | `weight` | `0.0` | Weight for surface location term (`l_location`) |
+| `--repulse` | `weight` | `0.0` | Weight for surface repulsion term (`l_repulse`); white sets this to 5.0 post-parse |
+| `--spring` | `weight` | `0.0` | Weight for isotropic spring term (`l_spring`) |
+| `--tspring` | `weight` | `1.0` | Weight for tangential spring term (`l_tspring`) |
+| `--nspring` | `weight` | `0.5` | Weight for normal spring term (`l_nspring`) |
+| `--curv` | `weight` | `1.0` | Weight for curvature smoothing term (`l_curv`) |
+| `--hinge` | `weight` | `0.0` | Weight for hinge energy term (`l_hinge`) |
+| `--surf-repulse` | `weight` | `0.0` | Weight for surface-surface repulsion (`l_surf_repulse`); pial sets this to 5.0 |
+| `--spring_nzr` | `weight` | `0.0` | Weight for non-zero-rest-length spring term (`l_spring_nzr`) |
+
+### Optional — Intensity Thresholds
+
+These flags override thresholds read from `--adgws-in`. Must be specified after `--adgws-in`.
+
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--white_border_hi` | `val` | from adgws | White surface border high threshold |
+| `--white_border_low` | `val` | from adgws | White surface border low threshold |
+| `--white_border_low_factor` | `val` | from adgws | Factor for computing white border low from gray/white means |
+| `--white_outside_low` | `val` | from adgws | White surface outside low threshold |
+| `--white_inside_hi` | `val` | from adgws | White surface inside high threshold |
+| `--white_outside_hi` | `val` | from adgws | White surface outside high threshold |
+| `--pial_border_hi` | `val` | from adgws | Pial surface border high threshold |
+| `--pial_border_low` | `val` | from adgws | Pial surface border low threshold |
+| `--pial_outside_low` | `val` | from adgws | Pial surface outside low threshold |
+| `--pial_inside_hi` | `val` | from adgws | Pial surface inside high threshold |
+| `--pial_outside_hi` | `val` | from adgws | Pial surface outside high threshold |
+
+### Optional — Volume Names / Environment
+
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--sd` | `subjects_dir` | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR` environment variable |
+| `--involname` | `name` | `brain.finalsurfs.mgz` | Override default input volume name (used with `--s`) |
+| `--segvolname` | `name` | `aseg.presurf.mgz` | Override default segmentation volume name (used with `--s`) |
+| `--n_averages` | `N` | `0` (auto) | Starting number of smoothing averages (0 = use surface-type default) |
+| `--max-threads` | _(none)_ | off | Use all available OpenMP threads |
+| `--max-threads-1` | _(none)_ | off | Use all available OpenMP threads minus one (alias: `--max-threads-minus-1`) |
+| `--threads` | `N` | `1` | Set number of OpenMP threads explicitly (alias: `--nthreads`) |
 
 ### Optional — Output/Debug
 
-| Flag | Description |
-|---|---|
-| `--outvol file.mgz` | Save preprocessed volume |
-| `--outvol-only file.mgz` | Save volume then exit |
-| `--ripflag-out file` | Save ripflag as overlay |
-| `--local-max file` | Save LocalMaxFoundFlag overlay |
-| `--target surface` | Save CBV target surface |
-| `--debug-vertex N` | Debug vertex N |
-| `--s subject` | Subject (alternative input specification) |
-| `--adgw-in` | Alias for `--adgws-in` |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--outvol` | `file.mgz` | — | Save preprocessed intensity volume |
+| `--outvol-only` | `file.mgz` | — | Save preprocessed volume then exit without placing surface |
+| `--ripflag-out` | `file` | — | Save ripflag as overlay |
+| `--local-max` | `file` | — | Save LocalMaxFoundFlag overlay |
+| `--target` | `surface` | — | Save CBV target surface |
+| `--debug-vertex` | `N` | — | Enable per-vertex debug output for vertex N |
+| `--s` | `subject hemi insurf outsurf` | — | Populate input/output paths from subjects directory |
+| `--adgws-out` | `file.dat` | — | Write auto-detected gray/white stats to file |
+| `--adgws` | `file.dat` | — | Alias for `--adgws-in` |
+
+### Standalone Utility Modes
+
+These flags cause `mris_place_surface` to perform a standalone computation and exit immediately, without performing surface placement.
+
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--thickness` | `white pial nbhd_size maxthickness out` | — | Compute and write cortical thickness overlay |
+| `--curv-map` | `surf nbrs curvature_avgs out` | — | Compute and write mean curvature map |
+| `--area-map` | `surf out` | — | Compute and write vertex area map |
+| `--fit` | `inputsurf mri targsurf loc hin nzr rep iters outsurf` | — | Fit a surface to a target using specified cost weights |
+
+> [!gap] Experimental / advanced flags not documented
+> Additional undocumented flags exist for target-point-set placement (`--tps`, `--tps-debug`, `--tps-targetpointset`, `--tps-vertexpointset`, `--tps-mask`, `--tps-vector`, `--tps-patch`) and a `--s` subject-shorthand mode that may not be fully supported in current usage. Consult `mris_make_surfaces/mris_place_surface.cpp` for full details.
 
 ## Configuration Interactions
 
 - `--white` and `--pial` are mutually exclusive; one must be specified.
 - `--lh` and `--rh` are mutually exclusive; one must be specified.
-- When using `--pial`, `--repulse-surf` should be set to the white surface to prevent pial from passing through white.
+- When using --pial, `--repulse-surf` should be set to the white surface to prevent pial from passing through white.
 - `--mmvol` requires `--pial`; multimodal volumes are only used for pial placement.
 - `--mm-refine` and `--mmvol` can both be specified but use different implementations; `--mm-refine` uses `MRIS_MultimodalRefinement` while `--mmvol` uses the CBV-based multimodal approach.
 - `--nsmooth` without `--smooth-after-rip` smooths the surface before ripping; `--smooth-after-rip` changes this order.
 - `--no-rip` disables all ripping regardless of other `--rip-*` flags.
-- `--long` enables longitudinal mode which should be combined with `--max-thickness`.
 - When `--pin-medial-wall` is specified, `--white-surf` should also be provided to define the target coordinates for medial wall vertices.
-
-> [!gotcha] --i vs --init distinction
-> The source code comments note: "The role of the input (--i) vs init (--init) surface needs to be clarified." In general, `--i` is the surface to deform, and `--init` is used to set the initial position for the pial before deformation begins (e.g., from `lh.white.preaparc` for the pial).
+- `--cbv-zero` disables intensity preprocessing (`DoIntensityProc=0`) in addition to forcing the CBV target to 0.
+- `--rip-label` implicitly sets `RipMidline=0`; if you want rip-label and rip-midline, ripping midline must be re-enabled explicitly with `--rip-midline`.
 
 ## Typical Use Cases
 
@@ -199,7 +280,7 @@ mris_place_surface --s subject lh orig place.white.preaparc --white
 mris_place_surface --s subject lh white.preaparc place.white --white
 
 # Cross-sectional: place pial
-mris_place_surface --s subject lh white place.pial --pial --init lh.white.preaparc
+mris_place_surface --s subject lh white place.pial --pial
 
 # With T2 volume for improved pial
 mris_place_surface \
@@ -207,7 +288,7 @@ mris_place_surface \
   --seg ../mri/aseg.presurf.mgz \
   --wm ../mri/wm.mgz \
   --invol ../mri/brain.finalsurfs.mgz \
-  --lh --i lh.woT2.pial --init lh.woT2.pial \
+  --lh --i lh.woT2.pial \
   --o lh.T2.pial --pial \
   --nsmooth 0 \
   --rip-label ../label/lh.cortex.label \
@@ -216,8 +297,8 @@ mris_place_surface \
   --mmvol ../mri/T2.mgz T2 \
   --white-surf lh.white
 
-# Longitudinal
-mris_place_surface --s subject lh orig_white white.preaparc.mps --white --long --max-thickness 3.5
+# Standalone: compute thickness
+mris_place_surface --thickness lh.white lh.pial 20 5 lh.thickness
 ```
 
 ## Pipeline Context
@@ -241,8 +322,8 @@ In the standard `recon-all` pipeline, these calls happen in the `-make_surfaces`
 > [!gotcha] Pial --repulse-surf
 > For pial surface placement, `--repulse-surf` should always be set to the white surface. Without it, the pial can deform inward past the white/gray boundary, producing impossible cortical thickness values (negative thickness).
 
-> [!gotcha] mm-refine sets spring constants
-> When `--mm-refine` is specified, the tool sets `tspring=nspring=0.3` internally, overriding default spring constants. This affects the smoothness of the deformation and is not separately controllable.
+> [!gotcha] --i sets spring constants
+> Specifying `--i` (the input surface path) sets `parms.l_tspring=0.3` and `parms.l_nspring=0.3` immediately in `parse_commandline`. These values can be overridden afterwards with explicit `--tspring` or `--nspring` flags.
 
 > [!gotcha] ripping and 247-label voxels
 > "Freeze" voxels are encoded as label 247 in the segmentation. By default, vertices near these are frozen. If processing data with unusual segmentation labels (e.g., after lesion masking), this can unexpectedly freeze large surface regions.
@@ -257,8 +338,8 @@ In the standard `recon-all` pipeline, these calls happen in the `-make_surfaces`
 
 ## Confidence and Gaps
 
-**Confident (from code and help XML):** Full flag set from help XML; --white/--pial requirement; ripping mechanism; adgws-in requirement; T2/FLAIR support via --mmvol; --mm-refine sets tspring=nspring=0.3; --long for longitudinal; --pin-medial-wall; spring/repulsion energy model.
+**Confident (from source):** Complete flag set verified from `parse_commandline` in `mris_make_surfaces/mris_place_surface.cpp`; --white/--pial requirement; ripping mechanism (--rip-surf, --rip-projection, --rip-freeze and all variants); adgws-in requirement (--adgws is an alias); T2/FLAIR support via --mmvol; --i sets tspring=nspring=0.3 immediately on parse; --pin-medial-wall (requires --white-surf); all cost function weight flags; complete threshold override flags; multimodal intensity limits (--mm_min/max_inside/outside); standalone utility modes (--thickness, --curv-map, --area-map, --fit); environment flags; rip projection defaults (dmin=-2, dmax=+2, dstep=0.5).
 
-**Uncertain:** Whether this tool is the default in FS 8.2.0 recon-all or whether mris_make_surfaces is still used; whether `--s subject` form (rather than explicit `--i`/`--invol`) is fully supported.
+**Confirmed absent from source:** `--long`, `--max-thickness`, `--init` — these appear only in example command-line comments in the source file, not in `parse_commandline`. They are NOT valid flags.
 
-> [!gap] The distinction between `--i` and `--init` for pial placement is acknowledged as unclear in the source code comments. The developer wrote: "The role of the input (--i) vs init (--init) surface needs to be clarified."
+**Uncertain:** Whether this tool is the default in FS 8.2.0 recon-all or whether mris_make_surfaces is still used; whether `--s subject` form (rather than explicit `--i`/`--invol`) is fully supported in current code.

@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - cortical-thickness
@@ -85,6 +85,9 @@ The nearest-neighbor search uses `MRIS_HASH_TABLE` for efficient spatial lookup.
 ## Configuration Options
 
 ### Complete Flag Reference
+
+> [!note] Single-dash flag format
+> `mris_thickness_diff` uses a legacy single-dash option parser (`get_option`). All flags take a single leading dash (e.g., `-out`, `-src`, `-dst`). Double-dash variants (e.g., `--src`) are NOT accepted.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|

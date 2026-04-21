@@ -16,7 +16,7 @@ related:
   - "[[tkregister2]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact VOX2VOX convention (target-to-source vs. source-to-target) should be confirmed with a test case"
   - "2D NiftyReg input support is only partially implemented; full scope unclear"
@@ -63,7 +63,7 @@ Exactly one input flag is required:
 |------------|--------|-------|
 | `--inlta` | FreeSurfer LTA (`.lta`) | Native format; contains geometry |
 | `--infsl` | FSL/FLIRT matrix (`.mat`) | 4×4 ASCII; requires `--src` and `--trg` |
-| `--inmni` | MNI/XFM (`.xfm`) | MINC-style; requires `--src` and `--trg` |
+| `--inmni` / `--inxfm` | MNI/XFM (`.xfm`) | MINC-style; requires `--src` and `--trg` |
 | `--inreg` | TK REG / `register.dat` | Deprecated; requires `--src` and `--trg` |
 | `--inniftyreg` / `--inras` | NiftyReg (inverse RAS2RAS) | Requires `--src` and `--trg` |
 | `--inniftyreg2d` | NiftyReg 2D | Requires `--src` and `--trg` |
@@ -135,7 +135,7 @@ Additionally, a fixed-parameters vector (centre of rotation) must be absorbed in
 |------|------|---------|--------|
 | `--inlta` | `<in.lta>` | — | Read LTA file; geometry already embedded |
 | `--infsl` | `<in.fslmat>` | — | Read FSL/FLIRT 4×4 matrix |
-| `--inmni` | `<in.xfm>` | — | Read MNI/MINC XFM file |
+| `--inmni` / `--inxfm` | `<in.xfm>` | — | Read MNI/MINC XFM file |
 | `--inreg` | `<inreg.dat>` | — | Read TK REG `register.dat` (deprecated) |
 | `--inniftyreg` / `--inras` | `<file>` | — | Read NiftyReg inverse RAS2RAS (3D) |
 | `--inniftyreg2d` | `<file>` | — | Read NiftyReg inverse RAS2RAS (2D) |
@@ -169,6 +169,7 @@ Additionally, a fixed-parameters vector (centre of rotation) must be absorbed in
 |------|------|---------|--------|
 | `--ltavox2vox` | none | off | Write LTA as `VOX2VOX` type instead of `RAS2RAS` |
 | `--ltatkreg` | none | off | Write LTA as `REGISTER_DAT` type |
+| `--sqrt` | none | off | Compute matrix square root (SVD-based; marked as not yet fully supported in source) |
 
 #### Transform Modification
 
@@ -281,10 +282,10 @@ lta_convert --inlta in.lta \
 ## Gotchas and Caveats
 
 > [!gotcha] `identity.nofile` is a magic token
-> Passing `--inlta identity.nofile` (the literal string, not a file path) creates an identity transform. Combined with `--src` and `--trg`, this is equivalent to `--regheader`. This token is recognized by the LTA reader in `utils/transform.cpp`.
+> Passing --inlta identity.nofile (the literal string, not a file path) creates an identity transform. Combined with `--src` and `--trg`, this is equivalent to `--regheader`. This token is recognized by the LTA reader in `utils/transform.cpp`.
 
 > [!gotcha] NiftyReg 2D support is experimental
-> The `--inniftyreg2d` code path reads a 2D transform matrix. Fixed-parameter handling for 2D ITK is explicitly noted in the source as "not implemented" if fixed parameters are non-zero. Do not rely on these code paths for production use without validation.
+> The --inniftyreg2d code path reads a 2D transform matrix. Fixed-parameter handling for 2D ITK is explicitly noted in the source as "not implemented" if fixed parameters are non-zero. Do not rely on these code paths for production use without validation.
 
 > [!gotcha] VOX2VOX semantics are inverse
 > The `--invox` / `--outvox` flags use the convention that the matrix maps from **target** voxel indices to **source** voxel indices (i.e., the inverse of what you might expect from the flag name). This is consistent with how resampling tools typically apply transforms (pull/sampling convention). See [[coordinate-systems]] for the distinction between push and pull conventions.
@@ -305,8 +306,11 @@ lta_convert --inlta in.lta \
 
 Medium confidence overall. Flag semantics and conversion logic are derived from direct reading of `lta_convert.cpp`. The mathematical conventions for ITK, NiftyReg, and VOX2VOX formats are code-verified.
 
+> [!note] Audit noise from uppercase parser and error messages
+> `lta_convert` converts all option strings to uppercase before comparison (`StrUpper(option)` at parse time), so flags like `--inxfm`, `--inras`, `--inlps`, `--outras`, `--outlps`, and `--subject` appear in the parser as `"INXFM"`, `"INRAS"`, etc. — not as `--flag` literals. The audit cannot find them and may report them as C3 (invalid) or C1 (missing) incorrectly. Additionally, the audit flagged `--dst`, `--in`, `--intype`, `--iscale`, `--iscaleout`, `--lta`, `--mapmov`, `--mov`, `--s`, `--sat`, `--satit`, and `--weights` as potentially missing. None of these exist in the active parser: `--in` and `--intype` are commented out; the remainder appear only in error messages (error strings that reference `mri_robust_register` flags).
+
 > [!gap] VOX2VOX directionality
 > The `--invox` / `--outvox` convention (target-to-source vs. source-to-target in voxel space) should be confirmed with a concrete test case comparing input and output matrices.
 
 > [!gap] 2D NiftyReg input
-> The `--inniftyreg2d` code path and the ITK 2D fixed-parameters path are incompletely implemented in the source. Their behaviour for non-zero fixed parameters in 2D is explicitly marked as "not implemented" and will cause an error exit.
+> The --inniftyreg2d code path and the ITK 2D fixed-parameters path are incompletely implemented in the source. Their behaviour for non-zero fixed parameters in 2D is explicitly marked as "not implemented" and will cause an error exit.

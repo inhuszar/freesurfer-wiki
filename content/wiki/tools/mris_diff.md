@@ -14,7 +14,7 @@ related:
   - "[[mris_anatomical_stats]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Behaviour of --renumbered flag is not fully detailed in source comments."
 tags:
@@ -54,7 +54,7 @@ tags:
 
 - **stdout:** Human-readable report of differences (vertex counts, coordinate mismatches, etc.).
 - **Exit code:** 0 = identical, non-zero = differs.
-- **Optional RMS files:** `--xyzRMS` and `--angleRMS` write numeric RMS differences to files.
+- **Optional RMS files:** `--xyz-rms` and `--angle-rms` write numeric RMS differences to files.
 
 ## Mathematical Foundations
 
@@ -70,7 +70,7 @@ $$
 \Delta n_i = \arccos\left(\hat{n}_i^{(1)} \cdot \hat{n}_i^{(2)}\right)
 $$
 
-When `--ComputeNormalDist` is active, a normal-distance metric is reported.
+When `--ndist` is active, a normal-distance metric is reported.
 
 ## Configuration Options
 
@@ -83,26 +83,41 @@ When `--ComputeNormalDist` is active, a normal-distance metric is reported.
 | `--hemi` | `lh\|rh` | — | Hemisphere |
 | `--surf` | `<surfname>` | — | Surface name (e.g., `white`) |
 | `--curv` | `<curvname>` | — | Compare curvature files |
-| `--annot` | `<annotname>` | — | Compare annotation files |
+| `--aparc` | `<annotname>` | — | Compare annotation (parcellation) files |
 | `--aparc2` | `<annotname>` | — | Second annotation name for comparison |
 | `--no-check-xyz` | — | XYZ checked | Skip vertex coordinate comparison |
 | `--no-check-nxyz` | — | normals checked | Skip normal vector comparison |
-| `--check-surf` | — | off | Enable full surface topology check |
-| `--xyzRMS` | `<file>` | — | Write XYZ RMS difference to file |
-| `--angleRMS` | `<file>` | — | Write angle RMS difference to file |
+| `--xyz-rms` | `<file>` | — | Write XYZ RMS difference to file |
+| `--angle-rms` | `<file>` | — | Write angle RMS difference to file |
+| `--ndist` | — | off | Compute normal distance metric |
+| `--min-dist` | `surf1 surf2 exactflag mindist` | — | Compute and save vertex-by-vertex RMS distance |
+| `--simple` | `surf1 surf2 [rmsdiff.mgz]` | — | Just report whether surfaces differ (fast mode) |
+| `--si` | `surf1 surf2 [rmsdiff.mgz]` | — | Alias for `--simple` |
+| `--simple-patch` | `surf patch1 patch2` | — | Report whether patches differ |
+| `--thresh` | `<N>` | 0 | Threshold (note: not currently implemented) |
+| `--maxerrs` | `<N>` | default | Stop after N errors |
 | `--worst-bucket` | `<file>` | — | Write worst-case bucket analysis to file |
 | `--okayBucketMax` | `<int>` | 1 | Maximum allowed bucket count |
 | `--grid` | `[xyz] <spacing> <file>` | — | Compare on a regular grid |
-| `--use-scanner-ras` | — | off | Use scanner RAS coordinates instead of tkregister RAS |
+| `--scanner-ras` | — | off | Convert surfaces to scanner RAS before comparison |
 | `--renumbered` | — | off | Handle renumbered vertices |
+| `--gdiag_no` | `<int>` | — | Set Gdiag_no diagnostic number |
+| `--seed` | `<int>` | — | Set random seed (for degenerate normals) |
 | `--debug` | — | off | Enable debug output |
+| `--annot` | — | — | (Help text only) Mentioned in usage example as a synonym for `--aparc`; not implemented as a separate flag in the parser — use `--aparc` instead |
+| `--log` | `<file>` | — | (Planned, not yet implemented) Would write output to a log file; listed as a TODO item in source |
+| `--test-aparc` | `<vtxno> <val>` | — | (Planned, not yet implemented) Would test annotation value at a vertex; listed as a TODO item in source |
+| `--test-curv` | `<vtxno> <val>` | — | (Planned, not yet implemented) Would test curvature value at a vertex; listed as a TODO item in source |
+| `--test-surf-face` | `<faceno> <val> <field>` | — | (Planned, not yet implemented) Would test a face field value; listed as a TODO item in source |
+| `--test-surf-vtx` | `<vtxno> <val> <field>` | — | (Planned, not yet implemented) Would test a vertex field value; listed as a TODO item in source |
 
 ## Configuration Interactions
 
 - `--s1`/`--s2`/`--hemi`/`--surf` are alternatives to passing surface paths directly. Mixing both modes is not recommended.
-- `--curv` and `--annot` are mutually exclusive surface data comparisons; only one should be specified per invocation.
+- `--curv` and `--aparc` are mutually exclusive surface data comparisons; only one should be specified per invocation.
 - `--worst-bucket` and `--okayBucketMax` work together: the bucket file records distribution of differences; `--okayBucketMax` sets the threshold for pass/fail.
-- `--use-scanner-ras` changes the coordinate frame for XYZ comparisons and is relevant when surfaces from different scan sessions are being compared.
+- `--scanner-ras` changes the coordinate frame for XYZ comparisons and is relevant when surfaces from different scan sessions are being compared.
+- `--simple` and its alias `--si` take surface paths as arguments directly and exit immediately, bypassing the full comparison workflow.
 
 ## Typical Use Cases
 
@@ -116,11 +131,14 @@ mris_diff --s1 subj001 --s2 subj002 --hemi lh --surf white
 # Compare curvature files
 mris_diff --s1 subj001 --s2 subj002 --hemi lh --curv curv
 
-# Compare annotation files
-mris_diff --s1 subj001 --s2 subj002 --hemi lh --annot aparc
+# Compare annotation (parcellation) files
+mris_diff --s1 subj001 --s2 subj002 --hemi lh --aparc aparc
 
 # Write RMS differences to files
-mris_diff --xyzRMS /tmp/xyz_rms.txt --angleRMS /tmp/ang_rms.txt lh.white.v1 lh.white.v2
+mris_diff --xyz-rms /tmp/xyz_rms.txt --angle-rms /tmp/ang_rms.txt lh.white.v1 lh.white.v2
+
+# Fast check (just report whether surfaces differ)
+mris_diff --simple lh.white.v1 lh.white.v2
 ```
 
 ## Pipeline Context
@@ -137,7 +155,7 @@ Related tools in the pipeline that produce surfaces: [[mris_smooth]], [[mris_inf
 > The tool exits with a non-zero code if any difference is found. In shell scripts, test with `if mris_diff ...; then echo same; fi`.
 
 > [!gotcha] tkRAS vs scanner RAS
-> By default, comparisons use tkregister (surface) RAS. When comparing surfaces from different scanners, use `--use-scanner-ras` to avoid spurious differences from different FOV centres.
+> By default, comparisons use tkregister (surface) RAS. When comparing surfaces from different scanners, use `--scanner-ras` to avoid spurious differences from different FOV centres.
 
 > [!gap] Renumbered vertices
 > The `--renumbered` flag is parsed but its implementation details are not fully documented in the source comments.
@@ -153,3 +171,6 @@ Related tools in the pipeline that produce surfaces: [[mris_smooth]], [[mris_inf
 **Confident (from source):** All flag descriptions, surface/curvature/annotation comparison modes, exit code semantics, RMS output files.
 
 **Uncertain:** Exact behaviour of `--renumbered`; grid comparison mode details.
+
+> [!gap] Unimplemented flags
+> The source lists `--test-surf-vtx`, `--test-surf-face`, `--test-aparc`, `--test-curv`, and `--log` as TODO items in a developer comment at the top of the file. These flags are not handled in `parse_commandline()` in version 8.2.0 and will cause an "Option unknown" error if passed. The `--annot` flag appears only in a help-text usage example as a synonym for `--aparc`; the actual parser uses `--aparc`.

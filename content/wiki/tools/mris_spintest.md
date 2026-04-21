@@ -14,10 +14,10 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full command-line interface not fully captured from first 120 lines."
   - "The exact spatial correlation statistic (MRIspatialCC) implementation needs verification."
+  - "--sd and --gdiag appear in print_usage() but are not implemented in parse_commandline()."
 tags:
   - statistics
   - spin-test
@@ -52,8 +52,8 @@ When comparing two brain maps (e.g., a genetic gradient and a functional connect
 | Sphere surface (`--sphere`) | The sphere surface for both maps (e.g., `lh.sphere.reg`). | FreeSurfer binary surface |
 | Reference map (`--ref`) | The map that remains stationary during spin permutations. | `.mgh`, `.mgz` |
 | Test map (`--map`) | The map that is rotated. | `.mgh`, `.mgz` |
-| Reference mask (optional, `--refmask`) | Binary mask for the reference map. | `.mgh`, `.mgz` |
-| Map mask (optional, `--mapmask`) | Binary mask for the test map. | `.mgh`, `.mgz` |
+| Reference mask (optional, `--ref-mask`) | Binary mask for the reference map. | `.mgh`, `.mgz` |
+| Map mask (optional, `--map-mask`) | Binary mask for the test map. | `.mgh`, `.mgz` |
 | Output directory (`--o`) | Directory for output files. | Directory |
 
 ## Outputs
@@ -93,29 +93,38 @@ $$
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--sphere` | surface file | Sphere surface |
-| `--ref` | map file | Reference (stationary) map |
-| `--map` | map file | Test (rotated) map |
-| `--refmask` | mask file | Mask for reference map |
-| `--mapmask` | mask file | Mask for test map |
-| `--o` | directory | Output directory |
-| `--nperm N` | integer | Number of spin permutations (default: 0, no permutation) |
-| `--seed S` | unsigned long | Random seed for reproducibility |
-| `--refframe F` | integer | Frame index in reference map (default: 0) |
-| `--cc` | file | Output file for observed correlation |
-| `--glmfit` | file | Output file in GLM format |
-| `--threads N` | integer | Number of OpenMP threads |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--sphere` | surface file | — | Sphere surface (required) |
+| `--ref` | map file | — | Reference (stationary) map (required) |
+| `--map` | map file | — | Test (rotated) map (required) |
+| `--ref-mask` | mask file | — | Mask for reference map only |
+| `--map-mask` | mask file | — | Mask for test map only |
+| `--mask` | mask file | — | Apply same mask to both reference and test maps |
+| `--o` | directory | — | Output directory (required when `--nperm > 0`) |
+| `--nperm` | integer | `0` | Number of spin permutations (0 = no permutation; requires `--o` when > 0) |
+| `--seed` | unsigned long | — | Random seed for reproducibility |
+| `--ref-frame` | integer | `0` | Frame index in reference map (0-based) |
+| `--cc` | file | — | Output file for observed correlation (required when `--nperm == 0`) |
+| `--cc-glmfit` | file | — | Output file for observed correlation in GLM-fit format |
+| `--threads` | integer | `1` | Number of OpenMP threads |
+| `--max-threads` | — | `off` | Use maximum available OpenMP threads |
+| `--max-threads-1` / `--max-threads-minus-1` | — | `off` | Use one fewer than the maximum available OpenMP threads |
+| `--debug` | — | `off` | Enable debug output |
+| `--checkopts` | — | `off` | Validate options and exit without running |
+| `--sd` | `<dir>` | — | (Listed in help, not implemented) Would set `SUBJECTS_DIR`; not handled in `parse_commandline()` — passing it causes an "Option unknown" error |
+| `--gdiag` | `<int>` | — | (Listed in help, not implemented) Would set diagnostic level; not handled in `parse_commandline()` — passing it causes an "Option unknown" error |
+| `--s` | `<subject> <hemi>` | — | (Planned, not implemented) Mentioned in a source comment (`// revmapflag, dojac, --s subject hemi`) but not wired in the parser |
 
-> [!gap] Full flag list
-> Additional flags may be defined in `parse_commandline()`. The above are from global variable declarations.
+> [!gap] --sd, --gdiag, and --s listed in help or comments but not implemented
+> `print_usage()` lists `--sd SUBJECTS_DIR` and `--gdiag diagno`, but neither is handled in `parse_commandline()`. A source comment also references `--s subject hemi` but it is not wired. All three will cause an "Option unknown" error if passed. They appear to be planned but unimplemented flags.
 
 ## Configuration Interactions
 
-- `--nperm 0` computes only the observed correlation without a permutation distribution. P-values cannot be computed in this mode.
+- `--nperm 0` computes only the observed correlation without a permutation distribution. P-values cannot be computed in this mode; `--cc` must be specified instead of `--o`.
 - `--seed` enables reproducibility of the permutation results. Without it, each run produces different permutations.
-- `--refmask` and `--mapmask` restrict the correlation to the masked vertices; this is important when excluding medial wall vertices.
+- `--ref-mask` and `--map-mask` restrict the correlation to the masked vertices; `--mask` applies the same mask to both maps. These are important when excluding medial wall vertices.
+- `--cc-glmfit` writes the correlation in GLM-fit format compatible with `mri_glmfit`; the observed correlation is also written as `cc.glmfit.dat` in the output directory when permutations are run.
 
 ## Typical Use Cases
 
@@ -140,7 +149,7 @@ mris_spintest \
 ## Gotchas and Caveats
 
 > [!gotcha] Medial wall vertices
-> The medial wall has no meaningful cortical data. Masks (`--refmask`, `--mapmask`) should be used to exclude medial wall vertices from the correlation computation and permutation test.
+> The medial wall has no meaningful cortical data. Masks (`--ref-mask`, `--map-mask`, or `--mask`) should be used to exclude medial wall vertices from the correlation computation and permutation test.
 
 > [!gotcha] Many permutations required
 > Reliable p-values require large permutation counts (≥1000; ideally ≥5000 for p < 0.001). Each permutation requires a full sphere resampling, so computation time scales linearly with `--nperm`.
@@ -153,4 +162,4 @@ mris_spintest \
 
 ## Confidence and Gaps
 
-**Medium confidence.** The `MRISspinTest` class and its core methods are clearly defined in the source. The exact `MRIspatialCC()` implementation and the full CLI require deeper reading.
+**Medium confidence.** The `MRISspinTest` class and its core methods are clearly defined in the source. The complete CLI has been verified from `parse_commandline()`. The exact `MRIspatialCC()` implementation needs deeper reading to confirm the spatial correlation formula.

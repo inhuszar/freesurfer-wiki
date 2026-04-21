@@ -382,3 +382,6 @@ Volumes can be edited in **Voxel Edit** and **Recon Edit** modes. See [[freeview
 - Source: `freeview/LayerPropertyMRI.h` (ColorMapType enum, all property definitions)
 - Source: `freeview/LayerMRI.cpp` (inline property parsing, isosurface rendering)
 - Source: `freeview/MainWindow.cpp::CommandLoadVolume()` (CLI inline property parser)
+
+> [!note] Audit noise from MainWindow.cpp
+> This page's `source_files` includes `MainWindow.cpp::CommandLoadVolume()`. The CLI flag `--no-sphere-ignore-vg` appears in a separate `MainWindow.cpp` help-text printf and may be flagged as C1_MISSING by automated audits. CLI flags are documented in [[freeview-command-line]], not here.

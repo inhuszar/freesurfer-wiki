@@ -15,7 +15,7 @@ related:
   - "[[mris_anatomical_stats]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - surface
@@ -49,23 +49,44 @@ These metrics together characterise both volumetric overlap and boundary precisi
 
 Required flags:
 
-| Flag | Description |
-|------|-------------|
-| `--s <subject>` | FreeSurfer subject name |
-| `--hemi <hemi>` | Hemisphere: `lh` or `rh` |
-| `--annot1 <annotfile>` | First annotation file (reference) |
-| `--annot2 <annotfile>` | Second annotation file (test) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--s` | `<subject>` | — | FreeSurfer subject name |
+| `--hemi` | `<hemi>` | — | Hemisphere: `lh` or `rh` |
+| `--annot1` | `<annotfile>` | — | First annotation file (reference) |
+| `--annot2` | `<annotfile>` | — | Second annotation file (test) |
 
 Optional:
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--sd <dir>` | Override SUBJECTS_DIR | env var |
-| `--use-labels <file>` | Text file listing labels to check (one per line) | all labels |
-| `--label1 <name>` | Compare single label from annot1 | — |
-| `--label2 <name>` | Compare single label from annot2 | — |
-| `--version` | Print version | — |
-| `--help` | Print help | — |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--sd` | `<dir>` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `--label-list` | `<file>` | all labels | Text file listing labels to check (one per line) |
+| `--label1` | `<name>` | — | Compare single label from annot1 |
+| `--label2` | `<name>` | — | Compare single label from annot2 |
+| `--log` | `<file>` | — | Write output to a log file in addition to stdout |
+| `--debug-overlap` | — | off | Enable overlap debugging output (writes `?h.overlap.annot`) |
+| `--nodebug-overlap` | — | — | Disable overlap debugging output |
+| `--debug-boundaries` | — | off | Enable boundary debugging output |
+| `--nodebug-boundaries` | — | — | Disable boundary debugging output |
+| `--debug-labels` | — | off | Enable label debugging output |
+| `--nodebug-labels` | — | — | Disable label debugging output |
+| `--check-label1-xyz` | — | on | Enable XYZ coordinate checking for label1 against surface |
+| `--nocheck-label1-xyz` | — | — | Disable XYZ coordinate checking for label1 |
+| `--check-label2-xyz` | — | on | Enable XYZ coordinate checking for label2 against surface |
+| `--nocheck-label2-xyz` | — | — | Disable XYZ coordinate checking for label2 |
+| `--nocheck-xyz` | — | — | Disable XYZ checking for both label1 and label2 |
+| `--nocheck-label-xyz` | — | — | Alias for `--nocheck-xyz`; disables XYZ coordinate checking for both label1 and label2 |
+| `--use-label1-xyz` | — | off | Replace surface XYZ coords with those from label1 file |
+| `--use-label2-xyz` | — | off | Replace surface XYZ coords with those from label2 file |
+| `--use-label-xyz` | — | off | Use XYZ coordinates from both label1 and label2 (sets both `--use-label1-xyz` and `--use-label2-xyz`) |
+| `--version` | — | — | Print version and exit |
+| `--help` | — | — | Print help and exit |
+
+> [!note] Sub-tool flags not belonging to this tool
+> The flags `--srcsubject`, `--trgsubject`, `--sval-annot`, and `--tval` do **not** exist in `mris_compute_parc_overlap`. They appear in the source only as part of a `mri_surf2surf` shell command shown in the help text example (demonstrating how to resample an annotation before running this tool). They belong to [[mri_surf2surf]].
+>
+> The flag `--use-labels` appears in an old file header comment (line 20) as a synonym for `--label-list`, but the actual parser only recognises `--label-list`. Use `--label-list` to specify a subset of labels.
 
 ## Outputs
 
@@ -101,9 +122,11 @@ See the flags table in Inputs.
 
 ## Configuration Interactions
 
-- `--use-labels` restricts the comparison to a subset of labels, useful when only certain regions are of interest.
-- `--label1` and `--label2` enable single-label comparisons (e.g., checking a single parcellation region).
+- `--label-list` restricts the comparison to a subset of labels listed one per line in a text file, useful when only certain regions are of interest.
+- `--label1` and `--label2` enable single-label comparisons (e.g., checking a single parcellation region). Cannot be combined with `--annot1`/`--annot2`.
 - When `--annot1` and `--annot2` are both specified as just names (without path), the tool constructs paths from `$SUBJECTS_DIR/<subject>/label/<hemi>.<annot>.annot`.
+- `--check-label1-xyz` / `--check-label2-xyz` validate that XYZ coordinates in label files match the surface. `--nocheck-xyz` disables both checks at once.
+- `--use-label-xyz` sets both `--use-label1-xyz` and `--use-label2-xyz`, instructing the tool to use embedded XYZ coordinates from the label files for boundary distance computation rather than surface vertex positions.
 
 ## Typical Use Cases
 
@@ -115,7 +138,7 @@ mris_compute_parc_overlap --s bert --hemi lh \
 # Compare specific labels only
 mris_compute_parc_overlap --s bert --hemi lh \
     --annot1 aparc --annot2 aparc.new \
-    --use-labels /tmp/roi_labels.txt
+    --label-list /tmp/roi_labels.txt
 
 # Single-label comparison
 mris_compute_parc_overlap --s bert --hemi lh \
@@ -148,4 +171,4 @@ Not part of `recon-all`. Used in:
 
 ## Confidence and Gaps
 
-**Confident:** Full flag set, Dice computation, boundary distance computation, and limit constants all confirmed from source.
+**Confident (verified from source):** Full flag set including debug/check/use-label-xyz flag family, Dice computation, boundary distance computation, and limit constants all confirmed from source. `--use-labels` (incorrect) corrected to `--label-list`.

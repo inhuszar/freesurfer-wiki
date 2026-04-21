@@ -17,7 +17,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Tissue type schema definition in TissueTypeSchema() not fully documented"
 tags:
@@ -123,6 +123,9 @@ CSF filling: By default, the aseg is dilated (`--ndil 3`) to add extracerebral C
 | `--sd path` | path | $SUBJECTS_DIR | Override SUBJECTS_DIR |
 | `--vg-thresh threshold` | float | 10e-4 | Threshold for LTA geometry mismatch warnings |
 | `--debug` | — | off | Enable debug output |
+| `--checkopts` | — | off | Check options and exit without processing |
+| `--nocheckopts` | — | off | Do not exit after checking options |
+| `--diag-no` | `<n>` | — | Set Gdiag_no for selective diagnostic output |
 
 ## Configuration Interactions
 

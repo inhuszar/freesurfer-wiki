@@ -13,9 +13,8 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full option list requires reading parse_commandline section of source not yet read"
   - "Exact distribution of synthetic noise and outlier models not confirmed"
 tags:
   - testing
@@ -49,17 +48,17 @@ The known ground-truth transform (stored as an LTA) can then be compared against
 ## Inputs
 
 - **`--in file`**: input volume
-- **`--in_t file`** (optional): second input volume (template/target)
-- **`--ltain file`** (optional): input LTA to apply as initialization
+- **`--int file`** (optional): second input volume (template/target)
+- **`--lta-in file`** (optional): input LTA to apply as initialization
 - Optional mask via `--mask`
 
 ## Outputs
 
 - **`--outs file`**: output transformed source volume
 - **`--outt file`** (optional): output template volume
-- **`--ltaout file`**: output ground-truth LTA
-- **`--ltaouts file`** / **`--ltaoutt file`**: separate LTAs for source and template
-- **`--iscaleout file`**: output intensity scale factor
+- **`--lta-out file`**: output ground-truth LTA
+- **`--lta-outs file`** / **`--lta-outt file`**: separate LTAs for source and template
+- **`--iscale-out file`**: output intensity scale factor
 
 ## Mathematical Foundations
 
@@ -75,51 +74,47 @@ The known ground-truth transform (stored as an LTA) can then be compared against
 
 ## Configuration Options
 
-Based on the `Parameters` struct in source:
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--in` | required | Input source volume |
-| `--in_t` | — | Input template volume |
-| `--outs` | required | Output transformed source |
-| `--outt` | — | Output transformed template |
-| `--ltain` | — | Input LTA transform |
-| `--ltaout` | — | Output ground-truth LTA |
-| `--ltaouts` | — | Output source LTA |
-| `--ltaoutt` | — | Output template LTA |
-| `--mask` | — | Binary mask |
-| `--noise` | 0.0 | Gaussian noise std |
-| `--outlier` | 0 | Number of outlier voxels |
-| `--outlierbox` | -1 | Outlier box size |
-| `--translation` | false | Apply random translation |
-| `--rotation` | false | Apply random rotation |
-| `--iscale` | 1.0 | Intensity scale factor |
-| `--doiscale` | false | Apply intensity scaling |
-| `--iscaleout` | — | Save intensity scale to file |
-| `--transdist` | 11 mm | Max translation distance |
-| `--maxdeg` | 25° | Max rotation angle |
-
-> [!gap] Flag syntax not confirmed
-> The exact flag names (single vs. double dash) should be verified by running the binary with `--help` or inspecting the `parse_commandline()` function in the full source.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--in` | file | required | Input source volume |
+| `--int` | file | — | Input template volume (default: copy of `--in`) |
+| `--outs` | file | required | Output transformed source volume |
+| `--outt` | file | required | Output transformed template volume |
+| `--lta-in` | file | — | Input LTA transform (initialization) |
+| `--lta-out` | file | — | Output ground-truth LTA |
+| `--lta-outs` | file | — | Output half-way LTA for source (`Inv(A)`) |
+| `--lta-outt` | file | — | Output half-way LTA for template (`A`) |
+| `--mask` | file | — | Binary mask volume |
+| `--noise` | float | `0.0` | Gaussian noise standard deviation |
+| `--outlier` | int | `0` | Number of outlier voxels to insert randomly |
+| `--outlier-box` | int | `-1` | Insert a box of random voxels (size 0..N) |
+| `--translation` | (flag) | `off` | Apply random translation |
+| `--transdist` | float | `11` | Max translation distance (mm) |
+| `--rotation` | (flag) | `off` | Apply random rotation |
+| `--maxdeg` | float | `25` | Max rotation angle (degrees) |
+| `--iscale` | double | `1.0` | Use fixed intensity scaling parameter |
+| `--intensity` | (flag) | `off` | Apply random intensity scaling |
+| `--iscale-out` | file | — | Write intensity scaling parameter to file |
 
 ## Configuration Interactions
 
 - `--translation` and `--rotation` can be combined to apply both simultaneously.
-- `--doiscale` and `--iscale` work together; `--doiscale` enables intensity scaling and `--iscale` sets the factor.
+- `--intensity` enables random intensity scaling; `--iscale` sets a fixed (non-random) intensity scaling parameter instead.
+- `--lta-outs` and `--lta-outt` output the half-way transforms; `--lta-out` outputs the full `A*A` transform (source to target).
 
 ## Typical Use Cases
 
 Create a randomly rotated and translated version of a volume:
 ```bash
 mri_create_tests --in brain.mgz --outs brain_transformed.mgz \
-  --ltaout ground_truth.lta \
+  --lta-out ground_truth.lta \
   --translation --rotation
 ```
 
 Add noise and outliers:
 ```bash
 mri_create_tests --in brain.mgz --outs brain_noisy.mgz \
-  --noise 5.0 --outlier 100 --ltaout gt.lta
+  --noise 5.0 --outlier 100 --lta-out gt.lta
 ```
 
 ## Pipeline Context
@@ -137,4 +132,4 @@ Not called by [[recon-all]]. Used in the `mri_robust_register` test suite and fo
 
 ## Confidence and Gaps
 
-Confidence is **medium**. The `Parameters` struct and high-level structure were read. The full command-line parsing was not.
+Confidence is **high** for flag names. The `parseNextCommand()` function was fully read. The mathematical properties of the noise/outlier models remain unconfirmed.

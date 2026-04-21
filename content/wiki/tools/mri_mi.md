@@ -91,7 +91,7 @@ All flags use a single dash. Options are matched case-insensitively via `stricmp
 | `--silent` | boolean | false | In non-silent mode (default), prints per-volume progress messages and labels the MI result. In silent mode, prints only the bare numerical MI value — useful for scripting (`mi=$(mri_mi --silent v1.mgz v2.mgz)`). |
 
 > [!gotcha] `--bins` takes two arguments, not one
-> The flag `--bins n1 n2` consumes two following arguments and sets both bin counts simultaneously. There are no separate `--bins1` or `--bins2` flags.
+> The flag --bins n1 n2 consumes two following arguments and sets both bin counts simultaneously. There are no separate --bins1 or --bins2 flags.
 
 ## Configuration Interactions
 

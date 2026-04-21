@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact behavior when index values in seg file exceed the color table range is unclear."
 tags:
@@ -48,9 +48,9 @@ The tool is a data-format bridge; it performs no statistical analysis or surface
 | Surface segmentation file (`--seg`) | Per-vertex integer indices into a color table. Can be any surface overlay with whole-number values. | `.mgh`, `.mgz`, or curvature-like binary |
 | Color table (`--ctab`) | Maps integer indices to names and RGBA colors. Same format as `$FREESURFER_HOME/FreeSurferColorsLUT.txt`. | Plain text |
 | Subject directory (`--s`) | FreeSurfer subject directory containing the surface. Required when using subject/hemisphere mode. | Directory |
-| Hemisphere (`--h`) | `lh` or `rh`. | — |
+| Hemisphere (`--h` / `--hemi`) | `lh` or `rh`. | — |
 
-**Alternative positional invocation** via `--seg2annot seg surf ctab output` does not require a recon-all directory structure.
+**Alternative positional invocation** via --seg2annot seg surf ctab output does not require a recon-all directory structure.
 
 ## Outputs
 
@@ -64,21 +64,28 @@ No non-trivial mathematics. The conversion is a direct table lookup: each vertex
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--seg surfseg` | surface segmentation file | Integer-valued per-vertex overlay used as LUT indices |
-| `--ctab colortable` | color table file | Maps indices to names/colors; searched in `$FREESURFER_HOME` by default; prepend `./` for local files |
-| `--s subject` | subject name | Subject identifier for directory lookup |
-| `--h hemi` | `lh` or `rh` | Hemisphere |
-| `--o annot` | output annotation name | Stored in `<subjectdir>/label/` unless a path prefix is given |
-| `--seg2annot seg surf ctab output` | four positional args | Directory-structure-independent invocation |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--seg` | `<surfseg>` | — | Integer-valued per-vertex overlay file used as LUT indices |
+| `--ctab` | `<colortable>` | — | Color table file; maps integer indices to names/RGBA; searched in `$FREESURFER_HOME` by default (prepend `./` for local files) |
+| `--s` | `<subject>` | — | Subject identifier for SUBJECTS_DIR directory lookup |
+| `--h` / `--hemi` | `lh` or `rh` | — | Hemisphere |
+| `--surf` | `<surfname>` | `white` | Surface file name within the subject's surf directory; used to load the surface for annotation |
+| `--o` | `<annot>` | — | Output annotation file name; stored in `<subjectdir>/label/` unless a path prefix is given |
+| `--annot` | — | off | Flag indicating the output is an annotation file (sets internal `annot` mode) |
+| `--ctab-auto` | `[<outctabfile>]` | — | Automatically generate a color table from the segmentation values; optional argument specifies an output path for the generated table |
+| `--debug-vertex` | `<vno>` | — | Enable debug output for vertex index `<vno>` (also sets `Gdiag_no`) |
+| `--seg2annot` | `<seg> <surf> <ctab> <output>` | — | Directory-structure-independent invocation: takes four positional arguments and exits immediately |
 
 ## Configuration Interactions
 
-- `--s`, `--h`, `--seg`, `--ctab`, `--o` together define the standard workflow that requires a recon-all directory structure.
+- `--s`, `--hemi`, `--seg`, `--ctab`, `--o` together define the standard workflow that requires a recon-all directory structure.
+- `--surf` can be used to override the default surface name (`white`) within the subject's surf directory.
 - `--seg2annot` provides the same functionality without a directory structure, requiring explicit paths to the surface and output files.
 - These two modes are mutually exclusive; `--seg2annot` overrides individual flags.
 - The color table path is first searched relative to `$FREESURFER_HOME`. To use a local file not in that directory, prepend `./` to the filename.
+- `--ctab-auto` and `--ctab` are alternative ways to specify the color table; `--ctab-auto` derives the table from the data itself.
+- `--annot` is an internal flag that sets annotation mode; it is set implicitly by the standard workflow.
 
 ## Typical Use Cases
 

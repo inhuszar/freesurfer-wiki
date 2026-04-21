@@ -76,14 +76,14 @@ or a lagged cross-correlation for temporal analysis.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--v1` | `vol1` | First input volume |
-| `--v2` | `vol2` | Second input volume |
-| `--mask` | `maskvol` | Optional mask |
-| `--o` | `outvol` | Output cross-correlation volume |
-| `--debug` | — | Debug output |
-| `--version` | — | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--v1` | `vol1` | — | First input volume |
+| `--v2` | `vol2` | — | Second input volume |
+| `--mask` | `maskvol` | — | Optional mask |
+| `--o` | `outvol` | — | Output cross-correlation volume |
+| `--debug` | — | off | Debug output |
+| `--version` | — | off | Print version |
 
 > [!gap] Complete flag list
 > The above flags were inferred from variable declarations in the source header. The complete set may differ. Consult `--help`.

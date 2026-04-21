@@ -85,7 +85,7 @@ This distribution is used to determine cluster-level p-values: a cluster of size
 | `--thresh <f>` | float | required | Cluster-forming threshold (in `-log10(p)` units). |
 | `--sign <val>` | numeric | required | Direction of the test: `+1` (positive), `-1` (negative), or `0` (absolute value / two-tailed). Stored as a numeric sign modifier on the threshold. |
 | `--i <fname>` | string | repeatable | Input surface map file. Can be repeated or positional (unrecognised arguments are added as inputs). |
-| `--csd <fname>` | string | required | Output CSD file (entries are appended; file is created if it does not exist). |
+| --csd <fname> | string | required | Output CSD file (entries are appended; file is created if it does not exist). |
 | `--pdf <fname>` | string | null | Output CSD PDF file derived from the CSD distribution. |
 | `--csd-apply <csdfile> <applyout>` | 2 strings | — | Read an existing CSD from `<csdfile>`, apply it to the inputs, and write the p-value of the maximum cluster to `<applyout>`. Also sets `subject`, `hemi`, and `surfname` from the CSD header. |
 | `--debug` | flag | off | Enable verbose debug output. |
@@ -97,8 +97,8 @@ This distribution is used to determine cluster-level p-values: a cluster of size
 > [!gotcha] `--sign` takes numeric values, not strings
 > The `--sign` flag stores its argument via `sscanf(pargv[0], "%lf", &csd->threshsign)`. Pass `+1`, `-1`, or `0`, **not** strings like `pos`/`neg`/`abs`.
 
-> [!gotcha] `--pdf` not `--csdpdf`
-> The flag for the output PDF file is `--pdf`, not `--csdpdf`.
+> [!gotcha] `--pdf` not --csdpdf
+> The flag for the output PDF file is `--pdf`, not --csdpdf.
 
 > [!gotcha] `--s` takes three arguments
 > `--s subject hemi surf` requires all three arguments in sequence: the subject name, the hemisphere, and the surface name.

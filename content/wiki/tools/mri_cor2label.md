@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - label
@@ -46,17 +46,24 @@ The name is a misnomer: the tool is not specific to COR format and works on any 
 
 ## Inputs
 
-- **`--i input`**: input volume (or surface overlay when `--surf` is used)
+- **`--i input`** / **`--c input`**: input volume (or surface overlay when `--surf` is used); `--c` is a legacy alias
 - **`--id labelid`**: integer value to extract (voxels/vertices equal to this value are included); OR
 - **`--thresh thresh`**: threshold the input so that voxels with value > thresh are included (label id = 1 implied)
 - **`--l labelfile`**: output label file path
 
 Optional:
 - **`--surf subject hemi [surfname]`**: interpret input as a surface overlay; coordinates come from the surface vertices (default surface: `white`)
+- **`--sd dir`**: set `SUBJECTS_DIR` to `dir`
+- **`--surf-path surface`**: directly specify the surface file path (sets subject to empty string; implies `--surf` mode)
 - **`--v volfile`**: write the volume of the extracted label (mm³) to a text file
+- **`--m maskfile maskval`**: save output as a binary volume with value `maskval` (surface mode only); note this is `--m`, not --mask
+- **`--stat`**: copy voxel/vertex value to the stat field of the label (instead of 0)
+- **`--ring N`**: dilate label to a ring of width N iterations (surface only)
 - **`--opt target delta valmap`**: threshold optimization mode (see below)
 - **`--remove-holes-islands`**: post-process label to remove holes and isolated islands (surface only)
 - **`--dilate N`** / **`--erode N`**: dilate/erode label by N iterations (surface only; dilation first)
+- **`--synthlabel`**: synthesize the label (internal testing)
+- **`--verbose`**: verbose output
 
 ## Outputs
 
@@ -79,27 +86,40 @@ where $c, r, s$ are column, row, slice indices. See [[coordinate-systems]] for t
 
 ## Configuration Options
 
+Flag list verified against `mri_cor2label/mri_cor2label.cpp`.
+
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i input` | file | required | Input volume or surface overlay |
-| `--id labelid` | int | required (or `--thresh`) | Value to match |
-| `--thresh thresh` | float | — | Threshold: include voxels where input > thresh |
-| `--l labelfile` | file path | required | Output label file |
-| `--v volfile` | file path | none | Write label volume (mm³) to text file |
-| `--surf subject hemi [surf]` | strings | none | Surface mode; coordinates from surface vertices |
-| `--opt target delta valmap` | float float file | none | Optimal threshold mode |
+| `--i` / `--c` | `<file>` | required | Input volume or surface overlay (`--c` is legacy alias) |
+| `--l` | `<file>` | required | Output label file |
+| `--id` | `<int>` | required (or `--thresh`) | Value to match in input |
+| `--thresh` | `<float>` | — | Threshold: include voxels where input > thresh (sets label id = 1) |
+| `--stat` | — | off | Copy voxel/vertex value to label stat field (default: 0) |
+| `--v` | `<file>` | none | Write label volume (mm³) to text file |
+| `--surf` | `<subject> <hemi> [<surf>]` | none | Surface mode; coordinates from surface vertices (default surf: `white`) |
+| `--sd` | `<dir>` | none | Set `SUBJECTS_DIR` |
+| `--surf-path` | `<surface>` | none | Directly specify surface file path (implies surface mode) |
+| `--m` | `<maskfile> <maskval>` | none | Save output as binary volume with value `maskval` (surface only) |
+| `--opt` | `<target> <delta> <valmap>` | none | Optimal threshold mode |
 | `--remove-holes-islands` | — | off | Remove label holes and islands (surface only) |
-| `--dilate N` | int | 0 | Dilate label by N iterations (surface only) |
-| `--erode N` | int | 0 | Erode label by N iterations after dilation (surface only) |
-| `--mask maskfile` | file | none | Binary mask: restrict computation to mask voxels |
+| `--dilate` | `<N>` | 0 | Dilate label by N iterations (surface only) |
+| `--erode` | `<N>` | 0 | Erode label by N iterations after dilation (surface only) |
+| `--ring` | `<N>` | none | Dilate to a ring of width N (surface only) |
+| `--synthlabel` | — | off | Synthesize the label (testing) |
+| `--verbose` | — | off | Verbose output |
+
+> [!gotcha] --mask does not exist
+> The flag --mask does not exist in the source. The flag for binary masking is --m <maskfile> <maskval> (two arguments).
 
 ## Configuration Interactions
 
 - `--id` and `--thresh` are alternative ways to select voxels; `--thresh` sets `DoThresh=1` and the label id is implicitly 1.
 - `--surf` changes the coordinate computation from volume tkRAS to surface vertex xyz; without `--surf`, surface overlays passed as input will be treated as volumes.
-- `--remove-holes-islands`, `--dilate`, `--erode` require `--surf` mode; they are silently ignored in volume mode.
+- `--surf-path` directly sets the surface file path and implies surface mode; it sets the subject name to an empty string.
+- `--remove-holes-islands`, `--dilate`, `--erode`, `--ring`, and `--m` require `--surf` mode.
 - `--opt` requires `--surf` mode and overrides `--id`; it binarizes the input at the optimal threshold before creating the label.
 - Dilation is applied before erosion (regardless of order specified on the command line).
+- `--stat` copies the raw voxel/vertex value to the label stat column; by default the stat field is 0.
 
 ## Typical Use Cases
 
@@ -154,4 +174,4 @@ Related inverse operation: [[mri_label2vol]] converts label files back to volume
 
 ## Confidence and Gaps
 
-Confidence is **high**. Source is extensively documented with embedded help text and is fully read.
+Confidence is **high**. Full flag list verified from source. All flags confirmed: --c/--i, --l, --id, --thresh, --stat, --v, --surf, --sd, --surf-path, --m, --opt, --dilate, --erode, --ring, --remove-holes-islands, --synthlabel, --verbose. The --mask flag does not exist; the correct flag is --m.

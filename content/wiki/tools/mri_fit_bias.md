@@ -194,7 +194,7 @@ Not a standard `[[recon-all]]` step. Used in research pipelines for bias field c
 
 ## Confidence and Gaps
 
-**High confidence:** Full `parse_commandline()` function read; all flags, defaults, and argument types confirmed from source. Correct flag names are `--i`, `--o`, `--cutoff`, `--erode` (previous wiki had wrong names `--src`, `--out`, `--lpcutoff`, `--nerode`).
+**High confidence:** Full `parse_commandline()` function read; all flags, defaults, and argument types confirmed from source. Correct flag names are --i, --o, --cutoff, --erode (previous wiki had wrong names --src, --out, --lpcutoff, --nerode).
 
 > [!gotcha] Flag name corrections vs. earlier documentation
 > The wiki previously used `--src`, `--out`, `--lpcutoff`, and `--nerode`. The actual flag names in the source are `--i`, `--o`, `--cutoff`, and `--erode`.

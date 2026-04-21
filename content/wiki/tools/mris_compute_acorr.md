@@ -92,8 +92,8 @@ The geodesic distance bins have fixed bin size `BIN_SIZE = 1` mm up to `MAX_DIST
 | `-S <fname>` or `-s <fname>` | string | `signal_acorr.dat` | Output filename for the signal (between-group) autocorrelation. |
 | `--avgs <n>` | integer | 100 | Maximum number of scale-space smoothing averages for the scale-space output (`scalespace.dat`). |
 
-> [!gotcha] `--max-avgs` does not exist — use `--avgs`
-> The flag for the maximum scale-space averages is `--avgs`, not `--max-avgs`. Using `--max-avgs` will cause the tool to exit with an unrecognised option error.
+> [!gotcha] --max-avgs does not exist — use --avgs
+> The flag for the maximum scale-space averages is `--avgs`, not --max-avgs. Using --max-avgs will cause the tool to exit with an unrecognised option error.
 
 ## Configuration Interactions
 

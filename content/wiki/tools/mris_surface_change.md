@@ -74,8 +74,12 @@ The `compute_surface_distance()` function implements this computation internally
 
 ## Configuration Options
 
-> [!gap] Full option list
-> The full option list is defined in `parse_commandline()`, which was not read in full. The tool uses the standard FreeSurfer cmdargs pattern.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--temp-vol` | `<volfile>` | — | Template volume supplying voxel geometry for the output displacement map |
+| `--debug` | — | off | Enable debug output |
+| `--checkopts` | — | off | Validate options and exit without running |
+| `--nocheckopts` | — | on | Disable option checking (inverse of `--checkopts`) |
 
 ## Typical Use Cases
 

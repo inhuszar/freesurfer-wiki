@@ -98,7 +98,7 @@ Summary statistics include unweighted mean and volume-weighted mean (`wmean`). A
 - `--names` requires `--labels`; cannot be used without explicit label IDs.
 - `--seg` and any custom label specification (`--labels` or `--labelfile`) are mutually exclusive.
 - `--measures` can accept multiple values: e.g., `--measures dice jaccard` reports both.
-- When no label specification is given (and `--seg` is not set), all labels found in either segmentation are reported.
+- When no label specification is given (and --seg is not set), all labels found in either segmentation are reported.
 
 **Standard `--seg` label set:**
 Left/right pairs: Cerebral WM, Cerebral Cortex, Hippocampus, Caudate, Putamen, Pallidum, Amygdala, Thalamus, Lateral Ventricle, 3rd/4th Ventricle, Inf Lat Vent, Accumbens Area.

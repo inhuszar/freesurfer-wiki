@@ -58,13 +58,7 @@ Unlike `mri_surfcluster`, which grows clusters from a threshold, `mris_watershed
 | Positional arg 2 | Intensity overlay file (e.g., curvature or thickness) |
 | Positional arg 3 | Output label file name |
 
-Optional:
-| Flag | Description |
-|---|---|
-| `--nbrs N` | Neighbourhood size for vertex connectivity (default: 3) |
-| `--max_clusters N` | Target number of clusters after merging (default: 60) |
-| `--merge_type` | Merging strategy: `smallest` (merge smallest basin) or `most_similar` (merge most similar adjacent basins). Default: smallest |
-| `--label maskfile` | Mask label file (restrict watershed to these vertices) |
+See Configuration Options below for flag details.
 
 ## Outputs
 
@@ -90,12 +84,12 @@ See algorithm above. The merge step iteratively combines basins:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-nbrs` | N | Neighbourhood ring size (default: 3) |
-| `-max_clusters` | N | Target cluster count (default: 60) |
-| `-merge` | type | Merge strategy: `smallest` or `most_similar` |
-| `-label` | file | Restrict to vertices in label file |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `-nbrs` | N | 3 | Neighbourhood ring size |
+| `-max_clusters` | N | 60 | Target cluster count |
+| `-merge` | type | `smallest` | Merge strategy: `smallest` or `most_similar` |
+| `-label` | file | — | Restrict to vertices in label file |
 
 Usage:
 ```

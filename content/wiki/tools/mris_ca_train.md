@@ -16,10 +16,10 @@ related:
   - "[[curv-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact GCSA file format specification needs cross-reference with gcsa.h."
-  - "nfillmax default and fill behaviour needs confirmation."
+  - "Semantics of GCSAfill_cpn_holes and GCSAfill_gcsan_holes not fully traced."
 tags:
   - parcellation
   - atlas
@@ -103,18 +103,14 @@ The prior $p(c \mid \theta, \phi)$ is estimated from label frequencies at locati
 | `-f <input_fname>` | Override input scalar file name | — |
 | `-prior <icno>` | Icosahedron resolution for priors | 7 |
 | `-classifier <icno>` | Icosahedron resolution for classifiers | 4 |
-| `--fill` | Enable label fill after training | on |
-| `--nofill` | Disable label fill | off |
-| `--nfillmax <n>` | Max fill iterations | -1 (unlimited) |
-
-> [!gap] Flag names need verification
-> Flag parsing is done via `get_option()`; some flags above were inferred from global variables.
+| `-nfill <n>` | Max fill iterations | -1 (unlimited) |
+| `-no-fill` | Disable label fill | off (fill is on by default) |
 
 ## Configuration Interactions
 
 - `-1` (sulconly) disables curvature as a feature; only sulcal depth is used. This reduces the feature dimensionality.
 - `-c <n>` increases the number of input scalar features beyond the default 1 (sulc) or 2 (curv + sulc).
-- `--fill` / `--nofill` control a post-training label fill step that propagates labels to unlabelled atlas locations.
+- `-nfill` / `-no-fill` control a post-training label fill step that propagates labels to unlabelled atlas locations. Fill is enabled by default; `-no-fill` disables it entirely, while `-nfill <n>` caps the number of fill iterations.
 - `which_norm` (mean normalisation) is applied to feature vectors before training.
 
 > [!gotcha] Annotation vs. colour table
@@ -169,4 +165,4 @@ Atlas construction workflow:
 > The internal binary format of `.gcs` files is defined in `gcsa.h`/`gcsa.cpp`. It is not documented here.
 
 > [!gap] Fill step details
-> The label fill post-processing step (`DoFill`, `nfillmax`) was not fully traced in the source.
+> The label fill post-processing step (`DoFill`, `-nfill`) calls `GCSAfill_cpn_holes` and `GCSAfill_gcsan_holes`. The exact semantics of what constitutes a "hole" in the CPN and GCSAN structures is not yet documented.

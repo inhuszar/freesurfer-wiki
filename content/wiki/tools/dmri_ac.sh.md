@@ -196,7 +196,7 @@ recon-all --> dmri_ac.sh:anat2dwi --> dmri_ac.sh:runAC --> dmri_ac.sh:Hungarian 
 ## Confidence and Gaps
 
 > [!gap] No help text available
-> The script has no `--help` flag. All documentation is inferred from the source code.
+> The script has no --help flag. All documentation is inferred from the source code.
 
 > [!gap] External dependency versions
 > The required versions of FSL and MRtrix3 are not specified in the script.

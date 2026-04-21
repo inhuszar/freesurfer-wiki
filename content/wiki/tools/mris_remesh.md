@@ -16,7 +16,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The specific remeshing algorithm (BK = Botsch-Kobbelt?) used in Remesher class not confirmed"
 tags:
@@ -50,7 +50,7 @@ FreeSurfer cortical surfaces are typically produced with a fixed vertex density 
 
 ## Inputs
 
-- `-i / --input insurf` — input surface file (FreeSurfer binary format)
+- `--input` (`-i`) — input surface file (FreeSurfer binary format)
 
 Exactly one of the following target specifications:
 - `--nvert N` — target number of vertices
@@ -60,7 +60,7 @@ Exactly one of the following target specifications:
 
 ## Outputs
 
-- `-o / --output outsurf` — output remeshed surface (FreeSurfer binary format)
+- `--output` (`-o`) — output remeshed surface (FreeSurfer binary format)
 - Mesh quality statistics printed to stdout: vertex counts, edge metrics, face metrics, corner metrics
 
 ## Mathematical Foundations
@@ -87,17 +87,20 @@ Quality metrics computed by `MRISfaceMetric`, `MRISedgeMetric`, `MRIScornerMetri
 
 ## Configuration Options
 
-| Flag | Description |
-|---|---|
-| `-i, --input insurf` | Input surface (required) |
-| `-o, --output outsurf` | Output surface (required) |
-| `--nvert N` | Target number of vertices |
-| `--edge-len L` | Target average edge length (mm) |
-| `--desired-face-area A` | Target average face area (mm²) |
-| `--remesh` | Quality improvement without vertex count change |
-| `--iters N` | Number of remeshing iterations (default 5) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-i` / `--input` | surface file | — | Input surface file (required) |
+| `-o` / `--output` | surface file | — | Output remeshed surface file (required) |
+| `--nvert` | integer | — | Target number of vertices |
+| `--edge-len` | float (mm) | — | Target average edge length (mm) |
+| `--desired-face-area` | float (mm²) | — | Target average face area (mm²) |
+| `--remesh` | — | `off` | Quality improvement without significantly changing vertex count |
+| `--iters` | integer | `5` | Number of remeshing iterations |
 
 The four target options (`--nvert`, `--edge-len`, `--desired-face-area`, `--remesh`) are mutually exclusive; exactly one must be specified.
+
+> [!note] Complete flag list
+> The source code (`mris_remesh.cpp`) registers exactly these seven flags via `parser.addArgument()`. There is no `--x` flag or any other undocumented option in this tool.
 
 ## Configuration Interactions
 

@@ -16,7 +16,7 @@ related:
   - "[[talairach_afd]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The MINC/mritotal tool (called internally) details are not documented."
 tags:
@@ -104,6 +104,7 @@ See [[coordinate-systems]] for the full coordinate system definitions and transf
 |------|------|---------|-------------|
 | `--i <vol>` | string | required | Input MRI volume. |
 | `--xfm <path>` | string | required | Output `.xfm` transform path. |
+| `--x <path>` | string | required | Alias for `--xfm`. |
 | `--protocol-default` | boolean | false | Use MNI default registration protocol. |
 | `--protocol-icbm` | boolean | true | Use ICBM protocol (default). |
 | `--log <file>` | string | `<OutDir>/talairach.log` | Log file path. |

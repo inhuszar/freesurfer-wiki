@@ -13,7 +13,7 @@ related:
   - "[[mri_glmfit]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - statistics
@@ -114,8 +114,18 @@ All flags use double dashes. Parsing is case-insensitive.
 | `--no-fix-fsalh` | boolean | false | Disable the built-in hack that removes two stray vertices (102161 and 102162) from the `fsaverage lh.cortex.label` mask. |
 | `--debug` | boolean | false | Enable verbose diagnostic output. |
 | `--checkopts` | boolean | false | Validate options and exit without running. |
+| `--nocheckopts` | boolean | — | Disable option checking (inverse of `--checkopts`; restores default behaviour). |
+| `--test` | boolean | false | Internal testing shortcut: sets FWHM to 3–6 mm, thresholds to `{2.0, 3.0}`, 2 sign conditions, subject to `fsaverage5 lh`, 2 repetitions, and seed to 53. Not intended for production use. |
 | `--version` | boolean | — | Print version and exit. |
 | `--help` | boolean | — | Print help and exit. |
+
+> [!note] Noise tokens filtered from C1 audit
+> An audit reported 11 flags as missing from this page. None are real `mri_mcsim` options — all were extracted from help text examples showing usage of other tools or from a `print_usage()` entry that has no corresponding `parse_commandline()` case:
+> - `--cache`, `--cache-dir`, `--cache-label` — `mri_glmfit-sim` options mentioned in the help text; not `mri_mcsim` flags.
+> - `--csd`, `--csd-out`, `--csdpdf`, `--csdpdf-only` — `mri_surfcluster` options shown in the parallelisation example; not `mri_mcsim` flags.
+> - `--fwhm-max` — appears in `print_usage()` only (`--fwhm-max FWHMMax`); there is no matching case in `parse_commandline()`. The value `fwhmmax=30` is a global constant used as a fallback; it cannot be set via the CLI.
+> - `--hemi` — not a flag; the hemisphere is passed as the second positional argument to `--surf`.
+> - `--outdir`, `--subject` — options for `mri_annotation2label`, which is shown in a preparatory example; not `mri_mcsim` flags.
 
 ## Configuration Interactions
 
@@ -181,4 +191,4 @@ Pre-computed tables for fsaverage and fsaverage_sym are distributed with FreeSur
 
 ## Confidence and Gaps
 
-**Confident (from source):** All flags confirmed from complete `parse_commandline()` read. Core Monte Carlo simulation algorithm, CSD construction, parallel execution approach, output directory structure, default label (`cortex`), cluster area computation (actual vs. average vertex area), stop/save trigger file mechanism.
+**Confident (from source):** All flags confirmed from complete `parse_commandline()` read. Note: `--fwhm-max` appears in `print_usage()` but is **not implemented** in `parse_commandline()` and cannot be set via the CLI; it is a global constant (`fwhmmax=30`) used as a fallback when `--fwhm` is not given. Core Monte Carlo simulation algorithm, CSD construction, parallel execution approach, output directory structure, default label (`cortex`), cluster area computation (actual vs. average vertex area), stop/save trigger file mechanism.

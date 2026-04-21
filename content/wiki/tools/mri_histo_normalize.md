@@ -94,13 +94,13 @@ The template histogram `htemplate` is built from the average of all input histog
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--sdir` | `<dir>` | Override `$SUBJECTS_DIR` |
-| `--mask` | `<file>` | Mask volume for histogram computation |
-| `--xfm` | `<file>` | Transform file for alignment |
-| `--tol` | `<val>` | Convergence tolerance (default: 0.5) |
-| `--adaptive` | — | Use adaptive normalization |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--sdir` | `<dir>` | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR` |
+| `--mask` | `<file>` | — | Mask volume for histogram computation |
+| `--xfm` | `<file>` | — | Transform file for alignment |
+| `--tol` | `<val>` | 0.5 | Convergence tolerance (average RMS change in voxel intensities) |
+| `--adaptive` | — | off | Use adaptive normalization |
 
 > [!gap] Flag list reconstructed from source — needs verification
 > The flags above are inferred from source variable declarations. Complete help output needed.

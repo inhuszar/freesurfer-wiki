@@ -15,7 +15,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact behavior when multiple labels overlap a vertex is context-dependent"
 tags:
@@ -56,11 +56,11 @@ The tool writes the annotation to `$SUBJECTS_DIR/subject/label/hemi.annotname.an
 
 | Flag | Description |
 |------|-------------|
-| `--s subject` | Subject name |
-| `--h hemi` | Hemisphere (lh or rh) |
-| `--ctab colortablefile` | Color table file (FreeSurferColorLUT.txt format) defining structure names, indices, and colors |
-| `--l labelfile` | Label file (repeatable); order determines mapping to color table indices |
-| `--ldir labeldir` | Directory to search for label files (when using ctab-derived names) |
+| `--s <subject>` / `--subject <subject>` | Subject name |
+| `--h <hemi>` / `--hemi <hemi>` | Hemisphere (lh or rh) |
+| `--ctab <colortablefile>` | Color table file (FreeSurferColorLUT.txt format) defining structure names, indices, and colors |
+| `--l <labelfile>` | Label file (repeatable); order determines mapping to color table indices |
+| `--ldir <labeldir>` | Directory to search for label files (when using ctab-derived names) |
 
 Either `--l` flags or `--ctab`-derived filenames must be provided for the label files.
 
@@ -86,27 +86,43 @@ Vertex-to-annotation mapping: each index $i$ corresponds to a unique color (R, G
 
 ## Configuration Options
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--s subject` | string | Subject name |
-| `--h hemi` | lh or rh | Hemisphere |
-| `--ctab colortablefile` | path | Color table in FreeSurferColorLUT format |
-| `--l labelfile` | path | Label file (repeatable; order matters) |
-| `--ldir labeldir` | path | Directory for label files when using ctab-derived names |
-| `--a annotname` | string | Output annotation name (written to `hemi.annotname.annot`) |
-| `--nhits nhitsfile` | path | Optional: overlay file with label hit counts per vertex |
-| `--no-unknown` | — | Start labeling at index 0; do not map unlabeled vertices |
-| `--thresh threshold` | float | Require vertex stat field > threshold to include in label |
-| `--dilate_into_unknown label` | string | Dilate specified label into bordering Unknown vertices |
-| `--sd SUBJECTS_DIR` | path | Override SUBJECTS_DIR |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--s` / `--subject` | `<subject>` | — (required) | Subject name |
+| `--h` / `--hemi` | `lh\|rh` | — (required) | Hemisphere |
+| `--ctab` | `<colortablefile>` | — (required) | Color table in FreeSurferColorLUT format |
+| `--l` | `<labelfile>` | none | Label file (repeatable; order matters) |
+| `--ldir` | `<labeldir>` | `.` (cwd) | Directory for label files when using ctab-derived names |
+| `--a` / `--annot` | `<annotname>` | — (required unless `--annot-path`) | Output annotation name (written to `hemi.annotname.annot`) |
+| `--annot-path` | `<path>` | none | Explicit output annotation file path (overrides subject-directory convention) |
+| `--nhits` | `<nhitsfile>` | none | Overlay file with label hit counts per vertex |
+| `--no-unknown` | — | off | Start labelling at index 0; do not reserve index 0 for Unknown |
+| `--thresh` | `<threshold>` | off | Require vertex stat field > threshold to include vertex in label |
+| `--offset` | `<n>` | `0` | Offset applied to color table index assignment |
+| `--dilate-into-unknown` | `<label>` | off | Dilate specified label into immediately bordering Unknown vertices |
+| `--do-unknown-stat` | — | off | Compute statistics for the Unknown (unlabelled) region |
+| `--maxstatwinner` | — | off | When multiple labels cover a vertex, assign it to the label with the highest stat value (instead of last label) |
+| `--noverbose` | — | off | Suppress verbose output (verbose is on by default) |
+| `--ldir-default` | — | off | Use default label directory derived from subject/hemi convention |
+| `--surf` | `<surfname>` | `orig` | Surface name to load |
+| `--prn-ctab` | `<outfile>` | none | Write the output color table to a file |
+| `--sd` | `<dir>` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `--debug` | — | off | Enable debugging output |
+| `--checkopts` | — | off | Validate options and exit without running |
+| `--nocheckopts` | — | off | Disable the check-options-only mode |
+
+> [!gap] --outdir flag
+> There is no `--outdir` flag in this tool's source. The output annotation path is controlled via `--a <annotname>` (written to the subject's `label/` directory) or `--annot-path <path>` for an explicit path.
 
 ## Configuration Interactions
 
 - When `--l` flags are provided, labels are mapped to consecutive color table indices starting at 1 (or 0 with `--no-unknown`). The order of `--l` flags determines the color table index assignment.
 - When no `--l` flags are given but `--ctab` is provided, label filenames are constructed from the color table as `hemi.parcname.label`, found in `--ldir` if specified.
 - `--thresh` filters out vertices with low stat values in the label file, useful when label files contain statistical weights.
-- `--dilate_into_unknown` expands a specific label into any immediately adjacent Unknown (unlabeled) vertices, removing gaps.
-- `--no-unknown` shifts all indices down by 1; unlabeled vertices are not given index 0.
+- `--dilate-into-unknown` expands a specific label into any immediately adjacent Unknown (unlabelled) vertices, removing gaps at label borders.
+- `--no-unknown` shifts all indices so index 0 is no longer reserved for Unknown; unlabelled vertices are not given a separate Unknown index.
+- `--maxstatwinner` changes overlap resolution: instead of last-label-wins, the label with the highest vertex stat value wins for overlapping vertices.
+- `--annot-path` overrides the default output path, useful when writing to a non-standard directory.
 
 ## Typical Use Cases
 

@@ -84,20 +84,19 @@ $$
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `<in_fname>` | Curvature file name per subject | required |
-| `<hemi>` | Hemisphere | required |
-| `<surf_name>` | Surface name | required |
-| `<out_fname>` | Output file | required |
-| `-S <sdir>` | Override SUBJECTS_DIR | env var |
-| `-n <navgs>` | Number of smoothing averages applied to output | 0 |
-| `-n <norm>` | Normalisation mode | `NORM_MEAN` |
-| `--osurf <surf>` | Output surface name (if different from input) | same as input |
-| `--ohemi <hemi>` | Output hemisphere (if different) | same as input |
-| `--os <surf>` | Output surface for writing | — |
-| `--stat` | Write stat images (DOF, mean, variance) | off |
-| `--condition <n>` | Condition number for multi-condition averaging | 0 |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `<in_fname>` | string | — | Curvature file name per subject |
+| `<hemi>` | string | — | Hemisphere |
+| `<surf_name>` | string | — | Surface name |
+| `<out_fname>` | path | — | Output file |
+| `-S <sdir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `-n <navgs>` | int | 0 | Number of smoothing averages applied to output |
+| `--osurf <surf>` | string | same as input | Output surface name (if different from input) |
+| `--ohemi <hemi>` | string | same as input | Output hemisphere (if different) |
+| `--os <surf>` | path | — | Output surface for writing |
+| `--stat` | — | off | Write stat images (DOF, mean, variance) |
+| `--condition <n>` | int | 0 | Condition number for multi-condition averaging |
 
 > [!gap] Flag names need confirmation
 > Flag parsing is done with `get_option()`. The precise flags (`-S`, `-n`, etc.) were inferred from global variables. Verify against the `get_option()` body in the source.

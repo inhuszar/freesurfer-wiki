@@ -69,9 +69,9 @@ where $\mathbf{x}$ is the thickness vector for a subject (one value per vertex i
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--true-class <n>` | Class label for "true" class | 1 |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--true-class <n>` | int | 1 | Class label for "true" class |
 
 > [!gap] Full flag set not documented
 > Source was read only to line 80. Additional flags almost certainly exist.

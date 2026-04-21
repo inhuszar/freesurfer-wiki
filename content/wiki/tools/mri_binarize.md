@@ -17,7 +17,7 @@ related:
   - "[[freeview-volumes]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "MRIpercentThresh implementation details not fully traced"
   - "MRIfdr2vwth FDR algorithm not traced"
@@ -168,42 +168,42 @@ MaxThresh (negative sign).
 
 #### Pre-processing (applied before binarization)
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--abs` | flag | Take absolute value of input via `MRIabs()` before thresholding |
-| `--neg` | flag | Multiply input by −1 via `MRImultiplyConst()` |
-| `--frame-sum` | flag | Sum all frames via `MRIframeSum()` and binarize the single result; sets `DoFrameLoop=0` |
-| `--frame-and` | flag | Sum all frames, set `MinThresh = nframes − 0.5` (logical AND across frames); sets `DoFrameLoop=0` |
-| `--frame <N>` | int | Use only frame N (0-based); sets `DoFrameLoop=0`. Default behaviour (no flag) is to loop over all frames. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--abs` | flag | off | Take absolute value of input via `MRIabs()` before thresholding |
+| `--neg` | flag | off | Multiply input by −1 via `MRImultiplyConst()` |
+| `--frame-sum` | flag | off | Sum all frames via `MRIframeSum()` and binarize the single result; sets `DoFrameLoop=0` |
+| `--frame-and` | flag | off | Sum all frames, set `MinThresh = nframes − 0.5` (logical AND across frames); sets `DoFrameLoop=0` |
+| `--frame` | int `<N>` | 0 (loop over all frames) | Use only frame N (0-based); sets `DoFrameLoop=0`. Default behaviour (no flag) is to loop over all frames. |
 
 #### Match mode
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--match <v1> [v2 ...]` | one or more ints | Append integer label values to the match list. Greedy: consumes all following integer args. May be repeated. |
-| `--match-ctab <ctab> [xid1 xid2 ...]` | ctab file + optional ints | Add every valid entry of the ASCII colour table to the match list, excluding any explicitly listed IDs. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--match` | `<v1> [v2 ...]` one or more ints | — | Append integer label values to the match list. Greedy: consumes all following integer args. May be repeated. |
+| `--match-ctab` | `<ctab> [xid1 xid2 ...]` ctab file + optional ints | — | Add every valid entry of the ASCII colour table to the match list, excluding any explicitly listed IDs. |
 
 #### Predefined match sets (convenience aliases)
 
-| Flag | Labels matched |
-|------|---------------|
-| `--ctx-wm` / `--wm` | 2, 41, 77, 251–255 |
-| `--all-wm` | 2, 41, 77, 251–255, 7, 46 |
-| `--ventricles` | 4, 5, 14, 43, 44, 72, 31, 63 |
-| `--wm+vcsf` | All-WM + ventricles |
-| `--gm` | Match WM+VCSF+background then invert (BinVal=0, BinValNot=1) |
-| `--subcort-gm` | Bilateral thalamus, caudate, putamen, pallidum, hippocampus, amygdala, accumbens, VentralDC, substantia nigra, cerebellar cortex |
-| `--scm-lh` | Left subcortical mass; also sets RemoveIslands=1, FillHoles=1 |
-| `--scm-rh` | Right subcortical mass; also sets RemoveIslands=1, FillHoles=1 |
+| Flag | Argument | Default | Labels matched |
+|------|----------|---------|----------------|
+| `--ctx-wm` / `--wm` | — | off | 2, 41, 77, 251–255 |
+| `--all-wm` | — | off | 2, 41, 77, 251–255, 7, 46 |
+| `--ventricles` | — | off | 4, 5, 14, 43, 44, 72, 31, 63 |
+| `--wm+vcsf` | — | off | All-WM + ventricles |
+| `--gm` | — | off | Match WM+VCSF+background then invert (BinVal=0, BinValNot=1) |
+| `--subcort-gm` | — | off | Bilateral thalamus, caudate, putamen, pallidum, hippocampus, amygdala, accumbens, VentralDC, substantia nigra, cerebellar cortex |
+| `--scm-lh` | — | off | Left subcortical mass; also sets RemoveIslands=1, FillHoles=1 |
+| `--scm-rh` | — | off | Right subcortical mass; also sets RemoveIslands=1, FillHoles=1 |
 
 #### Replace operations
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--replace <v1> <v2>` | int int | Replace all v1 → v2; transitive; repeatable |
-| `--replaceonly <v1> <v2>` | int int | Replace v1 → v2 but copy full input (no binarization) |
-| `--replace-nn <v1> <W>` | int int | Replace v1 with nearest-neighbour value within W voxel radius |
-| `--replaceonly-nn <v1> <W>` | int int | Same + copy full input |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--replace` | `<v1> <v2>` int int | — | Replace all v1 → v2; transitive; repeatable |
+| `--replaceonly` | `<v1> <v2>` int int | — | Replace v1 → v2 but copy full input (no binarization) |
+| `--replace-nn` | `<v1> <W>` int int | — | Replace v1 with nearest-neighbour value within W voxel radius |
+| `--replaceonly-nn` | `<v1> <W>` int int | — | Same + copy full input |
 | `--no-transitive-replace` | flag | off | Disable transitive chaining of `--replace` |
 
 #### Output value control
@@ -233,58 +233,58 @@ overwrites both — they are not additive.
 
 #### Topology repair (applied post-morphology)
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--remove-islands` | off | Remove disconnected components via `MRIremoveVolumeIslands()` |
-| `--no-remove-islands` | (default) | Disable island removal (overrides `--scm-lh`/`--scm-rh` defaults if listed after them) |
-| `--fill-holes` | off | Fill interior holes via `MRIremoveVolumeHoles()` |
-| `--no-fill-holes` | (default) | Disable hole filling |
-| `--fix-vol-topo` | off | Fix volume topology via `MRIvolTopoFix()` |
-| `--no-fix-vol-topo` | (default) | Disable topology fix |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--remove-islands` | flag | off | Remove disconnected components via `MRIremoveVolumeIslands()` |
+| `--no-remove-islands` | flag | on (default) | Disable island removal (overrides `--scm-lh`/`--scm-rh` defaults if listed after them) |
+| `--fill-holes` | flag | off | Fill interior holes via `MRIremoveVolumeHoles()` |
+| `--no-fill-holes` | flag | on (default) | Disable hole filling |
+| `--fix-vol-topo` | flag | off | Fix volume topology via `MRIvolTopoFix()` |
+| `--no-fix-vol-topo` | flag | on (default) | Disable topology fix |
 
 #### Bounding box / output crop
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--bb <N>` / `--crop <N>` | int | Crop output to bounding box of non-zero voxels (via `REGIONgetBoundingBox()` and `MRIextractRegion()`) with N-voxel padding |
-| `--crop-around-ras <out> <invol> <lta\|nolta\|0> <rCent aCent sCent\|cras vol ignore> <rFoV aFoV sFoV> [iKeep1 ...]` | 9+ args | Stand-alone early-exit mode: load `invol`, optionally apply an LTA, crop a voxel-FoV box centred on the given RAS (or on a volume's `cras`), keep the listed segment IDs via `MRIcropAroundRAS()`, write to `out`, then exit. Bypasses all other binarization logic. |
-| `--zero-edges` | flag | During binarization, force the first/last column, row, and slice planes to `BinValNot` (or merge value) |
-| `--zero-slice-edges` | flag | Same but only for the slice-direction (first/last) planes |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--bb` / `--crop` | `<N>` int | — | Crop output to bounding box of non-zero voxels (via `REGIONgetBoundingBox()` and `MRIextractRegion()`) with N-voxel padding |
+| `--crop-around-ras` | `<out> <invol> <lta\|nolta\|0> <rCent aCent sCent\|cras vol ignore> <rFoV aFoV sFoV> [iKeep1 ...]` 9+ args | — | Stand-alone early-exit mode: load `invol`, optionally apply an LTA, crop a voxel-FoV box centred on the given RAS (or on a volume's `cras`), keep the listed segment IDs via `MRIcropAroundRAS()`, write to `out`, then exit. Bypasses all other binarization logic. |
+| `--zero-edges` | flag | off | During binarization, force the first/last column, row, and slice planes to `BinValNot` (or merge value) |
+| `--zero-slice-edges` | flag | off | Same but only for the slice-direction (first/last) planes |
 
 #### Surface tessellation
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--surf <surfname>` | string | Generate surface mesh of binarized volume via `MRIStessellate()` (tessellates the iso-surface of `BinVal`) |
-| `--surf-smooth <N>` | int | Apply N iterations of `MRISaverageVertexPositions()` to the tessellated surface |
-| `--reverse` | flag | Reverse face order via `MRISreverseFaceOrder()` and recompute metric properties |
-| `--dilate-vertex <vno> <surf> <radius> <outmask>` | 4 args | Stand-alone early-exit mode: dilate around vertex `vno` on `surf` until summed area covers $\pi r^2$, write mask, exit. Calls `MRISdilateVertexToSum()`. |
-| `--dilate-vertex-sum <vno> <surf> <measure\|nofile\|area> <target> <outmask>` | 5 args | Stand-alone early-exit mode: dilate around `vno` until the supplied per-vertex `measure` (or area) sums to `target`, write mask, exit. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--surf` | `<surfname>` string | — | Generate surface mesh of binarized volume via `MRIStessellate()` (tessellates the iso-surface of `BinVal`) |
+| `--surf-smooth` | `<N>` int | 0 | Apply N iterations of `MRISaverageVertexPositions()` to the tessellated surface |
+| `--reverse` | flag | off | Reverse face order via `MRISreverseFaceOrder()` and recompute metric properties |
+| `--dilate-vertex` | `<vno> <surf> <radius> <outmask>` 4 args | — | Stand-alone early-exit mode: dilate around vertex `vno` on `surf` until summed area covers $\pi r^2$, write mask, exit. Calls `MRISdilateVertexToSum()`. |
+| `--dilate-vertex-sum` | `<vno> <surf> <measure\|nofile\|area> <target> <outmask>` 5 args | — | Stand-alone early-exit mode: dilate around `vno` until the supplied per-vertex `measure` (or area) sums to `target`, write mask, exit. |
 
 #### Colour tables
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--ctab <ctab>` | ASCII ctab file | Read colour table via `CTABreadASCII()` and embed in the output volume |
-| `--copy-ctab` | flag | Copy colour table from input to output (also automatic when `replace_only` is in effect) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--ctab` | `<ctab>` ASCII ctab file | — | Read colour table via `CTABreadASCII()` and embed in the output volume |
+| `--copy-ctab` | flag | off | Copy colour table from input to output (also automatic when `replace_only` is in effect) |
 
 #### One-hot encoding (stand-alone mode)
 
-| Flag | Arguments | Description |
-|------|-----------|-------------|
-| `--ohe <seg> <ohe-out> <segno1> [segno2 ...]` | volume + path + ints | Read `seg`, build a multi-frame one-hot encoding via `MRIoneHotEncode()` for the listed segment IDs, write to `ohe-out`, and exit immediately. All other flags are ignored. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--ohe` | `<seg> <ohe-out> <segno1> [segno2 ...]` volume + path + ints | — | Read `seg`, build a multi-frame one-hot encoding via `MRIoneHotEncode()` for the listed segment IDs, write to `ohe-out`, and exit immediately. All other flags are ignored. |
 
 #### Miscellaneous and diagnostics
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--threads <N>` / `--nthreads <N>` | int | Set OpenMP thread count (no-op if compiled without OpenMP) |
-| `--debug` | flag | Set `debug=1` |
-| `--noverbose` | flag | Suppress informational output (skip `dump_options`, count messages, etc.) |
-| `--checkopts` | flag | Run `parse_commandline()` and `check_options()` then return without processing |
-| `--nocheckopts` | flag | Restore default (process inputs after option parse) |
-| `--help` | flag | Print full help text and exit |
-| `--version` | flag | Print version and exit |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--threads` / `--nthreads` | `<N>` int | system default | Set OpenMP thread count (no-op if compiled without OpenMP) |
+| `--debug` | flag | off | Set `debug=1` |
+| `--noverbose` | flag | off | Suppress informational output (skip `dump_options`, count messages, etc.) |
+| `--checkopts` | flag | off | Run `parse_commandline()` and `check_options()` then return without processing |
+| `--nocheckopts` | flag | on (default) | Restore default (process inputs after option parse) |
+| `--help` | flag | — | Print full help text and exit |
+| `--version` | flag | — | Print version and exit |
 
 ### Configuration Interactions
 

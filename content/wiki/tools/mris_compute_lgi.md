@@ -17,10 +17,10 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The exact MATLAB version requirements are not documented."
-  - "Interaction between --radius and smoothing on final lGI values needs quantitative characterisation."
+  - "The geodesic sphere radius (hardcoded at 25 mm) is not user-configurable; interaction between radius and smoothing on final lGI values needs quantitative characterisation."
 tags:
   - surface
   - gyrification
@@ -62,14 +62,15 @@ Positional:
 
 Optional flags:
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--closespheresize <n>` | Morphological closing sphere size (voxels) | 15 |
-| `--smoothiters <n>` | Smoothing iterations for outer surface | 30 |
-| `--radius <mm>` | Geodesic sphere radius for lGI computation | 25 |
-| `--stepsize <n>` | Step size for vertex sampling | 100 |
-| `--no-extract` | Skip `mris_extract_main_component` step | off |
-| `--no-run` | Print commands but don't execute | off |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i <file>` | path | — | Input surface file (required; also `-i` / `--input`) |
+| `--close_sphere_size <n>` | int | 15 | Morphological closing sphere size (mm) for outer surface construction |
+| `--smooth_iters <n>` | int | 30 | Smoothing iterations for outer surface |
+| `--step_size <n>` | int | 100 | Step size (vertex stride) for lGI computation |
+| `--dont_extract` | — | off | Skip `mris_extract_main_component` step |
+| `--dontrun` | — | off | Print commands but do not execute them |
+| `--echo` | — | off | Enable command echo for debugging (alias: `--debug`) |
 
 ## Outputs
 
@@ -96,19 +97,22 @@ where:
 
 The outer surface is constructed by:
 1. Filling the pial surface volume (`mris_fill`).
-2. Applying morphological closing with sphere radius `closespheresize` (`make_outer_surface.m`).
+2. Applying morphological closing with sphere radius `close_sphere_size` (`make_outer_surface.m`).
 3. Extracting the main component (`mris_extract_main_component`).
-4. Smoothing (`mris_smooth -n smoothiters`).
+4. Smoothing (`mris_smooth -n smooth_iters`).
 
 ## Configuration Options
 
-See the flags table in Inputs. The outer surface construction parameters (`--closespheresize`, `--smoothiters`) primarily affect the denominator of the lGI ratio.
+See the flags table in Inputs. The outer surface construction parameters (`--close_sphere_size`, `--smooth_iters`) primarily affect the denominator of the lGI ratio.
 
 ## Configuration Interactions
 
-- `--radius` is the critical parameter: larger radii produce smoother, lower lGI values and capture coarser folding patterns.
-- `--closespheresize` controls how much the outer surface "bridges" over sulci. Larger values produce a smoother outer surface.
-- `--no-extract` skips the main-component extraction step, which may be appropriate for hemispheres without disconnected components.
+- The geodesic sphere radius is hardcoded at 25 mm and is not configurable from the command line. Larger radii would produce smoother, lower lGI values.
+- `--close_sphere_size` controls how much the outer surface "bridges" over sulci. Larger values produce a smoother outer surface.
+- `--dont_extract` skips the main-component extraction step, which may be appropriate for hemispheres without disconnected components.
+
+> [!gotcha] Geodesic radius is hardcoded
+> The geodesic sphere radius used for lGI computation is hardcoded to 25 mm in the script. There is no `--radius` command-line flag; to use a different radius the script must be edited directly.
 
 > [!gotcha] MATLAB required
 > The tool requires MATLAB to be available (`getmatlab` must return a valid path). It will exit with an error if MATLAB is not found.
@@ -118,13 +122,13 @@ See the flags table in Inputs. The outer surface construction parameters (`--clo
 ```bash
 # Compute lGI on left pial surface (standard usage)
 cd $SUBJECTS_DIR/bert/surf
-mris_compute_lgi lh.pial
+mris_compute_lgi --i lh.pial
 
-# Custom radius
-mris_compute_lgi --radius 30 lh.pial
+# Custom step size (process every 50th vertex instead of every 100th)
+mris_compute_lgi --step_size 50 --i lh.pial
 
 # Dry run (print commands only)
-mris_compute_lgi --no-run lh.pial
+mris_compute_lgi --dontrun --i lh.pial
 ```
 
 ## Pipeline Context
@@ -133,8 +137,8 @@ Not part of the standard `recon-all` pipeline (though it can be run after). Call
 
 After `recon-all` completes:
 ```bash
-mris_compute_lgi lh.pial
-mris_compute_lgi rh.pial
+mris_compute_lgi --i lh.pial
+mris_compute_lgi --i rh.pial
 ```
 
 The resulting `pial_lgi` files can be analysed with [[mris_anatomical_stats]] or visualised in Freeview.

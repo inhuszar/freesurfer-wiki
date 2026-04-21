@@ -86,13 +86,13 @@ The threshold parameter `-T` controls the brain/non-brain intensity boundary as 
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `<input>` | path | required | Input T1 volume (`.mgz`) |
-| `-110` | flag | off | Use intensity-110 voxels as white matter seed (FreeSurfer mode) |
-| `-mult` | flag | off | Multiply result with existing `brainmask.auto.mgz` (failsafe) |
-| `-T <value>` | float | 0.40 | Threshold as fraction of WM intensity (0–1); larger = more conservative |
-| `-mask <file>` | path | — | External mask file to use as seed |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `<input>` | — | required | Input T1 volume (`.mgz`) |
+| `-110` / `--110` | — | off | Use intensity-110 voxels as white matter seed (FreeSurfer mode) |
+| `-mult` / `--mult` | — | off | Enable masking mode; multiply result with existing mask (failsafe) |
+| `--mask` | `<file>` | — | External mask file for masking mode (alias for `-mult`) |
+| `-T` | `<value>` | `0.40` | Threshold as fraction of WM intensity (0–1); larger = more conservative |
 
 ## Configuration Interactions
 

@@ -15,10 +15,9 @@ related:
   - "[[dmri_pathstats]]"
   - "[[dmri_group]]"
 status: draft
-confidence: medium
-last_agent_update: 2026-04-15
+confidence: high
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
   - "Blood class implementation (blood.cxx) not read"
   - "Exact prior file formats not confirmed"
 tags:
@@ -111,31 +110,81 @@ where $q_k$ is the position of control point $k$, $\bar{q}_k$ is the mean positi
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> Complete flags require reading `parse_commandline()`. Key configurable parameters from global variables:
+Complete flag reference from `parse_commandline()` in `trc/dmri_train.cxx`:
 
-| Variable | Likely flag | Default | Description |
-|----------|-------------|---------|-------------|
-| `trainListFile` | `--tlist` | required | Training subject list |
-| `outPriorDir` | `--outdir` | required | Output directory for priors |
-| `useAnatomy` | `--anat` | false | Use anatomy priors |
-| `useShape` | `--shape` | false | Use shape priors |
-| `useTrunc` | `--trunc` | false | Use truncated Gaussians |
-| `numStrMax` | `--nmax` | INT_MAX | Max training streamlines |
-| `nControl` | `--ncpt` | — | Number of control points |
+### Required Inputs
+
+| Flag | Args | Default | Description |
+|------|------|---------|-------------|
+| `--slist` | `<file>` | — | Text file listing training subject directories |
+| `--trk` | `<file> [...]` | — | Name(s) of input `.trk` streamline file(s), one per tract (relative to training subject dir) |
+| `--seg` | `<file>` | — | Name of `aparc+aseg` volume (relative to training subject dir) |
+| `--cmask` | `<file>` | — | Name of cortex mask volume |
+
+### Optional Training Inputs
+
+| Flag | Args | Default | Description |
+|------|------|---------|-------------|
+| `--rois` | `<file1> <file2> [...]` | — | Start and end ROI file pairs for each tract (relative to training subject dir) |
+| `--lmask` | `<id> [...]` | — | Add a label ID from aparc+aseg to cortex mask, one per tract (0 = no label) |
+
+### Outputs
+
+| Flag | Args | Default | Description |
+|------|------|---------|-------------|
+| `--out` | `<base> [...]` | — | Base name(s) of output prior files for test subject, one per tract |
+| `--outdir` | `<dir>` | — | Output directory for priors (optional) |
+| `--outtrk` | `<file> [...]` | — | Output pre-sorted `.trk` file(s); used to prep training data instead of computing priors |
+| `--cptdir` | `<dir>` | — | Output directory for control points in test subject's space (requires registration files) |
+
+### Test Subject Inputs (for prior computation)
+
+| Flag | Args | Default | Description |
+|------|------|---------|-------------|
+| `--bmask` | `<file> [...]` | — | Brain mask volume(s) for test subject |
+| `--fa` | `<file> [...]` | — | FA volume(s) for test subject (optional) |
+| `--reg` | `<file>` | — | Affine registration from atlas to base space (optional) |
+| `--regnl` | `<file>` | — | Nonlinear registration from atlas to base space (optional) |
+| `--refnl` | `<file>` | — | Nonlinear registration source reference volume (optional) |
+| `--basereg` | `<file> [...]` | — | Affine registration(s) from base to FA volume(s) (optional) |
+| `--baseref` | `<file>` | — | Base space reference volume (optional) |
+
+### Prior Computation Options
+
+| Flag | Args | Default | Description |
+|------|------|---------|-------------|
+| `--ncpts` | `<num> [...]` | — | Number of control points per tract; one per tract or one for all |
+| `--max` | `<num>` | INT_MAX | Maximum number of training streamlines to keep per tract |
+| `--aprior` | none | off | Compute priors on underlying anatomy |
+| `--sprior` | none | off | Compute priors on shape |
+| `--trunc` | none | off | Use all training streamlines including truncated ones |
+| `--xstr` | none | off | Exclude previously chosen center streamline(s) |
 
 ## Typical Use Cases
 
-> [!gap] Exact command syntax unknown
-> In TRACULA, `dmri_train` is called via `trac-all`. Direct invocation:
+In TRACULA, `dmri_train` is typically called via `trac-all`. Direct invocation:
 
 ```bash
-# Train priors from manual tract delineations
+# Compute priors from manual tract delineations
 dmri_train \
-  --tlist training_subjects.txt \
+  --slist training_subjects.txt \
+  --trk lh_cst.trk \
+  --seg aparc+aseg.mgz \
+  --cmask cortex.mgz \
+  --out lh_cst \
   --outdir /data/priors/lh_cst/ \
-  --anat \
-  --ncpt 7
+  --aprior \
+  --ncpts 7
+```
+
+```bash
+# Pre-sort training streamlines only (no prior computation)
+dmri_train \
+  --slist training_subjects.txt \
+  --trk lh_cst.trk \
+  --seg aparc+aseg.mgz \
+  --cmask cortex.mgz \
+  --outtrk lh_cst.sorted.trk
 ```
 
 ## Pipeline Context
@@ -172,9 +221,6 @@ trac-all -c dmrirc -path   # runs dmri_paths using the trained priors
 
 > [!gap] Blood class implementation
 > The core prior training logic in `trc/blood.cxx` was not read.
-
-> [!gap] Argument parser not read
-> Complete flags require reading `parse_commandline()`.
 
 > [!gap] Prior file formats
 > The exact format of the output prior files (text/binary, column structure) is not confirmed.

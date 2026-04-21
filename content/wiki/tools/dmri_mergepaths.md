@@ -14,10 +14,9 @@ related:
   - "[[dmri_group]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
-  - "Output file naming when using --dir not confirmed"
+  - "Output file naming when using --indir not confirmed"
 tags:
   - diffusion
   - tractography
@@ -43,22 +42,22 @@ tags:
 
 `dmri_paths` produces a separate posterior probability map for each white-matter tract. `dmri_mergepaths` consolidates these individual maps into a single 4D volume for efficient storage, visualization, and group-level analysis. This is particularly useful for displaying all TRACULA tracts simultaneously in a viewer like `freeview`.
 
-The tool also has an input directory mode (`--dir`) where it auto-discovers path map files within a TRACULA output directory structure.
+The tool also has an input directory mode (`--indir`) where it auto-discovers path map files within a TRACULA output directory structure.
 
 ## Inputs
 
 | Input | Flag | Description | Format |
 |-------|------|-------------|--------|
-| Input volumes | `inFile` list | List of per-tract posterior maps to merge | MGZ/NIfTI |
-| Input directory | `inDir` | TRACULA output directory (finds maps automatically) | path |
-| Color table | `ctabFile` | Color table for the output (optional) | text |
-| Dispersion threshold | `dispThresh` | Quality threshold for including tracts | float |
+| Input volumes | `--in` | One or more per-tract posterior maps to merge (multi-arg) | MGZ/NIfTI |
+| Input directory | `--indir` | TRACULA output directory (auto-discovers path maps) | path |
+| Color table | `--ctab` | Color table for the output (optional) | text |
+| Posterior threshold | `--thresh` | Exclude tracts whose maximum posterior value is below this threshold | float |
 
 ## Outputs
 
 | Output | Flag | Description | Format |
 |--------|------|-------------|--------|
-| 4D merged volume | `outFile` | All tract posteriors stacked as frames | MGZ/NIfTI |
+| 4D merged volume | `--out` | All tract posteriors stacked as frames | MGZ/NIfTI |
 
 ## Mathematical Foundations
 
@@ -66,23 +65,19 @@ The merging operation is simple concatenation: each input volume (which must hav
 
 1. The input volume is read.
 2. Each voxel value is copied to frame $k$ of the output volume.
-3. If `dispThresh > 0`, tracts where the maximum posterior value falls below the threshold are excluded.
+3. If `--thresh > 0`, tracts where the maximum posterior value falls below the threshold are excluded.
 
 No spatial transformation is applied; all inputs must be in the same space.
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> Complete flags require reading `parse_commandline()`. From global variable declarations:
-
-| Variable | Likely flag | Description |
-|----------|-------------|-------------|
-| `nframe` | `--nframe` or auto | Number of frames (input volumes) |
-| `inFile` | `--in` | List of input tract posterior files |
-| `inDir` | `--dir` | Input directory (auto-discovers path maps) |
-| `outFile` | `--out` | Output merged 4D volume |
-| `ctabFile` | `--ctab` | Color table file |
-| `dispThresh` | `--disp` | Dispersion threshold (default: 0 = no threshold) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--in` | `file [file ...]` | — | One or more input tract posterior volumes (multi-arg, stops at next `--` option) |
+| `--indir` | `dir` | — | Input directory; tool auto-discovers path map files within the TRACULA directory structure |
+| `--out` | `file` | — | Output 4D merged volume |
+| `--ctab` | `file` | — | Color table for the output |
+| `--thresh` | `float` | 0 | Exclude input tracts whose maximum posterior is below this value (0 = no threshold) |
 
 ## Typical Use Cases
 
@@ -97,7 +92,7 @@ dmri_mergepaths \
 
 # Using directory mode
 dmri_mergepaths \
-  --dir /data/subject01/dmri/ \
+  --indir /data/subject01/dmri/ \
   --out /data/subject01/dmri/all_tracts.mgz
 ```
 
@@ -127,5 +122,7 @@ It is not called by `recon-all`. It may be called by the `trac-all` TRACULA wrap
 
 ## Confidence and Gaps
 
-> [!gap] Argument parser not fully read
-> Full flag names and their defaults require reading `parse_commandline()`.
+**Confident:** Full flag set confirmed from `parse_commandline()`. The --nframe and --disp flags listed in prior drafts do not exist in the source; the correct flags are --thresh and --indir.
+
+> [!gap] Output file naming with --indir
+> When `--indir` is used, the exact naming convention for how input path map files are discovered and which files are selected is not documented here.

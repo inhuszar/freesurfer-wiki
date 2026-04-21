@@ -80,13 +80,13 @@ A thresholded version (`vfrac_thresh`) ignores voxels whose total cortical volum
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-n <nlayers>` | Number of cortical layers | 6 |
-| `-w <whalf>` | Half-window size for neighbourhood | 3 |
-| `--fs-names` | Use FreeSurfer naming conventions | off |
-| `--vfrac-thresh <t>` | Minimum volume fraction threshold | -1 (disabled) |
-| `--curv-bins <n>` | Number of curvature bins for stratification | 0 |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-n <nlayers>` | int | 6 | Number of cortical layers |
+| `-w <whalf>` | int | 3 | Half-window size for neighbourhood |
+| `--fs-names` | — | off | Use FreeSurfer naming conventions |
+| `--vfrac-thresh <t>` | float | -1 (disabled) | Minimum volume fraction threshold |
+| `--curv-bins <n>` | int | 0 | Number of curvature bins for stratification |
 
 > [!gap] Flag names need verification
 > The exact flag names were inferred from global variables (`nlayers`, `Gwhalf`, `FS_names`, `vfrac_thresh`, `curv_bins`). Confirm from `get_option()`.

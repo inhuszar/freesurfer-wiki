@@ -41,7 +41,7 @@ tags:
 
 Command-line arguments:
 - `--mov movingid`: moving subject ID
-- `--template templateid`: template subject ID (or use `--templatedir` / CVS template flags)
+- `--template templateid`: template subject ID; if omitted, the built-in CVS template is assumed
 - Optional: `--hemi hemi` for single-hemisphere processing
 
 ## Outputs
@@ -59,9 +59,8 @@ None — this is a file existence check only.
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--mov movingid` | string | required | Moving subject ID |
-| `--template templateid` | string | required | Template subject ID |
-| `--cvstemplate` | — | off | Use built-in CVS template (skip template checks) |
-| `--hemi hemi` | lh or rh | both | Check only one hemisphere |
+| `--template templateid` | string | optional | Template subject ID. If omitted, the built-in CVS template (`cvs_avg35`) is assumed and template file checks are skipped. |
+| `--hemi hemi` | lh or rh | both hemispheres | Check only one hemisphere |
 
 ## Required Files Checked
 
@@ -80,7 +79,7 @@ For each subject (moving; template if not using built-in CVS template):
 
 ## Configuration Interactions
 
-- `--cvstemplate` skips all checks for the template subject (assumes the built-in `cvs_avg35` template is complete).
+- When `--template` is omitted, the script sets `cvstemplate=1` and skips all checks for the template subject (assumes the built-in `cvs_avg35` template is complete).
 - `--hemi` reduces the check to one hemisphere's surface and label files.
 
 ## Typical Use Cases

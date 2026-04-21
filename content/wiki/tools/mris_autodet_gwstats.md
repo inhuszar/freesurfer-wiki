@@ -14,7 +14,7 @@ related:
   - "[[mri_normalize]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Output file format (.dat/.json?) and exact field names need confirmation."
   - "Interaction with mris_make_surfaces when stats file is absent needs verification."
@@ -49,18 +49,19 @@ This separation allows the statistics computation to run once and be reused, and
 | Input | Description |
 |-------|-------------|
 | `--s <subject>` | FreeSurfer subject name |
-| `--lh` / `--rh` | Hemisphere to process |
+| `--surf <path>` / `--lh-surf <path>` / `--rh-surf <path>` | Surface to process (hemisphere determined from `lh`/`rh` filename prefix or explicit flag) |
 | `--o <outfile>` | Output statistics file |
 
 Optional (override default paths):
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--invol <path>` | Input intensity volume | `brain.finalsurfs.mgz` |
+| `--i <path>` | Input intensity volume | `brain.finalsurfs.mgz` |
 | `--wm <path>` | White matter mask volume | `wm.mgz` |
-| `--surf <name>` | Surface name | `orig` |
-| `--lhsurf <path>` | Explicit LH surface path | — |
-| `--rhsurf <path>` | Explicit RH surface path | — |
+| `--surf <path>` | Explicit surface path (hemisphere inferred from filename prefix `lh`/`rh`) | — |
+| `--surfs <lhpath> <rhpath>` | Explicit LH and RH surface paths (both hemispheres at once) | — |
+| `--lh-surf <path>` | Explicit LH surface path | — |
+| `--rh-surf <path>` | Explicit RH surface path | — |
 | `--threads <n>` | Number of OpenMP threads | 1 |
 
 ## Outputs
@@ -86,38 +87,51 @@ where $k$ is a fractional offset controlling where along the WM-GM gradient the 
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--s <subject>` | Subject name | required |
-| `--lh` | Process left hemisphere | — |
-| `--rh` | Process right hemisphere | — |
-| `--o <outfile>` | Output stats file path | required |
-| `--invol <vol>` | Input intensity volume path | `brain.finalsurfs.mgz` |
-| `--wm <vol>` | WM mask volume path | `wm.mgz` |
-| `--surf <name>` | Surface name to use | `orig` |
-| `--lhsurf <path>` | Explicit LH surface path | — |
-| `--rhsurf <path>` | Explicit RH surface path | — |
-| `--sd <dir>` | SUBJECTS_DIR override | env var |
-| `--threads <n>` | Thread count | 1 |
-| `--debug` | Enable debug output | off |
+| Flag | Arguments | Description | Default |
+|------|-----------|-------------|---------|
+| `--s <subject>` | string | Subject name | required |
+| `--o <outfile>` | path | Output stats file path | required |
+| `--i <vol>` | path | Input intensity volume path | `brain.finalsurfs.mgz` |
+| `--wm <vol>` | path | WM mask volume path | `wm.mgz` |
+| `--surf <path>` | path | Explicit surface path (hemisphere inferred from `lh`/`rh` prefix) | — |
+| `--surfs <lhpath> <rhpath>` | path path | Explicit LH and RH surface paths (sets both hemispheres) | — |
+| `--lh-surf <path>` | path | Explicit LH surface path | — |
+| `--rh-surf <path>` | path | Explicit RH surface path | — |
+| `--sd <dir>` | path | SUBJECTS_DIR override | env var |
+| `--threads <n>` / `--nthreads <n>` | integer | OpenMP thread count | 1 |
+| `--min_border_white <val>` / `-wlo` | float | Override minimum border white intensity threshold | auto-detected |
+| `--max_border_white <val>` | float | Override maximum border white intensity threshold | auto-detected |
+| `--min_gray_at_white_border <val>` | float | Override minimum grey intensity at white border | auto-detected |
+| `--max_gray <val>` / `-ghi` | float | Override maximum grey intensity threshold | auto-detected |
+| `--max_gray_at_csf_border <val>` | float | Override maximum grey intensity at CSF border | auto-detected |
+| `--min_gray_at_csf_border <val>` | float | Override minimum grey intensity at CSF border | auto-detected |
+| `--max_csf <val>` | float | Override maximum CSF intensity | auto-detected |
+| `--debug` | — | Enable debug output | off |
+
+> [!gap] LH/RH hemisphere flags
+> No `--lh` or `--rh` boolean flags exist in the source. Hemisphere selection is handled by providing a surface path via `--surf`, `--surfs`, `--lh-surf`, or `--rh-surf`, with hemisphere inferred from the `lh`/`rh` filename prefix.
 
 ## Configuration Interactions
 
-- `--s` with `--lh`/`--rh` constructs default file paths automatically; individual path overrides (`--invol`, `--wm`, `--surf`) only need to be supplied when the default directory structure does not apply.
-- `--lhsurf` / `--rhsurf` bypass the `SUBJECTS_DIR/<subject>/surf/` path construction when explicit surface paths are needed.
+- `--s` with `--lh-surf` or `--rh-surf` (or `--surf`) constructs default file paths automatically; individual path overrides only need to be supplied when the default directory structure does not apply.
+- `--lh-surf` and `--rh-surf` bypass the `SUBJECTS_DIR/<subject>/surf/` path construction when explicit surface paths are needed.
+- `--surfs` provides both LH and RH paths in one flag, equivalent to specifying both `--lh-surf` and `--rh-surf`.
+- The intensity threshold overrides (`--min_border_white`, `--max_gray`, etc.) bypass auto-detection and force specific values into the `AutoDetGWStats` struct. These are useful when auto-detection fails on unusual datasets.
 
 ## Typical Use Cases
 
 ```bash
 # Standard usage within recon-all for left hemisphere
 mris_autodet_gwstats \
-    --s bert --lh \
+    --s bert \
+    --lh-surf $SUBJECTS_DIR/bert/surf/lh.orig \
     --o $SUBJECTS_DIR/bert/surf/lh.autodet_gwstats.dat
 
 # With custom volumes
 mris_autodet_gwstats \
-    --s bert --lh \
-    --invol $SUBJECTS_DIR/bert/mri/brain.mgz \
+    --s bert \
+    --lh-surf $SUBJECTS_DIR/bert/surf/lh.orig \
+    --i $SUBJECTS_DIR/bert/mri/brain.mgz \
     --wm $SUBJECTS_DIR/bert/mri/wm.mgz \
     --o $SUBJECTS_DIR/bert/surf/lh.autodet_gwstats.dat
 ```
@@ -137,8 +151,8 @@ Stage order in `recon-all`:
 > [!gotcha] Source lives in mris_make_surfaces directory
 > The source file `mris_autodet_gwstats.cpp` is located within the `mris_make_surfaces/` directory, not in a dedicated `mris_autodet_gwstats/` directory. This reflects its close coupling with `mris_make_surfaces`.
 
-> [!gotcha] Hemisphere specification required
-> The tool requires exactly one of `--lh` or `--rh`. Specifying neither or both will produce an error.
+> [!gotcha] Hemisphere determined from surface filename, not a flag
+> There are no `--lh` or `--rh` boolean flags. The hemisphere is determined from the `lh`/`rh` prefix of the surface filename supplied via `--surf`, `--lh-surf`, `--rh-surf`, or `--surfs`. Providing a surface whose filename does not begin with `lh` or `rh` will result in `hemicode = -1` and likely an error.
 
 ## Related Tools
 

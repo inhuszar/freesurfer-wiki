@@ -18,9 +18,8 @@ related:
   - "[[bbregister]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
   - "Prior file formats and their generation by dmri_train not fully characterized"
   - "MCMC sampling details (acceptance ratio, proposal distribution) in coffin.cxx not read"
 tags:
@@ -117,24 +116,74 @@ The path is represented as a piecewise-linear curve parameterized by control poi
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> The complete configuration requires reading `parse_commandline()`. From global variables, key parameters include:
+### Basic inputs (native DWI space)
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `nBurnIn` | 5000 | MCMC burn-in iterations |
-| `nSample` | 5000 | MCMC sampling iterations |
-| `nKeepSample` | 10 | Keep every N-th sample |
-| `nUpdateProp` | 40 | Update proposal distribution every N iterations |
-| `nTract` | 1 | Number of tracts to process |
-| `fminPath` | 0 | Minimum path length fraction |
-| `localPriorSet` | 15 | Local prior neighborhood set size |
-| `neighPriorSet` | 14 | Neighborhood prior set size |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--outdir` | `<dir> [...]` | — | Output directory; one per path; required |
+| `--indir` | `<dir> [...]` | — | Input subject directory (optional); if specified, all basic input filenames are relative to this; specify multiple for longitudinal data |
+| `--dwi` | `<file>` | — | DWI volume series; required |
+| `--grad` | `<file>` | — | Text file of diffusion gradients; required |
+| `--bval` | `<file>` | — | Text file of diffusion b-values; required |
+| `--mask` | `<file>` | — | Brain mask volume; required |
+| `--bpdir` | `<dir>` | — | BEDpostX output directory (fiber orientation distributions); required |
+| `--ntr` | `<num>` | `1` | Maximum number of tracts per voxel |
+| `--fmin` | `<num>` | `0` | Tract volume fraction threshold |
+| `--basereg` | `<file> [...]` | — | Base-to-DWI registration `.mat` file(s); required for longitudinal data; one per input directory |
+
+### Longitudinal inputs (base template space)
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--basemask` | `<file>` | — | Base template mask volume |
+
+### End ROIs (atlas space)
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--roi1` | `<file> [...]` | — | End ROI 1; volume or label file; one per path; required |
+| `--roi2` | `<file> [...]` | — | End ROI 2; volume or label file; one per path; required |
+| `--roimesh1` | `<file> [...]` | — | Surface mesh for end ROI 1; required when ROI 1 is a `.label` file |
+| `--roimesh2` | `<file> [...]` | — | Surface mesh for end ROI 2; required when ROI 2 is a `.label` file |
+| `--roiref1` | `<file> [...]` | — | Reference volume for end ROI 1; required when ROI 1 is a `.label` file |
+| `--roiref2` | `<file> [...]` | — | Reference volume for end ROI 2; required when ROI 2 is a `.label` file |
+
+### Prior-related inputs (atlas space)
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--prior` | `<file0> <file1> [...]` | — | Spatial (xyz) path priors as negative log-likelihoods; paired files: off-path and on-path; one pair per path |
+| `--tprior` | `<file> [...]` | — | Path tangent vector priors (negative log-likelihood); one per path |
+| `--cprior` | `<file> [...]` | — | Path curvature priors (negative log-likelihood); one per path |
+| `--nprior` | `<priorfile> <idfile> [...]` | — | Near-neighbor label priors; paired files: negative log-likelihood and label ID list; one pair per path |
+| `--nset` | `<num>` | `14` | Subset of near-neighbor label priors to use (valid values: `6` or `14`) |
+| `--lprior` | `<priorfile> <idfile> [...]` | — | Local-neighbor label priors; paired files: negative log-likelihood and label ID list; one pair per path |
+| `--lset` | `<num>` | `15` | Subset of local-neighbor label priors to use (valid values: `1`, `7`, or `15`) |
+| `--seg` | `<file> [...]` | — | Anatomical segmentation map of test subject; required when `--nprior` or `--lprior` is used; specify multiple for longitudinal data |
+| `--reg` | `<file>` | — | DWI-to-atlas affine registration (`.mat`) |
+| `--regnl` | `<file>` | — | DWI-to-atlas nonlinear registration (`.m3z`) |
+
+### MCMC options
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--init` | `<file> [...]` | — | Text file of initial control points; one per path; required |
+| `--nb` | `<num>` | `5000` | Number of MCMC burn-in samples |
+| `--ns` | `<num>` | `5000` | Number of MCMC post-burn-in samples |
+| `--nk` | `<num>` | `10` | Keep every N-th MCMC sample |
+| `--nu` | `<num>` | `40` | Update proposal distribution every N-th sample |
+| `--sdp` | `<file> [...]` | — | Text file with initial proposal standard deviations for control point perturbations; one per path; if absent, SD=1 is used for all control points and paths |
+
+### Other options
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--debug` | — | off | Enable debugging output |
+| `--checkopts` | — | off | Check options and exit without running |
+| `--help` | — | — | Print usage information |
+| `--version` | — | — | Print version and exit |
 
 ## Typical Use Cases
-
-> [!gap] Exact command syntax
-> Without the full argument parser, exact command lines cannot be verified. TRACULA is typically run via the `trac-all` wrapper rather than calling `dmri_paths` directly.
 
 ```bash
 # In the TRACULA pipeline, dmri_paths is called via trac-all:
@@ -175,5 +224,3 @@ dmri_train (priors) --------|
 > [!gap] Coffin class implementation
 > The MCMC algorithm details are in `trc/coffin.cxx` which was not read.
 
-> [!gap] Complete argument list
-> Full flag names and their defaults require reading `parse_commandline()`.
