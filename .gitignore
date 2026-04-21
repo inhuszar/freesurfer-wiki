@@ -1,0 +1,14 @@
+# Obsidian workspace/session files (local to each user)
+.obsidian/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large archives
+*.tar.gz
+
+# Quartz build output
+public/
+.quartz-cache/
+

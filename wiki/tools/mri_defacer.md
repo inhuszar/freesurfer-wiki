@@ -1,0 +1,134 @@
+---
+title: "mri_defacer"
+type: tool
+fs_version: "8.2.0"
+source_language: "C++"
+source_files:
+  - "mri_deface/mri_defacer.cpp"
+families:
+  - "mri_*"
+recon_all_stage: null
+related:
+  - "[[mri_deface]]"
+  - "[[mri_coreg]]"
+  - "[[mgz]]"
+status: draft
+confidence: medium
+last_agent_update: 2026-04-15
+gaps:
+  - "Template surface and label files required are not documented (mideface library)"
+  - "MIDEFACE library internals not characterized"
+  - "Watermark embedding mechanism not fully documented"
+tags:
+  - defacing
+  - de-identification
+  - privacy
+  - surface-based
+---
+
+# mri_defacer
+
+## Summary
+
+`mri_defacer` is a newer FreeSurfer tool for removing facial features from MRI volumes. It uses a surface-based approach via the `mideface` library, working with a template surface registered to the input, label files defining the facial region, and distance-based masking to zero out facial voxels while preserving the brain. It optionally embeds a watermark in the defaced volume for data provenance tracking.
+
+## Source Information
+
+- **Language:** C++
+- **Source file:** `mri_deface/mri_defacer.cpp`
+- **Original author:** Douglas N. Greve
+- **Dependencies:** `mideface.h` library
+
+## Purpose and Context
+
+Unlike the atlas-based [[mri_deface]] which requires two GCA files, `mri_defacer` uses a parameterized surface mesh registered to the input volume to define the face region. This gives finer control over what is removed, can handle a wider variety of head shapes, and avoids dependence on volumetric atlas registration quality.
+
+The tool also supports optional watermarking — embedding a visible or invisible pattern into the defaced volume to indicate it has been processed and to record provenance.
+
+## Inputs
+
+Required (inferred from global variable declarations):
+- **`--i involpath`**: input volume to deface
+- **`--hm headmaskpath`**: head mask volume
+- **`--ts tempsurfpath`**: template surface registered to the input
+- **`--reg regpath`**: registration between template and input space
+- **`--tl templabelpathlist...`**: one or more template label files defining the facial region
+- **`--o outvolpath`**: output defaced volume
+
+Optional:
+- **`--fs facesegpath`**: output face segmentation
+- **`--min minsurfpath`** / **`--max maxsurfpath`**: output min/max surfaces
+- **`--distdat distdatpath`**, **`--distbounds distboundspath`**: distance-related outputs
+- **`--distoverlay distoverlaypath`**: surface overlay of distances
+- **`--stats statspath`**: statistics output
+- **`--watermark watermarkpath`**: path to watermark specification
+- **`--dwatermark d`** (float, default 1): watermark intensity
+
+## Outputs
+
+- **`outvolpath`**: defaced volume with facial voxels zeroed out
+- Optional: face segmentation, surface files, distance data, stats
+
+## Mathematical Foundations
+
+The approach is based on the `mideface` (Minimally Invasive Defacing) library:
+1. A template surface mesh is registered to the input volume (using `--reg`).
+2. Label files define facial regions on the template surface.
+3. For each input voxel, its distance from the face surface is computed.
+4. Voxels within the face region that are below a distance threshold are zeroed out.
+
+The `MRISpaintSphere()` function (defined in this file but unused in the binary) provides a utility for painting image content onto a spherical surface using phi/theta coordinates — likely used for the watermark.
+
+## Configuration Options
+
+> [!gap] Full option list requires running binary
+> Options are inferred from the global variable declarations at the top of the source. The complete `parse_commandline()` function was not read.
+
+| Variable | Flag (inferred) | Default | Description |
+|----------|----------------|---------|-------------|
+| `involpath` | `--i` | required | Input volume |
+| `headmaskpath` | `--hm` | required | Head mask |
+| `tempsurfpath` | `--ts` | required | Template surface |
+| `regpath` | `--reg` | required | Registration file |
+| `templabelpathlist` | `--tl` | required | Template label file(s) |
+| `outvolpath` | `--o` | required | Output defaced volume |
+| `facesegpath` | `--fs` | none | Output face segmentation |
+| `minsurfpath` | `--min` | none | Minimum surface output |
+| `maxsurfpath` | `--max` | none | Maximum surface output |
+| `watermarkpath` | `--watermark` | none | Watermark file |
+| `dwatermark` | `--dwatermark` | 1.0 | Watermark distance/intensity |
+| `statspath` | `--stats` | none | Statistics output |
+
+## Configuration Interactions
+
+> [!gap] Interactions not confirmed
+> Configuration interactions depend on the full `parse_commandline()` and `check_options()` functions.
+
+## Typical Use Cases
+
+> [!gap] Usage examples not available
+> The exact command-line syntax needs to be confirmed by running `mri_defacer --help`.
+
+## Pipeline Context
+
+Not called by [[recon-all]]. Applied to raw MRI before or after reconstruction as a de-identification step.
+
+## Gotchas and Caveats
+
+> [!gotcha] Requires mideface template files
+> The template surface and labels required by `--ts` and `--tl` must come from a specific mideface template distributed with FreeSurfer. Locations not documented here.
+
+> [!gotcha] Newer tool with less documentation
+> `mri_defacer` is more recent than [[mri_deface]] and may have less community documentation. The mideface library is an ongoing development.
+
+## Related Tools
+
+- [[mri_deface]] — older GCA-based defacing tool
+- [[mri_coreg]] — registration step that may be needed for `--reg`
+
+## Confidence and Gaps
+
+Confidence is **low–medium**. The tool's purpose and general approach are clear from the header comments and structure. Detailed operational requirements need confirmation from the binary's `--help` or the mideface documentation.
+
+> [!gap] mideface library
+> The `mideface.h` library is a FreeSurfer-internal component. Its full API and the template files it requires are not documented in this wiki.

@@ -1,0 +1,13 @@
+# Files and directories not published to the website
+CLAUDE.md
+CLAUDE-maintainer.md
+schema/
+raw/
+templates/
+queries/
+log.md
+DISTRIBUTION.md
+SETUP.md
+.obsidian/
+.github/
+.gitignore
