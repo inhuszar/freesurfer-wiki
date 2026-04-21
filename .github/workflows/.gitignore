@@ -1,0 +1,13 @@
+# Quartz build output
+public/
+.quartz-cache/
+
+# Node
+node_modules/
+
+# Obsidian workspace
+.obsidian
+
+# OS
+.DS_Store
+Thumbs.db
