@@ -22,8 +22,8 @@ import * as Plugin from "./quartz/plugins"
       cdnCaching: true,
       typography: {
         header: {
-          name: "Fraunces",
-          weights: [400, 500, 600],
+          name: "Source Sans 3",
+          weights: [400, 500, 600, 700],
           includeItalic: true,
         },
         body: {
@@ -35,26 +35,26 @@ import * as Plugin from "./quartz/plugins"
       },
       colors: {
         lightMode: {
-          light: "#faf6f0",        // warm paper background
-          lightgray: "#e8ddc8",    // borders & rules
-          gray: "#8a7e6c",         // secondary text
-          darkgray: "#3a3428",     // body text
-          dark: "#1a1612",         // headings
-          secondary: "#2a3f7a",    // primary accent (deep indigo)
-          tertiary: "#b85c3a",     // hover accent (terracotta)
-          highlight: "rgba(184, 92, 58, 0.08)",
-          textHighlight: "#f5c75555",
+          light: "#ffffff",        // white background
+          lightgray: "#e5e7eb",    // borders & rules
+          gray: "#6b7280",         // secondary/muted text
+          darkgray: "#374151",     // body text
+          dark: "#111827",         // headings
+          secondary: "#0a7d91",    // primary accent (NumPy teal)
+          tertiary: "#4dabcf",     // hover accent (NumPy cyan)
+          highlight: "rgba(10, 125, 145, 0.08)",
+          textHighlight: "#fef08a",
         },
         darkMode: {
-          light: "#1c1814",        // warm dark background
-          lightgray: "#3a3228",
-          gray: "#7a7062",
-          darkgray: "#d8cfbf",     // body text
-          dark: "#f0e7d5",         // headings
-          secondary: "#8ea4d9",    // primary accent (lighter indigo)
-          tertiary: "#e89770",     // hover accent (lighter terracotta)
-          highlight: "rgba(232, 151, 112, 0.12)",
-          textHighlight: "#f5c75533",
+          light: "#0d1117",        // GitHub dark bg
+          lightgray: "#30363d",
+          gray: "#8b949e",
+          darkgray: "#c9d1d9",     // body text
+          dark: "#e6edf3",         // headings
+          secondary: "#4dabcf",    // primary accent (NumPy cyan, inverted)
+          tertiary: "#7bc1d8",     // hover
+          highlight: "rgba(77, 171, 207, 0.12)",
+          textHighlight: "#bf8700",
         },
       },
     },

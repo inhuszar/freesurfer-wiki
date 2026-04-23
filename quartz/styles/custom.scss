@@ -2,20 +2,18 @@
 
 // ==========================================================================
 // FreeSurfer Documentation Project — Custom Quartz styles
-// Editorial academic aesthetic: warm paper, Fraunces display, data-table
-// treatment for flag references, color-coded callouts per type.
-//
-// Place at: quartz/styles/custom.scss
-// Enable by adding `@import "custom";` at the END of quartz/styles/base.scss
+// Clean modern aesthetic, inspired by NumPy 2.4 / PyData Sphinx docs.
+// White background, sans-serif throughout, teal accent, minimal decoration.
 // ==========================================================================
+
 
 // ─────────────────────────────────────────────────────────────────────────
 // Design tokens
 // ─────────────────────────────────────────────────────────────────────────
 
 :root {
-  --fs-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --fs-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;
+  --fs-body: "Source Sans 3", -apple-system, BlinkMacSystemFont,
+             "Segoe UI", Arial, sans-serif;
   --fs-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
 
   --ink: var(--darkgray);
@@ -23,100 +21,80 @@
   --rule: var(--lightgray);
   --muted: var(--gray);
   --accent: var(--secondary);
-  --warm: var(--tertiary);
+  --accent-hover: var(--tertiary);
 
-  // Callout accents (readable on warm paper)
-  --callout-gotcha: #c88547;
-  --callout-gap: #7a7e99;
-  --callout-math: #5c7aa8;
-  --callout-assumption: #6d9a5f;
-  --callout-contradiction: #c25454;
-  --callout-internal: #8a7baa;
+  // Callout accents — clean, saturated, readable on white
+  --callout-gotcha: #d97706;         // amber (warning)
+  --callout-gap: #64748b;            // slate (neutral)
+  --callout-math: #2563eb;           // blue (info)
+  --callout-assumption: #059669;     // emerald (note)
+  --callout-contradiction: #dc2626;  // red (error)
+  --callout-internal: #7c3aed;       // violet (tip)
 }
 
 
 // ─────────────────────────────────────────────────────────────────────────
-// Layout — wider content for flag tables
+// Content width — wider on desktop so flag tables can breathe
 // ─────────────────────────────────────────────────────────────────────────
-// Only expand the centre column. Do NOT touch #quartz-body width —
-// that's the flex container that holds explorer | content | TOC.
 
 @media (min-width: 1200px) {
-  .center {
-    max-width: 920px;
-  }
-
-  article.popover-hint {
-    max-width: 920px;
-  }
+  .center { max-width: 920px; }
+  article.popover-hint { max-width: 920px; }
 }
 
 
 // ─────────────────────────────────────────────────────────────────────────
-// Typography
+// Typography — clean sans-serif throughout
 // ─────────────────────────────────────────────────────────────────────────
 
-html { font-size: 16.5px; }
+html { font-size: 16px; }
 
 body {
   font-family: var(--fs-body);
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
-h1, h2, h3 {
-  font-family: var(--fs-display);
-  font-weight: 500;
-  letter-spacing: -0.015em;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fs-body);
+  font-weight: 600;
   color: var(--ink-strong);
-  line-height: 1.15;
+  line-height: 1.25;
 }
 
 article > h1:first-of-type {
-  font-size: 2.4rem;
+  font-size: 2.15rem;
+  font-weight: 700;
   margin: 0 0 0.5rem;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 article h2 {
-  font-size: 1.55rem;
-  margin: 2.75rem 0 1rem;
-  padding-bottom: 0.4rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2.5rem 0 0.9rem;
+  padding-bottom: 0.35rem;
   border-bottom: 1px solid var(--rule);
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: -1rem;
-    top: 0.45rem;
-    width: 3px;
-    height: 1.3rem;
-    background: var(--warm);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  &:hover::before { opacity: 0.7; }
 }
 
 article h3 {
   font-size: 1.2rem;
-  margin: 2rem 0 0.75rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.7rem;
 }
 
 article p, article li {
-  line-height: 1.75;
+  line-height: 1.7;
   color: var(--ink);
 }
 
-article p { margin: 0 0 1.1rem; }
+article p { margin: 0 0 1rem; }
 
 article ul, article ol {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.1rem;
   padding-left: 1.5rem;
 
-  li { margin-bottom: 0.35rem; }
-  ul, ol { margin: 0.35rem 0; }
+  li { margin-bottom: 0.3rem; }
+  ul, ol { margin: 0.3rem 0; }
 }
 
 strong, b {
@@ -131,11 +109,9 @@ strong, b {
 
 article .content-meta,
 .page-meta {
-  font-family: var(--fs-body);
   font-size: 0.85rem;
   color: var(--muted);
-  letter-spacing: 0.01em;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 
 article .tags,
@@ -143,70 +119,72 @@ article .tags,
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   padding: 0;
   list-style: none;
 
   a.tag-link,
   .tag-link {
     display: inline-block;
-    font-family: var(--fs-body);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.22em 0.7em;
-    border-radius: 2px;
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--rule);
+    padding: 0.15em 0.6em;
+    border-radius: 3px;
+    background: rgba(10, 125, 145, 0.08);
+    color: var(--accent);
+    border: none;
     text-decoration: none;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition: background 0.15s ease;
 
     &::before { content: none; }
 
     &:hover {
-      color: var(--warm);
-      border-color: var(--warm);
+      background: rgba(10, 125, 145, 0.15);
+      color: var(--accent);
     }
   }
 }
 
+:root[saved-theme="dark"] article .tags a.tag-link,
+:root[saved-theme="dark"] .tag-list .tag-link {
+  background: rgba(77, 171, 207, 0.12);
+
+  &:hover { background: rgba(77, 171, 207, 0.22); }
+}
+
 
 // ─────────────────────────────────────────────────────────────────────────
-// Tables — the big fix
+// Tables
 // ─────────────────────────────────────────────────────────────────────────
 
 article table {
   width: 100%;
-  margin: 1.75rem 0 2rem;
+  margin: 1.5rem 0 1.75rem;
   border-collapse: collapse;
-  font-family: var(--fs-body);
   font-size: 0.9rem;
   line-height: 1.55;
 
   thead th {
     text-align: left;
-    font-family: var(--fs-body);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
     color: var(--muted);
     padding: 0.55rem 0.9rem 0.55rem 1rem;
-    border-bottom: 1.5px solid var(--ink-strong);
+    border-bottom: 2px solid var(--rule);
     background: transparent;
     white-space: nowrap;
   }
 
   tbody td {
-    padding: 0.65rem 0.9rem 0.65rem 1rem;
+    padding: 0.6rem 0.9rem 0.6rem 1rem;
     border-bottom: 1px solid var(--rule);
     vertical-align: top;
     color: var(--ink);
   }
 
-  // First column: monospace flag/key with the accent colour
+  // First column: monospace flag/key in accent colour
   tbody td:first-child {
     font-family: var(--fs-mono);
     font-size: 0.82rem;
@@ -218,29 +196,25 @@ article table {
       background: transparent;
       padding: 0;
       color: inherit;
-      font-weight: 500;
     }
   }
 
-  // Last column (typically Description) gets remaining space
   tbody td:last-child { width: 100%; }
 
-  tbody tr:nth-child(even) { background: rgba(0, 0, 0, 0.015); }
-  tbody tr:hover { background: rgba(184, 92, 58, 0.05); }
+  tbody tr:hover { background: rgba(0, 0, 0, 0.025); }
 
   code {
     font-family: var(--fs-mono);
     font-size: 0.82em;
     padding: 0.12em 0.4em;
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.05);
     border-radius: 3px;
     color: var(--ink-strong);
   }
 }
 
 :root[saved-theme="dark"] article table {
-  tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
-  tbody tr:hover { background: rgba(232, 151, 112, 0.07); }
+  tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
   code { background: rgba(255, 255, 255, 0.06); }
 }
 
@@ -251,12 +225,12 @@ article table {
 
 article :not(pre) > code {
   font-family: var(--fs-mono);
-  font-size: 0.88em;
-  padding: 0.1em 0.4em;
-  background: rgba(0, 0, 0, 0.04);
+  font-size: 0.87em;
+  padding: 0.12em 0.35em;
+  background: rgba(0, 0, 0, 0.05);
   color: var(--ink-strong);
   border-radius: 3px;
-  font-weight: 500;
+  font-weight: 400;
   word-break: break-word;
 }
 
@@ -271,14 +245,14 @@ article :not(pre) > code {
 // ─────────────────────────────────────────────────────────────────────────
 
 article pre {
-  margin: 1.5rem 0;
-  padding: 1rem 1.25rem;
-  border-radius: 4px;
-  border-left: 3px solid var(--accent);
-  background: rgba(0, 0, 0, 0.025);
+  margin: 1.25rem 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #f6f8fa;
   font-family: var(--fs-mono);
   font-size: 0.85rem;
-  line-height: 1.6;
+  line-height: 1.55;
   overflow-x: auto;
 
   code {
@@ -290,31 +264,32 @@ article pre {
 }
 
 :root[saved-theme="dark"] article pre {
-  background: rgba(255, 255, 255, 0.03);
+  background: #161b22;
+  border-color: var(--rule);
 }
 
 
 // ─────────────────────────────────────────────────────────────────────────
-// Callouts — a distinct colour & tone per semantic type
+// Callouts — PyData admonition style: coloured left border + coloured title
 // ─────────────────────────────────────────────────────────────────────────
 
 .callout {
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
   padding: 0;
-  border-radius: 2px;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
   border-left: 3px solid var(--callout-gap);
-  background: rgba(0, 0, 0, 0.02);
+  background: transparent;
   overflow: hidden;
 
   .callout-title {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.55rem 1rem 0.25rem;
-    font-family: var(--fs-body);
-    font-size: 0.72rem;
+    padding: 0.5rem 1rem 0.2rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--muted);
 
@@ -322,7 +297,7 @@ article pre {
   }
 
   .callout-content {
-    padding: 0 1rem 0.8rem;
+    padding: 0 1rem 0.7rem;
     font-size: 0.93rem;
     line-height: 1.65;
 
@@ -333,42 +308,27 @@ article pre {
 
 .callout[data-callout="gotcha"] {
   border-left-color: var(--callout-gotcha);
-  background: rgba(200, 133, 71, 0.06);
   .callout-title { color: var(--callout-gotcha); }
 }
 .callout[data-callout="gap"] {
   border-left-color: var(--callout-gap);
-  background: rgba(122, 126, 153, 0.05);
   .callout-title { color: var(--callout-gap); }
 }
 .callout[data-callout="math"] {
   border-left-color: var(--callout-math);
-  background: rgba(92, 122, 168, 0.05);
   .callout-title { color: var(--callout-math); }
 }
 .callout[data-callout="assumption"] {
   border-left-color: var(--callout-assumption);
-  background: rgba(109, 154, 95, 0.05);
   .callout-title { color: var(--callout-assumption); }
 }
 .callout[data-callout="contradiction"] {
   border-left-color: var(--callout-contradiction);
-  background: rgba(194, 84, 84, 0.05);
   .callout-title { color: var(--callout-contradiction); }
 }
 .callout[data-callout="internal"] {
   border-left-color: var(--callout-internal);
-  background: rgba(138, 123, 170, 0.05);
   .callout-title { color: var(--callout-internal); }
-}
-
-:root[saved-theme="dark"] {
-  .callout[data-callout="gotcha"] { background: rgba(200, 133, 71, 0.1); }
-  .callout[data-callout="gap"] { background: rgba(160, 165, 190, 0.1); }
-  .callout[data-callout="math"] { background: rgba(142, 164, 217, 0.1); }
-  .callout[data-callout="assumption"] { background: rgba(145, 190, 120, 0.1); }
-  .callout[data-callout="contradiction"] { background: rgba(232, 104, 104, 0.1); }
-  .callout[data-callout="internal"] { background: rgba(180, 165, 220, 0.1); }
 }
 
 
@@ -378,28 +338,29 @@ article pre {
 
 article a:not(.internal):not(.tag-link):not(.anchor) {
   color: var(--accent);
-  text-decoration-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 1px;
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 
   &:hover {
-    color: var(--warm);
-    text-decoration-color: var(--warm);
+    color: var(--accent-hover);
+    text-decoration-color: var(--accent-hover);
   }
 }
 
 article a.internal {
   color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 50%, transparent);
-  transition: color 0.15s ease, border-bottom-color 0.15s ease,
-              border-bottom-style 0.15s ease;
+  background: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  padding-bottom: 0.5px;
+  transition: color 0.15s ease, border-bottom-color 0.15s ease;
 
   &:hover {
-    color: var(--warm);
-    border-bottom-color: var(--warm);
-    border-bottom-style: solid;
+    color: var(--accent-hover);
+    border-bottom-color: var(--accent-hover);
   }
 }
 
@@ -409,31 +370,22 @@ article a.internal {
 // ─────────────────────────────────────────────────────────────────────────
 
 article blockquote:not(.callout) {
-  margin: 1.25rem 0;
-  padding: 0.5rem 0 0.5rem 1.25rem;
+  margin: 1.15rem 0;
+  padding: 0.4rem 0 0.4rem 1.1rem;
   border-left: 3px solid var(--rule);
-  font-style: italic;
   color: var(--muted);
+  font-style: normal;
 }
 
 
 // ─────────────────────────────────────────────────────────────────────────
-// Horizontal rules → editorial dividers
+// Horizontal rules — thin clean line
 // ─────────────────────────────────────────────────────────────────────────
 
 article hr {
-  margin: 2.5rem 0;
+  margin: 2rem 0;
   border: none;
-  text-align: center;
-  line-height: 0;
-
-  &::after {
-    content: "· · ·";
-    display: inline-block;
-    color: var(--muted);
-    letter-spacing: 0.5em;
-    font-size: 0.85rem;
-  }
+  border-top: 1px solid var(--rule);
 }
 
 
@@ -442,8 +394,7 @@ article hr {
 // ─────────────────────────────────────────────────────────────────────────
 
 .breadcrumb-container {
-  margin-bottom: 1.5rem;
-  font-family: var(--fs-body);
+  margin-bottom: 1.25rem;
   font-size: 0.85rem;
   color: var(--muted);
 
@@ -452,47 +403,50 @@ article hr {
     text-decoration: none;
     transition: color 0.15s ease;
 
-    &:hover { color: var(--warm); }
+    &:hover { color: var(--accent); }
   }
 
   .breadcrumb-element:not(:last-child)::after {
-    content: "→";
-    margin: 0 0.5rem;
+    content: "/";
+    margin: 0 0.4rem;
     color: var(--rule);
   }
 }
 
 
 // ─────────────────────────────────────────────────────────────────────────
-// Sidebars: explorer, TOC, backlinks — supporting roles, quieter
+// Sidebars: explorer, TOC, backlinks
 // ─────────────────────────────────────────────────────────────────────────
 
 .explorer {
-  font-family: var(--fs-body);
-  font-size: 0.88rem;
+  font-size: 0.87rem;
 
-  .folder-container { line-height: 1.5; }
-  .folder-title, .file-title { padding: 0.12rem 0.3rem; }
+  .folder-container { line-height: 1.45; }
+  .folder-title, .file-title { padding: 0.1rem 0.3rem; }
 
   button.folder-button {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--ink-strong);
   }
 
   a.internal {
     border-bottom: none;
+    background: none;
     color: var(--ink);
+    padding: 0;
 
-    &:hover { color: var(--warm); }
+    &:hover {
+      color: var(--accent);
+      background: none;
+    }
   }
 }
 
 .toc h3,
 .backlinks h3 {
-  font-family: var(--fs-body);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -500,18 +454,20 @@ article hr {
 .toc ul a.internal,
 .backlinks a.internal {
   border-bottom: none;
+  background: none;
   font-size: 0.87rem;
   color: var(--ink);
+  padding: 0;
 
-  &:hover { color: var(--warm); }
+  &:hover { color: var(--accent); }
 }
 
 .toc ul a.internal.in-view {
-  color: var(--warm);
-  font-weight: 500;
+  color: var(--accent);
+  font-weight: 600;
 }
 
-.backlinks { margin-top: 2rem; }
+.backlinks { margin-top: 1.75rem; }
 
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -519,10 +475,11 @@ article hr {
 // ─────────────────────────────────────────────────────────────────────────
 
 .page-header .page-title {
-  font-family: var(--fs-display);
-  font-size: 1.5rem;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  font-family: var(--fs-body);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink-strong);
 }
 
 
@@ -531,15 +488,16 @@ article hr {
 // ─────────────────────────────────────────────────────────────────────────
 
 .katex-display {
-  margin: 1.5rem 0;
-  padding: 1rem;
+  margin: 1.25rem 0;
+  padding: 0.75rem;
   overflow-x: auto;
-  background: rgba(0, 0, 0, 0.02);
+  background: #f6f8fa;
+  border: 1px solid var(--rule);
   border-radius: 4px;
 }
 
 :root[saved-theme="dark"] .katex-display {
-  background: rgba(255, 255, 255, 0.03);
+  background: #161b22;
 }
 
 
@@ -551,7 +509,7 @@ article img {
   max-width: 100%;
   height: auto;
   border-radius: 3px;
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
 }
 
 
@@ -560,17 +518,14 @@ article img {
 // ─────────────────────────────────────────────────────────────────────────
 
 @media (max-width: 800px) {
-  article > h1:first-of-type { font-size: 1.85rem; }
-  article h2 {
-    font-size: 1.3rem;
-    &::before { display: none; }
-  }
+  article > h1:first-of-type { font-size: 1.7rem; }
+  article h2 { font-size: 1.25rem; }
   article table {
     font-size: 0.82rem;
     thead th, tbody td { padding: 0.45rem 0.55rem; }
   }
   article pre {
     font-size: 0.78rem;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.9rem;
   }
 }
