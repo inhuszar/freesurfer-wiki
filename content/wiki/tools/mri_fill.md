@@ -101,7 +101,7 @@ All flags are case-insensitive (parsed with `stricmp`). Single-character fallbac
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--help` / `--usage` | — | — | Print help text and exit |
+| `--help`<br>`--usage` | — | — | Print help text and exit |
 | `--version` | — | — | Print version string and exit |
 | `-rval <n>` | int | 127 (`MRI_RIGHT_HEMISPHERE`) | Override fill value used for the right hemisphere voxels |
 | `-lval <n>` | int | 255 (`MRI_LEFT_HEMISPHERE`) | Override fill value used for the left hemisphere voxels |

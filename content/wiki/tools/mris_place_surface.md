@@ -126,7 +126,7 @@ For T2/FLAIR pial placement, the `MRIS_MultimodalRefinement` engine is used when
 | `--repulse-surf` | `surface` | — | Surface to repel from (usually white for pial) |
 | `--white-surf` | `surface` | — | Sets white{xyz} coordinates used for T2/FLAIR and `--pin-medial-wall` |
 | `--blend-surf` | `weight surface` | — | Blend input with this surface: `new = (1-w)*input + w*blend` |
-| `--cover-seg` / `--cover_seg` | `SegVol` | — | Force surface to cover a segmentation volume |
+| `--cover-seg`<br>`--cover_seg` | `SegVol` | — | Force surface to cover a segmentation volume |
 | `--rip-label` | `label` | — | Do not move vertices outside this label; also sets `RipMidline=0` |
 | `--rip-overlay` | `file` | — | Rip vertices where overlay value > 0.5 |
 | `--rip-surf` | `surface` | — | Reference surface for midline/BG/WMSA ripping (default: use input surface) |
@@ -136,13 +136,13 @@ For T2/FLAIR pial placement, the `MRIS_MultimodalRefinement` engine is used when
 
 | Flag | Argument | Default | Description |
 |---|---|---|---|
-| `--rip-midline` / `--no-rip-midline` | _(none)_ | on | Freeze midline vertices |
-| `--rip-bg` / `--no-rip-bg` | _(none)_ | off | Freeze basal ganglia vertices |
-| `--rip-bg-lof` / `--no-rip-bg-lof` | _(none)_ | off | Freeze BG vertices in lateral orbital frontal cortex |
+| `--rip-midline`<br>`--no-rip-midline` | _(none)_ | on | Freeze midline vertices |
+| `--rip-bg`<br>`--no-rip-bg` | _(none)_ | off | Freeze basal ganglia vertices |
+| `--rip-bg-lof`<br>`--no-rip-bg-lof` | _(none)_ | off | Freeze BG vertices in lateral orbital frontal cortex |
 | `--rip-bg-no-annot` | _(none)_ | off | Do not require annotation when ripping BG (sets `RipBGRequireAnnot=0`) |
-| `--rip-wmsa` / `--no-rip-wmsa` | _(none)_ | off | Freeze WMSA vertices (seg labels 77–79) |
-| `--rip-lesion` / `--no-rip-lesion` | _(none)_ | off | Freeze lesion vertices (seg labels 25, 57) |
-| `--rip-freeze` / `--no-rip-freeze` | _(none)_ | on | Freeze 247-labelled voxels |
+| `--rip-wmsa`<br>`--no-rip-wmsa` | _(none)_ | off | Freeze WMSA vertices (seg labels 77–79) |
+| `--rip-lesion`<br>`--no-rip-lesion` | _(none)_ | off | Freeze lesion vertices (seg labels 25, 57) |
+| `--rip-freeze`<br>`--no-rip-freeze` | _(none)_ | on | Freeze 247-labelled voxels |
 | `--no-rip` | _(none)_ | off | Disable all ripping (sets WMSA, freeze, lesion, BG, midline all to 0) |
 | `--rip-projection` | `dmin dmax dstep` | `-2.0 +2.0 0.5` | Set projection range and step for rip detection (mm) |
 
@@ -161,9 +161,9 @@ For T2/FLAIR pial placement, the `MRIS_MultimodalRefinement` engine is used when
 | `--pin-medial-wall` | `label` | — | Pin medial wall vertices to white{xyz} after placement (requires `--white-surf`) |
 | `--no-pin-medial-wall` | _(none)_ | off | Unset a previously set `--pin-medial-wall` |
 | `--restore-255` | _(none)_ | off | Restore 255-voxels to 110 after preprocessing (white surface only) |
-| `--cbv-zero` / `--no-cbv-zero` | _(none)_ | off | Force CBV target value to 0 (disables intensity preprocessing) |
-| `--first-peak-d1` / `--no-first-peak-d1` | _(none)_ | off | Use first-peak D1 mode in CBV |
-| `--first-peak-d2` / `--no-first-peak-d2` | _(none)_ | off | Use first-peak D2 mode in CBV |
+| `--cbv-zero`<br>`--no-cbv-zero` | _(none)_ | off | Force CBV target value to 0 (disables intensity preprocessing) |
+| `--first-peak-d1`<br>`--no-first-peak-d1` | _(none)_ | off | Use first-peak D1 mode in CBV |
+| `--first-peak-d2`<br>`--no-first-peak-d2` | _(none)_ | off | Use first-peak D2 mode in CBV |
 | `--neg-sign` | _(none)_ | off | Negate the sample volume derivative sign in CBV |
 | `--fill-lat-vents` | `mm topo nnbrs` | — | Fill lateral ventricles in invol; dilates by `mm`, topology `topo`, nnbrs `nnbrs` |
 | `--alt-border-low` | `labelfile factor` | — | Use alternate border-low threshold for high-myelin label regions |
@@ -226,7 +226,7 @@ These flags override thresholds read from `--adgws-in`. Must be specified after 
 | `--segvolname` | `name` | `aseg.presurf.mgz` | Override default segmentation volume name (used with `--s`) |
 | `--n_averages` | `N` | `0` (auto) | Starting number of smoothing averages (0 = use surface-type default) |
 | `--max-threads` | _(none)_ | off | Use all available OpenMP threads |
-| `--max-threads-1` / `--max-threads-minus-1` | _(none)_ | off | Use all available OpenMP threads minus one |
+| `--max-threads-1`<br>`--max-threads-minus-1` | _(none)_ | off | Use all available OpenMP threads minus one |
 | `--threads` | `N` | `1` | Set number of OpenMP threads explicitly (alias: `--nthreads`) |
 
 ### Optional — Output/Debug

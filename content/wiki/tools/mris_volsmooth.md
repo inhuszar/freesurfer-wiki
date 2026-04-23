@@ -61,7 +61,7 @@ Standard Gaussian smoothing in volume space blurs across sulcal folds, mixing si
 | `--projfrac-avg` | `<min> <max> <delta>` | — | Projection fraction average (alternative to `--projfrac`) |
 | `--surf-out` | `<stem>` | — | Save intermediate surface overlays to `stem.lh.mgh` / `stem.rh.mgh` |
 | `--fill-ribbon` | — | off | Fill the entire cortical ribbon (not just one projection fraction) |
-| `--no-cleanup` / `--nocleanup` | — | off | Keep intermediate temporary files |
+| `--no-cleanup`<br>`--nocleanup` | — | off | Keep intermediate temporary files |
 | `--tmpdir` | `<dir>` | — | Use specified temporary directory (also disables cleanup) |
 | `--log` | `<logfile>` | `<invol-stem>.mris_volsmooth.log` | Custom log file |
 

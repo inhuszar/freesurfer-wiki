@@ -89,8 +89,8 @@ Quality metrics computed by `MRISfaceMetric`, `MRISedgeMetric`, `MRIScornerMetri
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-i` / `--input` | surface file | — | Input surface file (required) |
-| `-o` / `--output` | surface file | — | Output remeshed surface file (required) |
+| `-i`<br>`--input` | surface file | — | Input surface file (required) |
+| `-o`<br>`--output` | surface file | — | Output remeshed surface file (required) |
 | `--nvert` | integer | — | Target number of vertices |
 | `--edge-len` | float (mm) | — | Target average edge length (mm) |
 | `--desired-face-area` | float (mm²) | — | Target average face area (mm²) |

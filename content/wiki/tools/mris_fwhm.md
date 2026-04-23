@@ -89,8 +89,8 @@ where $k$ depends on the average inter-vertex spacing of the surface.
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `--i input` | path | required | Input data file |
-| `--s subject` / `--subject subject` | string | required | FreeSurfer subject name |
-| `--h hemi` / `--hemi hemi` | lh or rh | required | Hemisphere |
+| `--s subject`<br>`--subject subject` | string | required | FreeSurfer subject name |
+| `--h hemi`<br>`--hemi hemi` | lh or rh | required | Hemisphere |
 | `--surf surfname` | string | `white` | Surface to use for AR1 computation |
 | `--mask maskfile` | path | — | Mask file |
 | `--mask-inv` | — | off | Invert mask |
@@ -110,7 +110,7 @@ where $k$ depends on the average inter-vertex spacing of the surface.
 | `--surfpath path` | path | — | Full path to surface file; bypasses subject/hemi automatic lookup |
 | `--sd dir` | path | `$SUBJECTS_DIR` | SUBJECTS_DIR override |
 | `--niters n` | integer | — | Apply exactly this many smoothing iterations (bypasses FWHM-to-niters conversion) |
-| `--smooth-only` / `--so` | — | off | Only smooth; skip FWHM estimation (implies `--no-detrend`) |
+| `--smooth-only`<br>`--so` | — | off | Only smooth; skip FWHM estimation (implies `--no-detrend`) |
 | `--no-detrend` | — | off | Disable polynomial detrending |
 | `--fast` | — | off | Enable fast surface smoother (sets `USE_FAST_SURF_SMOOTHER=1`) |
 | `--no-fast` | — | off | Disable fast surface smoother (sets `USE_FAST_SURF_SMOOTHER=0`) |

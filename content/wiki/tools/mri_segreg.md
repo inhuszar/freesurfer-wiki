@@ -89,8 +89,8 @@ Pre-optimisation options include brute-force grid search (`--brute`, `--brute_tr
 | `--vsm` | `<vol> [pedir]` | — | Voxel shift map for EPI distortion |
 | `--vsm-pedir` | `<int>` | 2 | Phase encode direction (1=x,2=y,3=z) |
 | `--vsm-scale` | `<float>` | 1.0 | Scale factor for VSM |
-| `--T1` / `--t1` | — | off | Assume T1 contrast (WM brighter than GM) |
-| `--T2` / `--t2` / `--bold` | — | on | Assume T2/BOLD contrast (GM brighter than WM) |
+| `--T1`<br>`--t1` | — | off | Assume T1 contrast (WM brighter than GM) |
+| `--T2`<br>`--t2`<br>`--bold` | — | on | Assume T2/BOLD contrast (GM brighter than WM) |
 | `--slope` | `<float>` | — | Cost function slope |
 | `--offset` | `<float>` | — | Cost function offset (pct) |
 | `--gm-proj-frac` | `<float>` | 0.5 | GM projection fraction (cortical thickness) |
@@ -125,7 +125,7 @@ Pre-optimisation options include brute-force grid search (`--brute`, `--brute_tr
 | `--cur-reg` | `<file>` | — | Write registration at current optimum to file (updated at each improvement) |
 | `--rms` | `RMSDiffFile` | — | Save translation/rotation parameters and RMS difference to file |
 | `--dof` | `<int>` | 6 | Degrees of freedom for optimisation (6=rigid, 9=rigid+scale, 12=affine) |
-| `--nsub` / `--skip` | `<int>` | — | Sample every Nth vertex (alias: `--subsamp`) |
+| `--nsub`<br>`--skip` | `<int>` | — | Sample every Nth vertex (alias: `--subsamp`) |
 | `--scale` | `sx sy sz` | — | Apply pre-optimisation scaling (3 floats) to the registration |
 | `--shear` | `s01 s02 s12` | — | Apply pre-optimisation shear (3 floats) to the registration |
 | `--trans-rand` | `Tmax` | 0 | Apply random translation uniformly drawn from -Tmax..+Tmax mm (each axis) |

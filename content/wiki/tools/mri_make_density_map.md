@@ -77,7 +77,7 @@ The parser strips one leading dash (`option = argv[1] + 1`). Single-character sw
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-out_like` / `-ol` | `<fname>` | null | Use this volume's geometry (resolution, vox size, RAS orientation) for the output |
+| `-out_like`<br>`-ol` | `<fname>` | null | Use this volume's geometry (resolution, vox size, RAS orientation) for the output |
 | `-t` | `<fname>` | null | Apply a spatial transform (LTA or GCAM `.m3z`) to the segmentation. Provides an alternative to the positional `<xform>` argument |
 | `-s` | `<sigma>` | 0 | Apply a Gaussian smoothing kernel of width `sigma` (mm) after warping |
 | `-r` | `<n>` | 0 | Reduce (downsample) the output volume `n` times after density accumulation |

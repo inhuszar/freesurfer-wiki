@@ -86,7 +86,7 @@ All flags confirmed from `parse_commandline()` in `attic/mri_vol2roi/mri_vol2roi
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--label` / `--labelfile` | `<file>` | — | Path to FreeSurfer label file |
+| `--label`<br>`--labelfile` | `<file>` | — | Path to FreeSurfer label file |
 | `--labelreg` | `<file>` | — | Matrix mapping label XYZ to anatomical coordinates (tkregister space) |
 | `--labeltal` | — | off | Treat label as in Talairach space; loads `talairach.xfm` automatically; also sets `--fixxfm` |
 | `--talxfm` | `<file>` | `talairach.xfm` | Alternative Talairach XFM file (from subject `mri/transforms/`); forces `--labeltal` |

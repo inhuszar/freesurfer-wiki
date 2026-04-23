@@ -106,9 +106,9 @@ All option flags use a single `-` prefix and are case-insensitive. Flags are par
 | `-J <w>` | float | 1.0 | Weight for Jacobian determinant penalty `l_jacobian` |
 | `-area <w>` | float | (default) | Weight for area preservation term `l_area` |
 | `-spring <w>` | float | (from parms) | Weight for spring regularisation term `l_spring` |
-| `-intensity <w> <fname>` / `-ll <w> <fname>` | float + path | off | Weight for log-likelihood intensity term `l_log_likelihood`; reads intensity volume `fname`. `-ll` is an alias. |
+| `-intensity <w> <fname>`<br>`-ll <w> <fname>` | float + path | off | Weight for log-likelihood intensity term `l_log_likelihood`; reads intensity volume `fname`. `-ll` is an alias. |
 | `-likelihood <w> <fname>` | float + path | off | Weight for linear likelihood term `l_likelihood`; reads intensity volume `fname` |
-| `-area_intensity <w> <fname>` / `-aint <w> <fname>` | float + path | off | Weight for area-intensity coupling term `l_area_intensity`; reads intensity volume `fname`. `-aint` is an alias. |
+| `-area_intensity <w> <fname>`<br>`-aint <w> <fname>` | float + path | off | Weight for area-intensity coupling term `l_area_intensity`; reads intensity volume `fname`. `-aint` is an alias. |
 | `-K <val>` | float | 5.0 | Exponential parameter `exp_k` in the Jacobian energy |
 | `-rthresh <val>` | float | 0.25 | Compression ratio threshold; nodes below this ratio trigger compression penalty |
 
@@ -123,7 +123,7 @@ All option flags use a single `-` prefix and are case-insensitive. Flags are par
 | `-passes <n>` | int | 3 | Number of optimisation passes |
 | `-tol <val>` | float | (default) | Convergence tolerance |
 | `-M <val>` | float | (from parms) | Set the gradient descent momentum scalar `mp.momentum` |
-| `-MOMENTUM` / `-FIXED` | (none) | off | Set integration type to `GCAM_INTEGRATE_FIXED` (optimal time-step integration). Both spellings are accepted; option string is uppercased before comparison. |
+| `-MOMENTUM`<br>`-FIXED` | (none) | off | Set integration type to `GCAM_INTEGRATE_FIXED` (optimal time-step integration). Both spellings are accepted; option string is uppercased before comparison. |
 | `-sigma <val>` | float | 8.0 | Initial Gaussian smoothing sigma for multi-resolution |
 | `-min_sigma <val>` | float | 1.0 | Minimum sigma; smoothing stops when sigma reaches this value |
 | `-si <sigma>` | float | −1 (off) | Smooth GCA morph intensity estimates with Gaussian of `sigma` |

@@ -93,7 +93,7 @@ where $\mathbf{p}_{\text{endpoint}}$ is the streamline endpoint coordinate trans
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-i` / `-I <file>` | string | required | Input streamline file (`.trk`). Consecutive files are read via `num1.next("")` until a non-existent path is found. |
+| `-i`<br>`-I <file>` | string | required | Input streamline file (`.trk`). Consecutive files are read via `num1.next("")` until a non-existent path is found. |
 | `-sl <file>` | string | required | LH pial (or other) surface file. |
 | `-tl <file>` | string | required | LH thickness overlay file (FreeSurfer curvature format). |
 | `-cl <file>` | string | required | LH pial curvature overlay file (FreeSurfer curvature format). |
@@ -105,10 +105,10 @@ where $\mathbf{p}_{\text{endpoint}}$ is the streamline endpoint coordinate trans
 | `-ria <file>` | string | required | Reference image in the anatomical (surface) coordinate space. |
 | `-al <file>` | string | required | LH cortical parcellation annotation file (`.annot`). |
 | `-ar <file>` | string | required | RH cortical parcellation annotation file (`.annot`). |
-| `-p` / `-P <file>` | string | `output.csv` | Hungarian correspondence CSV from `dmri_match`. `-p` and `-P` are aliases. |
+| `-p`<br>`-P <file>` | string | `output.csv` | Hungarian correspondence CSV from `dmri_match`. `-p` and `-P` are aliases. |
 | `-t <file>` | string | — | ITK affine transform file from DWI space to anatomical space. Applied when the two spaces are not co-registered. |
 | `-fa <N> <name1> <file1> ...` | int + pairs | — | Number of diffusion measure maps `N`, followed by `N` name/file pairs (e.g. `FA dti_FA.nii.gz MD dti_MD.nii.gz`). Names become column headers in the output CSV. |
-| `--help` / `-h` | flag | — | Print usage and exit. |
+| `--help`<br>`-h` | flag | — | Print usage and exit. |
 
 ## Typical Use Cases
 

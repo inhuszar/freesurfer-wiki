@@ -77,8 +77,8 @@ The relabeling uses the white surface as a boundary:
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-lh-only` / `-lh` | (none) | off | Process left hemisphere only |
-| `-rh-only` / `-rh` | (none) | off | Process right hemisphere only |
+| `-lh-only`<br>`-lh` | (none) | off | Process left hemisphere only |
+| `-rh-only`<br>`-rh` | (none) | off | Process right hemisphere only |
 | `-debug_voxel` | `<x> <y> <z>` | — | Enable debugging for a specific voxel coordinate |
 
 ## Configuration Interactions

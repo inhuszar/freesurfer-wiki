@@ -124,8 +124,8 @@ When `-coords <white|pial>` is used, `MRIScoordsFromParameterizationBarycentric(
 | `-variance <subj> <hemi> <field>` | string, string, int | off | Compute a variance map for field `field_no`; requires `SUBJECTS_DIR` and `subj`/`hemi` to load the subject's own curvature file |
 | `-V <vno>` | int | — | Enable per-vertex diagnostics for vertex number `vno` |
 | `-W` | none | off | Enable `DIAG_WRITE` diagnostic output |
-| `--help` / `-?` / `-U` | none | — | Print help and exit |
-| `--version` / `-version` | none | — | Print version and exit |
+| `--help`<br>`-?`<br>`-U` | none | — | Print help and exit |
+| `--version`<br>`-version` | none | — | Print version and exit |
 | `-nframes <n>` | int | 1 | **Stub — not implemented.** Parsing accepted but `printf("NOT IMPLEMENTED YET")` and `exit(1)` called immediately. Do not use. |
 | `-white` | — | — | **Not a standalone flag — argument value.** Passing `white` as argument to `-coords` selects white surface coordinates. The audit extractor promotes `stricmp(argv[2], "white")` to pseudo-flag `-white`. |
 | `-pial` | — | — | **Not a standalone flag — argument value.** Passing `pial` as argument to `-coords` selects pial surface coordinates. The audit extractor promotes `stricmp(argv[2], "pial")` to pseudo-flag `-pial`. |

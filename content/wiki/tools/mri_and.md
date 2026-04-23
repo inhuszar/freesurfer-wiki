@@ -68,7 +68,7 @@ where $\mathbf{1}[\cdot]$ is the indicator function. When no threshold is specif
 |------|------|---------|-------------|
 | `-t <thresh>` | float | -1 (disabled) | Apply threshold to each input volume before AND; only voxels with value > thresh participate |
 | `--help` | flag | — | Print help text and exit |
-| `-u` / `-?` | flag | — | Print usage and exit |
+| `-u`<br>`-?` | flag | — | Print usage and exit |
 | `--version` | flag | — | Print version string and exit |
 
 ## Configuration Interactions

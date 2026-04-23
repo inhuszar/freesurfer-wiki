@@ -80,9 +80,9 @@ Implicit inputs (resolved from subject directory):
 
 | File | Description |
 |------|-------------|
-| `surf/lh.white`, `surf/rh.white` | White surface for ribbon computation |
-| `surf/lh.pial`, `surf/rh.pial` | Pial surface for ribbon computation |
-| `label/lh.aparc.annot`, `label/rh.aparc.annot` | Cortical parcellation |
+| `surf/lh.white`<br>`surf/rh.white` | White surface for ribbon computation |
+| `surf/lh.pial`<br>`surf/rh.pial` | Pial surface for ribbon computation |
+| `label/lh.aparc.annot`<br>`label/rh.aparc.annot` | Cortical parcellation |
 | `mri/ribbon.mgz` | Pre-computed cortical ribbon mask |
 | `mri/aseg.mgz` | Base volumetric segmentation |
 
@@ -144,7 +144,7 @@ Identifiers and I/O:
 |------|------|---------|-------------|
 | `--s <subjid>` | string | — | Subject name; resolves all implicit input paths under `$SUBJECTS_DIR/<subjid>`. Required. |
 | `--sd <dir>` | string | `$SUBJECTS_DIR` env | Override the subjects directory (also sets `SUBJECTS_DIR` for child calls). |
-| `--o <outvol>` / `--oaseg` | string | `mri/<annotname>+aseg.mgz` | Output segmentation volume. |
+| `--o <outvol>`<br>`--oaseg` | string | `mri/<annotname>+aseg.mgz` | Output segmentation volume. |
 | `--oaparc <vol>` | string | — | Optional separate output containing only the cortical parcellation (without subcortical labels merged in). |
 | `--aseg <name>` | string | `aseg` | Input aseg base name (resolved as `$SUBJECTS_DIR/<subj>/mri/<name>.mgz` or `.mgh`, or as a direct path). |
 | `--annot <name>` | string | `aparc` | Annotation stem; reads `label/lh.<name>.annot` and `label/rh.<name>.annot`. |
@@ -156,7 +156,7 @@ Algorithm and labelling:
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--volmask` / `--new-ribbon` | bool | ON | Use the precomputed `mri/ribbon.mgz` ("new" ribbon) to decide whether a voxel is inside the cortical ribbon. This is the default and is also what `recon-all` passes explicitly. |
+| `--volmask`<br>`--new-ribbon` | bool | ON | Use the precomputed `mri/ribbon.mgz` ("new" ribbon) to decide whether a voxel is inside the cortical ribbon. This is the default and is also what `recon-all` passes explicitly. |
 | `--old-ribbon` | bool | OFF | Use the legacy in-tool ribbon test instead of `ribbon.mgz`. Mutually exclusive with `--new-ribbon`/`--volmask`. |
 | `--noribbon` | bool | OFF | Disable the ribbon test entirely; assign a parcellation label to every aseg cortex voxel regardless of whether it lies between the white and pial surfaces. |
 | `--labelwm` | bool | OFF | Label white-matter voxels with the parcellation of the nearest cortical vertex (this is how `wmparc.mgz` is produced; output labels are offset by 3000/4000 for lh/rh). |
@@ -180,12 +180,12 @@ Performance and debugging:
 |------|------|---------|-------------|
 | `--hashres <r>` | float | `16` | Voxel resolution (mm) of the spatial hash table (`MHT`) used for closest-vertex queries. Smaller = faster lookups, more memory. |
 | `--no-hash` | bool | OFF | Disable the hash table; fall back to brute-force `MRISfindClosestVertex` (very slow, debugging only). |
-| `--threads <n>` / `--nthreads <n>` | int | `1` | Number of OpenMP threads (no-op if FreeSurfer was built without OpenMP). |
+| `--threads <n>`<br>`--nthreads <n>` | int | `1` | Number of OpenMP threads (no-op if FreeSurfer was built without OpenMP). |
 | `--debug_voxel <c> <r> <s>` | 3 ints | unset | Set the global `Gx,Gy,Gz` voxel for verbose per-voxel debug output. |
 | `--crs-test <c> <r> <s>` | 3 ints | unset | Run a single closest-vertex query at the given column/row/slice and exit-style debug. |
 | `--debug` | bool | OFF | Enable command-line parser debug printing. |
 | `--version` | — | — | Print version and exit. |
-| `--help`, `-h`, `--usage`, `-u` | — | — | Print help (XML-rendered) and exit. |
+| `--help`<br>`-h`<br>`--usage`<br>`-u` | — | — | Print help (XML-rendered) and exit. |
 
 ### Configuration Interactions
 

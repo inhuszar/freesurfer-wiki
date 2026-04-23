@@ -209,7 +209,7 @@ $$
 
 | Flag | Args | Default | Effect |
 |------|------|---------|--------|
-| `--s <subjectid>` / `--subject <subjectid>` | string | (from reg file) | Set subject identifier (`--s` and `--subject` are aliases) |
+| `--s <subjectid>`<br>`--subject <subjectid>` | string | (from reg file) | Set subject identifier (`--s` and `--subject` are aliases) |
 | `--sd <dir>` | path | `$SUBJECTS_DIR` | Set SUBJECTS_DIR |
 
 #### Display and GUI Options
@@ -226,7 +226,7 @@ $$
 | `--inorm` | none | off | Enable intensity normalization (contrast normalization of movable volume) |
 | `--no-inorm` | none | off | Disable intensity normalization |
 | `--contrast` | none | off | Apply contrast enhancement to movable volume display |
-| `--surf <name>` / `--surfs <name>` | string | — | Load surface overlay (both hemispheres) for display (`--surfs` is an alias) |
+| `--surf <name>`<br>`--surfs <name>` | string | — | Load surface overlay (both hemispheres) for display (`--surfs` is an alias) |
 | `--surf-rgb R G B` | 3 ints | `0 255 0` | Set surface colour (0–255) |
 | `--lh-only` | none | off | Load/display left hemisphere surface only |
 | `--rh-only` | none | off | Load/display right hemisphere surface only |

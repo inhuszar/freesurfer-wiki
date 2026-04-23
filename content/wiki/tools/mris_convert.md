@@ -81,12 +81,12 @@ Output format is inferred from extension:
 | Extension | Format |
 |-----------|--------|
 | `.asc` | ASCII (vertices + faces, or XYZ-only with `-a`) |
-| `.ico`, `.tri` | ICO/TRI format |
+| `.ico`<br>`.tri` | ICO/TRI format |
 | `.geo` | GEO format |
 | `.stl` | STL format |
 | `.vtk` | VTK legacy format |
 | `.gii` | GIFTI |
-| `.mgh`, `.mgz` | MGH surface-encoded volume |
+| `.mgh`<br>`.mgz` | MGH surface-encoded volume |
 | `.w` | Binary W-file overlay |
 | (other) | FreeSurfer binary surface |
 
@@ -135,12 +135,12 @@ where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}
 | `--splitgifti` | | `off` | Separate GIFTI surface and data arrays |
 | `--giftioutdir` | `<dir>` | `—` | Output directory for splitgifti |
 | `--delete-cmds` | | `off` | Delete command history from surface |
-| `--center` / `-center` | | `off` | Move centre of surface to origin |
+| `--center`<br>`-center` | | `off` | Move centre of surface to origin |
 | `--vol-geom` | `<vol>` | `—` | Use MRI vol to set volume geometry |
 | `--remove-vol-geom` | | `off` | Set vg valid flag to 0 |
 | `--to-surf` | `<surfcoords>` | `—` | Copy coordinates from another surface |
-| `--to-scanner` / `--userealras` | | `off` | Convert tkr coords to scanner RAS |
-| `--to-tkr` / `--usesurfras` | | `off` | Convert scanner coords to tkr RAS |
+| `--to-scanner`<br>`--userealras` | | `off` | Convert tkr coords to scanner RAS |
+| `--to-tkr`<br>`--usesurfras` | | `off` | Convert scanner coords to tkr RAS |
 | `--upsample` | `<N> <SortType>` | `—` | Upsample by subdividing edges/faces |
 | `--volume` | `<subj> <hemi> <out>` | `—` | Compute vertex-wise volume (th3) |
 | `--volume2` | `<white> <pial> <label> <out>` | `—` | Vertex-wise volume with label mask |
@@ -150,8 +150,8 @@ where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}
 | `--label2mask` | `<surf> <label> <out>` | `—` | Convert label to binary mask |
 | `--to-curv` | `<in> <surf> <out>` | `—` | Convert input to curv format |
 | `--left-right-rev` | | `off` | Left-right reverse surface |
-| `--cras_add` / `--cras_correction` | | `off` | Shift centre to scanner coord (deprecated; `--cras_correction` is alias) |
-| `--cras_subtract` / `--cras_remove` | | `off` | Reverse cras_add (deprecated; `--cras_remove` is alias) |
+| `--cras_add`<br>`--cras_correction` | | `off` | Shift centre to scanner coord (deprecated; `--cras_correction` is alias) |
+| `--cras_subtract`<br>`--cras_remove` | | `off` | Reverse cras_add (deprecated; `--cras_remove` is alias) |
 | `--no-writect` | | `off` | Suppress writing the colour table to the output file |
 | `-nolabel` | — | — | **Not a flag — positional value.** Passing the string `nolabel` as positional argument 4 suppresses label reading. The audit extractor promotes this `strcmp(argv[4], "nolabel")` comparison to pseudo-flag `-nolabel`. |
 

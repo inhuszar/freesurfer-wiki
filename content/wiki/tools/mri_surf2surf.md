@@ -102,14 +102,14 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 |------|----------|---------|-------------|
 | `--srcsubject` | subjectname | — | Source subject in `$SUBJECTS_DIR`, or `ico` for icosahedron |
 | `--s` | subjectname | — | Set both source and target to the same subject (convenience alias combining `--srcsubject` + `--trgsubject`) |
-| `--sval` / `--srcsurfval` | file | — | Source overlay file |
+| `--sval`<br>`--srcsurfval` | file | — | Source overlay file |
 | `--sval-xyz` | surfname | — | Use vertex XYZ coordinates of named surface as source |
 | `--sval-tal-xyz` | surfname | — | Surface XYZ coordinates transformed by `talairach.xfm` |
 | `--sval-area` | surfname | — | Vertex area of named surface as source |
 | `--sval-nxyz` | surfname | — | Surface normals of named surface as source |
 | `--sval-annot` | annotfile | — | Source annotation file; also forces `--mapmethod nnf` |
 | `--sval-rip` | surfname | — | Use vertex rip flag of named surface as source values |
-| `--sfmt` / `--srcfmt` / `--src_type` | typestring | (auto) | Source format: `curv`, `paint`/`w`, or any `mri_convert`-compatible type |
+| `--sfmt`<br>`--srcfmt`<br>`--src_type` | typestring | (auto) | Source format: `curv`, `paint`/`w`, or any `mri_convert`-compatible type |
 | `--srcicoorder` | order | (auto-detected) | Icosahedron order for source; required when source is a `.w` file |
 | `--srchemi` | `lh` or `rh` | (value of `--hemi`) | Source hemisphere when different from target |
 | `--srcsurfreg` | surface | `sphere.reg` | Source registration surface |
@@ -125,9 +125,9 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 |------|----------|---------|-------------|
 | `--trgsubject` | subjectname | — | Target subject in `$SUBJECTS_DIR`, or `ico` for icosahedron |
 | `--trgicoorder` | order | — | Icosahedron order (0–7); required when `--trgsubject ico` |
-| `--tval` / `--trgsurfval` / `--trgval` / `--o` | file | — | Output overlay file |
+| `--tval`<br>`--trgsurfval`<br>`--trgval`<br>`--o` | file | — | Output overlay file |
 | `--tval-xyz` | volume | — | Save output as a binary surface file with XYZ from source; the volume provides target geometry |
-| `--tfmt` / `--trgfmt` / `--trg_type` | typestring | (auto) | Target format: `curv`, `paint`/`w`, or any `mri_convert`-compatible type |
+| `--tfmt`<br>`--trgfmt`<br>`--trg_type` | typestring | (auto) | Target format: `curv`, `paint`/`w`, or any `mri_convert`-compatible type |
 | `--trghemi` | `lh` or `rh` | (value of `--hemi`) | Target hemisphere when different from source |
 | `--trgsurfreg` | surface | `sphere.reg` | Target registration surface |
 | `--trgdump` | file | — | Dump target surface data to file (debugging) |
@@ -138,7 +138,7 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--hemi` / `--h` | `lh` or `rh` | — | Hemisphere for both source and target (`--h` is an alias) |
+| `--hemi`<br>`--h` | `lh` or `rh` | — | Hemisphere for both source and target (`--h` is an alias) |
 | `--surfreg` | surface | `sphere.reg` | Registration surface for both source and target |
 | `--dual-hemi` | — | `off` | Assume source registration file uses `?h.?h.surfreg` naming convention |
 | `--reg` | regfile [vol] | — | Registration file (`.dat` or `.lta`) to apply to `--sval-xyz` coordinates |
@@ -152,8 +152,8 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 |------|----------|---------|-------------|
 | `--mapmethod` | `nnfr` or `nnf` | `nnfr` | Resampling method: `nnfr` = nearest-neighbour forward+reverse (fills holes); `nnf` = forward only |
 | `--jac` | — | `off` | Apply Jacobian correction; required when resampling area or volume measures |
-| `--hash` / `--usehash` | — | `on` | Enable hash table for accelerated nearest-neighbour lookup |
-| `--nohash` / `--dontusehash` | — | — | Disable hash table for nearest-neighbour lookup |
+| `--hash`<br>`--usehash` | — | `on` | Enable hash table for accelerated nearest-neighbour lookup |
+| `--nohash`<br>`--dontusehash` | — | — | Disable hash table for nearest-neighbour lookup |
 | `--old` | — | `on` | Use old surf2surf algorithm (default) |
 | `--new` | — | — | Use new surf2surf algorithm |
 | `--vtxmap` | file | — | Load or save the vertex mapping explicitly |
@@ -164,9 +164,9 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--fwhm-src` | mm | `0` | Smooth source before resampling (FWHM in mm; iterative NN approximation) |
-| `--fwhm-trg` / `--fwhm` | mm | `0` | Smooth target after resampling (FWHM in mm) |
+| `--fwhm-trg`<br>`--fwhm` | mm | `0` | Smooth target after resampling (FWHM in mm) |
 | `--nsmooth-in` | N | `0` | Smoothing iterations on input (equivalent to `--fwhm-src` but in iteration count) |
-| `--nsmooth-out` / `--nsmooth` | N | `0` | Smoothing iterations on output (equivalent to `--fwhm-trg` but in iteration count) |
+| `--nsmooth-out`<br>`--nsmooth` | N | `0` | Smoothing iterations on output (equivalent to `--fwhm-trg` but in iteration count) |
 
 > [!note] Noise tokens filtered from C1 audit
 > An audit reported the following as missing flags: `--fwhm-in`, `--fwhm-out`, `--normvar`, `--nsmooth-` (truncated), `--smooth`, `--smooth-in`, `--smooth-out`, `--surf`. None of these are real parsed options in `mri_surf2surf.cpp`. Specifically: `--fwhm-in` and `--fwhm-out` appear only in error message strings (the real flags are `--fwhm-src` and `--fwhm`/`--fwhm-trg`); `--normvar` appears only in a `printf` help line (the real parsed flag is `--norm-var`, already documented above); `--nsmooth-` is a truncated token with no parser entry; `--smooth`, `--smooth-in`, and `--smooth-out` appear only as prose in embedded help text describing the behaviour of `--nsmooth`, `--nsmooth-in`, and `--nsmooth-out`; `--surf` appears only in a source comment referencing `mri_vol2vol`.

@@ -80,7 +80,7 @@ All flags are case-insensitive (parsed via `stricmp` after uppercasing the optio
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--help` / `--usage` | — | — | Print help and exit |
+| `--help`<br>`--usage` | — | — | Print help and exit |
 | `-FILL <n>` | int | 0 | Value to write to removed (non-brain) voxels; sets `fill_val` |
 | `-RADIUS <n>` | int | 25 | Distance in mm beyond the GCA-estimated brain inferior boundary that is also removed; larger values are more aggressive; sets `radius` |
 | `-TR <f>` | float | 0.0 | Repetition time in ms for FLASH sequence GCA mapping; sets `TR` |
@@ -89,7 +89,7 @@ All flags are case-insensitive (parsed via `stricmp` after uppercasing the optio
 | `-V <n>` | int | — | Set global diagnostic number `Gdiag_no` for per-voxel debugging |
 | `-debug_label <n>` | int | — | Label number to trace through GCA processing for diagnostic output |
 | `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
-| `-?` / `-H` / `-U` | — | — | Print usage and exit |
+| `-?`<br>`-H`<br>`-U` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 

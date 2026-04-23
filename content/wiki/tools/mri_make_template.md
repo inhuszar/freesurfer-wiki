@@ -89,7 +89,7 @@ Prior probabilities are accumulated in `MRIupdatePriors()` by counting how many 
 |------|-----------|---------|-------------|
 | `-t` | `<xform>` | — | Transform filename to apply to each subject volume |
 | `-T1` | `<name>` | `T1` | Name of T1 volume within each subject's `mri/` directory |
-| `-s` / `-v` | `<fname>` | — | Write variance estimates to a separate file |
+| `-s`<br>`-v` | `<fname>` | — | Write variance estimates to a separate file |
 | `-b` | `<name>` | — | Binary mask volume name; enables prior probability computation mode |
 | `-smooth` | `<f>` | 0 | Gaussian smoothing sigma applied to mean template |
 | `-erode` | `<n>` | 0 | Number of morphological erosion iterations applied to each volume |

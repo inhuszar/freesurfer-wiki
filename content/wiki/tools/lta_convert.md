@@ -63,11 +63,11 @@ Exactly one input flag is required:
 |------------|--------|-------|
 | `--inlta` | FreeSurfer LTA (`.lta`) | Native format; contains geometry |
 | `--infsl` | FSL/FLIRT matrix (`.mat`) | 4×4 ASCII; requires `--src` and `--trg` |
-| `--inmni` / `--inxfm` | MNI/XFM (`.xfm`) | MINC-style; requires `--src` and `--trg` |
+| `--inmni`<br>`--inxfm` | MNI/XFM (`.xfm`) | MINC-style; requires `--src` and `--trg` |
 | `--inreg` | TK REG / `register.dat` | Deprecated; requires `--src` and `--trg` |
-| `--inniftyreg` / `--inras` | NiftyReg (inverse RAS2RAS) | Requires `--src` and `--trg` |
+| `--inniftyreg`<br>`--inras` | NiftyReg (inverse RAS2RAS) | Requires `--src` and `--trg` |
 | `--inniftyreg2d` | NiftyReg 2D | Requires `--src` and `--trg` |
-| `--initk` / `--inlps` | ITK/ANTs text format (inverse LPS2LPS) | Requires `--src` and `--trg` |
+| `--initk`<br>`--inlps` | ITK/ANTs text format (inverse LPS2LPS) | Requires `--src` and `--trg` |
 | `--invox` | VOX2VOX in source image space (inverse) | Requires `--src` and `--trg` |
 
 At least one output flag is also required (see Configuration Options below).
@@ -95,8 +95,8 @@ At least one output flag must be specified. Multiple output flags may be combine
 | `--outfsl` | FSL/FLIRT `.mat` | 4×4 ASCII |
 | `--outmni` | MNI/XFM `.xfm` | |
 | `--outreg` | `register.dat` | TK REG format |
-| `--outniftyreg` / `--outras` | NiftyReg text | Inverse RAS2RAS |
-| `--outitk` / `--outlps` | ITK text | Inverse LPS2LPS |
+| `--outniftyreg`<br>`--outras` | NiftyReg text | Inverse RAS2RAS |
+| `--outitk`<br>`--outlps` | ITK text | Inverse LPS2LPS |
 | `--outvox` | VOX2VOX in source space | Inverse VOX2VOX |
 
 ### Output Specifications
@@ -135,11 +135,11 @@ Additionally, a fixed-parameters vector (centre of rotation) must be absorbed in
 |------|------|---------|--------|
 | `--inlta` | `<in.lta>` | — | Read LTA file; geometry already embedded |
 | `--infsl` | `<in.fslmat>` | — | Read FSL/FLIRT 4×4 matrix |
-| `--inmni` / `--inxfm` | `<in.xfm>` | — | Read MNI/MINC XFM file |
+| `--inmni`<br>`--inxfm` | `<in.xfm>` | — | Read MNI/MINC XFM file |
 | `--inreg` | `<inreg.dat>` | — | Read TK REG `register.dat` (deprecated) |
-| `--inniftyreg` / `--inras` | `<file>` | — | Read NiftyReg inverse RAS2RAS (3D) |
+| `--inniftyreg`<br>`--inras` | `<file>` | — | Read NiftyReg inverse RAS2RAS (3D) |
 | `--inniftyreg2d` | `<file>` | — | Read NiftyReg inverse RAS2RAS (2D) |
-| `--initk` / `--inlps` | `<file>` | — | Read ITK/ANTs text file (inverse LPS2LPS) |
+| `--initk`<br>`--inlps` | `<file>` | — | Read ITK/ANTs text file (inverse LPS2LPS) |
 | `--invox` | `<file>` | — | Read VOX2VOX in source voxel space (inverse) |
 
 #### Output Flags (at least one required)
@@ -150,8 +150,8 @@ Additionally, a fixed-parameters vector (centre of rotation) must be absorbed in
 | `--outfsl` | `<out.mat>` | — | Write FSL/FLIRT 4×4 matrix |
 | `--outmni` | `<out.xfm>` | — | Write MNI/XFM file |
 | `--outreg` | `<reg.dat>` | — | Write TK REG `register.dat` |
-| `--outniftyreg` / `--outras` | `<file>` | — | Write NiftyReg inverse RAS2RAS |
-| `--outitk` / `--outlps` | `<file>` | — | Write ITK text file (inverse LPS2LPS) |
+| `--outniftyreg`<br>`--outras` | `<file>` | — | Write NiftyReg inverse RAS2RAS |
+| `--outitk`<br>`--outlps` | `<file>` | — | Write ITK text file (inverse LPS2LPS) |
 | `--outvox` | `<file>` | — | Write VOX2VOX in source space (inverse) |
 
 #### Geometry and Subject Flags

@@ -123,7 +123,7 @@ All flags confirmed from `parse_commandline()` in `attic/dmri_tensoreig/dmri_ten
 | `--m` | `file` | none | Brain mask volume. If not supplied, a mask is computed automatically and written to `mask.<ofmt>`. |
 | `--ofmt` | `fmt` | `nii` | Output file extension / format string appended to output filenames (e.g. `nii`, `nii.gz`, `mgh`). |
 | `--tensor` | `0`\|`1` | `0` | When set to `1`, skip tensor fitting and treat the input (`--i`) as a pre-computed tensor volume. Eigendecomposition still runs. |
-| `--sdcm` / `--infodump` | `file` | — | Pass a Siemens DICOM file or an ASCII info-dump file. Calls `DTIparamsFromSiemensAscii()` to extract `bValue`, `nDir`, and `DiffMode`, and auto-selects a gradient file for known diffusion modes. Both flags are aliases. |
+| `--sdcm`<br>`--infodump` | `file` | — | Pass a Siemens DICOM file or an ASCII info-dump file. Calls `DTIparamsFromSiemensAscii()` to extract `bValue`, `nDir`, and `DiffMode`, and auto-selects a gradient file for known diffusion modes. Both flags are aliases. |
 
 ## Typical Use Cases
 

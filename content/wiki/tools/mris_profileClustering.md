@@ -81,7 +81,7 @@ The assignment of each vertex to a cluster is output as both an image overlay an
 | `-o <outputImage>` | string | `""` | Output image path for cluster assignment map. |
 | `-b <outputSurface>` | string | `""` | Output surface file with cluster labels embedded. |
 | `-a <annotation>` | string | `""` | Output annotation file path (FreeSurfer `.annot` format). |
-| `--help` / `-h` | flag | — | Print usage and exit. |
+| `--help`<br>`-h` | flag | — | Print usage and exit. |
 
 > [!gotcha] `-d deep` is a half-depth, not total depth
 > The profile spans from `-deep` to `+deep` (inclusive), giving `2*deep+1` sample points per image. With the default `deep=10`, each per-image profile has 21 samples. The total feature vector length is `(2*deep+1) * N_images`.

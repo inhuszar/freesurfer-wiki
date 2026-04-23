@@ -101,7 +101,7 @@ Area normalization (unless `-nonorm`): the average surface area is normalized to
 | `-nonorm` | — | off | Do not normalize surface area |
 | `-i` | icoorder | `6` | Icosahedron order for output mesh (6 = 40,962 vertices; 7 = 163,842 vertices) |
 | `-x` | xfmname | `talairach.xfm` | Transform file name (relative to subject's `mri/transforms/`) |
-| `-s` / `-o` | surfname | `orig` | Surface name to average (both `-s` and `-o` set the same variable) |
+| `-s`<br>`-o` | surfname | `orig` | Surface name to average (both `-s` and `-o` set the same variable) |
 | `-v` | diagno | `-1` | Set `Gdiag_no` for verbose vertex diagnostics |
 | `-d` | DestLTA | — | Apply this LTA file to the average surface |
 | `-t` | templatename | `$FREESURFER_HOME/average/mni305.cor.mgz` | Volume to use as geometry template for output surfaces |

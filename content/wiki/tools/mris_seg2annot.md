@@ -48,7 +48,7 @@ The tool is a data-format bridge; it performs no statistical analysis or surface
 | Surface segmentation file (`--seg`) | Per-vertex integer indices into a color table. Can be any surface overlay with whole-number values. | `.mgh`, `.mgz`, or curvature-like binary |
 | Color table (`--ctab`) | Maps integer indices to names and RGBA colors. Same format as `$FREESURFER_HOME/FreeSurferColorsLUT.txt`. | Plain text |
 | Subject directory (`--s`) | FreeSurfer subject directory containing the surface. Required when using subject/hemisphere mode. | Directory |
-| Hemisphere (`--h` / `--hemi`) | `lh` or `rh`. | — |
+| Hemisphere (`--h`<br>`--hemi`) | `lh` or `rh`. | — |
 
 **Alternative positional invocation** via --seg2annot seg surf ctab output does not require a recon-all directory structure.
 
@@ -69,7 +69,7 @@ No non-trivial mathematics. The conversion is a direct table lookup: each vertex
 | `--seg` | `<surfseg>` | — | Integer-valued per-vertex overlay file used as LUT indices |
 | `--ctab` | `<colortable>` | — | Color table file; maps integer indices to names/RGBA; searched in `$FREESURFER_HOME` by default (prepend `./` for local files) |
 | `--s` | `<subject>` | — | Subject identifier for SUBJECTS_DIR directory lookup |
-| `--h` / `--hemi` | `lh` or `rh` | — | Hemisphere |
+| `--h`<br>`--hemi` | `lh` or `rh` | — | Hemisphere |
 | `--surf` | `<surfname>` | `white` | Surface file name within the subject's surf directory; used to load the surface for annotation |
 | `--o` | `<annot>` | — | Output annotation file name; stored in `<subjectdir>/label/` unless a path prefix is given |
 | `--annot` | — | off | Flag indicating the output is an annotation file (sets internal `annot` mode) |

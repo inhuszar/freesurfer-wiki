@@ -190,9 +190,9 @@ The float→int conversion for nearest-neighbour (`--float2int`):
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--mov` / `--srcvol` / `--src` | `vol` (string) | — | Source volume path. **Required.** |
-| `--src_type` / `--srcvol_type` / `--srcfmt` | `fmt` (string) | auto-detected | Source format (auto-detected if omitted) |
-| `--reg` / `--srcreg` | `regfile` (string) | — | Registration file (`register.dat` or `.lta`) mapping source volume → anatomical space |
+| `--mov`<br>`--srcvol`<br>`--src` | `vol` (string) | — | Source volume path. **Required.** |
+| `--src_type`<br>`--srcvol_type`<br>`--srcfmt` | `fmt` (string) | auto-detected | Source format (auto-detected if omitted) |
+| `--reg`<br>`--srcreg` | `regfile` (string) | — | Registration file (`register.dat` or `.lta`) mapping source volume → anatomical space |
 | `--regheader` | `subject` (string) | off | Build registration from header geometry of source volume vs. `$SUBJECTS_DIR/<subject>/mri/<ref>` |
 | `--mni152reg` | — | off | Use `$FREESURFER_HOME/average/mni152.register.dat`; expects source already in MNI152 space |
 | `--srcsubject` | `subject` (string) | — | Override subject embedded in registration file (`srcsubjectuse`) |
@@ -218,18 +218,18 @@ The float→int conversion for nearest-neighbour (`--float2int`):
 | `--icoorder` | `order` (int) | `-1` (auto) | Icosahedron order when `--trgsubject ico` |
 | `--surfreg` | `name` (string) | `sphere.reg` | Spherical registration surface used for cross-subject mapping |
 | `--mapmethod` | `nnfr\|nnf` (string) | `nnfr` | Surface-to-surface map method: nearest-neighbour forward+reverse (`nnfr`) or forward only (`nnf`) |
-| `--usehash` / `--hash` | — | on | Use vertex hash table for surface lookups |
-| `--dontusehash` / `--nohash` | — | off | Disable vertex hash table |
+| `--usehash`<br>`--hash` | — | on | Use vertex hash table for surface lookups |
+| `--dontusehash`<br>`--nohash` | — | off | Disable vertex hash table |
 
 #### Projection Along Normal
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `--projfrac` | `frac` (float) | `0` | Project a fraction of cortical thickness along surface normal; requires `?h.thickness` if non-zero |
-| `--projfrac-avg` / `--projfrac-int` | `min max delta` (3 floats) | — | Sample at fractions in `[min,max]` step `delta`; output is the **mean** |
+| `--projfrac-avg`<br>`--projfrac-int` | `min max delta` (3 floats) | — | Sample at fractions in `[min,max]` step `delta`; output is the **mean** |
 | `--projfrac-max` | `min max delta` (3 floats) | — | Same sampling; output is the per-vertex **maximum**. Sets `GetProjMax=1` |
 | `--projdist` | `mm` (float) | — | Project a fixed distance (mm) along the normal; sets `ProjDistFlag=1`; does NOT require thickness |
-| `--projdist-avg` / `--projdist-int` | `min max delta` (3 floats) | — | Average over fixed distances |
+| `--projdist-avg`<br>`--projdist-int` | `min max delta` (3 floats) | — | Average over fixed distances |
 | `--projdist-max` | `min max delta` (3 floats) | — | Maximum over fixed distances |
 | `--projopt` | `volfracstem` (string) | — | Optimal linear (SVD) estimation using pre-computed volume fractions (see `mri_compute_volume_fractions`); sets `ProjOpt=1` |
 | `--thickness` | `name` (string) | `thickness` | Thickness file basename in `surf/` |
@@ -247,18 +247,18 @@ The float→int conversion for nearest-neighbour (`--float2int`):
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--o` / `--out` | `file` (string) | — | Output file path. **Required.** |
-| `--out_type` / `--ofmt` | `fmt` (string) | auto-detected | Output format (auto-detected from extension if omitted) |
+| `--o`<br>`--out` | `file` (string) | — | Output file path. **Required.** |
+| `--out_type`<br>`--ofmt` | `fmt` (string) | auto-detected | Output format (auto-detected from extension if omitted) |
 | `--frame` | `n` (int) | `-1` (all frames) | Save only the n-th frame, 0-based |
 | `--reshape` | — | off | Enable reshape to `(Nv/R) × 1 × R` for ANALYZE/NIfTI compatibility |
 | `--rf` | `R` (int) | `0` (auto) | Explicit reshape factor; also enables reshape |
 | `--rft` | `T` (int) | `20` | Reshape target slice count; also enables reshape |
 | `--reshape3d` | — | off | Reshape to 42×47×83 (fsaverage ico7 only); forces `reshape=0` |
-| `--noreshape` / `--no-reshape` | — | (default state) | Disable reshape |
+| `--noreshape`<br>`--no-reshape` | — | (default state) | Disable reshape |
 | `--scale` | `s` (float) | — | Multiply all output values by scalar (must be non-zero) |
 | `--copy-ctab` | — | off | Set `FS_COPY_HEADER_CTAB=1` so any colour table in the source header is preserved |
-| `--srchit` / `--srchitvol` | `vol` (string) | — | Save volume of per-voxel hit counts |
-| `--srchit_type` / `--srchitvol_type` / `--srchitfmt` | `fmt` (string) | auto-detected | Format for the source-hit volume |
+| `--srchit`<br>`--srchitvol` | `vol` (string) | — | Save volume of per-voxel hit counts |
+| `--srchit_type`<br>`--srchitvol_type`<br>`--srchitfmt` | `fmt` (string) | auto-detected | Format for the source-hit volume |
 | `--srchits` | `file` (string) | — | Text file: number of source voxels intersecting the surface |
 | `--trghits` | `file` (string) | — | Text file: number of target vertices receiving a value |
 | `--nvox` | `file` (string) | — | Write number of voxels intersecting the surface to a text file |

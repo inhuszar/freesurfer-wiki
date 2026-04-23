@@ -164,7 +164,7 @@ correction to a FreeSurfer-format volume.
 |------|--------|-------------|
 | `<outvol>` | MGZ / NIfTI / … | Bias-corrected volume. Geometry and (by default) dynamic range match the input, except that when `--uchar` is passed the data type is cast to `uint8` and the histogram is rescaled. |
 | `<outdir>/mri_nu_correct.mni.log` | text | Full log of the wrapper run, unless `--log` is overridden. |
-| `<tmpdir>/nu0.mnc`, `nu1.mnc`, …, `nu<nIters>.mnc` | MINC | Intermediate MNI backend outputs (deleted at end unless `--no-cleanup`). |
+| `<tmpdir>/nu0.mnc`<br>`nu1.mnc`, …, `nu<nIters>.mnc` | MINC | Intermediate MNI backend outputs (deleted at end unless `--no-cleanup`). |
 
 When the ANTs backend is used, the intermediates are kept in the
 `tmpdir` as `nu0.mgz` (and, for `--ants-n4`, `.mgz` outputs from
@@ -261,7 +261,7 @@ tools that use absolute intensity thresholds.
 | `--shrink <f>` | int | nu_correct's default | Passed as `-shrink f` to `nu_correct`; coarse-resolution subsampling factor for the fit. |
 | `--lambda <λ>` | float | nu_correct's default | Passed as `-lambda λ` to `nu_correct`; B-spline regularisation strength. |
 | `--uchar <talxfm>` | path | off | Run `mri_make_uchar` after bias correction, using `<talxfm>` to locate a "mostly brain" ball and centre the WM histogram peak at 110. Output is cast to `uint8`. The wrapper checks at parse time that `<talxfm>` exists on disk and exits with an error if not (line 354). Only takes effect when `--float` is on (the default). |
-| `--no-uchar` / `--nouchar` | bool | on (`DoUchar=0`) | Disable the `--uchar` post-processing. Both spellings are accepted. |
+| `--no-uchar`<br>`--nouchar` | bool | on (`DoUchar=0`) | Disable the `--uchar` post-processing. Both spellings are accepted. |
 | `--cm` | bool | off | Sets `HiRes = -cm` and forwards `-cm` to every internal `mri_convert` call (for hi-res volumes; preserves the minimum voxel size instead of conforming to 1 mm). Also suppresses the post-processing `--conform` reslice that would otherwise be applied (see gotcha). |
 | `--float` | bool | **on** (`UseFloat=1`) | Convert MINC intermediates to `float` (passes `-odt float` to `mri_convert`) and force `DoRescale=1`. Also gates the `--uchar` post-processing and the post-processing `--conform` reslice. |
 | `--no-float` | bool | off | Use the input data type in the MINC intermediates (skip `-odt float`). Does **not** touch `DoRescale`. Also disables the `--uchar` post-processing path (line 226 requires `UseFloat`). |
@@ -275,13 +275,13 @@ tools that use absolute intensity thresholds.
 | `--ants-n4-replace-zeros` | bool | off (env override) | Set `ReplaceZeros=1`, which adds `--replace-zeros 0 1 1` to the ANTs N4 call. Default is taken from environment variable `FS_ANTS_N4_REPLACE_ZEROS` (defaults to 0 if unset). Only meaningful with `--ants-n4`. |
 | `--no-ants-n4-replace-zeros` | bool | on | Set `ReplaceZeros=0`. |
 | `--ants4-threads-nondetermistic <n>` | int | — | Thread count for the ANTs N4 backend (passed as `--threads-nondetermistic <n>`). ITK with multiple threads is non-deterministic; the source comment notes this is "convenient for getting answers faster during testing". Only meaningful with `--ants-n4`. |
-| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.<pid>` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
+| `--tmp <dir>`<br>`--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.<pid>` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
 | `--cleanup` | bool | on (initial `cleanup=1`) | Delete `tmpdir` at the end of the run. |
 | `--no-cleanup` | bool | off | Keep `tmpdir` (for debugging). |
 | `--log <file>` | path | `<outdir>/mri_nu_correct.mni.log` | Path to the log file. The wrapper renames any pre-existing file at this path to `<file>.bak` before writing. |
 | `--debug` | bool | off | Sets tcsh `verbose=1`, `echo=1`, and `debug=1` (turns on terminal echoing of every shell command). |
 | `--version` | bool | off | Print the version string and exit. Detected by an `egrep` on `argv` *before* the regular parser (lines 58–62), so it short-circuits all other parsing. |
-| `--help` / `-help` / `-h` / `-u` / `-usage` / `--usage` | bool | off | Print help (via `fsPrintHelp`) and exit. All six spellings are accepted. |
+| `--help`<br>`-help`<br>`-h`<br>`-u`<br>`-usage`<br>`--usage` | bool | off | Print help (via `fsPrintHelp`) and exit. All six spellings are accepted. |
 
 ### mri_make_uchar Direct-Invocation Flags
 

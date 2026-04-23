@@ -56,8 +56,8 @@ The tool writes the annotation to `$SUBJECTS_DIR/subject/label/hemi.annotname.an
 
 | Flag | Description |
 |------|-------------|
-| `--s <subject>` / `--subject <subject>` | Subject name |
-| `--h <hemi>` / `--hemi <hemi>` | Hemisphere (lh or rh) |
+| `--s <subject>`<br>`--subject <subject>` | Subject name |
+| `--h <hemi>`<br>`--hemi <hemi>` | Hemisphere (lh or rh) |
 | `--ctab <colortablefile>` | Color table file (FreeSurferColorLUT.txt format) defining structure names, indices, and colors |
 | `--l <labelfile>` | Label file (repeatable); order determines mapping to color table indices |
 | `--ldir <labeldir>` | Directory to search for label files (when using ctab-derived names) |
@@ -88,12 +88,12 @@ Vertex-to-annotation mapping: each index $i$ corresponds to a unique color (R, G
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--s` / `--subject` | `<subject>` | — (required) | Subject name |
-| `--h` / `--hemi` | `lh\|rh` | — (required) | Hemisphere |
+| `--s`<br>`--subject` | `<subject>` | — (required) | Subject name |
+| `--h`<br>`--hemi` | `lh\|rh` | — (required) | Hemisphere |
 | `--ctab` | `<colortablefile>` | — (required) | Color table in FreeSurferColorLUT format |
 | `--l` | `<labelfile>` | none | Label file (repeatable; order matters) |
 | `--ldir` | `<labeldir>` | `.` (cwd) | Directory for label files when using ctab-derived names |
-| `--a` / `--annot` | `<annotname>` | — (required unless `--annot-path`) | Output annotation name (written to `hemi.annotname.annot`) |
+| `--a`<br>`--annot` | `<annotname>` | — (required unless `--annot-path`) | Output annotation name (written to `hemi.annotname.annot`) |
 | `--annot-path` | `<path>` | none | Explicit output annotation file path (overrides subject-directory convention) |
 | `--nhits` | `<nhitsfile>` | none | Overlay file with label hit counts per vertex |
 | `--no-unknown` | — | off | Start labelling at index 0; do not reserve index 0 for Unknown |

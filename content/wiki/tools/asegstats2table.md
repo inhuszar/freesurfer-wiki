@@ -212,21 +212,21 @@ after any eTIV/sTIV normalization.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--tablefile FILE` / `-t` | `-t` | path | none (required) | Output file path for the assembled table. |
+| `--tablefile FILE`<br>`-t` | `-t` | path | none (required) | Output file path for the assembled table. |
 
 ### File Location Overrides (subject-list modes only)
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `--subdir <dir>` | string | `stats` | Subdirectory under `$SUBJECTS_DIR/<subject>/` to look for the stats file. |
-| `--stats <fname>` / `--statsfile <fname>` | string | `aseg.stats` | Stats filename to use instead of `aseg.stats`. Both flags are synonyms (`dest='statsfname'`). |
+| `--stats <fname>`<br>`--statsfile <fname>` | string | `aseg.stats` | Stats filename to use instead of `aseg.stats`. Both flags are synonyms (`dest='statsfname'`). |
 | `--sd <path>` | path | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR` at runtime. Sets `os.environ['SUBJECTS_DIR']`. |
 
 ### Measure Selection
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--meas <measure>` / `-m` | `-m` | enum | `volume` | Measure to extract. Valid: `volume`, `Area_mm2`, `nvoxels`, `nvertices`, `mean`, `std`, `snr`, `max`. |
+| `--meas <measure>`<br>`-m` | `-m` | enum | `volume` | Measure to extract. Valid: `volume`, `Area_mm2`, `nvoxels`, `nvertices`, `mean`, `std`, `snr`, `max`. |
 
 ### Segmentation Filtering
 
@@ -244,7 +244,7 @@ after any eTIV/sTIV normalization.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--delimiter <name>` / `-d` | `-d` | enum | `tab` | Column separator. Valid: `tab`, `space`, `comma`, `semicolon`. |
+| `--delimiter <name>`<br>`-d` | `-d` | enum | `tab` | Column separator. Valid: `tab`, `space`, `comma`, `semicolon`. |
 | `--transpose` | — | bool | off | Transpose output: rows become structures, columns become subjects. Values formatted with `%g`. |
 | `--append` | — | bool | off | Append to an existing output file rather than overwriting. |
 
@@ -262,7 +262,7 @@ after any eTIV/sTIV normalization.
 |------|-------|------|---------|-------------|
 | `--skip` | — | bool | off | Skip subjects whose stats file cannot be found or is too small. |
 | `--replace53` | — | bool | off | Replace FreeSurfer 5.3 structure names (`Left-Thalamus-Proper`, `CorticalWhiteMatterVol`, etc.) with their post-5.3 equivalents. Useful for combining data across FS versions. |
-| `-v` / `--debug` | — | bool | off | Enable DEBUG-level logging from `aseglogger`. |
+| `-v`<br>`--debug` | — | bool | off | Enable DEBUG-level logging from `aseglogger`. |
 
 ### Configuration Interactions
 

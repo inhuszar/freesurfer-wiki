@@ -90,8 +90,8 @@ On a triangulated mesh, these are estimated by fitting a local quadratic or poly
 | `-w` | flag | off | Save curvature files to disk. Without this flag, results are printed to stdout only. |
 | `-max` | flag | off | Save maximum principal curvature $k_1$ to `<insurf>.max`. |
 | `-min` | flag | off | Save minimum principal curvature $k_2$ to `<insurf>.min`. |
-| `-mgh` / `--mgh` | flag | off | Save outputs in `.mgz` format instead of FreeSurfer `.curv` format. Aliases `--mgz` / `-mgz`. |
-| `-mgz` / `--mgz` | flag | off | Alias for `-mgh`; sets output format to `.mgz`. |
+| `-mgh`<br>`--mgh` | flag | off | Save outputs in `.mgz` format instead of FreeSurfer `.curv` format. Aliases `--mgz` / `-mgz`. |
+| `-mgz`<br>`--mgz` | flag | off | Alias for `-mgh`; sets output format to `.mgz`. |
 | `-a <avgs>` | int | 0 | Perform `<avgs>` iterations of neighbourhood averaging before saving. |
 | `-nbrs <nbrs>` | int | 2 | Set neighbourhood size for curvature computation. |
 | `-seed <N>` | int | — | Set random number generator seed to `N`. |
@@ -99,7 +99,7 @@ On a triangulated mesh, these are estimated by fitting a local quadratic or poly
 | `-p` | flag | off | Enable patch mode: read `lh.orig` first, then apply the patch file as the positional input. |
 | `-thresh <t>` | float | -1 (off) | Threshold curvature histogram at percentile `t` (passed to `MRIShistoThresholdCurvature`). Requires `-w`. |
 | `-diff` | flag | off | Compute and save curvature difference ($k_1 - k_2$) to `<insurf><suffix>.diff`. |
-| `-ratio` / `-defect` | flag | off | Compute and save curvature ratio ($k_1 / k_2$) to `<insurf><suffix>.ratio`. |
+| `-ratio`<br>`-defect` | flag | off | Compute and save curvature ratio ($k_1 / k_2$) to `<insurf><suffix>.ratio`. |
 | `-contrast` | flag | off | Compute and save curvature contrast to `<insurf><suffix>.contrast`. |
 | `-neg` | flag | off | Mark vertices with negative-area triangles and save to `<insurf><suffix>.neg`. |
 | `-stretch` | flag | off | Compute and save curvature stretch (ratio of original to inflated areas) to `<insurf><suffix>.stretch`. |

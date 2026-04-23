@@ -78,10 +78,10 @@ The segmentation uses a deep convolutional neural network (CNN) implemented in P
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-i` / `--i` | `<file(s) or dir>` | — | Input T1 image(s) or directory (normal mode) |
-| `-s` / `--s` | `<subject(s)>` | — | FreeSurfer subject ID(s) (FS mode) |
+| `-i`<br>`--i` | `<file(s) or dir>` | — | Input T1 image(s) or directory (normal mode) |
+| `-s`<br>`--s` | `<subject(s)>` | — | FreeSurfer subject ID(s) (FS mode) |
 | `--sd` | `<dir>` | — | Subjects directory (overrides `SUBJECTS_DIR`) |
-| `-o` / `--o` | `<file(s) or dir>` | — | Output segmentation path(s) or directory; parsed from input paths if omitted |
+| `-o`<br>`--o` | `<file(s) or dir>` | — | Output segmentation path(s) or directory; parsed from input paths if omitted |
 | `--outbase` | `<name>` | `pglands` | Output file basename |
 | `--model` | `<fname>` | `pglands_seg.pth` | Path to model weights file |
 | `--lut` | `<fname>` | `pglands.ctab` | Lookup table for label colors |

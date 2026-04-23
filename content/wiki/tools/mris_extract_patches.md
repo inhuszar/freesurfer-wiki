@@ -75,9 +75,9 @@ A cubic volume patch of side $w$ voxels is extracted from the normalised T1 volu
 | `-hemi` | `lh\|rh` | `lh` | Source hemisphere (also sets opposite hemisphere) |
 | `-w` | `N` | 32 | Patch window size in voxels |
 | `-l` | `name` | `FCD` | Label name (file: `<hemi>.<name>.label`) |
-| `-vol_name` / `-vol` | `name` | `norm.mgz` | Volume for patch sampling |
-| `-ovol_name` / `-ovol` | `name` | `norm.mgz` | Opposite hemisphere volume |
-| `-sd` / `-sdir` | `dir` | `$SUBJECTS_DIR` | Subjects directory |
+| `-vol_name`<br>`-vol` | `name` | `norm.mgz` | Volume for patch sampling |
+| `-ovol_name`<br>`-ovol` | `name` | `norm.mgz` | Opposite hemisphere volume |
+| `-sd`<br>`-sdir` | `dir` | `$SUBJECTS_DIR` | Subjects directory |
 | `-r` | `pct` | 0.0 | Fraction of random (non-label) patches to add for class balance |
 | `-a` | `N` | 0 | Number of rotational augmentations per labelled patch |
 

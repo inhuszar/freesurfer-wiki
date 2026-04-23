@@ -52,7 +52,7 @@ This tool is the volumetric analogue of surface-based cluster tools and is frequ
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--in vol` / `--i vol` | — | Input statistical volume |
+| `--in vol`<br>`--i vol` | — | Input statistical volume |
 | `--thmin thresh` | — (required) | Minimum threshold |
 | `--thmax thresh` | none (∞) | Maximum threshold (optional upper bound) |
 | `--sign {abs,pos,neg}` | `abs` | Threshold sign: `abs` (both), `pos` (positive only), `neg` (negative only) |
@@ -102,7 +102,7 @@ $$
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--in` / `--i` | `vol` | — | Input statistical volume |
+| `--in`<br>`--i` | `vol` | — | Input statistical volume |
 | `--thmin` | `thresh` | — (required) | Lower threshold |
 | `--thmax` | `thresh` | none (∞) | Upper threshold |
 | `--sign` | `string` | `abs` | `abs`, `pos`, or `neg` |
@@ -126,7 +126,7 @@ $$
 | `--mni152reg` | — | — | Use built-in MNI152 registration |
 | `--fsaverage` | — | off | Assume input is in fsaverage space |
 | `--sum` | `sumfile` | — | Output text summary |
-| `--o` / `--out` | `outvol` | — | Cluster-labelled output volume |
+| `--o`<br>`--out` | `outvol` | — | Cluster-labelled output volume |
 | `--out_type` | `type` | auto | Output volume type |
 | `--in_type` | `type` | auto | Input volume type |
 | `--ocn` | `file` | — | Output cluster number volume |
@@ -147,7 +147,7 @@ $$
 | `--sig2p-max` | — | off | Convert max value from −log10(p) to p |
 | `--gte` | — | off | Use >= (rather than >) for CSD p-value lookup |
 | `--synth` | `function` | — | Synthesise input for null distribution testing (`uniform`, `loguniform`, `gaussian`) |
-| `--label` / `--labelfile` | `file` | — | Label file to restrict analysis |
+| `--label`<br>`--labelfile` | `file` | — | Label file to restrict analysis |
 | `--labelbase` | `base` | — | Base name for per-cluster label files |
 | `--nlabelcluster` | `n` | −1 | Cluster number to save as label (requires `--label`) |
 | `--seg` | `subject segvol` | — | Annotate clusters with FreeSurfer segmentation (requires SUBJECTS_DIR) |

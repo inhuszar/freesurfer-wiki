@@ -69,7 +69,7 @@ $$
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `-T <file>` | path | none | LTA transform to apply to the output |
-| `-out_like <vol>` / `-ol` | path | none | Output volume has geometry of this template |
+| `-out_like <vol>`<br>`-ol` | path | none | Output volume has geometry of this template |
 | `-s <s>` | float | 0 | Smooth the output with Gaussian of std dev `s` mm (`case 'S':`) |
 | `-dilate <n>` | int | 0 | Dilate the binary mask `n` times |
 | `-erode <n>` | int | 0 | Erode the binary mask `n` times |

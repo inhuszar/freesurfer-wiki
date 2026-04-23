@@ -90,7 +90,7 @@ The fractional contributions to the lower-resolution target volume are then comp
 | `-lh` | — | on | Process left hemisphere only |
 | `-rh` | — | off | Process right hemisphere only |
 | `-both` | — | off | Process both hemispheres |
-| `-sdir` / `-SDIR` | `<path>` | `$SUBJECTS_DIR` | Subjects directory override |
+| `-sdir`<br>`-SDIR` | `<path>` | `$SUBJECTS_DIR` | Subjects directory override |
 | `-s` | `<name>` | from reg file | Override subject name from registration file |
 | `-r` | `<f>` | 0.5 | Internal upsampling resolution in mm |
 | `-n` | `<name>` | `gwdist` | Laminar surface overlay name (stem used to find `?h.<name>.<i>`) |

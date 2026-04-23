@@ -85,10 +85,10 @@ The segmentation base offsets for standard parcellations are:
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--subject <s>` / `--s <s>` | string | required | Subject name |
+| `--subject <s>`<br>`--s <s>` | string | required | Subject name |
 | `--hemi <h>` | string | required | Hemisphere (`lh` or `rh`) |
 | `--annotation <name>` | string | `aparc` | Annotation base name or full path |
-| `--surface <name>` / `--surf <name>` | string | `white` | Surface to use for vertex XYZ coordinates |
+| `--surface <name>`<br>`--surf <name>` | string | `white` | Surface to use for vertex XYZ coordinates |
 | `--outdir <dir>` | string | — | Output directory; files named `<hemi>.<name>.label` |
 | `--labelbase <base>` | string | — | Output base path; files named `<base>-<NNN>.label` |
 | `--label <int>` | int | — | Extract only this single label index |

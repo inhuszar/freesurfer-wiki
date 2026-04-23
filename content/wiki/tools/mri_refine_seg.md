@@ -71,8 +71,8 @@ Flags are parsed by `ArgumentParser` (from `argparse.h`). The tool accepts exact
 
 | Flag | Alias | Argument | Description |
 |------|-------|----------|-------------|
-| `--in` / `-i` | `-i` | `<file>` | Input segmentation volume (required). |
-| `--out` / `-o` | `-o` | `<file>` | Output refined segmentation volume (required). |
+| `--in`<br>`-i` | `-i` | `<file>` | Input segmentation volume (required). |
+| `--out`<br>`-o` | `-o` | `<file>` | Output refined segmentation volume (required). |
 | `--debug` | — | (flag) | Save debug outputs: `refinement.orig.mgz`, `refinement.mask.mgz`, `refinement.points.json` in the output directory. |
 
 > [!gotcha] No user-configurable component definitions

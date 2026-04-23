@@ -83,7 +83,7 @@ $$
 | `-T <xform>` | string | none | Apply spatial transform to the bias field before application |
 | `-debug_voxel <x> <y> <z>` | int int int | — | Enable per-voxel debug output at the specified column/row/slice (CRS) coordinate; sets global debug voxel `Gx`/`Gy`/`Gz` |
 | `-sdir` | — | — | Accepted by the parser but currently a no-op stub (empty handler body); has no effect |
-| `-u` / `-?` | — | — | Print usage and exit |
+| `-u`<br>`-?` | — | — | Print usage and exit |
 
 Note: flags use a single dash followed by the option character (not the POSIX `--` convention).
 

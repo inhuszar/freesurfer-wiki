@@ -87,13 +87,13 @@ Flags are parsed by a custom `get_option()` function using `stricmp` (case-insen
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-SDIR` / `-sdir` | `dir` | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
+| `-SDIR`<br>`-sdir` | `dir` | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
 | `-VNO` | `int` | — | Diagnostic vertex number (`Gdiag_no`). |
 | `-PIAL` | `string` | `pial` | Name of the pial surface file (in `surf/`). |
 | `-WHITE` | `string` | `white` | Name of the white surface file (in `surf/`). |
-| `-VOL` / `-V` / `-v` | `string` | `norm.mgz` | Name of the intensity volume (in `mri/`). |
-| `-A` / `-a` | `float` | `0` | Number of smoothing iterations applied after feature extraction (`navgs`). Note: parsed via `atof()`. |
-| `-W` / `-w` | `int` | `5` | Neighbourhood half-width (`whalf`) for intensity sampling around surfaces. |
+| `-VOL`<br>`-V`<br>`-v` | `string` | `norm.mgz` | Name of the intensity volume (in `mri/`). |
+| `-A`<br>`-a` | `float` | `0` | Number of smoothing iterations applied after feature extraction (`navgs`). Note: parsed via `atof()`. |
+| `-W`<br>`-w` | `int` | `5` | Neighbourhood half-width (`whalf`) for intensity sampling around surfaces. |
 
 > [!gotcha] Missing flags for ribbon, aparc, aseg, flair, cortex, sphere
 > Despite these being configurable via global variable initializations in the source (`ribbon_name`, `aparc_name`, `aseg_name`, `flair_name`, `cortex_label`, `sphere_name`), **none of these have corresponding command-line flags** in `get_option()`. They can only be changed by modifying and recompiling the source. The wiki previously listed these as settable flags — this was incorrect.

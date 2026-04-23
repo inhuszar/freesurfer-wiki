@@ -84,14 +84,14 @@ All flags are case-insensitive (parsed with `stricmp`). The full `get_option()` 
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--help` / `--usage` | — | — | Print help and exit |
+| `--help`<br>`--usage` | — | — | Print help and exit |
 | `-version` | — | — | Print version string and exit |
 | `-xform <fname>` | string | null | LTA transform file to warp mask into input volume space before masking |
 | `-invert` | flag | off | **Invert the binarized mask** (swap inside/outside); sets `InvertMask=1`; applies before thresholding; when set, threshold defaults to 0.5 if not explicitly provided |
 | `-no-invert` | flag | — | Explicitly disable mask inversion (`InvertMask=0`) |
-| `-lta_src <fname>` / `-src <fname>` | string | null | Source volume geometry for the transform given by `-xform` (required when the LTA was produced by FSL and lacks embedded geometry) |
-| `-lta_dst <fname>` / `-dst <fname>` | string | null | Destination volume geometry for the transform given by `-xform` |
-| `-T <f>` / `-threshold <f>` | float | -1e10 | Threshold the mask: voxels with mask value ≤ threshold are treated as outside; sets `ThresholdSet=1` |
+| `-lta_src <fname>`<br>`-src <fname>` | string | null | Source volume geometry for the transform given by `-xform` (required when the LTA was produced by FSL and lacks embedded geometry) |
+| `-lta_dst <fname>`<br>`-dst <fname>` | string | null | Destination volume geometry for the transform given by `-xform` |
+| `-T <f>`<br>`-threshold <f>` | float | -1e10 | Threshold the mask: voxels with mask value ≤ threshold are treated as outside; sets `ThresholdSet=1` |
 | `-oval <f>` | float | 0.0 | Value written to masked-out (outside) voxels in the output; sets `out_val` |
 | `-transfer <f>` | float | disabled | Copy voxels in the mask whose value equals `f` directly into the output volume (also sets `out_val` to `f` for that pass) |
 | `-keep_mask_deletion_edits` | flag | off | Transfer mask voxels with value=1 (manual deletion edits in `brainmask.mgz`) to the output volume unchanged |
@@ -99,10 +99,10 @@ All flags are case-insensitive (parsed with `stricmp`). The full `get_option()` 
 | `-no-allow-diff-geom` | flag | — | Set environment variable `FS_MRIMASK_ALLOW_DIFF_GEOM=0` to disallow masking when mask and input have different geometry |
 | `-dilate <n>` | int | 0 | Dilate the mask by `n` binary dilation iterations before applying |
 | `-erode <n>` | int | 0 | Erode the mask by `n` binary erosion iterations before applying |
-| `-BB <pad>` / `-crop <pad>` / `-boundingbox <pad>` | int | disabled | Crop both input and mask to the bounding box of the mask padded by `pad` voxels uniformly on all six faces; sets `DoBB=1` |
+| `-BB <pad>`<br>`-crop <pad>`<br>`-boundingbox <pad>` | int | disabled | Crop both input and mask to the bounding box of the mask padded by `pad` voxels uniformly on all six faces; sets `DoBB=1` |
 | `-crop-crs <padC> <padR> <padS>` | int×3 | disabled | Crop to bounding box with separate padding for each axis pair (column, row, slice); sets `DoBB=1` |
-| `-BBM <padCR> <padRS> <padCS>` / `-boundingboxm <…>` | int×3 | disabled | Bounding box crop with independent per-axis padding (one value per axis, applied symmetrically); sets `DoBB=1` |
-| `-BBMM <p0> <p1> <p2> <p3> <p4> <p5>` / `-boundingboxmm <…>` | int×6 | disabled | Bounding box crop with fully independent per-face padding (low/high for each of C, R, S); sets `DoBB=1` |
+| `-BBM <padCR> <padRS> <padCS>`<br>`-boundingboxm <…>` | int×3 | disabled | Bounding box crop with independent per-axis padding (one value per axis, applied symmetrically); sets `DoBB=1` |
+| `-BBMM <p0> <p1> <p2> <p3> <p4> <p5>`<br>`-boundingboxmm <…>` | int×6 | disabled | Bounding box crop with fully independent per-face padding (low/high for each of C, R, S); sets `DoBB=1` |
 | `-BBEQ <pad>` | int | disabled | Bounding box crop that equalises box dimensions by padding all axes to the same size, plus `pad` voxels; sets `DoBBEq=1` |
 | `-crop-to-fov <x> <y> <z>` | int×3 | disabled | Crop output FOV to the given voxel dimensions (sets `DoCropToFoV=1`) |
 | `-crop-to-fov-mm <x> <y> <z>` | int×3 | disabled | Crop output FOV to the given millimetre dimensions (sets `DoCropToFoVmm=1`) |

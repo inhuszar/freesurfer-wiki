@@ -82,7 +82,7 @@ Same as [[mri_motion_correct2]]: 6-DOF rigid-body registration via `flirt`, foll
 | `-echo` | flag | off | Enable shell command echoing (`set echo = 1`). |
 | `-debug` | flag | off | Enable both verbose and echo (`-verbose -echo` combined). |
 | `-version` | flag | — | Print version string (with `mri_convert -all-info`) and exit. |
-| `-help` / `-u` / `--help` / `--usage` / `-usage` | flag | — | Print usage and exit. |
+| `-help`<br>`-u`<br>`--help`<br>`--usage`<br>`-usage` | flag | — | Print usage and exit. |
 
 > [!gotcha] Flag name discrepancy: `-nocleanup` not `-no-cleanup`
 > The cleanup-suppression flag is `-nocleanup` (no hyphen between `no` and `cleanup`), not `-no-cleanup`. Using the incorrect form will trigger an "unrecognized flag" error.

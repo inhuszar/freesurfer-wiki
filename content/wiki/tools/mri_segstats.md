@@ -122,7 +122,7 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 |------|----------|---------|-------------|
 | `--seg` | `<file>` | — | Segmentation volume |
 | `--sum` | `<file>` | — | Output statistics table (required) |
-| `--in` / `--i` | `<file>` | — | Input volume for intensity statistics |
+| `--in`<br>`--i` | `<file>` | — | Input volume for intensity statistics |
 | `--reg` | `<file>` | — | Registration from `--in` to seg space |
 | `--regheader` | — | off | Use volume headers for registration |
 | `--ctab` | `<file>` | — | Colour lookup table |
@@ -156,7 +156,7 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--seg-from-input` | — | off | Construct segmentation from input volume |
 | `--replace` | `<src> <tgt>` | — | Replace label `src` with `tgt` |
 | `--replace-file` | `<file>` | — | File with pairs of label IDs to replace (same format as `--replace`) |
-| `--exclude` / `--excludeid` | `<id>` | — | Exclude label ID from statistics |
+| `--exclude`<br>`--excludeid` | `<id>` | — | Exclude label ID from statistics |
 | `--frame` | `<int>` | 0 | Frame of input volume to use |
 | `--robust` | `<pct>` | off | Use robust mean/std (trim `pct`% tails) |
 | `--snr` | — | off | Compute SNR per label |
@@ -165,8 +165,8 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--sqrt` | — | off | Use square root of input |
 | `--mul` | `<float>` | 1.0 | Multiply input by value |
 | `--div` | `<float>` | 1.0 | Divide input by value |
-| `--acc` / `--accumulate` | — | off | Accumulate stats across multiple runs |
-| `--non-empty` / `--nonempty` | — | on | Report only non-empty labels |
+| `--acc`<br>`--accumulate` | — | off | Accumulate stats across multiple runs |
+| `--non-empty`<br>`--nonempty` | — | on | Report only non-empty labels |
 | `--empty` | — | off | Report all labels including empty ones |
 | `--no-global-stats` | — | off | Suppress all global stat headers |
 | `--segborder` | — | on | Exclude border voxels from label statistics |
@@ -176,7 +176,7 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--sd` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
 | `--xfm2etiv` | `<xfm> <outfile>` | — | Compute eTIV from transform (standalone mode) |
 | `--old-etiv-only` | — | off | Use older eTIV-only computation method and exit |
-| `--sum` / `--o` | `<file>` | — | Output statistics table (required; `--o` is an alias) |
+| `--sum`<br>`--o` | `<file>` | — | Output statistics table (required; `--o` is an alias) |
 | `--sum-in` | `<file>` | — | Read an existing stats table as input (for accumulate mode) |
 | `--sumwf` | `<file>` | — | Write per-label average waveform summary |
 | `--avgwf` | `<file>` | — | Write per-label average waveform as a text file (one column per label, one row per frame) |

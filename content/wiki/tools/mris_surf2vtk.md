@@ -64,7 +64,7 @@ Coordinates are in surface RAS space (the native FreeSurfer surface coordinate s
 |------|----------|---------|-------------|
 | `-i` | surface file | required | Input FreeSurfer surface file |
 | `-o` | output file | required | Output VTK file |
-| `--help` / `-h` | — | — | Print usage and exit |
+| `--help`<br>`-h` | — | — | Print usage and exit |
 
 **Usage:** `mris_surf2vtk -i <surface> -o <output.vtk>`
 

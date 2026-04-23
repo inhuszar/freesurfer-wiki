@@ -106,7 +106,7 @@ The pipeline produces the standard FreeSurfer subject directory structure:
 | `-threads <n>` | integer | required | Number of processing threads. |
 | `-sdir <dir>` | string | `$SUBJECTS_DIR` | Subjects directory override. |
 | `-ct` | boolean | false | CT mode: clips intensities to [0, 80] HU. |
-| `-h` / `--help` | boolean | — | Print help and exit. |
+| `-h`<br>`--help` | boolean | — | Print help and exit. |
 
 ### Configuration Interactions
 

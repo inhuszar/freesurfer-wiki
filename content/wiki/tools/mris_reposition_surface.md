@@ -88,13 +88,13 @@ The search uses Gaussian-weighted gradient estimation with smoothing parameter `
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-s` / `--surf <path>` | string | required | Input surface file. |
-| `-v` / `--volume <path>` | string | required | Reference MRI volume. |
-| `-p` / `--points <path>` | string | required | JSON control point file. |
-| `-o` / `--out <path>` | string | required | Output surface file. |
-| `-z` / `--size <n>` | integer | 1 | Neighborhood search size around each control point (must be ≥1). |
-| `-g` / `--sigma <f>` | float | 2.0 | Gaussian smoothing sigma (mm) for gradient computation. |
-| `-i` / `--iterations <n>` | integer | 1 | Number of repositioning iterations. |
+| `-s`<br>`--surf <path>` | string | required | Input surface file. |
+| `-v`<br>`--volume <path>` | string | required | Reference MRI volume. |
+| `-p`<br>`--points <path>` | string | required | JSON control point file. |
+| `-o`<br>`--out <path>` | string | required | Output surface file. |
+| `-z`<br>`--size <n>` | integer | 1 | Neighborhood search size around each control point (must be ≥1). |
+| `-g`<br>`--sigma <f>` | float | 2.0 | Gaussian smoothing sigma (mm) for gradient computation. |
+| `-i`<br>`--iterations <n>` | integer | 1 | Number of repositioning iterations. |
 
 ### Configuration Interactions
 

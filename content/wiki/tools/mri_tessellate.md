@@ -169,10 +169,10 @@ RAS). The default `compatibility=1` uses `MRIvoxelToSurfaceRAS()`.
 | `-h` | bool flag | OFF | Hippocampus mode. Sets `hippo_flag = 1` AND `compatibility = 0` (forces real Scanner RAS output, see `-n`). After loading the volume, `remove_non_hippo_voxels()` zeroes out every label that is not in the hard-coded hippocampal subfield list, then sets `all_flag = 1` so the boundary between every retained subfield is tessellated. |
 | `-n` | bool flag | OFF (`compatibility = 1`) | Sets `compatibility = 0`: vertex coordinates are written via `extract_i_to_r(mri)` (true Scanner RAS, equivalent to `MRIvoxelToWorld()`) instead of `surfaceRASFromVoxel_(mri)` (Surface/tkRAS). The `TAG_USEREALRAS` tag in the output surface is set to 1, and the `TAG_OLD_SURF_GEOM` block is **not** written (see code lines 574–582). |
 | `-seed <n>` | long (1 arg) | unset | Calls `setRandomSeed(atol(argv[2]))`. The tessellation algorithm itself is deterministic, so this only affects any downstream library code that consults the RNG; for the standard code path it is effectively a no-op. |
-| `-maxv <n>`, `-max_vertices <n>` | long (1 arg) | `MAXV = 10000000` | Overrides `MAXVERTICES`; `MAXFACES` is then set to `2 * MAXVERTICES`. Controls the static allocation of the `vertex` and `face` arrays. Exceeding the limit during `add_vertex`/`add_face` triggers `ErrorExit(ERROR_NOMEMORY)`. |
+| `-maxv <n>`<br>`-max_vertices <n>` | long (1 arg) | `MAXV = 10000000` | Overrides `MAXVERTICES`; `MAXFACES` is then set to `2 * MAXVERTICES`. Controls the static allocation of the `vertex` and `face` arrays. Exceeding the limit during `add_vertex`/`add_face` triggers `ErrorExit(ERROR_NOMEMORY)`. |
 | `-new` | bool flag | OFF | Sets `UseMRIStessellate = 1`. The tool then bypasses its built-in tessellator and calls the library routine `MRIStessellate(mri, value, all_flag)`, writing the result via `MRISwrite()` (which honours `FS_GII` for GIFTI output). The half-voxel offset, `compatibility`/`-n` handling, and `-maxv` cap of the legacy code path do **not** apply on this branch. |
 | `-no-new` | bool flag | — | Sets `UseMRIStessellate = 0`. Used to force the legacy code path even when `FS_GII=.gii` is set in the environment. |
-| `-?`, `-u`, `--help`, `--usage` | bool flag | — | Print the XML help (`mri_tessellate.help.xml`) and exit. |
+| `-?`<br>`-u`<br>`--help`<br>`--usage` | bool flag | — | Print the XML help (`mri_tessellate.help.xml`) and exit. |
 | `--version` | bool flag | — | Print the version string and exit. |
 
 ### Environment Variables

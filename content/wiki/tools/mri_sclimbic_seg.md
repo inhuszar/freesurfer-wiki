@@ -50,14 +50,14 @@ Two modes are supported:
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i` / `-i` | `file/dir` | — (required) | Input T1-w image or directory of images |
-| `--o` / `-o` | `file/dir` | — (required) | Output segmentation file or directory |
+| `--i`<br>`-i` | `file/dir` | — (required) | Input T1-w image or directory of images |
+| `--o`<br>`-o` | `file/dir` | — (required) | Output segmentation file or directory |
 
 **Subject mode:**
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--s` / `-s` | `[subj1 subj2 ...]` | — (required) | FreeSurfer subjects (uses SUBJECTS_DIR); no args = process all |
+| `--s`<br>`-s` | `[subj1 subj2 ...]` | — (required) | FreeSurfer subjects (uses SUBJECTS_DIR); no args = process all |
 | `--sd` | `dir` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
 
 ## Outputs
@@ -91,9 +91,9 @@ Input intensities are normalised using percentile-based scaling (default percent
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i` / `-i` | `file/dir` | — | Input T1-w image(s); required in image mode |
-| `--o` / `-o` | `file/dir` | — | Output segmentation file or directory; required in image mode |
-| `--s` / `-s` | `[subj ...]` | — | Subject list; required in subject mode (no args = all subjects in SUBJECTS_DIR) |
+| `--i`<br>`-i` | `file/dir` | — | Input T1-w image(s); required in image mode |
+| `--o`<br>`-o` | `file/dir` | — | Output segmentation file or directory; required in image mode |
+| `--s`<br>`-s` | `[subj ...]` | — | Subject list; required in subject mode (no args = all subjects in SUBJECTS_DIR) |
 | `--sd` | `dir` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
 | `--conform` | — | `off` | Resample input to 1mm isotropic before inference; results are put back in native resolution |
 | `--etiv` | — | `off` | Include eTIV in volume stats (enabled automatically in subject mode and when `--tal` is given) |

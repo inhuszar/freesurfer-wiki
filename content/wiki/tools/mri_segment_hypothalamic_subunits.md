@@ -89,7 +89,7 @@ $$
 | `--cpu` | — | off | Force CPU usage (disable GPU) |
 | `--vol` | `<path>` | — | (T1 mode, optional) Override the default input volume path (alternative to `--i`) |
 | `--crop` | `<x1> <x2> <y1> <y2> <z1> <z2>` | — | (T1 mode, optional) Crop bounding box indices applied before segmentation |
-| `--help` / `-h` | — | — | Print usage and exit |
+| `--help`<br>`-h` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 

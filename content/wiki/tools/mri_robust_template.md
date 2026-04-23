@@ -104,7 +104,7 @@ where $\rho$ is the Tukey biweight function, $w_v$ are voxel weights, and $\sigm
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--lta` | `tp1.lta tp2.lta ...` | — | Output transforms to template. |
-| `--mapmov` / `--warp` | `aligned1.mgz ...` | — | Resampled inputs in template space. |
+| `--mapmov`<br>`--warp` | `aligned1.mgz ...` | — | Resampled inputs in template space. |
 | `--mapmovhdr` | `aligned1.mgz ...` | — | Header-adjusted inputs (no resampling). |
 | `--weights` | `weights1.mgz ...` | — | Outlier weight maps. |
 | `--oneminusw` | — | off | Invert weight polarity so that 0 = outlier (matches earlier FreeSurfer behaviour). |
@@ -119,11 +119,11 @@ where $\rho$ is the Tukey biweight function, $w_v$ are voxel weights, and $\sigm
 | `--inittp` | `#` | random | Use timepoint # for spatial initialisation; `0` = no init. |
 | `--fixtp` | — | off | Map everything to the initial timepoint (no resampling of init TP). |
 | `--transonly` | — | off | Find 3-parameter translation only. |
-| `--affine` / `--a` | — | off | Find full 12-parameter affine transform. |
+| `--affine`<br>`--a` | — | off | Find full 12-parameter affine transform. |
 | `--allow-diff-vox-size` | — | off | Allow inputs with different voxel sizes (use with caution). |
 | `--ixforms` | `t1.lta ...` | — | Initial transforms (LTA; `id` = identity). |
 | `--masks` | `mask1.mgz ...` | — | Input masks. |
-| `--iscale` / `--i` | — | off | Allow intensity scaling. |
+| `--iscale`<br>`--i` | — | off | Allow intensity scaling. |
 | `--iscaleonly` | — | off | Perform intensity scaling only (no geometric transform). |
 | `--iscalein` | `is1.txt ...` | — | Initial intensity scale factors. |
 
@@ -148,14 +148,14 @@ where $\rho$ is the Tukey biweight function, $w_v$ are voxel weights, and $\sigm
 | `--doubleprec` | — | off | Use double precision internally (very high memory usage). |
 | `--finalnearest` | — | off (cubic B-spline) | Use nearest-neighbour interpolation in final average step. |
 | `--vox2vox` | — | off (RAS2RAS) | Output VOX2VOX LTA files instead of RAS2RAS. |
-| `--leastsquares` / `--l` | — | off | Use least-squares instead of robust M-estimator (testing only). |
+| `--leastsquares`<br>`--l` | — | off | Use least-squares instead of robust M-estimator (testing only). |
 | `--cras` | — | off | Centre template at average CRAS instead of average barycenter. |
 | `--res-thresh` | `val` | `0.01` mm | Volume resolution threshold for comparing voxel sizes. |
 | `--frobnorm-thresh` | `val` | `0.0001` | Matrix Frobenius norm threshold for convergence. |
 | `--seed` | `#` | `0` (from data) | Random seed for initial TP selection; `0` derives seed from input images. |
 | `--test` | `n file` | — | Developer test mode: runs internal registration test and exits immediately. |
 | `--debug` | — | off | Enable verbose debug output. |
-| `--help` / `--h` / `--usage` / `--u` | — | — | Print usage and exit. |
+| `--help`<br>`--h`<br>`--usage`<br>`--u` | — | — | Print usage and exit. |
 
 ## Configuration Interactions
 

@@ -94,11 +94,11 @@ Flag list verified against `mri_gradunwarp/mri_gradunwarp.cpp`.
 | `--i` | `<file>` | — | Input volume or surface to unwarp |
 | `--o` | `<file>` | — | Output corrected volume or surface |
 | `--load_transtbl` | `<file>` | — | Load precomputed transform table (instead of `--gradcoeff`) |
-| `--out_transtbl` / `--gcam` | `<file>` | — | Save displacement field as m3z/GCAM |
+| `--out_transtbl`<br>`--gcam` | `<file>` | — | Save displacement field as m3z/GCAM |
 | `--inv-gcam` | `<file>` | — | Load an inverse GCAM transform |
-| `--save_transtbl_only` / `--gcam-only` | — | off | Create the m3z transform only; do not apply to input volume; replaces incorrect --m3zonly |
+| `--save_transtbl_only`<br>`--gcam-only` | — | off | Create the m3z transform only; do not apply to input volume; replaces incorrect --m3zonly |
 | `--interp` | `<method>` | `trilinear` | Interpolation method: `trilinear` or `sinc` |
-| `--threads` / `--nthreads` | `<N>` | 1 | Number of OpenMP threads |
+| `--threads`<br>`--nthreads` | `<N>` | 1 | Number of OpenMP threads |
 | `--ras` | `<x> <y> <z>` | — | (Debug) Evaluate displacement at given RAS coordinate |
 | `--crs` | `<c> <r> <s>` | — | (Debug) Evaluate displacement at given voxel CRS index |
 | `--checkopts` | — | off | Check options and exit |

@@ -104,19 +104,19 @@ The bias field is parameterized as a polynomial expansion `psi` over spatial coo
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-i` / `--image` | `<file>` | required | Input image filename (the target subject to segment). |
-| `-s` / `--segs` | `<file> [file …]` | required | One or more aligned segmentation files to fuse (multi-atlas label maps). Accepts multiple space-separated paths. |
-| `-o` / `--out` | `<file>` | required | Output segmentation filename. The output directory must already exist. |
-| `-r` / `--rho` | `<float>` | required | Rho parameter controlling the sharpness of the distance-based prior. Scales the distance transform values before the softmax; higher values make the prior more peaked around label boundaries. |
+| `-i`<br>`--image` | `<file>` | required | Input image filename (the target subject to segment). |
+| `-s`<br>`--segs` | `<file> [file …]` | required | One or more aligned segmentation files to fuse (multi-atlas label maps). Accepts multiple space-separated paths. |
+| `-o`<br>`--out` | `<file>` | required | Output segmentation filename. The output directory must already exist. |
+| `-r`<br>`--rho` | `<float>` | required | Rho parameter controlling the sharpness of the distance-based prior. Scales the distance transform values before the softmax; higher values make the prior more peaked around label boundaries. |
 | `--smooth` | (none) | off | Apply Markov random field (MRF) label smoothing after the main optimization, using graph cuts (`maxflow`) to enforce spatial coherence. |
-| `-b` / `--beta` | `<float>` | `0.3` | MRF smoothness weight. Controls the strength of the pairwise spatial regularization term in the Q-step. Only meaningful when `--smooth` is active or beta > 0 in the Q update loop. |
+| `-b`<br>`--beta` | `<float>` | `0.3` | MRF smoothness weight. Controls the strength of the pairwise spatial regularization term in the Q-step. Only meaningful when `--smooth` is active or beta > 0 in the Q update loop. |
 | `--bias` | `<file>` | — | If given, save the estimated bias field volume to this filename. |
 | `--bf-order` | `<int>` | `4` | Polynomial order of the bias field model. Higher order allows more spatially complex bias fields but increases computation time. |
 | `--max-lab` | `<int>` | `3` | Maximum number of top-weighted labels retained per voxel per atlas when constructing the distance prior. Reduces memory and computation by discarding low-probability labels. |
-| `-e` / `--exclude` | `<int> <int> <int> <int>` | — | Exclude a set of 4 label IDs from the fusion. Can be repeated. Used to suppress unreliable or pathological label pairs across atlases. |
+| `-e`<br>`--exclude` | `<int> <int> <int> <int>` | — | Exclude a set of 4 label IDs from the fusion. Can be repeated. Used to suppress unreliable or pathological label pairs across atlases. |
 | `--unary-weight` | `<int>` | `5` | Weight applied to the unary (likelihood) term in the graph-cut cost when `--smooth` is used. Higher values bias the MRF toward the intensity-based posterior and away from smoothness. |
 | `--seed` | `<int>` | `1234` | Seed for NumPy's random number generator, used in the downsampling step for bias field estimation. Fixing the seed makes runs reproducible. |
-| `-v` / `--verbose` | (none) | off | Print verbose progress output during optimization. |
+| `-v`<br>`--verbose` | (none) | off | Print verbose progress output during optimization. |
 
 ## Typical Use Cases
 

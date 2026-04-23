@@ -101,22 +101,22 @@ The ex vivo pipeline uses the same underlying algorithms as standard `recon-all`
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-s` / `--s` / `-subject` | `<subject>` | required | Subject ID. |
+| `-s`<br>`--s`<br>`-subject` | `<subject>` | required | Subject ID. |
 | `-lh` | — | false | Process only left hemisphere. |
 | `-rh` | — | false | Process only right hemisphere. |
-| `--samseg` / `-samseg` | `<seg_fname> <vol_fname>` | — | Use SAMSEG segmentation output instead of GCA-based segmentation. Requires two arguments: segmentation file and volume file. |
+| `--samseg`<br>`-samseg` | `<seg_fname> <vol_fname>` | — | Use SAMSEG segmentation output instead of GCA-based segmentation. Requires two arguments: segmentation file and volume file. |
 | `-mask` | `<mask_fname>` | — | Explicit brain mask volume. |
-| `-bet` / `-runbet` / `-run_bet` | — | false | Run BET (FSL Brain Extraction Tool) skull stripping. |
+| `-bet`<br>`-runbet`<br>`-run_bet` | — | false | Run BET (FSL Brain Extraction Tool) skull stripping. |
 | `-nobet` | — | false | Disable BET skull stripping (`run_bet = 0`). |
 | `-renorm` | `<file>` | — | Use an externally provided intensity renormalization file. |
 | `-i` | `<base>` | — | Explicit base volume path (overrides default input derivation). |
 | `-sd` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory. |
-| `-no-recon` / `-no_recon` / `-norecon` | — | false | Skip surface reconstruction stages. |
-| `-no-cerebellum` / `-nocerebellum` | — | false | Exclude the cerebellum from processing. |
+| `-no-recon`<br>`-no_recon`<br>`-norecon` | — | false | Skip surface reconstruction stages. |
+| `-no-cerebellum`<br>`-nocerebellum` | — | false | Exclude the cerebellum from processing. |
 | `-notalairach` | — | false | Skip Talairach registration (passed through to `recon-all`). |
 | `-noskullstrip` | — | false | Skip skull stripping (passed through to `recon-all`). |
 | `-openmp` | `<n>` | — | Set number of OpenMP threads (passed through to `recon-all`). |
-| `-no-wsatlas` / `-no-wgcasatlas` | — | — | Disable white-matter segmentation atlas (passed through to `recon-all`). |
+| `-no-wsatlas`<br>`-no-wgcasatlas` | — | — | Disable white-matter segmentation atlas (passed through to `recon-all`). |
 | `-wsatlas` | — | — | Enable white-matter segmentation atlas (passed through to `recon-all`). |
 | `-wsthresh` | `<val>` | — | Set white-matter segmentation threshold (passed through to `recon-all`). |
 | `-fluidthresh` | `<val>` | — | Set the fluid threshold via `setenv fluidthresh`; passed downstream to sub-commands. Precise downstream effect is not documented in the script body. |

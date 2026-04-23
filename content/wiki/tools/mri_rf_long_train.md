@@ -85,7 +85,7 @@ All flags are case-insensitive (`stricmp`). Single-letter flags are handled via 
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-seg_dir` / `-seg` / `-segmentation` / `-parc_dir` | `<name>` | `seg_edited.mgz` | Segmentation volume name read from each subject's `mri/` directory. |
+| `-seg_dir`<br>`-seg`<br>`-segmentation`<br>`-parc_dir` | `<name>` | `seg_edited.mgz` | Segmentation volume name read from each subject's `mri/` directory. |
 | `-T1` | `<name>` | `orig` | T1 intensity volume name within each subject's `mri/` directory. |
 | `-input` | `<name>` | (T1 only) | Add additional input volume name (repeatable; first use replaces the T1 slot). |
 | `-wmsa` | `<fname>` | — | Volume containing WMSA manual labels to include in training. |

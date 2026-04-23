@@ -66,9 +66,9 @@ From global variables in `main()`:
 | `bvalFile` | B-value table |
 | `maskFile` | Brain mask |
 | `bedpostDir` | BEDpostX output directory (fiber orientation distributions) |
-| `roiFile1`, `roiFile2` | Start/end ROI volume files |
-| `roiMeshFile1`, `roiMeshFile2` | Start/end ROI surface mesh files (optional) |
-| `roiRefFile1`, `roiRefFile2` | Reference volumes for ROIs |
+| `roiFile1`<br>`roiFile2` | Start/end ROI volume files |
+| `roiMeshFile1`<br>`roiMeshFile2` | Start/end ROI surface mesh files (optional) |
+| `roiRefFile1`<br>`roiRefFile2` | Reference volumes for ROIs |
 | `xyzPriorFile0/1` | Spatial position prior files |
 | `tangPriorFile` | Tangent direction prior files |
 | `curvPriorFile` | Curvature prior files |

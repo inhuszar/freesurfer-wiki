@@ -80,7 +80,7 @@ MNI152 prior maps are warped to subject space using spherical morphometric regis
 | `--i <fname>` | string | null | Input volume filename |
 | `--s <subject>` | string | null | Subject name (sets input to `$SUBJECTS_DIR/<subj>/mri/nu.mgz`) |
 | `--o <fname>` | string | null | Output segmentation filename |
-| `--outdir <dir>` / `--odir` / `--out-dir` / `--tmpdir` / `--tmp` | string | derived from `--o` | Output directory; all five aliases are equivalent and all set `cleanup=0`, preserving the working directory on exit |
+| `--outdir <dir>`<br>`--odir`<br>`--out-dir`<br>`--tmpdir`<br>`--tmp` | string | derived from `--o` | Output directory; all five aliases are equivalent and all set `cleanup=0`, preserving the working directory on exit |
 | `--threads <n>` | int | 1 | Number of processing threads |
 | `--strip` | flag | on | Perform skull stripping before segmentation (default) |
 | `--no-strip` | flag | off | Skip skull stripping step |
@@ -88,13 +88,13 @@ MNI152 prior maps are warped to subject space using spherical morphometric regis
 | `--rh` | flag | — | Process right hemisphere only |
 | `--force` | flag | off | Force reprocessing even if outputs exist |
 | `--no-force` | flag | — | Do not force reprocessing (default) |
-| `--smorphdir <dir>` / `--synthmorph-dir` / `--synthmorphdir` | string | null | Use pre-computed SynthMorph registration directory |
+| `--smorphdir <dir>`<br>`--synthmorph-dir`<br>`--synthmorphdir` | string | null | Use pre-computed SynthMorph registration directory |
 | `--manseg <fname>` | string | null | Manual segmentation file (for post-processing override) |
 | `--nocleanup` | flag | — | Do not delete temporary working directory |
 | `--cleanup` | flag | on | Delete temporary working directory (default) |
 | `--log <fname>` | string | auto | Log file path (auto: `<outdir>/log/mri_mcadura_seg.Y…log`) |
-| `--nolog` / `--no-log` | flag | — | Suppress log file (redirect to `/dev/null`) |
-| `--test` / `--no-test` | flag | off | Count cortex voxels from aseg (requires `--s`) |
+| `--nolog`<br>`--no-log` | flag | — | Suppress log file (redirect to `/dev/null`) |
+| `--test`<br>`--no-test` | flag | off | Count cortex voxels from aseg (requires `--s`) |
 | `--debug` | flag | off | Enable tcsh verbose tracing (`set verbose=1; set echo=1`). |
 
 > [!gotcha] Sub-tool flags are not passed through

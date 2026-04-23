@@ -49,7 +49,7 @@ For deterministic tractography (`.trk` input), the tool similarly computes measu
 | Variable | Flag | Description |
 |----------|------|-------------|
 | `inTrkFile` | `--intrk` | Input `.trk` file (deterministic tractography) |
-| `inRoi1File`, `inRoi2File` | `--rois <file1> <file2>` | Labeling ROI files for `.trk` input (optional) |
+| `inRoi1File`<br>`inRoi2File` | `--rois <file1> <file2>` | Labeling ROI files for `.trk` input (optional) |
 | `inTrcDir` | `--intrc` | TRACULA output directory (probabilistic) |
 | `inVoxFile` | `--invox` | Path map text file (default: `path.map.txt`) |
 | `inXfmFile` | `--inlta` | Affine transform file (LTA format) |

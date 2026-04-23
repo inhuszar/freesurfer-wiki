@@ -110,10 +110,10 @@ tags:
 
 | Shortcut | Action |
 |----------|--------|
-| `PageUp` / `PageDown` | Previous / next slice |
-| `Up` / `Down` arrows | Previous / next slice |
+| `PageUp`<br>`PageDown` | Previous / next slice |
+| `Up`<br>`Down` arrows | Previous / next slice |
 | `Ctrl+Arrow keys` | Pan view (without moving cursor) |
-| `Shift+Up` / `Shift+Down` | Zoom in / zoom out (keyboard) |
+| `Shift+Up`<br>`Shift+Down` | Zoom in / zoom out (keyboard) |
 
 > [!contradiction] `+` and `-` keys
 > The previous version of this page stated `+`/`=` zooms in and `-` zooms

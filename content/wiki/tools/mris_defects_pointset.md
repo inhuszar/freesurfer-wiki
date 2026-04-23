@@ -48,15 +48,15 @@ This tool is primarily a **diagnostic utility**. It does not modify any surfaces
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-s` / `--surf` | FILE | — | Input FreeSurfer surface file (required). Must match defect label vertex count. |
-| `-d` / `--defects` | FILE | — | Input defect label file (required). Must be in the same vertex space as the surface. |
-| `-l` / `--label` | FILE | — | Optional label file to restrict output to a subset of the surface. Must be in input surface space. |
+| `-s`<br>`--surf` | FILE | — | Input FreeSurfer surface file (required). Must match defect label vertex count. |
+| `-d`<br>`--defects` | FILE | — | Input defect label file (required). Must be in the same vertex space as the surface. |
+| `-l`<br>`--label` | FILE | — | Optional label file to restrict output to a subset of the surface. Must be in input surface space. |
 
 ## Outputs
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-o` / `--out` | FILE | — | Output pointset file (required). JSON format by default; old v6 control-point format when `-c` is set. |
+| `-o`<br>`--out` | FILE | — | Output pointset file (required). JSON format by default; old v6 control-point format when `-c` is set. |
 
 With `-c` / `--control`, the output is in old FreeSurfer v6-compatible control point format instead of JSON.
 
@@ -74,11 +74,11 @@ where $\mathbf{p}_v$ is the 3D position of surface vertex $v$. The resulting poi
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-s` / `--surf` | FILE | — | Input surface file (required) |
-| `-d` / `--defects` | FILE | — | Input defect label file (required) |
-| `-o` / `--out` | FILE | — | Output pointset file (required) |
-| `-l` / `--label` | FILE | — | Restrict output to vertices within this label |
-| `-c` / `--control` | — | off | Use old v6 control point format instead of JSON |
+| `-s`<br>`--surf` | FILE | — | Input surface file (required) |
+| `-d`<br>`--defects` | FILE | — | Input defect label file (required) |
+| `-o`<br>`--out` | FILE | — | Output pointset file (required) |
+| `-l`<br>`--label` | FILE | — | Restrict output to vertices within this label |
+| `-c`<br>`--control` | — | off | Use old v6 control point format instead of JSON |
 
 ## Configuration Interactions
 

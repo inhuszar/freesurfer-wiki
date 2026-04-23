@@ -77,11 +77,11 @@ All flags are case-insensitive. The full `get_option()` has been read.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-unknown` / `-UNKNOWN` | — | off | Apply only the `edit_ventricular_unknowns()` correction; relabels "unknown" voxels between ventricle and WM or near hypointensities (sets `unknown_only=1`) |
-| `-border` / `-BORDER` | — | off | Apply only the `edit_border_voxels()` correction (sets `border_only=1`) |
+| `-unknown`<br>`-UNKNOWN` | — | off | Apply only the `edit_ventricular_unknowns()` correction; relabels "unknown" voxels between ventricle and WM or near hypointensities (sets `unknown_only=1`) |
+| `-border`<br>`-BORDER` | — | off | Apply only the `edit_border_voxels()` correction (sets `border_only=1`) |
 | `-no1d` | — | off | Disable 1-D intensity normalization prior to MLE computations; does not set any variable — the `printf` fires but no flag variable is changed (appears to be dead/incomplete code) |
 | `-DEBUG_VOXEL <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output for voxel (x, y, z); sets global `Gx`, `Gy`, `Gz` |
-| `-u` / `-?` | — | — | Print usage and exit |
+| `-u`<br>`-?` | — | — | Print usage and exit |
 
 > [!gotcha] Dead code: `-no1d`
 > The `-no1d` handler prints "disabling 1d normalization..." but does not set any flag variable. The 1-D normalisation is not actually disabled. This is a stub that was never completed.

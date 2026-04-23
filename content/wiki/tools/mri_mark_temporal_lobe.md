@@ -72,7 +72,7 @@ The exact spatial criteria (likely involving neighbourhood label statistics or a
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-seg_dir <name>` / `-parc_dir` | string | `seg` | Name of segmentation volume subdirectory in subject's `mri/` dir (`-parc_dir` is accepted as alias) |
+| `-seg_dir <name>`<br>`-parc_dir` | string | `seg` | Name of segmentation volume subdirectory in subject's `mri/` dir (`-parc_dir` is accepted as alias) |
 | `-sdir <path>` | string | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
 | `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 

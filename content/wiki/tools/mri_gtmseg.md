@@ -93,7 +93,7 @@ The output can optionally be returned to the original resolution by downsampling
 |------|----------|---------|-------------|
 | `--s` | `<subject>` | (required) | FreeSurfer subject name |
 | `--o` | `<vol>` | `gtmseg.mgz` | Output segmentation file (written to subject's `mri/` directory) |
-| `--usf` / `--internal-usf` | `<N>` | 2 | Upsampling factor for high-resolution internal grid |
+| `--usf`<br>`--internal-usf` | `<N>` | 2 | Upsampling factor for high-resolution internal grid |
 | `--output-usf` | `<N>` | same as `--usf` | Output resolution USF; if less than `--usf`, result is downsampled |
 | `--apas` | `<file>` | `apas+head.mgz` | Subcortical segmentation + head file |
 | `--ctab` | `<ctab>` | — | Read a color table (ASCII) and merge/overwrite into master ctab |
@@ -111,7 +111,7 @@ The output can optionally be returned to the original resolution by downsampling
 | `--lhminmax` | `<min> <max>` | 1000 1900 | Restrict LH cortical labels to this range |
 | `--rhminmax` | `<min> <max>` | 2000 2900 | Restrict RH cortical labels to this range |
 | `--dmax` | `<mm>` | 5.0 | Maximum distance (mm) from cortex for WM voxels to be considered unsegmented |
-| `--sd` / `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Set `SUBJECTS_DIR` (also accepts `-SDIR`) |
+| `--sd`<br>`-sdir` | `<dir>` | `$SUBJECTS_DIR` | Set `SUBJECTS_DIR` (also accepts `-SDIR`) |
 | `--threads` | `<N>` | 1 | Number of OpenMP threads |
 | `--max-threads` | — | — | Use maximum available OpenMP threads |
 | `--max-threads-1` | — | — | Use (max − 1) OpenMP threads |

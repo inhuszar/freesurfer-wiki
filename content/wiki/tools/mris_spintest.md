@@ -108,7 +108,7 @@ $$
 | `--cc-glmfit` | file | — | Output file for observed correlation in GLM-fit format |
 | `--threads` | integer | `1` | Number of OpenMP threads |
 | `--max-threads` | — | `off` | Use maximum available OpenMP threads |
-| `--max-threads-1` / `--max-threads-minus-1` | — | `off` | Use one fewer than the maximum available OpenMP threads |
+| `--max-threads-1`<br>`--max-threads-minus-1` | — | `off` | Use one fewer than the maximum available OpenMP threads |
 | `--debug` | — | `off` | Enable debug output |
 | `--checkopts` | — | `off` | Validate options and exit without running |
 

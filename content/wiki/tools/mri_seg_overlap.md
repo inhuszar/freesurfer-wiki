@@ -83,14 +83,14 @@ Summary statistics include unweighted mean and volume-weighted mean (`wmean`). A
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-o` / `--out` | `<file>` | stdout | Output file (text or JSON) |
-| `-m` / `--measures` | `dice\|jaccard [...]` | `dice` | Overlap measure(s) to compute |
-| `-l` / `--labels` | `<int> [...]` | all labels | Specific label IDs to report |
-| `-f` / `--labelfile` | `<file>` | — | Label file in lookup-table format |
-| `-n` / `--names` | `<str> [...]` | from LUT | Custom label names (requires `--labels`) |
-| `-x` / `--no-names` | — | off | Suppress label names in output |
-| `-s` / `--seg` | — | off | Use standard anatomical structures preset |
-| `-q` / `--quiet` | — | off | Suppress informational output |
+| `-o`<br>`--out` | `<file>` | stdout | Output file (text or JSON) |
+| `-m`<br>`--measures` | `dice\|jaccard [...]` | `dice` | Overlap measure(s) to compute |
+| `-l`<br>`--labels` | `<int> [...]` | all labels | Specific label IDs to report |
+| `-f`<br>`--labelfile` | `<file>` | — | Label file in lookup-table format |
+| `-n`<br>`--names` | `<str> [...]` | from LUT | Custom label names (requires `--labels`) |
+| `-x`<br>`--no-names` | — | off | Suppress label names in output |
+| `-s`<br>`--seg` | — | off | Use standard anatomical structures preset |
+| `-q`<br>`--quiet` | — | off | Suppress informational output |
 
 ## Configuration Interactions
 

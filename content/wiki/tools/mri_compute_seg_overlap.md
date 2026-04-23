@@ -98,7 +98,7 @@ $$
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--all_labels` | — | off | Compute overlap for all labels present in either volume |
-| `-log fname` / `-L fname` | file | none | Log per-structure Dice values (append mode) |
+| `-log fname`<br>`-L fname` | file | none | Log per-structure Dice values (append mode) |
 | `-mlog fname` | file | none | Log mean Dice (append) |
 | `-slog fname` | file | none | Log std Dice (append) |
 | `-olog fname` | file | none | Log overall subcortical Dice (append) |

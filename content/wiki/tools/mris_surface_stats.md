@@ -49,9 +49,9 @@ The tool is designed for quick exploratory group statistics; it is not a full GL
 
 | Input | Description | Format |
 |-------|-------------|--------|
-| Surface file (`-surf` / `-surf_name` / `-surf_file`) | The underlying surface mesh. | FreeSurfer binary surface |
+| Surface file (`-surf`<br>`-surf_name`<br>`-surf_file`) | The underlying surface mesh. | FreeSurfer binary surface |
 | Multiple overlay files (positional) | Per-subject scalar maps (e.g., thickness difference files from [[mris_thickness_diff]]). | `.mgh`, `.mgz`, or type-specified |
-| Mask label (`-mask` / `-mask_name` / `-mask_fname`) | Optional subcortical mask. | `.label` |
+| Mask label (`-mask`<br>`-mask_name`<br>`-mask_fname`) | Optional subcortical mask. | `.label` |
 
 **Usage (inferred from code):** The overlay files are passed as positional arguments.
 
@@ -59,10 +59,10 @@ The tool is designed for quick exploratory group statistics; it is not a full GL
 
 | Output | Description | Format |
 |--------|-------------|--------|
-| Std map (`-out` / `-out_name` / `-out_fname`) | Per-vertex standard deviation of signed values (required). | `.mgh`, `.mgz` |
-| Mean map (`-mean` / `-mean_name` / `-mean_fname`) | Per-vertex mean of signed values. | `.mgh`, `.mgz` |
-| Absolute mean (`-absmean` / `-absmean_name` / `-absmean_fname`) | Per-vertex mean of absolute values. | `.mgh`, `.mgz` |
-| Absolute std (`-absstd` / `-absstd_name` / `-absstd_fname`) | Per-vertex std of absolute values. | `.mgh`, `.mgz` |
+| Std map (`-out`<br>`-out_name`<br>`-out_fname`) | Per-vertex standard deviation of signed values (required). | `.mgh`, `.mgz` |
+| Mean map (`-mean`<br>`-mean_name`<br>`-mean_fname`) | Per-vertex mean of signed values. | `.mgh`, `.mgz` |
+| Absolute mean (`-absmean`<br>`-absmean_name`<br>`-absmean_fname`) | Per-vertex mean of absolute values. | `.mgh`, `.mgz` |
+| Absolute std (`-absstd`<br>`-absstd_name`<br>`-absstd_fname`) | Per-vertex std of absolute values. | `.mgh`, `.mgz` |
 | Z-score (`-zscore`) | Per-vertex z-score for group contrast. | `.mgh`, `.mgz` |
 
 ## Mathematical Foundations
@@ -86,14 +86,14 @@ Optional spatial smoothing via `MyMRISsmoothMRI()` (heat kernel smoothing, `nSmo
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-surf` / `-surf_name` / `-surf_file` | `<file>` | required | Underlying surface mesh file |
-| `-out` / `-out_name` / `-out_fname` | `<file>` | required | Output std-of-data map filename |
-| `-mean` / `-mean_name` / `-mean_fname` | `<file>` | — | Output mean map filename |
-| `-absmean` / `-absmean_name` / `-absmean_fname` | `<file>` | — | Output absolute-mean map filename |
-| `-absstd` / `-absstd_name` / `-absstd_fname` | `<file>` | — | Output std-of-abs-mean map filename |
+| `-surf`<br>`-surf_name`<br>`-surf_file` | `<file>` | required | Underlying surface mesh file |
+| `-out`<br>`-out_name`<br>`-out_fname` | `<file>` | required | Output std-of-data map filename |
+| `-mean`<br>`-mean_name`<br>`-mean_fname` | `<file>` | — | Output mean map filename |
+| `-absmean`<br>`-absmean_name`<br>`-absmean_fname` | `<file>` | — | Output absolute-mean map filename |
+| `-absstd`<br>`-absstd_name`<br>`-absstd_fname` | `<file>` | — | Output std-of-abs-mean map filename |
 | `-zscore` | `<file>` | — | Output z-score map filename (requires `-first_group_size`) |
 | `-first_group_size` | `<N>` | 0 | Number of subjects in the first group; enables two-group contrast |
-| `-mask` / `-mask_name` / `-mask_fname` | `<file>` | — | Label file masking vertices to exclude from statistics |
+| `-mask`<br>`-mask_name`<br>`-mask_fname` | `<file>` | — | Label file masking vertices to exclude from statistics |
 | `-nsmooth` | `<N>` | 0 | Number of smoothing iterations applied to each input overlay |
 | `-src_type` | `<type>` | paint | Input surface data format (e.g., `paint`, `curv`, `w`) |
 | `-trg_type` | `<type>` | paint | Output surface data format |

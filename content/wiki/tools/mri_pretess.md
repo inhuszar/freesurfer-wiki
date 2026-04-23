@@ -162,9 +162,9 @@ equivalent to `-nocorners`).
 | `-test` | bool flag | OFF (`test_edge = 0`) | Calls `MRIaddEdgeVoxel` to inject one synthetic edge-conflict voxel (value `WM_EDITED_ON_VAL`) before processing, as a self-test that pretess will remove it. **Output is not saved** when this flag is set |
 | `-w` | bool flag | OFF | Single-character option: ORs `DIAG_WRITE` into `Gdiag`, enabling diagnostic intermediate writes from the underlying MRI library |
 | `-debug_voxel C R S` | three ints | — | Sets `Gx`, `Gy`, `Gz` (the global FS debug voxel); enables verbose per-voxel debug output for that location. Consumes 3 extra argv tokens |
-| `-h`, `-u`, `-?`, `--help`, `--usage` | bool flag | — | Print XML-driven help text (`mri_pretess.help.xml`) and exit with status 1 |
+| `-h`<br>`-u`<br>`-?`<br>`--help`<br>`--usage` | bool flag | — | Print XML-driven help text (`mri_pretess.help.xml`) and exit with status 1 |
 | `-wm` | — | — | **Not a flag — positional value.** Passing the string `wm` as `argv[2]` selects WM-binarisation mode. The audit extractor promotes this `argv[2]` string comparison to pseudo-flag `-wm`. |
-| `--version`, `--all-info`, etc. | — | — | Standard FreeSurfer version/info flags handled by `handleVersionOption` before option parsing |
+| `--version`<br>`--all-info`, etc. | — | — | Standard FreeSurfer version/info flags handled by `handleVersionOption` before option parsing |
 
 ### Configuration Interactions
 

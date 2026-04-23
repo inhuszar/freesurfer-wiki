@@ -87,8 +87,8 @@ Neighborhood size is controlled by `-n` (default: 3), which sets the number of h
 |------|-----------|---------|-------------|
 | `-n <N>` | integer | 3 | Neighborhood size (hops) for gradient estimation (`case 'N':`) |
 | `-mask_label <file>` | path | — | Use this label as a mask; vertices outside are set to 0 (`!stricmp(option, "mask_label")`) |
-| `-dilate <N>` / `-label_dilate` / `-dilate_label` | integer | 0 | Dilate label N times before masking |
-| `-erode <N>` / `-label_erode` / `-erode_label` | integer | 0 | Erode label N times before masking |
+| `-dilate <N>`<br>`-label_dilate`<br>`-dilate_label` | integer | 0 | Dilate label N times before masking |
+| `-erode <N>`<br>`-label_erode`<br>`-erode_label` | integer | 0 | Erode label N times before masking |
 
 Positional arguments:
 1. Surface file

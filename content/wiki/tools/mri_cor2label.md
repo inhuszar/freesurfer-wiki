@@ -90,7 +90,7 @@ Flag list verified against `mri_cor2label/mri_cor2label.cpp`.
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i` / `--c` | `<file>` | required | Input volume or surface overlay (`--c` is legacy alias) |
+| `--i`<br>`--c` | `<file>` | required | Input volume or surface overlay (`--c` is legacy alias) |
 | `--l` | `<file>` | required | Output label file |
 | `--id` | `<int>` | required (or `--thresh`) | Value to match in input |
 | `--thresh` | `<float>` | — | Threshold: include voxels where input > thresh (sets label id = 1) |

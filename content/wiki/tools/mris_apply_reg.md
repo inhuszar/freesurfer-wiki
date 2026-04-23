@@ -93,17 +93,17 @@ The Jacobian correction (`--jac`) weights values by the ratio of source-to-targe
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--src` / `--sval` / `--i` | `<file>` | — | Source scalar overlay (MGZ/MRI format, reshaped to 1D). Required unless another source type is used. |
-| `--sval-annot` / `--src-annot` | `<file>` | — | Source annotation file (`.annot`); forces forward map and disables Jacobian. |
+| `--src`<br>`--sval`<br>`--i` | `<file>` | — | Source scalar overlay (MGZ/MRI format, reshaped to 1D). Required unless another source type is used. |
+| `--sval-annot`<br>`--src-annot` | `<file>` | — | Source annotation file (`.annot`); forces forward map and disables Jacobian. |
 | `--src-xyz` | `<file>` | — | Source surface; its XYZ vertex coordinates will be transferred. |
-| `--sval-label` / `--src-label` | `<file>` | — | Source label file (repeatable for multiple labels); disables Jacobian. |
+| `--sval-label`<br>`--src-label` | `<file>` | — | Source label file (repeatable for multiple labels); disables Jacobian. |
 
 **Registration and output flags:**
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--streg` / `--st` | `<src> <tgt>` | — | Registered sphere pair src→tgt (repeatable; chains registration). At least one pair required. |
-| `--trg` / `--tval` / `--o` | `<file>` | — | Output file (repeatable; one per `--sval-label`). Required. |
+| `--streg`<br>`--st` | `<src> <tgt>` | — | Registered sphere pair src→tgt (repeatable; chains registration). At least one pair required. |
+| `--trg`<br>`--tval`<br>`--o` | `<file>` | — | Output file (repeatable; one per `--sval-label`). Required. |
 | `--patch` | `<src-patch> <tgt-patch>` | — | Apply registration within a surface patch (repeatable; one per `--streg`). |
 | `--label-surf` | `<file>` | — | Surface used to define label geometry (with `--sval-label`). |
 
@@ -111,8 +111,8 @@ The Jacobian correction (`--jac`) weights values by the ratio of source-to-targe
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--norev` / `--no-rev` / `--nnf` | — | `off` | Forward map: for each source vertex find nearest target. Disables reverse map. |
-| `--rev` / `--nnfr` | — | `on` | Reverse map: for each target vertex find nearest source (default behaviour). |
+| `--norev`<br>`--no-rev`<br>`--nnf` | — | `off` | Forward map: for each source vertex find nearest target. Disables reverse map. |
+| `--rev`<br>`--nnfr` | — | `on` | Reverse map: for each target vertex find nearest source (default behaviour). |
 | `--jac` | — | `off` | Apply Jacobian area correction (conserves integrated quantities). |
 | `--no-jac` | — | `off` | Explicitly disable Jacobian correction (already the default). |
 
@@ -135,9 +135,9 @@ The Jacobian correction (`--jac`) weights values by the ratio of source-to-targe
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--lta` / `--lta-rot` | `<surf> <LTA> <tgt>` | — | Apply an LTA linear transform to a surface and write output; `--lta-rot` extracts only the rotational component. Exits after writing. |
+| `--lta`<br>`--lta-rot` | `<surf> <LTA> <tgt>` | — | Apply an LTA linear transform to a surface and write output; `--lta-rot` extracts only the rotational component. Exits after writing. |
 | `--lta-patch` | `<surf> <patch> <LTA> <outpatch>` | — | Apply an LTA to a flat patch (used for ex-vivo flat map registration). Exits after writing. |
-| `--warp` / `--gcam` / `--m3z` / `--inv-m3z` | `<surf> <m3z> <out>` | — | Apply a GCA morph (`.m3z` warp field) to a surface and write output. Direction determined automatically. Exits after writing. |
+| `--warp`<br>`--gcam`<br>`--m3z`<br>`--inv-m3z` | `<surf> <m3z> <out>` | — | Apply a GCA morph (`.m3z` warp field) to a surface and write output. Direction determined automatically. Exits after writing. |
 | `--reverse` | `<surf> <patch> <out>` | — | Flip a surface along X (mirror image) and write to output; `patch` can be `nopatch` to skip patch. Exits after writing. |
 | `--map-vertex` | `<vno> <srcsurf> <trgsurf> <outfile>` | — | Find the closest target vertex to a given source vertex and report coordinates; write to `outfile` (use `nofile` to suppress). Exits after writing. |
 | `--bci` | `<in> <srcreg> <trgreg> <out>` | — | Apply barycentric interpolation from source to target sphere using an MRI overlay; exits after writing. |

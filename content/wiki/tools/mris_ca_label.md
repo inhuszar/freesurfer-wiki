@@ -182,8 +182,8 @@ after mode filtering. The local function (lines 537–614 of
 | `-v <vno>` | int | unset | Set `Gdiag_no` to print diagnostic information about a single vertex through the pipeline |
 | `-w <iters> <fname>` | int + string | unset | Write GCSA snapshot annotations every `<iters>` Gibbs iterations to files prefixed by `<fname>` (sets `gcsa_write_iterations` and `gcsa_write_fname`) |
 | `-ml-annot <gcs> <icoorder> <outannot>` | string + int + string | — | Standalone mode: load the named GCSA from `$FREESURFER_HOME/average/<gcs>`, build the most-likely labelling on an icosahedral mesh of order `<icoorder>` (typically 7) via `GCSAbuildMostLikelyLabels`, mode-filter twice and write `<outannot>`. The tool exits without touching the positional arguments |
-| `-help`, `--help`, `-usage`, `--usage`, `-h`, `-u` | bool | — | Print XML-formatted help and exit |
-| `-version`, `--version` | bool | — | Print version string and exit |
+| `-help`<br>`--help`<br>`-usage`<br>`--usage`<br>`-h`<br>`-u` | bool | — | Print XML-formatted help and exit |
+| `-version`<br>`--version` | bool | — | Print version string and exit |
 | `-a <n>` | int | — | **Dead code (`#if 0`).** Would set `navgs`; disabled via preprocessor. |
 | `-norm` | bool | — | **Dead code (`#if 0`).** Would enable sulc normalisation; disabled via preprocessor. |
 | `-sulc` | bool | — | **Dead code (`#if 0`).** Would use sulc as only input; disabled via preprocessor. |

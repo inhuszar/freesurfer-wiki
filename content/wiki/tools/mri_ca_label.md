@@ -203,11 +203,11 @@ canonical lower-case form; `-PRIOR` and `-prior` are equivalent.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-align` / `-align-after` / `-align-cross-sequence` | bool | OFF | Renormalise GCA intensity models using structure-aligned class statistics. Equivalent to setting `-renormalize`, `-regularize_mean 0.5`, `-regularize 0.5`, and `-a 2`. Used by `recon-all` (UseCAAlign default). |
+| `-align`<br>`-align-after`<br>`-align-cross-sequence` | bool | OFF | Renormalise GCA intensity models using structure-aligned class statistics. Equivalent to setting `-renormalize`, `-regularize_mean 0.5`, `-regularize 0.5`, and `-a 2`. Used by `recon-all` (UseCAAlign default). |
 | `-no_old_renormalize` | bool | OFF | Skip the initial `GCAmapRenormalize()` call when `-align` is in effect. |
-| `-cross-sequence` / `-cross_sequence` | bool | OFF | Cross-sequence labeling preset: equivalent to `-renormalize 1 9 -a 2 -regularize 0.5`. |
-| `-cross-sequence-new` / `-cross_sequence-new` | bool | OFF | Same as above but uses the new renormalisation routine. |
-| `-renorm <fname>` / `-renormalize <fname>` | string | — | Renormalise using predicted intensity values from the named file. |
+| `-cross-sequence`<br>`-cross_sequence` | bool | OFF | Cross-sequence labeling preset: equivalent to `-renormalize 1 9 -a 2 -regularize 0.5`. |
+| `-cross-sequence-new`<br>`-cross_sequence-new` | bool | OFF | Same as above but uses the new renormalisation routine. |
+| `-renorm <fname>`<br>`-renormalize <fname>` | string | — | Renormalise using predicted intensity values from the named file. |
 | `-renormalize_iter <wsize> <iter>` | int, int | — | Renormalise class means `iter` times after initial labeling using a `wsize` window. |
 | `-write_renorm <file>` | string | — | Write renormalised GCA to `file`. |
 | `-read_renorm <file>` | string | — | Read renormalised GCA from `file`. |
@@ -234,7 +234,7 @@ canonical lower-case form; `-PRIOR` and `-prior` are equivalent.
 |------|------|---------|-------------|
 | `-r <fname>` | string | — | Read a previously labelled volume to seed labeling. |
 | `-l <label_fname> <reg_fname>` | string, string | — | Longitudinal mode: tp1 label volume and the linear transform from tp1 to current study. |
-| `-ri <intensities>` / `-read_intensities <file>` | string | — | Read label-intensity scaling file (may be repeated, up to `MAX_READS=100`). |
+| `-ri <intensities>`<br>`-read_intensities <file>` | string | — | Read label-intensity scaling file (may be repeated, up to `MAX_READS=100`). |
 | `-wm <fname>` | string | — | Insert white-matter segmentation from the named volume. |
 | `-fwm <fname>` | string | — | Insert a fixed (held constant) white-matter segmentation. |
 | `-mri <fname>` | string | — | Build the most-likely MR volume from the labelled output and write it to `fname`. |
@@ -272,7 +272,7 @@ canonical lower-case form; `-PRIOR` and `-prior` are equivalent.
 | `-debug_label <l>` | int | — | Verbose debug output for label `l`. |
 | `-debug` | bool | OFF | Enable `DIAG_WRITE | DIAG_VERBOSE_ON`. |
 | `-v <n>` | int | — | Set `Gdiag_no` (per-voxel diagnostic id). |
-| `-help` / `-usage` / `-u` / `-?` | bool | — | Print help XML and exit. |
+| `-help`<br>`-usage`<br>`-u`<br>`-?` | bool | — | Print help XML and exit. |
 
 ### Configuration Interactions
 

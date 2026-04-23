@@ -191,8 +191,8 @@ the feature vector. The third slot is unused unless explicitly populated.
 | `-noinflated` | — | OFF | Clears `IP_USE_INFLATED`. |
 | `-infname <name>` | string | — | Renames the inflated surface used for feature computation: sets `inflated_name`, `surface_names[0]=name`, and `curvature_names[0]="<name>.H"` (allocated). Also sets `IP_USE_INFLATED` automatically. Use this when the inflated surface lives under a non-default filename. |
 | `-sulc <name>` | string | — | Replaces the sulc curvature file used as `curvature_names[1]` and calls `MRISsetSulcFileName()` so that downstream code reads the renamed sulc. |
-| `-surf0` / `-surf1` / `-surf2` | string | — | Override the named surface in slot 0, 1, or 2 of `surface_names[]`. Used to register against custom feature surfaces. |
-| `-curv0` / `-curv1` / `-curv2` | string | — | Override the named curvature in slot 0, 1, or 2 of `curvature_names[]` and propagate via `MRISsetCurvatureName()`. |
+| `-surf0`<br>`-surf1`<br>`-surf2` | string | — | Override the named surface in slot 0, 1, or 2 of `surface_names[]`. Used to register against custom feature surfaces. |
+| `-curv0`<br>`-curv1`<br>`-curv2` | string | — | Override the named curvature in slot 0, 1, or 2 of `curvature_names[]` and propagate via `MRISsetCurvatureName()`. |
 | `-nsurfaces <n>` | int | 2 (effective) | Sets `parms.nsurfaces` — the number of (surface, curvature) feature slots actually consumed for alignment. Lower this to drop the third slot entirely. |
 | `-C <file>` | string | — | Load an extra source curvature file into `mris->curv` before registration (read into the input surface, not the template). Used to inject a custom feature into the moving surface. |
 | `-trinarize <thresh>` | float | 0.0 (off) | Sets `parms.trinarize_thresh`. When non-zero, curvature maps are mapped to {-1, 0, +1} based on whether they are below `-thresh`, within `[-thresh, +thresh]`, or above `+thresh`. Useful for binarising sulcal/gyral patterns. |
@@ -267,7 +267,7 @@ rotations on a uniform angle grid.
 | `-multi_scale <n>` | int | 0 | Activates the multi-scale schedule (lines 564–608). With `multi_scale=N`, runs `MRISregister()` `N` times: at iteration `i`, `l_dist = l_dist0 · 5^(N-1-i)` (i.e., distance penalty starts very high and is divided by 5 each iteration). The first iteration also disables curvature use (`IP_USE_CURVATURE` cleared) and adds `IPFLAG_NOSCALE_TOL`; subsequent iterations enable `IP_NO_RIGID_ALIGN` and clear `IP_USE_INFLATED`. If `parms.nbhd_size` is negative, an additional second epoch with long-range distances is run. A final epoch restores curvature use (`IP_USE_CURVATURE` and `IP_NO_SULC`). |
 | `-sigma <f>` | float | — | Appends a Gaussian smoothing sigma to a list (max 10) used by `MRISsetRegistrationSigmas()`. The list defines the multi-sigma schedule of feature-map smoothing. |
 | `-nbrs <n>` | int | 1 | Sets the neighbourhood ring size of the input surface (`MRISresetNeighborhoodSize`). Larger values pull in farther neighbours for the metric/edge terms. |
-| `-vnum <n> <m>` / `-distances <n> <m>` | 2 ints | -10, 10 | Sets `parms.nbhd_size` and `parms.max_nbrs`. Negative `nbhd_size` is a flag for the `-multi_scale` second epoch. `max_nbrs` caps the per-vertex neighbour list. |
+| `-vnum <n> <m>`<br>`-distances <n> <m>` | 2 ints | -10, 10 | Sets `parms.nbhd_size` and `parms.max_nbrs`. Negative `nbhd_size` is a flag for the `-multi_scale` second epoch. `max_nbrs` caps the per-vertex neighbour list. |
 | `-S <f>` | float | 1.0 | `scale` global. Multiplies the original distances stored in the surface (`MRISscaleDistances`) and is passed to `MRISPalloc(scale, ...)` — controls the spatial resolution of the parameterization image. |
 
 ### Surface naming flags
@@ -296,7 +296,7 @@ rotations on a uniform angle grid.
 | `-V <vno>` | int | — | `Gdiag_no`. Prints diagnostic info for vertex number `vno` during optimization. |
 | `-rusage <file>` | string | — | `rusage_file`. Resource-usage log path. (Note: declared but the value is set; the actual write is performed by upstream code via `getrusage`.) |
 | `-threads <n>` | int | 1 | Sets `omp_set_num_threads(n)` if compiled with OpenMP. The optimization scales over threads in the inner loops of `MRISregister`. |
-| `-?`, `-H`, `-U`, `--help`, `--usage` | — | — | Prints the auto-generated help (compiled-in `mris_register.help.xml`) and exits. The dashed forms are matched literally against `-help`/`-usage` after the parser strips one leading `-`, so users must type `--help`/`--usage`. |
+| `-?`<br>`-H`<br>`-U`<br>`--help`<br>`--usage` | — | — | Prints the auto-generated help (compiled-in `mris_register.help.xml`) and exits. The dashed forms are matched literally against `-help`/`-usage` after the parser strips one leading `-`, so users must type `--help`/`--usage`. |
 | `--version` | — | — | Prints the version string and exits. Matched literally against `-version` after one dash is stripped. |
 
 ### Configuration interactions

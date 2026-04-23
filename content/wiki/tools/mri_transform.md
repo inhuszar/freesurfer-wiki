@@ -95,20 +95,20 @@ All flags are case-insensitive. The full `get_option()` has been read.
 |------|------|---------|-------------|
 | `--help` | — | — | Print help and exit |
 | `--version` | — | — | Print version string and exit |
-| `-debug_voxel <x> <y> <z>` / `-debug-voxel <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output; sets `Gx`, `Gy`, `Gz` |
-| `-in_like <vol>` / `-in-like <vol>` / `-il <vol>` | path | null | Reference volume whose geometry is used as the input template (required for `.cmat` mode); sets `in_like_fname` |
-| `-out_like <vol>` / `-out-like <vol>` / `-ol <vol>` | path | null | Reference volume whose geometry is used to shape the output; overrides geometry from LTA; sets `out_like_fname` |
+| `-debug_voxel <x> <y> <z>`<br>`-debug-voxel <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output; sets `Gx`, `Gy`, `Gz` |
+| `-in_like <vol>`<br>`-in-like <vol>`<br>`-il <vol>` | path | null | Reference volume whose geometry is used as the input template (required for `.cmat` mode); sets `in_like_fname` |
+| `-out_like <vol>`<br>`-out-like <vol>`<br>`-ol <vol>` | path | null | Reference volume whose geometry is used to shape the output; overrides geometry from LTA; sets `out_like_fname` |
 | `-voxel` | — | off | For `.cmat` input: convert connectivity matrix label coordinates to voxel coordinates before writing; sets `cmat_output_coords=LABEL_COORDS_VOXEL` |
 | `-scanner` | — | off | For `.cmat` input: convert label coordinates to scanner RAS; sets `cmat_output_coords=LABEL_COORDS_SCANNER_RAS` |
 | `-tkreg` | — | off | For `.cmat` input: convert label coordinates to tkRegister RAS; sets `cmat_output_coords=LABEL_COORDS_TKREG_RAS` |
-| `-surf <in_surf> <out_surf>` / `-surface <in_surf> <out_surf>` | 2 paths | none | Surface-from-volume mode: create a volume mapping from `in_surf` to `out_surf` surface; sets `in_surf_name` and `out_surf_name` |
+| `-surf <in_surf> <out_surf>`<br>`-surface <in_surf> <out_surf>` | 2 paths | none | Surface-from-volume mode: create a volume mapping from `in_surf` to `out_surf` surface; sets `in_surf_name` and `out_surf_name` |
 | `-Q` | — | off | Quiet mode: suppress most output; sets `quiet_mode=1` |
 | `-S <subject>` | string | none | Subject name (stored but usage in the transform chain is context-dependent) |
 | `-D <n>` | int | none | Compute average distance traversed by label `n`; sets `labels[nlabels]` and increments `nlabels`; can be specified multiple times (up to 1000 labels) |
 | `-V <n>` | int | — | Set global diagnostic number `Gdiag_no` for per-voxel debugging |
 | `-I` | — | false | Invert the transform; sets `invert_flag=1` |
 | `-R <type>` | string | `interpolate` | Resampling interpolation method; accepted values: `interpolate` (trilinear), `nearest`, `weighted`, `sinc`, `cubic`; sets `resample_type` |
-| `-U` / `-?` | — | — | Print usage and exit |
+| `-U`<br>`-?` | — | — | Print usage and exit |
 
 ### Configuration Interactions
 

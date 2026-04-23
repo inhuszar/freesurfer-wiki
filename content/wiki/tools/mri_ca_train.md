@@ -100,7 +100,7 @@ The dual-resolution design (node_spacing for conditional densities, prior_spacin
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `-T1 <name>` | string | `orig` | Name of T1 volume within `mri/` directory. |
-| `-seg <dir>` / `-parc_dir <dir>` / `-seg_dir <dir>` / `-segmentation <dir>` | string | `seg_edited.mgz` | Segmentation volume or directory name (all four flags are equivalent). |
+| `-seg <dir>`<br>`-parc_dir <dir>`<br>`-seg_dir <dir>`<br>`-segmentation <dir>` | string | `seg_edited.mgz` | Segmentation volume or directory name (all four flags are equivalent). |
 | `-xform <name>` | string | `talairach.lta` | Transform file to atlas space (path relative to `mri/transforms/`). |
 | `-noxform` | — | off | Disable application of any transform. |
 | `-node_spacing <val>` | float | 4.0 | GCA node spacing (mm) for conditional densities. |
@@ -134,7 +134,7 @@ The dual-resolution design (node_spacing for conditional densities, prior_spacin
 | `-debug_prior <x> <y> <z>` | int×3 | — | Debug prior node at atlas coordinates (x, y, z). |
 | `-debug_label <l>` | int | — | Debug the specified label index. |
 | `-debug_nbr <l>` | int | — | Debug the specified neighbour label index. |
-| `-threads <N>` / `-nthreads <N>` | int | — | Set number of OpenMP threads. |
+| `-threads <N>`<br>`-nthreads <N>` | int | — | Set number of OpenMP threads. |
 | `-f` | — | off | Force use of inputs even if acquisition parameters do not match. |
 | `-s <scale>` | float | — | Scale all input volumes by `<scale>` after reading. |
 | `-a <N>` | int | — | Apply N mean filters to classifiers after training. |

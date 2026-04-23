@@ -66,7 +66,7 @@ The neighbourhood sampling uses `MRISsampleAtEachDistance()` with `nbhd_size=7` 
 | `-a` | — | off | Compute area errors (default: angle errors) |
 | `-p` | — | off | Input is a surface patch rather than a full surface |
 | `-w` | — | off | Write error values to surface as curvature |
-| `-vnum` / `-distances` | `<nbhd_size> <max_nbrs>` | `7 12` | Set neighbourhood size and maximum neighbours (both flags accept two integer arguments) |
+| `-vnum`<br>`-distances` | `<nbhd_size> <max_nbrs>` | `7 12` | Set neighbourhood size and maximum neighbours (both flags accept two integer arguments) |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |
 

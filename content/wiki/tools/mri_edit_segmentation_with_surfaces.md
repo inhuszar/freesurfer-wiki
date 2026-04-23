@@ -99,9 +99,9 @@ All flags are case-insensitive. The full `get_option()` has been read.
 | `-debug_voxel <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output; sets `Ggca_x`, `Ggca_y`, `Ggca_z`, `Gx`, `Gy`, `Gz` |
 | `-MRI <file>` | path | none | Load an auxiliary MRI volume for use in editing decisions (sets `mri_vals`) |
 | `-GCA <gca_file> <xform_file>` | 2 paths | none | Load a GCA atlas and associated transform for probabilistic relabelling; sets `gca` and `transform` |
-| `-l <label_file>` / `-L <label_file>` | path | none | Limit editing computations to the region specified by the label file (sets `label_name`) |
-| `-a <annot_file>` / `-A <annot_file>` | path | none | Compute per-label statistics using the named annotation file (sets `annotation_name`) |
-| `-u` / `-?` | — | — | Print usage and exit |
+| `-l <label_file>`<br>`-L <label_file>` | path | none | Limit editing computations to the region specified by the label file (sets `label_name`) |
+| `-a <annot_file>`<br>`-A <annot_file>` | path | none | Compute per-label statistics using the named annotation file (sets `annotation_name`) |
+| `-u`<br>`-?` | — | — | Print usage and exit |
 
 > [!gotcha] `--annot` and `--config` consume one extra argument due to nargs=2 bug
 > Both `--annot` and `--config` set `nargs=2` in the source, but they only read `argv[2]` (one extra argument). This means the argument parser will skip an extra argument after the flag value, effectively consuming the argument following the filename as if it were a flag argument. In practice, this makes these flags unusable in the middle of a flag list unless the next argument is also intended to be skipped. This is a source-level bug.

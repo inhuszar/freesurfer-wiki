@@ -93,12 +93,12 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--s <subject>` / `--subject` | string | required | FreeSurfer subject ID |
+| `--s <subject>`<br>`--subject` | string | required | FreeSurfer subject ID |
 | `--mov <vol>` | file | required | Moving (functional/diffusion) volume |
 | `--reg <file>` | file | required* | Output register.dat file |
 | `--lta <file>` | file | — | Output LTA format registration |
 | `--fslmat <file>` | file | — | Output FSL matrix |
-| `--bold` / `--t2` / `--dti` | flag | required | Set contrast: positive (WM brighter than GM) |
+| `--bold`<br>`--t2`<br>`--dti` | flag | required | Set contrast: positive (WM brighter than GM) |
 | `--t1` | flag | — | Set contrast: negative (WM darker than GM) |
 | `--init-coreg` | flag | on | Initialize with `mri_coreg` (default) |
 | `--init-fsl` | flag | off | Initialize with FSL FLIRT |
@@ -132,11 +132,11 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--sd <dir>` | dir | `$SUBJECTS_DIR` | Override subjects directory |
 | `--feat <dir>` | dir | — | FSL FEAT directory shortcut |
 | `--threads <n>` | int | 1 | Number of OMP threads |
-| `--nocleanup` / `--no-cleanup` | flag | off | Do not remove temporary directory |
+| `--nocleanup`<br>`--no-cleanup` | flag | off | Do not remove temporary directory |
 | `--debug` | flag | off | Verbose/debug output |
 | `--nolog` | flag | off | Suppress log file creation |
-| `--cleanup` / `--clean-up` | flag | on | Explicitly enable cleanup of temporary directory |
-| `--regheader` / `--reg-header` / `--init-header` | flag | off | Initialise from volume headers (all three are aliases) |
+| `--cleanup`<br>`--clean-up` | flag | on | Explicitly enable cleanup of temporary directory |
+| `--regheader`<br>`--reg-header`<br>`--init-header` | flag | off | Initialise from volume headers (all three are aliases) |
 | `--s-from-reg` | `<regfile>` | — | Extract subject ID from an existing register.dat file |
 | `--init-reg-out` | `<file>` | — | Save the initial (pre-BBR) registration to file |
 | `--init-best-header` | — | — | Add header-based init to `--init-best` candidate list |
@@ -146,9 +146,9 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--include-zero-voxels` | — | off | Pass `--include-zero-voxels` to mri_segreg (include out-of-FoV voxels) |
 | `--mask` | `lhmask rhmask` | — | Per-hemisphere surface masks passed to mri_segreg |
 | `--nearest` | — | — | Use nearest-neighbour interpolation in mri_segreg |
-| `--trilin` / `--trilinear` | — | on | Use trilinear interpolation in mri_segreg (default) |
+| `--trilin`<br>`--trilinear` | — | on | Use trilinear interpolation in mri_segreg (default) |
 | `--surf-cost` | `<basename>` | — | Save per-vertex BBR cost map (basename.?h.mgh) |
-| `--nsub` / `--subsamp` | `<n>` | — | Sample every Nth surface vertex during optimisation (speed/accuracy trade-off) |
+| `--nsub`<br>`--subsamp` | `<n>` | — | Sample every Nth surface vertex during optimisation (speed/accuracy trade-off) |
 | `--tolf` | `<val>` | — | Powell function-value tolerance (separate from overall `--tol`) |
 | `--tol1d` | `<val>` | — | Powell 1-D line search tolerance |
 | `--spm-nii` | — | off | Tell SPM registration sub-call to use NIfTI format |
@@ -184,7 +184,7 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--rms0` | `<file>` | — | Write RMS difference relative to the Pass 2 initial registration (requires `--no-pass1`) |
 | `--no-coreg-ref-mask` | — | off | Disable reference brain mask in `mri_coreg` initialization |
 | `--coreg-ref-mask` | — | on | Enable reference brain mask in `mri_coreg` initialization (default) |
-| `--tmpdir` / `--tmp` | `<dir>` | auto | Set temporary working directory (also disables automatic cleanup) |
+| `--tmpdir`<br>`--tmp` | `<dir>` | auto | Set temporary working directory (also disables automatic cleanup) |
 | `--int` | `<vol>` | — | Intermediate volume: register `<vol>` to anatomy, then map result to `--mov` via header |
 | `--no-include-zero-voxels` | — | on | Exclude out-of-FoV (zero) voxels from the BBR cost (default) |
 

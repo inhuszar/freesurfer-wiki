@@ -105,7 +105,7 @@ The output is at 0.7 mm isotropic resolution to capture fine nuclear boundaries,
 | `--version1` | — | off | Use model version 1.0 (default is 1.1, updated 2023-06-01) |
 | `--model` | `<path>` | — | Override the default model file path |
 | `--clean` | — | off | Remove auto-generated realigned input images after segmentation |
-| `--help` / `-h` | — | — | Print usage and exit |
+| `--help`<br>`-h` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 

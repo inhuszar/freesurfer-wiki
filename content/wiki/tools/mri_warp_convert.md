@@ -115,25 +115,25 @@ using `GCAMconcat3()`.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--infswarp` / `--inm3z` / `--inmgzwarp` | `warpfile` | — | Input FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
+| `--infswarp`<br>`--inm3z`<br>`--inmgzwarp` | `warpfile` | — | Input FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
 | `--infsl` | `warpfile` | — | Input FSL warp |
 | `--inspm` | `warpfile` | — | Input SPM y-warp |
-| `--inlps` / `--initk` | `warpfile` | — | Input ITK/ANTs LPS displacement field |
+| `--inlps`<br>`--initk` | `warpfile` | — | Input ITK/ANTs LPS displacement field |
 | `--invox` | `warpfile` | — | Input voxel-displacement warp |
 | `--inras` | `warpfile` | — | Input RAS-displacement warp |
-| `--outfswarp` / `--outm3z` / `--outmgzwarp` | `warpfile` | — | Output FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
+| `--outfswarp`<br>`--outm3z`<br>`--outmgzwarp` | `warpfile` | — | Output FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
 | `--outfsl` | `warpfile` | — | Output FSL warp (NOT IMPLEMENTED — exits with error) |
-| `--outlps` / `--outitk` | `warpfile` | — | Output ITK/ANTs LPS displacement field |
+| `--outlps`<br>`--outitk` | `warpfile` | — | Output ITK/ANTs LPS displacement field |
 | `--outvox` | `warpfile` | — | Output voxel-displacement warp |
 | `--outras` | `warpfile` | — | Output RAS-displacement warp |
-| `--insrcgeom` / `--g` | `geomfile` | — | Source geometry for FSL/SPM/VOX/RAS/ITK input |
+| `--insrcgeom`<br>`--g` | `geomfile` | — | Source geometry for FSL/SPM/VOX/RAS/ITK input |
 | `--in-interp` | `interp` | `abs-crs` | Input warp data interpretation: `abs-crs`, `disp-crs`, `abs-ras`, `disp-ras` |
 | `--out-interp` | `interp` | `abs-crs` | Output warp data interpretation for `--outfswarp`: `abs-crs`, `disp-crs`, `abs-ras`, `disp-ras` |
 | `--lta1` | `ltafile` | — | Pre-warp LTA transform |
 | `--lta1-inv` | `ltafile` | — | Pre-warp LTA (inverted before concatenation) |
 | `--lta2` | `ltafile` | — | Post-warp LTA transform |
 | `--lta2-inv` | `ltafile` | — | Post-warp LTA (inverted before concatenation) |
-| `--downsample` / `--d` | — | off | Save output FSWARP at half resolution |
+| `--downsample`<br>`--d` | — | off | Save output FSWARP at half resolution |
 | `--diag-debug` | — | off | Enable diagnostic info output (`DIAG_INFO`) |
 | `--vg-thresh` | `thresh` | (internal default) | Threshold for volume geometry equality check |
 

@@ -160,7 +160,7 @@ Within `recon-all`, it is the *only* tool that creates the
 | File | Format | Description |
 |------|--------|-------------|
 | `<out volume>` | MGZ / NIfTI / … | The input volume with non-brain voxels set to 0. Preserved intensities inside the brain. |
-| `<surfname>`, `<surfname>_inner_skull_surface`, etc. | FreeSurfer surface | Written when `-surf`, `-brainsurf`, or `-shk_br_surf` are used. |
+| `<surfname>`<br>`<surfname>_inner_skull_surface`, etc. | FreeSurfer surface | Written when `-surf`, `-brainsurf`, or `-shk_br_surf` are used. |
 | Label volume | MGZ | When `-LABEL` is passed, the output volume is labelled: 0 = exterior, 1 = scalp, 2 = skull, 3 = csf, 4 = gray, 5 = white, 6 = fat tissue. |
 
 ### Output Specifications
@@ -274,7 +274,7 @@ output volume names.
 | `-wat` | bool flag | off | `parms->template_deformation = 0`: pure watershed, no surface deformation. |
 | `-wat+temp` | bool flag | off | `parms->template_deformation = 2`: watershed plus first template smoothing only. |
 | `-first_temp` | bool flag | off | `parms->template_deformation = 3`: first template smoothing plus local matching only. |
-| `-n` / `-N` | bool flag | off | `parms->watershed_analyze = 0`: disable the post-watershed analyse step. |
+| `-n`<br>`-N` | bool flag | off | `parms->watershed_analyze = 0`: disable the post-watershed analyse step. |
 | `-more` | bool flag | `skull_type=0` | `parms->skull_type = 1`. Expands the deformable surface (less aggressive stripping). |
 | `-less` | bool flag | `skull_type=0` | `parms->skull_type = -1`. Shrinks the deformable surface (more aggressive stripping). |
 | `-copy` | bool flag | off | Sets the global `CopyOnly = 1`. After parsing, `main()` `MRIread()`s the input, `MRIwrite()`s it to the output, and exits. Used when the brain has already been stripped. |
@@ -320,8 +320,8 @@ output volume names.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `-debug_voxel <x> <y> <z>` | int, int, int | unset | Sets the globals `Gx`, `Gy`, `Gz`. Prints debug information at the named voxel. |
-| `--help` / `--usage` | — | — | Inside `get_option()` the option is matched as `-help`/`-usage` (after stripping one leading `-`), so on the command line it must be passed as `--help`/`--usage`. Calls `usageHelp()` (the XML-rendered help) and exits. |
-| `--version` / `--all-info` | — | — | Handled by `handleVersionOption()` *before* `get_option()` runs (line 1018). Prints version/build info and exits if no other arguments follow. |
+| `--help`<br>`--usage` | — | — | Inside `get_option()` the option is matched as `-help`/`-usage` (after stripping one leading `-`), so on the command line it must be passed as `--help`/`--usage`. Calls `usageHelp()` (the XML-rendered help) and exits. |
+| `--version`<br>`--all-info` | — | — | Handled by `handleVersionOption()` *before* `get_option()` runs (line 1018). Prints version/build info and exits if no other arguments follow. |
 
 ## Configuration Interactions
 

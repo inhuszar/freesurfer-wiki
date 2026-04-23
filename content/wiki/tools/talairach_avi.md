@@ -140,7 +140,7 @@ with optional `--atlas 3T18yoSchwartzReactN32_as_orig` (from
 | `--atlas <name>` | `711-2C_as_mni_average_305` | Alternate target atlas file stem inside `$FREESURFER_HOME/average/`. Must be a `4dfp`-format atlas. Known alternatives: `3T18yoSchwartzReactN32_as_orig` (young-adult 3T, recommended by Avi Snyder since 2012) and various `SVIP_*` age/population-specific atlases. |
 | `--log <logfile>` | `<outdir>/talairach_avi.log` | Log file. |
 | `--debug` | off | Enable verbose tcsh (`set echo`) and turn on the `debug` pass in `mpr2mni305`, which writes a resampled `mpr_on_<target>.hdr` for visual QA. |
-| `-h` / `-u` / `-usage` / `--usage` / `-help` / `--help` | — | Print help (via `fsPrintHelp`) and exit. |
+| `-h`<br>`-u`<br>`-usage`<br>`--usage`<br>`-help`<br>`--help` | — | Print help (via `fsPrintHelp`) and exit. |
 | `--version` | — | Print the version and exit (also runs `mri_convert --version`). Detected before the main parser, so it works at any position. |
 
 ### Input Assumptions
@@ -295,7 +295,7 @@ resolve it without an explicit `--targ`.
 | `--atlas <name>` | string (one arg) | `711-2C_as_mni_average_305` | Target atlas stem (no extension). Sets `MPR2MNI305_TARGET`. Must exist as `$FREESURFER_HOME/average/<name>.4dfp.{img,ifh,hdr}`. |
 | `--log <logfile>` | path (one arg) | `<outdir>/talairach_avi.log` | Path to the log file. If the file already exists, it is renamed to `<logfile>.bak` before the new run begins (`talairach_avi:65`). |
 | `--debug` | switch (no arg) | off | Sets `verbose = 1`, `echo = 1` (tcsh `set echo` — every expanded command is printed to stderr) and `debug = 1`. The `debug = 1` flag in turn appends the literal word `debug` to the `mpr2mni305` invocation, which writes a resampled `mpr_on_<target>.4dfp.*` volume for visual QA. |
-| `-h` / `-u` / `-usage` / `--usage` / `-help` / `--help` | switch | — | All six spellings are handled by the same case branch and call `fsPrintHelp talairach_avi` (the XML help renderer), then `exit 1`. |
+| `-h`<br>`-u`<br>`-usage`<br>`--usage`<br>`-help`<br>`--help` | switch | — | All six spellings are handled by the same case branch and call `fsPrintHelp talairach_avi` (the XML help renderer), then `exit 1`. |
 | `--version` | switch | — | Detected by an `egrep --version` over `argv` *before* the parse loop runs (`talairach_avi:41–47`), so it works at any position and short-circuits even invalid command lines. Prints `talairach_avi @FS_VERSION@` plus `mri_convert --version` output and exits `0`. |
 
 Any other flag triggers the parser's `default:` branch, which prints `ERROR: flag <flag> not recognized` and exits `1` (`talairach_avi:185–188`). Required-argument flags (`--i`, `--xfm`/`--x`, `--atlas`, `--log`) print `ERROR: flag <flag> requires one argument` and exit `1` if no value follows.

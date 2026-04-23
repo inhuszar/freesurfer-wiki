@@ -135,11 +135,11 @@ Flag list fully verified from `parse_commandline()` in source (`mri_aparc2aseg/m
 | `--nhops <n>` | int | `5` | Maximum hops when searching for a labeled vertex from an unlabeled one. |
 | `--src <file>` | path | — | Pre-allocate output volume from this file (initializes the output segmentation geometry from an existing volume). |
 | `--ctab <file>` | path | — | ASCII color table to embed in output volume. |
-| `--threads <n>` / `--nthreads <n>` | int | 1 | Number of OpenMP threads. |
+| `--threads <n>`<br>`--nthreads <n>` | int | 1 | Number of OpenMP threads. |
 | `--crs-test <c> <r> <s>` | int, int, int | — | Debug mode: print verbose information for voxel at column `c`, row `r`, slice `s`. Enables `debug`. |
 | `--debug` | (none) | off | Enable verbose diagnostic output. |
 | `--version` | (none) | — | Print version string and exit. |
-| `--help` / `-h` / `--usage` / `-u` | (none) | — | Print help and exit. |
+| `--help`<br>`-h`<br>`--usage`<br>`-u` | (none) | — | Print help and exit. |
 
 ### Configuration Interactions
 

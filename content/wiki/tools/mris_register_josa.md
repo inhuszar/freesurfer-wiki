@@ -94,16 +94,16 @@ The trained model parameters are stored in the `.h5` files. Registration at infe
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-h`, `--hmsp` | `lh\|rh` | — | Hemisphere; required |
-| `-s`, `--subject_dir` | `<path>` | `None` | Path to subject directory (does not use `$SUBJECTS_DIR`); reads `surf/?h.*` files from within it |
-| `-m`, `--model` | `<file.h5>` | — | Path to model weights HDF5 file; required |
-| `-o`, `--output` | `<file>` | `<subject_dir>/surf/?h.sphere.reg` | Custom output file path; required if `-s` is not provided |
-| `-a`, `--arch` | `<name>` | `spm2000` | Network architecture; currently only `spm2000` is supported |
-| `-S`, `--sulc` | `<file>` | `<surf_dir>/?h.sulc` | Sulcal depth file; overrides the file read from the subject directory |
-| `-C`, `--curv` | `<file>` | `<surf_dir>/?h.curv` | Curvature file; overrides the file read from the subject directory |
-| `-H`, `--inflated_curv` | `<file>` | `<surf_dir>/?h.inflated.H` | Mean curvature of inflated surface; overrides the file read from the subject directory |
-| `-t`, `--sphere_rot` | `<file>` | `<surf_dir>/?h.sphere.rot` | Initial rotated sphere surface |
-| `-T`, `--threads` | `<num>` | `1` | Number of TensorFlow inter-op parallelism threads |
+| `-h`<br>`--hmsp` | `lh\|rh` | — | Hemisphere; required |
+| `-s`<br>`--subject_dir` | `<path>` | `None` | Path to subject directory (does not use `$SUBJECTS_DIR`); reads `surf/?h.*` files from within it |
+| `-m`<br>`--model` | `<file.h5>` | — | Path to model weights HDF5 file; required |
+| `-o`<br>`--output` | `<file>` | `<subject_dir>/surf/?h.sphere.reg` | Custom output file path; required if `-s` is not provided |
+| `-a`<br>`--arch` | `<name>` | `spm2000` | Network architecture; currently only `spm2000` is supported |
+| `-S`<br>`--sulc` | `<file>` | `<surf_dir>/?h.sulc` | Sulcal depth file; overrides the file read from the subject directory |
+| `-C`<br>`--curv` | `<file>` | `<surf_dir>/?h.curv` | Curvature file; overrides the file read from the subject directory |
+| `-H`<br>`--inflated_curv` | `<file>` | `<surf_dir>/?h.inflated.H` | Mean curvature of inflated surface; overrides the file read from the subject directory |
+| `-t`<br>`--sphere_rot` | `<file>` | `<surf_dir>/?h.sphere.rot` | Initial rotated sphere surface |
+| `-T`<br>`--threads` | `<num>` | `1` | Number of TensorFlow inter-op parallelism threads |
 
 ## Configuration Interactions
 

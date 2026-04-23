@@ -78,12 +78,12 @@ The `SurfSkeleton` class implements a surface-based skeletonization algorithm:
 | `--mask` | mask file | — | Binary mask restricting analysis |
 | `--surfvals` | overlay file | — | Load scalar values from a surface overlay file |
 | `--out-surfvals` | path | — | Write computed surface values to file |
-| `--threshold` / `--thresh` | float | `0.3` | Skeleton threshold |
+| `--threshold`<br>`--thresh` | float | `0.3` | Skeleton threshold |
 | `--fwhm` | float | `0` | Gaussian smoothing FWHM before thresholding; 0 means no smoothing |
 | `--cluster` | integer | `0` | Keep only N largest clusters; 0 keeps all |
 | `--nbrsize` | integer | `2` | Neighborhood size for topology analysis |
-| `--gyrus` / `--crown` | — | on | Use negative curvature scale (gyral crowns); this is the default mode |
-| `--sulcus` / `--fundus` | — | off | Use positive curvature scale (sulcal fundi) |
+| `--gyrus`<br>`--crown` | — | on | Use negative curvature scale (gyral crowns); this is the default mode |
+| `--sulcus`<br>`--fundus` | — | off | Use positive curvature scale (sulcal fundi) |
 | `--k1` | — | off | Use principal curvature k1 as the scalar input |
 | `--curv-nonmaxsup` | — | off | Use non-maximum-suppressed curvature as the scalar input |
 | `--outdir` | path | — | Output directory; creates if needed |

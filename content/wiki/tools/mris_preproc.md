@@ -145,7 +145,7 @@ initialisations at the top of the script.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--s` / `--subject` | `subjid` (string) | empty | Append `subjid` to the subject list. Repeatable. |
+| `--s`<br>`--subject` | `subjid` (string) | empty | Append `subjid` to the subject list. Repeatable. |
 | --f | `file` (path) | — | Read whitespace-separated subject IDs from `file` and append to the subject list. Errors out if `file` does not exist. Can be combined with other subject-specifying flags. |
 | --fsgd | `file` (path) | — | Parse an [[fsgd-format\|FSGDF]] design file; subjects are taken from the second token of every line whose first token equals `Input`. Errors out if `file` does not exist. |
 | `--qdec` | `table` (path) | — | Parse a QDEC table; subjects are taken from column 1 of every non-empty, non-comment, non-`fsid`-header row. CR/LF tolerant. |
@@ -157,7 +157,7 @@ initialisations at the top of the script.
 |------|-----------|---------|-------------|
 | `--meas` | `surfmeasure` (string) | — | Per-subject curvature/overlay file at `$SUBJECTS_DIR/$subj/$measdir/$hemi.$surfmeasure`. Sets `srcfmt=curv`, marks the run as surface-source (`srcsurf=1`) and as a measure-input (`MeasIn=1`). If the un-suffixed file is missing, the script silently falls back to `$hemi.$surfmeasure.mgz`. |
 | `--label` | `annotname` (string) | — | Per-subject label/annotation file at `$SUBJECTS_DIR/$subj/label/$hemi.$annotname`. Forces `measdir=label`, `mapmethod="--mapmethod nnf"`, `jac=0`, `srcsurf=1`, and clears `srcfmt`. Use for categorical/label data. |
-| `--is` / `--isp` | `path` (file) | — | Explicit per-subject input surface file; one `--is` per subject, in the same order as the subject list. Errors out if the file does not exist. Marks `srcsurf=1`. Repeatable. |
+| `--is`<br>`--isp` | `path` (file) | — | Explicit per-subject input surface file; one `--is` per subject, in the same order as the subject list. Errors out if the file does not exist. Marks `srcsurf=1`. Repeatable. |
 | `--area` | `surfname` (string) | — | Compute per-vertex surface area from `$hemi.$surfname` (e.g., `white`, `pial`). Sets `sval=area`, `svalsurf=$surfname`, `srcsurf=1`, and **forces `jac=1`** (Jacobian correction). |
 | `--tal-xyz` | `surfname` (string) | — | Emit MNI305 (Talairach) `xyz` coordinates of vertices from `$hemi.$surfname` as a 3-frame per-subject map. Sets `sval=tal-xyz`, `svalsurf=$surfname`, `srcsurf=1`. |
 | `--cache-in` | `name` (string) | — | Read previously cached resampled data from `$subj/$measdir/$hemi.$name.$format` instead of running `mri_surf2surf`. Sets `srcsurf=1`, `CacheIn=1`. |
@@ -169,7 +169,7 @@ initialisations at the top of the script.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--iv` / `--ivp` | `vol reg` (2 paths) | — | Per-subject input volume `vol` and tkregister-style registration `reg`. Both must exist. The subject ID is **derived from the registration file** via `reg2subject --r $reg` and appended to the subject list automatically. Sets `srcvol=1`. Repeatable; one `--iv` per subject. |
+| `--iv`<br>`--ivp` | `vol reg` (2 paths) | — | Per-subject input volume `vol` and tkregister-style registration `reg`. Both must exist. The subject ID is **derived from the registration file** via `reg2subject --r $reg` and appended to the subject list automatically. Sets `srcvol=1`. Repeatable; one `--iv` per subject. |
 | `--projfrac` | `frac` (float) | empty | Single-sample projection fraction along the surface normal (0=white, 1=pial). Passed to [[mri_vol2surf]] as `--projfrac`. |
 | `--projfrac-max` | `min max delta` (3 floats) | empty | Sample volume at multiple depths and take the **maximum**. Three positional arguments passed verbatim to [[mri_vol2surf]] `--projfrac-max`. |
 | `--projfrac-avg` | `min max delta` (3 floats) | empty | Sample at multiple depths and take the **average**. Three positional arguments. |
@@ -191,12 +191,12 @@ initialisations at the top of the script.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--fwhm` / `--fwhm-targ` | `mm` (float) | empty (no smoothing) | Gaussian FWHM in millimetres applied to the resampled data on the **target** surface. |
+| `--fwhm`<br>`--fwhm-targ` | `mm` (float) | empty (no smoothing) | Gaussian FWHM in millimetres applied to the resampled data on the **target** surface. |
 | `--fwhm-src` | `mm` (float) | empty | FWHM applied on the **source** surface, before resampling. |
-| `--niters` / `--niters-targ` | `n` (int) | empty | Number of nearest-neighbour smoothing iterations on the target surface. Alternative to `--fwhm-targ`. |
+| `--niters`<br>`--niters-targ` | `n` (int) | empty | Number of nearest-neighbour smoothing iterations on the target surface. Alternative to `--fwhm-targ`. |
 | `--niters-src` | `n` (int) | empty | Number of NN iterations on the source surface. |
-| `--smooth-cortex-only` / `--cortex-only` | — | on | Restrict smoothing to vertices inside the `cortex` label (`CortexOnly=1`); prevents medial wall smoothing. |
-| `--no-smooth-cortex-only` / `--no-cortex-only` | — | on | Disable cortex-only smoothing restriction (`CortexOnly=0`). |
+| `--smooth-cortex-only`<br>`--cortex-only` | — | on | Restrict smoothing to vertices inside the `cortex` label (`CortexOnly=1`); prevents medial wall smoothing. |
+| `--no-smooth-cortex-only`<br>`--no-cortex-only` | — | on | Disable cortex-only smoothing restriction (`CortexOnly=0`). |
 
 #### Aggregation / paired operations
 
@@ -252,9 +252,9 @@ $$
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `--sf` | `file` (path) | — | FS-FAST session file (list of session directories). Triggers FS-FAST mode in `handle_fsfast`. Requires `--analysis`. |
-| `--df` / `--sd` | `file` (path) | — | FS-FAST session-directory file. Errors out if it does not exist. |
-| `--analysis` / `--a` | `analysis` (string) | — | FS-FAST analysis name (subdirectory under each session). |
-| `--contrast` / `--c` | `contrast` (string) | — | FS-FAST contrast name (subdirectory under the analysis). Mutually exclusive with `--offset`. |
+| `--df`<br>`--sd` | `file` (path) | — | FS-FAST session-directory file. Errors out if it does not exist. |
+| `--analysis`<br>`--a` | `analysis` (string) | — | FS-FAST analysis name (subdirectory under each session). |
+| `--contrast`<br>`--c` | `contrast` (string) | — | FS-FAST contrast name (subdirectory under the analysis). Mutually exclusive with `--offset`. |
 | `--map` | `mapname` (string) | `ces` | Map filename stem within the contrast directory. |
 | `--cvar` | none | off (`DoFSFCVar=0`) | Sets `FSFMap=cesvar` (contrast-effect-size variance) instead of `ces`. |
 | `--offset` | none | off (`DoFSFOffset=0`) | Sets `FSFMap=h-offset`; uses the analysis offset rather than a contrast. Cannot be combined with `--contrast`. |
@@ -263,7 +263,7 @@ $$
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--o` / `--out` | `path` | — | Output file path. Format is inferred via `fname2stem`; the script aborts if the extension is not recognized. Required unless `--cache-out-only` / `--cache-out-update`. |
+| `--o`<br>`--out` | `path` | — | Output file path. Format is inferred via `fname2stem`; the script aborts if the extension is not recognized. Required unless `--cache-out-only` / `--cache-out-update`. |
 | `--mgz` | none | `format=mgh` | Use `.mgz` (compressed) as the per-subject intermediate format. |
 | `--mgh` | none | default | Use `.mgh` (uncompressed) as the per-subject intermediate format. |
 | `--reshape` | none | `reshape=0` | Pass `--reshape` to `mri_concat` to force a 4-D shape reshape on the output. Auto-enabled when the output format is detected as ANALYZE/NIfTI. |

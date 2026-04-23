@@ -62,7 +62,7 @@ All outputs are written to `<outputdir>/`. Key files:
 | `beta.nii.gz` | GLM fit output (tensor elements) |
 | `lowb.nii.gz` | Mean b=0 image |
 | `register.lta` | Registration from DWI to structural space |
-| `FA.nii.gz`, `MD.nii.gz` | Derived scalar maps |
+| `FA.nii.gz`<br>`MD.nii.gz` | Derived scalar maps |
 | `dt_recon.log` | Processing log |
 
 ## Mathematical Foundations
@@ -89,7 +89,7 @@ Scalar maps (FA, MD, eigenvalues) are derived from $\mathbf{D}$ via eigendecompo
 |------|------|---------|-------------|
 | `--i <invol>` | volume | required | Input 4D DWI volume |
 | `--b <bvals> <bvecs>` | files | required | b-values and b-vectors |
-| `--s <subject>` / `--subject <subject>` | string | required (with reg) | FreeSurfer subject ID; both forms are equivalent. |
+| `--s <subject>`<br>`--subject <subject>` | string | required (with reg) | FreeSurfer subject ID; both forms are equivalent. |
 | `--o <outdir>` | string | required | Output directory |
 | `--info-dump <dat>` | file | — | DICOM info dump (alternative to `--b`) |
 | `--ecref <TP>` | int | 0 | 0-based reference time point for eddy correction |

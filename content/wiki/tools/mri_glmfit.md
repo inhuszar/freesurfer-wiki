@@ -149,7 +149,7 @@ For $J=1$ (t-test), $t = \text{sign}(G) \sqrt{F}$, and the output `sig.mgh` cont
 |------|----------|---------|-------------|
 | `--y` | `inputfile` | required | 4D input data (frames = subjects) |
 | `--table` | `stats-table` | — | Text table input (asegstats2table/aparcstats2table format); disables FWHM estimation and pruning |
-| `--o` / `--glmdir` | `dir` | required | Output directory for all GLM results |
+| `--o`<br>`--glmdir` | `dir` | required | Output directory for all GLM results |
 
 ### Design Matrix
 
@@ -181,10 +181,10 @@ For $J=1$ (t-test), $t = \text{sign}(G) \sqrt{F}$, and the output `sig.mgh` cont
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--fwhm` / `--smooth` | `fwhm` | — | Smooth input by FWHM (mm); `--smooth` is a parsed alias for `--fwhm` |
-| `--var-fwhm` / `--var-smooth` | `fwhm` | — | Smooth variance by FWHM (mm); `--var-smooth` is a parsed alias for `--var-fwhm` |
+| `--fwhm`<br>`--smooth` | `fwhm` | — | Smooth input by FWHM (mm); `--smooth` is a parsed alias for `--fwhm` |
+| `--var-fwhm`<br>`--var-smooth` | `fwhm` | — | Smooth variance by FWHM (mm); `--var-smooth` is a parsed alias for `--var-fwhm` |
 | `--no-mask-smooth` | — | `off` | Do not mask before smoothing |
-| `--no-est-fwhm` / `--no-fwhm-est` | — | `off` | Disable residual FWHM estimation (FWHM estimation is on by default) |
+| `--no-est-fwhm`<br>`--no-fwhm-est` | — | `off` | Disable residual FWHM estimation (FWHM estimation is on by default) |
 | `--acf` | `nhops` | — | Compute spatial autocorrelation function averaged out to nhops |
 
 ### Masking
@@ -193,7 +193,7 @@ For $J=1$ (t-test), $t = \text{sign}(G) \sqrt{F}$, and the output `sig.mgh` cont
 |------|----------|---------|-------------|
 | `--mask` | `maskfile` | — | Binary mask; clears any `--label` or cortex label |
 | `--label` | `labelfile` | — | Label as mask (surface only); clears any `--mask` or cortex label |
-| `--no-mask` / `--no-cortex` | — | `off` | Disable default cortex label mask |
+| `--no-mask`<br>`--no-cortex` | — | `off` | Disable default cortex label mask |
 | `--cortex` | — | `off` | Explicitly use `?h.cortex.label` as mask (applied automatically for surface analyses) |
 | `--mask-inv` | — | `off` | Invert the mask |
 | `--prune` | — | `on` | Remove voxels with any zero frame across inputs |
@@ -218,8 +218,8 @@ For $J=1$ (t-test), $t = \text{sign}(G) \sqrt{F}$, and the output `sig.mgh` cont
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--yhat-save` / `--save-yhat` | — | `off` | Save signal estimate yhat |
-| `--eres-save` / `--save-eres` | — | `off` | Save residual error eres |
+| `--yhat-save`<br>`--save-yhat` | — | `off` | Save signal estimate yhat |
+| `--eres-save`<br>`--save-eres` | — | `off` | Save residual error eres |
 | `--eres-scm` | — | `off` | Save residual error spatial correlation matrix (large file) |
 | `--y-out` | `y.out.mgh` | — | Save preprocessed input after all pre-processing |
 | `--dontsave` | — | `off` | Do not save any output files (used internally by `--sim`) |
@@ -240,7 +240,7 @@ For $J=1$ (t-test), $t = \text{sign}(G) \sqrt{F}$, and the output `sig.mgh` cont
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--surf` / `--surface` | `subject hemi [surfname]` | — | Specify surface for surface-based analysis (default surfname: `white`) |
+| `--surf`<br>`--surface` | `subject hemi [surfname]` | — | Specify surface for surface-based analysis (default surfname: `white`) |
 
 ### Statistical Options
 

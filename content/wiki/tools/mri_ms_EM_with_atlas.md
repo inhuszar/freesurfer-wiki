@@ -115,12 +115,12 @@ Flag list verified against `attic/mri_ms_EM_with_atlas/mri_ms_EM_with_atlas.cpp`
 | `-hard_seg` | flag | off | Output a hard segmentation to `<out_pre>.hseg` |
 | `-label <fname>` | string | — | Use `<fname>` as segmentation volume |
 | `-mask_subcortical` | flag | off | Also mask subcortical grey matter regions |
-| `-st <method>` / `-sample <method>` / `-sample_type <method>` / `-interp <method>` | string | `trilinear` | Interpolation method (`trilinear`, `nearest`, `sinc`, `cubic`) |
+| `-st <method>`<br>`-sample <method>`<br>`-sample_type <method>`<br>`-interp <method>` | string | `trilinear` | Interpolation method (`trilinear`, `nearest`, `sinc`, `cubic`) |
 | `-sinc [<hw>]` | int (opt.) | 3 | Use sinc interpolation with optional half-window size |
 | `-trilinear` | flag | — | Use trilinear interpolation (explicit shorthand) |
 | `-cubic` | flag | — | Use cubic interpolation |
 | `-nearest` | flag | — | Use nearest-neighbour interpolation |
-| `-sinchalfwindow <n>` / `-hw <n>` | int | 3 | Set sinc interpolation half-window size |
+| `-sinchalfwindow <n>`<br>`-hw <n>` | int | 3 | Set sinc interpolation half-window size |
 | `-beta <f>` | float | — | Weight for MRF (Markov Random Field) regularization |
 | `-regularize <lambda>` | float | — | Regularize covariance matrix with the given lambda |
 | `-e <f>` | float | — | Convergence tolerance; EM iterations stop when the log-likelihood change falls below this value |

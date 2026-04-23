@@ -69,7 +69,7 @@ All outputs are written to an output directory:
 |--------|--------|-------------|
 | `T1.mgz` | [[mgz]] | Estimated T1 relaxation map (ms) |
 | `PD.mgz` | [[mgz]] | Estimated proton density map |
-| `vol0.mgz`, `vol1.mgz`, ... | [[mgz]] | Synthetic volumes simulating each input |
+| `vol0.mgz`<br>`vol1.mgz`, ... | [[mgz]] | Synthetic volumes simulating each input |
 | Per-volume transform files | `.lta` | Linear transforms aligning each run |
 
 ## Mathematical Foundations
@@ -130,11 +130,11 @@ A flip angle correction field (`-faf`) can account for spatially varying flip an
 | `-afi` | `<vol>` | — | Read flip angle map with nominal value 60° from `<vol>` |
 | `-fam` | `<vol> <nominal_fa>` | — | Read flip angle map from `<vol>` with specified nominal flip angle |
 | `-faf` | `<vol> <ctrl>` | — | Read flip angle field from `<vol>` with control points in `<ctrl>` |
-| `-interp` / `-st` / `-sample` / `-sample_type` | `<method>` | trilinear | Interpolation method: `trilinear`, `nearest`, `sinc`, `cubic` |
+| `-interp`<br>`-st`<br>`-sample`<br>`-sample_type` | `<method>` | trilinear | Interpolation method: `trilinear`, `nearest`, `sinc`, `cubic` |
 | `-trilinear` | — | default | Use trilinear interpolation |
 | `-nearest` | — | — | Use nearest-neighbour interpolation |
 | `-sinc` | `[halfwindow]` | 6 | Use sinc interpolation with optional half-window width |
-| `-sinchalfwindow` / `-hw` | `<n>` | 6 | Set sinc half-window width |
+| `-sinchalfwindow`<br>`-hw` | `<n>` | 6 | Set sinc half-window width |
 | `-cubic` | — | — | Use cubic B-spline interpolation |
 | `-window` | — | — | (Not implemented; reserved) |
 | `-u` | — | — | Print usage and exit |

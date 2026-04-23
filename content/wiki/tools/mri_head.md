@@ -73,7 +73,7 @@ No mathematical operations. This is a file I/O utility.
 |------|----------|---------|-------------|
 | `-identify` | (none) | — | Identify the file format of the input file |
 | `-read` | (none) | — | Open and read the volume, dump header info |
-| `-u` / `-h` / `-?` | (none) | — | Print usage |
+| `-u`<br>`-h`<br>`-?` | (none) | — | Print usage |
 
 Usage:
 ```

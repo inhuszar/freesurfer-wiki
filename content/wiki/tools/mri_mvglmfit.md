@@ -104,7 +104,7 @@ Permutation types supported (via `MVGLMPERM`):
 | `--ymatfile <file>` | path | — | Write the data matrix $\mathbf{Y}$ to a text file. |
 | `--threads <n>` | int | 1 | Number of OpenMP threads. |
 | `--max-threads` | flag | — | Use the maximum available OpenMP threads. |
-| `--max-threads-1` / `--max-threads-minus-1` | flag | — | Use one fewer than the maximum available OpenMP threads (i.e. `omp_get_max_threads() - 1`, minimum 1). Useful for leaving one CPU free for other processes. Both spellings are accepted. |
+| `--max-threads-1`<br>`--max-threads-minus-1` | flag | — | Use one fewer than the maximum available OpenMP threads (i.e. `omp_get_max_threads() - 1`, minimum 1). Useful for leaving one CPU free for other processes. Both spellings are accepted. |
 | `--seed <n>` | int | random | Random seed for permutation. |
 
 > [!note] No `--shuffle` or `--sign` flags

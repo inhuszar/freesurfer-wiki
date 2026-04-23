@@ -168,7 +168,7 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--i` / `-i` / `--input` | string (repeatable) | — | Pre-aligned input volume. Use multiple `--i` flags for multimodal inputs. `-i`/`--input` are the `run_samseg` short/long forms. Cannot be combined with `--t1w/--t2w/--flair/--mode`. |
+| `--i`<br>`-i`<br>`--input` | string (repeatable) | — | Pre-aligned input volume. Use multiple `--i` flags for multimodal inputs. `-i`/`--input` are the `run_samseg` short/long forms. Cannot be combined with `--t1w/--t2w/--flair/--mode`. |
 | `--i2 file.mgz` | string | — | Alias for a second `--i` input (equivalent to specifying `--i` twice). |
 | `--i3 file.mgz` | string | — | Alias for a third `--i` input. |
 | `--i4 file.mgz` | string | — | Alias for a fourth `--i` input. |
@@ -179,8 +179,8 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--flair file` | string (repeatable) | — | FLAIR-weighted input. Triggers fsr-import pipeline. |
 | `--mode name file` | string pair (repeatable) | — | Arbitrary-modality input with an explicit mode name. Triggers fsr-import pipeline. |
 | `--refmode name` | string | — | Reference modality to which other modalities are co-registered. Required when using --t1w/--t2w/--flair/--mode. |
-| `--o` / `-o` / `--output` | string | — | Output directory. `-o`/`--output` are the `run_samseg` short/long forms. Required unless `--s` is specified. |
-| `-m` / `--mode` | string (repeatable) | auto | Output basenames for each input image mode (one per `--input`). `-m`/`--mode` are `run_samseg` flags; not exposed directly by the tcsh wrapper. |
+| `--o`<br>`-o`<br>`--output` | string | — | Output directory. `-o`/`--output` are the `run_samseg` short/long forms. Required unless `--s` is specified. |
+| `-m`<br>`--mode` | string (repeatable) | auto | Output basenames for each input image mode (one per `--input`). `-m`/`--mode` are `run_samseg` flags; not exposed directly by the tcsh wrapper. |
 | `--s subject` | string | — | Subject name in `$SUBJECTS_DIR`. Sets output to `$SUBJECTS_DIR/<subject>/mri/samseg`. Requires fsr-import mode. |
 | `--sd dir` | string | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR`. |
 
@@ -188,7 +188,7 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--atlas` / `-a` | string | `$FREESURFER_HOME/average/samseg/20Subjects_smoothing2_down2_smoothingForAffine2` | Path to atlas directory. Also sets `SAMSEG_DATA_DIR`. `-a` is the `run_samseg` short form. |
+| `--atlas`<br>`-a` | string | `$FREESURFER_HOME/average/samseg/20Subjects_smoothing2_down2_smoothingForAffine2` | Path to atlas directory. Also sets `SAMSEG_DATA_DIR`. `-a` is the `run_samseg` short form. |
 | `--sdd dir` | string | — | Alias for `--atlas` (sets `SAMSEG_DATA_DIR`). |
 | `--ssdd dir` | string | — | Second alias for `--atlas`/`--sdd` (sets `SAMSEG_DATA_DIR`). Functionally identical. |
 | `--cpvcw` | boolean | off | Use the expanded atlas `samseg+cc+pons+verm+charm+wmcrowns` (includes corpus callosum, pons, vermis, and WM crowns). |
@@ -201,9 +201,9 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--reg` / `-r` | string | — | Skip atlas registration and load an existing transform (LTA or `.mat`). The transform should map input → atlas. `-r` is the `run_samseg` short form. |
+| `--reg`<br>`-r` | string | — | Skip atlas registration and load an existing transform (LTA or `.mat`). The transform should map input → atlas. `-r` is the `run_samseg` short form. |
 | `--regmat file` | string | — | Alias for `--reg`. |
-| `--initlta` / `--init-reg` | string | — | Use this LTA as the initial affine registration (starting point for optimisation). `--init-reg` is the `run_samseg` flag name; `--initlta` is the tcsh wrapper name. |
+| `--initlta`<br>`--init-reg` | string | — | Use this LTA as the initial affine registration (starting point for optimisation). `--init-reg` is the `run_samseg` flag name; `--initlta` is the tcsh wrapper name. |
 | `--reg-only` | boolean | off | Run only the affine registration; skip segmentation. Outputs `samseg.talairach.lta`. |
 | `--regonly` | boolean | off | Alias for `--reg-only`. |
 
@@ -214,17 +214,17 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--threads n` | integer | 1 (or `$OMP_NUM_THREADS`) | Number of CPU threads for GEMS. |
 | `--max-iters n` | integer | atlas default | Maximum EM iterations. |
 | `--pallidum-separate` | boolean | off | Move pallidum outside the global white matter Gaussian class. Use for T2w or FLAIR data where pallidum appears brighter than WM. |
-| `--stiffness` / `--mesh-stiffness` | float | atlas default | Mesh deformation regularisation weight. Higher = more rigid atlas. `--mesh-stiffness` is the `run_samseg` flag name; `--stiffness` is the tcsh wrapper name. |
+| `--stiffness`<br>`--mesh-stiffness` | float | atlas default | Mesh deformation regularisation weight. Higher = more rigid atlas. `--mesh-stiffness` is the `run_samseg` flag name; `--stiffness` is the tcsh wrapper name. |
 | `--bias-field-smoothing-kernel mm` | float | atlas default | Width parameter of the bias field smoothing kernel (mm to first sinc zero crossing). |
-| `--smooth-wm-cortex` / `--smooth-wm-cortex-priors` | float | 0 (disabled) | Gaussian smoothing sigma (mm) applied to white matter and cortex atlas priors before segmentation. `--smooth-wm-cortex-priors` is the `run_samseg` flag name; `--smooth-wm-cortex` is the tcsh wrapper name. |
-| `--mrf` / `--no-mrf` | boolean | off | Run `mri_ca_label` MRF post-processing on the samseg segmentation. Produces `seg.mrf.mgz`. |
+| `--smooth-wm-cortex`<br>`--smooth-wm-cortex-priors` | float | 0 (disabled) | Gaussian smoothing sigma (mm) applied to white matter and cortex atlas priors before segmentation. `--smooth-wm-cortex-priors` is the `run_samseg` flag name; `--smooth-wm-cortex` is the tcsh wrapper name. |
+| `--mrf`<br>`--no-mrf` | boolean | off | Run `mri_ca_label` MRF post-processing on the samseg segmentation. Produces `seg.mrf.mgz`. |
 | `--options file.json` | string | — | JSON file overriding advanced model or optimisation parameters passed to `run_samseg`. |
 | `--ignore-unknown` | boolean | off | Ignore final priors for the "unknown" class. |
 | `--exvivo` | boolean | off | Use the ex vivo GMM parameters file (post-mortem tissue). |
 | `--dissection-photo mode` | string | — | Process 3D reconstructed dissection photos. `mode` = `left`, `right`, or `both`. Disables WM intensity normalisation and ignores unknown priors. |
 | `--fat-shift` | boolean | off | Enable fat-shift correction mode (undocumented; details unclear). |
-| `--no-block-coordinate-descent` / `--no-bcd` | boolean | off | Disable BCD; sets `SAMSEG_DONT_USE_BLOCK_COORDINATE_DESCENT=1`. |
-| `--block-coordinate-descent` / `--bcd` | boolean | on | Re-enable BCD if it was disabled via the environment variable; sets `SAMSEG_DONT_USE_BLOCK_COORDINATE_DESCENT=0`. |
+| `--no-block-coordinate-descent`<br>`--no-bcd` | boolean | off | Disable BCD; sets `SAMSEG_DONT_USE_BLOCK_COORDINATE_DESCENT=1`. |
+| `--block-coordinate-descent`<br>`--bcd` | boolean | on | Re-enable BCD if it was disabled via the environment variable; sets `SAMSEG_DONT_USE_BLOCK_COORDINATE_DESCENT=0`. |
 | `--logdomain-costandgradient-calculator` | boolean | off | Use log-domain cost calculator; sets `SAMSEG_USE_LOGDOMAIN_COSTANDGRADIENT_CALCULATOR=1`. |
 | `--no-logdomain-costandgradient-calculator` | boolean | on | Disable log-domain cost calculator; unsets `SAMSEG_USE_LOGDOMAIN_COSTANDGRADIENT_CALCULATOR`. |
 
@@ -251,10 +251,10 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--fill` | boolean | off | Use samseg segmentation to create `filled.mgz` (via `samseg2recon --fill`) instead of recon-all's own fill step. |
 | `--no-fill` | boolean | on | Disable samseg-based fill step (restore default recon-all fill). |
 | `--normalization2` | boolean | off | Create `brain.mgz` from samseg output instead of recon-all's normalization2 step. |
-| `--no-normalization2` / `--nonormalization2` | boolean | on | Disable samseg-based normalization2 (restore default recon-all behaviour). |
+| `--no-normalization2`<br>`--nonormalization2` | boolean | on | Disable samseg-based normalization2 (restore default recon-all behaviour). |
 | `--use-t2w` | boolean | off | When running recon-all, pass `-T2pial` to refine pial surface with T2w data. |
 | `--use-flair` | boolean | off | When running recon-all, pass `-FLAIRpial` to refine pial surface with FLAIR data. |
-| `--hires` / `-hires` | boolean | off | Pass `-hires` to recon-all; also skips conforming in fsr-import. Both spellings accepted by the tcsh wrapper. |
+| `--hires`<br>`-hires` | boolean | off | Pass `-hires` to recon-all; also skips conforming in fsr-import. Both spellings accepted by the tcsh wrapper. |
 | `--no-hires` | boolean | on | Disable hires mode (restores conforming in fsr-import and removes `-hires` from the recon-all call). Explicit inverse of `--hires`. |
 | `--parallel` | boolean | off | Pass `-parallel` to recon-all. |
 
@@ -265,9 +265,9 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--save-posteriors` | boolean | off | Save per-structure posterior probability maps to `posteriors/`. |
 | `--save-p` | boolean | off | Shorthand for both `--save-posteriors` and `--save-probabilities` simultaneously (tcsh wrapper only). |
 | `--save-probabilities` | boolean | off | Save per-tissue-class posterior/prior/likelihood (3-frame) to `probabilities/`. |
-| `--save-warp` / `--no-save-warp` | boolean | on | Save nonlinear warp as `template.m3z`. |
-| `--save-mesh` / `--no-save-mesh` | boolean | off | Save final deformed mesh to `mesh.pkl` (for longitudinal samseg analysis). |
-| `--history` / `--no-history` | boolean | off | Save full optimization history object. |
+| `--save-warp`<br>`--no-save-warp` | boolean | on | Save nonlinear warp as `template.m3z`. |
+| `--save-mesh`<br>`--no-save-mesh` | boolean | off | Save final deformed mesh to `mesh.pkl` (for longitudinal samseg analysis). |
+| `--history`<br>`--no-history` | boolean | off | Save full optimization history object. |
 | `--showfigs` | boolean | off | Display figures during segmentation (requires display). |
 | `--movie` | boolean | off | Show history as interactive movie. |
 | `--dice seg.mgz` | string | — | After segmentation, compute Dice/Jaccard overlap against a reference segmentation. |
@@ -277,14 +277,14 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--profile file.prof` | string | — | Run `run_samseg` under `cProfile` Python profiler. |
 | `--no-profile` | boolean | on | Clear profile file path (unsets profiling if previously set). |
 | `--log file` | string | auto | Override log file path. |
-| `--nolog` / `--no-log` | boolean | off | Discard log output (routes log to `/dev/null`). Both spellings are accepted. |
+| `--nolog`<br>`--no-log` | boolean | off | Discard log output (routes log to `/dev/null`). Both spellings are accepted. |
 | `--tmpdir dir` | string | auto | Set temporary directory (also disables cleanup). |
 | `--tmp dir` | string | auto | Alias for `--tmpdir`. |
 | `--nocleanup` | boolean | off | Keep temporary directory after completion. |
 | `--cleanup` | boolean | on | Remove temporary directory after completion (default; use to override `--nocleanup`). |
 | `--bin` | boolean | off | Use the compiled `run_samseg` binary (`usebin=1`, clears `monly`). For testing binary vs. Python-script execution. |
 | `--no-bin` | boolean | on | Run `run_samseg` via Python directly rather than the compiled binary (`usebin=0`). |
-| `--monly` / `-monly` | string | — | Write the run_samseg call as MATLAB script to the given `.m` file and do not execute it; for debugging. Both spellings accepted by the tcsh wrapper. |
+| `--monly`<br>`-monly` | string | — | Write the run_samseg call as MATLAB script to the given `.m` file and do not execute it; for debugging. Both spellings accepted by the tcsh wrapper. |
 | `--valgrind` | boolean | off | Run `run_samseg` under Valgrind memory checker (developer/debugging only; very slow). |
 | `--debug` | boolean | off | Enable tcsh verbose tracing. |
 

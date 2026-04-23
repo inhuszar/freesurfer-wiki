@@ -90,8 +90,8 @@ See algorithm above. The merge step iteratively combines basins:
 | `-m` | `<N>` | 60 | Target maximum number of clusters after merging |
 | `-mask_label` | `<file>` | — | Label file; vertices outside the label have their intensity set to zero |
 | `-openmp` | `<N>` | — | Set number of OpenMP threads |
-| `-dilate` / `-dilate_label` / `-label_dilate` | `<N>` | — | Dilate label N times (parsed but not yet implemented in source) |
-| `-erode` / `-erode_label` / `-label_erode` | `<N>` | — | Erode label N times (parsed but not yet implemented in source) |
+| `-dilate`<br>`-dilate_label`<br>`-label_dilate` | `<N>` | — | Dilate label N times (parsed but not yet implemented in source) |
+| `-erode`<br>`-erode_label`<br>`-label_erode` | `<N>` | — | Erode label N times (parsed but not yet implemented in source) |
 
 Usage:
 ```

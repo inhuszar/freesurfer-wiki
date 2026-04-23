@@ -59,15 +59,15 @@ The pipeline:
 | `--s` | `<subject>` | — | Subject name; sets invol to `mri/rawavg.mgz` and outdir to `mri/claustrum` under `SUBJECTS_DIR/<subject>` |
 | `--o` | `<outdir>` | required | Output directory for results |
 | `--threads` | `<N>` | 1 | Number of processing threads |
-| `--strip` / `--no-strip` | — | `--strip` | Enable/disable brain extraction step |
+| `--strip`<br>`--no-strip` | — | `--strip` | Enable/disable brain extraction step |
 | `--lh` | — | — | Process left hemisphere only (skips rh) |
 | `--rh` | — | — | Process right hemisphere only (skips lh) |
-| `--surf` / `--no-surf` | — | off | Enable/disable surface-based post-processing (inflate, sphere, curvature) |
-| `--topo-correct` / `--no-topo-correct` | — | off | Enable/disable post-hoc topology correction (removes islands via `mri_binarize --fill-holes --remove-islands --fix-vol-topo`) |
-| `--post` / `--no-post` | — | off | Save posterior probability volume to `claustrum.<hemi>.post.mgz` |
-| `--qc` / `--no-qc` | — | off | Run quality control mode: nonlinearly registers segmentation to MNI152 and computes Dice against 18 manual labels; also computes inter-hemi Dice |
-| `--smorphdir` / `--synthmorph-dir` / `--synthmorphdir` | `<dir>` | auto | Pre-computed SynthMorph registration directory (reuse to skip the ~10–20 min registration step) |
-| `--save-warp` / `--no-save-warp` | — | on | Save/delete SynthMorph warp files (`warp.to.mni152.*.nii.gz`) after completion |
+| `--surf`<br>`--no-surf` | — | off | Enable/disable surface-based post-processing (inflate, sphere, curvature) |
+| `--topo-correct`<br>`--no-topo-correct` | — | off | Enable/disable post-hoc topology correction (removes islands via `mri_binarize --fill-holes --remove-islands --fix-vol-topo`) |
+| `--post`<br>`--no-post` | — | off | Save posterior probability volume to `claustrum.<hemi>.post.mgz` |
+| `--qc`<br>`--no-qc` | — | off | Run quality control mode: nonlinearly registers segmentation to MNI152 and computes Dice against 18 manual labels; also computes inter-hemi Dice |
+| `--smorphdir`<br>`--synthmorph-dir`<br>`--synthmorphdir` | `<dir>` | auto | Pre-computed SynthMorph registration directory (reuse to skip the ~10–20 min registration step) |
+| `--save-warp`<br>`--no-save-warp` | — | on | Save/delete SynthMorph warp files (`warp.to.mni152.*.nii.gz`) after completion |
 | `--force` | — | off | Force re-run even if outputs already exist |
 | `--no-force` | — | on | Do not force re-run (default; explicit inverse of `--force`) |
 | `--model` | `<file>` | `claustrum_seg_20250616.h5` | Override model file path |
@@ -80,10 +80,10 @@ The pipeline:
 | `--rot` | `<dC> <dR> <dS>` | — | Apply a rotation (in degrees about the C/R/S axes) when resampling the input to the cropped FoV. Used for testing/QC. |
 | `--trans` | `<dC> <dR> <dS>` | — | Apply a translation (in mm along C/R/S axes) when resampling the input to the cropped FoV. Used for testing/QC. |
 | `--no-conda` | — | active | Do not require an active conda environment. Since `RequireConda` defaults to 0, this flag is a no-op in normal usage but is available for script compatibility. |
-| `--cleanup` / `--no-cleanup` | — | on | Remove/keep temporary directory after completion |
-| `--tmp` / `--tmpdir` | `<dir>` | `<outdir>/tmpdir.mri_claustrum_seg.$$` | Override temporary directory (setting this also disables cleanup) |
+| `--cleanup`<br>`--no-cleanup` | — | on | Remove/keep temporary directory after completion |
+| `--tmp`<br>`--tmpdir` | `<dir>` | `<outdir>/tmpdir.mri_claustrum_seg.$$` | Override temporary directory (setting this also disables cleanup) |
 | `--log` | `<logfile>` | auto | Override log file path |
-| `--nolog` / `--no-log` | — | off | Disable logging (routes log to `/dev/null`) |
+| `--nolog`<br>`--no-log` | — | off | Disable logging (routes log to `/dev/null`) |
 | `--debug` | — | off | Enable tcsh verbose tracing (`set verbose; set echo`) |
 
 ## Outputs

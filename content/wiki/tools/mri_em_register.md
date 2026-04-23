@@ -312,13 +312,13 @@ practice). Below they are grouped by function.
 | `-nlarea <lambda>` | float | 0 | `parms.l_nlarea`: non-linear area regularisation weight. |
 | `-area <lambda>` | float | 0 | `parms.l_area`: area regularisation weight. |
 | `-levels <n>` | int | -1 (auto) | `parms.levels`: number of multi-resolution levels (-1 means use built-in default). |
-| `-intensity <w>` / `-corr <w>` | float | 1.0 | `parms.l_intensity`: intensity similarity weight in the gradient-stage cost function. |
+| `-intensity <w>`<br>`-corr <w>` | float | 1.0 | `parms.l_intensity`: intensity similarity weight in the gradient-stage cost function. |
 | `-b <sigma>` | float | 0.0 | Pre-blur input with a Gaussian of the given sigma (mm). |
 | `-clamp <val>` | float | 6 | Robust log-likelihood clamp on per-sample log probability. |
 | `-robust` | bool | off | Set the global `robust` flag; affects the coarse translation-search code path in `findtranslation.cpp`. |
 | `-p <pct>` | float | — | Use the top `pct` (fraction in [0,1]) of WM samples as control points. |
 | `-lscale <label> <factor>` | int+float | — | Pre-scale label `<label>`'s expected mean intensity by `<factor>` (repeatable; unspecified labels stay at 1.0). |
-| `-dist <lambda>` / `-distance <lambda>` | float | 0 | `parms.l_dist`: distance regularisation weight (legacy; appears unused in the active code path). |
+| `-dist <lambda>`<br>`-distance <lambda>` | float | 0 | `parms.l_dist`: distance regularisation weight (legacy; appears unused in the active code path). |
 | `-nomap` | bool | off | Sets `nomap = 1` (legacy; appears unused in the active code path). |
 
 ### Initialisation and inputs
@@ -337,7 +337,7 @@ practice). Below they are grouped by function.
 | `-alpha <deg>` | float | -1 | Override flip angle (degrees) for the FLASH forward model. |
 | `-flash` | bool | off | Use the FLASH forward model to predict expected intensities from tissue parameters, TR, TE, α (`map_to_flash = 1`). |
 | `-flash_parms <parmfile>` | path | — | Tissue parameter file for the FLASH model (`tissue_parms_fname`). |
-| `-renorm <fname>` / `-renormalize <fname>` | path | — | Renormalise GCA intensities using predicted values in `<fname>`. |
+| `-renorm <fname>`<br>`-renormalize <fname>` | path | — | Renormalise GCA intensities using predicted values in `<fname>`. |
 | `-example <T1> <seg>` | path+path | — | Use `<T1>` and `<seg>` as an example T1 image and its segmentation to renormalise the atlas before registration. |
 
 ### Diagnostic / output
@@ -345,7 +345,7 @@ practice). Below they are grouped by function.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `-samples <fname>` | path | — | Write the GCA sample control points (pre-transform) to `<fname>`. |
-| `-fsamples <fname>` / `-isamples <fname>` | path | — | Write post-transform sample points (`transformed_sample_fname`). The two spellings are aliases. |
+| `-fsamples <fname>`<br>`-isamples <fname>` | path | — | Write post-transform sample points (`transformed_sample_fname`). The two spellings are aliases. |
 | `-nsamples <fname>` | path | — | Write post-normalisation sample points (`normalized_transformed_sample_fname`). |
 | `-norm <fname>` | path | — | Write the subject volume after per-label intensity renormalisation. |
 | `-write_mean <fname>` | path | — | Write the GCA mean image. |
@@ -356,8 +356,8 @@ practice). Below they are grouped by function.
 | `-rusage <file>` | path | — | Write resource usage summary. |
 | `-v <diagno>` | int | 0 | Set `Gdiag_no` for verbosity control. |
 | `-threads <n>` | int | OpenMP max | OpenMP thread count (no-op without OpenMP). |
-| `--version` / `-version` / `--all-info` | bool | — | Handled by `handleVersionOption()` before `get_option()` runs; prints version info and exits if no other args. |
-| `-h` / `-u` / `-help` / `--help` / `--usage` | bool | — | Print the XML-rendered help and exit. |
+| `--version`<br>`-version`<br>`--all-info` | bool | — | Handled by `handleVersionOption()` before `get_option()` runs; prints version info and exits if no other args. |
+| `-h`<br>`-u`<br>`-help`<br>`--help`<br>`--usage` | bool | — | Print the XML-rendered help and exit. |
 
 ## Configuration Interactions
 

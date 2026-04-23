@@ -188,9 +188,9 @@ defaults; they can be overridden via `-seg aseg ... Qwm Qctx NdilWM NdilCtx`.
 |------|------|---------|-------------|
 | `invol` | positional | — | Input normalised T1 volume (must be the next-to-last argument). |
 | `outvol` | positional | — | Output WM segmentation volume (must be the last argument). |
-| `--version` / `-version` | bool | — | Print version string and exit. |
-| `--help` / `-help` / `-usage` / `-?` / `-H` / `-U` | bool | — | Print usage and exit. |
-| `-MGH_MPRAGE` / `-MPRAGE` | bool | OFF | Sets `scan_type = MRI_MGH_MPRAGE`. If `-ghi`/`-gray_hi` was not already set, sets `gray_hi = 99`; if `-wlo`/`-wm_low` was not already set, sets `wm_low = 89`. Has no effect on the `-seg` (aseg-guided) code path. |
+| `--version`<br>`-version` | bool | — | Print version string and exit. |
+| `--help`<br>`-help`<br>`-usage`<br>`-?`<br>`-H`<br>`-U` | bool | — | Print usage and exit. |
+| `-MGH_MPRAGE`<br>`-MPRAGE` | bool | OFF | Sets `scan_type = MRI_MGH_MPRAGE`. If `-ghi`/`-gray_hi` was not already set, sets `gray_hi = 99`; if `-wlo`/`-wm_low` was not already set, sets `wm_low = 89`. Has no effect on the `-seg` (aseg-guided) code path. |
 | `-WASHU_MPRAGE` | bool | OFF | Sets `scan_type = MRI_WASHU_MPRAGE` and unconditionally forces `gray_hi = 85`, `wm_low = 80` (for dark-GM WashU MP-RAGE). |
 | `-no1d_remove` | bool | OFF | Disables removal of 1-D (isolated strand) structures in the post-processing stage. |
 | `-slope <s>` | float | 1.0 | Sets both `pslope` and `nslope` curvature slopes simultaneously. |
@@ -201,23 +201,23 @@ defaults; they can be overridden via `-seg aseg ... Qwm Qctx NdilWM NdilCtx`.
 | `-noauto` | bool | — | Forces `auto_detect_stats = 0` (does not toggle). |
 | `-log` | bool | ON | Sets `log_stats = 1`. The default is already 1, so this flag is effectively a no-op; there is no `-nolog` flag. |
 | `-keep` | bool | OFF | Sets `keep_edits = 1`. After processing, reads back the existing output file and re-imposes WM\_EDITED\_ON\_VAL (255) and WM\_EDITED\_OFF\_VAL (1) voxels from any prior manual edits. |
-| `-ghi <h>` / `-gray_hi <h>` | float | 100.0 | Initial grey-matter high limit; also marks `gray_hi_set` so `-MPRAGE` will not override it. |
-| `-glo <l>` / `-gray_low <l>` | float | 30 | Grey-matter low limit; sets `gray_low_set`. Used by the histogram/border classification stages. |
-| `-wlo <l>` / `-wm_low <l>` | float | 90 | WM low intensity limit (before auto-detect widening); sets `wm_low_set`, which also disables the `-10` auto-widening at the start of the default path and prevents `-MPRAGE` from overriding it. |
-| `-whi <h>` / `-wm_hi <h>` | float | 125 | WM high intensity limit; sets `wm_hi_set`. |
+| `-ghi <h>`<br>`-gray_hi <h>` | float | 100.0 | Initial grey-matter high limit; also marks `gray_hi_set` so `-MPRAGE` will not override it. |
+| `-glo <l>`<br>`-gray_low <l>` | float | 30 | Grey-matter low limit; sets `gray_low_set`. Used by the histogram/border classification stages. |
+| `-wlo <l>`<br>`-wm_low <l>` | float | 90 | WM low intensity limit (before auto-detect widening); sets `wm_low_set`, which also disables the `-10` auto-widening at the start of the default path and prevents `-MPRAGE` from overriding it. |
+| `-whi <h>`<br>`-wm_hi <h>` | float | 125 | WM high intensity limit; sets `wm_hi_set`. |
 | `-wm_low_factor <f>` | float | 0.0 | Interpolation factor used to recompute `wm_low` from class statistics after auto-detect. See "Configuration interactions" — the formula differs between the default and `-seg` code paths. |
 | `-nseg <n>` | int | 20 | Number of largest thin strands to thicken in `MRIthickenThinWMStrands`. |
 | `-thicken <0\|1\|2>` | int | 1 | `0` = skip strand thickening; `1` = run strand thickening (default); `2` = "thicken-only" mode that skips the entire segmentation, runs `MRIremove1dStructures` (unless `-no1d_remove`), writes output, and exits. |
 | `-thickenonly` | bool | OFF | Equivalent to `-thicken 2`: enters the thicken-only branch described above. |
-| `-fillbg` / `-fill_bg` | bool toggle | OFF | Toggles `fill_bg` (each occurrence flips it). When set, calls `MRIfillBasalGanglia` in post-processing. |
-| `-fillv` / `-fill_ventricles` | bool toggle | OFF | Toggles `fill_ventricles`. When set, calls `MRIfillVentricles` in post-processing. |
+| `-fillbg`<br>`-fill_bg` | bool toggle | OFF | Toggles `fill_bg` (each occurrence flips it). When set, calls `MRIfillBasalGanglia` in post-processing. |
+| `-fillv`<br>`-fill_ventricles` | bool toggle | OFF | Toggles `fill_ventricles`. When set, calls `MRIfillVentricles` in post-processing. |
 | `-dat <file>` | string | `segment.dat` | Path of the class-statistics log file (written when `log_stats != 0`). |
 | `-seg <aseg> <Qwm> <Qctx> <NdilWM> <NdilCtx>` | string + 2×double + 2×int | — | Engages the aseg-guided code path. `aseg` is a path to a presurf aseg volume; `Qwm`, `Qctx` are quantile parameters and `NdilWM`, `NdilCtx` are dilation iteration counts passed to `MRIclassifyAmbiguousNonPar()`. Hardcoded global defaults are `Qwm=3.0`, `Qctx=3.0`, `NdilWM=2`, `NdilCtx=2` but the flag requires all five arguments. |
 | `-polvwsize <w>` | int | 5 | Window size (voxels) for the plane-of-least-variance / median-curve segmentation step. |
 | `-polvlen <l>` | float | 3.0 | Length parameter passed to `MRIcpolvMedianCurveSegment`. |
 | `-min-wm-mask <vol>` | string | — | Reads a volume and stores it in `MinWMMask`. The loader rewrites every voxel to 1 (both branches of the `IS_WM`/`IS_HYPO` check assign 1 — the "else" branch appears to be a source bug), so the mask currently behaves as an all-ones mask covering the input volume's grid. |
 | `-wsizemm <mm>` | double | 0 | If > 0, overrides `-w`: at runtime computes `wsize = round(wsizemm / mean_voxel_size)` from the input volume header. |
-| `-diagno <n>` / `-diag_no <n>` | int | 0 | Sets the global `Gdiag_no` for shared-library diagnostics. |
+| `-diagno <n>`<br>`-diag_no <n>` | int | 0 | Sets the global `Gdiag_no` for shared-library diagnostics. |
 | `-diag-write` | bool | OFF | OR-sets `DIAG_WRITE` into `Gdiag` (writes intermediate diagnostic volumes). |
 | `-diag-verbose` | bool | OFF | OR-sets `DIAG_VERBOSE` into `Gdiag`. |
 | `-b <sigma>` | float | 0.25 | *Intended* to set the Gaussian blur sigma used for pre-blurring (`blur_sigma`). See gotcha — the implementation reads `argv[1]` instead of `argv[2]`, so the supplied numeric value is **never actually parsed**; `blur_sigma` ends up set to `atof("-b") = 0.0`. |

@@ -78,7 +78,7 @@ The option parser upcases all option strings before matching, so all flags are c
 |------|----------|---------|-------------|
 | `-mask <file>` | file | — | Binary mask volume applied to each timepoint before normalization; values below `WM_MIN_VAL` (≈ 5) are zeroed (`!strcmp(option, "MASK")` after StrUpper) |
 | `-sigma <val>` | float | `4.0` | Spatial smoothing sigma for the bias field (parsed but not actively used in the Parzen-window code path) |
-| `-cross_time_sigma` / `-cross-time-sigma` | float | `1.0` | Sigma of the Parzen (Gaussian) kernel in intensity space used for cross-timepoint normalization |
+| `-cross_time_sigma`<br>`-cross-time-sigma` | float | `1.0` | Sigma of the Parzen (Gaussian) kernel in intensity space used for cross-timepoint normalization |
 | `-diag <file>` | file | — | Open diagnostic log file for writing |
 | `-debug_voxel <x> <y> <z>` | 3 ints | — | Enable per-voxel debug output at specified voxel coordinates |
 | `-debug_node <x> <y> <z>` | 3 ints | — | Enable per-node debug output at GCA node coordinates |

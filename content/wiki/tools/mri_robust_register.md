@@ -111,18 +111,18 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Alias | Argument | Default | Description |
 |------|-------|----------|---------|-------------|
-| `--mov` / `--m` | `-m` | `<fname>` | required | Moving (source) volume to be registered |
-| `--dst` / `--d` | `-d` | `<fname>` | required | Destination (target/reference) volume |
+| `--mov`<br>`--m` | `-m` | `<fname>` | required | Moving (source) volume to be registered |
+| `--dst`<br>`--d` | `-d` | `<fname>` | required | Destination (target/reference) volume |
 | `--lta` | — | `<fname>` | required (unless `--iscaleonly`) | Output linear transform in LTA format |
 
 ### Degrees of freedom
 
 | Flag | Alias | Argument | Default | Description |
 |------|-------|----------|---------|-------------|
-| `--affine` / `--a` | `-a` | (none) | off | Use affine (12 DOF) registration instead of rigid (6 DOF) |
+| `--affine`<br>`--a` | `-a` | (none) | off | Use affine (12 DOF) registration instead of rigid (6 DOF) |
 | `--transonly` | — | (none) | off | Translation-only (3 DOF) registration |
 | `--isoscale` | — | (none) | off | Add isotropic scale (7 DOF: rigid + uniform scale) |
-| `--iscale` / `--i` | `-i` | (none) | off | Also estimate a global intensity scale factor jointly with the transform |
+| `--iscale`<br>`--i` | `-i` | (none) | off | Also estimate a global intensity scale factor jointly with the transform |
 | `--iscaleonly` | — | (none) | off | Estimate intensity scale only; skip all spatial registration |
 
 ### Robust cost function
@@ -140,7 +140,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--transform` / `--ixform` | `<lta>` | none | Load a pre-computed initial transform (LTA) before optimisation |
+| `--transform`<br>`--ixform` | `<lta>` | none | Load a pre-computed initial transform (LTA) before optimisation |
 | `--initorient` | (none) | off | Initialise orientation by aligning principal axes of the two images |
 | `--initscaling` | (none) | off (inittrans=on) | Initialise scale from image dimensions; note: translation initialisation from centre-of-mass is **on by default** and disabled by `--noinit` |
 | `--noinit` | (none) | off | Skip centre-of-mass translation initialisation |
@@ -178,7 +178,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Alias | Argument | Default | Description |
 |------|-------|----------|---------|-------------|
-| `--mapmov` / `--warp` | `--warp` | `<fname>` | none | Save the moving volume resampled into the destination (or half-way) space |
+| `--mapmov`<br>`--warp` | `--warp` | `<fname>` | none | Save the moving volume resampled into the destination (or half-way) space |
 | `--mapmovhdr` | — | `<fname>` | none | Save the moving volume with only its header adjusted to the target space (no resampling) |
 | `--weights` | — | `<fname>` | none | Save the per-voxel robust weights (1 = inlier, 0 = outlier) in destination space |
 | `--halfmov` | — | `<fname>` | none | Save the moving volume warped to the half-way space |
@@ -194,7 +194,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--entradius` / `--radius` | `<int>` | 5 | Half-side of the local box used for entropy computation; box side = 2·radius + 1 |
+| `--entradius`<br>`--radius` | `<int>` | 5 | Half-side of the local box used for entropy computation; box side = 2·radius + 1 |
 | `--entball` | (none) | off | Use a spherical neighbourhood instead of a cubic box for entropy computation |
 | `--entcorrection` | (none) | off | Enable 'correction' mode in entropy image computation |
 | `--entmov` | `<fname>` | none | Save the entropy image computed from the moving volume |
@@ -225,7 +225,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 | `--verbose` | `<int>` | 1 | Verbosity level (0 = silent, 1 = normal, higher = more detail) |
 | `--debug` | (none) | off | Enable debug output and write intermediate files |
 | `--test` | `<int> <file>` | — | Developer test mode: calls `RegRobust::testRobust(file, int)` and exits immediately; not intended for production use |
-| `--help` / `--h` | (none) | — | Print usage and exit |
+| `--help`<br>`--h` | (none) | — | Print usage and exit |
 | `--version` | (none) | — | Print version string and exit |
 
 > [!gotcha] Dead code: `--satest`

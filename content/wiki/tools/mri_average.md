@@ -91,7 +91,7 @@ The PCA alignment matrix is computed by `align_pca()`:
 | `-conform` | flag | on | Interpolate each volume to 256³ 1mm isotropic before averaging |
 | `-noconform` | flag | — | Disable conforming (use original geometry) |
 | `-A` | flag | off | Align each volume to running average before accumulation |
-| `-sqr` / `-rms` | flag | off | Compute RMS instead of mean |
+| `-sqr`<br>`-rms` | flag | off | Compute RMS instead of mean |
 | `-F` | flag | off | Read input volumes from file (first positional arg is list file) |
 | `-S <scale>` | float | 0 | Scale all input volumes by this factor before averaging |
 | `-P` | flag | off | Binarize images at threshold 1 before averaging (compute occupancy %) |

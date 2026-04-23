@@ -62,7 +62,7 @@ No mathematical processing is performed. The tool parses DICOM header fields and
 |------|----------|---------|-------------|
 | `--d` | `<dirname>` | — | Siemens DICOM directory to parse |
 | `--o` | `<fname>` | stdout | Output file for results |
-| `--summarize` / `--sum` | (none) | off | Print a summary (one line per series) rather than one line per file |
+| `--summarize`<br>`--sum` | (none) | off | Print a summary (one line per series) rather than one line per file |
 | `--sortbyrun` | (none) | off | Sort output by run number |
 | `--status` | `<file>` | — | Write a status file (used by automated pipelines to track completion) |
 | `--dwi` | (none) | off | Set `FS_LOAD_DWI=1` to include diffusion-weighted image metadata in output |

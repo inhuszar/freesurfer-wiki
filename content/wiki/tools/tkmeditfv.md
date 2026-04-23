@@ -107,7 +107,7 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 | `-aparc+aseg` | flag | — | Shorthand for `-seg aparc+aseg.mgz`. |
 | `-ctab <file>` | string | FreeSurferColorLUT.txt | Override colour table for all segmentation overlays. |
 | `-no-ctab` | flag | — | Do not use a colour table (segmentation uses embedded colours only). |
-| `-op` / `-opacity <f>` | float | 1.0 | Segmentation overlay opacity (0.0–1.0). |
+| `-op`<br>`-opacity <f>` | float | 1.0 | Segmentation overlay opacity (0.0–1.0). |
 | `-seg-outline` | flag | off | Show segmentation in outline mode. |
 
 ### Surface Overlays
@@ -131,18 +131,18 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 | `-rh-white` | flag | off | Load rh.white only (alias). |
 | `-smoothwm.nofix` | flag | off | Load lh/rh.smoothwm.nofix (green). |
 | `-woT2` | flag | off | Load lh/rh.woT2.pial (red). |
-| `-surface` / `-surf <surf> [color]` | string [string] | — | Load a specific surface by name with optional edge colour (default: yellow). |
-| `-aux-surface` / `-aux-surf <surf> [color]` | string [string] | — | Load an auxiliary surface with optional edge colour. |
+| `-surface`<br>`-surf <surf> [color]` | string [string] | — | Load a specific surface by name with optional edge colour (default: yellow). |
+| `-aux-surface`<br>`-aux-surf <surf> [color]` | string [string] | — | Load an auxiliary surface with optional edge colour. |
 | `-surfext <ext>` | string | — | Append extension `<ext>` to all surface names. |
-| `-hide` / `-hide-3d` / `-hide-in-3d` | flag | off | Hide surfaces in the 3D panel. |
+| `-hide`<br>`-hide-3d`<br>`-hide-in-3d` | flag | off | Hide surfaces in the 3D panel. |
 
 ### Defects
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-defect` / `-defects` | flag | off | Load surface defect information: `surface.defects.mgz` seg, `lh/rh.smoothwm.nofix` (green), `lh/rh.orig` (yellow), and defect pointsets. |
-| `-lh-defect` / `-lh-defects` | flag | off | Same as `-defects` but for left hemisphere only. |
-| `-rh-defect` / `-rh-defects` | flag | off | Same as `-defects` but for right hemisphere only. |
+| `-defect`<br>`-defects` | flag | off | Load surface defect information: `surface.defects.mgz` seg, `lh/rh.smoothwm.nofix` (green), `lh/rh.orig` (yellow), and defect pointsets. |
+| `-lh-defect`<br>`-lh-defects` | flag | off | Same as `-defects` but for left hemisphere only. |
+| `-rh-defect`<br>`-rh-defects` | flag | off | Same as `-defects` but for right hemisphere only. |
 | `-defectps` | flag | off | Load defect pointsets only (without the full defect setup). |
 
 ### Annotations and Labels
@@ -151,19 +151,19 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 |------|------|---------|-------------|
 | `-annot <name>` | string | — | Load annotation `<hemi>.<name>` from `subject/label/`. Multiple `-annot` flags allowed. |
 | `-aparc` | flag | off | Shorthand for `-annot aparc.annot`. |
-| `-label` / `-l <file>` | string | — | Load a label file. Multiple `-label` flags allowed. |
+| `-label`<br>`-l <file>` | string | — | Load a label file. Multiple `-label` flags allowed. |
 
 ### Functional/Time-Course Overlays
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-overlay` / `-ov <file> [name]` | string [string] | — | Functional overlay volume with optional display name. Multiple `-overlay` flags allowed. |
+| `-overlay`<br>`-ov <file> [name]` | string [string] | — | Functional overlay volume with optional display name. Multiple `-overlay` flags allowed. |
 | `-overlay-reg <reg>` | string | — | Registration file for overlay (applied to `--overlay`). |
-| `-timecourse` / `-t <file>` | string | — | Time-course (4D) overlay volume. |
+| `-timecourse`<br>`-t <file>` | string | — | Time-course (4D) overlay volume. |
 | `-timecourse-reg <reg>` | string | — | Registration file for time-course. |
 | `-reg <reg>` | string | — | Registration file applied to both overlay and time-course. |
 | `-fminmax <min> <max>` | 2 floats | 2 5 | Min and max for overlay heat scale. |
-| `-fmin` / `-fthresh <f>` | float | 2 | Overlay heat scale minimum threshold. |
+| `-fmin`<br>`-fthresh <f>` | float | 2 | Overlay heat scale minimum threshold. |
 | `-fmax <f>` | float | 5 | Overlay heat scale maximum. |
 | `-linear` | flag | — | Use linear overlay colour scale transition. |
 | `-linearopaque` | flag | — | Use linear-opaque overlay colour scale transition. |
@@ -174,7 +174,7 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-trilin` / `-trilinear` | flag | — | Use trilinear interpolation for volume overlays. |
+| `-trilin`<br>`-trilinear` | flag | — | Use trilinear interpolation for volume overlays. |
 | `-cubic` | flag | cubic | Use cubic interpolation for volume overlays (default). |
 | `-nearest` | flag | — | Use nearest-neighbour interpolation for volume overlays. |
 
@@ -185,23 +185,23 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 | `-crs <col> <row> <slice>` | 3 ints | — | Set cursor position (CRS) and centre field of view there. |
 | `-zoom <f>` | float | — | Set zoom level. |
 | `-sd <dir>` | string | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
-| `-cdmri` / `-cd-mri` | flag | off | `cd` into `$SUBJECTS_DIR/<subject>/mri/` before launching freeview. Useful when freeview needs to find relative paths. |
+| `-cdmri`<br>`-cd-mri` | flag | off | `cd` into `$SUBJECTS_DIR/<subject>/mri/` before launching freeview. Useful when freeview needs to find relative paths. |
 
 ### Orientation
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-radiological` / `-radio` | flag | — | Use radiological orientation (L on right side). Sets `FV_PATIENT_ORIENTATION=1`. |
-| `-neurological` / `-neuro` | flag | — | Use neurological orientation (L on left side). Sets `FV_PATIENT_ORIENTATION=2`. |
+| `-radiological`<br>`-radio` | flag | — | Use radiological orientation (L on right side). Sets `FV_PATIENT_ORIENTATION=1`. |
+| `-neurological`<br>`-neuro` | flag | — | Use neurological orientation (L on left side). Sets `FV_PATIENT_ORIENTATION=2`. |
 
 ### Visualization
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-rotate-around-cursor` / `-rac` | flag | off | Rotate around cursor in 3D view. Sets `FV_ROTATE_AROUND_CURSOR=1`. |
-| `-no-rotate-around-cursor` / `-no-rac` | flag | — | Disable rotate-around-cursor. |
+| `-rotate-around-cursor`<br>`-rac` | flag | off | Rotate around cursor in 3D view. Sets `FV_ROTATE_AROUND_CURSOR=1`. |
+| `-no-rotate-around-cursor`<br>`-no-rac` | flag | — | Disable rotate-around-cursor. |
 | `-vgl` | flag | off | Enable VirtualGL (`FS_ALLOW_VGLRUN=1`) for GPU-accelerated rendering. |
-| `-novgl` / `-no-vgl` | flag | — | Disable VirtualGL. |
+| `-novgl`<br>`-no-vgl` | flag | — | Disable VirtualGL. |
 
 ### Manual Check Mode
 
@@ -214,7 +214,7 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-ss` / `--ss <file> <quit01>` | string int | — | Save screenshot to `<file>`. If `quit01=1`, uses virtual framebuffer (`fsxvfb`) and exits after screenshot. If `quit01=0`, keeps freeview open (`-noquit`). |
+| `-ss`<br>`--ss <file> <quit01>` | string int | — | Save screenshot to `<file>`. If `quit01=1`, uses virtual framebuffer (`fsxvfb`) and exits after screenshot. If `quit01=0`, keeps freeview open (`-noquit`). |
 
 ### Sphere Volume Geometry
 
@@ -226,17 +226,17 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-tkmedit` / `-tkm` | flag | off | Use original `tkmedit` instead of freeview (if installed). In FreeSurfer 8.x, tkmedit is not available. |
+| `-tkmedit`<br>`-tkm` | flag | off | Use original `tkmedit` instead of freeview (if installed). In FreeSurfer 8.x, tkmedit is not available. |
 
 ### Miscellaneous
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--nolog` / `--no-log` | flag | off | Redirect log output to `/dev/null`. |
-| `--tmpdir` / `--tmp <dir>` | string | — | Set temporary directory; also sets `cleanup=0`. |
+| `--nolog`<br>`--no-log` | flag | off | Redirect log output to `/dev/null`. |
+| `--tmpdir`<br>`--tmp <dir>` | string | — | Set temporary directory; also sets `cleanup=0`. |
 | `--nocleanup` | flag | off | Do not clean up temp files on exit (`cleanup=0`). |
 | `--cleanup` | flag | on | Clean up temp files on exit (explicit override). |
-| `-debug` / `--debug` | flag | off | Enable verbose (`set verbose = 1`) and command echo (`set echo = 1`). |
+| `-debug`<br>`--debug` | flag | off | Enable verbose (`set verbose = 1`) and command echo (`set echo = 1`). |
 
 ### Configuration Interactions
 

@@ -98,7 +98,7 @@ The `FloatInt` helper class sorts floats while preserving their original indices
 | `--nii.gz` | — | — | Set dump output format to gzipped NIfTI |
 | `--mgh` | — | on (default) | Set dump output format to `.mgh` |
 | `--mgz` | — | — | Set dump output format to `.mgz` |
-| `--threads` / `--nthreads` | int | `1` | Number of OpenMP threads for vertex-loop parallelization |
+| `--threads`<br>`--nthreads` | int | `1` | Number of OpenMP threads for vertex-loop parallelization |
 | `--debug-vertex` | int | — | Print per-vertex diagnostic output for vertex number `vtxno` |
 | `--debug` | — | off | Enable global debug output |
 | `--checkopts` | — | off | Parse and validate options only; do not run |

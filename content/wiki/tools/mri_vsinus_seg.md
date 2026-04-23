@@ -56,7 +56,7 @@ The tool uses a supervised U-Net trained on manually labelled data with field-of
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--i` | `vol` | — (required) | Input MRI volume |
-| `--o` / `--seg` | `outsegvol` | — | Output segmentation volume |
+| `--o`<br>`--seg` | `outsegvol` | — | Output segmentation volume |
 | `--outdir` | `dir` | — | Output directory (also turns off cleanup) |
 | `--s` | `subjectid` | — | Process a subject from SUBJECTS_DIR (sets `invol=mri/nu.mgz`, `seg=mri/vsinus.mgz` by default) |
 | `--threads` | `n` | 1 | Number of threads |
@@ -86,7 +86,7 @@ The segmentation is based on a U-Net architecture:
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--i` | `vol` | — (required) | Input MRI volume |
-| `--o` / `--seg` | `segvol` | `outdir/vsinus.mgz` | Output segmentation volume path |
+| `--o`<br>`--seg` | `segvol` | `outdir/vsinus.mgz` | Output segmentation volume path |
 | `--outdir` | `dir` | — | Output directory (also disables cleanup) |
 | `--s` | `subjectid` | — | Subject in SUBJECTS_DIR |
 | `--sd` | `dir` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR (setenv SUBJECTS_DIR) |
@@ -96,7 +96,7 @@ The segmentation is based on a U-Net architecture:
 | `--no-rca-synthseg` | — | default | Disable `--rca-synthseg` |
 | `--dice` | `vol` | — | Reference segmentation volume for Dice evaluation |
 | `--features` | `n` | 24 | Number of U-Net features |
-| `--model` / `--m` | `modelfile` | `$FREESURFER_HOME_FSPYTHON/models/vsinus.no-sp.m.all.nstd10-070.h5` | Override default model file |
+| `--model`<br>`--m` | `modelfile` | `$FREESURFER_HOME_FSPYTHON/models/vsinus.no-sp.m.all.nstd10-070.h5` | Override default model file |
 | `--ctab` | `ctabfile` | auto-generated in `outdir/` | Override default colour table |
 | `--synthmorphdir` | `dir` | `outdir/synthmorph` | Use existing SynthMorph registration directory (skips re-registration) |
 | `--out-post` | `vol` | — | Output posterior sum volume (also enables `--post`) |
@@ -107,10 +107,10 @@ The segmentation is based on a U-Net architecture:
 | `--force` | — | off | Force rerun of everything from scratch |
 | `--no-force` | — | default | Disable forced rerun |
 | `--log` | `logfile` | `outdir/log/mri_vsinus_seg.Y...log` | Redirect log to this file |
-| `--nolog` / `--no-log` | — | off | Suppress log output (sets log to `/dev/null`) |
-| `--tmp` / `--tmpdir` | `dir` | `/scratch/tmpdir.mri_vsinus_seg.$$` or `outdir/tmpdir...` | Temporary directory (also disables cleanup) |
+| `--nolog`<br>`--no-log` | — | off | Suppress log output (sets log to `/dev/null`) |
+| `--tmp`<br>`--tmpdir` | `dir` | `/scratch/tmpdir.mri_vsinus_seg.$$` or `outdir/tmpdir...` | Temporary directory (also disables cleanup) |
 | `--cleanup` | — | on (when `--o` only) | Clean up temporary files |
-| `--no-cleanup` / `--nocleanup` | — | off | Keep temporary files |
+| `--no-cleanup`<br>`--nocleanup` | — | off | Keep temporary files |
 | `--debug` | — | off | Enable verbose debug output |
 | `--help` | — | — | Print help |
 | `--version` | — | — | Print version |

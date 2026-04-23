@@ -91,7 +91,7 @@ The nearest-neighbor search uses `MRIS_HASH_TABLE` for efficient spatial lookup.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-out <fname>` / `-out_file <fname>` / `-out_name <fname>` | string | — | Output file for the difference map. All three spellings are accepted as aliases. |
+| `-out <fname>`<br>`-out_file <fname>`<br>`-out_name <fname>` | string | — | Output file for the difference map. All three spellings are accepted as aliases. |
 | `-out_resampled <fname>` | string | — | Output file for data2 resampled (nearest-neighbour) onto surface1's vertex grid. |
 | `-src_type <type>` | string | — | Format type of the input data files: `curv` (FreeSurfer curvature), `paint` or `w` (paint/w files). |
 | `-trg_type <type>` | string | — | Format type for the output file: `curv`, `paint`, or `w`. |
@@ -107,8 +107,8 @@ The nearest-neighbor search uses `MRIS_HASH_TABLE` for efficient spatial lookup.
 | `-annot <annotfile> <annotname>` | string × 2 | — | Limit comparison to vertices with annotation label `<annotname>` in the annotation file `<annotfile>`. Consumes 2 additional arguments. |
 | `-annotation <annotfile> <annotname>` | string × 2 | — | Alias for `-annot`. |
 | `-label <labelfile>` | string | — | Limit comparison to vertices inside the specified label file. |
-| `-L <logfile>` / `-Log <logfile>` | string | — | Log file for summary statistics (mean, abs_mean, std). Both spellings accepted. |
-| `-S <name>` / `-subj <name>` | string | — | Subject name recorded in the log file. Both spellings accepted. |
+| `-L <logfile>`<br>`-Log <logfile>` | string | — | Log file for summary statistics (mean, abs_mean, std). Both spellings accepted. |
+| `-S <name>`<br>`-subj <name>` | string | — | Subject name recorded in the log file. Both spellings accepted. |
 | `-map_like <vol>` | string | — | Reference volume file that defines the geometry of the output map (`-map_out`). |
 | `-map_out <fname>` | string | — | Output volumetric map file. Requires `-map_like`. |
 | `-debug <vno>` | integer | — | Enable verbose diagnostic output for vertex index `<vno>`. |

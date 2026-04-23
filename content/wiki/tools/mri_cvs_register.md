@@ -102,7 +102,7 @@ Refines the elastic registration result by running a volumetric nonlinear alignm
 | `--step1` | — | off | Run only Step 1 (surface registration) |
 | `--step2` | — | off | Run only Step 2 (elastic registration) |
 | `--step3` | — | off | Run only Step 3 (volumetric nonlinear) |
-| `--nolog` / `--no-log` | — | off | Suppress log file creation |
+| `--nolog`<br>`--no-log` | — | off | Suppress log file creation |
 | `--keepelreg` | — | off | Keep intermediate elastic registration `.tm3d` file |
 | `--keepallm3z` | — | off | Keep all intermediate `.m3z` files |
 | `--m3d` | — | off | Use `.m3d` (uncompressed) format instead of `.m3z` |

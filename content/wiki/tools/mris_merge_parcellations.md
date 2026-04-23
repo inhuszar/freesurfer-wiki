@@ -96,7 +96,7 @@ The hemisphere (LH vs. RH) determines which label names are looked up (e.g., `ct
 | `-fsdir <dir>` | string | `$FREESURFER_HOME` | Override the FreeSurfer home directory (used to locate `FreeSurferColorLUT.txt`). |
 | `-v <diagno>` | integer | 0 | Set global diagnostic verbosity level (`Gdiag_no`). |
 | `--version` | boolean | — | Print version string and exit. |
-| `-u` / `--help` | boolean | — | Print usage and exit. |
+| `-u`<br>`--help` | boolean | — | Print usage and exit. |
 
 ### Configuration Interactions
 

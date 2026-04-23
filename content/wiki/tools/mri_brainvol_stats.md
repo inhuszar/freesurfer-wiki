@@ -80,7 +80,7 @@ See `ComputeBrainVolumeStats2()` in `cma.cpp` for the complete definition of all
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--subject <s>` / `-s <s>` | string | required | Subject name |
+| `--subject <s>`<br>`-s <s>` | string | required | Subject name |
 | `--sd <dir>` | string | `$SUBJECTS_DIR` | Subjects directory |
 
 The interface is intentionally minimal. No per-statistic options are exposed.

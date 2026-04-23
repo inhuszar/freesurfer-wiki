@@ -166,7 +166,7 @@ radius of a sphere with the same total area as the input surface.
 |------|------|---------|-------------|
 | `insurf` | positional | — | Input surface |
 | `outsurf` | positional | — | Output spherical surface |
-| `--help` / `--usage` / `-H` / `-?` / `-U` | bool | — | Print help (XML usage) and exit |
+| `--help`<br>`--usage`<br>`-H`<br>`-?`<br>`-U` | bool | — | Print help (XML usage) and exit |
 | `--version` | bool | — | Print version string and exit |
 | `-A <n>` | int | 1024 | `parms.n_averages` — initial smoothing average count for the optimisation schedule |
 | `-adaptive` | bool | OFF | Set `integration_type = INTEGRATE_ADAPTIVE` (overrides default `INTEGRATE_LINE_MINIMIZE`) |
@@ -179,7 +179,7 @@ radius of a sphere with the same total area as the input surface.
 | `-D <f>` | float | 0.0 | `disturb` — perturb every vertex position by this amount before projection (calls `mrisDisturbVertices`) |
 | `-debug` | bool | OFF | Set `Gdiag = DIAG_SHOW` |
 | `-dist <f>` | float | 1.0 | `parms.l_dist` — edge length preservation weight |
-| `-distances <nbhd> <max>` / `-vnum <nbhd> <max>` | int int | 7, 8 | `parms.nbhd_size` and `parms.max_nbrs` (sampled neighbourhood sizes) |
+| `-distances <nbhd> <max>`<br>`-vnum <nbhd> <max>` | int int | 7, 8 | `parms.nbhd_size` and `parms.max_nbrs` (sampled neighbourhood sizes) |
 | `-dt <f>` | float | 0.05 | `parms.dt` — integration time step (also resets `parms.base_dt`) |
 | `-dt_dec <f>` | float | 0.99 | `parms.dt_decrease` |
 | `-dt_inc <f>` | float | 1.01 | `parms.dt_increase` |
@@ -203,12 +203,12 @@ radius of a sphere with the same total area as the input surface.
 | `-nbrs <n>` | int | 2 | `nbrs` — neighbourhood ring size used by `MRISsetNeighborhoodSize()` |
 | `-NLAREA <f>` | float | 0.0 | `parms.l_nlarea` — non-linear area weight |
 | `-NLDIST <f>` | float | 0.0 | `parms.l_nldist` — non-linear distance weight |
-| `-no-vol-geom` / `-remove-vol-geom` | bool | OFF (KeepVolGeom=1) | Set `KeepVolGeom = 0`; output written with `mris->vg.valid = 0` (volume geometry stripped) |
+| `-no-vol-geom`<br>`-remove-vol-geom` | bool | OFF (KeepVolGeom=1) | Set `KeepVolGeom = 0`; output written with `mris->vg.valid = 0` (volume geometry stripped) |
 | `-notal` | bool | (default) | `talairach = 0` — disables Talairach transform (note: code's stderr message is mislabelled) |
 | `-O <name>` | string | `smoothwm` | `orig_name` — name of original surface read by `MRISreadOriginalProperties` (relative to input surface path) |
 | `-p <n>` | int | 1 | `max_passes` — maximum number of unfolding/quick-sphere passes |
 | `-PAREA <f>` | float | 0.0 | `parms.l_parea` — positive area weight |
-| `-Q` / `-q` | bool | OFF | Quick mode preset: sets `quick=1`, `do_inflate=1`, `inflate_iterations=300`, `max_passes=3`, `nbrs=1`, `remove_negative=0`, zeros `l_spring/l_dist/l_parea/l_area`, sets `l_nlarea=1.0`, `tol=0.1`, `n_averages=32`. Skips reading original properties. |
+| `-Q`<br>`-q` | bool | OFF | Quick mode preset: sets `quick=1`, `do_inflate=1`, `inflate_iterations=300`, `max_passes=3`, `nbrs=1`, `remove_negative=0`, zeros `l_spring/l_dist/l_parea/l_area`, sets `l_nlarea=1.0`, `tol=0.1`, `n_averages=32`. Skips reading original properties. |
 | `-R` | bool | OFF | Toggle `randomly_project` (currently set but not consumed by main flow — vestigial) |
 | `-RA` | bool | OFF | Set `target_radius = -1`; main loop then computes `sqrt(total_area / 4π)` so the sphere has the same area as the input surface |
 | `-RADIUS <f>` | float | `DEFAULT_RADIUS` | `target_radius` — explicit target sphere radius (mm) |
@@ -222,7 +222,7 @@ radius of a sphere with the same total area as the input surface.
 | `-spring_norm <f>` | float | 1.0 | `l_spring_norm` — used during inflation sub-phase |
 | `-T <xform> <vol>` | string string | — | Read LTA `xform` and template volume `vol`, then apply transform to surface (`xform_fname`, `vol_fname`) |
 | `-talairach` | bool | OFF | `talairach = 1` — call `MRIStalairachTransform()` on surface before projection |
-| `-threads <n>` / `-openmp <n>` | int | (system) | Set `OMP_NUM_THREADS` and `omp_set_num_threads()` |
+| `-threads <n>`<br>`-openmp <n>` | int | (system) | Set `OMP_NUM_THREADS` and `omp_set_num_threads()` |
 | `-tol <f>` | float | 0.5 | `parms.tol` — convergence tolerance |
 | `-tspring <f>` | float | 0.0 | `parms.l_tspring` — tangential spring weight |
 | `-V <vno>` | int | — | `Gdiag_no` — vertex number to trace for debugging |

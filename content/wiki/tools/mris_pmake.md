@@ -137,8 +137,8 @@ $$
 | `sulcalHeightFile` | Sulcal height overlay filename |
 | `startVertex` | Start vertex index |
 | `endVertex` | End vertex index |
-| `w_d`, `w_c`, `w_h` | Weight factors for distance, curvature, height |
-| `w_dc`, `w_dh`, `w_ch`, `w_dch` | Cross-term weights |
+| `w_d`<br>`w_c`<br>`w_h` | Weight factors for distance, curvature, height |
+| `w_dc`<br>`w_dh`<br>`w_ch`<br>`w_dch` | Cross-term weights |
 | `w_dir` | Direction weight |
 | `b_transitionPenalties` | Enable zero-crossing penalty |
 | `userMessages` | Output channel (file or `localhost:port`) |

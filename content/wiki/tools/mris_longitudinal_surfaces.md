@@ -70,7 +70,7 @@ This functionality may have since been integrated into `mris_make_surfaces` via 
 | `?h.white` | Placed white matter surface |
 | `?h.pial` | Placed pial surface |
 | `?h.thickness` | Cortical thickness (distance between white and pial) |
-| `?h.curv`, `?h.area` | Curvature and area files |
+| `?h.curv`<br>`?h.area` | Curvature and area files |
 
 ## Mathematical Foundations
 

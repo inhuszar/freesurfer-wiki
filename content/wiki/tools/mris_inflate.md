@@ -235,7 +235,7 @@ Enumerated from `get_option()` in `mris_inflate.cpp`. Option names are matched c
 | `-seed <n>` | long | — | Set RNG seed (`setRandomSeed`). |
 | `-rusage <file>` | path | — | Append getrusage statistics to `<file>` after completion. |
 | `-threads <n>` | int | `OMP_NUM_THREADS` | Set OpenMP thread count (`omp_set_num_threads`). |
-| `-help`, `-usage`, `-u`, `-?` | switch | — | Print help (renders the embedded `mris_inflate.help.xml`) and exit. |
+| `-help`<br>`-usage`<br>`-u`<br>`-?` | switch | — | Print help (renders the embedded `mris_inflate.help.xml`) and exit. |
 | `-version` | switch | — | Print version and exit. |
 
 ### Configuration Interactions

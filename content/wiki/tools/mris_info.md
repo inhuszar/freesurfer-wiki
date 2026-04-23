@@ -106,7 +106,7 @@ Metric properties computed by `MRIScomputeMetricProperties`:
 | `--edge-stats <id>` | integer | — | Compute edge metric stats; id=0 length, id=1 dot, id=2 angle, id<0 all |
 | `--edge-file <file>` | path | — | Print edge info for all edges into file |
 | `--quality` | — | off | Compute mesh quality stats |
-| `--tal` / `--t` | — | off | Apply Talairach transform before reporting |
+| `--tal`<br>`--t` | — | off | Apply Talairach transform before reporting |
 | `--r` | — | off | Rescale group surface so metrics match average of individuals |
 | `--v <vno>` | integer | — | Print detailed info for vertex number |
 | `--vx <vno>` | integer | — | Print extended vertex info (neighbour distances, areas, face info) |

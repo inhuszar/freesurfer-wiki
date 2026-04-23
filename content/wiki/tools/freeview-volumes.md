@@ -251,7 +251,7 @@ Source: `MainWindow::CommandLoadVolume()` and `LayerMRI` property parsing.
 
 | Property | Values | Default | Description |
 |----------|--------|---------|-------------|
-| `colormap` / `lut` | grayscale, lut, heat, jet, turbo, gecolor, nih, pet, binary | grayscale | Colour mapping |
+| `colormap`<br>`lut` | grayscale, lut, heat, jet, turbo, gecolor, nih, pet, binary | grayscale | Colour mapping |
 | `grayscale` | min,max | (auto) | Set grayscale window as min,max (alias for setting window/level) |
 | `heatscale` | min,mid,max | (auto) | Three-point heat scale thresholds |
 | `heatscaleoptions` | truncate, invert, clearupper | (none) | Heat scale behaviour modifiers |

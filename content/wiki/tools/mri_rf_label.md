@@ -99,7 +99,7 @@ All flags are case-insensitive (`stricmp`). The flag list is verified from `get_
 | `-TR` | `<float>` | — | FLASH sequence repetition time (ms). |
 | `-TE` | `<float>` | — | FLASH sequence echo time (ms). |
 | `-ALPHA` | `<float>` | — | FLASH sequence flip angle (degrees; converted internally to radians). |
-| `-read_intensities` / `-ri` | `<fname>` | — | Read intensity scaling from `fname` (repeatable). |
+| `-read_intensities`<br>`-ri` | `<fname>` | — | Read intensity scaling from `fname` (repeatable). |
 | `-T` | `<float>` | `0.8` | WM atlas prior threshold; only voxels with WM prior ≥ this value are treated as WM candidates. |
 | `-V` | `<int>` | — | Set `Gdiag_no` for verbose diagnostics at a specific label number. |
 | `-A` | `<int>` | — | Apply this many mean-filter passes to conditional densities. |

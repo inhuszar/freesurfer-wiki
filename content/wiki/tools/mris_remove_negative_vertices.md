@@ -87,8 +87,8 @@ Default integration parameters:
 | `-M <f>` | float | 0.0 | Set integration momentum and switch to `INTEGRATE_MOMENTUM`. Overrides the default of 0.0 momentum. |
 | `-W <n>` | integer | — | Enable diagnostic writing every `<n>` iterations (`DIAG_WRITE`, `parms.write_iterations = n`). |
 | `-N <n>` | integer | 1000 | Set the maximum number of optimisation iterations (`parms.niterations`). |
-| `--help` / `-help` | flag | — | Print usage and exit. |
-| `--version` / `-version` | flag | — | Print version string and exit. |
+| `--help`<br>`-help` | flag | — | Print usage and exit. |
+| `--version`<br>`-version` | flag | — | Print version string and exit. |
 
 > [!gotcha] Usage string is misleading
 > The `print_usage()` function shows `<surface file> <patch file name> <output patch>` (copied from another tool). The actual argument parsing uses only two positional arguments: the input surface and the output surface.

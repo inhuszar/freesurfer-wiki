@@ -72,48 +72,48 @@ Key options:
 | `<subject>` | — | — | Subject ID |
 | `<hemi>` | — | — | Hemisphere: `lh` or `rh` |
 | `<surface>` | — | — | Surface name: `inflated`, `pial`, `white`, `sphere`, etc. |
-| `-overlay` / `-ov` | `<file> [name]` | — | Per-vertex overlay file; optional display name |
+| `-overlay`<br>`-ov` | `<file> [name]` | — | Per-vertex overlay file; optional display name |
 | `-annot` | `<name>` | — | Annotation file name (searches `label/<hemi>.<name>`) |
 | `-aparc` | — | — | Shorthand for `-annot aparc.annot` |
-| `-label` / `-l` | `<file>` | — | Label file to display |
+| `-label`<br>`-l` | `<file>` | — | Label file to display |
 | `-reg` | `<file>` | — | Registration file for overlay; also sets `-timecourse-reg` |
 | `-overlay-reg` | `<file>` | — | Registration file for overlay only |
 | `-timecourse-reg` | `<file>` | — | Registration file for timecourse only |
-| `-timecourse` / `-t` | `<vol>` | — | Timecourse (functional) volume to display as overlay |
-| `-aux-surf` / `-aux-surface` / `-surf` | `<surf>` | — | Additional surface to load (prepended to surface list) |
+| `-timecourse`<br>`-t` | `<vol>` | — | Timecourse (functional) volume to display as overlay |
+| `-aux-surf`<br>`-aux-surface`<br>`-surf` | `<surf>` | — | Additional surface to load (prepended to surface list) |
 | `-pial` | — | — | Prepend `pial` surface to load list |
 | `-white` | — | — | Prepend `white` surface to load list |
 | `-surfs` | — | — | Load `white`, `pial`, and `inflated` surfaces |
 | `-all` | — | off | Enable `all=true` for loaded surfaces (freeview `all` flag) |
 | `-no-all` | — | off | Disable `all` flag for surfaces |
 | `-fminmax` | `<fmin> <fmax>` | `2 5` | Overlay threshold: minimum and maximum |
-| `-fmin` / `-fthresh` | `<f>` | `2` | Overlay minimum threshold |
+| `-fmin`<br>`-fthresh` | `<f>` | `2` | Overlay minimum threshold |
 | `-fmax` | `<f>` | `5` | Overlay maximum threshold |
 | `-linear` | — | — | Overlay heat scale: linear method |
 | `-linearopaque` | — | — | Overlay heat scale: linear opaque method |
 | `-piecewise` | — | — | Overlay heat scale: piecewise method |
 | `-min_to_max` | — | mid_to_min | Overlay heat scale: min to max method |
 | `-outline` | — | on | Show annotation as coloured outlines |
-| `-no-outline` / `--no-outline` | — | — | Show annotation as filled colours (disables outline) |
+| `-no-outline`<br>`--no-outline` | — | — | Show annotation as filled colours (disables outline) |
 | `-patch` | `<file>` | — | Load surface patch |
 | `-vtxno` | `<n>` | — | Place cursor on vertex number `n` on the first surface |
 | `-medial` | — | — | Set initial view to medial |
 | `-lateral` | — | — | Set initial view to lateral |
 | `-inferior` | — | — | Set initial view to inferior |
 | `-superior` | — | — | Set initial view to superior |
-| `-tksurfer` / `-tkm` | — | off | Use legacy tksurfer instead of freeview |
+| `-tksurfer`<br>`-tkm` | — | off | Use legacy tksurfer instead of freeview |
 | `-vgl` | — | — | Allow VirtualGL (`FS_ALLOW_VGLRUN=1`) |
-| `-novgl` / `-no-vgl` | — | — | Disable VirtualGL |
-| `-radiological` / `-radio` | — | on | Use radiological orientation (`FV_PATIENT_ORIENTATION=1`) |
-| `-neurological` / `-neuro` | — | — | Use neurological orientation (`FV_PATIENT_ORIENTATION=2`) |
-| `-rotate-around-cursor` / `-rac` | — | off | Rotate around cursor in 3D view |
-| `-no-rotate-around-cursor` / `-no-rac` | — | off | Disable rotate-around-cursor |
-| `--nolog` / `--no-log` | — | — | Suppress log file (redirect to `/dev/null`) |
-| `--tmp` / `--tmpdir` | `<dir>` | auto | Use `dir` as temporary directory; sets `cleanup=0` |
+| `-novgl`<br>`-no-vgl` | — | — | Disable VirtualGL |
+| `-radiological`<br>`-radio` | — | on | Use radiological orientation (`FV_PATIENT_ORIENTATION=1`) |
+| `-neurological`<br>`-neuro` | — | — | Use neurological orientation (`FV_PATIENT_ORIENTATION=2`) |
+| `-rotate-around-cursor`<br>`-rac` | — | off | Rotate around cursor in 3D view |
+| `-no-rotate-around-cursor`<br>`-no-rac` | — | off | Disable rotate-around-cursor |
+| `--nolog`<br>`--no-log` | — | — | Suppress log file (redirect to `/dev/null`) |
+| `--tmp`<br>`--tmpdir` | `<dir>` | auto | Use `dir` as temporary directory; sets `cleanup=0` |
 | `--nocleanup` | — | — | Do not delete temporary files on exit |
 | `--cleanup` | — | — | Delete temporary files on exit |
 | `--keep-sphere-vol-geom` | — | — | Preserve sphere volume geometry (`FV_SPHERE_IGNORE_VG=0`) |
-| `-debug` / `--debug` | — | — | Enable verbose/debug output |
+| `-debug`<br>`--debug` | — | — | Enable verbose/debug output |
 
 ### Environment Variables
 

@@ -100,7 +100,7 @@ The p-value is computed by integrating this density from $-\infty$ to the observ
 | `-subj <subject>` | string | — | Subject ID. The transform path is derived automatically from `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`. |
 | `-xfm <path>` | string | — | Explicit transform file path (alternative to `-subj`). |
 | `-afd <dir>` | string | `$FREESURFER_HOME/average/` | Directory containing the AFD reference files (mean, covariance, probability distribution). |
-| `-t <threshold>` / `-threshold` | float | 0.01 | P-value threshold below which registration is flagged as failed. (`-T` also accepted via `case 'T':` switch.) |
+| `-t <threshold>`<br>`-threshold` | float | 0.01 | P-value threshold below which registration is flagged as failed. (`-T` also accepted via `case 'T':` switch.) |
 | `-v` | boolean | false | Verbose mode. |
 | `--version` | boolean | — | Print version and exit. |
 

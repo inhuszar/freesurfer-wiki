@@ -150,28 +150,28 @@ checks (hemisphere, registration, template volume).
 | `--subject` | `name` | string | none | Subject name; used to locate `$SUBJECTS_DIR/<subject>/mri/ribbon.mgz` when --ribbon is not given. |
 | `--ribbon` | `ribbonfile` | path | `$SUBJECTS_DIR/<subject>/mri/ribbon.mgz` | Explicit ribbon volume; output geometry follows the ribbon when no LTA is supplied. |
 | `--merge` | `vol` | path | none | After ribbon fill, every output voxel that is still 0 takes the value of the corresponding voxel in `vol` (frame-wise). |
-| `--o` / `--outvol` | `outfile [fmt]` | path [str] | — (required) | Output volume. Optional second argument forces the format (e.g. `mgz`, `nii`). |
+| `--o`<br>`--outvol` | `outfile [fmt]` | path [str] | — (required) | Output volume. Optional second argument forces the format (e.g. `mgz`, `nii`). |
 | `--add` | `val` | float | 0 | After ribbon fill, add this constant to every non-zero output voxel (also active in Method 2). |
 
 ### Method 2 flags (`--surfval` / vertex projection)
 
 | Flag | Arguments | Type | Default | Effect |
 |------|-----------|------|---------|--------|
-| `--surfval` / `--sval` | `surfvalpath [fmt]` | path [str] | — (required unless `--mkmask`) | Per-vertex overlay file (curv, mgh, mgz, paint…). Optional second token forces the input format. |
+| `--surfval`<br>`--sval` | `surfvalpath [fmt]` | path [str] | — (required unless `--mkmask`) | Per-vertex overlay file (curv, mgh, mgz, paint…). Optional second token forces the input format. |
 | `--mkmask` | — | flag | off | Build a binary mask (vertex assignment indicator) instead of copying overlay values. Mutually exclusive with `--surfval`. |
 | `--hemi` | `lh\|rh` | string | — (required) | Hemisphere; rejected if not exactly `lh` or `rh`. |
 | `--surf` | `surfname` | string | `white` | Name of the surface under `$SUBJECTS_DIR/<subj>/surf/<hemi>.<surfname>`. |
 | `--projfrac` | `frac` | float | 0 | Single-shot projection: move each vertex along the surface normal by `frac × thickness` before voxel mapping. |
 | `--fillribbon` | — | flag | off | Iterate `projfrac` from `ProjFracStart` to `ProjFracStop` in steps of `ProjFracDelta` to fill the cortical ribbon. |
 | `--fill-projfrac` | `start stop delta` | 3 × float | `0 1 0.05` | Set the iteration range for ribbon filling and implicitly enable `--fillribbon`. |
-| `--reg` / `--volreg` | `regfile` | path | — (required unless `--identity`/`--fstal`) | Tkregister-style `register.dat` mapping anatomy (Surface RAS) to the output volume. |
-| `--identity` / `--volregidentity` | `subjid` | string | off | Use a 4×4 identity matrix as the registration; `subjid` becomes the source subject. Mutually exclusive with `--reg`. |
+| `--reg`<br>`--volreg` | `regfile` | path | — (required unless `--identity`/`--fstal`) | Tkregister-style `register.dat` mapping anatomy (Surface RAS) to the output volume. |
+| `--identity`<br>`--volregidentity` | `subjid` | string | off | Use a 4×4 identity matrix as the registration; `subjid` becomes the source subject. Mutually exclusive with `--reg`. |
 | `--subject` | `name` | string | none | Override the source subject name read from the registration file (used to locate `mri/orig.mgz` and surfaces). |
 | `--srcsubject` | `name` | string | none | Same as `--subject` but only sets the variable read out of the registration; legacy alias retained for older scripts. |
 | `--template` | `tempvol [fmt]` | path [str] | — (required unless `--merge`/`--fstal`) | Output volume header template (geometry + precision). Optional second token forces the format. |
 | `--fstal` | `res` | int (1 or 2) | none | Shortcut: sets registration to `$FREESURFER_HOME/average/mni305.cor.subfov<res>.reg` and template to the matching `mni305.cor.subfov<res>.mgz`. |
 | `--merge` | `mergevol` | path | none | After projection, voxels with value 0 are replaced by `mergevol`. Also re-assigned to `tempvolpath`, so the merge volume becomes the geometry template. |
-| `--o` / `--outvol` | `outfile [fmt]` | path [str] | — (required if no `--vtxvol`) | Output volume; optional explicit format. |
+| `--o`<br>`--outvol` | `outfile [fmt]` | path [str] | — (required if no `--vtxvol`) | Output volume; optional explicit format. |
 | `--vtxvol` | `vtxfile [fmt]` | path [str] | none | Save a single-frame volume whose voxel values are the (1-indexed) vertex numbers actually written into each voxel; useful for debugging projection coverage. |
 | `--add` | `val` | float | 0 | Add this constant to every non-zero output voxel after projection. |
 

@@ -108,7 +108,7 @@ All flags use `strcmp` (case-sensitive, unlike most FreeSurfer tools). The full 
 | `-guess` | — | off | Guess the initial segmentation from atlas; sets `parms.guess_initial_segmentation=1` |
 | `-maps <folder>` | path | none | Write intermediate probability map files into the named folder (`parms.debugging_map_folder`) |
 | `-connectivity <n>` | int | 1 | Voxel connectivity model for topology analysis; 1 = 6-connected face-neighbours (default); sets `parms.connectivity` |
-| `-label <n>` / `-L <n>` | int | none | Add label `n` to the list of labels for which topology correction is applied; can be specified multiple times; stored in `parms.labels[]` |
+| `-label <n>`<br>`-L <n>` | int | none | Add label `n` to the list of labels for which topology correction is applied; can be specified multiple times; stored in `parms.labels[]` |
 | `-beta <f>` | float [0,1] | 1.0 | Mixing weight between voxel-count cost and GCA probability cost; clamped to [0,1]; sets `parms.beta` |
 | `-alpha <f>` | float [0,1] | 1.0 | Second mixing parameter; clamped to [0,1]; sets `parms.alpha` |
 

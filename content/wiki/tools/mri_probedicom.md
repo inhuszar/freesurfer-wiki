@@ -88,7 +88,7 @@ Flag list verified against `mri_probedicom/mri_probedicom.cpp` (`parse_commandli
 | `--verbose` | — | off | Verbose output; `--v` does not exist |
 | `--dcm2niix-dicom-dump` | `<dicomdir> <series_info>` | — | Use dcm2niix to dump extended DICOM metadata; takes two positional arguments |
 | `--extra-info` | — | off | Include extra DICOM info; only effective with `--dcm2niix-dicom-dump`; `--dicom-extra-info` does not exist |
-| `--dictionary` / `--dic` | — | — | Print DICOM dictionary (calls `dcm_print_dictionary`) and exit |
+| `--dictionary`<br>`--dic` | — | — | Print DICOM dictionary (calls `dcm_print_dictionary`) and exit |
 | `--debug` | — | off | Enable debug output and set `FS_DICOM_DEBUG=1` |
 
 **Query directive constants:**

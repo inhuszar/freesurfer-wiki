@@ -82,7 +82,7 @@ where $\mathbf{x}$ is the thickness vector for a subject (one value per vertex i
 | `-ntrees <N>` | int | — | Number of trees in the random forest. |
 | `-max_depth <N>` | int | — | Maximum depth of each decision tree. |
 | `-nsteps <N>` | int | — | Number of steps for SNR computation. |
-| `-wt <dir>` / `-write <dir>` | string | — | Write optimal thickness vectors to directory `<dir>` (both flags are equivalent). |
+| `-wt <dir>`<br>`-write <dir>` | string | — | Write optimal thickness vectors to directory `<dir>` (both flags are equivalent). |
 | `-stats` | — | off | Compute multi-scale p-values. |
 | `-bug` | — | off | Use multiplicative variance in SNR calculations (legacy behaviour). |
 | `-l <label>` | string | — | Mask classification to the specified label file. |

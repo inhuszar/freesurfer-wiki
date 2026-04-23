@@ -101,8 +101,8 @@ All option flags use a single `-` prefix and are case-insensitive.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-intensity <w>` / `-corr <w>` | float | 1.0 | Weight for intensity (cross-correlation) similarity term `l_intensity` |
-| `-dist <w>` / `-distance <w>` | float | (from `parms`) | Weight for distance term `l_dist` (`-dist` and `-distance` are aliases) |
+| `-intensity <w>`<br>`-corr <w>` | float | 1.0 | Weight for intensity (cross-correlation) similarity term `l_intensity` |
+| `-dist <w>`<br>`-distance <w>` | float | (from `parms`) | Weight for distance term `l_dist` (`-dist` and `-distance` are aliases) |
 | `-area <w>` | float | (from `parms`) | Weight for area preservation term `l_area` |
 | `-nlarea <w>` | float | (from `parms`) | Weight for nonlinear area term `l_nlarea` |
 | `-priors <w>` | float | 1.0 | Weight for prior term (requires `-x` to load mean/covariance) |

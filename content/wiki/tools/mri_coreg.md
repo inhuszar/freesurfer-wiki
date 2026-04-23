@@ -102,15 +102,15 @@ Options are grouped by function. All flags use `--` prefix and are case-insensit
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--mov` | file | — | Moving (source) volume |
-| `--ref` / `--targ` | file | — | Reference (fixed) volume |
-| `--reg` / `--lta` | file | — | Output LTA registration file |
+| `--ref`<br>`--targ` | file | — | Reference (fixed) volume |
+| `--reg`<br>`--lta` | file | — | Output LTA registration file |
 
 ### Subject / SUBJECTS_DIR
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--s` | subject | — | Subject name; also automatically sets `--ref-mask aparc+aseg.mgz` |
-| `--sd` / `-SDIR` | dir | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR` |
+| `--sd`<br>`-SDIR` | dir | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR` |
 
 > [!gotcha] `--s` sets a reference mask automatically
 > Passing --s subject implies `--ref-mask aparc+aseg.mgz`. To disable this masking while still specifying a subject (e.g., for cross-modality registration), add `--no-ref-mask` after `--s`.
@@ -124,7 +124,7 @@ Options are grouped by function. All flags use `--` prefix and are case-insensit
 | `--9` | — | — | Shortcut for `--dof 9` (rigid + isotropic scale) |
 | `--12` | — | — | Shortcut for `--dof 12` (full affine) |
 | `--zscale` | — | — | 7-DOF: xyz translation, xyz rotation, z-axis scale only |
-| `--xztrans+yrot` / `--2dz` | — | — | 3-DOF schema for 2D images: shifts in x/z and rotation about y (no scale) |
+| `--xztrans+yrot`<br>`--2dz` | — | — | 3-DOF schema for 2D images: shifts in x/z and rotation about y (no scale) |
 | `--xytrans+zrot` | — | — | 3-DOF schema for 2D images: shifts in x/y and rotation about z (no scale) |
 | `--xytrans+zrot+xyscale+xyshear` | — | — | 6-DOF schema for 2D images: x/y translation, z rotation, x/y scale, x/y shear |
 
@@ -154,7 +154,7 @@ Options are grouped by function. All flags use `--` prefix and are case-insensit
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--cras0` | — | on | Initialize translation to align volume geometric centers (default) |
-| `--no-cras0` / `--regheader` | — | off | Disable center alignment; start from identity translation |
+| `--no-cras0`<br>`--regheader` | — | off | Disable center alignment; start from identity translation |
 | `--centroid` | — | off | Initialize by aligning intensity centroids (not geometric centers); disables `--cras0` |
 | `--trans` | Tx Ty Tz | 0 0 0 | Explicit initial translation in mm (implies `--no-cras0`) |
 | `--rot` | Rx Ry Rz | 0 0 0 | Explicit initial rotation in degrees |
@@ -197,7 +197,7 @@ Options are grouped by function. All flags use `--` prefix and are case-insensit
 |------|----------|---------|-------------|
 | `--init-cost-only` | file | none | Compute initial cost only, write to file, and exit without optimizing |
 | `--rusage` | file | none | Write resource usage (CPU/memory) to file |
-| `--threads` / `--nthreads` | int | — | Number of OpenMP threads |
+| `--threads`<br>`--nthreads` | int | — | Number of OpenMP threads |
 | `--debug` | — | off | Enable verbose debug output |
 | `--checkopts` | — | off | Parse and validate options but do not run |
 | `--diag` | int | — | Set global diagnostic level (`Gdiag_no`) |

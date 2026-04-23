@@ -273,8 +273,8 @@ are all equivalent. Long options also accept a leading `--` (e.g. `--help`,
 | `-no-th3` | bool | OFF | Disable TH3 and fall back to ribbon-style volume accounting unless the input was already pre-computed as TH3. |
 | `-v <vno>` (or `-V`) | int | `-1` | Set diagnostic vertex number (`Gdiag_no`) for verbose tracing. |
 | `-white <name>` | string | `white` | White surface stem used for area and TH3 volume (`surf/?h.<name>`). |
-| `-?`, `-u`, `-U` | bool | — | Print the short usage string (`print_usage`). |
-| `--help`, `--usage` | bool | — | Print the long help (XML help payload) and exit. |
+| `-?`<br>`-u`<br>`-U` | bool | — | Print the short usage string (`print_usage`). |
+| `--help`<br>`--usage` | bool | — | Print the long help (XML help payload) and exit. |
 | `--version` | bool | — | Print version info and exit. |
 
 ### Configuration Interactions

@@ -116,17 +116,17 @@ An optional PSF optimization mode fits the FWHM parameters to the data by minimi
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i` / `--src` | `<vol>` | (required) | PET source volume |
+| `--i`<br>`--src` | `<vol>` | (required) | PET source volume |
 | `--seg` | `<vol>` | (required) | GTM segmentation (from `mri_gtmseg`) |
 | `--o` | `<dir>` | (required) | Output directory |
 | `--reg` | `<file>` | — | Registration file (LTA format); cannot be register.dat |
-| `--regheader` / `--reg-header` | — | off | Use header geometry for registration (no reg file needed) |
-| `--reg-identity` / `--identity` | — | off | Assume PET is already in anatomical space |
+| `--regheader`<br>`--reg-header` | — | off | Use header geometry for registration (no reg file needed) |
+| `--reg-identity`<br>`--identity` | — | off | Assume PET is already in anatomical space |
 | `--mask` | `<vol>` | — | Brain mask (in PET space) |
 | `--auto-mask` | `<fwhm> <thresh>` | — | Automatically compute brain mask |
 | `--frame` | `<n>` | all | Use only 0-based frame n of multi-frame input |
 | `--last-frame` | — | — | Use only the last frame of multi-frame input |
-| `--sd` / `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Set SUBJECTS_DIR (also accepts `-SDIR`) |
+| `--sd`<br>`-sdir` | `<dir>` | `$SUBJECTS_DIR` | Set SUBJECTS_DIR (also accepts `-SDIR`) |
 
 ### PSF / Scanner Resolution
 
@@ -157,7 +157,7 @@ An optional PSF optimization mode fits the FWHM parameters to the data by minimi
 |------|----------|---------|-------------|
 | `--rbv` | — | off | Compute RBV partial volume corrected volume |
 | `--rbv-res` | `<mm>` | 0 (native) | Resolution of RBV corrected volume |
-| `--mg` / `--mgpvc` | `<gmthresh> [<refid1> ...]` | off | Muller-Gartner PVC; gmthresh is min GM PVF (0–1); optional ref seg IDs |
+| `--mg`<br>`--mgpvc` | `<gmthresh> [<refid1> ...]` | off | Muller-Gartner PVC; gmthresh is min GM PVF (0–1); optional ref seg IDs |
 | `--mg-ref-cerebral-wm` | — | — | Set MG ref IDs to cerebral WM (2 and 41) |
 | `--mg-ref-lobes-wm` | — | — | Set MG ref IDs to lobes WM labels (3201–3207, 4201–4207, 5001–5002) |
 | `--mgx` | `<gmxthresh>` | off | GLM-based Muller-Gartner PVC |
@@ -226,7 +226,7 @@ An optional PSF optimization mode fits the FWHM parameters to the data by minimi
 |------|----------|---------|-------------|
 | `--synth` | `<betafile> <col> <row> <slice> <mbslope> <seed> <nreps>` | — | Synthesize PET from segmentation using beta file and PSF parameters |
 | `--synth-only` | — | off | Synthesize and exit (implies `--synth-save`) |
-| `--synth-save` / `--save-synth` | — | off | Save synthesized volume to `outdir/synth.nii.gz` |
+| `--synth-save`<br>`--save-synth` | — | off | Save synthesized volume to `outdir/synth.nii.gz` |
 | `--sim-anat-seg` | — | off | Simulate anatomical segmentation from GTM estimates (writes `aux/anat.seg.sim.nii.gz`) |
 
 ### Output Saving
@@ -268,9 +268,9 @@ An optional PSF optimization mode fits the FWHM parameters to the data by minimi
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--nthreads` / `--threads` | `<N>` | 1 | OpenMP thread count |
+| `--nthreads`<br>`--threads` | `<N>` | 1 | OpenMP thread count |
 | `--max-threads` | — | — | Use all available OpenMP threads |
-| `--max-threads-1` / `--max-threads-minus-1` | — | — | Use (max − 1) OpenMP threads |
+| `--max-threads-1`<br>`--max-threads-minus-1` | — | — | Use (max − 1) OpenMP threads |
 
 ### Memory / Chunking
 

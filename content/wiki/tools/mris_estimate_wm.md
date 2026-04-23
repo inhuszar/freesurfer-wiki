@@ -55,12 +55,12 @@ Based on the tool name, `mris_estimate_wm` likely refines or estimates the white
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-s` / `--subjs` | string (repeatable) | required | List of subjects to process. |
+| `-s`<br>`--subjs` | string (repeatable) | required | List of subjects to process. |
 | `--hemi` | string | required | Hemisphere to reconstruct (`lh` or `rh`). |
-| `-d` / `--sdir` | string | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
-| `-m` / `--model` | string | `$FREESURFER_HOME/models/topofit/topofit.<hemi>.1.pt` | Override default TopoFit model file. |
-| `-x` / `--suffix` | string | `topofit` | Suffix appended to the output surface name. |
-| `-g` / `--gpu` | flag | off | Use the GPU (requires CUDA). When off, runs on CPU. |
+| `-d`<br>`--sdir` | string | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
+| `-m`<br>`--model` | string | `$FREESURFER_HOME/models/topofit/topofit.<hemi>.1.pt` | Override default TopoFit model file. |
+| `-x`<br>`--suffix` | string | `topofit` | Suffix appended to the output surface name. |
+| `-g`<br>`--gpu` | flag | off | Use the GPU (requires CUDA). When off, runs on CPU. |
 | `--rsi` | flag | off | Remove self-intersecting faces during mesh deformation. |
 | `--single-iter` | flag | off | Prevent deformation steps from running more than once. |
 | `--vol` | string | `norm.mgz` | Subject volume to use as input (relative to `mri/`). |

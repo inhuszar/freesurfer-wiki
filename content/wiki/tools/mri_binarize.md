@@ -187,7 +187,7 @@ MaxThresh (negative sign).
 
 | Flag | Argument | Default | Labels matched |
 |------|----------|---------|----------------|
-| `--ctx-wm` / `--wm` | — | off | 2, 41, 77, 251–255 |
+| `--ctx-wm`<br>`--wm` | — | off | 2, 41, 77, 251–255 |
 | `--all-wm` | — | off | 2, 41, 77, 251–255, 7, 46 |
 | `--ventricles` | — | off | 4, 5, 14, 43, 44, 72, 31, 63 |
 | `--wm+vcsf` | — | off | All-WM + ventricles |
@@ -224,7 +224,7 @@ overwrites both — they are not additive.
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--dilate <N>` | int | 0 | Apply N passes of `MRIdilate()` to the binarized volume |
-| `--erode <N>` / `--erode-corner <N>` | int | 0 | Set `nErodeNN=N`, `NNType=NEAREST_NEIGHBOR_CORNER` (26-connected). The two flag names are aliases. |
+| `--erode <N>`<br>`--erode-corner <N>` | int | 0 | Set `nErodeNN=N`, `NNType=NEAREST_NEIGHBOR_CORNER` (26-connected). The two flag names are aliases. |
 | `--erode-face <N>` | int | 0 | Set `nErodeNN=N`, `NNType=NEAREST_NEIGHBOR_FACE` (6-connected) |
 | `--erode-edge <N>` | int | 0 | Set `nErodeNN=N`, `NNType=NEAREST_NEIGHBOR_EDGE` (18-connected) |
 | `--erode2d <N>` | int | 0 | Apply N passes of `MRIerode2D()` (slice-wise) before NN erosion |
@@ -246,7 +246,7 @@ overwrites both — they are not additive.
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--bb` / `--crop` | `<N>` int | — | Crop output to bounding box of non-zero voxels (via `REGIONgetBoundingBox()` and `MRIextractRegion()`) with N-voxel padding |
+| `--bb`<br>`--crop` | `<N>` int | — | Crop output to bounding box of non-zero voxels (via `REGIONgetBoundingBox()` and `MRIextractRegion()`) with N-voxel padding |
 | `--crop-around-ras` | `<out> <invol> <lta\|nolta\|0> <rCent aCent sCent\|cras vol ignore> <rFoV aFoV sFoV> [iKeep1 ...]` 9+ args | — | Stand-alone early-exit mode: load `invol`, optionally apply an LTA, crop a voxel-FoV box centred on the given RAS (or on a volume's `cras`), keep the listed segment IDs via `MRIcropAroundRAS()`, write to `out`, then exit. Bypasses all other binarization logic. |
 | `--zero-edges` | flag | off | During binarization, force the first/last column, row, and slice planes to `BinValNot` (or merge value) |
 | `--zero-slice-edges` | flag | off | Same but only for the slice-direction (first/last) planes |
@@ -278,7 +278,7 @@ overwrites both — they are not additive.
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--threads` / `--nthreads` | `<N>` int | system default | Set OpenMP thread count (no-op if compiled without OpenMP) |
+| `--threads`<br>`--nthreads` | `<N>` int | system default | Set OpenMP thread count (no-op if compiled without OpenMP) |
 | `--debug` | flag | off | Set `debug=1` |
 | `--noverbose` | flag | off | Suppress informational output (skip `dump_options`, count messages, etc.) |
 | `--checkopts` | flag | off | Run `parse_commandline()` and `check_options()` then return without processing |

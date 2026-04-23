@@ -63,7 +63,7 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--vol outfile` / `--o outfile` | — | Output synthesised volume |
+| `--vol outfile`<br>`--o outfile` | — | Output synthesised volume |
 | `--sum2 sumfile` | — | Write sum-of-squares over frames |
 
 ## Mathematical Foundations
@@ -94,8 +94,8 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--vol` / `--o` | `outfile` | — | Output volume filename |
-| `--temp` / `--template` | `templatevol` | — | Template for geometry |
+| `--vol`<br>`--o` | `outfile` | — | Output volume filename |
+| `--temp`<br>`--template` | `templatevol` | — | Template for geometry |
 | `--dim` | `Nc Nr Ns [Nf]` | — | Volume dimensions |
 | `--nframes` | `Nf` | from template | Number of frames |
 | `--res` | `Xc Xr Xs [Xt]` | `1 1 1 2000` | Voxel resolution in mm (Xt is TR in ms) |
@@ -105,7 +105,7 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 | `--val-a` | `val` | `1` | Primary value (const PDF, delta value) |
 | `--val-b` | `val` | `0` | Off-value for delta PDF |
 | `--dof-num` | `dof` | `2` | Numerator DOF for F |
-| `--dof-den` / `--dof` | `dof` | `20` | Denominator DOF for t, chi2, F |
+| `--dof-den`<br>`--dof` | `dof` | `20` | Denominator DOF for t, chi2, F |
 | `--fwhm` | `fwhm` | `0` (off) | FWHM for spatial Gaussian smoothing (mm) |
 | `--fft` | — | off | Use FFT for Gaussian smoothing |
 | `--rescale` | — | off | Rescale after smoothing (statistical PDFs only) |
@@ -115,7 +115,7 @@ Many FreeSurfer statistical tools require testing and calibration with synthetic
 | `--delta-val` | `val` | `1` | Value of the impulse voxel for delta PDF |
 | `--delta-val-off` | `offval` | `0` | Background value for delta PDF |
 | `--sphere-center` | `c r s` | centre of volume | Centre of sphere mask |
-| `--vox-radius` / `--radius` | `vox` | — | Sphere radius in voxels |
+| `--vox-radius`<br>`--radius` | `vox` | — | Sphere radius in voxels |
 | `--mm-radius` | `mm` | — | Sphere radius in mm |
 | `--seed` | `seed` | from clock | Random seed |
 | `--seedfile` | `file` | — | Write seed value to this file |

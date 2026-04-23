@@ -143,7 +143,7 @@ See `scripts/recon-all:1611–1625` for the first call, and
 
 | Flag | Type | Description |
 |------|------|-------------|
-| `-i` / `--image <file>` | path | Input volume in any format supported by `surfa.load_volume()` (MGZ, NIfTI, ANALYZE, DICOM). Required. |
+| `-i`<br>`--image <file>` | path | Input volume in any format supported by `surfa.load_volume()` (MGZ, NIfTI, ANALYZE, DICOM). Required. |
 
 ### At-least-one-of arguments
 
@@ -151,9 +151,9 @@ The tool requires **at least one** output flag:
 
 | Flag | Type | Description |
 |------|------|-------------|
-| `-o` / `--out <file>` | path | Save the input volume with non-brain voxels replaced by `fill` value. |
-| `-m` / `--mask <file>` | path | Save the binary brain mask (same geometry as the input). |
-| `-d` / `--sdt <file>` | path | Save the signed distance transform (negative inside the brain, positive outside, in millimetres). |
+| `-o`<br>`--out <file>` | path | Save the input volume with non-brain voxels replaced by `fill` value. |
+| `-m`<br>`--mask <file>` | path | Save the binary brain mask (same geometry as the input). |
+| `-d`<br>`--sdt <file>` | path | Save the signed distance transform (negative inside the brain, positive outside, in millimetres). |
 
 ### Input assumptions
 
@@ -295,18 +295,18 @@ bounding box.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-i <file>` / `--image <file>` | path | **required** | Input volume. |
-| `-o <file>` / `--out <file>` | path | — | Output masked image. |
-| `-m <file>` / `--mask <file>` | path | — | Output binary brain mask. |
-| `-d <file>` / `--sdt <file>` | path | — | Output signed distance transform (narrow-band + extension). |
-| `-g` / `--gpu` | bool | off | Use CUDA for inference. Requires a CUDA-capable GPU and a GPU PyTorch build. Errors out with "CUDA is not available" otherwise. |
-| `-b <mm>` / `--border <mm>` | float | 1.0 | Mask border threshold in millimetres. Lower = tighter strip, higher = more inclusive. |
-| `-t <n>` / `--threads <n>` | int | PyTorch default | CPU thread count (`torch.set_num_threads()`). |
-| `-f <val>` / `--fill <val>` | float | `min(image.min(), 0)` | Background fill value for the `-o` output. |
+| `-i <file>`<br>`--image <file>` | path | **required** | Input volume. |
+| `-o <file>`<br>`--out <file>` | path | — | Output masked image. |
+| `-m <file>`<br>`--mask <file>` | path | — | Output binary brain mask. |
+| `-d <file>`<br>`--sdt <file>` | path | — | Output signed distance transform (narrow-band + extension). |
+| `-g`<br>`--gpu` | bool | off | Use CUDA for inference. Requires a CUDA-capable GPU and a GPU PyTorch build. Errors out with "CUDA is not available" otherwise. |
+| `-b <mm>`<br>`--border <mm>` | float | 1.0 | Mask border threshold in millimetres. Lower = tighter strip, higher = more inclusive. |
+| `-t <n>`<br>`--threads <n>` | int | PyTorch default | CPU thread count (`torch.set_num_threads()`). |
+| `-f <val>`<br>`--fill <val>` | float | `min(image.min(), 0)` | Background fill value for the `-o` output. |
 | `--no-csf` | bool | off | Use the `synthstrip.nocsf.1.pt` model variant that excludes CSF from the brain border. Produces a tighter brain mask suitable for tools expecting brain-only tissue. |
 | `--model <file>` | path | `$FREESURFER_HOME/models/synthstrip.1.pt` | Use alternative model weights. |
-| `-v` / `--version` | bool | — | Print the value of the `SYNTHSTRIP_VERSION` environment variable and exit. |
-| `-h` / `--help` | bool | — | Print the help and the citation reference and exit. |
+| `-v`<br>`--version` | bool | — | Print the value of the `SYNTHSTRIP_VERSION` environment variable and exit. |
+| `-h`<br>`--help` | bool | — | Print the help and the citation reference and exit. |
 
 ## Configuration Interactions
 

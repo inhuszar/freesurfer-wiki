@@ -124,7 +124,7 @@ Flag list verified against `mri_label2label/mri_label2label.cpp` (`parse_command
 | `--trgsurfreg` | `<surf>` | *(from `--surfreg`)* | Target registration surface name override |
 | `--srcsurfreg-file` | `<path>` | — | Full path to source registration surface (bypasses name construction) |
 | `--trgsurfreg-file` | `<path>` | — | Full path to target registration surface (bypasses name construction) |
-| `--trgsurface` / `--trgsurf` | `<surf>` | `white` | Target coordinate surface for output label xyz |
+| `--trgsurface`<br>`--trgsurf` | `<surf>` | `white` | Target coordinate surface for output label xyz |
 | `--projabs` | `<mm>` | — | Project along surface normal by absolute distance (mm) |
 | `--projfrac` | `<frac>` | — | Project along surface normal by fraction of cortical thickness |
 | `--xfm` | `<file>` | — | Volumetric transform file (for volume method; mutually exclusive with `--reg`) |

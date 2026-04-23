@@ -124,12 +124,12 @@ When `-SPCORR` is used in combination with `-CONTRA`, the correlation matrix is 
 | `-L <label>` | string | off | Mask overlay to only vertices within the specified label (others set to 0) before parameterizing |
 | `-C <label>` | string | off | Mask contralateral overlay to only vertices within the specified label |
 | `-FRAME <n>` | int | all | Extract only frame `n` from a multi-frame volume overlay before processing |
-| `-BARYCENTRIC` / `-BARY` | none | off | Use barycentric interpolation instead of scatter-accumulation for the parameterization |
+| `-BARYCENTRIC`<br>`-BARY` | none | off | Use barycentric interpolation instead of scatter-accumulation for the parameterization |
 | `-sigma <s>` | float | 0 | Apply spherical Gaussian blur with standard deviation `s` after parameterization |
 | `-V <vno>` | int | — | Enable per-vertex diagnostics for vertex `vno` |
 | `-W` | none | off | Enable `DIAG_WRITE` diagnostic output |
-| `--help` / `-?` / `-U` | none | — | Print help and exit |
-| `--version` / `-version` | none | — | Print version and exit |
+| `--help`<br>`-?`<br>`-U` | none | — | Print help and exit |
+| `--version`<br>`-version` | none | — | Print version and exit |
 | `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` and `(DEBUG_U, DEBUG_V)` for verbose per-voxel output |
 | `-nframes <n>` | int | 1 | **Stub — not implemented.** Parsing accepted but `printf("NOT IMPLEMENTED YET")` and `exit(1)` called immediately. Do not use. |
 | `-white` | — | — | **Not a standalone flag — argument value.** Passing `white` as argument to `-coords` selects white surface coordinates. The audit extractor promotes `stricmp(argv[2], "white")` to pseudo-flag `-white`. |

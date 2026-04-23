@@ -89,9 +89,9 @@ Border values (intensity thresholds for surface deformation) are computed by `MR
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-flash30 <vol>` / `-T130 <vol>` / `-T1_30 <vol>` | string | — | MEF 30° flip angle volume (all three are accepted as aliases). |
-| `-flash5 <vol>` / `-T15 <vol>` / `-T1_5 <vol>` | string | — | MEF 5° flip angle volume (all three are accepted as aliases). |
-| `-em <vol>` / `-em_seg <vol>` / `-em_combined <vol>` | string | — | Optional EM tissue segmentation volume (all three accepted as aliases). Replaces `filled.mgz` as the WM prior if specified. |
+| `-flash30 <vol>`<br>`-T130 <vol>`<br>`-T1_30 <vol>` | string | — | MEF 30° flip angle volume (all three are accepted as aliases). |
+| `-flash5 <vol>`<br>`-T15 <vol>`<br>`-T1_5 <vol>` | string | — | MEF 5° flip angle volume (all three are accepted as aliases). |
+| `-em <vol>`<br>`-em_seg <vol>`<br>`-em_combined <vol>` | string | — | Optional EM tissue segmentation volume (all three accepted as aliases). Replaces `filled.mgz` as the WM prior if specified. |
 | `-wvol <vol>` | string | — | Use this volume for white matter surface deformation (overrides the 5° channel). |
 | `-PD <vol>` | string | — | Use a proton density map for surface placement. |
 | `-T1 <vol>` | string | — | Use a T1 map for surface placement. |
@@ -119,7 +119,7 @@ Border values (intensity thresholds for surface deformation) are computed by `MR
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `-nowhite` | boolean | — | Skip white surface placement; use the previously computed surface. |
-| `-whiteonly` / `-nopial` | boolean | — | Place the white surface only; skip pial surface deformation. |
+| `-whiteonly`<br>`-nopial` | boolean | — | Place the white surface only; skip pial surface deformation. |
 | `-inoutin` | boolean | — | Apply a final white matter deformation pass after pial surface placement. |
 | `-graymid` | boolean | — | Generate a mid-gray (layer IV) surface from the white and pial. |
 | `-nwhite <n>` | integer | — | Number of deformation time steps for the white surface. |
@@ -166,7 +166,7 @@ Border values (intensity thresholds for surface deformation) are computed by `MR
 | `-rval <n>` | integer | — | Fill value used for the right hemisphere label. |
 | `-lval <n>` | integer | — | Fill value used for the left hemisphere label. |
 | `-L <label>` | string | — | Label file to restrict surface deformation. |
-| `-hires <label>` / `-highres` | string | — | High-resolution label for local refinement (`-highres` is accepted as alias). |
+| `-hires <label>`<br>`-highres` | string | — | High-resolution label for local refinement (`-highres` is accepted as alias). |
 | `-a <max> [<min>]` | integer(s) | — | **Dead code (`#if 0`).** Would set `max_averages` and optionally `min_averages`; disabled via preprocessor. |
 
 #### Miscellaneous

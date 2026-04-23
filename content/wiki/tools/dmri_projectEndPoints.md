@@ -83,7 +83,7 @@ The `FSToVTK` helper function converts FreeSurfer surface format to VTK polydata
 | `-ol <file>` | string | required | LH output overlay file path. Endpoint values (1) and non-endpoint values (0) are written here. |
 | `-or <file>` | string | required | RH output overlay file path. |
 | `-ri <file>` | string | required | Reference image for coordinate space handling (ITK image, read to define voxel-to-RAS mapping). |
-| `--help` / `-h` | flag | — | Print usage and exit (triggered when fewer than 8 arguments are provided). |
+| `--help`<br>`-h` | flag | — | Print usage and exit (triggered when fewer than 8 arguments are provided). |
 
 > [!gotcha] Minimum 8 arguments required
 > The tool exits with usage if `gp.size() <= 8`, corresponding to the 6 required flag-value pairs plus the program name. Missing any required flag will trigger a usage error without indicating which flag is missing.

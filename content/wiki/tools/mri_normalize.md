@@ -276,9 +276,9 @@ Grouped by function.
 |------|------|---------|-------------|
 | `-f <ctrl.dat>` | path | — | Read control points from a text file (one voxel per line, column/row/slice). |
 | `-label <ctrl.label>` | path | — | Read control points from a FreeSurfer label file. |
-| `-label_only <ctrl.label>` / `-lonly`/`-labelonly` | path | — | As above **and** sets `file_only = 1, no1d = 1` (use *only* the label-file points, skipping the histogram search). |
-| `-file_only <ctrl.dat>` / `-fonly`/`-fileonly` | path | — | As `-f` but also sets `file_only = 1, no1d = 1`. |
-| `-aseg <aseg.mgz>` / `-segmentation` | path | — | Use an aseg volume for initial intensity normalization; control points are drawn from WM labels. |
+| `-label_only <ctrl.label>`<br>`-lonly`<br>`-labelonly` | path | — | As above **and** sets `file_only = 1, no1d = 1` (use *only* the label-file points, skipping the histogram search). |
+| `-file_only <ctrl.dat>`<br>`-fonly`<br>`-fileonly` | path | — | As `-f` but also sets `file_only = 1, no1d = 1`. |
+| `-aseg <aseg.mgz>`<br>`-segmentation` | path | — | Use an aseg volume for initial intensity normalization; control points are drawn from WM labels. |
 | `-atlas <gca> <xform> <distance>` | paths+int | — | Build a "non-control" mask from the GCA prior (regions where prior < 0.05, within `<distance>` voxels of brain). Used to exclude non-brain voxels from control-point candidacy. |
 | `-surface <surf> <xform>` | paths | — | Use a surface (and its vox-to-surf xform) to constrain control points to voxels within `min_dist` mm of the surface. Repeatable up to `MAX_NORM_SURFACES = 10`. |
 | `-mask <vol>` | path | — | Apply this mask to the input before normalisation. |
@@ -292,8 +292,8 @@ Grouped by function.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `-T1` | bool | on (inferred) | Assume in vivo T1 contrast. |
-| `-T2` / `-PD` | bool | off | Assume T2 or PD contrast. |
-| `-mprage` / `-mgh_mprage` | bool | off | Tune thresholds for MGH (Van der Kouwe) MPRAGE: `intensity_below = 15`. Set automatically by `recon-all` via `IsMPRAGE = 1`. |
+| `-T2`<br>`-PD` | bool | off | Assume T2 or PD contrast. |
+| `-mprage`<br>`-mgh_mprage` | bool | off | Tune thresholds for MGH (Van der Kouwe) MPRAGE: `intensity_below = 15`. Set automatically by `recon-all` via `IsMPRAGE = 1`. |
 | `-washu_mprage` | bool | off | Tune thresholds for WashU MPRAGE (dark GM): `intensity_below = 22`. |
 | `-monkey` | bool | off | Monkey brains: disable the 1-D pre-pass (`no1d = 1`) and set `num_3d_iter = 1`. |
 
@@ -311,13 +311,13 @@ Grouped by function.
 | `-sigma <σ>` | float | 8.0 | Gaussian smoothing kernel of the bias field. |
 | `-gentle` | bool | off | "Kinder gentler" normalisation; used when control points are sparse. |
 | `-no1d` | bool | off | Disable the 1-D pre-normalisation pass. |
-| `-no-gentle-cp` / `-gentle-cp` | bool | on | Toggle the "gentle normalisation" path when reading control points from a file. |
-| `-nosnr` / `-snr` | bool | on (nosnr) / off (snr) | Toggle SNR-based normalisation. |
+| `-no-gentle-cp`<br>`-gentle-cp` | bool | on | Toggle the "gentle normalisation" path when reading control points from a file. |
+| `-nosnr`<br>`-snr` | bool | on (nosnr) / off (snr) | Toggle SNR-based normalisation. |
 | `-p <0|non-0>` | int | off | Turn control-point pruning on/off (`case 'P':` in parser). |
 | `-grad <thresh>` | float | — | Gradient threshold for preventing control points from crossing edges (from `mri_normalize.cpp` `stricmp("GRAD")`). |
 | `-cross_time_sigma <σ>` | float | — | Parzen window sigma for longitudinal cross-time smoothing (from `mri_long_normalize.cpp`). |
 | `-s <σ>` | float | — | Sigma for smoothing the bias field (from `mri_long_normalize.cpp` `case 'S':`). |
-| `-conform` / `-noconform` | bool | off | Force the output to be 256³ 1 mm (calls [[mri_convert]]-style conform internally). With `-cm` in `recon-all`, `-noconform` is passed. |
+| `-conform`<br>`-noconform` | bool | off | Force the output to be 256³ 1 mm (calls [[mri_convert]]-style conform internally). With `-cm` in `recon-all`, `-noconform` is passed. |
 
 #### Renormalisation against a reference
 
@@ -342,7 +342,7 @@ Grouped by function.
 | `-seed <n>` | int | — | Seed the random number generator (`setRandomSeed()`). Passed by `recon-all` as `-seed 1234` when `NoRandomness = 1` to make the output reproducible. |
 | `-D <x> <y> <z>` | ints | — | Debug the voxel at `(x,y,z)`: enables per-voxel printing. |
 | `-V <x> <y> <z>` | ints | — | Debug the alternative voxel `(x,y,z)`. |
-| `-help` / `--help` / `-usage` / `--usage` / `-?` / `-U` / `-H` | — | — | Print the XML-rendered help. |
+| `-help`<br>`--help`<br>`-usage`<br>`--usage`<br>`-?`<br>`-U`<br>`-H` | — | — | Print the XML-rendered help. |
 | `-nosnr` | bool | on | Disable SNR normalisation. Default is on since FreeSurfer 6. |
 
 ## Configuration Interactions

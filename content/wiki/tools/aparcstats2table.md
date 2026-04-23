@@ -192,14 +192,14 @@ after any eTIV normalization. Applied as `table[row][col] *= scale`.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `--hemi` | `lh` or `rh` | none (required) | Hemisphere. Used to construct the stats file path (`lh.<parc>.stats` or `rh.<parc>.stats`) and as the column title prefix. |
-| `-t FILE` / `--tablefile FILE` | path | none (required) | Output file path for the assembled table. |
+| `-t FILE`<br>`--tablefile FILE` | path | none (required) | Output file path for the assembled table. |
 
 ### Parcellation and Measure Selection
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--parc <name>` / `-p` | `-p` | string | `aparc` | Parcellation name. Determines which stats file is read: `<hemi>.<parc>.stats`. Common alternatives: `aparc.a2009s` (Destrieux), `aparc.DKTatlas`. Any annotation name for which a corresponding `.stats` file exists is accepted. |
-| `--measure <meas>` / `-m` | `-m` | enum | `area` | Measure to extract. Valid: `area`, `volume`, `thickness`, `thickness.T1`, `thicknessstd`, `meancurv`, `gauscurv`, `foldind`, `curvind`. |
+| `--parc <name>`<br>`-p` | `-p` | string | `aparc` | Parcellation name. Determines which stats file is read: `<hemi>.<parc>.stats`. Common alternatives: `aparc.a2009s` (Destrieux), `aparc.DKTatlas`. Any annotation name for which a corresponding `.stats` file exists is accepted. |
+| `--measure <meas>`<br>`-m` | `-m` | enum | `area` | Measure to extract. Valid: `area`, `volume`, `thickness`, `thickness.T1`, `thicknessstd`, `meancurv`, `gauscurv`, `foldind`, `curvind`. |
 
 ### Parcellation Filtering
 
@@ -212,7 +212,7 @@ after any eTIV normalization. Applied as `table[row][col] *= scale`.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--delimiter <name>` / `-d` | `-d` | enum | `tab` | Column separator. Valid: `tab`, `space`, `comma`, `semicolon`. |
+| `--delimiter <name>`<br>`-d` | `-d` | enum | `tab` | Column separator. Valid: `tab`, `space`, `comma`, `semicolon`. |
 | `--parcid-only` | — | bool | off | Suppress hemisphere prefix and measure suffix from column headers. Writes bare parcellation names. `eTIV` and `BrainSegVolNotVent` are never decorated regardless. |
 | `--transpose` | — | bool | off | Transpose the output: rows become parcellations, columns become subjects. |
 | `--append` | — | bool | off | Append to an existing output file (adds a blank line before the new table) rather than overwriting. |
@@ -225,7 +225,7 @@ after any eTIV normalization. Applied as `table[row][col] *= scale`.
 | `--etiv` | — | bool | off | Normalize all values to percentage of eTIV. Reads `eTIV` from the `# Measure EstimatedTotalIntraCranialVol` header line. |
 | `--scale <float>` | — | float | 1.0 | Multiply all output values by this scalar after any eTIV normalization. |
 | `--report-rois` | — | bool | off | **Deprecated** (prints a warning). Formerly reported per-subject ROI differences; the `-v` flag is now preferred. |
-| `-v` / `--debug` | — | bool | off | Enable DEBUG-level logging from `aparclogger`. Prints per-file processing details. |
+| `-v`<br>`--debug` | — | bool | off | Enable DEBUG-level logging from `aparclogger`. Prints per-file processing details. |
 
 ### Configuration Interactions
 

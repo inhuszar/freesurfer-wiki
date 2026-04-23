@@ -49,7 +49,7 @@ This separation allows the statistics computation to run once and be reused, and
 | Input | Description |
 |-------|-------------|
 | `--s <subject>` | FreeSurfer subject name |
-| `--surf <path>` / `--lh-surf <path>` / `--rh-surf <path>` | Surface to process (hemisphere determined from `lh`/`rh` filename prefix or explicit flag) |
+| `--surf <path>`<br>`--lh-surf <path>`<br>`--rh-surf <path>` | Surface to process (hemisphere determined from `lh`/`rh` filename prefix or explicit flag) |
 | `--o <outfile>` | Output statistics file |
 
 Optional (override default paths):
@@ -98,11 +98,11 @@ where $k$ is a fractional offset controlling where along the WM-GM gradient the 
 | `--lh-surf <path>` | path | Explicit LH surface path | — |
 | `--rh-surf <path>` | path | Explicit RH surface path | — |
 | `--sd <dir>` | path | SUBJECTS_DIR override | env var |
-| `--threads <n>` / `--nthreads <n>` | integer | OpenMP thread count | 1 |
-| `--min_border_white <val>` / `-wlo` | float | Override minimum border white intensity threshold | auto-detected |
+| `--threads <n>`<br>`--nthreads <n>` | integer | OpenMP thread count | 1 |
+| `--min_border_white <val>`<br>`-wlo` | float | Override minimum border white intensity threshold | auto-detected |
 | `--max_border_white <val>` | float | Override maximum border white intensity threshold | auto-detected |
 | `--min_gray_at_white_border <val>` | float | Override minimum grey intensity at white border | auto-detected |
-| `--max_gray <val>` / `-ghi` | float | Override maximum grey intensity threshold | auto-detected |
+| `--max_gray <val>`<br>`-ghi` | float | Override maximum grey intensity threshold | auto-detected |
 | `--max_gray_at_csf_border <val>` | float | Override maximum grey intensity at CSF border | auto-detected |
 | `--min_gray_at_csf_border <val>` | float | Override minimum grey intensity at CSF border | auto-detected |
 | `--max_csf <val>` | float | Override maximum CSF intensity | auto-detected |

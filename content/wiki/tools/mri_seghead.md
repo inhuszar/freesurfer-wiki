@@ -70,8 +70,8 @@ The "signal behind head" diagnostic fits a box 7 slices behind the outermost hea
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--invol` / `--i` | `<file>` | — | Input MRI volume (required) |
-| `--outvol` / `--o` | `<file>` | — | Output binary head mask (required) |
+| `--invol`<br>`--i` | `<file>` | — | Input MRI volume (required) |
+| `--outvol`<br>`--o` | `<file>` | — | Output binary head mask (required) |
 | `--outbox` | `<file>` | — | Write bounding box volume |
 | `--thresh1` | `<int>` | -1 (auto) | Lower intensity threshold |
 | `--thresh2` | `<int>` | -1 (auto) | Upper intensity threshold |
@@ -90,8 +90,8 @@ The "signal behind head" diagnostic fits a box 7 slices behind the outermost hea
 | `--get-signal-behind-head` | — | off | Compute and report mean signal and Sobel magnitude in a box posterior to the head |
 | `--or-mask` | `<file>` | — | Include voxels in this mask regardless of threshold |
 | `--no-or-mask` | — | — | Disable or-mask inclusion |
-| `--subject` / `--s` | `<subject>` | — | Subject name (sets input/output paths from `$SUBJECTS_DIR`) |
-| `--sd` / `-SDIR` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
+| `--subject`<br>`--s` | `<subject>` | — | Subject name (sets input/output paths from `$SUBJECTS_DIR`) |
+| `--sd`<br>`-SDIR` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
 | `--skull` | — | off | Include skull in segmentation |
 | `--hvoldat` | `<file>` | — | Write head volume data to text file |
 | `--gdiag` | `<int>` | — | Set diagnostic level |

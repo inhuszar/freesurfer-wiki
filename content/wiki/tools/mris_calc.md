@@ -179,13 +179,13 @@ All binary operators perform element-wise operations across vertices. When
 | Flag | Aliases | Arguments | Default | Description |
 |------|---------|-----------|---------|-------------|
 | `--output` | `-o`, `-O`, any option starting with `o`/`O` | `filename` | `out` | Override output filename. The parser uses a case-insensitive prefix test on the first letter, so `-O foo`, `-output foo`, and `--output foo` all behave identically. The supplied filename is taken verbatim; if it lacks a recognised extension the input1 type extension is appended (unless `--strictExtensions` is also given, in which case the extension is forced). |
-| `--threads` / `-threads` / `-nthreads` | `--nthreads` | `int` | OMP default | Set the OpenMP thread count via `omp_set_num_threads()`. Only affects the binary-operator inner loop (`CURV_functionRunABC`), which is the only ROMP-parallelised path. Unary and aggregation operators ignore this. |
+| `--threads`<br>`-threads`<br>`-nthreads` | `--nthreads` | `int` | OMP default | Set the OpenMP thread count via `omp_set_num_threads()`. Only affects the binary-operator inner loop (`CURV_functionRunABC`), which is the only ROMP-parallelised path. Unary and aggregation operators ignore this. |
 | `--strictExtensions` | `-e`, `-E`, any option starting with `e`/`E` | none | off | Boolean flag (`Gb_strictExtensions = 1`). Forces the output filename's extension to be reset to match the input1 type, overriding any extension the user supplied via `--output`. |
 | `--label` | `-l`, `-L`, any option starting with `l`/`L` | `labelfile` | none | Read a FreeSurfer `.label` file and restrict subsequent operations to its vertices. Sets `Gb_labelMask = 1`. Unlabelled vertices are written as 0 in the output (they are zero-initialised and never touched). |
 | `--verbosity` | none | `int` | 0 | Set the global verbosity level (`G_verbosity`). 0 = silent, larger values print progress and diagnostics. Argument is parsed with `atoi`. |
 | `--version` | `-v`, `-V`, any option starting with `v`/`V` | none | — | Print the FreeSurfer build version and exit (status 1). |
 | `--help` | `--usage`, `-h`, `-H`, `-u`, `-U`, `-?`, any option starting with `h`/`u`/`?` | none | — | Print the full help/synopsis and exit (status 1). |
-| `-t` (and any option starting with `t`/`T`) | none | none | — | Recognised but is a no-op stub in `options_parse()` (sets a local `pch_text = "void"` and falls through). It does not take an argument and has no observable effect. Likely a leftover from earlier development. |
+| `-t` (and any option starting with `t`<br>`T`) | none | none | — | Recognised but is a no-op stub in `options_parse()` (sets a local `pch_text = "void"` and falls through). It does not take an argument and has no observable effect. Likely a leftover from earlier development. |
 
 > [!gotcha] Single-letter prefix matching is greedy
 > `options_parse()` first tries `--output`, `--threads`, `--strictExtensions`,

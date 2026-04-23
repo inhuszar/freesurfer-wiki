@@ -65,7 +65,7 @@ where the minimum is taken over all edge-traversal paths from the reference vert
 |------|----------|---------|-------------|
 | `-V` | `<int>` | 0 | Reference vertex number (distance source) |
 | `--version` | — | — | Print version and exit |
-| `--help` / `-H` / `-U` | — | — | Print usage and exit |
+| `--help`<br>`-H`<br>`-U` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 

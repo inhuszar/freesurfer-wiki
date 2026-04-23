@@ -76,11 +76,11 @@ result = ... ∘ T[2] ∘ T[1]  (last positional input = T[1] = applied first)
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--reduce` / `-r` | — | off | Reduce LTA to a single transform (call `LTAreduce`) |
-| `--invert` / `-i` | — | off | Invert the output transform |
-| `--downsample` / `-d` | — | off | Downsample output GCAM if spacing==1 (calls `GCAMdownsample2`) |
-| `--change-source` / `-s` | volume | none | Update source volume geometry from this file's header |
-| `--change-target` / `-t` | volume | none | Update target volume geometry from this file's header |
+| `--reduce`<br>`-r` | — | off | Reduce LTA to a single transform (call `LTAreduce`) |
+| `--invert`<br>`-i` | — | off | Invert the output transform |
+| `--downsample`<br>`-d` | — | off | Downsample output GCAM if spacing==1 (calls `GCAMdownsample2`) |
+| `--change-source`<br>`-s` | volume | none | Update source volume geometry from this file's header |
+| `--change-target`<br>`-t` | volume | none | Update target volume geometry from this file's header |
 
 ## Configuration Interactions
 

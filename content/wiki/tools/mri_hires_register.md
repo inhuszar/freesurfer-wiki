@@ -103,7 +103,7 @@ Iterative line minimization in the parameter space of the linear transform (typi
 | `-regrid` | — | off | Enable regridding |
 | `-noregrid` | — | off | Disable regridding |
 | `-optimal` | — | — | Use optimal time-step integration (`GCAM_INTEGRATE_OPTIMAL`) |
-| `-fixed` / `-momentum` | — | — | Use fixed time-step integration (`GCAM_INTEGRATE_FIXED`) |
+| `-fixed`<br>`-momentum` | — | — | Use fixed time-step integration (`GCAM_INTEGRATE_FIXED`) |
 | `-fix` | — | off | Use predefined intensities for class means |
 | `-find_label` | `<label> <x> <y> <z>` | — | Find GCA morph node at label near voxel `(x,y,z)` |
 | `-debug_voxel` | `<x> <y> <z>` | — | Enable debug output for voxel `(x,y,z)` |
@@ -118,7 +118,7 @@ Iterative line minimization in the parameter space of the linear transform (typi
 | `-dt` | `<f>` | 0.005 | Integration time step |
 | `-sigma` | `<f>` | 8 | Gaussian sigma for smoothing |
 | `-rthresh` | `<f>` | — | Compression ratio threshold |
-| `-intensity` / `-ll` | `<f>` | — | Log-likelihood weight (`mp.l_log_likelihood`) |
+| `-intensity`<br>`-ll` | `<f>` | — | Log-likelihood weight (`mp.l_log_likelihood`) |
 | `-area` | `<f>` | — | Area regularisation weight (`mp.l_area`) |
 | `-area_intensity` | `<f>` | — | Area-intensity regularisation weight (`mp.l_area_intensity`) |
 | `-d` | `<f>` | 1.0 | Distance regularisation weight (`mp.l_distance`) |

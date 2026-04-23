@@ -70,7 +70,7 @@ $$
 | `-i <fname>` | string | repeatable | Input run volume |
 | `-o <stem>` | string | required | Output specifier |
 | `-t <fname>` | string | first input | Use this volume as registration target |
-| `-tmp <dir>` / `-tmpdir <dir>` | string | auto | Temporary directory; also disables cleanup |
+| `-tmp <dir>`<br>`-tmpdir <dir>` | string | auto | Temporary directory; also disables cleanup |
 | `-umask <mask>` | string | system default | Set umask for file creation |
 | `-nocleanup` | flag | off | Keep temporary directory after completion |
 | `-verbose` | flag | off | Enable verbose output |

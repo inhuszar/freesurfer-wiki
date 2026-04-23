@@ -90,7 +90,7 @@ Flag list fully verified from `get_option()` in source.
 | `-T` | `<fname>` | — | Thickness file; read and assigned to `mris->curv` before painting (legacy feature; painting overwrites curv with volume samples). |
 | `-S` or `-C` | (none) | off | Use spherical coordinates (`SPHERICAL_COORDS`) instead of the default Talairach coordinates for the painting operation. Both `-S` and `-C` enable the same mode. |
 | `-V` | `<int>` | — | Set `Gdiag_no` for verbose diagnostics at a specific label number. |
-| `--help` / `--version` | (none) | — | Print help or version string and exit. |
+| `--help`<br>`--version` | (none) | — | Print help or version string and exit. |
 
 ## Configuration Interactions
 

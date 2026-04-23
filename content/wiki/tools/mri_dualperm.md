@@ -91,9 +91,9 @@ All flags use double-dash (`--`) prefix. Flags that operate on a specific mode u
 | Flag                                       | Argument    | Default     | Description                                                                               |
 | ------------------------------------------ | ----------- | ----------- | ----------------------------------------------------------------------------------------- |
 | `--o <dir>`                                | path        | required    | Output directory.                                                                         |
-| `--mode1 <file>` / `--map1 <file>`         | path        | required    | Input data stack for mode 1.                                                              |
-| `--mode2 <file>` / `--map2 <file>`         | path        | required    | Input data stack for mode 2 (not required when `--mode1-only`/`--map1-only`).             |
-| `--mode1-only` / `--map1-only`             | (none)      | off         | Analyze only mode 1 (for creating atlases and surrogates).                                |
+| `--mode1 <file>`<br>`--map1 <file>`         | path        | required    | Input data stack for mode 1.                                                              |
+| `--mode2 <file>`<br>`--map2 <file>`         | path        | required    | Input data stack for mode 2 (not required when `--mode1-only`/`--map1-only`).             |
+| `--mode1-only`<br>`--map1-only`             | (none)      | off         | Analyze only mode 1 (for creating atlases and surrogates).                                |
 | `--mask1 <file>`                           | path        | —           | Brain mask for mode 1.                                                                    |
 | `--mask2 <file>`                           | path        | —           | Brain mask for mode 2.                                                                    |
 | `--fsgd1 <file>`                           | path        | —           | [[fsgd-format\|FSGD]] design file for mode 1.                                                              |
@@ -120,7 +120,7 @@ All flags use double-dash (`--`) prefix. Flags that operate on a specific mode u
 | `--seed <s>`                               | ulong       | time-of-day | Random seed; if not specified, time-of-day is used.                                       |
 | `--threads <n>`                            | int         | 1           | Number of OpenMP threads (only effective with OpenMP build).                              |
 | `--pX-save`                                | (none)      | off         | Save permuted design matrices.                                                            |
-| `--save-input` / `--input-save`            | (none)      | off         | Save the input data to the output directory.                                              |
+| `--save-input`<br>`--input-save`            | (none)      | off         | Save the input data to the output directory.                                              |
 | `--merge <outdir> <srcdir1> <srcdir2> ...` | paths       | —           | Merge results from multiple `mri_dualperm` output directories. Exits after merge.         |
 | `--debug`                                  | (none)      | off         | Enable verbose diagnostic output.                                                         |
 | `--checkopts`                              | (none)      | off         | Check options only; do not run any computation.                                           |

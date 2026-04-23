@@ -81,9 +81,9 @@ The parser strips one leading dash (`option = argv[1] + 1`, single-dash conventi
 | `-sname` | `<subject>` | — | Subject name; used to construct the path to the surface directory (`$SUBJECTS_DIR/<subject>/surf/`) |
 | `-hemi` | `<hemi>` | — | Hemisphere: `lh` or `rh` |
 | `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Override the subjects directory |
-| `-out` / `-out_file` / `-out_name` / `-cnr` | `<fname>` | — | Output CNR map filename prefix (extension determined by `-trg_type`) |
+| `-out`<br>`-out_file`<br>`-out_name`<br>`-cnr` | `<fname>` | — | Output CNR map filename prefix (extension determined by `-trg_type`) |
 | `-trg_type` | `<type>` | `paint` | Output format: `paint` / `w` (paint format) or `curv` (curvature binary) |
-| `-thickness` / `-thickness_file` / `-thickness_fname` | `<fname>` | — | Surface thickness file; activates thickness-guided GM sampling when combined with `-use_thickness` |
+| `-thickness`<br>`-thickness_file`<br>`-thickness_fname` | `<fname>` | — | Surface thickness file; activates thickness-guided GM sampling when combined with `-use_thickness` |
 | `-use_thickness` | — | off | Use the thickness map to guide placement of GM sample points |
 | `-nsmooth` | `<n>` | 60 | Number of surface smoothing steps applied before CNR computation |
 | `-debug` | `<vtx>` | — | Print per-vertex debug output for vertex number `<vtx>` |

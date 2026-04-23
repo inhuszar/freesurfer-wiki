@@ -122,17 +122,17 @@ only, `O` = output only, `IO` = both):
 | `mgh`   | MGH-NMR format (uncompressed binary) | IO |
 | `mgz`   | MGH-NMR gzipped (default for `recon-all`) | IO |
 | `minc`  | MNI NetCDF (output may not work) | IO |
-| `analyze` / `spm` | SPM/Analyze 3-D (paired `.img` + `.hdr`) | IO |
+| `analyze`<br>`spm` | SPM/Analyze 3-D (paired `.img` + `.hdr`) | IO |
 | `analyze4d` | 4-D SPM/Analyze | IO |
 | `nifti1` | NIfTI-1 with separate `.img` + `.hdr` | IO |
 | `nii`   | NIfTI-1 single-file; `.nii.gz` auto-compresses | IO |
-| `afni` / `brik` | AFNI BRIK/HEAD | IO |
-| `bshort` / `bfloat` | MGH block-format | IO |
+| `afni`<br>`brik` | AFNI BRIK/HEAD | IO |
+| `bshort`<br>`bfloat` | MGH block-format | IO |
 | `sdt`   | Varian | IO |
-| `otl` / `outline` | MGH outline | IO |
+| `otl`<br>`outline` | MGH outline | IO |
 | `gdf`   | GDF volume (output needs `-gis`) | IO |
-| `ge` / `gelx` / `lx` / `ximg` | GE Genesis and GE LX | I |
-| `siemens` / `siemens_dicom` | Siemens IMA / Siemens DICOM | I |
+| `ge`<br>`gelx`<br>`lx`<br>`ximg` | GE Genesis and GE LX | I |
+| `siemens`<br>`siemens_dicom` | Siemens IMA / Siemens DICOM | I |
 | `dicom` | Generic DICOM (serves DICOM directories too) | I |
 
 ### Input Assumptions
@@ -168,14 +168,14 @@ effects:
 
 | Flag | Extra output |
 |------|--------------|
-| `-om <file>` / `--out_matrix` | Write the output vox2ras matrix as a text file. |
+| `-om <file>`<br>`--out_matrix` | Write the output vox2ras matrix as a text file. |
 | `--split` | Split a multi-frame output into `base0000.nii`, `base0001.nii`, … |
 | `-gis <stem>` | GDF output uses `<stem>` as image stem. |
 | `--out_stats_table` | Write a stats table (`--like <template>` required). |
 | `--dcm2niix-createBIDS` | With `--dcm2niix`, emit a BIDS JSON sidecar. |
 | `--dcm2niix-outdir <dir>` | Output directory for BIDS sidecars. |
-| `-ii` / `-oi` | Print input / output header info to stdout. |
-| `-is` / `-os` | Print input / output voxel statistics to stdout. |
+| `-ii`<br>`-oi` | Print input / output header info to stdout. |
+| `-is`<br>`-os` | Print input / output voxel statistics to stdout. |
 
 ### Output Specifications
 
@@ -302,69 +302,69 @@ row and left to the help text for details.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--in_type <type>` / `-it` | string | auto from extension | Force the input type. |
-| `--out_type <type>` / `-ot` | string | auto from extension | Force the output type. |
-| `-i <vol>` / `--input_volume` | path | — | Alternate way to pass the input positional arg. |
-| `-o <vol>` / `--output_volume` | path | — | Alternate way to pass the output positional arg. |
-| `-ro` / `--read_only` | bool | false | Read input, do not write output (for testing). |
-| `-nw` / `--no_write` | bool | false | Same as `--read_only`. |
-| `-po` / `--parse_only` | bool | false | Parse CLI, do not read input. |
-| `-ii` / `--in_info` | bool | false | Print input header and exit. |
-| `-oi` / `--out_info` | bool | false | Print output header after conversion. |
-| `-is` / `--in_stats` | bool | false | Print voxel stats of the input. |
-| `-os` / `--out_stats` | bool | false | Print voxel stats of the output. |
-| `-im` / `--in_matrix` | bool | false | Print the input vox2ras matrix. |
-| `-om` / `--out_matrix` | bool | false | Print the output vox2ras matrix. |
+| `--in_type <type>`<br>`-it` | string | auto from extension | Force the input type. |
+| `--out_type <type>`<br>`-ot` | string | auto from extension | Force the output type. |
+| `-i <vol>`<br>`--input_volume` | path | — | Alternate way to pass the input positional arg. |
+| `-o <vol>`<br>`--output_volume` | path | — | Alternate way to pass the output positional arg. |
+| `-ro`<br>`--read_only` | bool | false | Read input, do not write output (for testing). |
+| `-nw`<br>`--no_write` | bool | false | Same as `--read_only`. |
+| `-po`<br>`--parse_only` | bool | false | Parse CLI, do not read input. |
+| `-ii`<br>`--in_info` | bool | false | Print input header and exit. |
+| `-oi`<br>`--out_info` | bool | false | Print output header after conversion. |
+| `-is`<br>`--in_stats` | bool | false | Print voxel stats of the input. |
+| `-os`<br>`--out_stats` | bool | false | Print voxel stats of the output. |
+| `-im`<br>`--in_matrix` | bool | false | Print the input vox2ras matrix. |
+| `-om`<br>`--out_matrix` | bool | false | Print the output vox2ras matrix. |
 
 ### Type casting and intensity handling
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-odt <type>` / `--out_data_type` | `uchar`/`short`/`int`/`float`/`rgb` | input type | Force the output voxel type (`MRI_UCHAR`/`MRI_SHORT`/`MRI_INT`/`MRI_FLOAT`/`MRI_RGB`). |
-| `-nc` / `--nochange` | bool | false | Do not change type of input to match template. |
+| `-odt <type>`<br>`--out_data_type` | `uchar`/`short`/`int`/`float`/`rgb` | input type | Force the output voxel type (`MRI_UCHAR`/`MRI_SHORT`/`MRI_INT`/`MRI_FLOAT`/`MRI_RGB`). |
+| `-nc`<br>`--nochange` | bool | false | Do not change type of input to match template. |
 | `-ns <0|1>` / `--no_scale <0|1>` | int | 0 | When `1`, disable the automatic rescale-to-uchar that COR (and a few other 8-bit) outputs apply. Required when converting to COR if you want to preserve dynamic range. |
-| `-sc <f>` / `--scale <f>` | float | 1.0 | Multiply input intensities by `f`. |
-| `-osc <f>` / `--out-scale <f>` | float | 1.0 | Multiply output intensities by `f`. |
+| `-sc <f>`<br>`--scale <f>` | float | 1.0 | Multiply input intensities by `f`. |
+| `-osc <f>`<br>`--out-scale <f>` | float | 1.0 | Multiply output intensities by `f`. |
 | `--rescale <f>` | float | — | Rescale so that the global mean is `f`. |
 | `--rescale-voxel c r s` | ints | — | Divide by the intensity at voxel `(c,r,s)` (combinable with `--rescale`). |
-| `-ut <t>` / `--upper_thresh <t>` | float | — | Clip all voxels with intensity above `t` to `t` (`MRIupperthresholdAllFrames`, mri_convert.cpp:2148). |
+| `-ut <t>`<br>`--upper_thresh <t>` | float | — | Clip all voxels with intensity above `t` to `t` (`MRIupperthresholdAllFrames`, mri_convert.cpp:2148). |
 | `--invert_contrast <t>` | float | -1 (off) | Invert intensities above threshold `t` via `MRIinvertContrast` (mri_convert.cpp:3441). |
 
 ### Geometry and resampling
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-c` / `--conform` | bool | false | Resample to 256³ 1 mm coronal LIA. See Mathematical Foundations. |
-| `-cm` / `--conform_min` | bool | false | Conform using the min of the input voxel sizes instead of 1 mm. Implies `--conform`. |
-| `-cs <mm>` / `--conform_size <mm>` | float | 1.0 | Conform to the given isotropic voxel size. Implies `--conform`. |
+| `-c`<br>`--conform` | bool | false | Resample to 256³ 1 mm coronal LIA. See Mathematical Foundations. |
+| `-cm`<br>`--conform_min` | bool | false | Conform using the min of the input voxel sizes instead of 1 mm. Implies `--conform`. |
+| `-cs <mm>`<br>`--conform_size <mm>` | float | 1.0 | Conform to the given isotropic voxel size. Implies `--conform`. |
 | `--conform-dc` | bool | false | Conform while preserving source direction cosines (padded grid). Implies `--conform`. |
 | `--cw256` | bool | false | Force the conform width to 256 even if the FoV does not fit. Implies `--conform`. |
-| `-vs <sx> <sy> <sz>` / `--voxsize` / `-voxsize` | floats | input sizes | Upsample/downsample to the specified output voxel size. |
-| `-ds <dsx> <dsy> <dsz>` / `--downsample` / `-downsample` | 3 floats | 1 1 1 | Downsample by factor in each dimension (header-aware). Mutually exclusive with `--downsampleold`. |
-| `-dsold <dsx> <dsy> <dsz>` / `--downsampleold` / `-downsampleold` | 3 floats | 1 1 1 | Legacy downsampler that does not preserve the RAS centre. Mutually exclusive with `--downsample`. |
-| `-ds2` / `--downsample2` | bool | false | Downsample by exactly factor 2 (averages 2x2x2 blocks). |
+| `-vs <sx> <sy> <sz>`<br>`--voxsize`<br>`-voxsize` | floats | input sizes | Upsample/downsample to the specified output voxel size. |
+| `-ds <dsx> <dsy> <dsz>`<br>`--downsample`<br>`-downsample` | 3 floats | 1 1 1 | Downsample by factor in each dimension (header-aware). Mutually exclusive with `--downsampleold`. |
+| `-dsold <dsx> <dsy> <dsz>`<br>`--downsampleold`<br>`-downsampleold` | 3 floats | 1 1 1 | Legacy downsampler that does not preserve the RAS centre. Mutually exclusive with `--downsample`. |
+| `-ds2`<br>`--downsample2` | bool | false | Downsample by exactly factor 2 (averages 2x2x2 blocks). |
 | `--upsample <N>` | int | — | Reduce voxel size by integer factor `N` in all three dimensions (`MRIupsampleN`). |
 | `--reduce <n>` | int | 0 | Apply `MRIreduce` `n` times — successive 2:1 downsampling with a low-pass prefilter. |
-| `-rt <type>` / `--resample_type` | `interpolate`/`nearest`/`vote`/`weighted`/`cubic` | `interpolate` (trilinear) | Interpolation kernel. `interpolate` = `SAMPLE_TRILINEAR`, `nearest` = `SAMPLE_NEAREST`, `vote` = `SAMPLE_VOTE` (majority vote in a neighbourhood — for label volumes), `weighted` = `SAMPLE_WEIGHTED`, `cubic` = `SAMPLE_CUBIC_BSPLINE`. Use `nearest` or `vote` for label volumes. |
-| `-rl <vol>` / `--reslice_like <vol>` | path | — | Resample so the output matches the geometry of `<vol>`. |
-| `-il <vol>` / `--in_like <vol>` | path | — | Use `<vol>` as the "true" input geometry (overrides input header). |
+| `-rt <type>`<br>`--resample_type` | `interpolate`/`nearest`/`vote`/`weighted`/`cubic` | `interpolate` (trilinear) | Interpolation kernel. `interpolate` = `SAMPLE_TRILINEAR`, `nearest` = `SAMPLE_NEAREST`, `vote` = `SAMPLE_VOTE` (majority vote in a neighbourhood — for label volumes), `weighted` = `SAMPLE_WEIGHTED`, `cubic` = `SAMPLE_CUBIC_BSPLINE`. Use `nearest` or `vote` for label volumes. |
+| `-rl <vol>`<br>`--reslice_like <vol>` | path | — | Resample so the output matches the geometry of `<vol>`. |
+| `-il <vol>`<br>`--in_like <vol>` | path | — | Use `<vol>` as the "true" input geometry (overrides input header). |
 | `--like <vol>` | path | — | Output is embedded in the geometry of `<vol>` without re-interpolation (header copy). |
 
 ### Orientation and axis manipulation
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-io <ostr>` / `--in_orientation` | 3-letter ostring | input header | Override the input orientation. **Only if the input header is wrong.** |
-| `-oo <ostr>` / `--out_orientation` | 3-letter ostring | same as input | Force the output orientation. |
-| `-iid <R A S>` / `--in_i_direction` | 3 floats | — | Override input i-axis direction cosine. |
-| `-ijd` / `--in_j_direction` | 3 floats | — | Override input j-axis direction cosine. |
-| `-ikd` / `--in_k_direction` | 3 floats | — | Override input k-axis direction cosine. |
-| `-oid` / `--out_i_direction` | 3 floats | — | Override output i-axis direction cosine. |
-| `-ojd` / `--out_j_direction` | 3 floats | — | Override output j-axis direction cosine. |
-| `-okd` / `--out_k_direction` | 3 floats | — | Override output k-axis direction cosine. |
+| `-io <ostr>`<br>`--in_orientation` | 3-letter ostring | input header | Override the input orientation. **Only if the input header is wrong.** |
+| `-oo <ostr>`<br>`--out_orientation` | 3-letter ostring | same as input | Force the output orientation. |
+| `-iid <R A S>`<br>`--in_i_direction` | 3 floats | — | Override input i-axis direction cosine. |
+| `-ijd`<br>`--in_j_direction` | 3 floats | — | Override input j-axis direction cosine. |
+| `-ikd`<br>`--in_k_direction` | 3 floats | — | Override input k-axis direction cosine. |
+| `-oid`<br>`--out_i_direction` | 3 floats | — | Override output i-axis direction cosine. |
+| `-ojd`<br>`--out_j_direction` | 3 floats | — | Override output j-axis direction cosine. |
+| `-okd`<br>`--out_k_direction` | 3 floats | — | Override output k-axis direction cosine. |
 | `--sphinx` | bool | false | Re-orient for sphinx (HFS → sphinx) position; common for monkey scans. |
-| `-r`/`--reorder <d1> <d2> <d3>` | ints | — | Reorder axes (e.g. `2 1 3` swaps rows and cols). |
-| `-r4` / `--reorder4 <d1> <d2> <d3> <d4>` | ints | — | As above but also permutes the frame dimension (header will likely be wrong; see the help note). |
+| `-r`<br>`--reorder <d1> <d2> <d3>` | ints | — | Reorder axes (e.g. `2 1 3` swaps rows and cols). |
+| `-r4`<br>`--reorder4 <d1> <d2> <d3> <d4>` | ints | — | As above but also permutes the frame dimension (header will likely be wrong; see the help note). |
 | `--shift <dim> <n> <wrap01>` | mixed | — | Shift along an axis by `n` voxels, optional wrap. |
 | `--slice-reverse` | bool | false | Reverse slice order and update vox2ras. |
 | `--flip-cols` | bool | false | Reverse the column index ordering only (no header update — destructive). |
@@ -379,30 +379,30 @@ row and left to the help text for details.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-ic <R A S>` / `--in_center` | 3 floats | — | Override input RAS centre. |
-| `-dic <dR dA dS>` / `--delta_in_center` | 3 floats | 0 | Add to input centre. |
-| `-oc <R A S>` / `--out_center` | 3 floats | same as input | Override output RAS centre. |
-| `-iis` / `--in_i_size` | float | input size | Override input i-axis voxel size (mm). |
-| `-ijs` / `--in_j_size` | float | input size | Override input j-axis voxel size (mm). |
-| `-iks` / `--in_k_size` | float | input size | Override input k-axis voxel size (mm). |
-| `-ois` / `--out_i_size` | float | input size | Override output i-axis voxel size (mm). |
-| `-ojs` / `--out_j_size` | float | input size | Override output j-axis voxel size (mm). |
-| `-oks` / `--out_k_size` | float | input size | Override output k-axis voxel size (mm). |
-| `-ini` / `-iic` / `--in_i_count` | int | input count | Override input matrix dimension along i-axis. |
-| `-inj` / `-ijc` / `--in_j_count` | int | input count | Override input matrix dimension along j-axis. |
-| `-ink` / `-ikc` / `--in_k_count` | int | input count | Override input matrix dimension along k-axis (used with `--roi` / OTL reads). |
-| `-oni` / `-oic` / `--out_i_count` | int | input count | Override output matrix dimension along i-axis. |
-| `-onj` / `-ojc` / `--out_j_count` | int | input count | Override output matrix dimension along j-axis. |
-| `-onk` / `-okc` / `--out_k_count` | int | input count | Override output matrix dimension along k-axis. |
-| `-zgez` / `--zero_ge_z_offset` | bool | false (auto for GE) | Set `c_s = 0`, appropriate for GE isocenter scans. |
-| `-nozgez` / `--no_zero_ge_z_offset` | bool | false | Disable the above. |
+| `-ic <R A S>`<br>`--in_center` | 3 floats | — | Override input RAS centre. |
+| `-dic <dR dA dS>`<br>`--delta_in_center` | 3 floats | 0 | Add to input centre. |
+| `-oc <R A S>`<br>`--out_center` | 3 floats | same as input | Override output RAS centre. |
+| `-iis`<br>`--in_i_size` | float | input size | Override input i-axis voxel size (mm). |
+| `-ijs`<br>`--in_j_size` | float | input size | Override input j-axis voxel size (mm). |
+| `-iks`<br>`--in_k_size` | float | input size | Override input k-axis voxel size (mm). |
+| `-ois`<br>`--out_i_size` | float | input size | Override output i-axis voxel size (mm). |
+| `-ojs`<br>`--out_j_size` | float | input size | Override output j-axis voxel size (mm). |
+| `-oks`<br>`--out_k_size` | float | input size | Override output k-axis voxel size (mm). |
+| `-ini`<br>`-iic`<br>`--in_i_count` | int | input count | Override input matrix dimension along i-axis. |
+| `-inj`<br>`-ijc`<br>`--in_j_count` | int | input count | Override input matrix dimension along j-axis. |
+| `-ink`<br>`-ikc`<br>`--in_k_count` | int | input count | Override input matrix dimension along k-axis (used with `--roi` / OTL reads). |
+| `-oni`<br>`-oic`<br>`--out_i_count` | int | input count | Override output matrix dimension along i-axis. |
+| `-onj`<br>`-ojc`<br>`--out_j_count` | int | input count | Override output matrix dimension along j-axis. |
+| `-onk`<br>`-okc`<br>`--out_k_count` | int | input count | Override output matrix dimension along k-axis. |
+| `-zgez`<br>`--zero_ge_z_offset` | bool | false (auto for GE) | Set `c_s = 0`, appropriate for GE isocenter scans. |
+| `-nozgez`<br>`--no_zero_ge_z_offset` | bool | false | Disable the above. |
 
 ### Frame selection (4-D data)
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-f <n>` / `--frame <n> [...]` | ints | all frames | Keep only listed (0-based) frame numbers. |
-| `-nth <n>` / `--nth_frame <n>` | int | -1 (all frames) | Use only frame `n` (0-based). Equivalent to `--frame n` for a single frame. |
+| `-f <n>`<br>`--frame <n> [...]` | ints | all frames | Keep only listed (0-based) frame numbers. |
+| `-nth <n>`<br>`--nth_frame <n>` | int | -1 (all frames) | Use only frame `n` (0-based). Equivalent to `--frame n` for a single frame. |
 | `--mid-frame` | bool | false | Keep only the middle frame. |
 | `--nskip <n>` | int | 0 | Skip the first `n` frames. |
 | `--ndrop <n>` | int | 0 | Drop the last `n` frames. |
@@ -413,13 +413,13 @@ row and left to the help text for details.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--apply_transform <file>` / `-T` / `-at` | path | — | Apply an `.xfm` / `.lta` / `.reg` / `.m3z` transform. |
-| `--apply_inverse_transform <file>` / `-ait` | path | — | Apply the inverse of the transform. |
+| `--apply_transform <file>`<br>`-T`<br>`-at` | path | — | Apply an `.xfm` / `.lta` / `.reg` / `.m3z` transform. |
+| `--apply_inverse_transform <file>`<br>`-ait` | path | — | Apply the inverse of the transform. |
 | `--devolvexfm <subjid>` | subject | — | When applying a pre-devolved transform that was computed in the subject's RAS, de-volve by the subject's Talairach transform. |
 | `--autoalign <mtx>` | path | — | Read a 4x4 text matrix and store it on the output volume's `AutoAlign` slot (used downstream by registration tools). |
 | `--new-transform-fname <name>` | string | — | Set the value of the MGH header's transform-filename field on the output. |
 | `--delete-cmds` | bool | false | Remove the embedded command history from the output header. |
-| `-so` / `--store_orig_ras2vox` | bool | false | Save the original input ras2vox matrix as a side-band attribute of the output (used to restore geometry after a reconforming step). |
+| `-so`<br>`--store_orig_ras2vox` | bool | false | Save the original input ras2vox matrix as a side-band attribute of the output (used to restore geometry after a reconforming step). |
 
 ### DICOM-specific
 
@@ -430,7 +430,7 @@ row and left to the help text for details.
 | `--bvec-scanner` | bool | false | Force loaded DWI bvecs into scanner space (`FS_DESIRED_BVEC_SPACE=1`). |
 | `--bvec-voxel` | bool | false | Force loaded DWI bvecs into voxel space (`FS_DESIRED_BVEC_SPACE=2`). |
 | `--sdcmlist <file>` | path | — | Provide a pre-computed list of Siemens DICOM files belonging to the same run (skips directory scan). |
-| `--status` / `--statusfile <file>` | path | — | Write a percent-complete progress file during Siemens DICOM read. |
+| `--status`<br>`--statusfile <file>` | path | — | Write a percent-complete progress file during Siemens DICOM read. |
 | `--nslices-override <n>` | int | 0 | Override the per-mosaic slice count (sets `NSLICES_OVERRIDE`). |
 | `--ncols-override <n>` | int | 0 | Override the DICOM column count (`NCOLS_OVERRIDE`). |
 | `--nrows-override <n>` | int | 0 | Override the DICOM row count (`NROWS_OVERRIDE`). |
@@ -438,33 +438,33 @@ row and left to the help text for details.
 | `--mra` | bool | false | For Siemens MRA: read slice thickness from DICOM tag `(0018,0050)` instead of `(0018,0088)`. |
 | `--auto-slice-res` | bool | false | Auto-pick which slice-thickness DICOM tag to use depending on `(0018,0023)`. |
 | `--first-dicom <file>` | path | — | After reading, write the path of the first DICOM in the series into `<file>`. |
-| `-dicomread2` / `-dicomread0` | bool | — | Select between two C DICOM reader implementations (`UseDICOMRead2`). |
-| `-siemensBVecsCross` / `-no-siemensBVecsCross` | bool | — | Toggle the Siemens DICOM bvec voxel-space code path (`FS_dcmGetDWIParamsSiemens_VoxelSpace`). |
-| `-siemens-ascii-dump` / `-siemens-ascii-alt-dump` | bool | false | Dump Siemens CSA ASCII header to stdout (debug). |
-| `--dcm2niix` / `-dcm2niix` / `-dicomread3` | bool | false | Read DICOM via the internal `dcm2niix` code path. |
-| `--no-dcm2niix` / `-no-dcm2niix` | bool | true | Disable the dcm2niix code path (default). |
-| `--dcm2niix-createBIDS` / `-dcm2niix-createBIDS` / `--createBIDS` / `-createBIDS` | bool | false | Emit BIDS JSON sidecars (requires `--dcm2niix` and `--dcm2niix-outdir`). |
-| `--dcm2niix-outdir <dir>` / `-dcm2niix-outdir <dir>` | path | — | BIDS sidecar output directory (requires `--dcm2niix`). |
-| `--dcm2niix-no-ForceStackSameSeries` / `-dcm2niix-no-ForceStackSameSeries` | bool | false | Disable forced stacking of slices from the same series (requires `--dcm2niix`). |
-| `--dcm2niix-info-dump <file>` / `-dcm2niix-info-dump <file>` | path | — | Dump raw DICOM info used by dcm2niix (requires `--dcm2niix`). |
-| `--dcm2niix-dicom-flist <file>` / `-dcm2niix-dicom-flist <file>` | path | — | Provide a pre-built DICOM file list to dcm2niix. |
-| `--dcm2niix-singlefile` / `-dcm2niix-singlefile` | bool | false | Tell dcm2niix to read only the single file passed as input. |
-| `--dcm2niix-opts <str>` / `-dcm2niix-opts <str>` | string | — | Extra raw option string forwarded to dcm2niix. |
+| `-dicomread2`<br>`-dicomread0` | bool | — | Select between two C DICOM reader implementations (`UseDICOMRead2`). |
+| `-siemensBVecsCross`<br>`-no-siemensBVecsCross` | bool | — | Toggle the Siemens DICOM bvec voxel-space code path (`FS_dcmGetDWIParamsSiemens_VoxelSpace`). |
+| `-siemens-ascii-dump`<br>`-siemens-ascii-alt-dump` | bool | false | Dump Siemens CSA ASCII header to stdout (debug). |
+| `--dcm2niix`<br>`-dcm2niix`<br>`-dicomread3` | bool | false | Read DICOM via the internal `dcm2niix` code path. |
+| `--no-dcm2niix`<br>`-no-dcm2niix` | bool | true | Disable the dcm2niix code path (default). |
+| `--dcm2niix-createBIDS`<br>`-dcm2niix-createBIDS`<br>`--createBIDS`<br>`-createBIDS` | bool | false | Emit BIDS JSON sidecars (requires `--dcm2niix` and `--dcm2niix-outdir`). |
+| `--dcm2niix-outdir <dir>`<br>`-dcm2niix-outdir <dir>` | path | — | BIDS sidecar output directory (requires `--dcm2niix`). |
+| `--dcm2niix-no-ForceStackSameSeries`<br>`-dcm2niix-no-ForceStackSameSeries` | bool | false | Disable forced stacking of slices from the same series (requires `--dcm2niix`). |
+| `--dcm2niix-info-dump <file>`<br>`-dcm2niix-info-dump <file>` | path | — | Dump raw DICOM info used by dcm2niix (requires `--dcm2niix`). |
+| `--dcm2niix-dicom-flist <file>`<br>`-dcm2niix-dicom-flist <file>` | path | — | Provide a pre-built DICOM file list to dcm2niix. |
+| `--dcm2niix-singlefile`<br>`-dcm2niix-singlefile` | bool | false | Tell dcm2niix to read only the single file passed as input. |
+| `--dcm2niix-opts <str>`<br>`-dcm2niix-opts <str>` | string | — | Extra raw option string forwarded to dcm2niix. |
 
 ### Segmentation-specific
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-fp` / `--fill_parcellation` | bool | false | Fill a parcellation volume with label values. |
-| `-sp` / `--smooth_parcellation` | bool | false | Smooth a parcellation with a label-aware filter. |
-| `-zo` / `--zero_outlines` | bool | false | Zero the outlines of a parcellation. |
-| `-cf` / `--color_file <file>` | path | — | [[color-lut|Color lookup table]] for labels. |
+| `-fp`<br>`--fill_parcellation` | bool | false | Fill a parcellation volume with label values. |
+| `-sp`<br>`--smooth_parcellation` | bool | false | Smooth a parcellation with a label-aware filter. |
+| `-zo`<br>`--zero_outlines` | bool | false | Zero the outlines of a parcellation. |
+| `-cf`<br>`--color_file <file>` | path | — | [[color-lut|Color lookup table]] for labels. |
 | `--ctab <file>` | path | — | Embed a colortable into the output volume. `--ctab remove` deletes an embedded table. |
-| `--no-ctab` / `--remove-ctab` | bool | false | Delete an embedded colortable. |
+| `--no-ctab`<br>`--remove-ctab` | bool | false | Delete an embedded colortable. |
 | `--erode-seg N` | int | — | Erode segmentation by `N` 6-connected iterations. |
 | `--dil-seg N` | int | — | Dilate segmentation by `N` iterations. |
 | `--dil-seg-mask <file>` | path | — | Dilate segmentation into the specified mask. |
-| `-roi` / `--roi` | bool | false | Read a GE ROI file (`MRIreadGeRoi`). Input must be in GE format; `--in_k_count` or `--in_like` is required to supply the slice depth. |
+| `-roi`<br>`--roi` | bool | false | Read a GE ROI file (`MRIreadGeRoi`). Input must be in GE format; `--in_k_count` or `--in_like` is required to supply the slice depth. |
 
 ### Smoothing and cropping
 
@@ -489,29 +489,29 @@ row and left to the help text for details.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-tr <ms>`, `-te <ms>`, `-TI <ms>`, `-flip_angle <rad>` | floats | — | Override the pulse-sequence metadata in the output header. |
-| `-oval <v>` / `--outside_val <v>` | int | 0 | Value assigned to voxels that fall outside the image after a transform/resample. |
+| `-tr <ms>`<br>`-te <ms>`<br>`-TI <ms>`<br>`-flip_angle <rad>` | floats | — | Override the pulse-sequence metadata in the output header. |
+| `-oval <v>`<br>`--outside_val <v>` | int | 0 | Value assigned to voxels that fall outside the image after a transform/resample. |
 | `--no-dwi` | bool | false | Do not try to load `.bvec`/`.bval` (sets `FS_LOAD_DWI=0`). |
 | `--force_ras_good` | bool | false | Assume the input is RAS when orientation info is missing. Mutually exclusive with `-iid`/`-ijd`/`-ikd`. |
-| `-sn <name>` / `--subject_name` | string | — | Embed the subject name in the MGH header. |
-| `-nt` / `--no_translate` | bool | true (translate on) | Disable translation of label values via the `--color_file` LUT. |
+| `-sn <name>`<br>`--subject_name` | string | — | Embed the subject name in the MGH header. |
+| `-nt`<br>`--no_translate` | bool | true (translate on) | Disable translation of label values via the `--color_file` LUT. |
 | `--ascii` | bool | false | Write a plain-text dump of the volume (one value per line, columns-fastest). Forces output type. |
 | `--ascii+crsf` | bool | false | Same but each line contains `col row slice frame value`. |
 | `--ascii-fcol` | bool | false | Same but with the frame column varying fastest. |
-| `-tt <type>` / `--template_type <type>` | string | — | Force the template-volume file type when used with `--reslice_like`/`--like`. |
-| `-ti <vol>` / `--template_info <vol>` | path | — | Dump header info for `<vol>` and exit. |
-| `-gis <stem>` / `--gdf_image_stem <stem>` | string | — | GDF image stem (required for GDF output). |
-| `-cg` / `--crop_gdf` | bool | false | Enable GDF cropping (`mriio_set_gdf_crop_flag`). |
+| `-tt <type>`<br>`--template_type <type>` | string | — | Force the template-volume file type when used with `--reslice_like`/`--like`. |
+| `-ti <vol>`<br>`--template_info <vol>` | path | — | Dump header info for `<vol>` and exit. |
+| `-gis <stem>`<br>`--gdf_image_stem <stem>` | string | — | GDF image stem (required for GDF output). |
+| `-cg`<br>`--crop_gdf` | bool | false | Enable GDF cropping (`mriio_set_gdf_crop_flag`). |
 | `--bfile-little-endian` | bool | false | Treat bshort/bfloat input as little-endian (`BFILE_LITTLE_ENDIAN=1`). |
 | `--in_nspmzeropad <n>` | int | -1 (auto, 3 for SPM) | Number of zero-pad digits in input SPM/Analyze filenames. |
-| `--nspmzeropad <n>` / `--out_nspmzeropad <n>` | int | — | Number of zero-pad digits in output SPM/Analyze filenames. |
+| `--nspmzeropad <n>`<br>`--out_nspmzeropad <n>` | int | — | Number of zero-pad digits in output SPM/Analyze filenames. |
 | `--no-strip-pound` | bool | false | Do not strip a trailing `#frame` selector from filenames (`MRIIO_Strip_Pound=0`). |
-| `--nthreads <n>` / `--threads <n>` | int | 1 | Set OpenMP thread count (no effect if not built with OpenMP). |
+| `--nthreads <n>`<br>`--threads <n>` | int | 1 | Set OpenMP thread count (no effect if not built with OpenMP). |
 | `--debug` | bool | false | Verbose debug output. |
 | `--diag <n>` | int | — | Set the global `Gdiag_no` voxel for diagnostic prints. |
 | `--diag-debug` | bool | false | OR `DIAG_INFO` into the `Gdiag` mask. |
 | `-version2` | bool | — | Print "version 2" exit code (97); used by build scripts. |
-| `-u` / `-h` / `--help` / `--usage` | bool | — | Print help text and exit. |
+| `-u`<br>`-h`<br>`--help`<br>`--usage` | bool | — | Print help text and exit. |
 
 ### `mri_make_uchar` flags
 

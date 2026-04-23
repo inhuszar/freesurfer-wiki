@@ -89,7 +89,7 @@ with hardcoded weights $w_{30} = 2 \times 0.9527$, $w_5 = 2 \times (-0.3039)$, t
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-t2` / `-t2star` | `file` | — | T2* map volume for extended FLASH model |
+| `-t2`<br>`-t2star` | `file` | — | T2* map volume for extended FLASH model |
 | `-n` | — | off | Normalize PD map to mean=1000 before synthesis |
 | `-d` | — | off | Discard PD: set values above 250 to constant 1500, others to 0 |
 | `-jpdf` | `file` | — | Joint PDF file for T1 nonlinear remapping |

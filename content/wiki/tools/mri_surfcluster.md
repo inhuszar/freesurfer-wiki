@@ -75,7 +75,7 @@ It reads the source surface for metric properties (area computation) and the sta
 |---|---|
 | `--o outid` | Thresholded map with non-cluster vertices zeroed out |
 | `--ocn ocnid` | Cluster number map (vertex → cluster index) |
-| `--cwsig` / `--ocp` | Multi-frame output: cluster-wise p-value, original data, thresholded, cluster numbers |
+| `--cwsig`<br>`--ocp` | Multi-frame output: cluster-wise p-value, original data, thresholded, cluster numbers |
 | `--vwsig` | Per-vertex significance map |
 | `--vwsigmax` | Per-vertex maximum significance map |
 | `--olab outlabelbase` | Save each cluster as a label file |
@@ -121,15 +121,15 @@ $$
 
 | Flag | Argument | Default | Description |
 |---|---|---|---|
-| `--in` / `--src` | srcid | — | Input statistical map |
-| `--srcsubj` / `--subject` | subj | — | Subject name (for surface loading) |
+| `--in`<br>`--src` | srcid | — | Input statistical map |
+| `--srcsubj`<br>`--subject` | subj | — | Subject name (for surface loading) |
 | `--hemi` | lh/rh | — | Hemisphere |
-| `--srcsurf` / `--surf` | surfname | `white` | Surface for metric properties |
-| `--srcframe` / `--frame` | N | `0` | Frame of input to use (zero-based) |
+| `--srcsurf`<br>`--surf` | surfname | `white` | Surface for metric properties |
+| `--srcframe`<br>`--frame` | N | `0` | Frame of input to use (zero-based) |
 | `--surfpath` | path | — | Full path to surface file (overrides `--subject`/`--hemi`) |
 | `--thmin` | value | — | Minimum vertex-wise threshold (required unless `--fdr`) |
 | `--thmax` | value | `∞` | Maximum vertex-wise threshold; negative = infinity |
-| `--thsign` / `--sign` | pos/neg/abs | `abs` | Threshold sign |
+| `--thsign`<br>`--sign` | pos/neg/abs | `abs` | Threshold sign |
 | `--no-adjust` | (flag) | off | Do not adjust threshold for one-tail tests (adjustment is on by default) |
 | `--fdr` | rate | — | Set `--thmin` via False Discovery Rate (0–1); input must be -log10(p) |
 | `--fdr-log10` | value | — | Set `--thmin` via FDR where the supplied value is -log10(FDR) |
@@ -144,7 +144,7 @@ $$
 | `--minarea` | mm² | `0` | Minimum cluster area (mm²); `0` means no minimum |
 | `--o` | outid | — | Thresholded output map (non-cluster vertices zeroed) |
 | `--ocn` | ocnid | — | Cluster number map (vertex → cluster index) |
-| `--cwsig` / `--ocp` | ocpvalid | — | Multi-frame cluster-wise p-value output |
+| `--cwsig`<br>`--ocp` | ocpvalid | — | Multi-frame cluster-wise p-value output |
 | `--vwsig` | file | — | Per-vertex significance map output (requires `--csd`) |
 | `--vwsigmax` | file | — | File to save maximum per-vertex significance (requires `--vwsig`) |
 | `--olab` | base | — | Save each cluster as a label file (`base-XXXX.label`) |
@@ -166,7 +166,7 @@ $$
 | `--bonferroni-max` | N | `0` (off) | Apply Bonferroni correction to maximum stat (use with `--sig2p-max`) |
 | `--xfm` | xfmfile | `talairach.xfm` | Transform file for Talairach coordinate reporting |
 | `--fixmni` | (flag) | on | Apply Matthew Brett fixMNI correction to Talairach coordinates |
-| `--nofixmni` / `--no-fixmni` | (flag) | off | Disable fixMNI coordinate correction |
+| `--nofixmni`<br>`--no-fixmni` | (flag) | off | Disable fixMNI coordinate correction |
 | `--no-fix-vertex-area` | (flag) | off | Turn off vertex area fix (for back-compatibility only) |
 | `--use-avg-vertex-area` | (flag) | off | Force use of group-average vertex area for cluster sizing |
 | `--no-use-avg-vertex-area` | (flag) | off | Force individual vertex area for cluster sizing |
@@ -176,7 +176,7 @@ $$
 | `--nclusters-max` | N | `-1` (all) | Limit output to N largest clusters |
 | `--diag` | N | — | Set diagnostic vertex number (`Gdiag_no`) for debug output |
 | `--synth` | synthfunc | — | Synthesize random data using named function (for testing) |
-| `--sd` / `--subjectsdir` | dir | `$SUBJECTS_DIR` | Override FreeSurfer subjects directory |
+| `--sd`<br>`--subjectsdir` | dir | `$SUBJECTS_DIR` | Override FreeSurfer subjects directory |
 
 ## Configuration Interactions
 

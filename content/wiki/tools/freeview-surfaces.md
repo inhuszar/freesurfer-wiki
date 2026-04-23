@@ -288,16 +288,16 @@ Source: `MainWindow::CommandLoadSurface()`.
 | `offset` | x,y,z | 0,0,0 | Translate surface position (Surface RAS) |
 | `name` | string | filename | Override display name in layer list |
 | `id` | integer | (auto) | Numeric layer identifier |
-| `lock` / `locked` | 0, 1 | 0 | Lock layer against editing |
+| `lock`<br>`locked` | 0, 1 | 0 | Lock layer against editing |
 
 ### Geometry-related properties
 
 | Property | Values | Default | Description |
 |----------|--------|---------|-------------|
-| `target_surf` / `target` | filepath | (none) | Target surface (used with patch files) |
+| `target_surf`<br>`target` | filepath | (none) | Target surface (used with patch files) |
 | `patch` | filepath | (none) | Surface patch file |
 | `sphere` | filepath | (none) | Spherical representation |
-| `reg` / `affinexfm` | filepath (.lta) | (none) | Apply registration transform |
+| `reg`<br>`affinexfm` | filepath (.lta) | (none) | Apply registration transform |
 | `ignore_vg` | 0, 1 | 0 | Ignore volume geometry check |
 | `all` | 0, 1 | 0 | Load all standard surface types for the subject |
 | `sup_files` | filepath list | (none) | Supplementary surface files |
@@ -328,9 +328,9 @@ Source: `MainWindow::CommandLoadSurface()`.
 | `overlay_reg` | filepath (.lta) | (none) | Registration file for the overlay |
 | `overlay_zorder` | integer | 0 | Overlay drawing order |
 | `overlay_rh` | 0, 1 | 0 | Use second hemisphere half of a bilateral overlay file |
-| `link` / `linked` | 0, 1 | 0 | Link overlay display across loaded surfaces |
+| `link`<br>`linked` | 0, 1 | 0 | Link overlay display across loaded surfaces |
 | `correlation` | filepath | (none) | Multi-frame overlay for seed-based correlation analysis |
-| `mrisp` / `parameterization_overlay` | filepath | (none) | Overlay from surface parameterization file |
+| `mrisp`<br>`parameterization_overlay` | filepath | (none) | Overlay from surface parameterization file |
 | `mrisps` | filepath | (none) | Surface parameterization file |
 
 > [!contradiction] Default overlay method
@@ -343,7 +343,7 @@ Source: `MainWindow::CommandLoadSurface()`.
 | Property | Values | Default | Description |
 |----------|--------|---------|-------------|
 | `annot` | filepath | (none) | Annotation file (`.annot`) |
-| `annot_outline` / `annotation_outline` / `aparc_outline` | 0, 1 | 0 | Show annotation boundaries only |
+| `annot_outline`<br>`annotation_outline`<br>`aparc_outline` | 0, 1 | 0 | Show annotation boundaries only |
 | `annot_zorder` | integer | 0 | Annotation drawing order |
 
 ### Label properties
@@ -352,7 +352,7 @@ Source: `MainWindow::CommandLoadSurface()`.
 |----------|--------|---------|-------------|
 | `label` | filepath | (none) | Label file (`.label`) |
 | `label_outline` | 0, 1 | 0 | Show label boundary only |
-| `label_color` / `labelcolor` | colour name or R,G,B | (auto) | Label fill colour |
+| `label_color`<br>`labelcolor` | colour name or R,G,B | (auto) | Label fill colour |
 | `label_opacity` | 0.0–1.0 | 1.0 | Label opacity |
 | `label_threshold` | float | 0 | Minimum per-vertex value to show |
 | `label_centroid` | 0, 1 | 0 | Move view to label centroid on load |

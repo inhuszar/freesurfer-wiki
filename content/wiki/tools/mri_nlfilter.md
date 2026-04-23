@@ -105,7 +105,7 @@ Option flags use a single `-` prefix. Filter-type flags are long-form words (e.g
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-blur <sigma>` / `-B <sigma>` / `-b <sigma>` | float | 0.5 | Sigma of the Gaussian kernel used to smooth the input before computing the offset field; set to 0 to disable pre-blur. `-B` and `-b` are short-form aliases matched by `toupper(*option) == 'B'`. |
+| `-blur <sigma>`<br>`-B <sigma>`<br>`-b <sigma>` | float | 0.5 | Sigma of the Gaussian kernel used to smooth the input before computing the offset field; set to 0 to disable pre-blur. `-B` and `-b` are short-form aliases matched by `toupper(*option) == 'B'`. |
 
 ### Crop and offset
 

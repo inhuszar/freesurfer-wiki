@@ -176,7 +176,7 @@ passes until it reaches 2.
 | `-seed <n>` | int | (system) | Calls `setRandomSeed(n)` to seed the global PRNG used by surface routines that draw random numbers |
 | `-V <vno>` | int | -1 | Sets `Gdiag_no` to the given vertex number for verbose per-vertex debug output |
 | `-W <n>` | int | 0 | Sets `write_iterations = n` and ORs `Gdiag |= DIAG_WRITE`. In the `-G` path, snapshots of the surface (and optionally curvature/marks) are written every `n` iterations as `<outsurf>NNNN`. Has no effect in the default Laplacian path |
-| `--help`, `--usage`, `-?`, `-H`, `-U` | flag | — | Print help (XML-rendered usage) and exit |
+| `--help`<br>`--usage`<br>`-?`<br>`-H`<br>`-U` | flag | — | Print help (XML-rendered usage) and exit |
 | `--version` | flag | — | Print version string and exit |
 
 ### Configuration Interactions

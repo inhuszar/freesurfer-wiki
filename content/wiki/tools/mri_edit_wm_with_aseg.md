@@ -84,7 +84,7 @@ All flags are case-insensitive. The full `get_option()` has been read.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--help` / `--usage` | — | — | Print help and exit |
+| `--help`<br>`--usage` | — | — | Print help and exit |
 | `-dilate` | — | — | Accepted but ignored (empty handler; `if (!stricmp(option, "dilate")) {}`) |
 | `-lh` | — | off | Process left hemisphere only; sets `lh_only=1` |
 | `-rh` | — | off | Process right hemisphere only; sets `rh_only=1` |
@@ -104,7 +104,7 @@ All flags are case-insensitive. The full `get_option()` has been read.
 | `-no-fill-seg-wm` | — | — | Disable segmentation-based WM fill; sets `FillSegWM=0` |
 | `-keep-hailvcp <lhval> <rhval>` | 2 floats | off | Preserve hippocampus (H), amygdala (A), inferior lateral ventricle (ILV), and choroid plexus (CP) voxels; sets `KeepH=KeepA=KeepILV=KeepCP=1` |
 | `-debug_voxel <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output; sets `Gx`, `Gy`, `Gz` |
-| `-?` / `-H` / `-U` | — | — | Print usage and exit |
+| `-?`<br>`-H`<br>`-U` | — | — | Print usage and exit |
 
 > [!gotcha] `-fillven` uses `strcmp` (case-sensitive)
 > Unlike most other flags, `-fillven` is checked with `strcmp` (not `stricmp`). The flag must be spelled with exact case: `-fillven`. `-Fillven` or `-FILLVEN` will not be recognised.

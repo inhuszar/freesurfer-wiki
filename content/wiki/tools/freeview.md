@@ -365,14 +365,14 @@ See [[freeview-keyboard-mouse]] for the complete reference. Essential shortcuts:
 | `Alt+V` | Toggle selected volume visibility |
 | `Alt+F` | Toggle selected surface visibility |
 | `Ctrl+F` | Toggle all surfaces on/off |
-| `Alt+S` / `Alt+A` | Increase / decrease opacity of selected layer |
+| `Alt+S`<br>`Alt+A` | Increase / decrease opacity of selected layer |
 | `Ctrl+O` | Load volume |
 | `Ctrl+S` | Save volume |
 | `Ctrl+Z` | Undo |
 | `Ctrl+Shift+Z` | Redo |
 | `Ctrl+Shift+S` | Toggle 2D slices in 3D view |
-| `PageUp` / `PageDown` | Previous / next slice |
-| `+` / `-` | Next / previous frame (4D) |
+| `PageUp`<br>`PageDown` | Previous / next slice |
+| `+`<br>`-` | Next / previous frame (4D) |
 
 ## Scripting and Automation
 

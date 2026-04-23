@@ -72,10 +72,10 @@ All flags are parsed from `get_option()`. The tool has very few options.
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-o` / `-O` | — | off | Preserve original label values rather than binarising output; calls `MRIorVal()` instead of `MRIor()` (`use_orig_value=1`) |
+| `-o`<br>`-O` | — | off | Preserve original label values rather than binarising output; calls `MRIorVal()` instead of `MRIor()` (`use_orig_value=1`) |
 | `--help` | — | — | Print help text and exit |
-| `-u` / `-U` / `-?` | — | — | Print usage and exit |
-| `-v` / `-V` | — | — | Print version string and exit |
+| `-u`<br>`-U`<br>`-?` | — | — | Print usage and exit |
+| `-v`<br>`-V` | — | — | Print version string and exit |
 
 ## Configuration Interactions
 

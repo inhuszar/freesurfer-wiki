@@ -98,17 +98,17 @@ CSF filling: By default, the aseg is dilated (`--ndil 3`) to add extracerebral C
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--o outstem` / `--pvf` | path stem | required | Output filename stem |
+| `--o outstem`<br>`--pvf` | path stem | required | Output filename stem |
 | `--stack stackfile` | file | none | Single multi-frame output |
 | `--gm gmfile` | file | none | Combined GM (cortex + subcort) output |
 | `--reg regfile` | LTA or .dat | required (or `--regheader`) | Registration to target space |
 | `--regheader subject tempvol` | subject, vol | — | Compute registration from headers |
-| `-s subject` / `--s` | name | from reg | Override subject name |
+| `-s subject`<br>`--s` | name | from reg | Override subject name |
 | `--seg segfile` | file | `aseg.mgz` | Custom segmentation (relative to subject mri/) |
 | `--wsurf surf` | name | `white` | White surface name |
 | `--psurf surf` | name | `pial` | Pial surface name |
 | `--usf USF` | int | 2 | Anatomical upsampling factor |
-| `-r res` / `--r` | float | — | Resolution in mm (sets USF = round(1/res)) |
+| `-r res`<br>`--r` | float | — | Resolution in mm (sets USF = round(1/res)) |
 | `--resmm resmm` | float | aseg.xsize/USF | Functional upsampling resolution |
 | `--no-aseg` | — | off | Skip aseg loading |
 | `--fill-csf` | — | on | Fill surrounding voxels with extracerebral CSF |
@@ -119,8 +119,8 @@ CSF filling: By default, the aseg is dilated (`--ndil 3`) to add extracerebral C
 | `--ttseg ttseg` | file | none | Save tissue-type segmentation |
 | `--ttseg-ctab ctabfile` | file | none | Save tissue-type color table |
 | `--ttype+head` | — | off | Use `default-jan-2014+head` tissue type schema |
-| `-mgz` / `-mgh` / `-nii` / `-nii.gz` / `--mgz` / `--mgh` / `--nii` / `--nii.gz` | — | mgz | Output format (single- and double-dash accepted) |
-| `--sd path` / `-SDIR path` | path | $SUBJECTS_DIR | Override SUBJECTS_DIR (note: `-SDIR` is case-sensitive) |
+| `-mgz`<br>`-mgh`<br>`-nii`<br>`-nii.gz`<br>`--mgz`<br>`--mgh`<br>`--nii`<br>`--nii.gz` | — | mgz | Output format (single- and double-dash accepted) |
+| `--sd path`<br>`-SDIR path` | path | $SUBJECTS_DIR | Override SUBJECTS_DIR (note: `-SDIR` is case-sensitive) |
 | `--vg-thresh threshold` | float | 10e-4 | Threshold for LTA geometry mismatch warnings |
 | `--debug` | — | off | Enable debug output |
 | `--checkopts` | — | off | Check options and exit without processing |

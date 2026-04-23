@@ -77,7 +77,7 @@ where $\text{vox}(\cdot)$ converts a coordinate to voxel indices using the parce
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-s <file>` / `-S <file>` | file | required | Input streamline file(s); multiple files can be listed consecutively |
+| `-s <file>`<br>`-S <file>` | file | required | Input streamline file(s); multiple files can be listed consecutively |
 | `-i <file>` | file | required | Parcellation/segmentation image |
 | `-d <dir>` | dir | required | Output directory |
 
