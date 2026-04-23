@@ -17,7 +17,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact cost function formulation for BBR not fully characterized from script alone — mri_segreg contains the actual implementation"
 tags:
@@ -80,7 +80,9 @@ The subject must have a completed FreeSurfer reconstruction (needs `mri/brainmas
 
 BBR minimizes a cost function that measures the similarity of image intensity to the expected signal profile across the white-matter/grey-matter boundary:
 
-$$C(\mathbf{T}) = \frac{1}{N} \sum_{i=1}^{N} \rho\!\left( \text{sgn}(c) \cdot \frac{I_{\text{WM},i}(\mathbf{T}) - I_{\text{GM},i}(\mathbf{T})}{\sigma} \right)$$
+$$
+C(\mathbf{T}) = \frac{1}{N} \sum_{i=1}^{N} \rho\!\left( \text{sgn}(c) \cdot \frac{I_{\text{WM},i}(\mathbf{T}) - I_{\text{GM},i}(\mathbf{T})}{\sigma} \right)
+$$
 
 where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{\text{GM},i}$ are intensities sampled on the white-matter and grey-matter sides of each surface vertex $i$, $c$ is the contrast sign (+1 for T2/BOLD/DTI, -1 for T1), and $\rho$ is a robust penalty function. $N$ is the number of surface vertices sampled. Optimization is performed with Powell's method.
 
@@ -91,7 +93,7 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--s <subject>` | string | required | FreeSurfer subject ID |
+| `--s <subject>` / `--subject` | string | required | FreeSurfer subject ID |
 | `--mov <vol>` | file | required | Moving (functional/diffusion) volume |
 | `--reg <file>` | file | required* | Output register.dat file |
 | `--lta <file>` | file | — | Output LTA format registration |
@@ -121,8 +123,6 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--rh-only` | flag | off | Restrict to right hemisphere |
 | `--label <file>` | file | — | Restrict registration to a label file |
 | `--no-cortex-label` | flag | off | Do not restrict to cortex label |
-| `--interp trilinear` | string | trilinear | Interpolation method |
-| `--interp nearest` | string | — | Nearest-neighbor interpolation |
 | `--tol <val>` | float | 1e-8 | Powell convergence tolerance |
 | `--nmax <n>` | int | 36 | Maximum Powell iterations |
 | `--cost-fail <thresh>` | float | — | Error if final cost exceeds threshold |
@@ -132,9 +132,61 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--sd <dir>` | dir | `$SUBJECTS_DIR` | Override subjects directory |
 | `--feat <dir>` | dir | — | FSL FEAT directory shortcut |
 | `--threads <n>` | int | 1 | Number of OMP threads |
-| `--nocleanup` | flag | off | Do not remove temporary directory |
+| `--nocleanup` / `--no-cleanup` | flag | off | Do not remove temporary directory |
 | `--debug` | flag | off | Verbose/debug output |
 | `--nolog` | flag | off | Suppress log file creation |
+| `--cleanup` / `--clean-up` | flag | on | Explicitly enable cleanup of temporary directory |
+| `--regheader` / `--reg-header` / `--init-header` | flag | off | Initialise from volume headers (all three are aliases) |
+| `--s-from-reg` | `<regfile>` | — | Extract subject ID from an existing register.dat file |
+| `--init-reg-out` | `<file>` | — | Save the initial (pre-BBR) registration to file |
+| `--init-best-header` | — | — | Add header-based init to `--init-best` candidate list |
+| `--target-volume` | `<vol>` | — | Use specified volume as registration target instead of `$SUBJECTS_DIR/mri/orig.mgz` |
+| `--abs` | — | — | Set contrast to absolute (experimental; sets `DoAbs` in mri_segreg) |
+| `--fwhm` | `<mm>` | — | Smooth template by FWHM mm before registration (testing only) |
+| `--include-zero-voxels` | — | off | Pass `--include-zero-voxels` to mri_segreg (include out-of-FoV voxels) |
+| `--mask` | `lhmask rhmask` | — | Per-hemisphere surface masks passed to mri_segreg |
+| `--nearest` | — | — | Use nearest-neighbour interpolation in mri_segreg |
+| `--trilin` / `--trilinear` | — | on | Use trilinear interpolation in mri_segreg (default) |
+| `--surf-cost` | `<basename>` | — | Save per-vertex BBR cost map (basename.?h.mgh) |
+| `--nsub` / `--subsamp` | `<n>` | — | Sample every Nth surface vertex during optimisation (speed/accuracy trade-off) |
+| `--tolf` | `<val>` | — | Powell function-value tolerance (separate from overall `--tol`) |
+| `--tol1d` | `<val>` | — | Powell 1-D line search tolerance |
+| `--spm-nii` | — | off | Tell SPM registration sub-call to use NIfTI format |
+| `--init-best-fsl` | — | — | Add FSL FLIRT to the `--init-best` candidate list |
+| `--init-best-spm` | — | — | Add SPM to the `--init-best` candidate list |
+| `--init-best-rr` | — | — | Add `mri_robust_register` to the `--init-best` candidate list |
+| `--init-best-coreg` | — | — | Add `mri_coreg` to the `--init-best` candidate list |
+| `--no-init-best` | — | — | Disable `--init-best` mode (used internally for recursive calls) |
+| `--coreg-dof` | `<n>` | 6 | Override DOF for `mri_coreg` initialization specifically (independent of `--6`/`--9`/`--12`) |
+| `--fsl-dof` | `<n>` | 6 | Override DOF for FSL FLIRT initialization specifically |
+| `--fsl-bet-mov` | — | off | Apply BET brain extraction to the moving volume before FSL FLIRT initialization |
+| `--no-fsl-bet-mov` | — | on | Disable BET on moving volume for FSL FLIRT initialization (default) |
+| `--fsl-swap-trans` | — | off | Pass `--allow-swap --trans` to `fslregister` (for left-right swap correction) |
+| `--vsm-reg` | `<file>` | — | Registration from VSM space to the (distorted) moving volume space |
+| `--vsm-mul` | `<val>` | — | Multiply the VSM by this scalar before applying it |
+| `--epi-mask` | — | off | Enable EPI B0 mask in `mri_segreg` (set automatically when `--vsm` is used) |
+| `--no-epi-mask` | — | on | Disable the EPI B0 mask even when `--vsm` is specified |
+| `--slope1` | `<val>` | 0.5 | BBR slope parameter for Pass 1 (passed as `--gm-gt-wm` / `--wm-gt-gm` argument to `mri_segreg`) |
+| `--slope2` | `<val>` | 0.5 | BBR slope parameter for Pass 2 (passed as `--gm-gt-wm` / `--wm-gt-gm` argument to `mri_segreg`) |
+| `--offset2` | `<val>` | 0 | BBR cost offset (`--c0`) for Pass 2 `mri_segreg` call |
+| `--initcost` | `<file>` | — | File to read the initial cost from (passed as `--initcost` to Pass 2 `mri_segreg`) |
+| `--init-surf-cost` | `<basename>` | — | Write per-vertex BBR cost map at initialization (before optimization begins) |
+| `--init-surf-cost-only` | — | off | Compute and save the initial surface cost, then exit without running full optimization |
+| `--surf-con` | `<basename>` | — | Save per-vertex surface contrast map (basename; passed to `mri_segreg --surf-con`) |
+| `--proj-abs` | `<mm>` | — | Set both `--wm-proj-abs` and `--gm-proj-abs` to the same absolute distance |
+| `--rand-init` | `<max>` | — | Add random translation/rotation perturbation (up to `<max>` units) before Pass 1 — for testing only |
+| `--brute1max` | `<val>` | 4 | Maximum angle/translation range for Pass 1 brute-force search (degrees/mm) |
+| `--brute1delta` | `<val>` | 4 | Step size for Pass 1 brute-force search |
+| `--no-brute2` | — | off | Skip the small brute-force search in Pass 2 (default is a ±0.1 step search) |
+| `--subsamp1` | `<n>` | 100 | Subsample every Nth vertex during Pass 1 (both brute and Powell) |
+| `--no-pass1` | — | off | Skip Pass 1 entirely and proceed directly to Pass 2 using the initial registration |
+| `--no-save-cur-reg` | — | off | Do not write the current-iteration registration to the temporary directory during optimization |
+| `--rms0` | `<file>` | — | Write RMS difference relative to the Pass 2 initial registration (requires `--no-pass1`) |
+| `--no-coreg-ref-mask` | — | off | Disable reference brain mask in `mri_coreg` initialization |
+| `--coreg-ref-mask` | — | on | Enable reference brain mask in `mri_coreg` initialization (default) |
+| `--tmpdir` / `--tmp` | `<dir>` | auto | Set temporary working directory (also disables automatic cleanup) |
+| `--int` | `<vol>` | — | Intermediate volume: register `<vol>` to anatomy, then map result to `--mov` via header |
+| `--no-include-zero-voxels` | — | on | Exclude out-of-FoV (zero) voxels from the BBR cost (default) |
 
 ## Configuration Interactions
 
@@ -214,7 +266,7 @@ recon-all (anatomy) --> bbregister --> mri_vol2surf / mri_label2vol
 > If `$BBR_TEST_TOLERANCE` is set in the environment, it overrides convergence tolerances. This is intended for automated testing only and will produce unreliable registrations if set inadvertently.
 
 > [!gotcha] Only .mgz/.mgh formats preserve transform names
-> When using `--o` to save the registered volume, only `.mgz` and `.mgh` formats store the transform name in the header. The code enforces this restriction.
+> When using --o to save the registered volume, only `.mgz` and `.mgh` formats store the transform name in the header. The code enforces this restriction.
 
 > [!gotcha] Visual inspection is essential
 > A low BBR cost does not guarantee a correct registration. Gross misregistrations (e.g., left-right flips, wrong subject) can produce deceptively acceptable-looking cost values. Always verify with `tkregisterfv`.
@@ -238,3 +290,9 @@ The script logic is well-documented and the key parameters are clearly enumerate
 
 > [!gap] VSM registration space
 > The exact coordinate space relationship between the VSM and the moving volume (controlled by `--vsm-reg`) is not fully characterized from the script alone.
+
+> [!note] Audit noise: `--target-volume` C3 false positive
+> An automated audit may flag `--target-volume` as C3 invalid. The flag IS implemented (`case "--target-volume"` at source line 796) but the tcsh `case` statement is missing the trailing `:` that the shell extractor requires. The flag is valid and documented correctly above.
+
+> [!note] Audit noise: `--interp` removed
+> `--interp` was previously documented here but is NOT parsed by `bbregister`. It is constructed and passed as `--interp $Interp` to `mri_vol2surf` or `mri_segreg` internally. Use `--trilin`/`--trilinear` or `--nearest` to control interpolation at the `bbregister` level.

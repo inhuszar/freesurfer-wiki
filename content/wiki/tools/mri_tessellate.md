@@ -112,7 +112,9 @@ The code comments explain the coordinate convention (lines 27–63):
 
 The tessellation selects voxels at the boundary:
 
-$$v_{\text{surf}} = v_{\text{boundary}} - \tfrac{1}{2}$$
+$$
+v_{\text{surf}} = v_{\text{boundary}} - \tfrac{1}{2}
+$$
 
 This half-voxel offset in voxel-index space places the surface at the face
 between the labelled and background voxels. The actual RAS coordinates are

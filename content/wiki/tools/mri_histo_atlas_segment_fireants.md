@@ -5,6 +5,7 @@ fs_version: "8.2.0"
 source_language: "shell"
 source_files:
   - "mri_histo_util/mri_histo_atlas_segment_fireants"
+  - "mri_histo_util/ERC_bayesian_segmentation/scripts/segment_fireants.py"
 families:
   - "mri_*"
 recon_all_stage: null
@@ -81,7 +82,9 @@ Output files are written to the specified output directory and include:
 
 The segmentation uses a generative Bayesian model:
 
-$$p(\text{label} \mid \mathbf{y}) \propto p(\mathbf{y} \mid \text{label}) \cdot p(\text{label} \mid \text{atlas registration})$$
+$$
+p(\text{label} \mid \mathbf{y}) \propto p(\mathbf{y} \mid \text{label}) \cdot p(\text{label} \mid \text{atlas registration})
+$$
 
 where:
 - $p(\text{label} \mid \text{atlas registration})$ is the atlas prior (deformed to the subject's space via FireANTs registration)
@@ -91,7 +94,9 @@ The bias field is parameterized as a polynomial in spatial coordinates (polynomi
 
 The cost function for bias field estimation combines intensity likelihood and label posterior:
 
-$$\mathcal{L}(\theta) = \sum_\text{voxels} \log\left[\sum_l p(l \mid \text{atlas}) \cdot \mathcal{N}(y \cdot e^{B_\theta} \mid \mu_l, \sigma_l^2) \cdot e^{B_\theta}\right]$$
+$$
+\mathcal{L}(\theta) = \sum_\text{voxels} \log\left[\sum_l p(l \mid \text{atlas}) \cdot \mathcal{N}(y \cdot e^{B_\theta} \mid \mu_l, \sigma_l^2) \cdot e^{B_\theta}\right]
+$$
 
 where $B_\theta$ is the bias field parameterized by $\theta$.
 
@@ -101,13 +106,14 @@ All flags are passed directly to `segment_fireants.py` via `$@` in the bash wrap
 
 **Required flags:**
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--i` | `file` | Input MRI image to segment. |
-| `--atlas_dir` | `dir` | Path to atlas directory (injected automatically by the shell wrapper — do not specify manually). |
-| `--o` | `dir` | Output directory. |
-| `--mode` | `invivo`\|`exvivo`\|`cerebrum`\|`hemi` | Segmentation mode: `invivo` for standard in vivo MRI; `exvivo` for postmortem tissue; `cerebrum`/`hemi` for partial coverage. |
-| `--side` | `left`\|`right` | Hemisphere to segment. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `file` | — | Input MRI image to segment. |
+| `--atlas_dir` | `dir` | — | Path to atlas directory (injected automatically by the shell wrapper — do not specify manually). |
+| `--o` | `dir` | — | Output directory. |
+| `--mode` | `invivo`\|`exvivo`\|`cerebrum`\|`hemi` | — | Segmentation mode: `invivo` for standard in vivo MRI; `exvivo` for postmortem tissue; `cerebrum`/`hemi` for partial coverage. |
+| `--side` | `left`\|`right` | — | Hemisphere to segment. |
+| `--device` | `cpu`\|`cuda` | — | Compute device. Use `cpu` for CPU-only execution or `cuda` for GPU. |
 
 **Optional flags:**
 

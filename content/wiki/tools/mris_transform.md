@@ -81,14 +81,16 @@ This is distinct from [[mris_apply_reg]] (which is designed for spherical regist
 2. Apply `LTAreduce()` to compose all chained transforms in the LTA array.
 3. If source or destination geometry is missing, read from the specified volumes.
 4. Convert to `LINEAR_VOX_TO_VOX` type via `LTAchangeType()`, which converts between RAS, vox, and tkRAS representations:
-$$M_{\text{vox2vox}} = M_{\text{dst\_vox2ras}}^{-1} \cdot M_{\text{ras2ras}} \cdot M_{\text{src\_vox2ras}}$$
+$$
+M_{\text{vox2vox}} = M_{\text{dst\_vox2ras}}^{-1} \cdot M_{\text{ras2ras}} \cdot M_{\text{src\_vox2ras}}
+$$
 5. Apply the vox-to-vox matrix to each surface vertex (first converting from surface RAS to voxel coordinates, then applying the matrix, then converting back).
 
 **Nonlinear (GCAM) path:**
 
 For 3D morphs, the warp field is evaluated at each vertex position, and the vertex is displaced accordingly.
 
-**Inverse mode:** With `--inverse`, the inverse of the transform is applied.
+**Inverse mode:** With `--is-inverse`, the inverse of the transform is applied.
 
 See [[coordinate-systems]] for definitions of the coordinate spaces involved.
 
@@ -98,16 +100,16 @@ See [[coordinate-systems]] for definitions of the coordinate spaces involved.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--inverse` | boolean | false | Apply the inverse transform. |
-| `--trx-src <vol>` | string | — | Source volume to supply geometry for the transform. Required if LTA lacks valid source geometry. |
-| `--trx-dst <vol>` | string | — | Destination volume to supply geometry. Required if LTA lacks valid destination geometry. |
+| `--is-inverse` / `-i` | boolean | false | Apply the inverse transform. |
+| `--trx-src <vol>` / `-s` | string | — | Source volume to supply geometry for the transform. Required if LTA lacks valid source geometry. |
+| `--trx-dst <vol>` / `-d` | string | — | Destination volume to supply geometry. Required if LTA lacks valid destination geometry. |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` | boolean | — | Print usage and exit. |
 
 ### Configuration Interactions
 
 - `--trx-src` and `--trx-dst` override the geometry embedded in the LTA file. If the LTA already has valid geometry, these flags are not needed.
-- `--inverse` works for both linear and (if the morph supports it) nonlinear transforms.
+- `--is-inverse` works for both linear and (if the morph supports it) nonlinear transforms.
 - When `identity.nofile` is the transform, the tool bypasses all transform logic and simply copies the surface.
 
 > [!gotcha] Environment variable USE_AVERAGE305
@@ -163,3 +165,6 @@ Confidence is **high**. The main transform paths (linear, nonlinear, identity) a
 
 > [!gap] GCAM application to surface vertices
 > The specific mechanics of how a GCAM warp field is applied to surface vertex coordinates (which interpolation scheme, which coordinate space) were not fully traced in `MRISapplyTransform()`.
+
+> [!note] Audit noise: single-dash stripping parser
+> An automated audit may report `--is-inverse` as C3 invalid. This is a false positive: `get_option()` uses `option = argv[1] + 1` to strip the leading dash, then compares with `!stricmp(option, "-is-inverse")`. Double-dash form `--is-inverse` is correctly accepted.

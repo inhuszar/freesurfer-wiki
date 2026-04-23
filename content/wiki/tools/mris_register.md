@@ -128,7 +128,9 @@ The tool also reads auxiliary surfaces from the subject directory:
 The registration minimises a combination of a **correlation term** (surface
 feature alignment to atlas) and a **metric distortion penalty**:
 
-$$E = -\lambda_{\text{corr}} \sum_v C(v, \text{atlas}(v)) + \lambda_{\text{dist}} \sum_{\langle i,j \rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2$$
+$$
+E = -\lambda_{\text{corr}} \sum_v C(v, \text{atlas}(v)) + \lambda_{\text{dist}} \sum_{\langle i,j \rangle} (d_{ij} - d^0_{ij})^2 + \lambda_{\text{area}} \sum_f (A_f - A^0_f)^2
+$$
 
 Default energy weights:
 - `l_corr = 1.0` (correlation to atlas)
@@ -189,8 +191,8 @@ the feature vector. The third slot is unused unless explicitly populated.
 | `-noinflated` | — | OFF | Clears `IP_USE_INFLATED`. |
 | `-infname <name>` | string | — | Renames the inflated surface used for feature computation: sets `inflated_name`, `surface_names[0]=name`, and `curvature_names[0]="<name>.H"` (allocated). Also sets `IP_USE_INFLATED` automatically. Use this when the inflated surface lives under a non-default filename. |
 | `-sulc <name>` | string | — | Replaces the sulc curvature file used as `curvature_names[1]` and calls `MRISsetSulcFileName()` so that downstream code reads the renamed sulc. |
-| `-surf0|1|2 <name>` | string | — | Override the named surface in slot 0, 1, or 2 of `surface_names[]`. Used to register against custom feature surfaces. |
-| `-curv0|1|2 <name>` | string | — | Override the named curvature in slot 0, 1, or 2 of `curvature_names[]` and propagate via `MRISsetCurvatureName()`. |
+| `-surf0` / `-surf1` / `-surf2` | string | — | Override the named surface in slot 0, 1, or 2 of `surface_names[]`. Used to register against custom feature surfaces. |
+| `-curv0` / `-curv1` / `-curv2` | string | — | Override the named curvature in slot 0, 1, or 2 of `curvature_names[]` and propagate via `MRISsetCurvatureName()`. |
 | `-nsurfaces <n>` | int | 2 (effective) | Sets `parms.nsurfaces` — the number of (surface, curvature) feature slots actually consumed for alignment. Lower this to drop the third slot entirely. |
 | `-C <file>` | string | — | Load an extra source curvature file into `mris->curv` before registration (read into the input surface, not the template). Used to inject a custom feature into the moving surface. |
 | `-trinarize <thresh>` | float | 0.0 (off) | Sets `parms.trinarize_thresh`. When non-zero, curvature maps are mapped to {-1, 0, +1} based on whether they are below `-thresh`, within `[-thresh, +thresh]`, or above `+thresh`. Useful for binarising sulcal/gyral patterns. |
@@ -468,6 +470,7 @@ spherical registration) and `mris_register` is not run at all.
 Confidence **high** for flag semantics, defaults, and the recon-all/rca-surfreg
 call chain — all read directly from `mris_register/mris_register.cpp` (1416
 lines) and `scripts/rca-surfreg` (385 lines).
+
 
 > [!gap] MRISregister() optimization internals
 > The gradient computation, multi-resolution schedule, and angular search

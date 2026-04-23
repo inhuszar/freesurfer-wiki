@@ -14,9 +14,9 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "The tmap (thickness map) feature for variable expansion distance is not fully documented."
+  - "Exact multi-surface (-n) behaviour; whether surfaces are at fractional increments or each is the full expansion."
 tags:
   - surface
   - expansion
@@ -53,8 +53,8 @@ This is distinct from [[mris_inflate]] (which inflates to a sphere) — `mris_ex
 - **Output surface** (positional arg 3): Output filename.
 
 Optional:
-- Thickness file (when `--thickness` is used): `$SUBJECTS_DIR/<subj>/surf/<hemi>.thickness`
-- Pial surface (when `--thickness` is used): `$SUBJECTS_DIR/<subj>/surf/<hemi>.pial`
+- Thickness file (when `-thickness` is used): `$SUBJECTS_DIR/<subj>/surf/<hemi>.thickness`
+- Pial surface (when `-thickness` is used): `$SUBJECTS_DIR/<subj>/surf/<hemi>.pial`
 
 ## Outputs
 
@@ -64,7 +64,9 @@ Optional:
 
 The expansion is formulated as an energy minimisation. Starting from the input surface, each vertex is moved along its normal by `mm_out` mm, subject to:
 
-$$E_{\text{total}} = \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{loc}} E_{\text{loc}} + \lambda_{\text{repulse}} E_{\text{repulse}}$$
+$$
+E_{\text{total}} = \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{loc}} E_{\text{loc}} + \lambda_{\text{repulse}} E_{\text{repulse}}
+$$
 
 Default parameters:
 - $\lambda_{\text{spring}} = 0.05$ — spring energy constraining inter-vertex distances
@@ -76,36 +78,54 @@ Integration uses momentum-based gradient descent (`INTEGRATE_MOMENTUM`) with:
 - Time step: `dt = 0.25`
 - Number of neighbours: `nbrs = 2`
 
-When `--thickness` is used, the expansion distance at each vertex is scaled by the local cortical thickness:
+When `-thickness` is used, the expansion distance at each vertex is scaled by the local cortical thickness:
 
-$$d_i = \text{mm\_out} \times T_i / T_{\max}$$
+$$
+d_i = \text{mm\_out} \times T_i / T_{\max}
+$$
 
-where $T_i$ is the cortical thickness at vertex $i$ (clipped to `[tmap_min, tmap_max]` and optionally averaged over `tmap_avgs` iterations).
+where $T_i$ is the cortical thickness at vertex $i$ (when a `-tmap` map is provided, it is clipped and optionally smoothed before use).
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--thickness` | — | off | Scale expansion by cortical thickness |
-| `--thickness-name` | `<name>` | `thickness` | Name of thickness file |
-| `--pial-name` | `<name>` | `pial` | Name of pial surface |
-| `--tmap-std` | `<float>` | 0.0 | Standard deviation for thickness smoothing |
-| `--tmap-min` | `<float>` | 0.25 | Minimum thickness fraction |
-| `--tmap-max` | `<float>` | 0.75 | Maximum thickness fraction |
-| `--tmap-avgs` | `<int>` | 0 | Smoothing iterations for thickness map |
-| `--tmap-write` | `<file>` | — | Write thickness map to file |
-| `--orig` | `<name>` | — | Original surface name |
-| `--label` | `<file>` | — | Restrict expansion to vertices in label |
-| `--nbrs` | `<int>` | 2 | Number of vertex neighbours for spring term |
-| `--nsurfaces` | `<int>` | 1 | Number of surfaces to expand (multi-layer) |
-| `--version` | — | — | Print version and exit |
-| `--help` | — | — | Print usage and exit |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-thickness` | — | off | Scale expansion distance by cortical thickness fraction |
+| `-thickness_name <name>` | string | `thickness` | Thickness overlay filename to load |
+| `-pial <name>` | string | `pial` | Name of pial surface file |
+| `-tmap <file>` | file | — | Use a precomputed thickness-percent target map |
+| `-random <std> <min> <max> <avgs>` | 4 floats | — | Subcommand of `-tmap`: generate a random Gaussian thickness-percent map with given std, min, max, and smoothing-averages count |
+| `-wd <file>` | file | — | Write the (random) tmap to this file |
+| `-label <file>` | file | — | Restrict expansion to vertices in label file |
+| `-nbrs <n>` | int | 2 | Neighbourhood size for spring term |
+| `-n <n>` | int | 1 | Number of surfaces to write during expansion |
+| `-o <name>` | string | — | Original surface name for metric properties |
+| `-navgs <n> <min>` | 2 ints | — | Smoothing averages: start count and minimum count |
+| `-intensity <f> <vol>` | float+file | — | Restrict target locations to voxels at intensity f in volume |
+| `-convex <f>` | float | — | Convexity energy weight (`l_convex`) |
+| `-norm <f>` | float | — | Normal-direction energy weight (`l_norm`) |
+| `-max_spring <f>` | float | — | Maximum spring energy weight (`l_max_spring`) |
+| `-curv <f>` | float | — | Curvature energy weight (`l_curv`) |
+| `-location <f>` | float | 1.0 | Location (target position) energy weight (`l_location`) |
+| `-nspring <f>` | float | — | Normal spring energy weight (`l_nspring`) |
+| `-angle <f>` | float | — | Angle energy weight (`l_angle`) |
+| `-pangle <f>` | float | — | Pial angle energy weight (`l_pangle`) |
+| `-spring_norm <f>` | float | — | Spring-normal energy weight (`l_spring_norm`) |
+| `-nltspring <f>` | float | — | Non-linear tangential spring energy weight (`l_nltspring`) |
+| `-tspring <f>` | float | — | Tangential spring energy weight (`l_tspring`) |
+| `-surf_repulse <f>` | float | — | Surface repulsion energy weight (`l_surf_repulse`) |
+| `-r <f>` | float | — | Repulsion energy weight (`l_repulse`) |
+| `-s <f>` | float | 0.05 | Spring energy weight (`l_spring`) |
+| `-t <f>` | float | 0.25 | Time step (`dt`) |
+| `-w <n>` | int | 0 | Write expansion snapshots every n iterations |
+| `-a <n>` | int | — | Smooth surface with n averages after expansion |
 
 ## Configuration Interactions
 
-- `--thickness` activates the variable-expansion mode; `--tmap-min`, `--tmap-max`, and `--tmap-avgs` only have effect when `--thickness` is set.
-- `--label` restricts the expansion force to labelled vertices; unlabelled vertices remain at their original positions.
-- `--nsurfaces > 1` generates multiple expansion surfaces, presumably at fractional increments.
+- `-thickness` activates variable-expansion mode; `-tmap` provides the per-vertex fraction map. When `-tmap random` is used, the random map parameters are embedded in the same flag call (std, min, max, avgs).
+- `-wd` is only meaningful when `-tmap random` is specified; it writes the generated random map to disk.
+- `-label` restricts the expansion force to labelled vertices; unlabelled vertices remain at their original positions.
+- `-n` controls how many intermediate surfaces are written during the expansion loop.
 
 ## Typical Use Cases
 
@@ -114,13 +134,13 @@ where $T_i$ is the cortical thickness at vertex $i$ (clipped to `[tmap_min, tmap
 mris_expand lh.white 1.0 lh.mid
 
 # Expand to 50% of cortical thickness
-mris_expand --thickness lh.white 0.5 lh.mid_thickness
+mris_expand -thickness lh.white 0.5 lh.mid_thickness
 
 # Generate a surface 2mm outside the white surface
 mris_expand lh.white 2.0 lh.white.expanded
 
 # Restrict expansion to a label
-mris_expand --label lh.V1.label lh.white 0.5 lh.V1_mid
+mris_expand -label lh.V1.label lh.white 0.5 lh.V1_mid
 ```
 
 ## Pipeline Context
@@ -151,6 +171,6 @@ Related tools in the surface deformation family: [[mris_inflate]], [[mris_smooth
 
 ## Confidence and Gaps
 
-**Confident (from source):** Default parameter values, energy formulation, thickness-scaling option, label restriction, output naming.
+**Confident (from source):** Default parameter values, energy formulation, thickness-scaling option, label restriction, output naming, complete flag list from `get_option()`.
 
-**Uncertain:** Exact multi-surface (`--nsurfaces`) behaviour; whether the expanded surface is validated against pial.
+**Uncertain:** Exact multi-surface (`-n`) behaviour; whether the expanded surface is validated against pial.

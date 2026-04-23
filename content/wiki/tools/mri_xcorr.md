@@ -65,7 +65,9 @@ Cross-correlation between two volumetric images is used to:
 
 The voxel-wise cross-correlation is computed between corresponding voxels across the two input volumes. Based on the function call `fMRIxcorr()` (from `fmriutils` library), this likely computes the Pearson correlation between the two volumes' frame timeseries at each voxel:
 
-$$\rho(c,r,s) = \frac{\sum_t (v_1(c,r,s,t) - \bar{v}_1)(v_2(c,r,s,t) - \bar{v}_2)}{\sqrt{\sum_t(v_1-\bar{v}_1)^2} \sqrt{\sum_t(v_2-\bar{v}_2)^2}}$$
+$$
+\rho(c,r,s) = \frac{\sum_t (v_1(c,r,s,t) - \bar{v}_1)(v_2(c,r,s,t) - \bar{v}_2)}{\sqrt{\sum_t(v_1-\bar{v}_1)^2} \sqrt{\sum_t(v_2-\bar{v}_2)^2}}
+$$
 
 or a lagged cross-correlation for temporal analysis.
 
@@ -74,14 +76,14 @@ or a lagged cross-correlation for temporal analysis.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--v1` | `vol1` | First input volume |
-| `--v2` | `vol2` | Second input volume |
-| `--mask` | `maskvol` | Optional mask |
-| `--o` | `outvol` | Output cross-correlation volume |
-| `--debug` | — | Debug output |
-| `--version` | — | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--v1` | `vol1` | — | First input volume |
+| `--v2` | `vol2` | — | Second input volume |
+| `--mask` | `maskvol` | — | Optional mask |
+| `--o` | `outvol` | — | Output cross-correlation volume |
+| `--debug` | — | off | Debug output |
+| `--version` | — | off | Print version |
 
 > [!gap] Complete flag list
 > The above flags were inferred from variable declarations in the source header. The complete set may differ. Consult `--help`.

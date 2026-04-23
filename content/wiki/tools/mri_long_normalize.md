@@ -14,7 +14,7 @@ related:
   - "[[mri_fuse_segmentations]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "cross_time_sigma handling not fully traced when multiple TPs are given"
 tags:
@@ -51,9 +51,9 @@ The tool reads a time-point list file (text file with one subject directory per 
 | `<out_vol>` | Output volume name (written to each TP's `mri/` directory) |
 
 Optional inputs (via flags):
-- `aseg.mgz` (default name, override with `-aseg_name`)
-- `brain.mgz` (default, override with `-brain_name`)
-- Control points file
+- `aseg.mgz` (default name, override with `-a`)
+- `brain.mgz` (hardcoded default, not overridable via flag)
+- Control points file (via `-f`)
 
 ## Outputs
 
@@ -70,7 +70,9 @@ The normalisation procedure (from `mri_normalize`) fits a smooth bias field to t
 
 The temporal Gaussian weighting across time points has sigma `cross_time_sigma` (in user units, default -1 meaning unused). When enabled:
 
-$$w_t = \exp\left(-\frac{(t - t_0)^2}{2\sigma_t^2}\right)$$
+$$
+w_t = \exp\left(-\frac{(t - t_0)^2}{2\sigma_t^2}\right)
+$$
 
 biases the normalisation toward time points closer to the reference.
 
@@ -86,21 +88,22 @@ Bias field smoothing uses sigma `bias_sigma` (default 1.0 mm).
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-aseg_name <name>` | string | `aseg.mgz` | Segmentation filename |
-| `-brain_name <name>` | string | `brain.mgz` | Brain mask filename |
-| `-mask <file>` | path | — | External mask file |
-| `-c <ctrl_file>` | path | — | Control point file |
-| `-sigma <s>` | float | 1.0 | Bias field smoothing sigma (mm) |
-| `-cross_time_sigma <s>` | float | -1 | Cross-time Gaussian sigma |
-| `-intensity_pad <n>` | int | 2 | Intensity padding for control points |
-| `-cv <file>` | path | — | Save control volume |
-| `-bv <file>` | path | — | Save bias volume |
+| `-cross_time_sigma <s>` | float | -1 | Cross-time Gaussian sigma; -1 disables temporal regularisation |
+| `-mask <file>` | path | — | External mask file to restrict normalisation |
+| `-p <n>` | int | 2 | Intensity padding for control point selection |
+| `-s <sigma>` | float | 1.0 | Bias field smoothing sigma (mm) |
+| `-d <Gx> <Gy> <Gz>` | int triple | — | Debug: print diagnostics at voxel (Gx, Gy, Gz) |
+| `-v <Gvx> <Gvy> <Gvz>` | int triple | — | Debug: alternative debug voxel coordinates |
+| `-a <aseg_name>` | string | `aseg.mgz` | Segmentation filename (reads `argv[1]` not `argv[2]`) |
+| `-w <ctrl_vol> <bias_vol>` | path pair | — | Write control-point volume and bias-field volume |
+| `-f <ctrl_file>` | path | — | Load control points from file |
 
 ## Configuration Interactions
 
-- `cross_time_sigma` enables temporal regularisation across time points; `-1` (default) disables it.
+- `-cross_time_sigma` enables temporal regularisation across time points; `-1` (default) disables it.
 - The time-point list file format is one path per line, pointing to the longitudinal subject directories.
-- `aseg_name` and `brain_name` are resolved relative to each time point's `mri/` directory.
+- `-a` overrides the segmentation filename (default `aseg.mgz`); the brain mask filename (`brain.mgz`) is hardcoded and cannot be overridden via flag.
+- `-w` requires two arguments (control volume path and bias volume path) and writes diagnostic outputs for debugging the normalisation.
 
 ## Typical Use Cases
 
@@ -113,7 +116,7 @@ echo "/data/subjects/tp3.long.base" >> tp_list.txt
 mri_long_normalize tp_list.txt norm.mgz norm_long.mgz
 
 # With cross-time temporal regularisation
-mri_long_normalize tp_list.txt norm.mgz norm_long.mgz -cross_time_sigma 3.0
+mri_long_normalize -cross_time_sigma 3.0 tp_list.txt norm.mgz norm_long.mgz
 ```
 
 ## Pipeline Context

@@ -71,7 +71,9 @@ The `OrientationPlanesFromParcellationFilter` samples the parcellation at multip
 
 The histogram for bundle $k$ at position $p$ is:
 
-$$H_k^p[l] = \frac{|\{s \in k : \text{label}(s, p) = l\}|}{|k|}$$
+$$
+H_k^p[l] = \frac{|\{s \in k : \text{label}(s, p) = l\}|}{|k|}
+$$
 
 where $s$ is a streamline in cluster $k$, $p$ is a cross-sectional position index, and $l$ is an anatomical label.
 

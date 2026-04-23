@@ -53,7 +53,7 @@ The tool also supports smoothing steps before CNR computation and optional weigh
 
 - A cortical white surface file (FreeSurfer binary format)
 - One or more MRI volumes (up to `MAX_IMAGES = 200`)
-- Subject name and hemisphere specification (`-s`, `-hemi`)
+- Subject name and hemisphere specification (`-sname`, `-hemi`)
 - Optionally a thickness file (`-thickness`)
 
 ## Outputs
@@ -66,35 +66,41 @@ The CNR at each vertex is computed using a multivariate formulation. For $N$ inp
 
 The within-class covariance matrices $\mathbf{S}_{W_1}$, $\mathbf{S}_{W_2}$ are accumulated, and the multivariate CNR is:
 
-$$\text{CNR} = \frac{(\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})^T \mathbf{S}_W^{-1} (\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})}{\text{(normalisation)}}$$
+$$
+\text{CNR} = \frac{(\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})^T \mathbf{S}_W^{-1} (\bar{\mathbf{x}}_{WM} - \bar{\mathbf{x}}_{GM})}{\text{(normalisation)}}
+$$
 
 The code uses `MATRIX` objects (`SW1`, `SW2`, `SW`, `InvSW`) from the FreeSurfer linear algebra library to carry out this computation. A per-volume weight vector (`mri_weight`) can optionally modulate the contribution of each volume.
 
 ## Configuration Options
 
-> [!gap] Full flag list not confirmed from --help output.
+The parser strips one leading dash (`option = argv[1] + 1`, single-dash convention). Flag names are compared case-insensitively via `stricmp`.
 
-| Flag | Description |
-|---|---|
-| `-s subject` | Subject name (used to build path to surf directory) |
-| `-hemi hemi` | Hemisphere (`lh` or `rh`) |
-| `-sdir SUBJECTS_DIR` | Override `SUBJECTS_DIR` |
-| `-out fname` | Output CNR filename (default: curv or paint format) |
-| `-thickness fname` | Surface thickness file |
-| `-smooth N` | Number of smoothing steps before CNR computation (default 60) |
-| `-conform` | Conform input volumes |
-| (positional) volumes | Input MRI volumes (repeated) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-sname` | `<subject>` | — | Subject name; used to construct the path to the surface directory (`$SUBJECTS_DIR/<subject>/surf/`) |
+| `-hemi` | `<hemi>` | — | Hemisphere: `lh` or `rh` |
+| `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Override the subjects directory |
+| `-out` / `-out_file` / `-out_name` / `-cnr` | `<fname>` | — | Output CNR map filename prefix (extension determined by `-trg_type`) |
+| `-trg_type` | `<type>` | `paint` | Output format: `paint` / `w` (paint format) or `curv` (curvature binary) |
+| `-thickness` / `-thickness_file` / `-thickness_fname` | `<fname>` | — | Surface thickness file; activates thickness-guided GM sampling when combined with `-use_thickness` |
+| `-use_thickness` | — | off | Use the thickness map to guide placement of GM sample points |
+| `-nsmooth` | `<n>` | 60 | Number of surface smoothing steps applied before CNR computation |
+| `-debug` | `<vtx>` | — | Print per-vertex debug output for vertex number `<vtx>` |
 
 ## Configuration Interactions
 
 - Multiple volumes are processed jointly via covariance matrices; the order of volumes does not affect the multivariate CNR value.
-- `-smooth N` applies Gaussian smoothing to the input volume before CNR computation; higher values reduce sensitivity to noise but blur the tissue boundary.
+- `-nsmooth N` applies surface-based smoothing to the WM/GM profile data before CNR computation; higher values reduce sensitivity to noise but blur the tissue boundary. Default is 60.
+- `-use_thickness` requires that a thickness file be loadable (from `-thickness` or the default `?h.thickness` in the subject's surf directory). Without it, GM samples are placed at a fixed offset from the surface.
+- `-sname` and `-hemi` are both required for path construction unless the surface is passed as a positional argument (not supported — both flags must be supplied).
+- The `conform` variable exists in the source code (line 52) but is hardcoded to 0 and never settable via a CLI flag; there is no `-conform` option.
 
 ## Typical Use Cases
 
 ```bash
 # Compute CNR along left white surface from two FLASH volumes
-mris_ms_surface_CNR -s bert -hemi lh -out lh.cnr.curv flash5.mgz flash20.mgz
+mris_ms_surface_CNR -sname bert -hemi lh -out lh.cnr.curv -trg_type curv flash5.mgz flash20.mgz
 ```
 
 ## Pipeline Context

@@ -60,13 +60,17 @@ Optional: MRI volume (if `-i` is specified) for subject-specific ambiguity.
 
 For a given set of acquisition parameters, the tool simulates the expected MRI signal for each tissue class using the FLASH signal equation:
 
-$$S = M_0 \sin\alpha \cdot \frac{1 - e^{-T_R/T_1}}{1 - \cos\alpha \cdot e^{-T_R/T_1}} \cdot e^{-T_E/T_2^*}$$
+$$
+S = M_0 \sin\alpha \cdot \frac{1 - e^{-T_R/T_1}}{1 - \cos\alpha \cdot e^{-T_R/T_1}} \cdot e^{-T_E/T_2^*}
+$$
 
 where $M_0$ is the proton density, $T_1$ and $T_2^*$ are relaxation times, $\alpha$ is the flip angle, $T_R$ is the repetition time, and $T_E$ is the echo time.
 
 The ambiguity for a class pair $(c_1, c_2)$ is related to the overlap between the two Gaussian distributions:
 
-$$\text{Amb}(c_1, c_2) = \exp\left(-\frac{(\mu_1 - \mu_2)^2}{2(\sigma_1^2 + \sigma_2^2)}\right)$$
+$$
+\text{Amb}(c_1, c_2) = \exp\left(-\frac{(\mu_1 - \mu_2)^2}{2(\sigma_1^2 + \sigma_2^2)}\right)
+$$
 
 The tool provides 1D, 2D, and 3D ambiguity computation functions (`GCAcompute1DAmbiguity`, `GCAcompute2DAmbiguity`, `GCAcompute3DAmbiguity`) for different numbers of FLASH channels.
 
@@ -75,46 +79,41 @@ The tool provides 1D, 2D, and 3D ambiguity computation functions (`GCAcompute1DA
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
 | (positional 1) | GCA file | required | GCA atlas |
 | (positional 2) | path | required | Output ambiguity map |
-| `-TR <val>` | float | 20.0 | Repetition time (ms) |
-| `-TE <val>` | float | 3.0 | Echo time (ms) |
-| `-min_fa1 <val>` | float | 1.0 | Minimum flip angle 1 (deg) |
-| `-max_fa1 <val>` | float | 40.0 | Maximum flip angle 1 (deg) |
-| `-min_fa2 <val>` | float | 1.0 | Minimum flip angle 2 (deg) |
-| `-max_fa2 <val>` | float | 40.0 | Maximum flip angle 2 (deg) |
-| `-min_fa3 <val>` | float | 1.0 | Minimum flip angle 3 (deg) |
-| `-max_fa3 <val>` | float | 40.0 | Maximum flip angle 3 (deg) |
-| `-fa_step <val>` | float | 1.0 | Flip angle step size (deg) |
-| `-l <logfile>` | path | `amb.log` | Log file |
-| `-class <n>` | int | -1 | Restrict to specific class number |
-| `-left` | flag | off | Left hemisphere only |
-| `-lambda <val>` | float | 100.0 | Regularisation lambda |
-| `-optimize` | flag | off | Optimise acquisition parameters |
-| `-append` | flag | off | Append to log file |
+| `-fa1 <min> <max>` | float float | 1.0 40.0 | Flip angle range for 1st echo (deg): min and max. |
+| `-fa2 <min> <max>` | float float | 1.0 40.0 | Flip angle range for 2nd echo (deg): min and max. |
+| `-fa3 <min> <max>` | float float | 1.0 40.0 | Flip angle range for 3rd echo (deg): min and max. |
+| `-scale <val>` | float | — | Scaling factor applied to GCA before processing. |
+| `-lambda <val>` | float | — | 1/SNR regularisation lambda. |
+| `-left` | — | off | Left hemisphere only. |
+| `-debug_voxel <x> <y> <z>` | int int int | — | Enable debugging output at voxel (x, y, z). |
+| `-w <file>` | path | — | Write output to file (overwrite). |
+| `-a <file>` | path | — | Append output to file. |
+| `-c <n>` | int | — | Optimise for class number n. |
+| `-s <step>` | float | — | Flip angle step size (deg). |
+| `-o <N>` | int | — | Optimise over parameter grid (argument selects optimisation type). |
 
 ## Configuration Interactions
 
-- `-optimize` mode iterates over the flip angle parameter grid and finds the combination minimising global ambiguity.
-- `-class <n>` restricts ambiguity computation to a single tissue class, useful for targeted analysis.
+- `-o <N>` mode iterates over the flip angle parameter grid and finds the combination minimising global ambiguity.
+- `-c <n>` restricts ambiguity computation to a single tissue class, useful for targeted analysis.
 - `-left` computes ambiguity for the left hemisphere only.
 
 ## Typical Use Cases
 
 ```bash
-# Compute ambiguity map for default FLASH parameters
+# Compute ambiguity map
 mri_gca_ambiguous atlas.gca ambiguity_map.mgz
 
-# Optimise flip angles for FLASH acquisition
+# Specify flip angle ranges for 1st and 2nd echoes
 mri_gca_ambiguous atlas.gca ambiguity_map.mgz \
-  -TR 20 -TE 3 -optimize \
-  -min_fa1 5 -max_fa1 35 \
-  -min_fa2 5 -max_fa2 35
+  -fa1 5 35 -fa2 5 35
 
-# Append to existing log
-mri_gca_ambiguous atlas.gca amb_out.mgz -append -l my_amb.log
+# Append output to log
+mri_gca_ambiguous atlas.gca amb_out.mgz -a my_amb.log
 ```
 
 ## Pipeline Context

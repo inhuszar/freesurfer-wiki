@@ -14,11 +14,10 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Template surface and label files required are not documented (mideface library)"
   - "MIDEFACE library internals not characterized"
-  - "Watermark embedding mechanism not fully documented"
 tags:
   - defacing
   - de-identification
@@ -56,13 +55,13 @@ Required (inferred from global variable declarations):
 - **`--o outvolpath`**: output defaced volume
 
 Optional:
-- **`--fs facesegpath`**: output face segmentation
+- **`--m facesegpath`**: output face segmentation
 - **`--min minsurfpath`** / **`--max maxsurfpath`**: output min/max surfaces
 - **`--distdat distdatpath`**, **`--distbounds distboundspath`**: distance-related outputs
 - **`--distoverlay distoverlaypath`**: surface overlay of distances
 - **`--stats statspath`**: statistics output
-- **`--watermark watermarkpath`**: path to watermark specification
-- **`--dwatermark d`** (float, default 1): watermark intensity
+- **`--w watermarkpath d`**: path to watermark label file and watermark intensity (float, default 1); both arguments are required
+- **`--xmask xmaskpath`**: exclude voxels inside this mask from defacing
 
 ## Outputs
 
@@ -72,7 +71,7 @@ Optional:
 ## Mathematical Foundations
 
 The approach is based on the `mideface` (Minimally Invasive Defacing) library:
-1. A template surface mesh is registered to the input volume (using `--reg`).
+1. A template surface mesh is registered to the input volume (using --reg).
 2. Label files define facial regions on the template surface.
 3. For each input voxel, its distance from the face surface is computed.
 4. Voxels within the face region that are below a distance threshold are zeroed out.
@@ -81,23 +80,43 @@ The `MRISpaintSphere()` function (defined in this file but unused in the binary)
 
 ## Configuration Options
 
-> [!gap] Full option list requires running binary
-> Options are inferred from the global variable declarations at the top of the source. The complete `parse_commandline()` function was not read.
-
-| Variable | Flag (inferred) | Default | Description |
-|----------|----------------|---------|-------------|
-| `involpath` | `--i` | required | Input volume |
-| `headmaskpath` | `--hm` | required | Head mask |
-| `tempsurfpath` | `--ts` | required | Template surface |
-| `regpath` | `--reg` | required | Registration file |
-| `templabelpathlist` | `--tl` | required | Template label file(s) |
-| `outvolpath` | `--o` | required | Output defaced volume |
-| `facesegpath` | `--fs` | none | Output face segmentation |
-| `minsurfpath` | `--min` | none | Minimum surface output |
-| `maxsurfpath` | `--max` | none | Maximum surface output |
-| `watermarkpath` | `--watermark` | none | Watermark file |
-| `dwatermark` | `--dwatermark` | 1.0 | Watermark distance/intensity |
-| `statspath` | `--stats` | none | Statistics output |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--i` | `<vol>` | required | Input volume to deface |
+| `--hm` | `<vol>` | required | Head mask volume |
+| `--ts` | `<surf>` | required | Template surface registered to the input |
+| `--l` | `<label> [DistInMin [DistInMax]]` | required (repeatable) | Template label file defining the facial region; optional per-label distance bounds |
+| `--o` | `<vol>` | required | Output defaced volume |
+| `--reg` | `<lta>` | none | Apply LTA registration to the template surface before defacing |
+| `--m` | `<vol>` | none | Output face segmentation mask volume |
+| `--min` | `<surf>` | none | Output minimum-distance surface |
+| `--max` | `<surf>` | none | Output maximum-distance surface |
+| `--w` | `<label> <d>` | none | Watermark label file and intensity factor `d` (float, default 1); raises the template surface in the watermark region |
+| `--xmask` | `<vol>` | none | Exclude voxels inside this mask from defacing |
+| `--ots` | `<surf>` | none | Output template surface after any watermark and/or ripple modifications |
+| `--fill-const` | `<ConstIn> <ConstOut>` | off | Fill face region with constant values instead of zero; sets FillType=2 |
+| `--dist-in-frac` | `<f>` | atlas default | Inward distance fraction for defacing bounds |
+| `--dist-in-min` | `<mm>` | 2 | Global minimum inward distance (mm) |
+| `--dist-in-max` | `<mm>` | 20 | Global maximum inward distance (mm) |
+| `--dist-out-frac` | `<f>` | atlas default | Outward distance fraction for defacing bounds |
+| `--dist-out-min` | `<mm>` | atlas default | Minimum outward distance (mm) |
+| `--dist-out-max` | `<mm>` | atlas default | Maximum outward distance (mm) |
+| `--distbounds` | `<file>` | none | Write per-label distance bounds to a text file |
+| `--distdat` | `<file>` | none | Write per-vertex distance data to a text file |
+| `--distoverlay` | `<vol>` | none | Save surface overlay of per-vertex distances |
+| `--stats` | `<file>` | none | Write face intensity statistics to a text file |
+| `--nperbin` | `<n>` | atlas default | Number of samples per histogram bin (for mode finding in float images) |
+| `--nbinsmax` | `<n>` | atlas default | Maximum number of histogram bins |
+| `--statframe` | `<frame>` | 0 | 0-based frame index used when computing intensity statistics |
+| `--ripple` | `<amp> <period>` | off | Apply ripple distortion to the template surface (amplitude and period) |
+| `--no-ripple` | (none) | off | Disable ripple distortion |
+| `--ripple-center` | `<R> <A> <S>` | (0,0,0) | Set the centre point (RAS) for the ripple distortion |
+| `--apply` | `<vol> <facemask> <reg|regheader> <out>` | — | Stand-alone mode: apply an existing face mask to another volume; use `regheader` if no registration file is needed |
+| `--apply-ripple` | `<surf> <axis> <amp> <period> <label> <outsurf>` | — | Stand-alone mode: apply ripple to a surface and save; axis is 1 or 2 |
+| `--check-code` | `<vol> [<outfile>]` | — | Stand-alone mode: check whether a mideface provenance code is embedded in the volume; prints 0 or 1 and optionally writes to `<outfile>` |
+| `--debug` | (none) | off | Enable debug output |
+| `--checkopts` | (none) | off | Check options and exit without processing |
+| `--nocheckopts` | (none) | off | Do not exit after checking options |
 
 ## Configuration Interactions
 
@@ -128,7 +147,7 @@ Not called by [[recon-all]]. Applied to raw MRI before or after reconstruction a
 
 ## Confidence and Gaps
 
-Confidence is **low–medium**. The tool's purpose and general approach are clear from the header comments and structure. Detailed operational requirements need confirmation from the binary's `--help` or the mideface documentation.
+Confidence is **medium**. The complete `parse_commandline()` function has been read and all flags confirmed from source. The mideface library internals and the exact template file locations remain undocumented.
 
 > [!gap] mideface library
 > The `mideface.h` library is a FreeSurfer-internal component. Its full API and the template files it requires are not documented in this wiki.

@@ -14,11 +14,10 @@ related:
   - "[[mri_vol2surf]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Full flag set from get_option() not verified."
-  - "Relationship between nlayers and volume fraction frames not confirmed."
-  - "curv_bins parameter purpose needs clarification."
+  - "Relationship between -nlayers and required number of volume fraction frames not fully tested."
+  - "-curv stratification output format not documented."
 tags:
   - surface
   - cortical-layers
@@ -70,7 +69,9 @@ Default: 6 cortical layers (`NLAYERS = 6`).
 
 For each voxel $x$ and layer $l$:
 
-$$I_l(x) = \frac{\int_{\Omega_l(x)} I(\xi) \, d\xi}{\int_{\Omega_l(x)} d\xi} \approx \frac{\sum_\xi f_l(\xi, x) \cdot I(\xi)}{\sum_\xi f_l(\xi, x)}$$
+$$
+I_l(x) = \frac{\int_{\Omega_l(x)} I(\xi) \, d\xi}{\int_{\Omega_l(x)} d\xi} \approx \frac{\sum_\xi f_l(\xi, x) \cdot I(\xi)}{\sum_\xi f_l(\xi, x)}
+$$
 
 where $f_l(\xi, x)$ is the volume fraction of voxel $\xi$ attributed to layer $l$ of the cortex passing through voxel $x$, computed by [[mris_compute_volume_fractions]] or related tools.
 
@@ -78,21 +79,25 @@ A thresholded version (`vfrac_thresh`) ignores voxels whose total cortical volum
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-n <nlayers>` | Number of cortical layers | 6 |
-| `-w <whalf>` | Half-window size for neighbourhood | 3 |
-| `--fs-names` | Use FreeSurfer naming conventions | off |
-| `--vfrac-thresh <t>` | Minimum volume fraction threshold | -1 (disabled) |
-| `--curv-bins <n>` | Number of curvature bins for stratification | 0 |
-
-> [!gap] Flag names need verification
-> The exact flag names were inferred from global variables (`nlayers`, `Gwhalf`, `FS_names`, `vfrac_thresh`, `curv_bins`). Confirm from `get_option()`.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-nlayers <n>` | int | 6 | Number of cortical layers |
+| `-w <whalf>` | int | 3 | Half-window size for neighbourhood averaging |
+| `-fs_names` | — | off | Use FreeSurfer standard surface naming (`white` / `pial`); requires `-s` |
+| `-thresh <t>` | float | -1 (disabled) | Minimum volume-fraction threshold; activates thresholded intensity estimation |
+| `-curv <n>` | int | 0 | Number of curvature bins for curvature-stratified analysis |
+| `-lh` | — | required | Process left hemisphere |
+| `-rh` | — | required | Process right hemisphere |
+| `-s <subject>` | string | — | Subject name (required when `-fs_names` is used) |
+| `-v <vertex>` | int | — | Debug: print diagnostics for this vertex number |
+| `-debug_voxel <x> <y> <z>` | int triple | — | Debug: print diagnostics for voxel (x, y, z) |
 
 ## Configuration Interactions
 
-- `--vfrac-thresh` activates the thresholded computation path (`compute_thresholded_layer_intensities()`), which uses a different internal function.
-- `--curv-bins` enables curvature-stratified analysis; results are further subdivided by surface curvature bins.
+- `-thresh` activates the thresholded computation path (`compute_thresholded_layer_intensities()`), which uses a different internal function than the default path.
+- `-curv` enables curvature-stratified analysis; results are further subdivided by surface curvature bins.
+- `-fs_names` must be combined with `-s <subject>` to enable standard FreeSurfer surface path resolution; without `-s` the tool exits with an error.
+- Either `-lh` or `-rh` must be specified; the parser exits with an error if neither is provided (`"must specify -rh or -lh"`).
 
 ## Typical Use Cases
 
@@ -124,7 +129,4 @@ Not part of `recon-all`. Used in ultra-high field (7T) cortical laminar analysis
 
 ## Confidence and Gaps
 
-**Confident:** Core algorithm, layer count, thresholding mode, and I/O structure confirmed from source.
-
-> [!gap] Exact flag names and curv_bins behaviour
-> The `get_option()` body was not fully read.
+**Confident:** Core algorithm, layer count, thresholding mode, I/O structure, and all flag names confirmed from `get_option()` in source.

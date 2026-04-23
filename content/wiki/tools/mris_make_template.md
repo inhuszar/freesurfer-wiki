@@ -96,7 +96,9 @@ The template is built incrementally: for each subject, `MRISPaccumulate()` (or e
 
 The template is used by `mris_register` as the target in a spherical registration objective:
 
-$$J = \sum_{(\theta,\phi)} w_{ij} \cdot (c_{\text{subject}}(\theta_{ij}) - \bar{c}_{ij})^2$$
+$$
+J = \sum_{(\theta,\phi)} w_{ij} \cdot (c_{\text{subject}}(\theta_{ij}) - \bar{c}_{ij})^2
+$$
 
 where $w_{ij}$ may be inversely weighted by the template variance $\sigma^2_{ij}$ to give less weight to regions of high variability across subjects.
 

@@ -14,10 +14,9 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source in attic/ — may not be compiled or distributed in FreeSurfer 8.2.0."
-  - "Source not read — all details inferred."
 tags:
   - mri
   - COR
@@ -49,21 +48,51 @@ COR format was the original FreeSurfer volume format: a directory of 256 coronal
 
 ## Inputs
 
-> [!gap] Source not read
-> Unknown. Likely a volume with an associated transform file.
+Positional arguments: `mri_transform_to_COR <input> <output>`
+
+- **`input`**: source MRI volume (any format readable by FreeSurfer)
+- **`output`**: output volume path (COR directory, or geometry from `-like` volume)
 
 ## Outputs
 
-> [!gap] Source not read  
-> Likely a COR-format volume directory.
+- Resampled volume in COR format (256×256×256, 1 mm isotropic, UCHAR) unless `-like` or `-out_type` override the format
 
 ## Mathematical Foundations
 
-Transform application and volume resampling to COR format coordinates.
+Converts the input volume to float internally, then applies the voxel-to-voxel transform derived from the LTA (or identity if no transform specified), and resamples into the output geometry using the chosen interpolation method. Final type conversion from float to the target type is applied last.
 
 ## Configuration Options
 
-> [!gap] Unknown
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-ait` | `<lta_file>` | — | Apply the inverse of the LTA transform specified by the file; alias: `-invert_transform` |
+| `-at` | `<lta_file>` | — | Apply the LTA transform from the given file; alias: `-transform` |
+| `-autoscale` | — | off | Automatically scale the output histogram peak to 110 (implies `-noscale`) |
+| `-bspline` | `[degree]` | 3 | Use cubic B-spline interpolation; optional spline degree argument |
+| `-cubic` | — | — | Use cubic interpolation |
+| `-debug_voxel` | `<x> <y> <z>` | — | Enable per-voxel debugging at the given voxel coordinates |
+| `-dst` | `<vol>` | — | Specify the destination volume geometry for an FSL `.mat` transform; alias: `-lta_dst` |
+| `-high` | `<float>` | 1.0 | Upper percentile threshold for histogram-guided float-to-byte conversion |
+| `-hw` | `<n>` | 6 | Set sinc interpolation half-window size (also enables sinc); alias: `-sinchalfwindow` |
+| `-interp` | `<method>` | trilinear | Interpolation method: `trilinear`, `nearest`, `sinc`, `cubic`, `bspline`; aliases: `-sample`, `-sample_type`, `-st` |
+| `-invert_transform` | `<lta_file>` | — | Apply the inverse LTA transform (alias: `-ait`) |
+| `-like` | `<vol>` | — | Shape the output like the given reference volume (alias: `-out_like`) |
+| `-low` | `<float>` | 0.0 | Lower percentile threshold for histogram-guided float-to-byte conversion |
+| `-lta_dst` | `<vol>` | — | Destination volume geometry for FSL mat; alias: `-dst` |
+| `-lta_src` | `<vol>` | — | Source volume geometry for FSL mat; alias: `-src` |
+| `-nearest` | — | — | Use nearest-neighbour interpolation |
+| `-noscale` | — | off | Suppress histogram scaling during type conversion |
+| `-out_like` | `<vol>` | — | Shape the output like the given reference volume (alias: `-like`) |
+| `-out_type` | `<n>` | 0 (MRI\_COR) | Output volume type code (0=COR/UCHAR, 3=FLOAT, etc.) |
+| `-sample` | `<method>` | trilinear | Interpolation method (alias: `-interp`, `-st`, `-sample_type`) |
+| `-sample_type` | `<method>` | trilinear | Interpolation method (alias: `-interp`, `-sample`, `-st`) |
+| `-scaling` | `<float>` | 1.0 | Scale all input voxel values by this factor |
+| `-sinc` | `[hw]` | 6 | Use sinc interpolation; optional half-window size argument |
+| `-sinchalfwindow` | `<n>` | 6 | Sinc half-window size (also enables sinc); alias: `-hw` |
+| `-src` | `<vol>` | — | Source volume geometry for FSL mat (alias: `-lta_src`) |
+| `-st` | `<method>` | trilinear | Interpolation method (alias: `-interp`, `-sample`, `-sample_type`) |
+| `-transform` | `<lta_file>` | — | Apply an LTA transform (alias: `-at`) |
+| `-trilinear` | — | on | Use trilinear interpolation (default) |
 
 ## Pipeline Context
 
@@ -84,7 +113,7 @@ Not part of `recon-all`.
 
 ## Confidence and Gaps
 
-Confidence is **low**. Source not read; attic status and COR format obsolescence make this tool of historical interest only.
+Confidence is **medium**. Source was read from `attic/mri_transform_to_COR/mri_transform_to_COR.cpp`; all flags documented from `get_option()`. Attic status means this tool is of historical interest only.
 
 > [!gap] Verify installation and relevance
-> Confirm whether this binary exists. If not, this page should be tagged as historical/legacy only.
+> Confirm whether this binary exists in `$FREESURFER_HOME/bin/`. If not, this page should be tagged as historical/legacy only.

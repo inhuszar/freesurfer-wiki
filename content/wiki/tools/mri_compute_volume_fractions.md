@@ -17,7 +17,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Tissue type schema definition in TissueTypeSchema() not fully documented"
 tags:
@@ -81,11 +81,15 @@ The tool calls `MRIpartialVolumeFractionAS()`, which:
 3. Counts the fraction of sub-voxels per tissue type to fill each output voxel.
 
 The upsampling factor `USF` controls the accuracy vs. compute time trade-off:
-$$\text{effective resolution} = \frac{\text{aseg voxel size}}{\text{USF}}$$
+$$
+\text{effective resolution} = \frac{\text{aseg voxel size}}{\text{USF}}
+$$
 
 > [!math] Partial volume fraction
 > For a target voxel $V$, the cortical fraction is:
-> $$f_\text{cortex}(V) = \frac{N_\text{cortex sub-voxels in } V}{N_\text{total sub-voxels in } V}$$
+> $$
+> f_\text{cortex}(V) = \frac{N_\text{cortex sub-voxels in } V}{N_\text{total sub-voxels in } V}
+> $$
 > where sub-voxels are at the internal resolution `resmm`.
 
 CSF filling: By default, the aseg is dilated (`--ndil 3`) to add extracerebral CSF labels around the brain. This ensures that voxels outside the segmentation are not left as "unknown" in the fraction maps.
@@ -104,21 +108,24 @@ CSF filling: By default, the aseg is dilated (`--ndil 3`) to add extracerebral C
 | `--wsurf surf` | name | `white` | White surface name |
 | `--psurf surf` | name | `pial` | Pial surface name |
 | `--usf USF` | int | 2 | Anatomical upsampling factor |
-| `-r res` | float | — | Resolution in mm (sets USF = round(1/res)) |
+| `-r res` / `--r` | float | — | Resolution in mm (sets USF = round(1/res)) |
 | `--resmm resmm` | float | aseg.xsize/USF | Functional upsampling resolution |
 | `--no-aseg` | — | off | Skip aseg loading |
 | `--fill-csf` | — | on | Fill surrounding voxels with extracerebral CSF |
 | `--no-fill-csf` | — | off | Disable CSF filling |
-| `--ndil N` / `--dil` | int | 3 | Dilation steps for CSF filling |
+| `--ndil N` | int | 3 | Dilation steps for CSF filling |
 | `--csf-mask maskfile` | file | none | Mask out non-CSF voxels (relative to subject mri/) |
 | `--out-seg outseg` | file | none | Save modified aseg after CSF fill |
 | `--ttseg ttseg` | file | none | Save tissue-type segmentation |
 | `--ttseg-ctab ctabfile` | file | none | Save tissue-type color table |
 | `--ttype+head` | — | off | Use `default-jan-2014+head` tissue type schema |
-| `--mgz` / `--mgh` / `--nii` / `--nii.gz` | — | mgz | Output format |
-| `--sd path` | path | $SUBJECTS_DIR | Override SUBJECTS_DIR |
+| `-mgz` / `-mgh` / `-nii` / `-nii.gz` / `--mgz` / `--mgh` / `--nii` / `--nii.gz` | — | mgz | Output format (single- and double-dash accepted) |
+| `--sd path` / `-SDIR path` | path | $SUBJECTS_DIR | Override SUBJECTS_DIR (note: `-SDIR` is case-sensitive) |
 | `--vg-thresh threshold` | float | 10e-4 | Threshold for LTA geometry mismatch warnings |
 | `--debug` | — | off | Enable debug output |
+| `--checkopts` | — | off | Check options and exit without processing |
+| `--nocheckopts` | — | off | Do not exit after checking options |
+| `--diag-no` | `<n>` | — | Set Gdiag_no for selective diagnostic output |
 
 ## Configuration Interactions
 

@@ -60,13 +60,17 @@ For each specified label, the tool computes the average Hausdorff distance betwe
 
 The **Hausdorff distance** between two sets $A$ and $B$ is:
 
-$$d_H(A, B) = \max\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)$$
+$$
+d_H(A, B) = \max\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)
+$$
 
 The **average Hausdorff distance** used here averages over all pairs of segments (connected components) between the two volumes for a given label, using `MRIcomputeSegmentPairHausdorffDistance()`.
 
 The **centroid distance** (when `-c` is used) computes:
 
-$$d_c(A, B) = \|\text{centroid}(A) - \text{centroid}(B)\|_2$$
+$$
+d_c(A, B) = \|\text{centroid}(A) - \text{centroid}(B)\|_2
+$$
 
 between corresponding segment centroids via `MRIcomputeSegmentPairCentroidDistance()`.
 
@@ -79,6 +83,8 @@ between corresponding segment centroids via `MRIcomputeSegmentPairCentroidDistan
 | (positional 3+) | int(s) | required | Label value(s) to compute distances for |
 | `-t <in> <out>` | int pair | — | Translate label `<in>` to `<out>` before computing (repeatable) |
 | `-c` | flag | off | Compute centroid distances instead of Hausdorff |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel diagnostic output |
+| `-l <arg>` | string | — | Echo `<arg>` to stdout (used for shell-pipeline logging); consumes one extra argument token |
 
 ## Configuration Interactions
 

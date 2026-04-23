@@ -61,15 +61,21 @@ The MI value is printed to `stdout`. No output file is written unless a silent m
 
 Mutual information between two random variables $X$ (intensities in vol1) and $Y$ (intensities in vol2) is:
 
-$$I(X; Y) = H(X) + H(Y) - H(X, Y)$$
+$$
+I(X; Y) = H(X) + H(Y) - H(X, Y)
+$$
 
 where $H(\cdot)$ is the Shannon entropy:
 
-$$H(X) = -\sum_{x} p(x) \log_2 p(x)$$
+$$
+H(X) = -\sum_{x} p(x) \log_2 p(x)
+$$
 
 and $H(X,Y)$ is the joint entropy:
 
-$$H(X, Y) = -\sum_{x,y} p(x,y) \log_2 p(x,y)$$
+$$
+H(X, Y) = -\sum_{x,y} p(x,y) \log_2 p(x,y)
+$$
 
 The marginal distributions $p(x)$ and $p(y)$, and the joint distribution $p(x,y)$, are estimated from intensity histograms with configurable bin counts (default 64 bins each).
 
@@ -85,7 +91,7 @@ All flags use a single dash. Options are matched case-insensitively via `stricmp
 | `--silent` | boolean | false | In non-silent mode (default), prints per-volume progress messages and labels the MI result. In silent mode, prints only the bare numerical MI value — useful for scripting (`mi=$(mri_mi --silent v1.mgz v2.mgz)`). |
 
 > [!gotcha] `--bins` takes two arguments, not one
-> The flag `--bins n1 n2` consumes two following arguments and sets both bin counts simultaneously. There are no separate `--bins1` or `--bins2` flags.
+> The flag --bins n1 n2 consumes two following arguments and sets both bin counts simultaneously. There are no separate --bins1 or --bins2 flags.
 
 ## Configuration Interactions
 

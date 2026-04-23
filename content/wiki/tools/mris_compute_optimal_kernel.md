@@ -14,7 +14,7 @@ related:
   - "[[mris_register]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source in attic/. Installation status in 8.2.0 unknown."
   - "Internal MRIScomputeOptimalGaussianKernel() function details not documented."
@@ -63,7 +63,9 @@ After spherical registration, individual subjects are aligned to an atlas. Howev
 
 The tool finds $\sigma^*$ that minimises the LMS difference between the individual label $L_{\text{sub}}$ smoothed with a Gaussian of width $\sigma$ and the group label $L_{\text{grp}}$:
 
-$$\sigma^* = \arg\min_\sigma \sum_v \left[ G_\sigma * L_{\text{sub}}(v) - L_{\text{grp}}(v) \right]^2$$
+$$
+\sigma^* = \arg\min_\sigma \sum_v \left[ G_\sigma * L_{\text{sub}}(v) - L_{\text{grp}}(v) \right]^2
+$$
 
 where $G_\sigma$ denotes convolution with an isotropic Gaussian of standard deviation $\sigma$.
 
@@ -71,12 +73,13 @@ The search is implemented by `MRIScomputeOptimalGaussianKernel()`, which iterate
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-step <n>` | Step size for kernel search | 10 |
-| `-max <n>` | Maximum averaging steps | 1000 |
-| `-w <file>` | Write kernel output to file | `""` (no write) |
-| `--orig <name>` | Original surface name | `orig` |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-step <n>` | int | 10 | Step size for kernel search |
+| `-max <n>` | int | 1000 | Maximum averaging steps |
+| `-w <file>` | path | `""` (no write) | Write kernel output to file |
+| `-orig <name>` | string | `orig` | Original surface name |
+| `-sdir <path>` | path | `$SUBJECTS_DIR` | Override the subjects directory. When set, the tool uses this path instead of the `SUBJECTS_DIR` environment variable. |
 
 > [!gap] Flag names need verification
 > Inferred from global variables. Confirm from `get_option()`.

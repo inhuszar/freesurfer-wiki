@@ -14,7 +14,7 @@ related:
   - "[[mri_segstats]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Name or architecture of the internal Keras model is not exposed in the argument parser."
   - "Specific hypothalamic subunit label IDs are not listed in the source excerpt."
@@ -70,7 +70,9 @@ The tool uses a **convolutional neural network** trained on manually labelled T1
 
 The network outputs are passed through a softmax layer producing posterior probabilities $p(\text{label}_k | x)$ for each voxel $x$. The final segmentation is the argmax:
 
-$$\text{seg}(x) = \arg\max_k p(\text{label}_k | x)$$
+$$
+\text{seg}(x) = \arg\max_k p(\text{label}_k | x)
+$$
 
 ## Configuration Options
 
@@ -85,6 +87,8 @@ $$\text{seg}(x) = \arg\max_k p(\text{label}_k | x)$$
 | `--resample` | `<path>` | — | Write resampled T1 image(s) (T1 mode) |
 | `--threads` | `<int>` | 1 | Number of CPU threads |
 | `--cpu` | — | off | Force CPU usage (disable GPU) |
+| `--vol` | `<path>` | — | (T1 mode, optional) Override the default input volume path (alternative to `--i`) |
+| `--crop` | `<x1> <x2> <y1> <y2> <z1> <z2>` | — | (T1 mode, optional) Crop bounding box indices applied before segmentation |
 | `--help` / `-h` | — | — | Print usage and exit |
 
 ## Configuration Interactions

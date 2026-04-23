@@ -56,12 +56,18 @@ Positional arguments (in order):
 
 FSL FLIRT stores the transform as a voxel-to-voxel matrix $M_{\text{FSL}}$ that accounts for voxel sizes. The conversion to a standard voxel-to-voxel matrix $V_{\text{to\_V}}$ is:
 
-$$V_{\text{to\_V}} = D_{\text{dst}}^{-1} \cdot M_{\text{FSL}} \cdot D_{\text{src}}$$
+$$
+V_{\text{to\_V}} = D_{\text{dst}}^{-1} \cdot M_{\text{FSL}} \cdot D_{\text{src}}
+$$
 
 where $D_{\text{src}}$ and $D_{\text{dst}}$ are diagonal matrices of source and destination voxel sizes:
 
-$$D_{\text{src}} = \text{diag}(\Delta x_{\text{src}}, \Delta y_{\text{src}}, \Delta z_{\text{src}}, 1)$$
-$$D_{\text{dst}}^{-1} = \text{diag}(1/\Delta x_{\text{dst}}, 1/\Delta y_{\text{dst}}, 1/\Delta z_{\text{dst}}, 1)$$
+$$
+D_{\text{src}} = \text{diag}(\Delta x_{\text{src}}, \Delta y_{\text{src}}, \Delta z_{\text{src}}, 1)
+$$
+$$
+D_{\text{dst}}^{-1} = \text{diag}(1/\Delta x_{\text{dst}}, 1/\Delta y_{\text{dst}}, 1/\Delta z_{\text{dst}}, 1)
+$$
 
 This is implemented as:
 ```
@@ -73,17 +79,17 @@ The resulting $V_{\text{to\_V}}$ is stored in the LTA together with the full vol
 > [!math] Coordinate convention
 > FSL FLIRT convention defines the transform as mapping from source voxels to destination voxels, with voxel sizes incorporated. The FreeSurfer LTA convention typically stores RAS-to-RAS transforms internally but the code here stores the voxel-to-voxel form.
 
-When `-invert` is specified, `MatrixInverse(V_to_V)` is computed before writing.
+When `-inverse` is specified, `MatrixInverse(V_to_V)` is computed before writing.
 
 ## Configuration Options
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-invert` | flag | off | Invert the transform before writing to LTA |
+| `-inverse` | flag | off | Invert the transform before writing to LTA |
 
 ## Configuration Interactions
 
-- `-invert` flips the direction of the transform (destination → source instead of source → destination).
+- `-inverse` flips the direction of the transform (destination → source instead of source → destination).
 - The four positional arguments are mandatory in the specified order; there is no named argument mode.
 
 ## Typical Use Cases
@@ -93,7 +99,7 @@ When `-invert` is specified, `MatrixInverse(V_to_V)` is computed before writing.
 mri_fslmat_to_lta source.nii.gz destination.nii.gz flirt.mat output.lta
 
 # Invert before writing
-mri_fslmat_to_lta source.nii.gz destination.nii.gz flirt.mat output_inv.lta -invert
+mri_fslmat_to_lta source.nii.gz destination.nii.gz flirt.mat output_inv.lta -inverse
 
 # Using mgz volumes
 mri_fslmat_to_lta source.mgz destination.mgz flirt.mat output.lta

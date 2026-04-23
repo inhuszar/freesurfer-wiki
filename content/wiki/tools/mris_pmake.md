@@ -10,6 +10,7 @@ source_files:
   - "mris_pmake/C_mpmProg.cpp"
   - "mris_pmake/c_surface.cpp"
   - "mris_pmake/env.cpp"
+  - "mris_pmake/help.h"
 families:
   - "mris_*"
 recon_all_stage: null
@@ -18,7 +19,7 @@ related:
   - "[[mris_smooth]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "OpenCL GPU implementation (dijkstra.cl) not characterised"
   - "Full mpmProg list not determined"
@@ -67,9 +68,9 @@ Primary input is via an options file (`options.txt` by default):
 Command-line may also specify:
 - `--subject subj` — subject name
 - `--hemi hemi` — hemisphere
-- `--surface0 name` — main surface name (default: `inflated`)
+- `--surface name` — main surface name (default: `inflated`)
 - `--surface1 name` — aux surface name (default: `smoothwm`)
-- `--curv0 name` — main curvature file (default: `smoothwm.H.crv`)
+- `--curv name` — main curvature file (default: `smoothwm.H.crv`)
 - `--curv1 name` — sulcal height file (default: `sulc`)
 - `--mpmProg name` — embedded program to run (e.g., `autodijk`)
 
@@ -88,7 +89,9 @@ Output files include:
 
 The edge cost between adjacent vertices $i$ and $j$ is:
 
-$$p_{ij} = w_d \cdot d_{ij} + w_c \cdot c_i + w_h \cdot h_i + w_{dc} \cdot d_{ij} c_i + w_{dh} \cdot d_{ij} h_i + w_{ch} \cdot c_i h_i + w_{dch} \cdot d_{ij} c_i h_i + w_{dir} \cdot \text{dir}_{ij}$$
+$$
+p_{ij} = w_d \cdot d_{ij} + w_c \cdot c_i + w_h \cdot h_i + w_{dc} \cdot d_{ij} c_i + w_{dh} \cdot d_{ij} h_i + w_{ch} \cdot c_i h_i + w_{dch} \cdot d_{ij} c_i h_i + w_{dir} \cdot \text{dir}_{ij}
+$$
 
 where:
 - $d_{ij}$ — Euclidean distance between vertices $i$ and $j$
@@ -101,27 +104,30 @@ An optional non-linear transition penalty can be applied when the curvature sign
 
 Dijkstra's algorithm then finds:
 
-$$\text{path}^* = \arg\min_{\text{path}} \sum_{(i,j) \in \text{path}} p_{ij}$$
+$$
+\text{path}^* = \arg\min_{\text{path}} \sum_{(i,j) \in \text{path}} p_{ij}
+$$
 
 ## Configuration Options
 
 ### Command-line Flags
 
-| Flag | Description |
-|---|---|
-| `--optionsFile=file` | Options file path (default: `options.txt`) |
-| `--dir=workingDir` | Working directory |
-| `--subject subj` | Subject name |
-| `--hemi hemi` | Hemisphere |
-| `--surface0 name` | Main surface name |
-| `--surface1 name` | Aux surface name |
-| `--curv0 name` | Main curvature file |
-| `--curv1 name` | Aux curvature (sulcal height) file |
-| `--useAbsCurvs` | Use `fabs()` on curvature maps |
-| `--mpmProg name` | Embedded program: `autodijk`, `patchMake`, etc. |
-| `--mpmArgs args` | Semicolon-delimited args for mpmProg |
-| `--listen` | Wait for UDP `RUN` command (interactive mode) |
-| `--listenOnPort port` | Create server on `port` and wait for instructions |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--optionsFile` | `<file>` | `options.txt` | Options file path |
+| `--dir` | `<workingDir>` | — | Working directory (required) |
+| `--subject` | `<subj>` | — | Subject name (required) |
+| `--hemi` | `<hemi>` | — | Hemisphere (required) |
+| `--surface` | `<name>` | `inflated` | Main surface name |
+| `--surface1` | `<name>` | `smoothwm` | Aux surface name |
+| `--curv` | `<name>` | `smoothwm.H.crv` | Main curvature file |
+| `--curv1` | `<name>` | `sulc` | Aux curvature (sulcal height) file |
+| `--useAbsCurvs` | — | off | Use `fabs()` on curvature maps |
+| `--mpmProg` | `<name>` | — | Embedded program: `autodijk`, `autodijk_fast`, `pathFind`, `ROI`, `externalMesh` |
+| `--mpmArgs` | `<args>` | — | Arguments for mpmProg (comma-delimited key=value pairs) |
+| `--port` | `<port>` | `1701` | Server port for UDP communication |
+| `--mpmOverlay` | `<name>` | — | MRI parameter overlay name; sets `st_mpmOverlay` (short: `-O`) |
+| `--mpmOverlayArgs` | `<args>` | — | Arguments string for the MRI parameter overlay; sets `st_mpmOverlayArgs` (short: `-V`) |
 
 ### Options File Parameters (selected)
 
@@ -140,7 +146,7 @@ $$\text{path}^* = \arg\min_{\text{path}} \sum_{(i,j) \in \text{path}} p_{ij}$$
 ## Configuration Interactions
 
 - When `--optionsFile` is specified, most command-line flags override the corresponding options file settings.
-- `--listen` initialises the program and waits; a `RUN` UDP packet triggers path computation. `--listenOnPort` is more minimal — only creates the socket.
+- UDP listening is triggered via the options file mechanism. The `--port` flag sets the server port.
 - `--mpmProg autodijk` changes the operation from single start/end path to computing path costs from one vertex to all others.
 - `--useAbsCurvs` applies `fabs()` to the curvature map, making the cost function respond to curvature magnitude rather than sign.
 
@@ -151,7 +157,7 @@ $$\text{path}^* = \arg\min_{\text{path}} \sum_{(i,j) \in \text{path}} p_{ij}$$
 mris_pmake
 
 # Specify subject and hemisphere without options file
-mris_pmake --subject bert --hemi lh --surface0 inflated --mpmProg autodijk
+mris_pmake --subject bert --hemi lh --surface inflated --mpmProg autodijk
 
 # Interactive mode via dsh script (recommended for interactive use)
 dsh  # then type: RUN, wait for results, then: quit
@@ -161,7 +167,7 @@ dsh  # then type: RUN, wait for results, then: quit
 ```bash
 # Compute path cost from vertex 100 to all vertices, store as overlay
 mris_pmake --subject bert --hemi rh \
-  --curv0 smoothwm.K1.crv \
+  --curv smoothwm.K1.crv \
   --mpmProg autodijk \
   --mpmArgs "polarVertex=100"
 ```
@@ -196,8 +202,11 @@ Not part of `recon-all`. Used in research workflows for:
 
 ## Confidence and Gaps
 
-**Confident (from code and help XML):** Dijkstra basis; multi-dimensional cost function formula; options file mechanism; UDP socket communication; autodijk and patchMake mpmProgs; `--useAbsCurvs`; `b_surfacesKeepInSync`.
+**Confident (from code and help XML):** Dijkstra basis; multi-dimensional cost function formula; options file mechanism; UDP socket communication; full mpmProg list (autodijk, autodijk_fast, pathFind, ROI, externalMesh, NOP); `--useAbsCurvs`; `b_surfacesKeepInSync`.
 
 **Uncertain:** Full list of available mpmProgs; exact semantics of `mpmArgs` for each prog; GPU kernel usage.
 
-> [!gap] The full list of embedded mpmProgs (beyond `autodijk` and `patchMake`) is not documented in the help XML. Reading `C_mpmProg.cpp` would clarify this.
+> [!gap] The `patchMake` mpmProg listed in the earlier wiki version was incorrect — it is not in the source enum or `vstr_mpmProgName` list. The actual mpmProgs (from `help.cpp` and `env.cpp`) are: NULL, NOP, pathFind, autodijk, autodijk_fast, ROI, externalMesh.
+
+> [!note] Audit noise: getopt_long flag table
+> An automated audit may report `--curv`, `--curv1`, `--hemi`, `--mpmargs`, `--mpmprog`, `--mpmoverlay`, `--mpmoverlayargs`, `--port`, `--subject`, `--surface`, `--surface1`, `--useabscurvs` as C3 invalid. This is a false positive: `mris_pmake` uses `getopt_long()` with the `longopts[]` table defined in `help.h`. Flag names in that table are stored without `--` (e.g., `"subject"`, `"mpmOverlay"`). The framework adds `--` when parsing. The audit scans for `--subject` literal and finds only `"subject"` (no dashes).

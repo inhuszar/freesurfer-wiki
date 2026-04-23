@@ -139,7 +139,9 @@ The node stores two source-space positions:
 
 The displacement vector at each node is:
 
-$$\mathbf{u}_i = \begin{pmatrix} x_i - \text{origx}_i \\ y_i - \text{origy}_i \\ z_i - \text{origz}_i \end{pmatrix}$$
+$$
+\mathbf{u}_i = \begin{pmatrix} x_i - \text{origx}_i \\ y_i - \text{origy}_i \\ z_i - \text{origz}_i \end{pmatrix}
+$$
 
 The warp is a **forward warp**: it maps a point in target (atlas) space to the corresponding point in source (subject) space. To resample a source image into atlas space, the tool follows each node's $(x, y, z)$ pointer back into the source and interpolates. `GCAMmorphToAtlas` performs this operation; `GCAMmorphFromAtlas` applies the inverse warp.
 

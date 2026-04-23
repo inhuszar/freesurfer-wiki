@@ -14,7 +14,7 @@ related:
   - "[[mri_ca_label]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - segmentation
@@ -43,15 +43,18 @@ This tool is called during `recon-all -base` to initialise the segmentation of t
 
 ## Inputs
 
-| Flag | Description |
-|------|-------------|
-| `--in <vol>` | Input target volume (base template) |
-| `--norm <vol> [...]` | Normalised T1 volumes for each time point |
-| `--aseg <vol> [...]` | Segmentation volumes for each time point |
-| `--aseg-nocc <vol> [...]` | Segmentation volumes without corpus callosum labels |
-| `--trx <lta> [...]` | Registration transforms for each time point (or `identity.nofile`) |
-| `--out <vol>` | Output fused segmentation |
-| `--sigma <s>` | Cross-time sigma for temporal Gaussian weighting (default: 3.0) |
+The input volume and output path are **positional arguments** (not flags): the second-to-last positional argument is the input base template, and the last positional argument is the output path. Flags provide the per-time-point volumes and transforms.
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `<in_vol>` | — | Input target volume (base template) — **positional, second-to-last** |
+| `<out_vol>` | — | Output fused segmentation — **positional, last** |
+| `--norm <vol> [...]` / `-n` | `-n` | Normalised T1 volumes for each time point |
+| `--aseg <vol> [...]` / `-a` | `-a` | Segmentation volumes for each time point |
+| `--nocc <vol> [...]` / `-c` | `-c` | Segmentation volumes without corpus callosum labels; replaces incorrect --aseg-nocc |
+| `--trx <lta> [...]` / `-t` | `-t` | Registration transforms for each time point (or `identity.nofile`) |
+| `--sigma <s>` / `-s` | `-s` | Cross-time sigma for temporal Gaussian weighting (default: 3.0) |
+| `--debug <x> <y> <z>` / `-d` | `-d` | Enable debug output at the specified voxel coordinate |
 
 ## Outputs
 
@@ -61,13 +64,17 @@ This tool is called during `recon-all -base` to initialise the segmentation of t
 
 For each voxel in the target volume, the fused label is determined by a weighted vote across time-point segmentations. The weight for each time point is based on the intensity similarity between the normalised volumes, modulated by a Gaussian temporal kernel:
 
-$$w_t = \exp\left(-\frac{d_t^2}{2\sigma_t^2}\right)$$
+$$
+w_t = \exp\left(-\frac{d_t^2}{2\sigma_t^2}\right)
+$$
 
 where $d_t$ is a measure of intensity dissimilarity (or temporal distance in a study design) and $\sigma_t$ is the cross-time sigma parameter (default 3.0 mm or 3.0 time units).
 
 The fused label is:
 
-$$L^*(\mathbf{x}) = \arg\max_l \sum_t w_t \cdot \mathbf{1}[L_t(\mathbf{x}) = l]$$
+$$
+L^*(\mathbf{x}) = \arg\max_l \sum_t w_t \cdot \mathbf{1}[L_t(\mathbf{x}) = l]
+$$
 
 Time-point volumes are resampled into the base space using the supplied transforms before fusion. The `aseg_nocc` (no corpus callosum) versions are used alongside the full asegs.
 
@@ -76,36 +83,44 @@ Time-point volumes are resampled into the base space using the supplied transfor
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `--in <vol>` | volume | required | Input base template volume |
-| `--norm <vol> [...]` | volumes | required | Normalised T1 per time point |
-| `--aseg <vol> [...]` | volumes | required | Segmentation per time point |
-| `--aseg-nocc <vol> [...]` | volumes | required | Segmentation without CC per TP |
-| `--trx <lta> [...]` | LTA files | — | Transform per time point |
-| `--out <vol>` | volume | required | Output fused segmentation |
-| `--sigma <s>` | float | 3.0 | Cross-time Gaussian weighting sigma |
+Flag list verified against `mri_fuse_segmentations/mri_fuse_segmentations.cpp`. Input and output are positional, not flags.
+
+| Flag | Short | Type | Default | Description |
+|------|-------|------|---------|-------------|
+| `<in_vol>` | — | volume | required | Input base template — positional (second-to-last arg) |
+| `<out_vol>` | — | volume | required | Output fused segmentation — positional (last arg) |
+| `--norm <vol> [...]` / `-n` | `-n` | volumes | required | Normalised T1 per time point |
+| `--aseg <vol> [...]` / `-a` | `-a` | volumes | required | Segmentation per time point |
+| `--nocc <vol> [...]` / `-c` | `-c` | volumes | required | Segmentation without CC labels per time point |
+| `--trx <lta> [...]` / `-t` | `-t` | LTA files | — | Transform per time point |
+| `--sigma <s>` / `-s` | `-s` | float | 3.0 | Cross-time Gaussian weighting sigma |
+| `--debug <x> <y> <z>` / `-d` | `-d` | ints | — | Debug at voxel coordinate |
+
+> [!gotcha] No --in, --out, or --aseg-nocc flags
+> These flags do not exist in the source. Input and output volumes are positional. The no-CC segmentation flag is --nocc (or `-c`), not --aseg-nocc.
 
 ## Configuration Interactions
 
-- The number of `--norm`, `--aseg`, `--aseg-nocc`, and `--trx` arguments must match.
-- If `--trx` is omitted, all time-point volumes are assumed to be already in the same space as the target.
+- The number of `--norm`, `--aseg`, and `--nocc` arguments must match.
+- If `--trx` is supplied, its count must also match the number of time points.
+- If `--trx` is omitted entirely, all time-point volumes are assumed to be already in the same space as the target.
 - Providing `identity.nofile` as a transform entry is equivalent to no resampling for that time point.
-- Lower `--sigma` values give more weight to time points that are most similar to the base; higher values weight all time points more equally.
+- Lower `--sigma` values give more weight to time points most similar to the base; higher values weight all time points more equally.
 
 ## Typical Use Cases
 
 ```bash
 # Fuse segmentations from 3 time points into base
+# Note: input and output volumes are positional (last two args)
 mri_fuse_segmentations \
-  --in base/mri/orig.mgz \
   --norm tp1/mri/norm.mgz tp2/mri/norm.mgz tp3/mri/norm.mgz \
   --aseg tp1/mri/aseg.mgz tp2/mri/aseg.mgz tp3/mri/aseg.mgz \
-  --aseg-nocc tp1/mri/aseg.auto_noCCseg.mgz tp2/mri/aseg.auto_noCCseg.mgz tp3/mri/aseg.auto_noCCseg.mgz \
+  --nocc tp1/mri/aseg.auto_noCCseg.mgz tp2/mri/aseg.auto_noCCseg.mgz tp3/mri/aseg.auto_noCCseg.mgz \
   --trx base/mri/transforms/tp1_to_base.lta \
         base/mri/transforms/tp2_to_base.lta \
         base/mri/transforms/tp3_to_base.lta \
-  --out base/mri/aseg.fused.mgz
+  base/mri/orig.mgz \
+  base/mri/aseg.fused.mgz
 ```
 
 ## Pipeline Context
@@ -126,4 +141,7 @@ Called within `recon-all -base` as part of the longitudinal base template creati
 
 ## Confidence and Gaps
 
-**High confidence:** inputs, outputs, and algorithm inferred from well-commented source code and explicit function signatures.
+**High confidence:** Full flag list verified from source. Positional input/output convention, `--nocc` (not --aseg-nocc), `--aseg`/`-a`, `--norm`/`-n`, `--trx`/`-t`, `--sigma`/`-s`, `--debug`/`-d` all confirmed. Algorithm inferred from well-commented source code and explicit function signatures.
+
+> [!gap] `--argc` not a real flag
+> There is no `--argc` flag in the source. The mention of `argc` refers to the internal C++ argument counter, not a command-line option.

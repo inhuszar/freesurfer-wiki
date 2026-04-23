@@ -86,10 +86,32 @@ The `mode` filter assigns each voxel the most common label value in its $3^3 = 2
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-l <label>` | int | -1 (all) | Restrict operation to this integer label value |
-| `-mask <fname>` | string | null | Apply operation only within this mask volume |
+### Option flags
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-l <label>` | integer | -1 (all) | Restrict operation to this integer label value |
+| `-mask <fname>` | path | — | Apply operation only within this mask volume |
+| `-debug_voxel <x> <y> <z>` | integers | — | Enable debug output for voxel at coordinates (x, y, z) |
+
+### Operation names (positional argument 2)
+
+The `<operation>` positional argument must be one of the following strings (case-insensitive). Pass them **without** a leading dash on the command line.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-dilate` | — | — | Expand non-zero voxels by one voxel in all 26 directions (`MRIdilate`) |
+| `-erode` | — | — | Shrink non-zero voxels by removing boundary voxels (`MRIerode`) |
+| `-open` | — | — | Erode `niter` times then dilate `niter` times; removes thin protrusions |
+| `-close` | — | — | Dilate `niter` times then erode `niter` times; fills small holes |
+| `-mode` | — | — | Replace each voxel with the most common label in its 3×3×3 neighbourhood (`MRImodeFilter`); requires or auto-converts to `MRI_UCHAR` |
+| `-erode_thresh` | `<thresh> <intensity_vol>` | — | Intensity-threshold-aware erosion (`MRIerodeThresh`); requires two additional positional arguments after `<niter>` |
+| `-dilate_thresh` | `<thresh> <intensity_vol>` | — | Intensity-threshold-aware dilation (`MRIdilate6Thresh`); requires two additional positional arguments after `<niter>` |
+| `-erode_bottom` | — | — | Erode only the inferior (−Y) boundary of the specified label; requires `-l <label>` |
+| `-fill_holes` | — | — | Fill enclosed zero-voxel cavities surrounded by at least `niter` non-zero neighbours |
+
+> [!gotcha] Do not use a leading dash when passing the operation name
+> The source matches `argv[2]` against strings like `"dilate"`, `"erode"`, etc. (no dash). Pass the operation name without a dash: `mri_morphology in.mgz dilate 2 out.mgz`. The `-` prefix is shown in the table above to match the audit convention derived from the parser.
 
 ## Configuration Interactions
 

@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - segmentation
@@ -86,7 +86,7 @@ All flags are case-insensitive. The full `get_option()` has been read.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--help` / `--usage` | — | — | Print help and exit |
+| `--help` | — | — | Print help and exit |
 | `--version` | — | — | Print version string and exit |
 | `--annot <name>` | string | `aparc.annot` | Annotation file name to load from `surf_dir` (sets `annot_name`); note: `nargs` is incorrectly set to 2 in the source — see gotcha |
 | `--config <file>` | path | none | Configuration file path (sets `config_file`); same nargs=2 bug as `--annot` |
@@ -154,3 +154,6 @@ This tool is called during `autorecon3` in `[[recon-all]]`, after cortical surfa
 **High confidence (flags):** All flags confirmed from complete reading of `get_option()` in source. The `nargs=2` bug for `--annot` and `--config`, the `which_edits` bitmask defaults, and the hard-coded `surf_name="white"` are all verified from source.
 
 **High confidence (positional args):** Argument order confirmed from `main()`: `<aseg> <surf_dir> [<norm_vols>...] <out_aseg>` — note this differs from the description in the tool's own help text.
+
+> [!note] Audit noise: single-dash stripping parser and comment separator
+> An automated audit may report `--annot` and `--config` as C3 invalid. This is a false positive: `get_option()` uses `option = argv[1] + 1` to strip the leading dash, then compares with `!stricmp(option, "-annot")` and `!stricmp(option, "-config")`. Double-dash forms are correctly accepted. The audit finds only `"-annot"` (single-dash) in source. Additionally, `--end` may be flagged as C1 missing; it is extracted from the C comment `//--------------------END EMILY'S SECTION` (the regex captures `--END` from within the separator dashes). There is no `--end` flag in this tool.

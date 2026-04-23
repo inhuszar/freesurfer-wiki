@@ -78,7 +78,9 @@ Three subdivision methods are supported, delegated entirely to VTK:
 **Modified Butterfly (default):** An interpolating subdivision scheme that preserves original vertex positions exactly. New edge midpoint positions are computed using a weighted average of nearby vertices. This scheme produces smooth surfaces and is the recommended default.
 
 **Loop subdivision:** An approximating scheme based on box splines over triangular meshes. Original vertex positions are moved toward a weighted average of their neighbors:
-$$v_i' = (1 - n\beta) v_i + \beta \sum_{j \in \mathcal{N}(i)} v_j$$
+$$
+v_i' = (1 - n\beta) v_i + \beta \sum_{j \in \mathcal{N}(i)} v_j
+$$
 where $\beta$ depends on vertex valence $n$. This scheme does not interpolate original vertices and thus may move existing surface vertices.
 
 **Linear subdivision:** Purely interpolating midpoint insertion — new vertices are placed at the arithmetic midpoint of each edge. No smoothing; produces flat triangle subdivision. Original vertex positions are preserved exactly.
@@ -104,7 +106,7 @@ where $\beta$ depends on vertex valence $n$. This scheme does not interpolate or
 
 - `--method loop` is the only scheme that modifies original vertex positions. Do not use it when exact preservation of pre-existing surface vertex positions is required.
 - `--iter 2` with butterfly produces approximately 16× the original face count; memory usage scales accordingly.
-- If `--out` does not contain a `/`, the output is placed in the same directory as `--surf` (convenient for working within a subject's `surf/` directory).
+- If --out does not contain a `/`, the output is placed in the same directory as `--surf` (convenient for working within a subject's `surf/` directory).
 
 > [!gotcha] Subsurface subdivision not implemented
 > The source code contains a `TODO` comment indicating that label-constrained subsurface subdivision (applying subdivision only within a specified label region) is planned but not implemented. Attempting to use any related flags (if they exist) will have no effect.

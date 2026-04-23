@@ -16,7 +16,7 @@ related:
   - "[[talairach_afd]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The MINC/mritotal tool (called internally) details are not documented."
 tags:
@@ -77,7 +77,9 @@ Talairach registration maps subject brain space to a standardized coordinate spa
 - **`<xfm_path>`** — MINC `.xfm` transform file (affine registration to MNI305/average_305).
 - **`<xfm_path>.lta`** — Linear Transform Array (LTA) version of the transform, produced by `lta_convert`. The LTA has subject `fsaverage` assigned.
 - **`<dir>/talairach.log`** — processing log.
-- Temporary directory `tmp.talairach.$$` (cleaned up after successful completion).
+- Temporary directory `tmp.talairach.
+$$
+` (cleaned up after successful completion).
 
 ### Output Specifications
 
@@ -88,7 +90,9 @@ The `.xfm` file is in MINC transform format. The `.lta` file is in FreeSurfer LT
 `mritotal` computes a 9- or 12-parameter linear registration (depending on protocol settings) between the input volume and the MNI305 atlas by maximizing normalized cross-correlation or mutual information. The `icbm` protocol uses ICBM-152 atlas constraints.
 
 The resulting affine transform $M \in \mathbb{R}^{4 \times 4}$ maps input scanner RAS coordinates to MNI305 RAS coordinates:
-$$\mathbf{x}_{\text{MNI305}} = M \cdot \mathbf{x}_{\text{subj}}$$
+$$
+\mathbf{x}_{\text{MNI305}} = M \cdot \mathbf{x}_{\text{subj}}
+$$
 
 See [[coordinate-systems]] for the full coordinate system definitions and transform chain.
 
@@ -100,6 +104,7 @@ See [[coordinate-systems]] for the full coordinate system definitions and transf
 |------|------|---------|-------------|
 | `--i <vol>` | string | required | Input MRI volume. |
 | `--xfm <path>` | string | required | Output `.xfm` transform path. |
+| `--x <path>` | string | required | Alias for `--xfm`. |
 | `--protocol-default` | boolean | false | Use MNI default registration protocol. |
 | `--protocol-icbm` | boolean | true | Use ICBM protocol (default). |
 | `--log <file>` | string | `<OutDir>/talairach.log` | Log file path. |
@@ -137,7 +142,9 @@ Note: In practice, `recon-all` calls `talairach_avi` (not `talairach`) for this 
 > The script converts to MINC (`.mnc`) format as an intermediate step. This requires `mri_convert` to support MINC output (needs MINC library support in the FreeSurfer build).
 
 > [!gotcha] Temporary directory cleanup
-> If the script fails (non-zero exit status from `mritotal`), it still removes the temporary directory `tmp.talairach.$$`, but the `.xfm` output may be absent or incomplete.
+> If the script fails (non-zero exit status from `mritotal`), it still removes the temporary directory `tmp.talairach.
+> $$
+> `, but the `.xfm` output may be absent or incomplete.
 
 ## Related Tools
 

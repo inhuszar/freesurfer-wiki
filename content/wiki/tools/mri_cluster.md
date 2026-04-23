@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - statistics
@@ -67,13 +67,17 @@ Written to `--o <outdir>`:
 
 **Connected components** on a binary activation map $B$ (derived from thresholding):
 
-$$B(x) = \mathbf{1}\!\left[\text{thmin} \leq \text{sign}(V(x)) \cdot V(x) \leq \text{thmax}\right]$$
+$$
+B(x) = \mathbf{1}\!\left[\text{thmin} \leq \text{sign}(V(x)) \cdot V(x) \leq \text{thmax}\right]
+$$
 
 The clustering algorithm uses recursive region growing (`GrowOne`): starting from each unvisited active voxel, it finds all connected active voxels within the specified topology (face/edge/corner neighbors).
 
 **Spatial-temporal corification** (`--corify`): For a 4D segmentation across frames, the "core" of a segmentation $k$ across the temporal dimension is:
 
-$$\text{core}(v, k) = \begin{cases} k & \text{if } \frac{\text{number of frames where } V(v) \neq k}{\text{total frame span}} \leq \tau \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{core}(v, k) = \begin{cases} k & \text{if } \frac{\text{number of frames where } V(v) \neq k}{\text{total frame span}} \leq \tau \\ 0 & \text{otherwise} \end{cases}
+$$
 
 where $\tau$ is the corify threshold (0 = strict: present in all frames, 1 = loose).
 
@@ -96,6 +100,7 @@ where $\tau$ is the corify threshold (0 = strict: present in all frames, 1 = loo
 | `--corify <invol> <thresh> <outvol>` | — | — | Standalone corify operation (see below) |
 | `--threads <N>` | int | 1 | OpenMP thread count |
 | `--max-threads` | flag | — | Use maximum available threads |
+| `--max-threads-1` / `--max-threads-minus-1` | flag | — | Use maximum available threads minus 1 |
 | `--checkopts` | flag | — | Check options and exit without running |
 | `--debug` | flag | — | Enable debug output |
 

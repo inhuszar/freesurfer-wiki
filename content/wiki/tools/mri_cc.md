@@ -82,38 +82,37 @@ The CC center $(x_c, y_c, z_c)$ in Talairach space is anchored at approximately 
 
 After finding all CC voxels, principal component analysis (PCA) of the 3D voxel distribution gives eigenvectors $\mathbf{e}_1, \mathbf{e}_2, \mathbf{e}_3$. The primary eigenvector $\mathbf{e}_1$ is projected onto each CC voxel to compute its position along the AP axis. Voxels are sorted and divided into five equal-volume bins:
 
-$$\text{label}(v) = \text{CC}_{\lfloor 5 \cdot r(v) \rfloor}$$
+$$
+\text{label}(v) = \text{CC}_{\lfloor 5 \cdot r(v) \rfloor}
+$$
 
 where $r(v)$ is the fractional rank of voxel $v$ along the primary eigendirection.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory |
-| `-aseg <file>` | string | `aseg.mgz` | Input aseg filename (relative to mri/) |
-| `-norm <file>` | string | `norm.mgz` | Norm volume filename (relative to mri/) |
-| `-lta <file>` | string | (empty, auto-find) | LTA transform filename (relative to mri/) |
-| `-o <file>` | string | `aseg_with_cc.mgz` | Output filename |
-| `-dxi <N>` | int | 2 | Half-thickness of midplane strip |
-| `-force` | flag | off | Force re-run even if CC labels already present in aseg |
-| `-write_lta` | flag | off | Write computed LTA transform to disk |
-| `-write_cc` | flag | off | Write CC-only binary volume |
-| `-lh` | flag | off | Process left hemisphere only |
-| `-rh` | flag | off | Process right hemisphere only |
-| `-use_aseg <0/1>` | int | 1 | Use aseg-based approach (1) vs WM volume approach (0) |
-| `-norm_thresh <N>` | int | 40 | Intensity threshold for norm volume during CC fitting |
-| `-max_cc_rot <deg>` | float | 7 | Maximum allowed CC rotation from midplane (degrees) |
-| `-ncc <N>` | int | 5 | Number of CC subdivisions (default: 5) |
-| `-cc_tal_x/y/z <val>` | float | 0,0,27 | Initial CC center in Talairach space |
-| `-fornix` | flag | off | Include fornix in CC segmentation (experimental) |
-| `-skip` | flag | off | Skip if CC already present |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-sdir` | `dir` | `$SUBJECTS_DIR` | Override subjects directory |
+| `-aseg` | `file` | `aseg.mgz` | Input aseg filename (relative to `mri/`) |
+| `-norm` | `file` | `norm.mgz` | Norm volume filename (relative to `mri/`) |
+| `-lta` | `file` | (empty, auto-find) | LTA transform filename |
+| `-o` | `file` | `aseg_with_cc.mgz` | Output filename |
+| `-t` | `N` | 2 | Half-thickness of midplane strip (sets `dxi`) |
+| `-d` | `N` | 5 | Number of CC subdivisions |
+| `-s` | `N` | 0 | Number of voxels to skip in rotational alignment |
+| `-a` | `0/1` | 1 | Use aseg-based approach (1) vs WM volume approach (0) |
+| `-m` | `deg` | 7 | Maximum CC rotation from midplane (degrees) |
+| `-f` | — | off | Include fornix in CC segmentation |
+| `-force` | — | off | Force re-run even if CC labels already present in aseg |
+| `-lh` | — | off | Process left hemisphere only |
+| `-rh` | — | off | Process right hemisphere only |
+| `-debug_voxel` | `x y z` | — | Enable debug output at voxel (x, y, z) |
 
 ## Configuration Interactions
 
 - If the aseg already contains CC labels (detected by checking for `CC_Central` voxels), the tool exits with error 77 unless `-force` is specified.
 - `-lh` and `-rh` flags skip CC segmentation and just copy the aseg without changes (useful for partial-hemisphere processing).
-- `-use_aseg 0` switches to a legacy WM-volume-based approach; this requires a `mri/wm` volume and is not recommended for standard usage.
+- `-a 0` switches to a legacy WM-volume-based approach; this requires a `mri/wm` volume and is not recommended for standard usage.
 
 > [!gotcha] Error code 77 = CC already present
 > Recon-all scripts treat exit code 77 as a soft skip (not an error). This means re-running `mri_cc` on a subject that already has CC labels will silently succeed without modifying the aseg, unless `-force` is used.
@@ -132,7 +131,7 @@ mri_cc -force -o aseg_with_cc.mgz bert
 
 **Custom number of CC divisions:**
 ```bash
-mri_cc -ncc 7 -o aseg_with_cc_7.mgz bert
+mri_cc -d 7 -o aseg_with_cc_7.mgz bert
 ```
 
 ## Pipeline Context

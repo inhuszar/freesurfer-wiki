@@ -16,9 +16,8 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
-gaps:
-  - "Complete flag list requires get_option() beyond line 100"
+last_agent_update: 2026-04-22
+gaps: []
 tags:
   - quantitative-mri
   - flash
@@ -77,15 +76,19 @@ All outputs are written to an output directory:
 
 For a spoiled gradient echo (FLASH) acquisition with flip angle $\alpha$, TR, and TE, the signal is modelled by the Ernst equation:
 
-$$S = S_0 \cdot PD \cdot \frac{\sin\alpha (1 - e^{-TR/T_1})}{1 - \cos\alpha \cdot e^{-TR/T_1}} \cdot e^{-TE/T_2^*}$$
+$$
+S = S_0 \cdot PD \cdot \frac{\sin\alpha (1 - e^{-TR/T_1})}{1 - \cos\alpha \cdot e^{-TR/T_1}} \cdot e^{-TE/T_2^*}
+$$
 
 where $S_0$ is a scanner gain factor, $T_1$ is the longitudinal relaxation time, and $T_2^*$ is the effective transverse relaxation time (often neglected for short TE).
 
-Given measurements $S_1, \ldots, S_N$ at flip angles $\alpha_1, \ldots, \alpha_N$, the tool fits $T_1$ and $PD = S_0 \cdot PD_{tissue}$ by minimizing the sum of squared residuals, optionally using Tukey robust regression (`-use_tukey`) to suppress outliers.
+Given measurements $S_1, \ldots, S_N$ at flip angles $\alpha_1, \ldots, \alpha_N$, the tool fits $T_1$ and $PD = S_0 \cdot PD_{tissue}$ by minimizing the sum of squared residuals, optionally using Tukey robust regression (`-tukey`) to suppress outliers.
 
 Simultaneous rigid-body registration minimizes the overall objective:
 
-$$E = \sum_{i=1}^N SSE(S_i, \hat{S}_i(T_1, PD, T_i))$$
+$$
+E = \sum_{i=1}^N SSE(S_i, \hat{S}_i(T_1, PD, T_i))
+$$
 
 where $T_i$ is the per-volume rigid transform, using gradient descent with momentum (`base_dt=1e-6`, `momentum=0.9`).
 
@@ -93,31 +96,56 @@ A flip angle correction field (`-faf`) can account for spatially varying flip an
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-tr <f>` | float | from header | Repetition time (ms) for following volume |
-| `-te <f>` | float | from header | Echo time (ms) for following volume |
-| `-fa <f>` | float | from header | Flip angle (degrees) for following volume |
-| `-at <fname>` | string | null | Apply transform to following volume |
-| `-ait <fname>` | string | null | Apply inverse of transform to following volume |
-| `-use_tukey` | flag | off | Use Tukey robust estimator |
-| `-scale <f>` | float | 1.0 | Scale factor |
-| `-sigma <f>` | float | 4 | Gaussian smoothing sigma for gradient computation |
-| `-debug_slice <n>` | int | -1 | Debug output for specified slice |
-| `-correct_PD` | flag | off | Apply PD correction |
-| `-no_synth` | flag | off | Do not write synthetic volumes |
-| `-faf <fname>` | string | null | Flip angle correction field volume |
-| `-faf_smooth <n>` | int | -1 | Smooth the FAF field |
-| `-faf_thresh <f>` | float | 0 | Threshold for FAF |
-| `-max_T2star <f>` | float | 1000 | Maximum T2* value |
-| `-use_brain_mask` | flag | off | Compute SSE only within brain mask |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-tr` | `<f>` | from header | Repetition time (ms) for the following volume |
+| `-te` | `<f>` | from header | Echo time (ms) for the following volume |
+| `-fa` | `<f>` | from header | Flip angle (degrees) for the following volume |
+| `-at` | `<fname>` | — | Apply transform file to following volume |
+| `-ait` | `<fname>` | — | Apply inverse of transform file to following volume |
+| `-t` | `<xfm> <vol>` | — | Apply transform to output volumes and set output volume geometry from `<vol>` |
+| `-i` | — | off | Invert the transform applied via `-t` |
+| `-tukey` | — | off | Use Tukey biweight robust estimator for residuals |
+| `-s` | `<f>` | — | Smooth flip angle field with Gaussian sigma `<f>` |
+| `-n` | `<n>` | — | Perform estimation/motion correction `<n>` times |
+| `-w` | `<n>` | — | Write intermediate results every `<n>` iterations |
+| `-r` | `<name>` | — | Write residuals to file `<name>` |
+| `-m` | `<f>` | 0.9 | Set gradient descent momentum |
+| `-scale` | `<f>` | 1.0 | Scale all volumes by `<f>` after reading |
+| `-debug_slice` | `<n>` | -1 | Enable debug output for slice `<n>` |
+| `-debug_voxel` | `<x> <y> <z>` | — | Enable debug output for voxel `(x, y, z)` |
+| `-correct` | — | off | Correct PD by T2* estimates |
+| `-conform` | — | off | Interpolate volume to isotropic 1 mm³ |
+| `-noconform` | — | off | Inhibit isotropic volume interpolation |
+| `-nosynth` | — | off | Disable synthesis of output volumes (`niter=0`) |
+| `-nocompress` | — | off | Save outputs as `.mgh` instead of `.mgz` |
+| `-reciprocity` | — | off | Assume reciprocity in forward model (same coil for transmit and receive) |
+| `-extract` | `<x> <y> <z> <dx> <dy> <dz>` | — | Extract a subimage at origin `(x,y,z)` with size `(dx,dy,dz)` |
+| `-fa_scale` | `<f>` | 1.0 | Scale all flip angles by `<f>` |
+| `-dt` | `<f>` | 1e-6 | Set gradient descent step size |
+| `-max` | `<f>` | 1000 | Maximum T2* value |
+| `-fsmooth` | `<n> <thresh>` | — | Smooth flip angle map: `<n>` soap-bubble iterations with threshold `<thresh>` |
+| `-mask` | `<vol>` | — | Read brain mask volume from `<vol>` |
+| `-use_brain_mask` | — | off | Compute SSE only within brain mask derived from PD map |
+| `-afi` | `<vol>` | — | Read flip angle map with nominal value 60° from `<vol>` |
+| `-fam` | `<vol> <nominal_fa>` | — | Read flip angle map from `<vol>` with specified nominal flip angle |
+| `-faf` | `<vol> <ctrl>` | — | Read flip angle field from `<vol>` with control points in `<ctrl>` |
+| `-interp` / `-st` / `-sample` / `-sample_type` | `<method>` | trilinear | Interpolation method: `trilinear`, `nearest`, `sinc`, `cubic` |
+| `-trilinear` | — | default | Use trilinear interpolation |
+| `-nearest` | — | — | Use nearest-neighbour interpolation |
+| `-sinc` | `[halfwindow]` | 6 | Use sinc interpolation with optional half-window width |
+| `-sinchalfwindow` / `-hw` | `<n>` | 6 | Set sinc half-window width |
+| `-cubic` | — | — | Use cubic B-spline interpolation |
+| `-window` | — | — | (Not implemented; reserved) |
+| `-u` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 
 - `-tr`, `-te`, `-fa` must be specified before each volume if the header does not contain this information. They apply to the immediately following volume argument.
 - `-at` and `-ait` can be used to initialize per-volume transforms; `-at` applies forward, `-ait` applies inverse.
-- `-use_tukey` improves robustness in the presence of motion artefacts or outlier voxels.
+- `-tukey` improves robustness in the presence of motion artefacts or outlier voxels.
 - `-faf` provides a voxel-wise flip angle correction, important for 7T data where B1+ inhomogeneity is severe.
+- `-fsmooth` takes two arguments: number of soap-bubble smoothing iterations and a threshold.
 
 ## Typical Use Cases
 
@@ -152,7 +180,7 @@ Not part of standard `recon-all`. Used in quantitative MRI pipelines:
 > The simultaneous registration step provides only local refinement. Large inter-run motion (>10 mm) may not converge correctly. Pre-align volumes using [[mri_motion_correct2]] before running this tool.
 
 > [!gotcha] T2* correction is minimal
-> The Ernst equation approximation neglects T2* decay for short TE. For TE > ~5 ms, T2* correction (using the `-max_T2star` parameter) may be important.
+> The Ernst equation approximation neglects T2* decay for short TE. For TE > ~5 ms, T2* correction (using the `-max` parameter) may be important.
 
 ## Related Tools
 
@@ -162,6 +190,4 @@ Not part of standard `recon-all`. Used in quantitative MRI pipelines:
 
 ## Confidence and Gaps
 
-**Confident:** Ernst equation model, simultaneous registration, Tukey robust option, flip angle correction field, output directory structure, per-volume TR/TE/FA specification.
-
-**Less confident:** Complete flag list (only first 100 lines read), exact gradient descent parameters.
+**Confident:** Ernst equation model, simultaneous registration, Tukey robust option, flip angle correction field, output directory structure, per-volume TR/TE/FA specification, complete flag list from `get_option()`.

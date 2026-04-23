@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Whether any recon-all stage calls this tool"
 tags:
@@ -61,7 +61,9 @@ The MINMAX filter is a nonlinear operator designed to sharpen tissue boundaries.
 
 **Gaussian filter:**
 
-$$I_\text{out}(v) = (I * G_\sigma)(v)$$
+$$
+I_\text{out}(v) = (I * G_\sigma)(v)
+$$
 
 where $G_\sigma$ is a 1-D separable Gaussian kernel with standard deviation $\sigma$ (default: 2.0).
 
@@ -101,9 +103,9 @@ Option flags use a single `-` prefix. Filter-type flags are long-form words (e.g
 
 ### Pre-blur sigma
 
-| Flag | Alias | Arguments | Default | Description |
-|------|-------|-----------|---------|-------------|
-| `-blur <sigma>` | `-B <sigma>` | float | 0.5 | Sigma of the Gaussian kernel used to smooth the input before computing the offset field; set to 0 to disable pre-blur |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-blur <sigma>` / `-B <sigma>` / `-b <sigma>` | float | 0.5 | Sigma of the Gaussian kernel used to smooth the input before computing the offset field; set to 0 to disable pre-blur. `-B` and `-b` are short-form aliases matched by `toupper(*option) == 'B'`. |
 
 ### Crop and offset
 

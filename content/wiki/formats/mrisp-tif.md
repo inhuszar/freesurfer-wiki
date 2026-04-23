@@ -158,12 +158,18 @@ from the +z axis and θ is the azimuthal angle in the xy plane.
 
 For a vertex at Cartesian position `(x, y, z)` on a sphere of radius `r`:
 
-$$\theta = \mathrm{atan2}(y, x), \quad \theta \in [0, 2\pi)$$
+$$
+\theta = \mathrm{atan2}(y, x), \quad \theta \in [0, 2\pi)
+$$
 
-$$\phi = \mathrm{atan2}\!\left(\sqrt{r^{2} - z^{2}},\; z\right), \quad \phi \in [0, \pi]$$
+$$
+\phi = \mathrm{atan2}\!\left(\sqrt{r^{2} - z^{2}},\; z\right), \quad \phi \in [0, \pi]
+$$
 
-$$u = \mathrm{nint}\!\left(\frac{U_{\text{dim}} \cdot \phi}{\pi}\right), \quad
-v = \mathrm{nint}\!\left(\frac{V_{\text{dim}} \cdot \theta}{2\pi}\right)$$
+$$
+u = \mathrm{nint}\!\left(\frac{U_{\text{dim}} \cdot \phi}{\pi}\right), \quad
+v = \mathrm{nint}\!\left(\frac{V_{\text{dim}} \cdot \theta}{2\pi}\right)
+$$
 
 This is implemented in `MRIStoParameterization()`
 (`utils/mrisp.cpp:122–146`). Note that:
@@ -242,11 +248,17 @@ sulcal depth) and surface vertex sources
 Each new training subject is added to the running mean and variance
 images by `MRISPcombine()` (`utils/mrisp.cpp:2050`):
 
-$$\mu_{\text{new}}(u, v) \;=\; \frac{\mu(u, v) \cdot d(u, v) + x(u, v)}{d(u, v) + 1}$$
+$$
+\mu_{\text{new}}(u, v) \;=\; \frac{\mu(u, v) \cdot d(u, v) + x(u, v)}{d(u, v) + 1}
+$$
 
-$$\sigma^{2}_{\text{new}}(u, v) \;=\; \frac{\sigma^{2}(u, v) \cdot d(u, v) + (x(u, v) - \mu_{\text{new}}(u, v))^{2}}{d(u, v) + 1}$$
+$$
+\sigma^{2}_{\text{new}}(u, v) \;=\; \frac{\sigma^{2}(u, v) \cdot d(u, v) + (x(u, v) - \mu_{\text{new}}(u, v))^{2}}{d(u, v) + 1}
+$$
 
-$$d_{\text{new}}(u, v) \;=\; d(u, v) + 1$$
+$$
+d_{\text{new}}(u, v) \;=\; d(u, v) + 1
+$$
 
 where `x` is the new subject's parameterization (frame `3s+0` only;
 `MRISPcombine` writes back into the template). Variance is the

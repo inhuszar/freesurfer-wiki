@@ -77,14 +77,15 @@ For hinge removal (`-remove-hah`):
 
 ## Configuration Options
 
-| Flag | Description |
-|---|---|
-| (positional 1) | Input surface file |
-| (positional 2) | Output corrected surface file |
-| `-fill-holes` | Fill holes in the intersection map (includes in fix) |
-| `-map surface mapfile.mgz (projdistmm)` | Standalone: create binary intersection map |
-| `-notches insurf projdist(1) k1thresh(.05) label(cortex) nmin(3) nmax(-1) stdthresh(.2) pointset ocn pial` | Standalone: map surface notches |
-| `-remove-hah insurf anglethresh(100deg) ndil(3) nsmooth(75) outsurf outmask` | Standalone: remove high-angle hinges |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| (positional 1) | path | required | Input surface file |
+| (positional 2) | path | required | Output corrected surface file |
+| `-fill-holes` | (none) | off | Fill holes adjacent to intersecting region |
+| `-no-fill-holes` | (none) | — | Explicitly disable hole filling |
+| `-map` | `surface mapfile.mgz [projdistmm]` | — | Standalone: create binary intersection map |
+| `-notches` | `insurf projdist k1thresh label nmin nmax stdthresh pointset ocn [pial]` | — | Standalone: map surface notches |
+| `-remove-hah` | `insurf anglethresh ndil nsmooth outsurf outmask` | — | Standalone: remove high-angle hinges |
 
 All optional flags except `-fill-holes` are standalone operations — they perform a different function and do not produce the standard intersection-corrected output.
 
@@ -144,3 +145,6 @@ Called internally by [[mris_remesh]] after remeshing operations. Also applicable
 **Confident (from code and help XML):** Positional argument structure; `-fill-holes`, `-map`, `-notches`, `-remove-hah` as standalone flags; default parameter values; hinge removal parameters not optimised (per help XML).
 
 **Uncertain:** The actual correction algorithm (vertex relocation method) for standard intersection removal.
+
+> [!note] Audit noise: `--hide-3d-slices`
+> An automated audit may flag `--hide-3d-slices` as missing. This flag appears at source lines 193 and 219 as part of a `freeview` subprocess command string: `fsvglrun freeview --hide-3d-slices ...`. It is a FreeView flag, not a flag accepted by `mris_remove_intersection`.

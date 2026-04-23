@@ -16,9 +16,10 @@ related:
   - "[[surface-representations]]"
   - "[[coordinate-systems]]"
   - "[[curv-format]]"
+  - "[[fsgd-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "mri_surf2surf resampling algorithm (nnfr) not documented"
   - "FS-FAST ses/df workflow details not traced"
@@ -82,13 +83,13 @@ Multiple source modes (choose one):
 
 Choose one:
 
-| Flag | Description |
-|------|-------------|
-| `--s <subjid>` | Single subject; repeat for multiple |
-| `--f <file>` | Text file, whitespace-separated subject IDs |
-| `--fsgd <file>` | FSGDF file; subjects from "Input" lines |
-| `--qdec <table>` | QDEC table; subjects from first column |
-| `--qdec-long <table>` | Longitudinal: builds `<fsid>.long.<fsid-base>` IDs from columns 1+2 |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--s <subjid>` | subjid (string) | — | Single subject; repeat for multiple |
+| `--f <file>` | file (path) | — | Text file, whitespace-separated subject IDs |
+| `--fsgd <file>` | file (path) | — | [[fsgd-format\|FSGDF]] file; subjects from "Input" lines |
+| `--qdec <table>` | table (path) | — | QDEC table; subjects from first column |
+| `--qdec-long <table>` | table (path) | — | Longitudinal: builds `<fsid>.long.<fsid-base>` IDs from columns 1+2 |
 
 ### Input Assumptions
 
@@ -145,8 +146,8 @@ initialisations at the top of the script.
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `--s` / `--subject` | `subjid` (string) | empty | Append `subjid` to the subject list. Repeatable. |
-| `--f` | `file` (path) | — | Read whitespace-separated subject IDs from `file` and append to the subject list. Errors out if `file` does not exist. Can be combined with other subject-specifying flags. |
-| `--fsgd` | `file` (path) | — | Parse an FSGDF design file; subjects are taken from the second token of every line whose first token equals `Input`. Errors out if `file` does not exist. |
+| --f | `file` (path) | — | Read whitespace-separated subject IDs from `file` and append to the subject list. Errors out if `file` does not exist. Can be combined with other subject-specifying flags. |
+| --fsgd | `file` (path) | — | Parse an [[fsgd-format\|FSGDF]] design file; subjects are taken from the second token of every line whose first token equals `Input`. Errors out if `file` does not exist. |
 | `--qdec` | `table` (path) | — | Parse a QDEC table; subjects are taken from column 1 of every non-empty, non-comment, non-`fsid`-header row. CR/LF tolerant. |
 | `--qdec-long` | `table` (path) | — | Like `--qdec` but builds longitudinal IDs of the form `<col1>.long.<col2>` from columns 1 and 2. |
 
@@ -194,23 +195,23 @@ initialisations at the top of the script.
 | `--fwhm-src` | `mm` (float) | empty | FWHM applied on the **source** surface, before resampling. |
 | `--niters` / `--niters-targ` | `n` (int) | empty | Number of nearest-neighbour smoothing iterations on the target surface. Alternative to `--fwhm-targ`. |
 | `--niters-src` | `n` (int) | empty | Number of NN iterations on the source surface. |
-| `--cortex-only` / `--smooth-cortex-only` | none | on (`CortexOnly=1`) | Restrict smoothing to vertices inside the `cortex` label (i.e., do not smooth into the medial wall). |
-| `--no-cortex-only` / `--no-smooth-cortex-only` | none | — | Disable cortex-only smoothing; allow smoothing across the medial-wall boundary. |
+| `--smooth-cortex-only` / `--cortex-only` | — | on | Restrict smoothing to vertices inside the `cortex` label (`CortexOnly=1`); prevents medial wall smoothing. |
+| `--no-smooth-cortex-only` / `--no-cortex-only` | — | on | Disable cortex-only smoothing restriction (`CortexOnly=0`). |
 
 #### Aggregation / paired operations
 
 These operate on the concatenated per-subject stack just before writing the
 output. They are passed through to [[mri_concat]].
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--paired-diff` | off | Output Input1−Input2, Input3−Input4, … (requires even N). |
-| `--paired-diff-norm` | off | Per-pair `(In1−In2)/((In1+In2)/2)`. |
-| `--paired-diff-norm1` | off | Per-pair `(In1−In2)/In1`. |
-| `--paired-diff-norm2` | off | Per-pair `(In1−In2)/In2`. |
-| `--mean` | off | Replace the stack with its per-vertex mean across subjects. |
-| `--std` | off | Replace the stack with its per-vertex standard deviation across subjects. |
-| `--no-prune` | pruning on (`DoPrune=1`) | Disable [[mri_concat]] `--prune`; keep vertices that are zero in any subject. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--paired-diff` | none | off | Output Input1−Input2, Input3−Input4, … (requires even N). |
+| `--paired-diff-norm` | none | off | Per-pair `(In1−In2)/((In1+In2)/2)`. |
+| `--paired-diff-norm1` | none | off | Per-pair `(In1−In2)/In1`. |
+| `--paired-diff-norm2` | none | off | Per-pair `(In1−In2)/In2`. |
+| `--mean` | none | off | Replace the stack with its per-vertex mean across subjects. |
+| `--std` | none | off | Replace the stack with its per-vertex standard deviation across subjects. |
+| `--no-prune` | none | pruning on (`DoPrune=1`) | Disable [[mri_concat]] `--prune`; keep vertices that are zero in any subject. |
 
 #### Caching
 
@@ -221,28 +222,30 @@ source-mode flag.
 |------|-----------|---------|-------------|
 | `--cache-out` | `name` (string) | — | Save each per-subject resampled file to `$SUBJECTS_DIR/$subj/$measdir/$hemi.$name.$format` so a later run can pick it up via `--cache-in $name`. |
 | `--cache-out-only` | `tmpdir` (path) | — | Run only the per-subject resampling+caching step and skip the concatenation/output. **Requires** an explicit `tmpdir` argument despite looking like a Boolean. Sets `CacheOutOnly=1`. |
-| `--cache-out-update` | `tmpdir` (path) | — | Like `--cache-out-only` but tags the run as an update (`CacheOutUpdate=1`); the script appends `tmp.mris_preproc.$$` to the supplied path and re-uses an existing cache where possible. |
+| `--cache-out-update` | `tmpdir` (path) | — | Like `--cache-out-only` but tags the run as an update (`CacheOutUpdate=1`); the script appends `tmp.mris_preproc.
+$$
+` to the supplied path and re-uses an existing cache where possible. |
 
 #### Jacobian correction
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--jac` | off (`jac=0`) | Enable Jacobian (areal-distortion) correction; passed to `mri_surf2surf`. Auto-enabled by `--area`. |
-| `--no-jac` | — | Force `jac=0` and set `NoJac=1`, which suppresses the auto-enable that would otherwise be applied for area/volume measures. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--jac` | none | off (`jac=0`) | Enable Jacobian (areal-distortion) correction; passed to `mri_surf2surf`. Auto-enabled by `--area`. |
+| `--no-jac` | none | off | Force `jac=0` and set `NoJac=1`, which suppresses the auto-enable that would otherwise be applied for area/volume measures. |
 
 #### Cross-hemispheric
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--dual-hemi` | off (`DualHemi=0`) | Enable dual-hemisphere processing (treat both hemispheres jointly). |
-| `--xhemi` | off (`DoXHemi=0`) | For each subject `subj`, also include its mirror-flipped `subj/xhemi` copy in the input list. Doubles the effective subject count. |
-| `--xhemi-only` | off | Sets both `DoXHemi=1` and `DoXHemiOnly=1`: include **only** the xhemi version, not the original. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--dual-hemi` | none | off (`DualHemi=0`) | Enable dual-hemisphere processing (treat both hemispheres jointly). |
+| `--xhemi` | none | off (`DoXHemi=0`) | For each subject `subj`, also include its mirror-flipped `subj/xhemi` copy in the input list. Doubles the effective subject count. |
+| `--xhemi-only` | none | off | Sets both `DoXHemi=1` and `DoXHemiOnly=1`: include **only** the xhemi version, not the original. |
 
 #### ETIV normalization
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--etiv` | off (`DoETIV=0`) | Divide each subject's per-vertex values by that subject's estimated total intracranial volume (eTIV) read from `$subj/stats/aseg.stats`. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--etiv` | none | off (`DoETIV=0`) | Divide each subject's per-vertex values by that subject's estimated total intracranial volume (eTIV) read from `$subj/stats/aseg.stats`. |
 
 #### FS-FAST integration
 
@@ -307,7 +310,7 @@ last one wins.
 `SrcSurfReg = <target>.sphere.reg`, which can override an earlier
 `--srcsurfreg`/`--surfreg` if `--target` is parsed later on the command line.
 
-**FS-FAST internal exclusivity:** `--offset` and `--contrast` cannot both be
+**FS-FAST internal exclusivity:** `--offset` and --contrast cannot both be
 given; the script errors out in `handle_fsfast`.
 
 > [!gotcha] Jacobian correction auto-enabled for area and volume measures
@@ -327,7 +330,7 @@ given; the script errors out in `handle_fsfast`.
 > output, reshaping is off by default.
 
 > [!gotcha] Non-fsaverage `--target` changes `SrcSurfReg`
-> If `--target` does not start with `fsaverage`, the source registration
+> If --target does not start with `fsaverage`, the source registration
 > surface is overridden to `$target.sphere.reg` from the default `sphere.reg`.
 > The target subject must have a file named `$hemi.<target>.sphere.reg` in each
 > subject's `surf/` directory.
@@ -337,7 +340,7 @@ given; the script errors out in `handle_fsfast`.
 > `--mgz` is specified. For large datasets, `--mgz` saves disk space.
 
 > [!gotcha] `--measdir` defaults to `--surfdir` value
-> If `--measdir` is not set, it defaults to `--surfdir` (which defaults to
+> If --measdir is not set, it defaults to `--surfdir` (which defaults to
 > `surf`). This means `--surfdir dtrans` also changes where `--meas` looks for
 > files.
 
@@ -449,6 +452,19 @@ analysis, after all subjects have completed `autorecon3`.
 
 High confidence on all flags, per-subject loop logic, and external program
 calls — derived from the full tcsh script.
+
+**Flags that are NOT mris_preproc flags (verified 2026-04-21):** The following strings were checked against `parse_args` in `scripts/mris_preproc` and confirmed to belong to sub-tools called by the script, not to `mris_preproc` itself:
+- `--cortex`, `--no-cortex`: passed to `mri_surf2surf` (line 289–290)
+- `--div`: passed to `mri_surf2surf` (line 274, via `--etiv` logic)
+- `--fwhm-trg`: passed to `mri_surf2surf`; `mris_preproc` uses `--fwhm-targ` / `--fwhm`
+- `--glmdir`, `--osgm`: not in `mris_preproc` source; belong to `mri_glmfit`
+- `--mapmethod`: not a direct flag; set internally by `--label`
+- `--nohash`: not in source; the correct flag is `--no-hash`
+- `--noreshape`: passed to `mri_surf2surf`; `mris_preproc` has only `--reshape`
+- `--nsmooth-in`, `--nsmooth-out`: passed to `mri_surf2surf`
+- `--prune`: passed to `mri_concat`; `mris_preproc` has `--no-prune`
+- `--r`, `--src`, `--srcreg`, `--srcsubject`, `--srcsynth`, `--surf`, `--sval`, `--t`, `--trgsubject`, `--tval`, `--y`: none of these appear in `parse_args`; several belong to `mri_surf2surf`
+- `--sfmt`: passed to `mri_surf2surf`; `mris_preproc` uses `--srcfmt`
 
 > [!gap] `mri_surf2surf` nnfr/nnf resampling internals
 > The actual algorithm used by `mri_surf2surf` for resampling between subject

@@ -116,7 +116,9 @@ non-linear warp), the GCA provides:
 
 The MAP label assignment maximises the posterior:
 
-$$l^*(v) = \arg\max_l \; p(l | x) \cdot p(I(v) | l, x) \cdot \prod_{v' \in \mathcal{N}(v)} p(l | l_{v'})$$
+$$
+l^*(v) = \arg\max_l \; p(l | x) \cdot p(I(v) | l, x) \cdot \prod_{v' \in \mathcal{N}(v)} p(l | l_{v'})
+$$
 
 The last term is the **Gibbs MRF prior**: the label probability conditioned on
 the labels of neighbouring voxels $\mathcal{N}(v)$ (6-connected neighbourhood).

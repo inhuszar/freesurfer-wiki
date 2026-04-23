@@ -19,11 +19,11 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "The multimodal pial refinement (T2/FLAIR) path needs deeper documentation, particularly MRIScomputePialTargetLocationsMultiModal()."
   - "The exact border value computation in MRIScomputeBorderValues_new() with auto-detected stats needs verification."
-  - "The in_out_in_flag (Arthur's flag) behaviour is undocumented."
+  - "The precise effect of -inoutin (in_out_in_flag) on surface quality is undocumented."
 tags:
   - surface
   - surface-placement
@@ -93,7 +93,9 @@ The tool reads files from the standard subject directory:
 
 The surface deformation minimises:
 
-$$E_{\text{total}} = w_I E_{\text{intensity}} + w_c E_{\text{curvature}} + w_t E_{\text{tspring}} + w_n E_{\text{nspring}} + w_r E_{\text{repulse}}$$
+$$
+E_{\text{total}} = w_I E_{\text{intensity}} + w_c E_{\text{curvature}} + w_t E_{\text{tspring}} + w_n E_{\text{nspring}} + w_r E_{\text{repulse}}
+$$
 
 where:
 - $E_{\text{intensity}}$: attracts each vertex toward a **target intensity** on the normal profile.
@@ -146,94 +148,193 @@ When a T2 or FLAIR volume is provided, the pial surface placement is augmented w
 
 ### Surface Selection
 
-| Flag | Description |
-|------|-------------|
-| `-white <name>` | Output name for white surface (default: `white`). Use `NOWHITE` to compute but not save. |
-| `-pial <name>` | Output name for pial surface (default: `pial`). |
-| `-whiteonly` | Only generate white matter surface (skip pial). |
-| `-nowhite` | Only generate pial surface (use existing white surface). |
-| `-orig_white <surf>` | Starting white surface for deformation. |
-| `-orig_pial <surf>` | Starting pial surface for deformation. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-white <name>` | — | `white` | Output name for white surface (default: `white`). Use `NOWHITE` to compute but not save. |
+| `-pial <name>` | — | `pial` | Output name for pial surface (default: `pial`). |
+| `-whiteonly` | — | — | Only generate white matter surface (skip pial). |
+| `-nowhite` | — | — | Only generate pial surface (use existing white surface). |
+| `-orig_white <surf>` | — | — | Starting white surface for deformation. |
+| `-orig_pial <surf>` | — | — | Starting pial surface for deformation. |
 
 ### Input Volumes
 
-| Flag | Description |
-|------|-------------|
-| `-T1 <T1vol>` | T1 volume to use as primary intensity source (default: `brain`). |
-| `-wvol <whitevol>` | Override volume for white surface placement. |
-| `-SDIR <dir>` | Override `SUBJECTS_DIR`. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-T1 <vol>` | — | `brain` | T1 volume to use as primary intensity source (default: `brain`). Alias: `-gvol`. |
+| `-gvol <vol>` | — | — | Alias for `-T1`. |
+| `-wvol <vol>` | — | — | Override volume for white surface placement. |
+| `-wm <vol>` | — | `wm` | Override WM volume name (default: `wm`). |
+| `-filled <vol>` | — | `filled` | Override filled WM volume name (default: `filled`). |
+| `-aseg <vol>` | — | `aseg` | Override aseg volume name used for midline prevention (default: `aseg`). |
+| `-SDIR <dir>` | — | — | Override `SUBJECTS_DIR`. |
+| `-autodetsurf <file>` | — | — | Use this file (output of `mris_autodet_gwstats`) for auto-detected intensity statistics. |
+| `-cover_seg <vol>` | — | — | Create surfaces to cover a segmented volume; disables auto-detect stats and sets `grad_dir=1`. |
+| `-orig_sphere <surf>` | — | — | Override sphere surface name used for sphere locations. |
+| `-hires <label>` | — | — | Label file for hires processing region. |
+| `-highres <label>` | — | — | Alias for `-hires`. |
 
 ### Multimodal Pial Refinement
 
-| Flag | Description |
-|------|-------------|
-| `-T2_min_inside <thresh>` | Minimum T2 value allowed inside the cortical ribbon. |
-| `-T2_max_inside <thresh>` | Maximum T2 value allowed inside the cortical ribbon. |
-| `-T2_outside_min <thresh>` | Minimum T2 value outside pial that drives outward deformation. |
-| `-T2_outside_max <thresh>` | Maximum T2 value outside pial that drives outward deformation. |
-| `-nsigma_above <n>` | Number of sigmas above WM mean allowed for GM T2 intensity. |
-| `-nsigma_below <n>` | Number of sigmas below WM mean allowed for GM T2 intensity. |
-| `-wm_weight <w>` | WM weight in T2 threshold calculation (default: 3). |
-| `-dura_thresh <thresh>` | Manual threshold for dura avoidance in multi-echo protocols. |
-| `-min_peak_pct <inside> <outside>` | Histogram peak fraction for local GM thresholds. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-T2 <vol>` | — | — | T2 volume for multimodal pial refinement; sets contrast type to T2 and default T2 thresholds. |
+| `-T2dura <vol>` | — | — | Alias for `-T2`. |
+| `-flair <vol>` | — | — | FLAIR volume for multimodal pial refinement; sets contrast type to FLAIR and default FLAIR thresholds. |
+| `-flair_white` | — | — | Deform white matter surface to match FLAIR volume instead of pial. |
+| `-flairwhite` | — | — | Alias for `-flair_white`. |
+| `-T2_min_inside <thresh>` | — | — | Minimum T2 value allowed inside the cortical ribbon (default with `-T2`: 110). |
+| `-T2_max_inside <thresh>` | — | — | Maximum T2 value allowed inside the cortical ribbon (default with `-T2`: 300). |
+| `-T2_min_outside <thresh>` | — | — | Minimum T2 value outside pial that drives outward deformation (default with `-T2`: 130). |
+| `-T2_max_outside <thresh>` | — | — | Maximum T2 value outside pial that drives outward deformation (default with `-T2`: 300). |
+| `-T2_min <thresh>` | — | — | Set both `-T2_min_inside` and `-T2_min_outside` to the same value. |
+| `-nsigma_above <n>` | — | — | Number of sigmas above WM mean allowed for GM T2 intensity. |
+| `-nsigmas_above <n>` | — | — | Alias for `-nsigma_above`. |
+| `-nsigma_below <n>` | — | — | Number of sigmas below WM mean allowed for GM T2 intensity. |
+| `-nsigmas_below <n>` | — | — | Alias for `-nsigma_below`. |
+| `-nsigma <n>` | — | 2 | Dura threshold as number of sigmas from mean (default: 2). |
+| `-nsigmas <n>` | — | — | Alias for `-nsigma`. |
+| `-wm_weight <w>` | — | 3 | WM weight in T2 threshold calculation (default: 3). |
+| `-dura_thresh <thresh>` | — | — | Manual threshold for dura avoidance in multi-echo protocols. |
+| `-dura+thresh <thresh>` | — | — | Alias for `-dura_thresh`. |
+| `-dura <name> <nechos>` | — | — | Detect dura using multi-echo data; takes echo basename and number of echoes. |
+| `-min_peak_pct <li> <ri> <lo> <ro>` | — | — | Four histogram peak fractions (left/right inside, left/right outside) for local GM threshold bounds. |
+| `-max_out <dist>` | — | — | Maximum outward displacement distance (default with `-T2`/`-flair`: 3 mm). |
+| `-followgradients` | — | — | Follow gradients to refine pial surface placement. |
+| `-pial_offset <val>` | — | — | Offset pial target intensity values by this amount. |
+| `-location <w>` | — | — | Weight of the location term (`l_location`) in the energy functional. |
 
 ### Smoothing and Averaging
 
-| Flag | Description |
-|------|-------------|
-| `-a <avgs>` | Curvature averaging iterations (default: 10). |
-| `-pa <avgs>` | Max pial curvature averaging (default: 16). |
-| `-wa <avgs>` | Max white curvature averaging (default: 4). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-pa <max> [<min>]` | — | — | Max (and optionally min) pial curvature averaging iterations (default max: 16, min: 2). |
+| `-wa <max> [<min>]` | — | — | Max (and optionally min) white curvature averaging iterations (default max: 4, min: 0). |
+| `-smooth <n>` | — | — | Number of smoothing iterations applied to the initial surface before deformation. |
+| `-smooth_pial <n>` | — | — | Number of smoothing iterations applied to the pial surface before deformation. |
+| `-vavgs <n>` | — | 5 | Number of iterations for smoothing border values (default: 5). |
 
 ### Output Control
 
-| Flag | Description |
-|------|-------------|
-| `-c` | Do NOT create curvature and area files from white surface. |
-| `-cortex 0-or-1` | Set to 0 to disable cortex label file creation. |
-| `-long` | Longitudinal mode. |
-| `-output <suffix>` | Append suffix to all outputs (prevents overwriting). |
-| `-erase_cerebellum` | Erase cerebellar voxels from the input image (requires `aseg`). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-c` | — | — | Do NOT create curvature and area files from white surface. |
+| `-cortex <0\|1>` | — | 1 | Set to 0 to disable cortex label file creation (default: 1). |
+| `-long` | — | — | Longitudinal mode: changes surface initialisation and some intensity statistics. |
+| `-output <suffix>` | — | — | Append suffix to all outputs (prevents overwriting). |
+| `-erase_cerebellum` | — | — | Erase cerebellar voxels from the input image (requires `aseg`). |
+| `--erasecerebellum` | — | — | Alias for `-erase_cerebellum`. |
+| `-nocerebellum` | — | — | Alias for `-erase_cerebellum`. |
+| `-erase_brainstem` | — | — | Erase brainstem voxels from the input image (requires `aseg`). |
+| `--erasebrainstem` | — | — | Alias for `-erase_brainstem`. |
+| `-nobrainstem` | — | — | Alias for `-erase_brainstem`. |
+| `-graymid` | — | — | Generate the mid-gray (`graymid`) surface at the midpoint between white and pial. |
+| `-write_vals` | — | — | Write gray and white surface target intensity values to `.mgz` files. |
+| `-write_aseg <vol>` | — | — | Write corrected aseg volume to this path after surface editing. |
+| `-smoothwm <n>` | — | — | Write a smoothed white surface (`smoothwm`) after `n` smoothing iterations. |
+| `-name <name>` | — | — | Base name for output files (`parms.base_name`). |
+| `-mgz` | — | — | Assume MGZ format for all volume files. |
+| `-noauto` | — | — | Disable auto-detection of intensity border ranges. |
+| `-noaseg` | — | — | Disable use of aseg volume for midline prevention. |
+| `-noaparc` | — | — | Disable use of aparc to prevent surfaces crossing the midline. |
+| `-nowmsa` | — | — | Remove WM signal abnormalities (WMSA) from input data before deformation. |
 
 ### Intensity Thresholds (manual override)
 
-| Flag | Description |
-|------|-------------|
-| `-min_border_white <val>` | Minimum white matter border intensity. |
-| `-max_border_white <val>` | Maximum white matter border intensity. |
-| `-min_gray_at_white_border <val>` | Minimum gray matter intensity at white border. |
-| `-max_gray <val>` | Maximum gray matter intensity. |
-| `-max_gray_at_csf_border <val>` | Maximum gray matter intensity at CSF border. |
-| `-min_gray_at_csf_border <val>` | Minimum gray matter intensity at CSF border. |
-| `-max_csf <val>` | Maximum CSF intensity. |
-| `-first_wm_peak` | Settle WM surface at first peak in intensity profile rather than highest. |
-| `-max_gray_scale <mgs>` | Scale factor for setting `outside_hi` during white deformation (default: 0). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-min_border_white <val>` | — | — | Minimum white matter border intensity. |
+| `-wlo <val>` | — | — | Alias for `-min_border_white` (same name used in `mri_segment`). |
+| `-max_border_white <val>` | — | — | Maximum white matter border intensity. |
+| `-min_gray_at_white_border <val>` | — | — | Minimum gray matter intensity at white border. |
+| `-max_gray <val>` | — | — | Maximum gray matter intensity. |
+| `-ghi <val>` | — | — | Alias for `-max_gray` (same name used in `mri_segment`). |
+| `-max_gray_at_csf_border <val>` | — | — | Maximum gray matter intensity at CSF border. |
+| `-min_gray_at_csf_border <val>` | — | — | Minimum gray matter intensity at CSF border. |
+| `-max_csf <val>` | — | — | Maximum CSF intensity. |
+| `-min_csf <val>` | — | — | Minimum CSF intensity. |
+| `-max_gray_scale <mgs>` | — | 0 | Scale factor for `outside_hi = (max_border_white + mgs*max_gray) / (mgs+1)` during white deformation (default: 0). |
+| `-scale_std <factor>` | — | — | Scale estimated WM and GM intensity standard deviations by this factor. |
+| `-variablesigma <val>` | — | — | Variable sigma value for border computation. |
+| `-wsigma <sigma>` | — | — | Gaussian smoothing sigma applied to the volume for white surface placement. |
+| `-psigma <sigma>` | — | — | Gaussian smoothing sigma applied to the volume for pial surface placement. |
+| `-pblur <sigma>` | — | — | Additional Gaussian smoothing sigma applied to pial volume. |
+| `-white_offset <val>` | — | — | Offset white target intensity values by this amount. |
+| `-mode <0\|1>` | — | — | Use class modes (1) instead of means (0) for intensity statistics. |
 
 ### Energy Weights
 
-| Flag | Description |
-|------|-------------|
-| `-intensity <w>` | Weight of intensity cost. |
-| `-curv <w>` | Weight of curvature cost. |
-| `-tspring <w>` | Weight of tangential spring cost. |
-| `-nspring <w>` | Weight of normal spring cost. |
-| `-repulse <w>` | Weight of repulsion force. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-intensity <w>` | — | — | Weight of intensity cost (`l_intensity`). |
+| `-curv <w>` | — | — | Weight of curvature cost (`l_curv`). |
+| `-tspring <w>` | — | — | Weight of tangential spring cost (`l_tspring`). |
+| `-nspring <w>` | — | — | Weight of normal spring cost (`l_nspring`). |
+| `-repulse <w>` | — | — | Weight of repulsion force (`l_repulse`). |
+| `-spring <w>` | — | — | Weight of generic spring term (`l_spring`). |
+| `-spring_nzr <w>` | — | — | Weight of non-zero-rest spring term (`l_spring_nzr`). |
+| `-nltspring <w>` | — | — | Weight of nonlinear tangential spring term (`l_nltspring`). |
+| `-hinge <w>` | — | — | Weight of hinge energy term (`l_hinge`). |
+| `-tsmooth <w>` | — | — | Weight of tangential smoothing term (`l_tsmooth`). |
+| `-grad <w>` | — | — | Weight of gradient term (`l_grad`). |
+| `-grad_dir <int>` | — | — | Gradient direction constraint: -1 (inward), 0 (unconstrained), 1 (outward). |
+| `-dt <val>` | — | — | Time step for momentum integration (`parms.dt`). |
+| `-tol <pct>` | — | — | Convergence tolerance as percentage change in SSE/RMS. |
+| `-nwhite <n>` | — | — | Number of integration steps for white surface positioning. |
+| `-ngray <n>` | — | — | Number of integration steps for pial surface positioning. |
+| `-lm` | — | — | Use line minimisation integration instead of momentum. |
+| `-nbrs <n>` | — | — | Vertex neighbourhood size. |
+| `-nbhd_size <n>` | — | — | Neighbourhood size for thickness calculation. |
+| `-inoutin` | — | — | Apply a final white matter deformation pass after pial placement (in-out-in). |
+| `-fix_mtl` | — | — | Lock hippocampus and amygdala vertices during pial deformation. |
+| `-both` | — | — | Do not remove contralateral hemisphere vertices. |
+| `-soap` | — | — | Use soap-bubble smoothing to remove vertex self-intersections. |
+| `-unpinch` | — | — | Remove pinches from surface before deforming. |
+| `-add` | — | — | Add vertices to the tessellation during deformation. |
+| `-max <mm>` | — | 5 mm | Maximum cortical thickness (default: 5 mm). |
+| `-max_thickness <mm>` | — | — | Alias for `-max`. |
+| `-fill_interior <label>` | — | — | Fill the interior of the surface with this label value. |
+| `-pnbrs <n>` | — | — | Spread pial constraint values out to `n` vertex neighbours. |
+| `-wval <vno> <val>` | — | — | Constrain white surface target intensity for vertex `vno` to `val`. |
+| `-pval <vno> <val>` | — | — | Constrain pial surface target intensity for vertex `vno` to `val`. |
+| `-rval <label>` | — | RH_LABEL | Fill value for right hemisphere (default: RH_LABEL). |
+| `-lval <label>` | — | LH_LABEL | Fill value for left hemisphere (default: LH_LABEL). |
+| `-openmp <n>` | — | — | Set number of OpenMP threads. |
+| `-v6-cbv` | — | — | Use version 6 border value computation method. |
+| `-no_rms` | — | — | Disable RMS error decrease check (`parms.check_tol = 0`). |
+| `-norms` | — | — | Alias for `-no_rms`. |
 
 ### Diagnostic / Debug
 
-| Flag | Description |
-|------|-------------|
-| `-q` | Omit self-intersection check; generate gray/white surface only. |
-| `-v <vertexno>` | Set diagnostic vertex number. |
-| `-diag-vertex <vertexno>` | Enable per-vertex debug output. |
-| `-save-target` | Save target surface (debugging). |
-| `-save-res` | Save residual surface (debugging). |
-| `-rip <ripfile>` | Save ripflag overlay. |
-| `-sigma-white <file>` | Save white surface sigma overlay. |
-| `-sigma-pial <file>` | Save pial surface sigma overlay. |
-| `-border-vals-hires` | Enable hires border values options. |
-| `-no-unitize` | Disable face normal unitisation. |
-| `-w <value>` | Unknown (source comment says "unknown"). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-q` | — | — | Omit self-intersection check; generate gray/white surface only. |
+| `-v <vertexno>` | — | — | Set global diagnostic vertex number (`Gdiag_no`). |
+| `-debug-vertex <vno> <surf> <mri> <aseg> <which> <ins_hi> <blo> <bhi> <olo> <ohi> <sigma>` | — | — | Run `MRIScomputeBorderValues` for a single vertex with explicit parameters and exit. Useful for diagnosing surface placement failures at a specific vertex. |
+| `-debug_voxel <x> <y> <z>` | — | — | Set global debug voxel coordinates. Alias: `-d`. |
+| `-save-target` | — | — | Save the target surface to disk (debugging). |
+| `-no-save-target` | — | — | Disable saving of target surface. |
+| `-save-res` | — | — | Save the residual surface to disk (debugging). |
+| `-no-save-res` | — | — | Disable saving of residual surface. |
+| `-rip <file>` | — | — | Save ripflag overlay to this file (full path; hemi/suffix must be included). |
+| `-sigma-white <file>` | — | — | Save white surface sigma overlay to this file. |
+| `-sigma-pial <file>` | — | — | Save pial surface sigma overlay to this file. |
+| `-no-unitize` | — | — | Disable face normal unitisation (`UnitizeNormalFace = 0`). |
+| `-first-peak-d1` | — | — | Enable `FindFirstPeakD1` option in `MRIScomputeBorderValues_new()`. |
+| `-first-peak-d2` | — | — | Enable `FindFirstPeakD2` option in `MRIScomputeBorderValues_new()`. |
+| `-read_pinch <file>` | — | — | Read pinch initialisation from file before deforming. |
+| `-overlay` | — | — | Toggle T1 volume overlay with edited white matter. |
+| `-location-mov-len <val>` | — | — | Set `LOCATION_MOVE_LEN` used in `mrisComputeTargetLocationTerm()`. |
+| `-w <n>` | — | — | Set `parms.write_iterations`; enables `DIAG_WRITE`. |
+| `-ct <file>` | — | — | Read a color table from file. |
+| `-b <scale>` | — | — | Set `base_dt_scale` (scales `parms.base_dt`). |
+| `-d <x> <y> <z>` | — | — | Set global debug voxel coordinates (same as `-debug_voxel`). |
+| `-m <momentum>` | — | — | Set momentum value and switch to momentum integration (must be in `[0, 1)`). |
+| `-n <n>` | — | — | Set number of integration iterations (`parms.niterations`). |
+| `-o <surf>` | — | — | Read original vertex positions from this surface file (`orig_name`). |
+| `-r <w>` | — | — | Set surface repulsion weight (`l_surf_repulse`). |
+| `-s <suffix>` | — | — | Append suffix string to output names (legacy single-char alias for file suffix). |
+| `-t <xform>` | — | — | Apply ventricular transform from this file. |
 
 ## Configuration Interactions
 
@@ -274,15 +375,20 @@ mris_make_surfaces -nowhite subject01 lh
 ```bash
 # This is invoked by recon-all -T2 <T2.mgz> automatically:
 mris_make_surfaces -nowhite \
-  -T2_min_inside 10 -T2_max_inside 300 \
-  -T2_outside_min 10 -T2_outside_max 300 \
+  -T2 T2.mgz \
+  -T2_min_inside 110 -T2_max_inside 300 \
+  -T2_min_outside 130 -T2_max_outside 300 \
   subject01 lh
 ```
 
 ### Debug a specific vertex
 
 ```bash
-mris_make_surfaces -diag-vertex 12345 subject01 lh
+# Set global diagnostic vertex (outputs per-vertex debug during normal run)
+mris_make_surfaces -v 12345 subject01 lh
+
+# Run per-vertex border value debugging standalone and exit
+mris_make_surfaces -debug-vertex 12345 lh.white brain.mgz aseg.mgz 1 110 85 105 40 75 2.0
 ```
 
 ## Pipeline Context
@@ -351,5 +457,5 @@ Confidence is **high** for the overall algorithm, the primary flag list (from he
 > [!gap] Multimodal pial refinement
 > The `MRIScomputePialTargetLocationsMultiModal()` function (now in `mrisurf_mri.cpp`) handles T2/FLAIR-guided pial refinement. Its algorithm — particularly how it identifies dura/vessel voxels and computes corrected pial targets — has not been documented.
 
-> [!gap] in_out_in_flag
-> A flag `in_out_in_flag` is defined in the source with the comment "for Arthur (as are most things)". Its effect on surface placement is not documented.
+> [!gap] in_out_in_flag effect
+> The `-inoutin` flag sets `in_out_in_flag = 1` which applies a final white matter deformation pass after pial placement. The precise effect on surface quality and when it should be used is not documented in the source comments.

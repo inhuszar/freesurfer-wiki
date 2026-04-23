@@ -45,15 +45,14 @@ Standard FreeSurfer processing uses conformed (1mm isotropic) volumes for segmen
 
 ## Inputs
 
-| Argument | Description |
-|----------|-------------|
-| `<hires_vol>` | High-resolution T1 volume |
-| `<wm_seg>` | White matter segmentation at conformed resolution |
-| `<surface>` | Reference surface |
-| `<transform>` | Transform between conformed and high-resolution spaces |
-| `<output>` | Output updated segmentation |
+From `main()`: `argv[1]` = surface, `argv[2]` = transform, `argv[3]` = hires volume, `argv[4]` = output path.
 
-The exact argument order was not confirmed.
+| Positional | Description |
+|------------|-------------|
+| `argv[1]` | Reference surface (closed mesh; interior is filled at hires resolution) |
+| `argv[2]` | Transform file (LTA or similar) from surface space to hires volume space |
+| `argv[3]` | High-resolution T1 volume |
+| `argv[4]` | Output updated white matter segmentation volume |
 
 ## Outputs
 
@@ -62,32 +61,37 @@ The exact argument order was not confirmed.
 ## Mathematical Foundations
 
 The update uses three criteria (based on global thresholds):
-- `mag_thresh` (default 3): gradient magnitude threshold — voxels near boundaries with high gradient are candidates for boundary refinement.
-- `intensity_thresh` (default 4): intensity difference threshold from expected WM intensity.
-- `dist_thresh` (default 0.5 mm): maximum distance from current boundary for a voxel to be updated.
+- `-mthresh` (default 3): gradient magnitude threshold — voxels near boundaries with gradient magnitude below this value are candidates for boundary refinement.
+- `-ithresh` (default 4): intensity difference threshold from expected WM intensity.
+- `-dthresh` (default 0.5 mm): maximum distance from the current boundary for a voxel to be updated.
 
 `MRIupdateSegmentation()` applies these criteria to move the WM boundary to the high-resolution position.
 
-Morphological closing (`nclose`, default 1) is applied to ensure connectivity.
+Morphological closing (hardcoded `nclose = 1`) is applied to ensure connectivity. `nclose` is a compile-time constant; there is no command-line flag to change it.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-mag_thresh <t>` | float | 3.0 | Gradient magnitude threshold |
-| `-intensity_thresh <t>` | float | 4.0 | Intensity difference threshold |
-| `-dist_thresh <t>` | float | 0.5 | Distance threshold (mm) |
-| `-nclose <n>` | int | 1 | Number of morphological close operations |
-| `-mask <vol>` | volume | — | External mask |
+The parser strips one leading dash (`option = argv[1] + 1`) and dispatches via case-insensitive string comparisons.
 
-> [!gap] Complete option list and positional args
-> The `get_option()` function and main argument parsing were not fully read.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-mthresh <t>` | float | 3.0 | Gradient magnitude threshold; voxels with gradient magnitude above this value are skipped during boundary refinement |
+| `-ithresh <t>` | float | 4.0 | Intensity difference threshold; candidate voxels must differ from the WM mean by less than this value |
+| `-dthresh <t>` | float | 0.5 | Distance threshold (mm); only voxels within this distance of the current WM boundary are considered |
+| `-debug_voxel <x> <y> <z>` | 3 integers | — | Enable diagnostic output for the voxel at coordinates `(x, y, z)` |
+| `-mask <vol> <thresh>` | path + float | — | Load `vol` as a binary mask (thresholded at `thresh`); processing is restricted to masked voxels |
 
 ## Typical Use Cases
 
 ```bash
-# Refine WM segmentation using high-resolution data
-mri_multiscale_segment hires_T1.mgz wm.mgz lh.white xform.lta wm_refined.mgz
+# Refine WM boundary using high-resolution T1 data
+mri_multiscale_segment lh.white xform.lta hires_T1.mgz wm_refined.mgz
+```
+
+**Override thresholds:**
+```bash
+mri_multiscale_segment -mthresh 5 -ithresh 6 -dthresh 0.8 \
+  lh.white xform.lta hires_T1.mgz wm_refined.mgz
 ```
 
 ## Pipeline Context

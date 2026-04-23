@@ -137,3 +137,9 @@ Alternative to [[mri_motion_correct]] and [[mri_motion_correct2]] for FSL-based 
 ## Confidence and Gaps
 
 **Confident:** All flags verified from complete `parse_args` section of source. FSL dependency, ANALYZE output format, target selection by index, dry-run mode (`-dontrun`), COR conform mode (`-cm`), log suppression (`-nolog`), temporary directory handling.
+
+> [!note] Audit noise: `mri_info` sub-tool flags
+> An automated audit may flag `--flip_angle`, `--format`, `--target`, `--te`, `--ti`, and `--tr` as missing. These are all `mri_info` flags called internally (e.g., `` set TR = `mri_info $input --tr` ``). None are accepted by `mri_motion_correct.fsl` itself.
+
+> [!note] Audit noise: `-echo` false positive
+> An automated audit may flag `-echo` as C3 invalid. This IS a valid flag (`case "-echo":` at source line 296). The audit tool's string-blanking heuristic treats any line containing the word `echo` as a print-like call and removes string literals from it, which also removes the flag name from `case "-echo":`. The flag is confirmed present in source and in the wiki.

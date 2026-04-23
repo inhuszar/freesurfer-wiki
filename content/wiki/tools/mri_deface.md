@@ -71,25 +71,67 @@ The registration uses the same framework as [[mri_em_register]]: multi-scale lin
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-norm fname` | file | none | Normalized volume (uses different intensity model) |
-| `-mask fname` | file | none | Brain mask |
+| `-norm fname` | file | — | Intensity-normalized volume for improved atlas matching |
+| `-mask fname` | file | — | Brain mask; restricts optimization to masked region |
 | `-fill val` | int | 0 | Fill value for removed facial voxels |
-| `-mean` | — | off | Use mean intensity of neighborhood for fill |
-| `-radius N` | int | 7 | Radius of fill region around face voxels |
+| `-mean N` | int | — | Replace defaced voxels with local NxNxN mean intensity |
+| `-radius N` | int | 7 | Erase everything more than N mm from possible brain |
 | `-noscale` | — | off | Skip intensity normalization |
 | `-noiscale` | — | off | Skip independent intensity scaling |
-| `-xform fname` | file | none | Use pre-computed transform instead of estimating |
-| `-blur sigma` | float | 0 | Blur sigma before optimization |
-| `-translation_only` | — | off | Only estimate translation (no rotation) |
-
-> [!gap] Full option list
-> The `get_option()` function in the source was not fully read. The table above is partially reconstructed from global variable declarations. Additional options may exist.
+| `-novar` | — | off | Do not use variance estimates from GCA |
+| `-xform fname` | file | — | Use pre-computed transform instead of estimating |
+| `-t fname` | file | — | Alias: use previously computed LTA transform |
+| `-b sigma` | float | 0 | Blur input image with this sigma before optimization |
+| `-transonly` | — | off | Only estimate translation parameters (no rotation or scaling) |
+| `-center` | — | off | Use GCA centroid as origin of transform |
+| `-dist val` | float | — | Weight for distance term (`l_dist`) |
+| `-distance val` | float | — | Alias for `-dist` |
+| `-area val` | float | — | Weight for area term (`l_area`) |
+| `-nlarea val` | float | — | Weight for non-linear area term (`l_nlarea`) |
+| `-intensity val` | float | — | Weight for intensity term (`l_intensity`) |
+| `-corr val` | float | — | Alias for `-intensity` |
+| `-levels N` | int | -1 | Number of multi-resolution levels (−1 = default) |
+| `-nscales N` | int | 1 | Number of scales for optimal linear transform search |
+| `-scales N` | int | 1 | Alias for `-nscales` |
+| `-spacing N` | int | 8 | Maximum GCA atlas spacing |
+| `-steps N` | int | 5 | Number of angular search steps |
+| `-s N` | int | 5 | Alias for `-steps` (sets max_angles / MAX_TRANS_STEPS) |
+| `-reduce N` | int | 1 | Number of times to reduce input images before aligning |
+| `-num N` | int | 1 | Number of linear transforms to find |
+| `-prior val` | float | MIN_PRIOR | Minimum prior threshold for GCA samples |
+| `-nsamples fname` | file | — | Write normalized transformed sample control points to file |
+| `-samples fname` | file | — | Write control points to file |
+| `-fsamples fname` | file | — | Write transformed control points to file |
+| `-isamples fname` | file | — | Alias for `-fsamples` |
+| `-renorm fname` | file | — | Renormalize using predicted intensity values in file |
+| `-write_mean fname` | file | — | Write GCA means volume to file |
+| `-flash fname` | file | — | Use FLASH forward model with tissue parameters in file |
+| `-example T1 seg` | 2 files | — | Use example T1 and segmentation to guide intensity |
+| `-alpha deg` | float | — | Flip angle in degrees (FLASH imaging parameter) |
+| `-tr msec` | float | — | Repetition time TR in milliseconds |
+| `-te msec` | float | — | Echo time TE in milliseconds |
+| `-contrast` | — | off | Use contrast to find labels |
+| `-debug_label N` | int | — | Debug specific GCA label N |
+| `-debug_voxel x y z` | 3 ints | — | Debug specific voxel |
+| `-diag fname` | file | — | Open diagnostics file for writing |
+| `-d tx ty tz` | 3 floats | 0 0 0 | Apply translation offset (tx, ty, tz) in mm |
+| `-r rx ry rz` | 3 floats | 0 0 0 | Apply rotation angles (rx, ry, rz) in degrees |
+| `-f fname` | file | — | Read manually defined control points from file |
+| `-n N` | int | 25 | Number of EM alignment iterations |
+| `-dt val` | float | 5e-6 | Time step for EM alignment |
+| `-tol val` | float | 1e-3 | Convergence tolerance |
+| `-m val` | float | 0.8 | Momentum for EM alignment |
+| `-p pct` | float | 0.25 | Fraction of top WM points to use as control points |
+| `-w N` | int | 0 | Write intermediate results every N iterations |
 
 ## Configuration Interactions
 
 - `-mask` restricts optimization to the masked region.
-- `-xform` skips the registration step and uses the provided transform to localize the face directly.
-- `-mean` uses local mean intensity for fill instead of `-fill val`, producing a more naturalistic-looking defaced volume.
+- `-xform` / `-t` loads a previously computed LTA transform, skipping the registration step entirely and using the provided transform to localize the face directly.
+- `-mean N` uses a local NxNxN mean intensity for fill instead of the fixed `-fill val`, producing a more naturalistic-looking defaced volume.
+- `-b sigma` blurs the input before optimization; equivalent to what some documentation calls "blur sigma".
+- `-transonly` restricts registration to translation only, which is faster but less accurate for significantly misaligned data.
+- `-nscales` / `-scales` controls how many resolution scales are searched during optimal linear transform estimation.
 
 ## Typical Use Cases
 
@@ -127,4 +169,4 @@ Not called by [[recon-all]]. Applied before sharing data publicly or before proc
 
 ## Confidence and Gaps
 
-Confidence is **medium**. The overall approach is clear from the main() function and function declarations. Detailed algorithm for `MRIremoveFace()` was not read.
+Confidence is **medium**. The overall approach and all CLI options are documented from the `get_option()` function. Detailed algorithm for `MRIremoveFace()` was not read.

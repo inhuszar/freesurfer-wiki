@@ -62,7 +62,9 @@ Optional diagnostic outputs:
 
 The bias field model assumes:
 
-$$\log I(x) = \log S(x) + \log B(x) + \epsilon$$
+$$
+\log I(x) = \log S(x) + \log B(x) + \epsilon
+$$
 
 where $I(x)$ is observed intensity, $S(x)$ is true tissue signal, $B(x)$ is bias field, and $\epsilon$ is noise.
 
@@ -70,7 +72,9 @@ where $I(x)$ is observed intensity, $S(x)$ is true tissue signal, $B(x)$ is bias
 
 The bias field $\log B(x)$ is represented as a linear combination of DCT basis functions $\{\psi_k(x)\}$:
 
-$$\log B(x) = \sum_k \beta_k \psi_k(x)$$
+$$
+\log B(x) = \sum_k \beta_k \psi_k(x)
+$$
 
 The low-pass cutoff for the DCT basis is controlled by `lpfcutoffmm = 23` mm (default). DCT coefficients above this frequency are excluded.
 
@@ -78,7 +82,9 @@ The low-pass cutoff for the DCT basis is controlled by `lpfcutoffmm = 23` mm (de
 
 For voxels in the tissue mask, the design matrix $X$ has rows $[\psi_1(x), \ldots, \psi_K(x)]$ and the observation vector $y$ contains log-intensity values. The ordinary least-squares estimate is:
 
-$$\hat{\beta} = (X^T X)^{-1} X^T y$$
+$$
+\hat{\beta} = (X^T X)^{-1} X^T y
+$$
 
 The bias field is then $B(x) = \exp(\sum_k \hat{\beta}_k \psi_k(x))$, and the corrected volume is $I(x) / B(x)$.
 
@@ -119,7 +125,7 @@ All flags use `--` prefix and are case-insensitive (parsed with `strcasecmp`).
 | Flag | Alias | Arguments | Default | Description |
 |------|-------|-----------|---------|-------------|
 | `--threads <n>` | `--nthreads` | int | 0 | Number of OpenMP threads; 0 uses the system default |
-| `--sd <dir>` | `-SDIR` | path | `$SUBJECTS_DIR` | Override the FreeSurfer subjects directory |
+| `--sd <dir>` / `-sdir` | `-SDIR` | path | `$SUBJECTS_DIR` | Override the FreeSurfer subjects directory |
 
 ### Diagnostic outputs
 
@@ -188,7 +194,7 @@ Not a standard `[[recon-all]]` step. Used in research pipelines for bias field c
 
 ## Confidence and Gaps
 
-**High confidence:** Full `parse_commandline()` function read; all flags, defaults, and argument types confirmed from source. Correct flag names are `--i`, `--o`, `--cutoff`, `--erode` (previous wiki had wrong names `--src`, `--out`, `--lpcutoff`, `--nerode`).
+**High confidence:** Full `parse_commandline()` function read; all flags, defaults, and argument types confirmed from source. Correct flag names are --i, --o, --cutoff, --erode (previous wiki had wrong names --src, --out, --lpcutoff, --nerode).
 
 > [!gotcha] Flag name corrections vs. earlier documentation
 > The wiki previously used `--src`, `--out`, `--lpcutoff`, and `--nerode`. The actual flag names in the source are `--i`, `--o`, `--cutoff`, and `--erode`.

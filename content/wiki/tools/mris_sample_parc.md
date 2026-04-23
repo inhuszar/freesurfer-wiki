@@ -75,42 +75,47 @@ In the FreeSurfer pipeline, subcortical segmentations are computed volumetricall
 
 For each vertex $i$ with surface position $\mathbf{v}_i$ and outward normal $\hat{n}_i$, the tool projects the query point into the volume:
 
-$$\mathbf{q}_i = \mathbf{v}_i + \left( \text{proj\_frac} \times t_i \right) \hat{n}_i$$
+$$
+\mathbf{q}_i = \mathbf{v}_i + \left( \text{proj\_frac} \times t_i \right) \hat{n}_i
+$$
 
 where $t_i$ is the cortical thickness at vertex $i$ and `proj_frac` is the fractional depth parameter (default: 0.5, i.e., sample at the midpoint of the cortex). Alternatively, a fixed `proj_mm` offset can be used:
-$$\mathbf{q}_i = \mathbf{v}_i + \text{proj\_mm} \cdot \hat{n}_i$$
+$$
+\mathbf{q}_i = \mathbf{v}_i + \text{proj\_mm} \cdot \hat{n}_i
+$$
 
 The label at voxel nearest to $\mathbf{q}_i$ (in the parcellation volume) is assigned as the annotation label for vertex $i$.
 
-An optional **mode filter** (`-mode_filter <n>`) replaces each vertex's label with the most common label in a local spatial neighbourhood of `wsize` vertices (default 7), repeated `n` times.
+An optional **mode filter** (`-f <n>`) replaces each vertex's label with the most common label in a local spatial neighbourhood of `-w` vertices (default 7), repeated `n` times.
 
-A **topology fix** (`-fix_topology <n>`) enforces connected components by filling isolated single-label islands.
+A **topology fix** (`-fix <n>`) enforces connected components by filling isolated single-label islands.
 
 ## Configuration Options
 
 ### Complete Flag Reference
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
 | `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
 | `-surf <name>` | string | `white` | Surface to project from. |
-| `-thickness <name>` | string | `thickness` | Thickness file name for fractional projection. |
-| `-proj_frac <f>` | float | 0.5 | Fractional projection into cortex (0=white, 1=pial). |
-| `-proj_mm <mm>` | float | 0.0 | Fixed mm projection (overrides proj_frac if nonzero). |
-| `-wsize <n>` | integer | 7 | Neighbourhood window size for mode filter. |
-| `-mode_filter <n>` | integer | 0 | Number of mode-filter iterations (majority vote cleanup). |
-| `-fix_topology <n>` | integer | -1 (all) | Minimum label region size for topology fixing; -1 means fix all. |
-| `-avgs <n>` | integer | 0 | Number of curvature averaging iterations. |
-| `-nclose <n>` | integer | 0 | Number of morphological close operations. |
-| `-ctab <file>` | string | — | Color table file for output annotation. |
-| `-unknown <label>` | integer | -1 | Label index to assign to unknown/background vertices. |
+| `-t <name>` | string | `thickness` | Thickness file name for fractional projection. |
+| `-projfrac <f>` | float | 0.5 | Fractional projection into cortex (0=white, 1=pial). |
+| `-projmm <mm>` | float | 0.0 | Fixed mm projection along normal; also accepted as `-proj`. |
+| `-w <n>` | integer | 7 | Neighbourhood window size for mode filter. |
+| `-f <n>` | integer | 0 | Number of mode-filter iterations (majority vote cleanup). |
+| `-fix <n>` | integer | -1 (all) | Minimum label region size for topology fixing; -1 means fix all. |
+| `-a <n>` | integer | 0 | Number of curvature averaging iterations. |
+| `-close <n>` | integer | 0 | Number of morphological close operations. |
+| `-ct <file>` | string | — | Color table file for output annotation. |
+| `-u <label>` | integer | -1 | Label index to assign to unknown/background vertices. |
 | `-trans <in> <out>` | pair | — | Translate label index `in` to index `out` in output (can be repeated). |
 | `-replace <label>` | integer | — | Label to replace in the output. |
-| `-from_vol_to_surf` | boolean | false | Sample from volume to surface (alternative projection direction). |
+| `-vol2surf` | — | off | Sample from volume to surface (alternative projection direction). |
 | `-mask <file> <val>` | pair | — | Apply mask: only process vertices where mask file equals `val`. |
-| `-label_index <n>` | integer | -1 | Process only label with index `n`. |
-| `--version` | boolean | — | Print version string and exit. |
-| `-u` | boolean | — | Print usage and exit. |
+| `-label <n>` | integer | -1 | Process only label with index `n`. |
+| `-cortex <file>` | string | — | Cortex label file for computing NumVert, SurfArea, and MeanThickness. |
+| `-file <fname>` | string | — | Translation filename for color-to-label mapping. |
+| `-proj <mm>` | float | 0.0 | Alias for `-projmm`. |
 
 ### Configuration Interactions
 
@@ -118,8 +123,8 @@ A **topology fix** (`-fix_topology <n>`) enforces connected components by fillin
 - `-mode_filter` and `-fix_topology` are post-processing steps applied after the initial sampling; their order of application matters.
 - `-ctab` overrides the color table embedded in the parcellation volume.
 
-> [!gotcha] Translation file (-trans) vs. label index (-trans flag)
-> The source also references a `translation_fname` for a text-based color-to-label mapping (`cma_parcellation_colors.txt`). This is distinct from the `-trans` flag for explicit label translation pairs.
+> [!gotcha] Translation file (-file) vs. label translation pairs (-trans)
+> The `-file` flag sets a `translation_fname` for a text-based color-to-label mapping (e.g., `cma_parcellation_colors.txt`). The `-ct` flag also sets this same filename while additionally embedding the color table in the annotation. These are distinct from the `-trans` flag which specifies explicit label-to-label translation pairs.
 
 ## Typical Use Cases
 
@@ -134,7 +139,7 @@ mris_sample_parc \
 
 ```bash
 mris_sample_parc \
-  -mode_filter 3 -wsize 7 \
+  -f 3 -w 7 \
   subject lh aparc+aseg lh.aparc.sampled_clean
 ```
 
@@ -150,7 +155,7 @@ mris_sample_parc \
 > The fractional projection projects inward by default (from the white surface toward the pial). For superficial structures, `proj_frac = 0.5` may project outside the GM ribbon. Consider using `proj_mm` for more precise control.
 
 > [!gotcha] Topology of output annotation
-> Without `-fix_topology`, the output annotation may have isolated single-vertex islands of minority labels. Use `-mode_filter` and/or `-fix_topology` to clean up.
+> Without `-fix`, the output annotation may have isolated single-vertex islands of minority labels. Use `-f` and/or `-fix` to clean up.
 
 ## Related Tools
 

@@ -182,9 +182,13 @@ encoding and decoding are defined in `include/colortab.h`:
 
 Equivalently:
 
-$$\text{annotation} = R + 256 \cdot G + 65536 \cdot B$$
+$$
+\text{annotation} = R + 256 \cdot G + 65536 \cdot B
+$$
 
-$$R = \text{annotation} \bmod 256, \quad G = \lfloor \text{annotation} / 256 \rfloor \bmod 256, \quad B = \lfloor \text{annotation} / 65536 \rfloor \bmod 256$$
+$$
+R = \text{annotation} \bmod 256, \quad G = \lfloor \text{annotation} / 256 \rfloor \bmod 256, \quad B = \lfloor \text{annotation} / 65536 \rfloor \bmod 256
+$$
 
 The same formula is implemented as `CTABannotationAtIndex()` in
 `utils/colortab.cpp`:

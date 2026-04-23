@@ -56,7 +56,7 @@ The flattening algorithm first projects the patch onto a plane (`MRISflattenPatc
 |-------|-------------|
 | `in_patch_fname` | Input surface patch file (positional arg 1). Usually `?h.cortex.patch` or named `.flat.patch`. Must reside in the same directory as the associated surface (`?h.smoothwm` by default). |
 | `out_patch_fname` | Output flattened patch file (positional arg 2). |
-| `?h.smoothwm` | Full hemisphere surface file, auto-located from patch path (unless `-O` specified). Used to provide the original metric properties. |
+| `?h.smoothwm` | Full hemisphere surface file, auto-located from patch path (unless `-O` or `-copy-coords` specified). Used to provide the original metric properties. |
 
 The hemisphere is inferred from the patch filename (two characters before the first `.` after the last `/`). Defaults to `lh` if not determinable.
 
@@ -70,13 +70,15 @@ The hemisphere is inferred from the patch filename (two characters before the fi
 | `out_patch_fname` | Flattened patch in FreeSurfer binary patch format. Vertex coordinates are 2D (z=0). |
 | `flatten.log` | Log file written when `-plane` or `-sphere` flags are used, containing analytic distance error metrics. |
 | Intermediate snapshots | If `-w N` is set, writes intermediate snapshots every N iterations. |
-| Flattened overlay image | If `-mri` is specified, writes a 2D MGZ image with overlay data projected onto the flat map. |
+| Flattened overlay image | If `-overlay` is specified, writes a 2D MGZ image with overlay data projected onto the flat map (written to the `out_patch_fname` path). |
 
 ## Mathematical Foundations
 
 The flattening energy functional (from Fischl et al. 1999) minimizes two competing terms:
 
-$$E = \lambda_d \sum_{(i,j) \in \mathcal{N}} \left(\frac{d_{ij} - d^0_{ij}}{d^0_{ij}}\right)^2 + \lambda_A \sum_k \left(\frac{A_k - A^0_k}{A^0_k}\right)^2$$
+$$
+E = \lambda_d \sum_{(i,j) \in \mathcal{N}} \left(\frac{d_{ij} - d^0_{ij}}{d^0_{ij}}\right)^2 + \lambda_A \sum_k \left(\frac{A_k - A^0_k}{A^0_k}\right)^2
+$$
 
 where:
 - $d_{ij}$ is the current geodesic distance between vertices $i$ and $j$ in the flat map
@@ -102,33 +104,62 @@ Overlay projection onto flat map uses barycentric interpolation within triangula
 | `-s scale` | float | 3.0 | Scale factor applied to surface before flattening |
 | `-d disturb` | float | 0 | Perturbation magnitude added to vertex positions before optimization |
 | `-O surf` | string | `smoothwm` | Name of surface file to use for original metric properties |
-| `-U surf` | string | `orig` | Name of unfold surface |
-| `-1` | — | off | Treat input as both surface and patch (single surface mode) |
+| `-ou name` | string | `orig` | Name of original unfolding surface |
+| `-p N` | integer | 1 | Maximum number of unfolding passes |
+| `-a N` | integer | 1024 | Number of gradient smoothing averages |
+| `-m momentum` | float | 0.9 | Momentum for gradient descent |
+| `-b val` | float | 1.0 | Base dt scale factor (`base_dt_scale`) |
+| `-v N` | integer | — | Set Gdiag_no to vertex N for verbose diagnostics |
+| `-r` | — | off | Randomly flatten (project to plane without optimization) |
+| `-i` | — | off | Inflate the brain before flattening |
 | `-dist coef` | float | 1.0 | Weight for distance preservation term (`l_dist`) |
 | `-nlarea coef` | float | 1.0 | Weight for non-linear area preservation term (`l_nlarea`) |
+| `-area coef` | float | — | Weight for linear area preservation term (`l_area`) |
+| `-spring coef` | float | — | Weight for spring energy term (`l_spring`) |
+| `-curv coef` | float | — | Weight for curvature energy term (`l_curv`) |
+| `-angle coef` | float | — | Weight for angle preservation term (`l_angle`) |
+| `-boundary coef` | float | — | Weight for boundary energy term (`l_boundary`) |
+| `-expand coef` | float | — | Weight for expansion energy term (`l_expand`) |
+| `-unfold coef dist_map` | float path | — | Weight for unfolding energy and distance map file |
 | `-nbrs N` | integer | 2 | Neighborhood size for distance computation |
+| `-distances nbhd max` | 2 ints | 7 12 | Neighborhood size and max neighbors for distance computation |
+| `-vnum nbhd max` | 2 ints | 7 12 | Alias for `-distances` |
+| `-complete` | — | off | Use complete distance matrix |
 | `-plane` | — | off | Compute analytic error for a plane (writes to `flatten.log`) |
-| `-sphere` | — | off | Compute analytic error for a sphere |
-| `-rand` | — | off | Randomly flatten (project to plane without optimization) |
-| `-nospring` | — | off | Disable spring term |
+| `-sphere` | — | off | Compute analytic error for a sphere (writes to `flatten.log`) |
+| `-nospring` | — | off | Disable spring term in integration parameters |
 | `-dilate N` | integer | 0 | Dilate the patch N times before flattening |
-| `-dilate_label N` | integer | 0 | Dilate label N times after reading |
-| `-rescale r` | float | 1.0 | Rescale patch by factor r |
-| `-mri overlay.mgz` | path | — | Project this overlay onto the flat map and save as a 2D image |
-| `-mri_out out.mgz` | path | auto | Output path for projected overlay image |
-| `-label label.label` | path | — | Label file defining the patch region |
-| `-seg seg.mgz` | path | — | Segmentation volume (used with `-seg_ids`) |
-| `-seg_ids id [id...]` | ints | — | Segment IDs to include in patch from segmentation |
-| `-init surf` | path | — | Initialize patch from a previously computed surface |
+| `-rescale r` | float | 1.0 | Rescale patch by factor r before optimization |
+| `-as val` | float | 1.0 | Area coefficient scale |
+| `-name name` | string | — | Base name for intermediate output files |
+| `-overlay fname` | path | — | Project this overlay onto flat map (disables flattening optimization) |
+| `-overlay_label fname` | path | — | Constrain overlay projection to this label |
+| `-label_overlay fname` | path | — | Alias for `-overlay_label` |
+| `-l label [ndil]` | path [int] | — | Create input patch from (optionally dilated) label file |
+| `-seg seg ndil [segids...]` | path int [ints] | — | Create input patch from dilated segmentation mask |
+| `-copy-coords surf` | path | — | Copy xyz coordinates from this surface before flattening |
+| `-norand` | — | off | Set random seed to 0 (repeatable flattening) |
+| `-seed val` | integer | — | Set random seed to a specific value |
+| `-synth name` | path | — | Synthesize overlay from label files for testing |
+| `-lm` | — | off | Use line minimization integration |
+| `-adaptive` | — | off | Use adaptive time step integration |
+| `-dt val` | float | 0.1 | Time step for gradient descent |
+| `-dt_inc val` | float | 1.01 | Time step increase factor |
+| `-dt_dec val` | float | 0.98 | Time step decrease factor |
+| `-error_ratio val` | float | 1.03 | Error ratio threshold for step size adaptation |
+| `-tol val` | float | 0.2 | Convergence tolerance |
+| `-threads N` | integer | — | Number of OpenMP threads (alias: `-nthreads`) |
+| `-nthreads N` | integer | — | Number of OpenMP threads (alias: `-threads`) |
+| `-1` | — | off | Patch file is the only (and whole) surface file; skip normal patch-from-surface loading |
 
 ## Configuration Interactions
 
-- `-1` (single surface mode): causes the patch file to be read as the surface itself, bypassing the lookup of `?h.smoothwm`. Useful for testing on simple surfaces.
-- `-rand` skips the optimization entirely and only performs the initial planar projection — useful for debugging or creating a rough flat map quickly.
-- `-mri overlay.mgz` activates overlay projection mode: after flattening, the overlay is interpolated onto the 2D flat map using barycentric coordinates. The `-mri_out` flag controls the output path (auto-derived from input by default).
+- `-r` skips the optimization entirely and only performs the initial planar projection via `MRISflattenPatchRandomly` — useful for debugging or creating a rough flat map quickly.
+- `-overlay fname` activates overlay projection mode: after flattening, the overlay is resampled onto the 2D flat map using barycentric coordinates. The output is written to the `out_patch_fname` path. Also sets `niterations=0`, disabling the flattening optimization itself.
+- `-overlay_label` / `-label_overlay` constrain the overlay projection to the vertices within a label; other vertices are ripped before the projection.
 - `-nospring` disables the spring energy term in `INTEGRATION_PARMS`; usually the spring term provides smoothing, so disabling it may result in a more irregular flat map.
-- `-O` and `-1` are mutually exclusive in effect: `-1` bypasses the surface lookup entirely.
-- `-dilate` and `-dilate_label` both expand the patch region but by different mechanisms (topological dilation vs. label file dilation).
+- `-O` and `-copy-coords` affect pre-flattening surface coordinates by different mechanisms: `-O` changes which surface provides the original metric properties, while `-copy-coords` copies vertex positions from a second surface before optimization.
+- `-dilate` (topological dilation of ripped edges) and `-l`/`-seg` (label/segmentation dilation via `-dilate_label` argument in those flags) both expand the patch region by different mechanisms.
 
 ## Typical Use Cases
 
@@ -139,18 +170,17 @@ mris_flatten -w 10 lh.occipital.patch.flat lh.occipital.patch.flat.out
 
 **Flatten and project an overlay:**
 ```bash
-mris_flatten -mri lh.retinotopy.mgz -mri_out lh.flat_retinotopy.mgz \
-    lh.occipital.patch.flat lh.flat.out
+mris_flatten -overlay lh.retinotopy.mgz lh.occipital.patch.flat lh.flat_retinotopy.mgz
 ```
 
-**Project to a flat map using a label to define the region:**
+**Create patch from a label and flatten:**
 ```bash
-mris_flatten -label lh.V1.label lh.patch.flat lh.V1.flat
+mris_flatten -l lh.V1.label 0 lh.patch.flat lh.V1.flat
 ```
 
 **Use a segmentation to define the patch region:**
 ```bash
-mris_flatten -seg aseg.mgz -seg_ids 1 2 3 lh.patch.flat lh.flat
+mris_flatten -seg aseg.mgz 0 1 2 3 lh.patch.flat lh.flat
 ```
 
 ## Pipeline Context
@@ -174,7 +204,7 @@ Related surface tools that run before this in typical workflows: [[mris_inflate]
 > The hemi is detected by taking the two characters before the first `.` in the filename. If the patch file is not named with a standard FreeSurfer convention (e.g., `lh.something`), the hemi will default to `lh` regardless of the actual hemisphere.
 
 > [!gotcha] Surface file must be in same directory as patch
-> Unless `-1` or `-O` is used, the tool constructs the surface filename by combining the directory from the patch file path with `?h.smoothwm`. If these are not co-located, the tool will fail.
+> Unless `-O` is used (or the patch is read as the surface itself via a workaround), the tool constructs the surface filename by combining the directory from the patch file path with `?h.smoothwm`. If these are not co-located, the tool will fail.
 
 > [!gotcha] Scale factor and distortion
 > The `-s scale` (default 3.0) rescales the patch before optimization. This is a heuristic for improving convergence and does not affect the final stored vertex coordinates (which are in surface RAS space), but it does affect the optimization trajectory.
@@ -198,7 +228,7 @@ Related surface tools that run before this in typical workflows: [[mris_inflate]
 
 **Needs verification:**
 - Exact output format of the `.flat` patch file vs. standard patch format
-- Behavior of `-seg_ids` with multiple IDs (space-separated vs. repeated flags)
+- Behavior of the segmentation ID list in `-seg` with multiple IDs (space-separated positional arguments)
 
 > [!gap] Overlay projection resolution
 > The resolution of the output flat map image when using `-mri` is not clearly documented; it appears to use `res=1.0` (1mm/pixel) but this may not be configurable from the command line.

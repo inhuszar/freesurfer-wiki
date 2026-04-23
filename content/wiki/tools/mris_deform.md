@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Relationship to mris_place_surface (the newer surface placement tool) not confirmed."
   - "Whether this is used in any recon-all stage needs confirmation."
@@ -73,16 +73,20 @@ For each vertex $v$, the tool extracts an intensity profile $I(d)$ along the sur
 
 A piecewise-constant model is fit:
 
-$$\hat{I}(d) = \begin{cases}
+$$
+\hat{I}(d) = \begin{cases}
 \mu_{\text{WM}} & d < d_w \\
 \mu_{\text{IG}} & d_w \leq d < d_{\text{ig}} \\
 \mu_{\text{SG}} & d_{\text{ig}} \leq d < d_p \\
 \mu_{\text{out}} & d \geq d_p
-\end{cases}$$
+\end{cases}
+$$
 
 The optimal boundary positions $(d_w, d_{\text{ig}}, d_p)$ and mean intensities $(\mu_{\text{WM}}, \mu_{\text{IG}}, \mu_{\text{SG}}, \mu_{\text{out}})$ are found by minimising the residual:
 
-$$\text{RMS} = \sqrt{\frac{1}{N}\sum_{i=1}^N (I(d_i) - \hat{I}(d_i))^2}$$
+$$
+\text{RMS} = \sqrt{\frac{1}{N}\sum_{i=1}^N (I(d_i) - \hat{I}(d_i))^2}
+$$
 
 Multiple error functions are supported (L1, L2, normalised cross-correlation, L1+NCC combination), selected via `DEFORMATION_PARMS.error_type`.
 
@@ -138,6 +142,7 @@ All flags use single-dash prefix; names are case-insensitive.
 | `-I` | boolean | — | Invert the transform before applying (`invert=1`). |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` or `?` | boolean | — | Print usage and exit. |
+| `-identity.nofile` | — | — | **Not a flag.** This is the literal string value `identity.nofile` passed as the `<xform>` positional argument to skip the transform step. When `argv[3]` equals this string (case-insensitive), `MRIStransform()` is not called. Commonly used for ex vivo data or when the volume is already in surface space. |
 
 ### Configuration Interactions
 

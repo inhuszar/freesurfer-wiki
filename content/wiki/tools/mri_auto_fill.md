@@ -65,12 +65,18 @@ Positional arguments (in order):
 
 The algorithm applies the inverse GCA morph $\mathcal{G}^{-1}$ to warp atlas templates into subject space:
 
-$$V_{\text{lh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{lh}}^{\text{atlas}})$$
-$$V_{\text{rh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{rh}}^{\text{atlas}})$$
+$$
+V_{\text{lh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{lh}}^{\text{atlas}})
+$$
+$$
+V_{\text{rh}}^{\text{subj}} = \mathcal{G}^{-1}(V_{\text{rh}}^{\text{atlas}})
+$$
 
 The warped templates are then combined using `MRIcombineHemispheres` and thresholded using the T1 intensity profile via `MRIthresholdFilled`. The threshold is the `pct`-th percentile (default: 95th) of the T1 within the WM mask:
 
-$$V_{\text{out}} = \{v : V_{\text{combined}}(v) > 0 \text{ AND } V_{T1}(v) > \tau_{T1}\}$$
+$$
+V_{\text{out}} = \{v : V_{\text{combined}}(v) > 0 \text{ AND } V_{T1}(v) > \tau_{T1}\}
+$$
 
 Ventricles are separately handled via `MRIfillVentricle` to ensure they are not included in the WM fill.
 
@@ -78,11 +84,11 @@ Ventricles are separately handled via `MRIfillVentricle` to ensure they are not 
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-p <pct>` | float | 95.0 | Percentile of T1 for thresholding |
-| `-nsigma <val>` | float | 0.1 | Number of sigma for T1 threshold refinement |
-| `-fix` | flag | off | Fix mode (details unclear from source) |
-| `-dilate <N>` | int | 0 | Dilate WM mask N times |
-| `old` | flag | off | Use legacy M3D morph instead of GCAmorph |
+| `-p <pct>` / `-t <pct>` | float | 95.0 | Percentile of T1 for thresholding (`case 'P':` / `case 'T':` fall-through) |
+| `-n <val>` | float | 0.1 | Number of sigma for T1 threshold refinement (`case 'N':`) |
+| `-f` | flag | off | Toggle hemisphere-overlap correction (`case 'F':` toggles `fix`) |
+| `-dilate <N>` | int | 0 | Dilate ventricles N times before filling (`!stricmp`) |
+| `-old` | flag | off | Use legacy M3D morph instead of GCAmorph (`!strcmp`, case-sensitive) |
 
 ## Typical Use Cases
 

@@ -13,9 +13,9 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "The 'David' and 'Sue' table format naming requires context about the original authors."
+  - "The exact column layouts of 'David's' and 'Sue's' table formats require reading LoadDavidsTable() and LoadSuesTable()."
 tags:
   - statistics
   - segmentation
@@ -46,11 +46,10 @@ The tool supports two table formats (informally named "David's table" and "Sue's
 
 | Input | Description | Format |
 |-------|-------------|--------|
-| Statistics file (`--stat`) | Table mapping anatomical structure indices to statistical values. | Plain text (David's or Sue's format) |
+| Statistics file (`--stat`) | Table in "David's" format mapping structure indices to statistical values. Specifying this flag also enables David's-format loading. | Plain text |
+| Statistics file (`--sue`) | Table in "Sue's" format. Takes two arguments: file path and column index. Also enables log10 scaling by default. | Plain text |
 | Segmentation volume (`--seg`) | Anatomical segmentation volume (e.g., `aseg.mgz`). | `.mgz`/`.mgh` |
-| Annotation (optional, `--annot`) | If specified, construct the segmentation from a surface annotation instead of a volume. | `.annot` via `--s` and `--hemi` |
-| Subject (`--s`) | Subject name (required if `--annot` is specified). | — |
-| Hemisphere (`--hemi`) | Hemisphere for annotation lookup. | `lh` or `rh` |
+| Annotation (`--annot`) | If specified, construct the segmentation from a surface annotation. Takes three arguments: annotation name, subject name, hemisphere. | `.annot`; takes 3 args |
 | Output volume (`--o`) | Output statistics volume. | `.mgz`/`.mgh` |
 
 ## Outputs
@@ -63,7 +62,9 @@ The tool supports two table formats (informally named "David's table" and "Sue's
 
 The operation is a simple lookup:
 
-$$\text{output}(x,y,z) = \begin{cases} \text{stat}[\text{seg}(x,y,z)] & \text{if } \text{seg}(x,y,z) \neq 0 \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{output}(x,y,z) = \begin{cases} \text{stat}[\text{seg}(x,y,z)] & \text{if } \text{seg}(x,y,z) \neq 0 \\ 0 & \text{otherwise} \end{cases}
+$$
 
 where $\text{stat}[\cdot]$ is the lookup table indexed by anatomical label ID, and $\text{seg}(x,y,z)$ is the label at each voxel.
 
@@ -71,41 +72,40 @@ For annotation-based segmentation, `MRISannotIndex2Seg()` first converts the sur
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--stat file` | filename | Input statistics file |
-| `--seg file` | filename | Input segmentation volume |
-| `--annot name` | annotation name | Use annotation instead of segmentation volume |
-| `--s subject` | subject name | Subject (required with `--annot`) |
-| `--hemi hemi` | `lh`/`rh` | Hemisphere (required with `--annot`) |
-| `--o file` | filename | Output statistics volume |
-| `--david` | — | Load statistics in "David's" table format |
-| `--sue col` | integer | Load statistics from "Sue's" table, column `col` |
-| `--log10` | — | Input values are already -log10(p); don't apply further transformation |
-| `--nostrip4` | — | Don't strip the top 4 rows of Sue's table |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--stat file` | filename | — | Input statistics file in "David's" format; also sets `DoDavid = 1` |
+| `--sue file col` | filename, int | — | Input statistics file in "Sue's" format with column index; also sets `log10flag = 1` and `DoSue = 1` |
+| `--seg file` | filename | — | Input segmentation volume |
+| `--annot annot subject hemi` | 3 args | — | Use surface annotation instead of seg volume; provide annotation name, subject name, and hemisphere |
+| `--o file` | filename | — | Output statistics volume |
+| `--no-log10` | — | off | Disable log10 scaling (use raw values from "Sue's" table) |
+| `--no-strip4` | — | off | Do not strip the top 4 header rows from "Sue's" table (`DoStrip4=1` by default) |
 
 ## Configuration Interactions
 
-- `--david` and `--sue` are mutually exclusive format selectors. Exactly one must be specified.
-- `--log10` applies to Sue's table format; it indicates the input values are already on a -log10(p) scale.
-- `--annot` requires `--s` and `--hemi`; it overrides `--seg` and constructs the segmentation from the surface annotation.
+- `--stat` and `--sue` are mutually exclusive format selectors (`DoDavid` vs `DoSue`). Exactly one must be specified.
+- `--no-log10` disables the log10 scaling that `--sue` enables by default. It has no effect without `--sue`.
+- `--no-strip4` prevents the top 4 header rows from being skipped when reading "Sue's" format.
+- --annot <annot> <subject> <hemi> takes all three arguments together as a single flag invocation. It overrides --seg and constructs the segmentation from the surface annotation on-the-fly. Subject and hemisphere are provided as positional arguments to --annot, not as separate --s/--hemi flags (which do not exist in this tool).
 
 ## Typical Use Cases
 
 **Map region statistics to segmentation volume (David's format):**
 ```bash
-# First run mri_segstats to generate statistics
-mri_segstats \
-  --in $SUBJECTS_DIR/$subject/mri/norm.mgz \
-  --seg $SUBJECTS_DIR/$subject/mri/aseg.mgz \
-  --ctab-default \
-  --avgwfvol stats.mgh --avgwf stats.txt \
-  --sum sum.txt
-
-# Then map statistics back to volume
+# Map a statistics file (David's format) back onto the segmentation volume
 mri_stats2seg \
   --stat stats.mgh \
   --seg $SUBJECTS_DIR/$subject/mri/aseg.mgz \
+  --o asegstats.mgh
+```
+
+**Sue's format with column selection:**
+```bash
+mri_stats2seg \
+  --sue stats.txt 3 \
+  --seg $SUBJECTS_DIR/$subject/mri/aseg.mgz \
+  --no-strip4 \
   --o asegstats.mgh
 ```
 
@@ -126,7 +126,10 @@ tkmedit $subject norm.mgz -aux ./asegstats.mgh \
 ## Gotchas and Caveats
 
 > [!gotcha] Table format must be specified
-> The user must know whether their statistics file is in "David's" or "Sue's" format and specify the appropriate flag. Providing the wrong flag will silently produce incorrect results.
+> The user must know whether their statistics file is in "David's" (--stat) or "Sue's" (--sue) format. Providing the wrong flag will silently produce incorrect results.
+
+> [!gotcha] `--annot` takes three positional arguments
+> Unlike most FreeSurfer tools, this tool does not use separate --s subject and --hemi hemi flags. Instead, --annot consumes the next three positional arguments as annotation name, subject name, and hemisphere. Passing them separately will fail with an unknown-option error.
 
 > [!gotcha] Annotation mode constructs seg in memory
 > When `--annot` is used, the tool calls `MRISannotIndex2Seg()` to construct a volume segmentation from the annotation on-the-fly. This requires the subject's white surface to be accessible.
@@ -138,7 +141,7 @@ tkmedit $subject norm.mgz -aux ./asegstats.mgh \
 
 ## Confidence and Gaps
 
-**High confidence.** The lookup logic and table format handling are clearly visible in the source. The "David's" and "Sue's" naming is informal and their exact formats require inspection of `LoadDavidsTable()` and `LoadSuesTable()`.
+**High confidence.** The flag set confirmed from `parse_commandline()`. Prior incorrect flags (--david, --hemi, --s, --log10, --nostrip4) do not exist in source. The flags --avgwf, --avgwfvol, --ctab-default, --in, --stat-txt, --sum also do not exist in this tool; they belong to `mri_segstats`.
 
 > [!gap] Table format details
 > The exact column layouts of "David's" and "Sue's" formats are not documented in the source header; they are implemented in `LoadDavidsTable()` and `LoadSuesTable()`. Deeper source reading would clarify this.

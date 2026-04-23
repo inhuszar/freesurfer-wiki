@@ -66,7 +66,9 @@ Both volumes are treated as binary (non-zero = foreground), or a specific label 
 
 Let $\partial A$ and $\partial B$ be the boundary voxel sets of the source and reference segmentations. The symmetric mean boundary distance is:
 
-$$d_\text{sym}(A, B) = \frac{1}{2}\left[\frac{1}{|\partial A|}\sum_{a \in \partial A} \min_{b \in \partial B} \|a - b\| + \frac{1}{|\partial B|}\sum_{b \in \partial B} \min_{a \in \partial A} \|a - b\|\right]$$
+$$
+d_\text{sym}(A, B) = \frac{1}{2}\left[\frac{1}{|\partial A|}\sum_{a \in \partial A} \min_{b \in \partial B} \|a - b\| + \frac{1}{|\partial B|}\sum_{b \in \partial B} \min_{a \in \partial A} \|a - b\|\right]
+$$
 
 The implementation pads the volumes by `PAD = 20` voxels to ensure all boundary computations are valid. Morphological operations (erode, dilate, close, open) may be applied to preprocess the binary masks.
 
@@ -74,10 +76,10 @@ The implementation pads the volumes by `PAD = 20` voxels to ensure all boundary 
 
 | Flag | Argument | Description |
 |------|----------|-------------|
-| `-target` | `<label>` | Target label value (default: any non-zero) |
-| (morphological flags) | — | Various erosion/dilation operations (inferred from header) |
+| `-l <label>` | `int` | — | Restrict operations to the specified label value; sets `Gdiag_no = target_label` (`case 'L':`) |
+| `-log <file>` | `path` | — | Write diagnostic output to this log file (`Gdiag_fp`) |
 
-> [!gap] Flag list not fully traced
+> [!gap] Morphological preprocessing flags
 > The `ERODE`, `DILATE`, `CLOSE`, `OPEN`, `DILATE_LABEL`, `MODE_FILTER` constants suggest configurable morphological preprocessing. Exact flags require help output verification.
 
 ## Typical Use Cases

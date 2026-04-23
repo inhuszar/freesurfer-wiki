@@ -63,11 +63,15 @@ The subjects directory is inferred from the path of the time-point file.
 
 Let $\{V_1, \ldots, V_T\}$ be the normalized volumes from $T$ time points. For each atlas node $(x_p, y_p, z_p)$ and tissue label $k$, the GCA stores a Gaussian:
 
-$$p(I | k, x_p, y_p, z_p) = \mathcal{N}(I; \mu_k, \sigma_k^2)$$
+$$
+p(I | k, x_p, y_p, z_p) = \mathcal{N}(I; \mu_k, \sigma_k^2)
+$$
 
 Renormalization updates $\mu_k$ and $\sigma_k^2$ by accumulating observations from voxels mapped to the atlas node via the transform $T$:
 
-$$\hat{\mu}_k = \frac{1}{N_k} \sum_{t,v \in k} V_t(T^{-1}(v))$$
+$$
+\hat{\mu}_k = \frac{1}{N_k} \sum_{t,v \in k} V_t(T^{-1}(v))
+$$
 
 The function `GCAregularizeConditionalDensities(gca, 0.5)` is called on the input atlas to regularize initial estimates before renormalization.
 
@@ -75,11 +79,14 @@ In `-longinput` mode, volumes are read from `<sdir>/<tp>.long.<base>/mri/<in_vol
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
 | `-mask <file>` | string | — | Apply brain mask before renormalization |
-| `-novar` | flag | off | Unify variance across all GCA nodes |
-| `-longinput` | flag | off | Read volumes from `<tp>.long.<base>/mri/` path format instead of `<base>/longtp/<tp>/` |
+| `-novar` | — | off | Unify variance across all GCA nodes (do not use per-node variance estimates) |
+| `-longinput` | — | off | Read volumes from `<tp>.long.<base>/mri/` path format instead of `<base>/longtp/<tp>/` |
+| `-debug_voxel <x> <y> <z>` | int int int | — | Print per-voxel debug output at the specified CRS coordinate; sets global debug voxel `Gx`/`Gy`/`Gz` |
+| `-debug_node <x> <y> <z>` | int int int | — | Print per-node debug output for the specified GCA node coordinate; sets global GCA debug node `Ggca_x`/`Ggca_y`/`Ggca_z` |
+| `-w` | — | off | Enable diagnostic write mode (`DIAG_WRITE`); causes intermediate volumes to be written during processing |
 
 ## Typical Use Cases
 

@@ -73,13 +73,13 @@ The output CSV format contains one row per vertex (or one row per parcel if parc
 
 ## Configuration Options
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-i <surface>` | Required | Input surface file. |
-| `-o <csvfile>` | Required | Output CSV file. |
-| `-v <overlay>` | Optional | Surface overlay file. |
-| `-a <annotation>` | Optional | Annotation file for parcel grouping. |
-| `-m <N> img1 img2 ...` | Optional | Number and list of volumetric images to sample at vertex positions. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-i <surface>` | path | required | Input surface file |
+| `-o <csvfile>` | path | required | Output CSV file |
+| `-v <overlay>` | path | — | Surface overlay file |
+| `-a <annotation>` | path | — | Annotation file for parcel grouping |
+| `-m <N> img1 img2 ...` | int + paths | — | Number and list of volumetric images to sample at vertex positions |
 
 ## Configuration Interactions
 

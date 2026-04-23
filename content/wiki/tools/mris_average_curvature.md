@@ -60,46 +60,48 @@ Group-average cortical maps are essential for atlas construction and for visuali
 |--------|-------------|
 | `<out_fname>` | Group average scalar overlay in `.curv` format |
 
-Optionally, `--osurf` and `--ohemi` can redirect the output to a different surface/hemisphere for the projection step.
+Optionally, `-o`, `-osurf`, and `-ohemi` can redirect the output to a different subject/surface/hemisphere for the projection step.
 
 ## Mathematical Foundations
 
 Each subject's scalar field $f_s(v)$ is projected to the spherical parameter space:
 
-$$F(\theta, \phi) \mathrel{+}= f_s(\theta, \phi), \quad N(\theta, \phi) \mathrel{+}= 1$$
+$$
+F(\theta, \phi) \mathrel{+}= f_s(\theta, \phi), \quad N(\theta, \phi) \mathrel{+}= 1
+$$
 
 After accumulating all subjects:
 
-$$\bar{F}(\theta, \phi) = \frac{F(\theta, \phi)}{N(\theta, \phi)}$$
+$$
+\bar{F}(\theta, \phi) = \frac{F(\theta, \phi)}{N(\theta, \phi)}
+$$
 
-If `--norm-mean` is selected (`which_norm = NORM_MEAN`), each subject's curvature is normalised to zero mean before accumulation:
+If `-n` is specified (`normalize_flag = 1`), each subject's curvature is normalised to zero mean before accumulation:
 
-$$f_s' = f_s - \bar{f}_s$$
+$$
+f_s' = f_s - \bar{f}_s
+$$
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `<in_fname>` | Curvature file name per subject | required |
-| `<hemi>` | Hemisphere | required |
-| `<surf_name>` | Surface name | required |
-| `<out_fname>` | Output file | required |
-| `-S <sdir>` | Override SUBJECTS_DIR | env var |
-| `-n <navgs>` | Number of smoothing averages applied to output | 0 |
-| `-n <norm>` | Normalisation mode | `NORM_MEAN` |
-| `--osurf <surf>` | Output surface name (if different from input) | same as input |
-| `--ohemi <hemi>` | Output hemisphere (if different) | same as input |
-| `--os <surf>` | Output surface for writing | — |
-| `--stat` | Write stat images (DOF, mean, variance) | off |
-| `--condition <n>` | Condition number for multi-condition averaging | 0 |
-
-> [!gap] Flag names need confirmation
-> Flag parsing is done with `get_option()`. The precise flags (`-S`, `-n`, etc.) were inferred from global variables. Verify against the `get_option()` body in the source.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `<in_fname>` | string | — | Curvature file name per subject |
+| `<hemi>` | string | — | Hemisphere |
+| `<surf_name>` | string | — | Surface name |
+| `<out_fname>` | path | — | Output file |
+| `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `-a <navgs>` | int | 0 | Number of smoothing averaging iterations applied to output |
+| `-n` | — | off | Normalize curvature to zero mean before accumulation |
+| `-o <surf_name>` | string | — | Output surface name (subject) to paint averaged results onto |
+| `-osurf <surf>` | string | same as input | Output surface name (surface file, e.g. `sphere.reg`) |
+| `-ohemi <hemi>` | string | same as input | Output hemisphere (if different from input) |
+| `-s <cond_no>` | int | — | Write summary statistics (mean/variance/DOF) as condition number `<cond_no>` |
 
 ## Configuration Interactions
 
 - Subject list order does not affect the result (accumulation is commutative).
-- `--stat` enables writing mean/variance/DOF MRI_SP images for later use in atlas construction.
+- `-s <cond_no>` enables writing mean/variance/DOF MRI_SP images (stat files) for later use in atlas construction; the condition number is embedded in the output filenames.
 - If a subject's surface file cannot be read, that subject is skipped and a count of skipped subjects is printed.
 
 ## Typical Use Cases
@@ -111,7 +113,7 @@ mris_average_curvature sulc lh sphere.reg \
     /tmp/lh.avg_sulc.curv
 
 # With smoothing applied to the group average
-mris_average_curvature -n 10 sulc lh sphere.reg \
+mris_average_curvature -a 10 sulc lh sphere.reg \
     bert ernie alice \
     /tmp/lh.avg_sulc_smoothed.curv
 ```
@@ -134,7 +136,7 @@ Related tools:
 > If a subject's surface file is missing or cannot be read, the subject is silently skipped (with a printed warning). The averaging continues with fewer subjects. Check the output count.
 
 > [!gotcha] Output surface geometry
-> The group average is written back onto the last-read subject's surface geometry unless `--os` overrides it. For atlas work, the output should be redirected to a canonical template surface.
+> The group average is written back onto the last-read subject's surface geometry unless `-o` overrides the output subject. For atlas work, the output should be redirected to a canonical template surface.
 
 ## Related Tools
 
@@ -144,7 +146,4 @@ Related tools:
 
 ## Confidence and Gaps
 
-**Confident:** Core algorithm (MRI_SP accumulation and normalisation), I/O structure, and skip behaviour confirmed from source.
-
-> [!gap] Exact flag names
-> The `-n`, `-S`, `--stat`, `--condition` flags were inferred from global variables. Verify from the `get_option()` body.
+**Confident:** Core algorithm (MRI_SP accumulation and normalisation), I/O structure, skip behaviour, and all flags confirmed from `get_option()` in source.

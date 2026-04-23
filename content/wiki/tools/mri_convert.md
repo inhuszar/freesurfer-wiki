@@ -20,7 +20,7 @@ related:
   - "[[mri_nu_correct.mni]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "Full list of interactions between --apply_transform, --reslice_like, --conform and --like is complex; code paths 1801–2930 not yet fully traced"
   - "Behaviour of --no_scale on non-COR outputs is only documented for the binary case; source check still needed"
@@ -261,10 +261,11 @@ flag selects the kernel: `interpolate` (trilinear, default),
 - `--conform_size <mm>` (`-cs`) sets $\Delta^\text{t}$ to a
   user-specified mm value and chooses $N^\text{t}$ via
   `MRIfindRightSize()` so that the full FoV is covered.
-- `--cw256` / `--conform_width_256_flag` forces $N^\text{t}=256$
+- `--cw256` forces $N^\text{t}=256$
   regardless of input FoV; useful when the input FoV exceeds 256 mm
   but the user wants the canonical 256³ grid (the extremes will be
-  clipped).
+  clipped). (`conform_width_256_flag` is an internal variable name in
+  the source, not a CLI flag.)
 
 ### Transform application (`--apply_transform`, `-at`, `-ait`)
 
@@ -338,9 +339,9 @@ row and left to the help text for details.
 | `-cs <mm>` / `--conform_size <mm>` | float | 1.0 | Conform to the given isotropic voxel size. Implies `--conform`. |
 | `--conform-dc` | bool | false | Conform while preserving source direction cosines (padded grid). Implies `--conform`. |
 | `--cw256` | bool | false | Force the conform width to 256 even if the FoV does not fit. Implies `--conform`. |
-| `-vs <sx> <sy> <sz>` / `--voxsize` | floats | input sizes | Upsample/downsample to the specified output voxel size. |
-| `-ds <dsx> <dsy> <dsz>` / `--downsample` | 3 floats | 1 1 1 | Downsample by factor in each dimension (header-aware). Mutually exclusive with `--downsampleold`. |
-| `-dsold <dsx> <dsy> <dsz>` / `--downsampleold` | 3 floats | 1 1 1 | Legacy downsampler that does not preserve the RAS centre. Mutually exclusive with `--downsample`. |
+| `-vs <sx> <sy> <sz>` / `--voxsize` / `-voxsize` | floats | input sizes | Upsample/downsample to the specified output voxel size. |
+| `-ds <dsx> <dsy> <dsz>` / `--downsample` / `-downsample` | 3 floats | 1 1 1 | Downsample by factor in each dimension (header-aware). Mutually exclusive with `--downsampleold`. |
+| `-dsold <dsx> <dsy> <dsz>` / `--downsampleold` / `-downsampleold` | 3 floats | 1 1 1 | Legacy downsampler that does not preserve the RAS centre. Mutually exclusive with `--downsample`. |
 | `-ds2` / `--downsample2` | bool | false | Downsample by exactly factor 2 (averages 2x2x2 blocks). |
 | `--upsample <N>` | int | — | Reduce voxel size by integer factor `N` in all three dimensions (`MRIupsampleN`). |
 | `--reduce <n>` | int | 0 | Apply `MRIreduce` `n` times — successive 2:1 downsampling with a low-pass prefilter. |
@@ -356,8 +357,11 @@ row and left to the help text for details.
 | `-io <ostr>` / `--in_orientation` | 3-letter ostring | input header | Override the input orientation. **Only if the input header is wrong.** |
 | `-oo <ostr>` / `--out_orientation` | 3-letter ostring | same as input | Force the output orientation. |
 | `-iid <R A S>` / `--in_i_direction` | 3 floats | — | Override input i-axis direction cosine. |
-| `-ijd`, `-ikd` | 3 floats | — | Override input j/k direction cosines. |
-| `-oid`, `-ojd`, `-okd` | 3 floats | — | Override output direction cosines. |
+| `-ijd` / `--in_j_direction` | 3 floats | — | Override input j-axis direction cosine. |
+| `-ikd` / `--in_k_direction` | 3 floats | — | Override input k-axis direction cosine. |
+| `-oid` / `--out_i_direction` | 3 floats | — | Override output i-axis direction cosine. |
+| `-ojd` / `--out_j_direction` | 3 floats | — | Override output j-axis direction cosine. |
+| `-okd` / `--out_k_direction` | 3 floats | — | Override output k-axis direction cosine. |
 | `--sphinx` | bool | false | Re-orient for sphinx (HFS → sphinx) position; common for monkey scans. |
 | `-r`/`--reorder <d1> <d2> <d3>` | ints | — | Reorder axes (e.g. `2 1 3` swaps rows and cols). |
 | `-r4` / `--reorder4 <d1> <d2> <d3> <d4>` | ints | — | As above but also permutes the frame dimension (header will likely be wrong; see the help note). |
@@ -378,9 +382,18 @@ row and left to the help text for details.
 | `-ic <R A S>` / `--in_center` | 3 floats | — | Override input RAS centre. |
 | `-dic <dR dA dS>` / `--delta_in_center` | 3 floats | 0 | Add to input centre. |
 | `-oc <R A S>` / `--out_center` | 3 floats | same as input | Override output RAS centre. |
-| `-iis`, `-ijs`, `-iks` | floats | input sizes | Override input voxel sizes (`_i`/`_j`/`_k`). |
-| `-ois`, `-ojs`, `-oks` | floats | same as input | Override output voxel sizes. |
-| `-oni`/`-oic`, `-onj`/`-ojc`, `-onk`/`-okc` | ints | input sizes | Override output grid counts. |
+| `-iis` / `--in_i_size` | float | input size | Override input i-axis voxel size (mm). |
+| `-ijs` / `--in_j_size` | float | input size | Override input j-axis voxel size (mm). |
+| `-iks` / `--in_k_size` | float | input size | Override input k-axis voxel size (mm). |
+| `-ois` / `--out_i_size` | float | input size | Override output i-axis voxel size (mm). |
+| `-ojs` / `--out_j_size` | float | input size | Override output j-axis voxel size (mm). |
+| `-oks` / `--out_k_size` | float | input size | Override output k-axis voxel size (mm). |
+| `-ini` / `-iic` / `--in_i_count` | int | input count | Override input matrix dimension along i-axis. |
+| `-inj` / `-ijc` / `--in_j_count` | int | input count | Override input matrix dimension along j-axis. |
+| `-ink` / `-ikc` / `--in_k_count` | int | input count | Override input matrix dimension along k-axis (used with `--roi` / OTL reads). |
+| `-oni` / `-oic` / `--out_i_count` | int | input count | Override output matrix dimension along i-axis. |
+| `-onj` / `-ojc` / `--out_j_count` | int | input count | Override output matrix dimension along j-axis. |
+| `-onk` / `-okc` / `--out_k_count` | int | input count | Override output matrix dimension along k-axis. |
 | `-zgez` / `--zero_ge_z_offset` | bool | false (auto for GE) | Set `c_s = 0`, appropriate for GE isocenter scans. |
 | `-nozgez` / `--no_zero_ge_z_offset` | bool | false | Disable the above. |
 
@@ -389,7 +402,7 @@ row and left to the help text for details.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `-f <n>` / `--frame <n> [...]` | ints | all frames | Keep only listed (0-based) frame numbers. |
-| `-nth <n>` | int | 0 | Use only frame `n`. |
+| `-nth <n>` / `--nth_frame <n>` | int | -1 (all frames) | Use only frame `n` (0-based). Equivalent to `--frame n` for a single frame. |
 | `--mid-frame` | bool | false | Keep only the middle frame. |
 | `--nskip <n>` | int | 0 | Skip the first `n` frames. |
 | `--ndrop <n>` | int | 0 | Drop the last `n` frames. |
@@ -412,7 +425,7 @@ row and left to the help text for details.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--no-rescale-dicom` | bool | false | Do not apply DICOM rescale intercept/slope (`0028,1052`/`0028,1053`). Sets `FS_RESCALE_DICOM=0` in the environment. |
+| `--no-rescale-dicom` | bool | false | Do not apply DICOM rescale intercept/slope (`0028,1052`/`0028,1053`). Sets `FS_RESCALE_DICOM=0` in the environment. (Note: the complementary `--rescale-dicom` option is **commented out** in the source at `mri_convert.cpp:520–527` and does nothing; rescaling is applied by default automatically.) |
 | `--no-analyze-rescale` | bool | false | Disable rescaling of ANALYZE files. Sets `FS_ANALYZE_NO_RESCALE=1`. |
 | `--bvec-scanner` | bool | false | Force loaded DWI bvecs into scanner space (`FS_DESIRED_BVEC_SPACE=1`). |
 | `--bvec-voxel` | bool | false | Force loaded DWI bvecs into voxel space (`FS_DESIRED_BVEC_SPACE=2`). |
@@ -428,15 +441,15 @@ row and left to the help text for details.
 | `-dicomread2` / `-dicomread0` | bool | — | Select between two C DICOM reader implementations (`UseDICOMRead2`). |
 | `-siemensBVecsCross` / `-no-siemensBVecsCross` | bool | — | Toggle the Siemens DICOM bvec voxel-space code path (`FS_dcmGetDWIParamsSiemens_VoxelSpace`). |
 | `-siemens-ascii-dump` / `-siemens-ascii-alt-dump` | bool | false | Dump Siemens CSA ASCII header to stdout (debug). |
-| `--dcm2niix` / `-dicomread3` | bool | false | Read DICOM via the internal `dcm2niix` code path. |
-| `--no-dcm2niix` | bool | true | Disable the dcm2niix code path (default). |
-| `--dcm2niix-createBIDS` / `--createBIDS` | bool | false | Emit BIDS JSON sidecars (requires `--dcm2niix` and `--dcm2niix-outdir`). |
-| `--dcm2niix-outdir <dir>` | path | — | BIDS sidecar output directory (requires `--dcm2niix`). |
-| `--dcm2niix-no-ForceStackSameSeries` | bool | false | Disable forced stacking of slices from the same series (requires `--dcm2niix`). |
-| `--dcm2niix-info-dump <file>` | path | — | Dump raw DICOM info used by dcm2niix (requires `--dcm2niix`). |
-| `--dcm2niix-dicom-flist <file>` | path | — | Provide a pre-built DICOM file list to dcm2niix. |
-| `--dcm2niix-singlefile` | bool | false | Tell dcm2niix to read only the single file passed as input. |
-| `--dcm2niix-opts <str>` | string | — | Extra raw option string forwarded to dcm2niix. |
+| `--dcm2niix` / `-dcm2niix` / `-dicomread3` | bool | false | Read DICOM via the internal `dcm2niix` code path. |
+| `--no-dcm2niix` / `-no-dcm2niix` | bool | true | Disable the dcm2niix code path (default). |
+| `--dcm2niix-createBIDS` / `-dcm2niix-createBIDS` / `--createBIDS` / `-createBIDS` | bool | false | Emit BIDS JSON sidecars (requires `--dcm2niix` and `--dcm2niix-outdir`). |
+| `--dcm2niix-outdir <dir>` / `-dcm2niix-outdir <dir>` | path | — | BIDS sidecar output directory (requires `--dcm2niix`). |
+| `--dcm2niix-no-ForceStackSameSeries` / `-dcm2niix-no-ForceStackSameSeries` | bool | false | Disable forced stacking of slices from the same series (requires `--dcm2niix`). |
+| `--dcm2niix-info-dump <file>` / `-dcm2niix-info-dump <file>` | path | — | Dump raw DICOM info used by dcm2niix (requires `--dcm2niix`). |
+| `--dcm2niix-dicom-flist <file>` / `-dcm2niix-dicom-flist <file>` | path | — | Provide a pre-built DICOM file list to dcm2niix. |
+| `--dcm2niix-singlefile` / `-dcm2niix-singlefile` | bool | false | Tell dcm2niix to read only the single file passed as input. |
+| `--dcm2niix-opts <str>` / `-dcm2niix-opts <str>` | string | — | Extra raw option string forwarded to dcm2niix. |
 
 ### Segmentation-specific
 
@@ -451,7 +464,7 @@ row and left to the help text for details.
 | `--erode-seg N` | int | — | Erode segmentation by `N` 6-connected iterations. |
 | `--dil-seg N` | int | — | Dilate segmentation by `N` iterations. |
 | `--dil-seg-mask <file>` | path | — | Dilate segmentation into the specified mask. |
-| `-roi` | bool | false | Read/write FreeSurfer ROI format. |
+| `-roi` / `--roi` | bool | false | Read a GE ROI file (`MRIreadGeRoi`). Input must be in GE format; `--in_k_count` or `--in_like` is required to supply the slice depth. |
 
 ### Smoothing and cropping
 
@@ -500,6 +513,15 @@ row and left to the help text for details.
 | `-version2` | bool | — | Print "version 2" exit code (97); used by build scripts. |
 | `-u` / `-h` / `--help` / `--usage` | bool | — | Print help text and exit. |
 
+### `mri_make_uchar` flags
+
+These flags belong to the `mri_make_uchar` helper binary (built from the same source directory). They are not valid for the `mri_convert` binary itself.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-n` | flag | — | No-op placeholder (case `'N'` in `get_option()`; does nothing). |
+| `-w <pct>` | float | 0.90 | WM percentile for intensity centring (sets `WM_PERCENTILE`). |
+
 ## Configuration Interactions
 
 `mri_convert` has enough flags that a few combinations are worth
@@ -546,15 +568,15 @@ spelling out explicitly.
 > ratios, or `--fwhm <mm>` to set it explicitly.
 
 > [!gotcha] `--downsample` and `--downsampleold` are mutually exclusive
-> Enforced at `mri_convert.cpp:1672`. `--downsampleold` does not
+> Enforced at `mri_convert.cpp:1672`. --downsampleold does not
 > update the RAS centre and is only kept for backward compatibility.
 
-> [!gotcha] `--force_ras_good` cannot be combined with direction overrides
+> [!gotcha] --force_ras_good cannot be combined with direction overrides
 > Enforced at `mri_convert.cpp:1658`: if any of `-iid`/`-ijd`/`-ikd`
 > is set, `--force_ras_good` is rejected.
 
 > [!gotcha] `--out_stats_table` requires `--like`
-> Enforced at `mri_convert.cpp:1741`: passing `--out_stats_table`
+> Enforced at `mri_convert.cpp:1741`: passing --out_stats_table
 > without `--like <template>` is a fatal error, because the column
 > and row headers must come from the template stats table.
 

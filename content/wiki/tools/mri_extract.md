@@ -66,32 +66,31 @@ mri_extract -like <template_vol> <src_volume> <dst_volume>
 
 The template's corner voxels $(0,0,0)$ and $(W-1, H-1, D-1)$ are mapped to source voxel coordinates using `MRIvoxelToVoxel()`, which applies the composition of the template-to-RAS and RAS-to-source affines:
 
-$$v_{\text{src}} = A_{\text{src}}^{-1} \cdot A_{\text{tmpl}} \cdot v_{\text{tmpl}}$$
+$$
+v_{\text{src}} = A_{\text{src}}^{-1} \cdot A_{\text{tmpl}} \cdot v_{\text{tmpl}}
+$$
 
 The extracted region is the bounding box of these two mapped corners.
 
 **Bounding-box mode (negative origin/size):**
 
-When `x0`, `y0`, `z0` are negative, they are replaced by the bounding box of non-zero (above threshold) voxels: `MRIboundingBox(mri_src, thresh, &box)`. The padding value `-pad` can expand the bounding box.
+When `x0`, `y0`, `z0` are negative, they are replaced by the bounding box of non-zero (above threshold) voxels: `MRIboundingBox(mri_src, thresh, &box)`. The padding value `-p` can expand the bounding box.
 
 ## Configuration Options
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `-like <vol>` | path | none | Extract region matching the geometry of template volume |
-| `-R <n>` | int | `1` | Number of reductions (downsampling factor) before extraction |
-| `-v` / `-verbose` | flag | off | Verbose output |
-| `-pad <n>` | int | `0` | Padding voxels added to bounding box |
-| `-thresh <value>` | float | `0.0` | Threshold for bounding-box computation |
-
-> [!gap] Full flag list
-> The above is inferred from global variables. The `get_option()` function body was not fully read.
+| `-n <n>` | int | `1` | Number of reductions (downsampling factor) before extraction (`case 'N':`) |
+| `-v` | flag | off | Verbose output (`case 'V':`) |
+| `-p <n>` | int | `0` | Padding voxels added to bounding box (`case 'P':`) |
+| `-t <value>` | float | `0.0` | Threshold for bounding-box computation (`case 'T':`) |
 
 ## Configuration Interactions
 
 - In `-like` mode, the `x0 y0 z0 dx dy dz` arguments must not be provided; only the source and destination paths follow `-like <template>`.
 - Negative `x0` (or `y0`/`z0`) combined with `-pad` expands the auto-detected bounding box by `pad` voxels on each side.
-- `-R <n>` reduces the input by factor $n$ before extraction.
+- `-n <n>` reduces the input by factor $n$ before extraction.
 
 ## Typical Use Cases
 
@@ -100,7 +99,7 @@ When `x0`, `y0`, `z0` are negative, they are replaced by the bounding box of non
 mri_extract brain.mgz 100 80 90 64 64 64 roi.mgz
 
 # Auto-crop to bounding box of non-zero voxels, with 5-voxel padding
-mri_extract brain.mgz -1 -1 -1 -1 -1 -1 cropped.mgz -pad 5
+mri_extract brain.mgz -1 -1 -1 -1 -1 -1 cropped.mgz -p 5
 
 # Extract region matching a template volume
 mri_extract -like template.mgz brain.mgz extracted.mgz

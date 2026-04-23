@@ -59,11 +59,15 @@ The tool operates in two modes:
 
 The bias field $B(\mathbf{x})$ is estimated as:
 
-$$B(\mathbf{x}) = \frac{I_\text{observed}(\mathbf{x})}{I_\text{expected}}$$
+$$
+B(\mathbf{x}) = \frac{I_\text{observed}(\mathbf{x})}{I_\text{expected}}
+$$
 
 at white matter control points, where $I_\text{expected}$ is the mean white matter intensity in the label. This ratio is then Gaussian-smoothed (kernel sigma `sigma`, default 4.0 mm) to produce a smooth bias estimate across the entire volume:
 
-$$\hat{B}(\mathbf{x}) = G_\sigma * B(\mathbf{x})$$
+$$
+\hat{B}(\mathbf{x}) = G_\sigma * B(\mathbf{x})
+$$
 
 The corrected image is obtained by dividing the original by $\hat{B}(\mathbf{x})$.
 

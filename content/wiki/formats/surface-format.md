@@ -118,7 +118,9 @@ tag explicitly encodes the coordinate convention:
 | 1 | **Scanner RAS** |
 
 Surface RAS is defined relative to the volume centre:
-$$P_0 = -\tfrac{1}{2}(N_c d_x, N_r d_y, N_s d_z)$$
+$$
+P_0 = -\tfrac{1}{2}(N_c d_x, N_r d_y, N_s d_z)
+$$
 so the origin falls at the geometric centre of the bounding box. See
 [[coordinate-systems]] for the full derivation and the relationship to Scanner RAS.
 

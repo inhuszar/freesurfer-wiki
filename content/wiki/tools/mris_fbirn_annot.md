@@ -12,7 +12,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "FBIRN ROI definition not documented here; external FBIRN documentation required."
   - "Full flag list and exact output format not available."
@@ -62,8 +62,12 @@ The FBIRN consortium developed a set of standardised brain ROIs for multi-site f
 
 ## Configuration Options
 
-> [!gap] No flags documented
-> The BEGINHELP section is empty. No flags are documented. A complete source read is required.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--temp-vol` | `volfile` | — | Template volume file. Stored in `TempVolFile` but not used further in the current source (tool body is a stub). |
+
+> [!gap] Tool is a stub
+> The `mris_fbirn_annot` source body is an empty template derived from `dummy.c`. The `--temp-vol` flag is parsed and stored but no processing is performed. The `check_options()` function does nothing. This tool is not functional in its current state.
 
 ## Configuration Interactions
 

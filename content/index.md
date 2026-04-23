@@ -49,6 +49,7 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[gca-format]] | Gaussian Classifier Atlas (.gca): GCA volumetric atlas binary format; node/prior grid, big-endian layout, version 5.0 | 🔎 review |
 | [[stats-format]] | FreeSurfer statistics file (.stats): aseg.stats/aparc.stats text format, header measures, column definitions | 🔎 review |
 | [[m3z-format]] | GCA Morph warp field (.m3z): gzip-compressed node array (36 B/node), tagged sections, coordinate conventions | 🔎 review |
+| [[fsgd-format]] | FreeSurfer Group Descriptor (FSGD): plain-text GLM design file; class/variable/input keywords, DOSS/DODS matrix methods, contrast specification | 📝 draft |
 
 ## Volumetric Tools (`mri_*`)
 

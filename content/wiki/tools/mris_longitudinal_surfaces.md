@@ -76,7 +76,9 @@ This functionality may have since been integrated into `mris_make_surfaces` via 
 
 Identical to [[mris_make_surfaces]] — places surfaces by minimizing a deformable model energy functional:
 
-$$E = \lambda_I E_{\text{intensity}} + \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{curv}} E_{\text{curvature}}$$
+$$
+E = \lambda_I E_{\text{intensity}} + \lambda_{\text{spring}} E_{\text{spring}} + \lambda_{\text{curv}} E_{\text{curvature}}
+$$
 
 where the intensity term drives the surface toward MRI-derived tissue boundaries and the regularization terms maintain smoothness.
 
@@ -86,16 +88,125 @@ The longitudinal aspect is the initialization: starting from a pre-placed surfac
 
 The configuration options are a subset of [[mris_make_surfaces]]:
 
-| Flag | Description |
-|------|-------------|
-| `-white_only` | Place only white surface, skip pial |
-| `-orig_white name` | Use this as initial position for white surface |
-| `-orig_pial name` | Use this as initial position for pial surface |
-| `-nowhite` | Skip white surface placement (pial only) |
-| `-auto_detect_stats` | Automatically detect tissue intensity statistics |
-| `-graymid` | Create graymid (mid-cortical) surface |
-| `-white_only` | Only place white surface |
-| `-smoothwm` | Smooth the white matter surface |
+### Surface Selection
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-whiteonly` | — | — | Place only white surface, skip pial placement |
+| `-nowhite` | — | — | Skip white surface placement; read previously computed white surface instead |
+| `-graymid` | — | — | Generate graymid (mid-cortical, layer IV approximation) surface |
+
+### Longitudinal Initialization
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-orig_white name` | — | — | Use named surface as initial white surface position (key longitudinal feature) |
+| `-orig_pial name` | — | — | Use named surface as initial pial surface position |
+| `-long` | — | — | Enable longitudinal scheme: blends final white and orig pial for pial initialization |
+
+### Input Volumes
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-T1 vol` | — | `brain` | T1 volume name (default: `brain`) |
+| `-gvol vol` | — | — | Alias for `-T1`; specify T1/gray matter volume |
+| `-wvol vol` | — | — | Separate volume for white matter deformation |
+| `-mgz` | — | — | Assume MGZ format for input volumes |
+
+### Subjects Directory
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-SDIR dir` | — | — | Override `SUBJECTS_DIR` environment variable |
+
+### Intensity Statistics
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-noauto` | — | — | Disable auto-detection of tissue intensity border ranges (auto-detection is on by default) |
+| `-mode 0\|1` | — | 1=enabled | Use class modes instead of means for intensity statistics (default: 1=enabled) |
+| `-scale_std f` | — | — | Scale estimated WM and GM standard deviations by factor `f` |
+| `-max_border_white f` | — | — | Override maximum border white intensity |
+| `-min_border_white f` | — | — | Override minimum border white intensity |
+| `-min_gray_at_white_border f` | — | — | Override minimum gray intensity at white border |
+| `-max_gray f` | — | — | Override maximum gray intensity |
+| `-max_gray_at_csf_border f` | — | — | Override maximum gray intensity at CSF border |
+| `-min_gray_at_csf_border f` | — | — | Override minimum gray intensity at CSF border |
+| `-min_csf f` | — | — | Override minimum CSF intensity |
+| `-max_csf f` | — | — | Override maximum CSF intensity |
+
+### Surface Deformation Parameters
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-dt f` | — | 0.5 | Integration time step (default: 0.5) |
+| `-spring f` | — | — | Spring term weight (`l_spring`) |
+| `-tspring f` | — | — | Tangential spring term weight (`l_tspring`; default: 1.0) |
+| `-nspring f` | — | — | Normal spring term weight (`l_nspring`; default: 0.5) |
+| `-curv f` | — | — | Curvature term weight (`l_curv`; default: 1.0) |
+| `-intensity f` | — | — | Intensity term weight (`l_intensity`; default: 0.2) |
+| `-grad f` | — | — | Gradient term weight (`l_grad`) |
+| `-tsmooth f` | — | — | Tangential smoothing term weight (`l_tsmooth`) |
+| `-lm` | — | momentum | Use line minimization integration (default: momentum) |
+| `-M f` | — | — | Momentum value for integration |
+| `-R f` | — | — | Surface repulsion term weight (`l_surf_repulse`) |
+| `-B f` | — | — | Base time step scale factor |
+
+### Averaging and Smoothing
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-smooth n` | — | — | Average vertex positions for `n` iterations before deformation |
+| `-smoothwm n` | — | — | Average white matter surface for `n` iterations after placement |
+| `-vavgs n` | — | 5 | Average target intensity values for `n` iterations (default: 5) |
+| `-wa max [min]` | — | — | Max (and optionally min) white surface averages |
+| `-pa max [min]` | — | — | Max (and optionally min) pial surface averages |
+| `-wsigma f` | — | 2.0 | Gaussian smoothing sigma for white matter deformation (default: 2.0) |
+| `-psigma f` | — | 2.0 | Gaussian smoothing sigma for pial deformation (default: 2.0) |
+| `-nbrs n` | — | 2 | Vertex neighborhood size (default: 2) |
+| `-nbhd_size n` | — | 20 | Neighborhood size for cortical thickness calculation (default: 20) |
+
+### Iteration Counts
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-nwhite n` | — | 25 | Number of white surface positioning iterations (default: 25) |
+| `-ngray n` | — | 30 | Number of pial surface positioning iterations (default: 30) |
+| `-N n` | — | — | Override total number of deformation iterations |
+
+### Surface Naming
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-white name` | — | `white` | White matter surface name (default: `white`) |
+| `-pial name` | — | `pial` | Pial surface name (default: `pial`) |
+| `-output suffix` | — | — | Append suffix to output surface filenames |
+| `-name name` | — | — | Base name for output files |
+| `-S suffix` | — | — | Append suffix to all output names |
+| `-O name` | — | — | Read original vertex positions from named surface |
+
+### Other Options
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-add` | — | — | Add vertices to tessellation during deformation |
+| `-inoutin` | — | — | Apply final white deformation pass after pial placement |
+| `-max f` | — | 5.0 mm | Maximum cortical thickness (default: 5.0 mm) |
+| `-median` | — | — | Apply 3×3×3 median filter to T1 volume before processing |
+| `-overlay` | — | — | Overlay WM editing marks into T1 volume |
+| `-write_vals` | — | — | Write gray/white target intensity values to `.w` files |
+| `-hires label` | — | — | Load highres label; rip (exclude) all other vertices |
+| `-highres label` | — | — | Alias for `-hires` |
+| `-lval n` | — | — | Fill value used to identify left hemisphere in filled volume |
+| `-rval n` | — | — | Fill value used to identify right hemisphere in filled volume |
+| `-T xform` | — | — | Apply ventricular transform from file `xform` |
+| `-Q` | — | — | Quick mode: skip self-intersection test |
+| `-C` | — | — | Toggle creation of curvature and area files for white surface |
+| `-W n` | — | — | Write surface every `n` iterations (enables DIAG_WRITE) |
+| `-a n` | — | 10 | Average curvature values `n` times (default: 10) |
+| `-V n` | — | — | Set diagnostic vertex index |
+
+> [!gap] Flags `-nopial` and `-pd` appear in the audit source list but are not found in the `get_option` parser of the attic source file. They may derive from a different code path or a mris_make_surfaces variant.
 
 See [[mris_make_surfaces]] for the full set of options shared between the two tools.
 

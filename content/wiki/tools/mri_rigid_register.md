@@ -60,7 +60,9 @@ The algorithm optimizes a cost function over rigid transform parameters, startin
 
 The rigid registration estimates a transform:
 
-$$T = \begin{pmatrix} R & \mathbf{t} \\ \mathbf{0} & 1 \end{pmatrix}$$
+$$
+T = \begin{pmatrix} R & \mathbf{t} \\ \mathbf{0} & 1 \end{pmatrix}
+$$
 
 where $R \in SO(3)$ is a rotation matrix (3 DOF) and $\mathbf{t} \in \mathbb{R}^3$ is a translation (3 DOF).
 

@@ -64,11 +64,15 @@ An optional `analyse.dat` file encodes in-plane resolution, slice thickness, and
 
 The registration matrix $M$ maps functional voxel coordinates to structural scanner RAS coordinates:
 
-$$\mathbf{x}_{RAS} = M \cdot \mathbf{x}_{vox}$$
+$$
+\mathbf{x}_{RAS} = M \cdot \mathbf{x}_{vox}
+$$
 
 The matrix is constructed from the vox2ras matrices of both the functional and structural volumes:
 
-$$M = M_{struct}^{RAS \leftarrow vox} \cdot (M_{func}^{RAS \leftarrow vox})^{-1}$$
+$$
+M = M_{struct}^{RAS \leftarrow vox} \cdot (M_{func}^{RAS \leftarrow vox})^{-1}
+$$
 
 where each volume's vox2ras is derived from its header geometry (in-plane resolution, slice thickness, FOV centre, and direction cosines).
 

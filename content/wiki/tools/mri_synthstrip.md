@@ -21,7 +21,7 @@ related:
   - "[[mri_convert]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-21
 gaps:
   - "The training data composition and number of training subjects are documented in the Hoopes 2022 paper but not reproduced here"
   - "Exact architecture constants (nb_features=16, nb_levels=7, feat_mult=2, max_features=64, max_pool=2) come from the SynthStrip class constructor; their training-time rationale is not derived"
@@ -556,6 +556,17 @@ in Stage 5.
   delta between the default and `--no-csf` models, and the
   behaviour on paediatric or non-human data. These are not
   documented in the source.
+
+> [!note] Docker/pip flags are not mri_synthstrip CLI flags
+> The flags `--chmod`, `--from`, `--index-url`, `--mount`,
+> `--no-install-recommends`, `--output`, `--target`, and
+> `--user` are Docker build syntax (`RUN --mount=...`,
+> `COPY --chmod=...`, `FROM ... AS ...`) and pip/apt-get
+> options from `mri_synthstrip/Dockerfile.cpu` and
+> `Dockerfile.gpu`. They are **not** flags accepted by the
+> `mri_synthstrip` Python script. The complete and authoritative
+> CLI is defined by the `argparse` block at lines 19–30 of
+> `mri_synthstrip/mri_synthstrip`.
 
 > [!gap] `--no-csf` benchmark
 > The `synthstrip.nocsf.1.pt` model was trained with a

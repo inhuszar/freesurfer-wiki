@@ -65,7 +65,9 @@ This is a specialised research tool for mapping myeloarchitectonic or cytoarchit
 
 For each candidate region (defined by a centre vertex $v_0$ and radius $r$), the log-likelihood of the observed intensity profiles given a MT-like cytoarchitectonic model is computed:
 
-$$\mathcal{L}(v_0, r) = \sum_{v \in \mathcal{N}(v_0, r)} \log p(\text{profile}(v) \mid \text{MT model})$$
+$$
+\mathcal{L}(v_0, r) = \sum_{v \in \mathcal{N}(v_0, r)} \log p(\text{profile}(v) \mid \text{MT model})
+$$
 
 The MT log-likelihood function `compute_MT_log_likelihood()` is parameterised by the mean radius $\bar{r} = 7.79$ mm and standard deviation $\sigma_r = 1.13$ mm (from Zilles dataset), combined with within-region profile statistics.
 
@@ -73,11 +75,10 @@ The tool scales the brain by $\sqrt{A_{\text{orig}} / A_{\text{total}}}$ to norm
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-n <nbhd_size>` | Neighbourhood size | 2 |
-| `-a <navgs>` | Number of smoothing averages | 0 |
-| `-w <white_name>` | White surface name | `white` |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-n <nbhd_size>` | int | 2 | Neighbourhood size |
+| `-a <navgs>` | int | 0 | Number of smoothing averages |
 
 > [!gap] Flag set incomplete
 > Additional flags may exist; `get_option()` was not fully read.

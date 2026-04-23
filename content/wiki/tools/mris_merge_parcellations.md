@@ -93,7 +93,7 @@ The hemisphere (LH vs. RH) determines which label names are looked up (e.g., `ct
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--fsdir <dir>` | string | `$FREESURFER_HOME` | Override the FreeSurfer home directory (used to locate `FreeSurferColorLUT.txt`). |
+| `-fsdir <dir>` | string | `$FREESURFER_HOME` | Override the FreeSurfer home directory (used to locate `FreeSurferColorLUT.txt`). |
 | `-v <diagno>` | integer | 0 | Set global diagnostic verbosity level (`Gdiag_no`). |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` / `--help` | boolean | — | Print usage and exit. |
@@ -103,7 +103,7 @@ The hemisphere (LH vs. RH) determines which label names are looked up (e.g., `ct
 The tool has minimal configuration options. The key implicit interaction is:
 
 - The output annotation inherits the vertex positions from `parc2` (modified in-place internally), so `parc1` and `parc2` must correspond to the same surface mesh.
-- The LUT path depends on `--fsdir` or `$FREESURFER_HOME`; if neither is set, the tool exits with a fatal error.
+- The LUT path depends on `-fsdir` or `$FREESURFER_HOME`; if neither is set, the tool exits with a fatal error.
 
 > [!gotcha] Hard-coded merge logic for cingulate
 > The `merge_annotations()` function contains hard-coded logic specific to merging cingulate subdivisions. It is not a general-purpose annotation merge tool; the labels to be transferred are fixed in the source code. Using this tool for arbitrary label merging is not supported without modifying the source.

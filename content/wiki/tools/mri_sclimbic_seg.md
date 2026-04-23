@@ -14,7 +14,7 @@ related:
   - "[[mri_binarize]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact label set (which limbic structures) not enumerated here — check the model's colour table."
   - "Model architecture details not documented (TensorFlow/Keras model)."
@@ -48,26 +48,26 @@ Two modes are supported:
 
 **Image mode:**
 
-| Flag | Description |
-|------|-------------|
-| `--i <file/dir>` | Input T1-w image or directory of images |
-| `--o <file/dir>` | Output segmentation file or directory |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` / `-i` | `file/dir` | — (required) | Input T1-w image or directory of images |
+| `--o` / `-o` | `file/dir` | — (required) | Output segmentation file or directory |
 
 **Subject mode:**
 
-| Flag | Description |
-|------|-------------|
-| `--s [<subj1> <subj2> ...]` | FreeSurfer subjects (uses SUBJECTS_DIR); no args = process all |
-| `--sd <dir>` | Override SUBJECTS_DIR |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--s` / `-s` | `[subj1 subj2 ...]` | — (required) | FreeSurfer subjects (uses SUBJECTS_DIR); no args = process all |
+| `--sd` | `dir` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
 
 ## Outputs
 
-| Output | Description |
-|--------|-------------|
-| Segmentation file | Volumetric label image with limbic structure indices |
-| `--write_posteriors` | Per-label posterior probability maps |
-| `--write_volumes` | Comma-separated volume statistics file |
-| `--write_qa_stats` | QA statistics (z-scores and confidence values) |
+| Output | Default path | Description |
+|--------|-------------|-------------|
+| Segmentation file | `<output-base>.mgz` (image mode) / `mri/<output-base>.mgz` (subject mode) | Volumetric label image with limbic structure indices |
+| `--write_posteriors` | `<output-base>.posteriors.mgz` | Per-label posterior probability maps |
+| `--write_volumes` | `<output-base>.stats` (image mode) / `stats/<output-base>.stats` (subject mode) | Comma-separated volume statistics file |
+| `--write_qa_stats` | `<output-base>.qa.stats` | QA statistics (z-scores and confidence values) |
 
 In subject mode, outputs are written to `$SUBJECTS_DIR/<subject>/mri/` and `$SUBJECTS_DIR/<subject>/stats/`.
 
@@ -75,46 +75,62 @@ In subject mode, outputs are written to `$SUBJECTS_DIR/<subject>/mri/` and `$SUB
 
 The segmentation is performed by a convolutional neural network trained on manually labelled T1 images. The network outputs a per-voxel probability distribution over $K$ label classes:
 
-$$p(y_v = k \mid \mathbf{I}) \quad k \in \{0, 1, \ldots, K-1\}$$
+$$
+p(y_v = k \mid \mathbf{I}) \quad k \in \{0, 1, \ldots, K-1\}
+$$
 
 The final segmentation assigns:
 
-$$\hat{y}_v = \arg\max_k \; p(y_v = k \mid \mathbf{I})$$
+$$
+\hat{y}_v = \arg\max_k \; p(y_v = k \mid \mathbf{I})
+$$
 
 Input intensities are normalised using percentile-based scaling (default percentile, or `--percentile` for custom).
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--i <file/dir>` | Input image(s) | required (image mode) |
-| `--o <file/dir>` | Output file/dir | required (image mode) |
-| `--s [subjects...]` | Subject list | required (subject mode) |
-| `--sd <dir>` | SUBJECTS_DIR override | env var |
-| `--conform` | Resample to 1mm isotropic before inference | off |
-| `--etiv` | Include eTIV in stats | off (on in subject mode) |
-| `--tal <file/suffix>` | Talairach XFM for eTIV estimation | — |
-| `--write_posteriors` | Save posterior probability maps | off |
-| `--write_volumes` | Save volumetric stats | off (on in subject mode) |
-| `--write_qa_stats` | Save QA stats | off |
-| `--exclude <id...>` | Exclude label IDs from stats | [853] (AntCom) |
-| `--keep_ac` | Keep anterior commissure in stats | off |
-| `--vox-count-volumes` | Use discrete voxel count for volumes | off |
-| `--model <file>` | Alternative model weights | default model |
-| `--ctab <file>` | Alternative colour table | default ctab |
-| `--population-stats <file>` | Alternative population volume stats | default |
-| `--threads <n>` | Number of CPU threads | 1 |
-| `--features <n>` | Number of model features | 24 |
-| `--7T` | Preprocess for 7T (sets percentile=99.9) | off |
-| `--percentile <val>` | Intensity normalisation percentile | default |
-| `--cuda-device <id>` | GPU device for inference | CPU |
-| `--output-base <str>` | Output filename base string | `sclimbic` |
-| `--fov <n>` | Field of view (voxels) | 160 |
-| `--nchannels <n>` | Input channels | 1 |
-| `--logfile <file>` | Log file path | `mri_sclimbic.log` |
-| `--no-cite-sclimbic` | Suppress citation printout at the end | off (citation printed by default) |
-| `--debug` | Debug logging | off |
-| `--vmp` | Print vmpeak at end | off |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` / `-i` | `file/dir` | — | Input T1-w image(s); required in image mode |
+| `--o` / `-o` | `file/dir` | — | Output segmentation file or directory; required in image mode |
+| `--s` / `-s` | `[subj ...]` | — | Subject list; required in subject mode (no args = all subjects in SUBJECTS_DIR) |
+| `--sd` | `dir` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `--conform` | — | `off` | Resample input to 1mm isotropic before inference; results are put back in native resolution |
+| `--etiv` | — | `off` | Include eTIV in volume stats (enabled automatically in subject mode and when `--tal` is given) |
+| `--tal` | `file/suffix` | — | Talairach XFM transform for eTIV estimation; can be a file path or a filename suffix |
+| `--write_posteriors` | — | `off` | Save per-label posterior probability maps |
+| `--write_volumes` | — | `off` | Save label volume stats (enabled automatically in subject mode) |
+| `--write_qa_stats` | — | `off` | Save QA stats (z-scores and confidence values) |
+| `--exclude` | `id [id ...]` | `[]` | Label IDs to exclude from stats; note: label 853 (anterior commissure) is appended automatically unless `--keep_ac` is set |
+| `--keep_ac` | — | `off` | Retain anterior commissure (label 853) in volume/QA stats |
+| `--vox-count-volumes` | — | `off` | Use discrete voxel count for label volumes instead of summed posterior probabilities |
+| `--model` | `file` | — | Alternative model weights file (default: `$FREESURFER_HOME/models/sclimbic.fsm+ad.t1.nstd00-50.nstd32-50.h5`) |
+| `--ctab` | `file` | — | Alternative colour lookup table (default: `$FREESURFER_HOME/models/sclimbic.ctab`) |
+| `--population-stats` | `file` | — | Alternative population volume stats file for QA output (default: `$FREESURFER_HOME/models/sclimbic.volstats.csv`) |
+| `--threads` | `n` | `1` | Number of CPU threads for TensorFlow |
+| `--features` | `n` | `24` | Number of model features |
+| `--7t` | — | `off` | Preprocess 7T images (sets `--percentile 99.9`) |
+| `--percentile` | `val` | — | Intensity normalisation percentile threshold; if unset, uses max intensity |
+| `--cuda-device` | `id` | — | CUDA device ID for GPU inference; `-1` or unset forces CPU |
+| `--output-base` | `str` | `sclimbic` | Output filename base string (used to construct output filenames) |
+| `--fov` | `n` | `160` | Field of view in voxels for model input shape |
+| `--nchannels` | `n` | `1` | Number of input image channels |
+| `--logfile` | `file` | — | Log file path (default: `mri_sclimbic.log` in the output directory) |
+| `--no-cite-sclimbic` | — | `off` | Suppress citation printout; citation is printed by default |
+| `--debug` | — | `off` | Enable debug logging |
+| `--vmp` | — | `off` | Print VmPeak memory usage at exit |
+
+> [!note] Audit noise — sub-tool flags not accepted by mri_sclimbic_seg
+> The C1 audit reported 12 flags as missing from this page:
+> `--ants-n4`, `--distance`, `--inxfm`, `--ltavox2vox`, `--n`, `--no-rescale`,
+> `--outlta`, `--proto-iters`, `--src`, `--subject`, `--trg`, `--xfm`.
+> All 12 are flags passed to **sub-tools** within the `compute_etiv_from_scratch()`
+> helper function (source line 674–685):
+> `--no-rescale`, `--n`, `--proto-iters`, `--distance`, `--ants-n4` → `mri_nu_correct.mni`;
+> `--xfm` → `talairach_avi`;
+> `--src`, `--trg`, `--inxfm`, `--outlta`, `--subject`, `--ltavox2vox` → `lta_convert`.
+> None appear in `mri_sclimbic_seg`'s own `argparse` block (lines 55–92 of the
+> source). Do not add these flags to this page.
 
 ## Configuration Interactions
 

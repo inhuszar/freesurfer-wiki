@@ -152,7 +152,9 @@ The default volume computation (`UseTH3Vol = 1`, enabled by `-th3`) uses
 `MRISvolumeTH3()`, which computes the volume of the prism-shaped layer between
 the white and pial surfaces for each triangular face:
 
-$$V_{\text{parcel}} = \sum_{f \in \text{parcel}} V_{\text{prism}}(f)$$
+$$
+V_{\text{parcel}} = \sum_{f \in \text{parcel}} V_{\text{prism}}(f)
+$$
 
 where each prism has three vertices from the white surface and three from the
 corresponding pial surface. The prism volume accounts for local thickness
@@ -174,14 +176,18 @@ The surface area of each parcel is the sum of vertex areas assigned to that
 parcel, where vertex area is the Voronoi-like area contribution of each vertex
 to its surrounding triangles (stored in `surf/?h.area`):
 
-$$A_{\text{parcel}} = \sum_{v \in \text{parcel}} a_v$$
+$$
+A_{\text{parcel}} = \sum_{v \in \text{parcel}} a_v
+$$
 
 ### Thickness Statistics
 
 For a parcel containing vertices $\mathcal{V}$:
 
-$$\bar{\tau} = \frac{1}{|\mathcal{V}|} \sum_{v \in \mathcal{V}} \tau(v), \quad
-  \sigma_\tau = \sqrt{\frac{1}{|\mathcal{V}|-1} \sum_{v \in \mathcal{V}} (\tau(v) - \bar{\tau})^2}$$
+$$
+\bar{\tau} = \frac{1}{|\mathcal{V}|} \sum_{v \in \mathcal{V}} \tau(v), \quad
+  \sigma_\tau = \sqrt{\frac{1}{|\mathcal{V}|-1} \sum_{v \in \mathcal{V}} (\tau(v) - \bar{\tau})^2}
+$$
 
 where $\tau(v)$ is the thickness at vertex $v$ (from `surf/?h.thickness`).
 Vertices with thickness $\le$ `ignore_below` (default 0) or $\ge$ `ignore_above`
@@ -197,19 +203,27 @@ Let $\kappa_1(v)$ and $\kappa_2(v)$ be the two principal curvatures at vertex $v
 **Gaussian curvature:** $K(v) = \kappa_1(v) \cdot \kappa_2(v)$
 
 **Integrated rectified mean curvature** (MeanCurv column):
-$$C_H = \frac{1}{A_{\text{parcel}}} \sum_{v \in \text{parcel}} |H(v)| \cdot a_v$$
+$$
+C_H = \frac{1}{A_{\text{parcel}}} \sum_{v \in \text{parcel}} |H(v)| \cdot a_v
+$$
 
 **Integrated rectified Gaussian curvature** (GausCurv column):
-$$C_K = \frac{1}{A_{\text{parcel}}} \sum_{v \in \text{parcel}} |K(v)| \cdot a_v$$
+$$
+C_K = \frac{1}{A_{\text{parcel}}} \sum_{v \in \text{parcel}} |K(v)| \cdot a_v
+$$
 
 **Folding Index** (Fischl & Dale 2000):
-$$\text{FI} = \frac{1}{4\pi} \sum_{v \in \text{parcel}} |\kappa_1(v)| (|\kappa_1(v)| - |\kappa_2(v)|) \cdot a_v$$
+$$
+\text{FI} = \frac{1}{4\pi} \sum_{v \in \text{parcel}} |\kappa_1(v)| (|\kappa_1(v)| - |\kappa_2(v)|) \cdot a_v
+$$
 
 where $|\kappa_1| \ge |\kappa_2|$ (principal curvatures sorted by absolute value).
 FI measures how much a surface folds beyond a sphere.
 
 **Intrinsic Curvature Index** (related to Gauss-Bonnet theorem):
-$$\text{ICI} = \frac{1}{4\pi} \sum_{v \in \text{parcel}} \max(0, K(v)) \cdot a_v$$
+$$
+\text{ICI} = \frac{1}{4\pi} \sum_{v \in \text{parcel}} \max(0, K(v)) \cdot a_v
+$$
 
 Positive Gaussian curvature (gyral crowns, sulcal depths) contributes to ICI;
 negative curvature (saddle points) does not.

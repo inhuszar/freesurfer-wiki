@@ -16,9 +16,8 @@ related:
   - "[[dmri_train]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
   - "Spline type (cubic, Catmull-Rom, etc.) not confirmed from header"
 tags:
   - diffusion
@@ -50,14 +49,14 @@ TRACULA represents white-matter paths as sequences of control points that define
 
 ## Inputs
 
-| Variable | Likely flag | Description | Format |
-|----------|-------------|-------------|--------|
-| `inFile` | `--in` | Input control points file | text (voxel coordinates) |
+| Variable | Flag | Description | Format |
+|----------|------|-------------|--------|
+| `inFile` | `--cpts` | Input control points file | text (voxel coordinates) |
 | `maskFile` | `--mask` | Brain mask (optional) | MGZ/NIfTI |
-| `outVolFile` | `--ovol` | Output path volume | MGZ/NIfTI |
-| `outTextFile` | `--otxt` | Output path as text coordinates | text |
-| `outVecBase` | `--ovec` | Base filename for output tangent vectors | text |
-| `showControls` | `--controls` | Include control points in output | flag |
+| `outVolFile` | `--out` | Output path volume | MGZ/NIfTI |
+| `outTextFile` | `--outpts` | Output path as text coordinates | text |
+| `outVecBase` | `--outvec` | Base filename for output tangent vectors | text |
+| `showControls` | `--show` | Include control points in output | flag |
 
 ## Outputs
 
@@ -71,7 +70,9 @@ TRACULA represents white-matter paths as sequences of control points that define
 
 The `Spline` class (in `trc/spline.cxx`) fits a parametric curve through the control points. The spline is parameterized by arc length and interpolated to produce a densely-sampled path. At each interior point, the tangent vector $\mathbf{t}$ and curvature $\kappa$ can be computed:
 
-$$\mathbf{t}(s) = \frac{d\mathbf{r}}{ds}, \quad \kappa(s) = \left\|\frac{d\mathbf{t}}{ds}\right\|$$
+$$
+\mathbf{t}(s) = \frac{d\mathbf{r}}{ds}, \quad \kappa(s) = \left\|\frac{d\mathbf{t}}{ds}\right\|
+$$
 
 where $\mathbf{r}(s)$ is the path position at arc length $s$.
 
@@ -86,31 +87,26 @@ indicating it reads control points from the input file and optionally constrains
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> Complete argument list requires reading `parse_commandline()`. From global variables:
-
-| Variable | Likely flag | Default | Description |
-|----------|-------------|---------|-------------|
-| `inFile` | `--in` | required | Input control points file |
-| `maskFile` | `--mask` | — | Brain mask (optional) |
-| `outVolFile` | `--ovol` | — | Output path volume |
-| `outTextFile` | `--otxt` | — | Output text coordinates |
-| `outVecBase` | `--ovec` | — | Output tangent vector base |
-| `showControls` | `--controls` | false | Include control points in output |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--cpts` | `<file>` | required | Input control points file |
+| `--mask` | `<file>` | — | Brain mask (optional) |
+| `--out` | `<file>` | — | Output path volume |
+| `--outpts` | `<file>` | — | Output path as text coordinates |
+| `--outvec` | `<base>` | — | Output tangent vector base filename |
+| `--show` | — | false | Include control points in output |
+| `--debug` | — | false | Enable debug output |
 
 ## Typical Use Cases
-
-> [!gap] Exact command syntax unknown
-> Based on the global variables:
 
 ```bash
 # Interpolate a spline from control points
 dmri_spline \
-  --in path_control_points.txt \
+  --cpts path_control_points.txt \
   --mask brain_mask.nii.gz \
-  --ovol path_volume.nii.gz \
-  --otxt path_coordinates.txt \
-  --ovec path_tangents
+  --out path_volume.nii.gz \
+  --outpts path_coordinates.txt \
+  --outvec path_tangents
 ```
 
 ## Pipeline Context
@@ -132,6 +128,3 @@ dmri_spline \
 
 > [!gap] Spline implementation
 > `trc/spline.cxx` was not read. The spline type and coordinate system of inputs/outputs are not confirmed.
-
-> [!gap] Argument parser not read
-> Complete flags require reading `parse_commandline()`.

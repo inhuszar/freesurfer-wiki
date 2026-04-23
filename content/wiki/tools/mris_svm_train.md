@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "In attic/ - may not be in standard binary distribution."
   - "The exact training data format and input file structure need more detail."
@@ -64,7 +64,9 @@ Training a surface-based SVM requires labeled examples from two classes (e.g., s
 
 The SVM optimization minimizes:
 
-$$\min_{\mathbf{w}, b, \xi} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \xi_i$$
+$$
+\min_{\mathbf{w}, b, \xi} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \xi_i
+$$
 
 subject to $y_i(\mathbf{w}^T \phi(\mathbf{x}_i) + b) \geq 1 - \xi_i$, $\xi_i \geq 0$.
 
@@ -79,23 +81,27 @@ Optimization uses momentum-based gradient descent with `momentum`, convergence t
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides subjects directory root |
-| `-w fname` | filename | Output SVM model filename |
-| `-c1 name` | directory name | Class 1 subjects directory (default: `class1`) |
-| `-c2 name` | directory name | Class 2 subjects directory (default: `class2`) |
-| `-C value` | float | SVM regularization parameter (default: `DEFAULT_SVM_C`) |
-| `-tol value` | float | Convergence tolerance (default: `DEFAULT_SVM_TOL`) |
-| `-momentum M` | float | Optimization momentum (default: 0) |
-| `-rbf sigma` | float | RBF kernel sigma (0 = no RBF, use linear) |
-| `-poly d` | float | Polynomial kernel degree (0 = no polynomial) |
-| `-max_iter N` | integer | Maximum optimization iterations (default: 1,000,000) |
-| `-navgs N` | integer | Smoothing averages applied to input features |
-| `-label name` | label name | Restrict training to vertices within label |
-| `-prefix str` | string | Output file prefix |
-| `-osub subject` | string | Output subject name |
-| `-tsub subject` | string | Test subject for evaluation |
+Flags are parsed with single-dash stripping: the parser strips one leading `-` from `argv[N]` before comparison, so `-sdir` and `--sdir` are both accepted, but the canonical user-facing form is single-dash.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory root. |
+| `-o` | `<subject>` | required | Output subject name (must be specified with `-o`). |
+| `-w` | `<fname>` | — | Write per-vertex SVM weight file to `<fname>`. |
+| `-c1` | `<name>` | `class1` | Name label for class 1 subjects. |
+| `-c2` | `<name>` | `class2` | Name label for class 2 subjects. |
+| `-c` | `<float>` | `DEFAULT_SVM_C` | SVM regularization parameter (slack variable weight). |
+| `-tol` | `<float>` | `DEFAULT_SVM_TOL` | Convergence tolerance for SMO optimization. |
+| `-m` | `<float>` | `0.0` | Optimization momentum. |
+| `-rbf` | `<sigma>` | `0.0` | Use RBF kernel with given sigma (0 = linear kernel). |
+| `-poly` | `<d>` | `0.0` | Use polynomial kernel with given degree (0 = linear). |
+| `-max` | `<N>` | `1000000` | Maximum optimization iterations. |
+| `-a` | `<N>` | `0` | Number of smoothing averages applied to input curvature. |
+| `-l` | `<name>` | — | Restrict training to vertices within label `<name>`. |
+| `-p` | `<str>` | `""` | Output file prefix string. |
+| `-test` | `<subject>` | — | Write test output for `<subject>` to `test.dat`. |
+| `-aname` | `<name>` | `aparc` | Annotation file name (used with `-annot`). |
+| `-annot` | `<name>` | — | Restrict to vertices with annotation `<name>`; repeatable for multiple annotations. |
 
 ## Configuration Interactions
 

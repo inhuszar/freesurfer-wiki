@@ -65,15 +65,17 @@ Number of inputs = number of outputs = `(argc - 2) / 2`
 ## Outputs
 
 - Normalized volume(s) with consistent WM intensity (~110).
-- Optionally: a control point volume (`--ctrl_vol`) and/or sample diagnostics.
+- Optionally: a control point volume (`-c`) and/or sample diagnostics (`-fsamples`, `-nsamples`).
 
 ## Mathematical Foundations
 
-**Control point selection:** For each normalization structure (by default: lh/rh cerebral WM, lh/rh cerebellar WM, brainstem), the atlas node probabilities identify voxels where the prior $p(k | x, y, z) > p_{\min}$ (default $p_{\min} = 0.6$). Within each $N \times N \times N$ region (default $N = 3$), a fraction `ctl_point_pct` (default 25%) of the most atlas-consistent voxels become control points.
+**Control point selection:** For each normalization structure (by default: lh/rh cerebral WM, lh/rh cerebellar WM, brainstem), the atlas node probabilities identify voxels where the prior $p(k | x, y, z) > p_{\min}$ (default $p_{\min} = 0.6$, set with `-prior`). Within each $N \times N \times N$ region (default $N = 3$, set with `-n`), a fraction `ctl_point_pct` (default 25%, set with `-p`) of the most atlas-consistent voxels become control points.
 
 **Bias field estimation:** The bias field $B(x)$ is estimated as the ratio of the observed WM intensity to the target value at each control point, then Gaussian-smoothed with $\sigma = 4$ mm (default):
 
-$$B(x) = G_\sigma * \frac{V_{\text{target}}}{V_{\text{obs}}(x_{\text{ctrl}})}$$
+$$
+B(x) = G_\sigma * \frac{V_{\text{target}}}{V_{\text{obs}}(x_{\text{ctrl}})}
+$$
 
 **Normalization:** $V_{\text{norm}}(x) = V_{\text{in}}(x) \cdot B(x)$
 
@@ -84,42 +86,53 @@ The default normalization structures are:
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
 | `-sigma <val>` | float | 4.0 | Gaussian smoothing sigma for bias field (mm) |
-| `-min_prior <val>` | float | 0.6 | Minimum atlas prior probability for control point selection |
-| `-novar` | flag | off | Unify variance in GCA (ignore per-node variance) |
-| `-noedit` | flag | off | Do not use manually placed control points |
-| `-norm_samples <file>` | string | — | File for normalized sample output (diagnostic) |
-| `-ctrl_vol <file>` | string | — | Write control point volume |
-| `-read_ctrl_vol <file>` | string | — | Read pre-computed control points from volume |
+| `-prior <val>` | float | 0.6 | Minimum atlas prior probability for control point selection |
+| `-novar` | — | off | Unify variance in GCA (ignore per-node variance) |
+| `-noedit <0\|1>` | int | 0 | Pass 0 to keep edited-off voxels; 1 to not remove them |
 | `-mask <file>` | string | — | Brain mask volume; apply before normalization |
-| `-T2mask <file> <thresh>` | string+float | — | T2 mask to remove bright CSF voxels |
-| `-aparc_aseg <file>` | string | — | aparc+aseg for additional masking |
-| `-seg <file>` | string | — | Use segmentation instead of GCA for control point selection |
-| `-long_seg <file>` | string | — | Longitudinal segmentation for control point derivation |
-| `-renorm <file>` | string | — | Per-label renormalization file (label-intensity pairs) |
-| `-tissue <file>` | string | — | Tissue parameter file |
-| `-ex_T1 <T1> <seg>` | string×2 | — | Example T1/segmentation pair for initialization |
+| `-T2mask <file> <thresh>` | string+float | — | T2 mask: erase voxels brighter than thresh before normalization |
+| `-amask <aparc_aseg> <T2> <thresh>` | string+string+float | — | Use aparc+aseg and T2 volume together to mask input |
+| `-seg <file>` | string | — | Use segmentation volume instead of GCA for control point selection |
+| `-long <file>` | string | — | Use longitudinal segmentation volume to generate control points |
+| `-renorm <file>` | string | — | Per-label renormalization file (label–intensity pairs) |
+| `-renormalize <file>` | string | — | Alias for `-renorm`; renormalize using predicted intensity values |
+| `-flash <file>` | string | — | FLASH forward model tissue parameters file for intensity prediction |
+| `-aseg <file> <thresh>` | string+float | — | Use top `thresh`% of WM aseg volume for first-pass normalization |
+| `-example <T1> <seg>` | string×2 | — | Example T1 and segmentation pair for initialization |
 | `-TR <val>` | float | 0 | T1 map TR (ms) |
 | `-TE <val>` | float | 0 | T1 map TE (ms) |
 | `-alpha <val>` | float | 0 | T1 map flip angle (degrees) |
-| `-extra_norm_range <val>` | float | 0 | Extend normalization bias search range |
-| `-dilate_mask` | flag | off | Dilate brain mask before masking |
-| `-remove_cerebellum` | flag | off | Remove cerebellar labels from GCA normalization |
-| `-remove_lh` | flag | off | Remove left hemisphere from GCA |
-| `-remove_rh` | flag | off | Remove right hemisphere from GCA |
-| `-nregions <N>` | int | 3 | Divide each structure into N×N×N sub-regions |
-| `-file_only` | flag | off | Use only precomputed control points from file |
-| `-aseg <file> <thresh>` | string+float | — | Use aseg-based control points at given threshold |
+| `-extra_norm <val>` | float | — | Expand normalization bias search range by this fraction |
+| `-dilate <N>` | int | — | Dilate brain mask N times before masking |
+| `-dilate_mask <N>` | int | — | Alias for `-dilate`; dilate brain mask N times before masking |
+| `-nocerebellum` | — | off | Remove cerebellum from atlas normalization structures |
+| `-lh` | — | off | Use only left hemisphere labels (removes right hemisphere from GCA) |
+| `-rh` | — | off | Use only right hemisphere labels (removes left hemisphere from GCA) |
+| `-n <N>` | int | 3 | Divide each structure into N×N×N sub-regions for normalization |
+| `-fonly <file>` | string | — | Use only control points from specified file (sets file-only mode) |
+| `-f <file>` | string | — | Read manually defined control points from file |
+| `-r <file>` | string | — | Read pre-computed control point volume from file |
+| `-c <file>` | string | — | Write control point volume to file |
+| `-w` | — | off | Enable write diagnostics (sets `DIAG_WRITE` flag) |
+| `-p <val>` | float | 0.25 | Fraction of top WM voxels to use as control points (e.g. 0.25 = 25%) |
+| `-fsamples <file>` | string | — | Write control point samples to file |
+| `-nsamples <file>` | string | — | Write transformed normalization control points to file |
+| `-diag <file>` | string | — | Open diagnostic output file for writing |
+| `-debug_voxel <x> <y> <z>` | int×3 | — | Enable per-voxel debugging at image coordinate (x, y, z) |
+| `-debug_node <x> <y> <z>` | int×3 | — | Enable per-node debugging at GCA node coordinate (x, y, z) |
 
 ## Configuration Interactions
 
 - `-seg` and GCA (`<atlas.gca>`) are mutually exclusive: if `-seg` is provided, the GCA is not loaded.
-- `-long_seg` creates a control point volume from the longitudinal segmentation; implies the GCA is still needed for the atlas transform.
+- `-long <file>` creates a control point volume from the longitudinal segmentation; the GCA is still needed for the atlas transform.
 - `-novar` sets all GCA node variances to 1.0, making the classifier use only the mean.
-- `-remove_cerebellum`, `-remove_lh`, `-remove_rh` modify which structures contribute control points; useful for partial-brain or ex-vivo scans.
+- `-nocerebellum`, `-lh`, `-rh` modify which structures contribute control points; useful for partial-brain or ex-vivo scans.
 - `-T2mask` erases voxels brighter than the threshold from the input before normalization (useful for bright CSF near the skull strip boundary).
+- `-fonly <file>` sets file-only mode: control points are taken exclusively from the specified file, bypassing atlas-based selection.
+- `-f <file>` reads additional manually defined control points and combines them with atlas-derived ones.
 
 ## Typical Use Cases
 

@@ -17,7 +17,7 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "The retessellation mode details (greedy vs. genetic search) need deeper documentation from the topology fixing library."
   - "The nVFMultiplier parameter (default 1.1) purpose for overallocating the surface vertex/face arrays needs confirmation."
@@ -84,7 +84,9 @@ The tool reads files from the standard FreeSurfer subject directory layout based
 
 For a closed orientable surface, the Euler number is:
 
-$$\chi = V - E + F = 2 - 2g$$
+$$
+\chi = V - E + F = 2 - 2g
+$$
 
 where $V$ = vertices, $E$ = edges, $F$ = faces, $g$ = genus (number of handles). A cortical hemisphere is topologically a sphere ($g = 0$, $\chi = 2$). Any defect increases the genus. The code prints:
 
@@ -111,7 +113,9 @@ The default search is **greedy** (`GREEDY_SEARCH`). The genetic algorithm (`-gen
 
 The cost functional used in the retessellation search includes terms:
 
-$$E = l_{\text{mri}} \cdot E_{\text{MRI}} + l_{\text{curv}} \cdot E_{\text{curv}} + l_{\text{qcurv}} \cdot E_{\text{Qcurv}} + l_{\text{unmri}} \cdot E_{\text{unmri}}$$
+$$
+E = l_{\text{mri}} \cdot E_{\text{MRI}} + l_{\text{curv}} \cdot E_{\text{curv}} + l_{\text{qcurv}} \cdot E_{\text{Qcurv}} + l_{\text{unmri}} \cdot E_{\text{unmri}}
+$$
 
 Default weights: $l_{\text{mri}} = l_{\text{curv}} = l_{\text{qcurv}} = l_{\text{unmri}} = 1$.
 
@@ -126,39 +130,66 @@ Default weights: $l_{\text{mri}} = l_{\text{curv}} = l_{\text{qcurv}} = l_{\text
 
 ### Optional Flags
 
-| Flag | Description |
-|------|-------------|
-| `-orig <origname>` | Input surface name (default: `orig.nofix`). |
-| `-sphere <spherename>` | Spherical surface name (default: `qsphere.nofix`). |
-| `-inflated <inflatedname>` | Inflated surface name (default: `inflated.nofix`). |
-| `-out <outputname>` | Output surface name (default: `orig`). |
-| `-defect <defectbasename>` | Base name for defect files (default: `defect`). |
-| `-wi` | Also write a fixed inflated surface. |
-| `-verbose` | Verbose output. |
-| `-verbose_low` | Low-verbosity output. |
-| `-warnings` | Print warnings. |
-| `-errors` | Print errors. |
-| `-movies` | Save movie frames (debugging). |
-| `-intersect` | Check if the final surface self-intersects. |
-| `-mappings` | Generate multiple different topology-fix mappings. |
-| `-correct_defect N` | Correct only defect number N (all others left unchanged). |
-| `-niters N` | Stop genetic algorithm after N iterations. |
-| `-genetic` | Use genetic algorithm for retessellation search. |
-| `-ga` | Optimise genetic search (alias for `-genetic` with optimisation). |
-| `-optimize` | Optimise genetic search. |
-| `-random N` | Use random search with N iterations instead of greedy or genetic. |
-| `-seed N` | Set random number generator seed. |
-| `-diag` | Enable diagnostic saves (`DIAG_SAVE_DIAGS`). |
-| `-mgz` | Assume volumes are in MGZ format (default: true in current builds). |
-| `-s N` | Smooth corrected surface by N iterations after correction. |
-| `-v D` | Set diagnostic level to D. |
-| `-threads N` | Set number of OpenMP threads. |
-| `-help` | Print help and exit. |
-| `-version` | Print version and exit. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-orig <name>` | string | `orig.nofix` | Input surface name. |
+| `-sphere <name>` | string | `qsphere.nofix` | Spherical surface name (alias: `-name`). |
+| `-name <name>` | string | `qsphere.nofix` | Alias for `-sphere`. |
+| `-inflated <name>` | string | `inflated.nofix` | Inflated surface name. |
+| `-out <name>` | string | `orig` | Output surface name. |
+| `-defect <basename>` | string | `defect` | Base name for defect files. |
+| `-brain <name>` | string | `brain.mgz` | Brain volume name. |
+| `-wm <name>` | string | `wm.mgz` | White matter segmentation volume name. |
+| `-surf <dir>` | string | `surf/` | Surf subdirectory override. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-suffix <sfx>` | string | — | Append suffix to output file names. |
+| `-wi` | — | off | Also write a fixed inflated surface. |
+| `-add` | — | off | Add vertices after retessellation. |
+| `-noadd` | — | off | Do not add vertices after retessellation. |
+| `-mgz` | — | on | Assume volumes are in MGZ format. |
+| `-nomgz` | — | off | Disable MGZ volume format assumption. |
+| `-verbose` | — | off | Enable verbose output (default mode). |
+| `-verbose_low` | — | off | Low-verbosity output mode. |
+| `-warnings` | — | off | Print warnings (medium verbose mode). |
+| `-errors` | — | off | Exit when warnings appear (high verbose mode). |
+| `-movie` | — | off | Save movie frames for debugging. |
+| `-intersect <0/1>` | int | 0 | Check if final surface self-intersects. |
+| `-mappings <0/1>` | int | 0 | Generate multiple topology-fix mappings. |
+| `-correct_defect <N>` | int | — | Correct only defect number N; skip all others. |
+| `-diag` | — | off | Enable diagnostic saves (`DIAG_SAVE_DIAGS`). |
+| `-diagonly` | — | off | Save diagnostics and exit immediately. |
+| `-niters <N>` | int | — | Stop genetic algorithm after N iterations. |
+| `-genetic` | — | off | Use genetic algorithm for retessellation search. |
+| `-ga` | — | off | Use genetic algorithm with optimised parameters. |
+| `-optimize` | — | off | Use genetic algorithm with an alternate optimised parameter set. |
+| `-random <N>` | int | — | Use random search with N iterations instead of greedy or genetic. |
+| `-match <0/1>` | int | 1 | Match patch onto surface using local intensities. |
+| `-smooth <mode>` | int | 2 | Smooth patch with specified mode (0 = off). |
+| `-select <0/1>` | int | 1 | Use qsphere to infer initial solutions (0 = random). |
+| `-save <dir> <N>` | string+int | — | Save retessellation results for defect N (or all if N<0). |
+| `-eliminate <0/1>` | int | 1 | Eliminate less-used vertices during search. |
+| `-keep <0/1>` | int | 0 | Keep every vertex in the defect before search. |
+| `-variable <0/1>` | int | 0 | Use ordering-dependent final vertex count. |
+| `-edge_table <0/1>` | int | 1 | Use precomputed edge table. |
+| `-patches <N>` | int | — | Number of defect patches per generation (genetic search). |
+| `-generations <N>` | int | — | Terminate genetic search after N generations without change. |
+| `-mri <w>` | float | 1.0 | Weight for MRI intensity cost term ($l_{\text{mri}}$). |
+| `-curv <w>` | float | 1.0 | Weight for curvature cost term ($l_{\text{curv}}$). |
+| `-qcurv <w>` | float | 1.0 | Weight for quadratic curvature cost term ($l_{\text{qcurv}}$). |
+| `-unmri <w>` | float | 1.0 | Weight for unmapped-MRI cost term ($l_{\text{unmri}}$). |
+| `-vol <N>` | int | — | Volume resolution for MRI-guided retessellation. |
+| `-int` | — | off | Enable intensity-guided retessellation (sets noint=0). |
+| `-sphere_smooth <N>` | int | — | Smooth spherical representation for N iterations before processing. |
+| `-seed <N>` | int | — | Set random number generator seed. |
+| `-s <N>` | int | 5 | Smooth corrected surface for N iterations after correction. |
+| `-openmp <N>` | int | — | Set number of OpenMP threads (alias: `-threads`). |
+| `-threads <N>` | int | — | Set number of OpenMP threads (alias: `-openmp`). |
+| `-v <D>` | int | — | Set diagnostic level to D (`Gdiag_no`). |
+| `-rusage <file>` | string | — | Resource usage file (accepted and ignored). |
 
 ## Configuration Interactions
 
-- `-genetic` / `-ga` / `-optimize` are variants of the evolutionary search. `-ga` and `-optimize` are likely aliases or slight variants; only one should be used at a time.
+- `-genetic` / `-ga` / `-optimize` are variants of the evolutionary search. All three switch the search mode to `GENETIC_SEARCH`; `-ga` and `-optimize` additionally preset several parameters (smooth=2, match=1, volume_resolution=2, l_unmri=10.0). Only one should be used at a time.
 - `-random N` is an alternative to both greedy and genetic search; it evaluates N random retessellations and picks the best.
 - `-correct_defect N` is useful for debugging specific defects. If specified, only that defect is repaired.
 - `-niters N` only applies to the genetic algorithm; it is ignored for greedy search.

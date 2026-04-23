@@ -70,11 +70,17 @@ The tool uses a 2D spherical parameterization grid (256 × 128 by default, store
 
 **Spherical parameterization:** Each surface vertex is mapped to $(u, v)$ coordinates on a $udim \times vdim$ grid via spherical coordinates $(\phi, \theta)$:
 
-$$u = \lfloor (1 + \sin\phi) \cdot udim / 2 \rfloor$$
-$$v = \lfloor (1 + \cos\theta) \cdot vdim / 2 \rfloor$$
+$$
+u = \lfloor (1 + \sin\phi) \cdot udim / 2 \rfloor
+$$
+$$
+v = \lfloor (1 + \cos\theta) \cdot vdim / 2 \rfloor
+$$
 
 **Mode computation:** At each grid cell $(u, v)$, a histogram counts the frequency of each annotation label assigned to that location. The mode is:
-$$L_{\text{mode}}(u, v) = \arg\max_{\ell} \text{count}(u, v, \ell)$$
+$$
+L_{\text{mode}}(u, v) = \arg\max_{\ell} \text{count}(u, v, \ell)
+$$
 
 The `AnnotHistLabel` and `AnnotHistCount` 3D arrays track these histograms.
 
@@ -82,14 +88,13 @@ The `AnnotHistLabel` and `AnnotHistCount` 3D arrays track these histograms.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-normalize` | — | off | Normalize label frequencies |
-| `-condition_no N` | integer | 0 | Condition number |
-| `-stat` | — | off | Compute statistics |
-| `-sigma S` | float | 0.0 | Smoothing sigma applied to annotation |
-| `-output_surf name` | string | — | Write output surface |
-| Grid dimensions: | | `udim=256`, `vdim=128` | Spherical parameterization grid size (hardcoded) |
-| `maxlabels` | | 25 | Maximum number of distinct labels (hardcoded) |
-| `maxvertices` | | 500000 | Maximum vertices (hardcoded) |
+| `-a <sigma>` | float | 0.0 | Smoothing sigma applied to annotation before parameterization |
+| `-o <subject>` | string | — | Override output surface; paint result onto this subject instead of the last positional subject |
+| `-s <cond_no>` | integer | — | Write summary statistics as condition number `cond_no`; enables `stat_flag` |
+| `-n` | — | off | Normalize label frequencies |
+
+> [!note] Hardcoded parameters
+> Grid dimensions (`udim=256`, `vdim=128`), `maxlabels=25`, and `maxvertices=500000` are compiled-in constants and cannot be changed via the CLI.
 
 ## Typical Use Cases
 

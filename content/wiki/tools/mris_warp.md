@@ -14,7 +14,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Deformation surface overlay format details not documented."
   - "Quality check metrics computed by mris_warp__check_deformation not read."
@@ -104,14 +104,17 @@ All flags use double-dash prefix; names are case-insensitive (parsed with `strca
 | `--help` | boolean | — | Print help text and exit. |
 | `--version` | boolean | — | Print version string and exit. |
 
-> [!gotcha] `--s` flag does not exist
+> [!gotcha] --s flag does not exist
 > The wiki previously listed `--s` as a flag for the source subject. This flag does **not** exist in the source code. The subject is identified implicitly through the `--reg` registration file, which embeds the subject name via `regio_read_register()`.
+
+> [!gotcha] --so flag does not exist
+> The flag `--so` does not appear anywhere in the `mris_warp` source code. Use `--out` to specify the output warped surface file path.
 
 > [!gotcha] M3Z code path is disabled
 > The `--m3z` flag is parsed and sets `m3z_filename`, but the actual GCAMread/apply code is commented out with `// NOTE: mri_convert expects M3Z files ...`. In the current source, only `--deformvol` (volume warp) is functional.
 
 > [!gotcha] `--warpsurf` renamed to `--out`
-> The output flag is `--out`, not `--warpsurf`. Earlier documentation was incorrect.
+> The output flag is `--out`, not --warpsurf. Earlier documentation was incorrect.
 
 ## Typical Use Cases
 

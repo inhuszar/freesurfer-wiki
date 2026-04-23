@@ -55,7 +55,7 @@ The translation is specified via a translation file (`<trans_name>`), which maps
 - **`<trans_name>`** — name or path of the translation table file.
 - **`<out_annot>`** — output annotation file path.
 
-`SUBJECTS_DIR` must be set, or overridden via `--sdir`.
+`SUBJECTS_DIR` must be set in the environment (cannot be overridden on the command line).
 
 The tool reads `surf/<hemi>.orig` as the surface topology.
 
@@ -76,7 +76,9 @@ The tool reads `surf/<hemi>.orig` as the surface topology.
 ## Mathematical Foundations
 
 The translation operation is a per-vertex label remapping:
-$$l_i' = T(l_i)$$
+$$
+l_i' = T(l_i)
+$$
 where $l_i$ is the annotation value at vertex $i$ and $T$ is the translation function defined by the translation file. Labels not present in the table are typically left unchanged or set to a background/unknown value.
 
 ## Configuration Options
@@ -85,12 +87,12 @@ where $l_i$ is the annotation value at vertex $i$ and $T$ is the translation fun
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-v <diagno>` | integer | — | Set diagnostic level (Gdiag_no). |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` | boolean | — | Print usage and exit. |
 
-> [!gap] Full get_option() not read
-> Additional flags may exist. Verify from `--help` or source.
+> [!gotcha] `SUBJECTS_DIR` cannot be overridden on the command line
+> Despite the error message referencing "cmd line", there is no `--sdir` or `-s` flag. `SUBJECTS_DIR` must be set in the environment before running the tool.
 
 ### Configuration Interactions
 

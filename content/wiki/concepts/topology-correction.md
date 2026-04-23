@@ -64,7 +64,9 @@ Both methods require a quick spherical mapping (`qsphere.nofix`), produced by
 
 For a closed, connected triangulated surface, the **Euler characteristic** is:
 
-$$\chi = V - E + F$$
+$$
+\chi = V - E + F
+$$
 
 where $V$ is the number of vertices, $E$ is the number of edges, and $F$ is
 the number of triangular faces. The Euler characteristic is a topological
@@ -73,16 +75,24 @@ or the particular triangulation.
 
 For a surface homeomorphic to a sphere (genus 0, no handles, no holes):
 
-$$\chi = 2$$
+$$
+\chi = 2
+$$
 
 For a closed surface of genus $g$ (i.e., with $g$ handles):
 
-$$\chi = 2 - 2g$$
+$$
+\chi = 2 - 2g
+$$
 
 Additional relations hold for valid triangulated manifolds:
 
-$$F = 2V - 4 \quad \text{(for a sphere; i.e., Euler's formula for polyhedra)}$$
-$$2E = 3F \quad \text{(each edge is shared by exactly 2 faces; each face has 3 edges)}$$
+$$
+F = 2V - 4 \quad \text{(for a sphere; i.e., Euler's formula for polyhedra)}
+$$
+$$
+2E = 3F \quad \text{(each edge is shared by exactly 2 faces; each face has 3 edges)}
+$$
 
 `mris_euler_number` reports both conditions alongside $\chi$, flagging
 violations with `!`.
@@ -93,7 +103,9 @@ Each topological handle reduces $\chi$ by 2. If the surface has $n$ independent
 topological defects (each equivalent to one handle or hole that eliminates one
 handle of $\chi$), then:
 
-$$\chi = 2 - 2n \implies n = \frac{2 - \chi}{2} = 1 - \frac{\chi}{2}$$
+$$
+\chi = 2 - 2n \implies n = \frac{2 - \chi}{2} = 1 - \frac{\chi}{2}
+$$
 
 The tool `mris_euler_number` prints this directly as the "holes" count:
 

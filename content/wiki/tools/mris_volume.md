@@ -66,9 +66,13 @@ With `-v`, additional diagnostic messages are also printed.
 
 > [!math] Divergence theorem (Gauss's theorem)
 > The volume enclosed by a closed surface $\mathcal{S}$ is computed by:
-> $$V = \frac{1}{3} \oint_{\mathcal{S}} \mathbf{r} \cdot \hat{n} \, dA$$
+> $$
+> V = \frac{1}{3} \oint_{\mathcal{S}} \mathbf{r} \cdot \hat{n} \, dA
+> $$
 > where $\mathbf{r}$ is the position vector and $\hat{n}$ is the outward surface normal. For a triangulated surface, this reduces to a sum over faces:
-> $$V = \frac{1}{6} \sum_{\text{faces}} (v_0 + v_1 + v_2) \cdot ((v_1 - v_0) \times (v_2 - v_0))$$
+> $$
+> V = \frac{1}{6} \sum_{\text{faces}} (v_0 + v_1 + v_2) \cdot ((v_1 - v_0) \times (v_2 - v_0))
+> $$
 > This is equivalent to summing signed tetrahedra from the origin to each face. The function `MRISvolumeInSurf()` implements this formula.
 
 The surface must have Euler number $\chi = V - E + F = 2$ (where $V$, $E$, $F$ are vertices, edges, faces) to ensure it is topologically spherical and the formula is valid.

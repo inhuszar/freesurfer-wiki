@@ -54,9 +54,9 @@ Use cases include:
 ## Inputs
 
 - `--ref <path>`: Reference image (the target/fixed space). Formats: `.nii`, `.nii.gz`, `.mgz`.
-- `--ref_seg <path>`: SynthSeg segmentation of the reference image. Created automatically if it does not exist on disk.
+- --ref_seg <path>: SynthSeg segmentation of the reference image. Created automatically if it does not exist on disk.
 - `--flo <path>`: Floating image (the source/moving image).
-- `--flo_seg <path>`: SynthSeg segmentation of the floating image. Created automatically if it does not exist.
+- --flo_seg <path>: SynthSeg segmentation of the floating image. Created automatically if it does not exist.
 
 Both segmentations must include cortical parcellation labels (values > 1000). If loaded from disk, the tool validates this requirement.
 
@@ -85,13 +85,17 @@ A global affine transformation aligns the two SynthSeg segmentations. The transf
 A VoxelMorph-style convolutional neural network predicts a dense deformation field $\phi: \mathbb{R}^3 \rightarrow \mathbb{R}^3$ that maps reference voxel positions to floating image positions. The registration minimizes a learned objective over the segmentation-guided representations.
 
 The atlas space used internally has affine:
-$$A = \begin{pmatrix} -1 & 0 & 0 & 79 \\ 0 & 0 & 1 & -104 \\ 0 & -1 & 0 & 79 \\ 0 & 0 & 0 & 1 \end{pmatrix}, \quad \text{size } [160, 160, 192]$$
+$$
+A = \begin{pmatrix} -1 & 0 & 0 & 79 \\ 0 & 0 & 1 & -104 \\ 0 & -1 & 0 & 79 \\ 0 & 0 & 0 & 1 \end{pmatrix}, \quad \text{size } [160, 160, 192]
+$$
 
 The registration is performed in this normalized atlas space and then transformed back to the original image coordinates.
 
 > [!math] Deformation field application
 > The deformation field $\phi$ is stored as a 4D volume of shape $(W, H, D, 3)$. To apply it, the target-space voxel coordinates $(I, J, K)$ are computed by:
-> $$\begin{pmatrix} I \\ J \\ K \\ 1 \end{pmatrix} = A_{\text{src}}^{-1} \begin{pmatrix} \phi_x \\ \phi_y \\ \phi_z \\ 1 \end{pmatrix}$$
+> $$
+> \begin{pmatrix} I \\ J \\ K \\ 1 \end{pmatrix} = A_{\text{src}}^{-1} \begin{pmatrix} \phi_x \\ \phi_y \\ \phi_z \\ 1 \end{pmatrix}
+> $$
 > where $A_{\text{src}}$ is the source image affine. This computation is implemented in `mri_easywarp`.
 
 ## Configuration Options

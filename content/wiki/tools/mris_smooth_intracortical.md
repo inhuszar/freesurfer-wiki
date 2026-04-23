@@ -49,13 +49,13 @@ The result is anisotropic smoothing that respects cortical geometry, enabling in
 
 | Input | Description | Format |
 |-------|-------------|--------|
-| Surface meshes (multiple) | Stack of depth-resolved surface meshes (e.g., equivolumetric surfaces from surface 0 to surface N). Specified via a glob pattern or directory. | FreeSurfer binary surface |
-| Overlay data (multiple) | Per-vertex fMRI data defined on each surface mesh. | `.mgh`, `.mgz` |
-| Surface directory (`surf_dir`) | Directory containing surface files. | — |
-| Overlay directory (`over_dir`) | Directory containing overlay files. | — |
-| Output directory (`out_dir`) | Directory for smoothed output overlays. | — |
+| Surface meshes (multiple) | Stack of depth-resolved surface meshes (e.g., equivolumetric surfaces from WM to pial). Glob-expanded from `--surf_dir` + `--surf_name`. | FreeSurfer binary surface |
+| Overlay data (multiple) | Per-vertex fMRI data defined on each surface mesh. Glob-expanded from `--overlay_dir` + `--overlay_name`. | `.mgh`, `.mgz` |
+| Surface directory | Path to surface files; set via `--surf_dir`. | — |
+| Overlay directory | Path to overlay files; set via `--overlay_dir`. | — |
+| Output directory | Path for smoothed outputs; set via `--output_dir` (defaults to overlay dir). | — |
 
-**Internal global variables expose the interface:** `surf_path`, `over_path`, `out_path`, `surf_name`, `over_name`, `surf_dir`, `over_dir`, `out_dir`, `out_name`, `surf_num`, `over_num`, `nb_rad`, `ic_size`, `ic_start`, `nb_wf`.
+**Internal global variables** (set at runtime, not by flags): `surf_path`, `over_path`, `out_path`, `surf_num`, `over_num` are computed automatically from the glob expansion of `surf_dir`/`surf_name` and `overlay_dir`/`overlay_name`; they are not CLI flags.
 
 ## Outputs
 
@@ -67,71 +67,70 @@ The result is anisotropic smoothing that respects cortical geometry, enabling in
 
 The smoothing weight for the tangential neighborhood is computed by `calculate_nb_weights()`. Based on the `nb_wf = 0` (Gaussian) default, weights are:
 
-$$w_{ij} = \exp\!\left(-\frac{d_{ij}^2}{2\sigma_t^2}\right)$$
+$$
+w_{ij} = \exp\!\left(-\frac{d_{ij}^2}{2\sigma_t^2}\right)
+$$
 
 where $d_{ij}$ is the geodesic distance between vertices $i$ and $j$ on the surface, and $\sigma_t$ is determined by the tangential neighborhood radius `nb_rad`.
 
 For radial smoothing across $N$ surfaces, a similar 1D Gaussian is applied:
 
-$$w_{kl} = \exp\!\left(-\frac{(k-l)^2}{2\sigma_r^2}\right)$$
+$$
+w_{kl} = \exp\!\left(-\frac{(k-l)^2}{2\sigma_r^2}\right)
+$$
 
 where $k, l$ are surface depth indices.
 
 The combined smoothed value at vertex $i$, depth $k$ is:
 
-$$S_{\text{out}}(i, k) = \frac{\sum_{j,l} w_{ij} w_{kl} \cdot S_{\text{in}}(j, l)}{\sum_{j,l} w_{ij} w_{kl}}$$
+$$
+S_{\text{out}}(i, k) = \frac{\sum_{j,l} w_{ij} w_{kl} \cdot S_{\text{in}}(j, l)}{\sum_{j,l} w_{ij} w_{kl}}
+$$
 
 ## Configuration Options
 
 ### Complete Flag Reference
 
-The tool exits if fewer than 10 arguments are provided (`argc <= 9`), so all flags listed below are effectively required for a valid invocation.
+The tool exits if fewer than 10 arguments are provided (`argc <= 9`), so the required flags below must all be present for a valid invocation. Surface and overlay counts are determined automatically by glob expansion — there are no `--surf-num` or `--over-num` flags.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--surf-path <path>` | string | — | **Required.** Path (including filename stem) to the input surface files. |
-| `--over-path <path>` | string | — | **Required.** Path (including filename stem) to the input overlay files. |
-| `--out-path <path>` | string | — | **Required.** Output path (including filename stem) for smoothed overlay files. |
-| `--surf-name <name>` | string | — | Surface filename base name (without path). |
-| `--over-name <name>` | string | — | Overlay filename base name (without path). |
-| `--surf-dir <dir>` | string | — | Directory containing surface files. |
-| `--over-dir <dir>` | string | — | Directory containing overlay files. |
-| `--out-dir <dir>` | string | — | Directory for output overlay files. |
-| `--out-name <name>` | string | — | Output filename base name. |
-| `--surf-num <n>` | integer | — | Number of input surface meshes to process. |
-| `--over-num <n>` | integer | — | Number of input overlay files to process. |
-| `--nb-size <n>` | integer | — | Tangential neighborhood radius in vertex hops (`nb_rad`). |
-| `--ic-size <n>` | integer | 1 | Number of surface depth layers to include in radial smoothing. |
-| `--ic-start <n>` | integer | 0 | Index of the first surface layer to process. |
-| `--tan-weights <mode>` | string | `"gauss"` | Tangential weighting function: `"gauss"` (Gaussian weights by geodesic distance) or `"distance"` (inverse-distance weights). |
+| `--surf_dir <dir>` | string | — | **Required.** Directory containing surface mesh files. |
+| `--surf_name <name>` | string | — | **Required.** Filename pattern for surface files (supports `*` and `?` globs). Multiple matches are sorted WM-to-pial order. |
+| `--overlay_dir <dir>` | string | — | **Required.** Directory containing overlay files. |
+| `--overlay_name <name>` | string | — | **Required.** Filename pattern for overlay files (supports `*` and `?` globs). |
+| `--output_dir <dir>` | string | same as `overlay_dir` | Directory for output overlay files. |
+| `--output_name <name>` | string | derived from first overlay | Output overlay filename base. |
+| `--tan-size <n>` | integer | 0 | Tangential extent of the smoothing kernel. With `gauss` weighting this is the FWHM in mm; with `distance` it is the vertex-hop radius. `0` = no tangential smoothing. |
+| `--rad-size <n>` | integer | 1 | Radial extent of the intracortical smoothing kernel (number of adjacent surface meshes). `1` = no radial smoothing. |
+| `--rad-start <n>` | integer | 0 | Index of the starting surface mesh for radial smoothing (0 = white matter side). |
+| `--tan-weights <mode>` | string | `"gauss"` | Tangential weighting function: `"gauss"` (Gaussian with FWHM = `tan-size`) or `"distance"` (1/distance). |
 
 > [!gotcha] `--tan-weights` takes a string, not an integer
-> The flag accepts the string value `"gauss"` or `"distance"`. Providing an integer (e.g., `--tan-weights 0`) will be treated as an unrecognised value.
+> The flag accepts the string value `"gauss"` or `"distance"`. Providing an integer (e.g., `--tan-weights 0`) will trigger the "Unknown value" warning and fall back to Gaussian weighting.
 
 > [!gotcha] Radial smoothing is unweighted (TODO in source)
-> When `--ic-size > 1`, the radial (across-layer) smoothing uses a simple unweighted mean of adjacent surface values. The source code contains a `// TODO` comment at this location indicating that weighted radial smoothing was planned but not yet implemented.
+> The radial (across-layer) smoothing uses a simple unweighted mean of adjacent surface values. The source code contains a `// TODO` comment indicating that weighted radial smoothing was planned but not yet implemented. The `--rad-weights` flag documented in the help text is not actually parsed.
 
 ## Configuration Interactions
 
-- `surf_num` and `over_num` must match the number of surface/overlay files found by the glob pattern.
-- `ic_start` and `ic_size` define which subset of depth surfaces to process.
-- `nb_rad` = 0 disables tangential smoothing, applying only radial smoothing.
+- The number of surfaces and overlays is determined automatically by glob expansion of `--surf_name` and `--overlay_name`; the counts must match for intracortical smoothing.
+- `--rad-start` and `--rad-size` define which subset of depth surfaces to include in radial smoothing.
+- `--tan-size 0` disables tangential smoothing, applying only radial smoothing.
 
 ## Typical Use Cases
 
 **Smooth laminar fMRI data across 6 equivolumetric surfaces:**
 ```bash
 mris_smooth_intracortical \
-  --surf-dir /path/to/laminar_surfs \
-  --over-dir /path/to/laminar_data \
-  --out-dir /path/to/smoothed \
-  --surf-name lh.equivol \
-  --over-name lh.bold_mean \
-  --out-name lh.bold_mean_smooth \
-  --surf-num 6 \
-  --over-num 6 \
-  --nb-size 2 \
-  --ic-size 3 \
+  --surf_dir /path/to/laminar_surfs \
+  --overlay_dir /path/to/laminar_data \
+  --output_dir /path/to/smoothed \
+  --surf_name "lh.equivol.*" \
+  --overlay_name "lh.bold_mean.*" \
+  --output_name lh.bold_mean_smooth \
+  --tan-size 2 \
+  --rad-size 3 \
   --tan-weights gauss
 ```
 
@@ -157,4 +156,4 @@ mris_smooth_intracortical \
 
 ## Confidence and Gaps
 
-Confidence is **high**. The complete `parse_commandline()` function (~425 lines total source) was read from source. All flags are confirmed. The radial smoothing TODO and `--tan-weights` string-type semantics are confirmed from the source code directly.
+Confidence is **high**. The complete `parse_commandline()` and `print_usage()` functions were read from source. All flags confirmed: `--surf_dir`, `--surf_name`, `--overlay_dir`, `--overlay_name`, `--output_dir`, `--output_name`, `--tan-size`, `--rad-size`, `--rad-start`, `--tan-weights`. Note: `--surf-path`, `--over-path`, `--out-path`, `--surf-num`, `--over-num` are not CLI flags; counts and paths are set internally via glob. `--rad-weights` appears only in the `print_usage()` help text as "not yet implemented" and is not actually parsed — it has been removed from the flag table.

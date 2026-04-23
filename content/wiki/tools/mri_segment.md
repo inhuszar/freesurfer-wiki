@@ -108,11 +108,13 @@ The default (no `-seg`) pipeline proceeds in six stages:
 
 Assigns each voxel to one of three classes based on intensity $I$:
 
-$$\text{label}(v) = \begin{cases}
+$$
+\text{label}(v) = \begin{cases}
 \text{MRI\_NOT\_WHITE} & I < \text{wm\_low} \text{ or } I > \text{wm\_hi} \\
 \text{MRI\_AMBIGUOUS} & I \leq \text{gray\_hi} \\
 \text{MRI\_WHITE} & \text{otherwise}
-\end{cases}$$
+\end{cases}
+$$
 
 Initial defaults (before auto-detect): wm\_low = 90, wm\_hi = 125,
 gray\_hi = 100. A Gaussian blur (σ = 0.25 voxels) is applied prior to
@@ -128,8 +130,12 @@ Computes local WM/GM histograms in an $11 \times 11 \times 11$ neighbourhood
 `MRIcomputeClassStatistics` estimates Gaussian WM and GM distributions from
 the partially-labelled volume. Thresholds are updated:
 
-$$\text{wm\_low} = \mu_{GM} + \sigma_{GM}$$
-$$\text{gray\_hi} = \mu_{GM} + 2\sigma_{GM}$$
+$$
+\text{wm\_low} = \mu_{GM} + \sigma_{GM}
+$$
+$$
+\text{gray\_hi} = \mu_{GM} + 2\sigma_{GM}
+$$
 
 Stages 1–2 are repeated with the new thresholds.
 

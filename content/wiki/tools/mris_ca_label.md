@@ -111,7 +111,9 @@ Each GCSA atlas node (at a spherical location) stores a Gaussian mixture model
 over the feature space (curvature and sulcal depth). Classification uses MAP
 assignment:
 
-$$l^*(v) = \arg\max_l \; p(l | \theta_{\text{atlas}(\phi(v))}) \cdot p(\mathbf{f}(v) | l, \theta_{\text{atlas}(\phi(v))})$$
+$$
+l^*(v) = \arg\max_l \; p(l | \theta_{\text{atlas}(\phi(v))}) \cdot p(\mathbf{f}(v) | l, \theta_{\text{atlas}(\phi(v))})
+$$
 
 where:
 - $\phi(v)$ = spherical coordinates of vertex $v$ in `sphere.reg`
@@ -182,6 +184,9 @@ after mode filtering. The local function (lines 537–614 of
 | `-ml-annot <gcs> <icoorder> <outannot>` | string + int + string | — | Standalone mode: load the named GCSA from `$FREESURFER_HOME/average/<gcs>`, build the most-likely labelling on an icosahedral mesh of order `<icoorder>` (typically 7) via `GCSAbuildMostLikelyLabels`, mode-filter twice and write `<outannot>`. The tool exits without touching the positional arguments |
 | `-help`, `--help`, `-usage`, `--usage`, `-h`, `-u` | bool | — | Print XML-formatted help and exit |
 | `-version`, `--version` | bool | — | Print version string and exit |
+| `-a <n>` | int | — | **Dead code (`#if 0`).** Would set `navgs`; disabled via preprocessor. |
+| `-norm` | bool | — | **Dead code (`#if 0`).** Would enable sulc normalisation; disabled via preprocessor. |
+| `-sulc` | bool | — | **Dead code (`#if 0`).** Would use sulc as only input; disabled via preprocessor. |
 
 Flag names are matched case-insensitively by the parser (`stricmp`), so `-NOVAR`, `-novar`, and `-NoVar` are equivalent.
 

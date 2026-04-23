@@ -64,7 +64,9 @@ The change map is computed by `MRIcomputeChangeMap()`:
 
 The neighbourhood p-value computation (`-n <size>`) combines the $-\log_{10}(p)$ values in a cubic neighbourhood of half-width `<size>` around each voxel:
 
-$$-\log_{10}(p_\text{nbhd}) = \sum_{\mathbf{y} \in \text{nbhd}(\mathbf{x})} -\log_{10}(1 - p(\mathbf{y}))$$
+$$
+-\log_{10}(p_\text{nbhd}) = \sum_{\mathbf{y} \in \text{nbhd}(\mathbf{x})} -\log_{10}(1 - p(\mathbf{y}))
+$$
 
 Bonferroni correction (`-b`) multiplies each voxel's p-value by the number of brain voxels (those with non-zero change map values).
 
@@ -86,6 +88,7 @@ All flags use a single dash. Option matching is case-insensitive.
 | `-b` | boolean | false | Apply Bonferroni correction: multiply the $-\log_{10}(p)$ value at each voxel by the number of non-zero voxels in the change map. |
 | `-mask <vol>` | volume | — | Binary mask volume; zeros out matching voxels in both input volumes prior to change map computation. |
 | `-debug_voxel <x> <y> <z>` | 3 × int | — | Enable per-voxel diagnostic output at voxel `(x, y, z)`. |
+| `-identity.nofile` | — | — | **Not a flag — positional value.** Passing the string `identity.nofile` as positional argument 3 selects identity transform mode (no LTA file required). The audit extractor promotes this positional comparison to pseudo-flag `-identity.nofile`. |
 
 ## Configuration Interactions
 

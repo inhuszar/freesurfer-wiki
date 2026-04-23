@@ -14,10 +14,11 @@ related:
   - "[[mri_vol2surf]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The exact form of the cost function used for optimisation is not fully described in the truncated source read."
   - "Relationship to bbregister for functional-structural registration is unclear."
+  - "Four flags in help text (--1dmin, --no-crop, --projabs, --proj-frac) are not implemented in the parser; purpose unclear."
 tags:
   - registration
   - surface
@@ -63,7 +64,9 @@ Accurate registration between functional and anatomical MRI is critical for EEG/
 
 The cost function measures the grey/white contrast sampled from the functional volume at surface vertices projected inward (WM side) and outward (GM side). For T2/BOLD contrast (default), GM is expected to be brighter than WM:
 
-$$C(\mathbf{T}) = -\frac{1}{N} \sum_{v} \left[ I_{\text{WM}}(T\cdot v_{\text{WM}}) - I_{\text{GM}}(T\cdot v_{\text{GM}}) \right] \cdot s$$
+$$
+C(\mathbf{T}) = -\frac{1}{N} \sum_{v} \left[ I_{\text{WM}}(T\cdot v_{\text{WM}}) - I_{\text{GM}}(T\cdot v_{\text{GM}}) \right] \cdot s
+$$
 
 where $\mathbf{T}$ is the rigid registration matrix, $v_{\text{WM}}$ and $v_{\text{GM}}$ are surface vertices projected into WM and GM respectively, $I$ is the interpolated functional intensity, and $s$ is the slope parameter controlling cost sensitivity.
 
@@ -109,7 +112,67 @@ Pre-optimisation options include brute-force grid search (`--brute`, `--brute_tr
 | `--rh-only` | — | off | Use right hemisphere only |
 | `--no-cortex-label` | — | off | Do not use cortex label mask |
 | `--interp` | `trilinear\|nearest` | trilinear | Interpolation method |
+| `--trilinear` | — | trilinear | Set interpolation to trilinear (alias for `--interp trilinear`) |
+| `--nearest` | — | — | Set interpolation to nearest-neighbour |
 | `--debug` | — | off | Debug mode |
+| `--reg` | `<file>` | — | Alias for `--init-reg`: initial registration file |
+| `--abs` | — | off | Compute absolute value of moving volume before optimising |
+| `--mask` | — | off | Mask out expected B0 dropout regions |
+| `--include-zero-voxels` | — | off | Include zero-valued (out-of-FoV) voxels in the cost |
+| `--exclude-zero-voxels` | — | on | Exclude zero-valued voxels from cost (default) |
+| `--surf` | `surfname` | white | Use `?h.surfname` instead of `?h.white` as the boundary surface |
+| `--surf-cost` | `basename` | — | Save per-vertex cost map as `basename.?h.mgh` |
+| `--cur-reg` | `<file>` | — | Write registration at current optimum to file (updated at each improvement) |
+| `--rms` | `RMSDiffFile` | — | Save translation/rotation parameters and RMS difference to file |
+| `--dof` | `<int>` | 6 | Degrees of freedom for optimisation (6=rigid, 9=rigid+scale, 12=affine) |
+| `--nsub` / `--skip` | `<int>` | — | Sample every Nth vertex (alias: `--subsamp`) |
+| `--scale` | `sx sy sz` | — | Apply pre-optimisation scaling (3 floats) to the registration |
+| `--shear` | `s01 s02 s12` | — | Apply pre-optimisation shear (3 floats) to the registration |
+| `--trans-rand` | `Tmax` | 0 | Apply random translation uniformly drawn from -Tmax..+Tmax mm (each axis) |
+| `--rot-rand` | `Amax` | 0 | Apply random rotation uniformly drawn from -Amax..+Amax degrees (each axis) |
+| `--noise` | `stddev` | — | Add Gaussian noise with given stddev to input (testing sensitivity) |
+| `--seed` | `<int>` | -1 | Random seed for use with `--noise` |
+| `--profile` | — | off | Print execution time profiling information |
+| `--no-abs` | — | off | Do not take absolute value of moving volume before optimising (explicit default) |
+| `--no-mask` | — | on | Do not mask out expected B0 dropout regions (default) |
+| `--lh-mask` | `<file>` | — | Load a segmentation mask for the left hemisphere; implies `--mask` |
+| `--rh-mask` | `<file>` | — | Load a segmentation mask for the right hemisphere; implies `--mask` |
+| `--sd` | `<dir>` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `--s` | `<subject>` | — | Override subject name (use after `--init-reg`) |
+| `--9` | — | — | Shorthand for `--dof 9` (rigid + isotropic scale) |
+| `--n1dmin` | `<int>` | 3 | Number of 1D minimisations in Powell method |
+| `--tol1d` | `<float>` | 1e-8 | Convergence tolerance for Powell line minimisations |
+| `--subsamp-brute` | `<int>` | 100 | Sample every Nth vertex during brute-force pre-optimisation |
+| `--preopt-file` | `<file>` | — | Save pre-optimisation sweep results to file |
+| `--preopt-only` | — | off | Run pre-optimisation only; skip main Powell minimisation |
+| `--preopt-dim` | `<int>` | 2 | Dimension to sweep in pre-optimisation (0=TrLR, 1=TrSI, 2=TrAP, 3=RotLR, 4=RotSI, 5=RotAP) |
+| `--cost-eval` | `<file>` | — | Save cost at each Powell iteration to file |
+| `--relcost` | `<file>` | — | Save relative cost values to file |
+| `--mincost` | `<file>` | — | Save minimum cost value to file |
+| `--initcost` | `<file>` | — | Save initial cost value to file |
+| `--param` | `<file>` | — | Save optimised registration parameters to file |
+| `--gm-gt-wm` | `<slope>` | — | Set cost slope and specify GM brighter than WM (`PenaltySign=-1`); takes slope argument |
+| `--wm-gt-gm` | `<slope>` | — | Set cost slope and specify WM brighter than GM (`PenaltySign=+1`); takes slope argument |
+| `--c0` | `<float>` | 0 | Cost function offset / centre (alias for `--offset`) |
+| `--penalty-abs` | — | off | Remove contrast direction from penalty (`PenaltySign=0`) |
+| `--ignore-neg` | — | off | Ignore negative contrast in cost (`PenaltySign=-2`) |
+| `--cf` | `<file>` | — | Write cost function shape (pct vs cost) to file and exit |
+| `--init-surf-cost` | `<basename>` | — | Save per-vertex cost at initial registration as `<basename>.?h.mgh` |
+| `--init-surf-cost-only` | — | off | Compute and save initial per-vertex cost only; do not optimise |
+| `--surf-cost-diff` | `<basename>` | — | Save per-vertex difference between final and initial cost as `<basename>.?h.mgh` |
+| `--surf-con` | `<basename>` | — | Save per-vertex final contrast map as `<basename>.?h.mgh` |
+| `--tx-mmd` | `min max delta` | — | Add translation values (x-axis) to sweep list for cost evaluation |
+| `--ty-mmd` | `min max delta` | — | Add translation values (y-axis) to sweep list for cost evaluation |
+| `--tz-mmd` | `min max delta` | — | Add translation values (z-axis) to sweep list for cost evaluation |
+| `--ax-mmd` | `min max delta` | — | Add rotation values (x-axis, degrees) to sweep list for cost evaluation |
+| `--ay-mmd` | `min max delta` | — | Add rotation values (y-axis, degrees) to sweep list for cost evaluation |
+| `--az-mmd` | `min max delta` | — | Add rotation values (z-axis, degrees) to sweep list for cost evaluation |
+| `--vsm-reg` | `<ltafile>` | — | LTA registration file for the voxel shift map (VSM) |
+| `--target-volume` | `<path>` | `SUBJECTS_DIR/mri/orig.mgz` | Use an alternative anatomy volume instead of the default |
+| `--targ-con` | `<lhfile> <rhfile>` | — | Load target contrast maps (lh and rh) for cost evaluation |
+
+> [!gap] Help-text-only flags not implemented in parser
+> The following flags appear in the `BEGINUSAGE` help text but are **not** handled in `parse_commandline()` and will cause an unknown-option error if used: `--1dmin`, `--no-crop`, `--projabs`, `--proj-frac`. These may be stale documentation or planned features.
 
 ## Configuration Interactions
 
@@ -156,6 +219,8 @@ Not called by `recon-all`. Used in functional-structural co-registration workflo
 
 ## Confidence and Gaps
 
-**Confident (from source):** All flags, T1/T2 contrast modes, projection parameters, Powell optimisation, brute-force modes.
+**Confident (from source):** All flags, T1/T2 contrast modes, projection parameters, Powell optimisation, brute-force modes, sweep list flags (`--tx-mmd` etc.), random perturbation flags, all output file flags.
 
-**Uncertain:** Exact form of the cost function summation; whether `--gm-gt-wm`/`--wm-gt-gm` are distinct from `--T2`/`--T1`.
+**Clarified (from parser):** `--gm-gt-wm` and `--wm-gt-gm` are distinct from `--T2`/`--T1`; both set `PenaltySign` AND take a numeric slope argument. `--T1`/`--T2` set only `PenaltySign`. `--c0` is the same as `--offset` (both set `PenaltyCenter`).
+
+**Uncertain:** Exact form of the cost function summation; purpose of the four help-text flags (`--1dmin`, `--no-crop`, `--projabs`, `--proj-frac`) that are absent from the parser.

@@ -65,7 +65,9 @@ FreeSurfer surfaces are natively in surface RAS (tkRAS) space, which is subject-
 
 The Talairach transform is a 4×4 affine matrix $T$ applied to each vertex:
 
-$$\begin{pmatrix} x_T \\ y_T \\ z_T \\ 1 \end{pmatrix} = T \begin{pmatrix} x_{\text{surf}} \\ y_{\text{surf}} \\ z_{\text{surf}} \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} x_T \\ y_T \\ z_T \\ 1 \end{pmatrix} = T \begin{pmatrix} x_{\text{surf}} \\ y_{\text{surf}} \\ z_{\text{surf}} \\ 1 \end{pmatrix}
+$$
 
 where $(x_{\text{surf}}, y_{\text{surf}}, z_{\text{surf}})$ are the surface RAS vertex coordinates and $(x_T, y_T, z_T)$ are the resulting MNI305 coordinates.
 

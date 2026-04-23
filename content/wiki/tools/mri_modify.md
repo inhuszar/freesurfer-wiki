@@ -58,11 +58,15 @@ MRI volume headers often contain incorrect metadata — wrong direction cosines 
 
 The vox2ras matrix $M$ maps voxel coordinates $(c, r, s)$ to scanner RAS coordinates $(R, A, S)$:
 
-$$\begin{pmatrix} R \\ A \\ S \\ 1 \end{pmatrix} = M \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} R \\ A \\ S \\ 1 \end{pmatrix} = M \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 where $M$ is constructed from the volume geometry fields:
 
-$$M = \begin{pmatrix} x_r \cdot d_x & y_r \cdot d_y & z_r \cdot d_z & c_r \\ x_a \cdot d_x & y_a \cdot d_y & z_a \cdot d_z & c_a \\ x_s \cdot d_x & y_s \cdot d_y & z_s \cdot d_z & c_s \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+$$
+M = \begin{pmatrix} x_r \cdot d_x & y_r \cdot d_y & z_r \cdot d_z & c_r \\ x_a \cdot d_x & y_a \cdot d_y & z_a \cdot d_z & c_a \\ x_s \cdot d_x & y_s \cdot d_y & z_s \cdot d_z & c_s \\ 0 & 0 & 0 & 1 \end{pmatrix}
+$$
 
 Here $(x_r, x_a, x_s)$ is the x-direction cosine (set by `-xras`), $d_x$ is the x-voxel size (set by `-xsize`), and $(c_r, c_a, c_s)$ is the centre RAS coordinate (set by `-cras`).
 
@@ -92,7 +96,7 @@ All flags are case-insensitive except `--help` (which uses `strcmp`, not `stricm
 > In `get_option()`, the `-xform` branch reads `argv[2]` but does not set `nargs` (it remains 0). This means the filename passed to `-xform` is read, but the parser's loop will then attempt to parse that filename as the next flag — causing an "unknown option" error unless the filename begins with a character that `ISOPTION()` (typically `-`) does not recognise as a flag start. In practice, `-xform` can only be safely used when the filename is the last argument or when the filename does not start with `-`. Use of `-xform` is therefore effectively broken unless positional arguments follow the options.
 
 > [!gotcha] `--help` is case-sensitive
-> The help check uses `strcmp` (not `stricmp`), so only `--help` triggers it; `-Help` or `--HELP` will not.
+> The help check uses `strcmp` (not `stricmp`), so only `--help` triggers it; `-Help` or --HELP will not.
 
 ## Configuration Interactions
 

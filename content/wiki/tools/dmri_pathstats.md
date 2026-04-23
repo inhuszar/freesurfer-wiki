@@ -14,9 +14,8 @@ related:
   - "[[dmri_spline]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
   - "pathstats.overall.txt format not confirmed from source"
 tags:
   - diffusion
@@ -47,22 +46,25 @@ For deterministic tractography (`.trk` input), the tool similarly computes measu
 
 ## Inputs
 
-| Variable | Likely flag | Description |
-|----------|-------------|-------------|
+| Variable | Flag | Description |
+|----------|------|-------------|
 | `inTrkFile` | `--intrk` | Input `.trk` file (deterministic tractography) |
-| `inTrcDir` | `--trcdir` | TRACULA output directory (probabilistic) |
+| `inRoi1File`, `inRoi2File` | `--rois <file1> <file2>` | Labeling ROI files for `.trk` input (optional) |
+| `inTrcDir` | `--intrc` | TRACULA output directory (probabilistic) |
 | `inVoxFile` | `--invox` | Path map text file (default: `path.map.txt`) |
-| `inXfmFile` | `--xfm` | Optional affine transform file |
+| `inXfmFile` | `--inlta` | Affine transform file (LTA format) |
 | `dtBase` | `--dtbase` | DTI scalar map base filename |
+| `pathName` | `--path` | Path name (tract name label) |
+| `subjName` | `--subj` | Subject name |
 | `outFile` | `--out` | Output overall statistics file |
 | `outVoxFile` | `--outvox` | Per-voxel output file |
-| `outMedianFile` | `--outmed` | Median values along path |
-| `outEndBase` | `--outend` | Base filename for endpoint values |
+| `outMedianFile` | `--median` | Median values along path |
+| `outEndBase` | `--ends` | Base filename for endpoint values |
 | `refVolFile` | `--ref` | Reference volume for coordinates |
-| `measFileList` | `--meas` | List of diffusion measure volumes |
-| `measNameList` | `--name` | Names for the provided measures |
-| `probThresh` | `--pthresh` | Probability threshold (default: 0.2) |
-| `faThresh` | `--fa` | FA threshold for voxel inclusion (default: 0) |
+| `measFileList` | `--meas` | List of diffusion measure volumes (space-separated, multiple allowed) |
+| `measNameList` | `--measname` | Names for the provided measures (space-separated, multiple allowed) |
+| `probThresh` | `--pthr` | Probability threshold (default: 0.2) |
+| `faThresh` | `--fthr` | FA threshold for voxel inclusion (default: 0) |
 
 ## Outputs
 
@@ -96,27 +98,44 @@ Path coordinates are provided in the volume's RAS coordinate system. If a transf
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> Complete argument list requires reading `parse_commandline()`. Values above are inferred from global variables.
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `probThresh` | 0.2 | Minimum posterior probability to include a voxel |
-| `faThresh` | 0 | Minimum FA to include a voxel |
-| `inVoxFile` | `path.map.txt` | Default path map filename within trcdir |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--intrk` | `<file>` | — | Input `.trk` streamline file (deterministic tractography) |
+| `--rois` | `<file1> <file2>` | — | Endpoint ROI label files for `.trk` input (optional) |
+| `--intrc` | `<dir>` | — | TRACULA output directory (probabilistic tractography) |
+| `--invox` | `<file>` | `path.map.txt` | Path map text file (relative to `--intrc` dir) |
+| `--inlta` | `<file>` | — | Affine transform (LTA) to map coordinates to common space (optional) |
+| `--dtbase` | `<base>` | — | DTI scalar map base filename (loads `_FA`, `_MD`, `_RD`, `_AD`) (optional) |
+| `--meas` | `<file> ...` | — | One or more custom diffusion measure volumes (optional) |
+| `--measname` | `<name> ...` | — | Names for the custom measures (matched to `--meas`; auto-named `Meas1`, `Meas2`… if omitted) |
+| `--path` | `<name>` | — | Tract/path name label for output headers (optional) |
+| `--subj` | `<name>` | — | Subject name for output headers (optional) |
+| `--out` | `<file>` | — | Output overall statistics file |
+| `--outvox` | `<file>` | — | Per-voxel output file (optional) |
+| `--median` | `<file>` | — | Output `.trk` file of median streamline (optional; requires `--intrk`) |
+| `--ends` | `<base>` | — | Base filename for endpoint values (optional; requires `--intrk`) |
+| `--ref` | `<vol>` | — | Reference volume for endpoint output (required by `--ends` if `--dtbase`/`--meas` absent) |
+| `--pthr` | `<val>` | `0.2` | Minimum posterior probability to include a voxel (fraction of robust max; range 0–1) |
+| `--fthr` | `<val>` | `0` | Minimum FA to include a voxel (0 = no FA threshold applied; range 0–1) |
 
 ## Typical Use Cases
 
-> [!gap] Exact command syntax
-> Without the full argument parser, exact command lines cannot be verified. In TRACULA, this is called by `trac-all`.
-
 ```bash
-# Compute path stats from TRACULA output, using FA and MD
+# Compute path stats from TRACULA output, using FA/MD/RD/AD from dtifit
 dmri_pathstats \
-  --trcdir /data/subject01/dmri/lh_cst.tr/ \
+  --intrc /data/subject01/dmri/lh_cst.tr/ \
   --dtbase /data/subject01/dmri/dtifit \
   --out /data/subject01/dmri/lh_cst.tr/pathstats.overall.txt \
   --outvox /data/subject01/dmri/lh_cst.tr/pathstats.byvoxel.txt
+
+# With custom measure and probability threshold
+dmri_pathstats \
+  --intrc /data/subject01/dmri/lh_cst.tr/ \
+  --meas /data/subject01/dmri/kurtosis.nii.gz \
+  --measname AK \
+  --pthr 0.1 \
+  --out pathstats.overall.txt \
+  --outvox pathstats.byvoxel.txt
 ```
 
 ## Pipeline Context
@@ -129,11 +148,11 @@ dmri_paths --> dmri_pathstats --> dmri_group
 
 ## Gotchas and Caveats
 
-> [!gotcha] probThresh default of 0.2
-> Voxels with posterior probability below 0.2 are excluded from measure computation. This may exclude peripheral path voxels. Lowering the threshold includes more voxels but with lower confidence.
+> [!gotcha] --pthr default of 0.2
+> Voxels with posterior probability below 0.2 are excluded from measure computation. This may exclude peripheral path voxels. Lowering the threshold with `--pthr` includes more voxels but with lower confidence.
 
 > [!gotcha] DTI vs. custom measures
-> If `--dtbase` is provided, the tool automatically loads FA, MD, RD, AD from FSL dtifit-style filenames (e.g., `dtbase_FA.nii.gz`). Custom measures can be added with `--meas`. If neither is provided, coordinate output only.
+> If `--dtbase` is provided, the tool automatically loads FA, MD, RD, AD from FSL dtifit-style filenames (e.g., `dtbase_FA.nii.gz`). Custom measures can be added with `--meas` and named with `--measname`. If neither is provided, coordinate output only.
 
 ## Related Tools
 
@@ -143,5 +162,4 @@ dmri_paths --> dmri_pathstats --> dmri_group
 
 ## Confidence and Gaps
 
-> [!gap] Argument parser not read
-> Complete flags and their defaults require reading `parse_commandline()`.
+**Confident (from source):** All flags verified from `parse_commandline()` in `trc/dmri_pathstats.cxx`. Flag names, argument counts, and variable assignments confirmed.

@@ -14,7 +14,7 @@ related:
   - "[[mri_em_register]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source is in attic/ — may not be compiled or distributed."
   - "Source not read — functionality inferred from name."
@@ -59,14 +59,23 @@ The GCA (Gaussian Classifier Atlas) is FreeSurfer's probabilistic atlas for subc
 ## Mathematical Foundations
 
 GCA parameters are Gaussian mixture models at each spatial location in atlas space. Updating involves:
-$$\mu_k' = \frac{N_k \mu_k + n_k \bar{x}_k}{N_k + n_k}$$
-$$\sigma_k'^2 = \frac{N_k \sigma_k^2 + n_k s_k^2}{N_k + n_k}$$
+$$
+\mu_k' = \frac{N_k \mu_k + n_k \bar{x}_k}{N_k + n_k}
+$$
+$$
+\sigma_k'^2 = \frac{N_k \sigma_k^2 + n_k s_k^2}{N_k + n_k}
+$$
 
 where $N_k$ is the existing count, $n_k$ is new data count, and $\bar{x}_k$, $s_k^2$ are new sample mean and variance.
 
 ## Configuration Options
 
-> [!gap] Unknown
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-n` | `<n>` | — | Parsed but performs no action (no-op placeholder in source). The argument is consumed but ignored. |
+
+> [!gap] `-n` is a no-op
+> The `case 'N'` branch in `get_option()` increments `nargs` to consume one argument but performs no computation. This flag has no effect.
 
 ## Pipeline Context
 

@@ -62,19 +62,27 @@ This approach is analogous to scale-space theory in image processing.
 
 At each smoothing scale $k$ (number of averaging iterations), the group means and variances are:
 
-$$\bar{x}_{k,j}(v) = \text{spatially smoothed curvature at scale } k \text{ for subject } j$$
+$$
+\bar{x}_{k,j}(v) = \text{spatially smoothed curvature at scale } k \text{ for subject } j
+$$
 
 The t-statistic between group 1 (size $n_1$) and group 2 (size $n_2$) at vertex $v$ and scale $k$:
 
-$$t_k(v) = \frac{\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v)}{\sqrt{\sigma_{total}^k(v) \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}$$
+$$
+t_k(v) = \frac{\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v)}{\sqrt{\sigma_{total}^k(v) \left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}
+$$
 
 The SNR at scale $k$:
 
-$$\text{SNR}_k(v) = \frac{(\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v))^2}{\sigma_{total}^k(v)}$$
+$$
+\text{SNR}_k(v) = \frac{(\bar{\mu}_1^k(v) - \bar{\mu}_2^k(v))^2}{\sigma_{total}^k(v)}
+$$
 
 The best scale for each vertex is:
 
-$$k^*(v) = \arg\max_k \text{SNR}_k(v)$$
+$$
+k^*(v) = \arg\max_k \text{SNR}_k(v)
+$$
 
 Bonferroni correction is applied over the number of scales tested.
 
@@ -91,8 +99,8 @@ Flags are parsed by a custom `get_option()` function using case-insensitive matc
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `-o` | `subject` | required | Output subject name (must be specified; fatal error otherwise). |
-| `--max` | `int` | `500` | Maximum number of smoothing averages (scales) to test. |
-| `--roi` | (flag) | off | Automatically generate regions of interest from significant vertices. |
+| `-max` | `int` | `500` | Maximum number of smoothing averages (scales) to test. |
+| `-roi` | (flag) | off | Automatically generate regions of interest from significant vertices. |
 | `-C` | `cond1 cond2` | — | Write output statistics as condition numbers `cond1` and `cond2` (two integer arguments). |
 | `-L` | `label` | — | Restrict analysis to vertices within the named label file. |
 | `-V` | `int` | — | Set diagnostic vertex number (`Gdiag_no`) for per-vertex debug output. |
@@ -107,10 +115,10 @@ Flags are parsed by a custom `get_option()` function using case-insensitive matc
 ## Configuration Interactions
 
 - `-o` / `-O` are functionally equivalent paths to setting `output_subject`; `-o` is required (enforced via `ErrorExit`).
-- `--max` sets the upper limit of scales; the analysis iterates from 0 averages up to `max_avgs` averages.
+- `-max` sets the upper limit of scales; the analysis iterates from 0 averages up to `max_avgs` averages.
 - `-T` is the SNR/t threshold applied after optional Bonferroni correction.
 - `-B` (Bonferroni) and `-N` (distribution-free SNR) are independent; both can be combined.
-- `--roi` generates label files from significant vertices and writes them to the output subject's `label/` directory.
+- `-roi` generates label files from significant vertices and writes them to the output subject's `label/` directory.
 
 ## Typical Use Cases
 

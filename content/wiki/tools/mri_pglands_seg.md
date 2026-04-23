@@ -15,7 +15,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Model architecture details (neural network type not specified in main script)"
   - "Whether this tool is called by recon-all by default or must be run manually"
@@ -76,27 +76,38 @@ The segmentation uses a deep convolutional neural network (CNN) implemented in P
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-i` / `--i` | `<file(s) or dir>` | Input T1 image(s) or directory (normal mode) |
-| `-s` / `--s` | `<subject(s)>` | FreeSurfer subject ID(s) (FS mode) |
-| `--sd` | `<dir>` | Subjects directory (overrides `SUBJECTS_DIR`) |
-| `-o` / `--o` | `<file(s) or dir>` | Output segmentation path(s) or directory |
-| `--outbase` | `<name>` | Output file basename (default determined by input) |
-| `--model` | `<fname>` | Path to model weights file |
-| `--lut` | `<fname>` | Custom lookup table for label colors |
-| `--mni_template` | `<fname>` | MNI template volume for normalization |
-| `--mni_template_transform` | `<fname>` | Affine transform to MNI space |
-| `--tal` | `<fname>` | Talairach affine transform |
-| `--qa_transform` | `<fname>` | QA warp transform |
-| `--crop_patch_size` | `<int>` | Patch size for cropping around target region |
-| `--center_crop` | (none) | Use center crop instead of adaptive crop |
-| `--robust_norm_percent` | `<float>` | Percentile for robust intensity normalization |
-| `--write_posteriors` | (none) | Write posterior probability maps |
-| `--write_vol_stats` | (none) | Write volumetric statistics |
-| `--write_qa_stats` | (none) | Write QA statistics |
-| `--etiv` | (none) | Include eTIV in output statistics |
-| `--use_cuda` | (none) | Use CUDA GPU if available (falls back to CPU) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-i` / `--i` | `<file(s) or dir>` | — | Input T1 image(s) or directory (normal mode) |
+| `-s` / `--s` | `<subject(s)>` | — | FreeSurfer subject ID(s) (FS mode) |
+| `--sd` | `<dir>` | — | Subjects directory (overrides `SUBJECTS_DIR`) |
+| `-o` / `--o` | `<file(s) or dir>` | — | Output segmentation path(s) or directory; parsed from input paths if omitted |
+| `--outbase` | `<name>` | `pglands` | Output file basename |
+| `--model` | `<fname>` | `pglands_seg.pth` | Path to model weights file |
+| `--lut` | `<fname>` | `pglands.ctab` | Lookup table for label colors |
+| `--mni_template` | `<fname>` | `mni152_label_template.mgz` | MNI label template volume for crop window alignment |
+| `--mni_template_transform` | `<fname>` | — | Affine transform for registering the MNI label template to subject space; overrides default per-subject registration |
+| `--tal` | `<fname>` | — | Talairach affine transform for eTIV estimation; computed from scratch if absent and eTIV is needed |
+| `--qa_transform` | `<fname>` | — | Deformable warp from subject to MNI152 space for QA analysis |
+| `--crop_patch_size` | `<int>` | `96` | Isotropic patch size (voxels) for cropping around target region |
+| `--center_crop` | (none) | off | Use image center for crop window instead of MNI-registration-based adaptive crop |
+| `--robust_norm_percent` | `<float>` | `0.95` | Percentile for robust intensity normalization of input image |
+| `--write_posteriors` | (none) | off | Write posterior probability maps |
+| `--write_vol_stats` | (none) | off | Write volumetric statistics |
+| `--write_qa_stats` | (none) | off | Write QA statistics |
+| `--etiv` | (none) | off | Include eTIV in output statistics; automatically enabled in FS mode |
+| `--use_cuda` | (none) | off | Use CUDA GPU if available (falls back to CPU silently) |
+| `--logfile` | `<basename>` | `mri_pglands_seg.log` | Set logfile basename; automatically written to the output directory |
+
+> [!note] Sub-tool flags not belonging to this tool
+> Several flags that appear in the script's subprocess calls are NOT flags of `mri_pglands_seg` itself. They belong to sub-tools invoked internally:
+> - `--conform` — flag of `mri_convert` (called to conform the input image)
+> - `--no-rescale`, `--n`, `--proto-iters`, `--distance`, `--ants-n4` — flags of `mri_nu_correct.mni` (intensity normalization)
+> - `--xfm` — flag of `talairach_avi` (Talairach registration)
+> - `--src`, `--trg`, `--inxfm`, `--outlta`, `--ltavox2vox` — flags of `lta_convert` (transform format conversion)
+> - `--mni-out-res`, `--mni-targ-res`, `--no-crop`, `--pituitary`, `--affine-only` — flags of `fs-synthmorph-reg` (MNI template registration)
+>
+> None of these are accepted by `mri_pglands_seg` directly.
 
 ## Configuration Interactions
 

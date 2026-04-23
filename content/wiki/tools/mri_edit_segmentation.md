@@ -56,7 +56,9 @@ Positional arguments (in order):
 
 The core algorithm uses Maximum Likelihood Estimation: for ambiguous voxels, the tool computes which of two candidate labels ($l_1$, $l_2$) is more likely given local intensity statistics:
 
-$$\hat{l} = \arg\max_{l \in \{l_1, l_2\}} P(I | l) \cdot P(l | \text{neighbors})$$
+$$
+\hat{l} = \arg\max_{l \in \{l_1, l_2\}} P(I | l) \cdot P(l | \text{neighbors})
+$$
 
 This is implemented in `mle_label()`. The tool also uses `change_label()` for deterministic rule-based relabeling based on neighbourhood context.
 

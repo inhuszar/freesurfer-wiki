@@ -62,7 +62,9 @@ For each voxel $v$ with neighborhood $\mathcal{N}(v)$ of size $W^3$ (default $W 
 
 2. Select the normal $\hat{n}^*$ that minimizes the within-plane variance:
 
-$$\hat{n}^* = \arg\min_{\hat{n}} \text{Var}\{I(v') : v' \in \mathcal{N}(v) \cap \text{plane}(\hat{n})\}$$
+$$
+\hat{n}^* = \arg\min_{\hat{n}} \text{Var}\{I(v') : v' \in \mathcal{N}(v) \cap \text{plane}(\hat{n})\}
+$$
 
 3. The selected $\hat{n}^*$ is stored as the POLV normal for voxel $v$.
 
@@ -71,10 +73,10 @@ $$\hat{n}^* = \arg\min_{\hat{n}} \text{Var}\{I(v') : v' \in \mathcal{N}(v) \cap 
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-w` | `<int>` | Window size for POLV computation (default: 5) |
-| `-v` | (none) | Verbose mode (progress messages; default: on) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-w` | `<int>` | 5 | Window size for POLV computation |
+| `-v` | (none) | on | Verbose mode (progress messages) |
 
 > [!gap] Complete flag list
 > Only two options are visible in the source (`-w` for window size and verbosity). The binary was not run to confirm.

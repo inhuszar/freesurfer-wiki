@@ -65,7 +65,9 @@ This tool is a visualization utility within the AnatomiCuts pipeline. It decorat
 
 FA is a scalar derived from the diffusion tensor eigenvalues $\lambda_1 \geq \lambda_2 \geq \lambda_3$:
 
-$$\text{FA} = \sqrt{\frac{3}{2}} \cdot \frac{\sqrt{(\lambda_1 - \bar{\lambda})^2 + (\lambda_2 - \bar{\lambda})^2 + (\lambda_3 - \bar{\lambda})^2}}{\sqrt{\lambda_1^2 + \lambda_2^2 + \lambda_3^2}}$$
+$$
+\text{FA} = \sqrt{\frac{3}{2}} \cdot \frac{\sqrt{(\lambda_1 - \bar{\lambda})^2 + (\lambda_2 - \bar{\lambda})^2 + (\lambda_3 - \bar{\lambda})^2}}{\sqrt{\lambda_1^2 + \lambda_2^2 + \lambda_3^2}}
+$$
 
 where $\bar{\lambda} = (\lambda_1 + \lambda_2 + \lambda_3)/3$. FA ranges from 0 (isotropic diffusion) to 1 (fully anisotropic).
 

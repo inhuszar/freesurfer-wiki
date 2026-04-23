@@ -61,15 +61,21 @@ For creating single-subject multi-acquisition averages without conforming, the `
 
 For $N$ volumes $V_1, \ldots, V_N$ after optional conforming:
 
-$$\bar{V}(x) = \frac{1}{N} \sum_{i=1}^{N} V_i(x)$$
+$$
+\bar{V}(x) = \frac{1}{N} \sum_{i=1}^{N} V_i(x)
+$$
 
 **RMS mode** (`-sqr` / `-rms`):
 
-$$V_{\text{rms}}(x) = \sqrt{\frac{1}{N} \sum_{i=1}^{N} V_i(x)^2}$$
+$$
+V_{\text{rms}}(x) = \sqrt{\frac{1}{N} \sum_{i=1}^{N} V_i(x)^2}
+$$
 
 **Simple-average mode** (`-simple-average`):
 A straightforward accumulation without conforming, resampling, or alignment:
-$$\bar{V}(x) = \frac{1}{N} \sum_{i=1}^{N} V_i(x)$$
+$$
+\bar{V}(x) = \frac{1}{N} \sum_{i=1}^{N} V_i(x)
+$$
 
 **Alignment mode** (`-A`): Before averaging each volume $V_i$ ($i \geq 2$), a PCA-based rigid transform is estimated to align $V_i$ to the current average $\bar{V}$ using principal component analysis of image moments. The transform is then applied via sinc interpolation.
 

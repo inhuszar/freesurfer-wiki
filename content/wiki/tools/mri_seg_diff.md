@@ -65,11 +65,15 @@ This prevents edits from being lost when `recon-all` is re-run.
 
 The diff operation is a per-voxel comparison:
 
-$$\text{diff}(x) = \begin{cases} 256 & \text{if } \text{seg1}(x) = \text{seg2}(x) \\ \text{seg2}(x) & \text{if } \text{seg1}(x) \neq \text{seg2}(x) \end{cases}$$
+$$
+\text{diff}(x) = \begin{cases} 256 & \text{if } \text{seg1}(x) = \text{seg2}(x) \\ \text{seg2}(x) & \text{if } \text{seg1}(x) \neq \text{seg2}(x) \end{cases}
+$$
 
 The merge operation is the inverse:
 
-$$\text{merged}(x) = \begin{cases} \text{seg\_base}(x) & \text{if } \text{diff}(x) = 256 \\ \text{diff}(x) & \text{if } \text{diff}(x) \neq 256 \end{cases}$$
+$$
+\text{merged}(x) = \begin{cases} \text{seg\_base}(x) & \text{if } \text{diff}(x) = 256 \\ \text{diff}(x) & \text{if } \text{diff}(x) \neq 256 \end{cases}
+$$
 
 The value 256 (`Voxel-Unchanged`) is a special label defined in `FreeSurferColorLUT.txt` for this purpose.
 

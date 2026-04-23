@@ -15,11 +15,10 @@ related:
   - "[[mri_vol2surf]]"
   - "[[mgz]]"
 status: draft
-confidence: low
-last_agent_update: 2026-04-15
+confidence: medium
+last_agent_update: 2026-04-21
 gaps:
   - "Source is in the attic/ directory, suggesting this tool may be deprecated or unmaintained."
-  - "Full flag set was not read from source."
   - "Relationship to current pipeline and preferred alternatives is unclear."
 tags:
   - roi
@@ -46,37 +45,130 @@ Region-of-interest (ROI) analyses extract summary statistics from a statistical 
 
 ## Inputs
 
-| Input | Description |
-|-------|-------------|
-| Input volume | A statistical or functional MRI volume |
-| ROI mask/label | Definition of the ROI in compatible format |
-
-> [!gap] Flag documentation
-> The full command-line interface was not extracted from source for this page. The source file exists at `attic/mri_vol2roi/mri_vol2roi.cpp` but was not fully read.
+| Input | Flag | Description |
+|-------|------|-------------|
+| Source volume | `--srcvol <path>` | Volume from which the ROI is extracted (stem or stem.ext) |
+| Source registration | `--srcreg <file>` | Registration between source volume and subject anatomy (`register.dat`) |
+| Label file | `--label <file>` | FreeSurfer label file defining the ROI spatially |
+| Label registration | `--labelreg <file>` | Matrix mapping label XYZ to subject anatomical coordinates |
+| Mask volume | `--mskvol <path>` | Mask volume (same spatial dimensions as source) for thresholding |
 
 ## Outputs
 
-Summary statistics for each ROI printed to stdout or written to a file, depending on flags.
+| Output | Flag | Description |
+|--------|------|-------------|
+| ROI average text file | `--roiavgtxt <file>` | Text file with label hit count, final voxel count, and per-frame averages |
+| ROI average volume | `--roiavg <stem>` | Volume containing the ROI-averaged values |
+| Final mask volume | `--finalmskvol <path>` | Binary volume (1=in ROI, 0=out) of the final selected voxels |
+| Final mask CRS text | `--finalmskcrs <file>` | Text file listing 0-based col/row/slice of each mask voxel |
+| Source masked volume | `--srcmskvol <path>` | Source volume with non-ROI voxels zeroed out |
+| Voxel-level list | `--list <file>` | Text file with per-voxel CRS and per-frame values for all ROI voxels |
 
 ## Mathematical Foundations
 
-> [!gap] Algorithm not documented
-> The specific sampling and aggregation method was not traced from source.
+The tool averages all source-volume voxels that fall within the final mask. For multi-frame (4-D) statistical volumes in selxavg format, each frame is raised to an appropriate power before averaging and back-transformed afterward, so that variance frames are handled correctly (variance → square root after averaging → reported as std dev).
 
 ## Configuration Options
 
-> [!gap] Flags not documented
-> The flag table for this tool was not derived from source. Run `mri_vol2roi --help` for current options.
+All flags confirmed from `parse_commandline()` in `attic/mri_vol2roi/mri_vol2roi.cpp`.
+
+### Source volume
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--srcvol` | `<path>` | — | Source volume stem or stem.ext |
+| `--srcfmt` | `<fmt>` | `bvolume` | Source volume format (`bvolume`, `bfile`, `bshort`, `bfloat`, `cor`) |
+| `--srcreg` | `<file>` | — | Source-to-anatomy registration file (`register.dat`) |
+| `--srcoldreg` | — | off | Use old-style registration format |
+| `--srcwarp` | `<file>` | — | Source warping transform (currently unused in computation) |
+
+### Label ROI
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--label` / `--labelfile` | `<file>` | — | Path to FreeSurfer label file |
+| `--labelreg` | `<file>` | — | Matrix mapping label XYZ to anatomical coordinates (tkregister space) |
+| `--labeltal` | — | off | Treat label as in Talairach space; loads `talairach.xfm` automatically; also sets `--fixxfm` |
+| `--talxfm` | `<file>` | `talairach.xfm` | Alternative Talairach XFM file (from subject `mri/transforms/`); forces `--labeltal` |
+| `--labelfillthresh` | `<float>` | ~0 | Fraction of a voxel that must be filled by label points to include it (0–1) |
+
+### Mask volume
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--mskvol` | `<path>` | — | Mask volume stem or stem.ext (must match source dimensions) |
+| `--mskfmt` | `<fmt>` | — | Mask volume format |
+| `--mskthresh` | `<float>` | `0.5` | Threshold; voxel magnitude must exceed this to be included |
+| `--msktail` | `abs\|pos\|neg` | `abs` | Sign criterion: `abs` = ignore sign, `pos` = must be positive, `neg` = must be negative |
+| `--mskframe` | `<int>` | `0` | 0-based frame of the mask volume to use for thresholding |
+| `--mskinvert` | — | off | Invert the mask after thresholding |
+
+### Output
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--roiavgtxt` | `<file>` | — | Save ROI average as text (label hits, final hits, per-frame means) |
+| `--roiavg` | `<stem>` | — | Save ROI average as a volume (stem or stem.ext) |
+| `--finalmskvol` | `<path>` | — | Save final binary mask volume |
+| `--finalmskcrs` | `<file>` | — | Save 0-based col/row/slice of mask voxels to text file |
+| `--srcmskvol` | `<path>` | — | Save source volume with non-ROI voxels zeroed |
+| `--list` | `<file>` | — | Save per-voxel CRS + per-frame values for all ROI voxels |
+
+### Output format
+
+Output volume format is controlled by the `FSF_OUTPUT_FORMAT` environment variable (e.g., `mgh`, `mgz`, `nii`, `nii.gz`, `bhdr`). If unset, defaults to `bhdr`.
+
+### Miscellaneous
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--fixxfm` | — | off | Fix transform; set automatically by `--labeltal` |
+| `--nofixxfm` | — | — | Explicitly disable `--fixxfm` |
+| `--oldtxtstyle` | — | off | Use old text output style (writes `nmskhits` instead of label/final hit counts) |
+| `--plaintxtstyle` | — | off | Plain text output: omit label/final hit count header rows |
+| `--debug` | — | off | Enable verbose debug output |
+| `--version` | — | — | Print version string and exit |
+| `--help` | — | — | Print usage and detailed help, then exit |
 
 ## Configuration Interactions
 
-> [!gap] Interactions not documented
+- Either `--roiavgtxt`, `--roiavg`, or `--list` must be specified; the tool exits with an error if no output is given.
+- `--roiavg` must be specified even if only the text output is wanted (historical constraint noted in the help text).
+- `--labelreg` and `--labeltal` are mutually exclusive.
+- `--fixxfm` is set automatically by `--labeltal` and `--talxfm`.
+- `--mskfmt` accepts only `bvolume`, `bfile`, `bshort`, `bfloat`, or `cor`; other values cause an error exit.
 
 ## Typical Use Cases
 
 ```bash
-# Generic ROI sampling — flags to be confirmed with --help
-mri_vol2roi --help
+# ROI average from a mask volume (no label)
+mri_vol2roi \
+  --srcvol stat.nii.gz \
+  --mskvol roi_mask.nii.gz \
+  --roiavgtxt roi_avg.txt \
+  --roiavg /tmp/roi_avg_vol
+
+# ROI average using a FreeSurfer label
+mri_vol2roi \
+  --srcvol beta.nii \
+  --srcreg register.dat \
+  --label lh.fusiform.label \
+  --roiavgtxt fusi_avg.txt \
+  --roiavg /tmp/not_needed
+
+# Per-voxel listing of ROI values
+mri_vol2roi \
+  --srcvol beta.nii \
+  --mskvol mask.nii \
+  --list list.dat
+
+# Create a binary mask volume from a label
+mri_vol2roi \
+  --label your.label \
+  --srcvol f \
+  --srcreg register.dat \
+  --finalmskvol labelbinmask \
+  --roiavg /tmp/not.wanted.dat
 ```
 
 ## Pipeline Context
@@ -100,7 +192,7 @@ This tool is not part of the standard `recon-all` pipeline. It is a post-process
 
 ## Confidence and Gaps
 
-**Low confidence:** This entire page is based on the tool's name, its location in `attic/`, and general knowledge of ROI sampling workflows. The source was not fully read.
+**Medium confidence:** Flag table and behaviour are confirmed from a full reading of `attic/mri_vol2roi/mri_vol2roi.cpp`. The tool's place in current workflows is not well documented; `mri_segstats` is the actively maintained alternative for most use cases.
 
-> [!gap] Source not read
-> The source file `attic/mri_vol2roi/mri_vol2roi.cpp` was not fully read for this page. All sections marked with `[!gap]` require a dedicated reading of the source to fill in.
+> [!note] Audit noise: `--mskreg` and `--msksamesrc`
+> An automated audit flags `--mskreg` and `--msksamesrc` as missing. These names appear only in an error message at line 820 (`"cannot specify both --mskreg and --msksamesrc"`) and in variable names (`mskregfile`, `msksamesrc`), but neither flag is parsed by `parse_commandline()`. They are not valid CLI flags.

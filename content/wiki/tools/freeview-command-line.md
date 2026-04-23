@@ -65,6 +65,30 @@ freeview [global_options]
 
 ## 1. Data Loading Flags
 
+Each data-loading flag has a short form and a long-form alias, both registered in the `cmdLineDesc[]` array. Either form may be used interchangeably at the command line.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-v` / `-volume` | `<FILE>[:prop=val...]...` | — | Load one or more volumes. Repeatable. See §6 for inline properties. |
+| `-f` / `-surface` | `<FILE>[:prop=val...]...` | — | Load one or more surfaces. Repeatable. See §7 for inline properties. |
+| `-l` / `-label` | `<FILE>[:prop=val...]...` | — | Load one or more label / ROI files. Repeatable. Requires a prior volume. |
+| `-w` / `-way-points` | `<FILE>[:prop=val...]...` | — | Load waypoints (red spheres with spline). Repeatable. |
+| `-c` / `-control-points` | `<FILE>[:prop=val...]...` | — | Load control points (green spheres). Repeatable. |
+| `-dti` | `<VEC> <FA>...` | — | Load one or more DTI volume pairs (eigenvector file then FA file). Repeatable. |
+| `-t` / `-tract` | `<FILE>...` | — | Load tractography streamlines (TrackVis `.trk`). Repeatable. |
+| `-tc` / `-tract-cluster` | `<DIR>` | — | Load a tract-cluster directory. |
+| `-tv` / `-tract-volume` | `<FILE>...` | — | Load a tract-associated volume. Repeatable. |
+| `-odf` | `<FILE> [<VERT> <FACE>]` | — | Load ODF data. Requires a prior volume. |
+| `-p-labels` | `<FILE>...` | — | Load p-label volumes. Repeatable. |
+| `-p-prefix` | `<PREFIX>` | — | Filename prefix for p-label name extraction. |
+| `-p-lut` | `<NAME>` | FreeSurfer LUT | Look-up table name or file for p-label display. |
+| `-cmat` / `-connectome-matrix` | `<CMAT_FILE> <PARC_FILE>` | — | Load connectome matrix data. |
+| `-fcd` | `<SUBJECTS_DIR> <SUBJECT> [<SUFFIX>]` | — | Load FCD analysis output. |
+| `-recon` | `<SUBJECT>...` | — | Load canonical recon-all output for subject(s). Requires `$SUBJECTS_DIR`. Repeatable. |
+| `-lineprofile` | `<OUTPUT_CSV>` | — | Compute layer-thickness line profiles and export to CSV. |
+
+---
+
 ### 1.1 Volumes: `-v`
 
 ```
@@ -144,11 +168,11 @@ Repeatable. Loads one or more DTI volume pairs. Argument order is **eigenvector 
 
 ### 1.7 Tractography: `-t`, `-tc`, `-tv`
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-t <FILE>...` | TrackVis `.trk` file(s) | Load tractography streamlines. Repeatable. Inline: `color=<name>`, `render=line`/`tube` |
-| `-tc <DIR>` | tract cluster directory | Load a directory of tract clusters |
-| `-tv <FILE>...` | tract-associated volume | Load a tract-volume. Repeatable. Inline: `frame=N` (show only one tract by frame number) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-t` / `-tract` | `<FILE>...` | — | Load tractography streamlines from TrackVis `.trk` file(s). Repeatable. Inline: `color=<name>`, `render=line`/`tube` |
+| `-tc` / `-tract-cluster` | `<DIR>` | — | Load a directory of tract clusters |
+| `-tv` / `-tract-volume` | `<FILE>...` | — | Load a tract-associated volume. Repeatable. Inline: `frame=N` (show only one tract by frame number) |
 
 ### 1.8 ODF: `-odf`
 
@@ -228,58 +252,58 @@ Any arguments given without a flag are treated as volume filenames and loaded as
 
 ### 2.1 Viewport and Layout
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-viewport` | `sagittal`/`sag`/`x`, `coronal`/`cor`/`y`, `axial`/`z`, `3d` | Set the main viewport orientation |
-| `-layout` | `1` – `4` | View-panel layout: **1** = single, **2** = 2×2, **3** = 1+3 vertical, **4** = 1+3 horizontal. Values outside 1–4 are clamped (`MainWindow.cpp:1005`) |
-| `-view` | `left`, `right`, `anterior`, `posterior`, `inferior`, `superior`, `lateral`, `medial` | Set the 3D view direction. `lateral`/`medial` require a visible surface to determine hemisphere |
-| `-viewsize` | `<W> <H>` | Resize the main viewport to width × height pixels (the whole window resizes accordingly, adjusted per layout) |
-| `-zoom` | `<FACTOR>` | Zoom factor (applied to all viewports). Zero is rejected |
-| `-neuro-view` | (switch) | Use **neurological** convention (L = L). Default is radiological (L = R) |
-| `-orthographic` | (switch) | Parallel (orthographic) projection in the 3D view |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-viewport` | `sagittal`/`sag`/`x`, `coronal`/`cor`/`y`, `axial`/`z`, `3d` | — | Set the main viewport orientation |
+| `-layout` | `1` – `4` | — | View-panel layout: **1** = single, **2** = 2×2, **3** = 1+3 vertical, **4** = 1+3 horizontal. Values outside 1–4 are clamped (`MainWindow.cpp:1005`) |
+| `-view` | `left`, `right`, `anterior`, `posterior`, `inferior`, `superior`, `lateral`, `medial` | — | Set the 3D view direction. `lateral`/`medial` require a visible surface to determine hemisphere |
+| `-viewsize` | `<W> <H>` | — | Resize the main viewport to width × height pixels (the whole window resizes accordingly, adjusted per layout) |
+| `-zoom` | `<FACTOR>` | — | Zoom factor (applied to all viewports). Zero is rejected |
+| `-neuro-view` / `-neurological-view` | (switch) | radiological | Use **neurological** convention (L = L). Default is radiological (L = R) |
+| `-orthographic` | (switch) | off | Parallel (orthographic) projection in the 3D view |
 
 ### 2.2 Cursor Position
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-ras` | `<X> <Y> <Z> [tkreg]` | Place the cursor at RAS coordinates. If the optional 4th argument is `tkreg`, coordinates are interpreted as Surface RAS (tkRAS); otherwise as Scanner RAS. See [[coordinate-systems]] |
-| `-slice` | `<X> <Y> <Z>` | Place the cursor at voxel indices (CRS) of the **first loaded volume**. Integer arguments only |
-| `-cc` | (switch) | Centre all viewports at the cursor position after loading |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-ras` | `<X> <Y> <Z> [tkreg]` | — | Place the cursor at RAS coordinates. If the optional 4th argument is `tkreg`, coordinates are interpreted as Surface RAS (tkRAS); otherwise as Scanner RAS. See [[coordinate-systems]] |
+| `-slice` | `<X> <Y> <Z>` | — | Place the cursor at voxel indices (CRS) of the **first loaded volume**. Integer arguments only |
+| `-cc` / `-center-at-cursor` | (switch) | off | Centre all viewports at the cursor position after loading |
 
 ### 2.3 Scale and Cursor Visibility
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-colorscale` | (switch) | Show the colour-scale bar in the main view |
-| `-nocursor` | (switch) | Hide the crosshair cursor |
-| `-rotate-around-cursor` | (switch) | In 3D view, rotate around the cursor position rather than the view centre |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-colorscale` | (switch) | off | Show the colour-scale bar in the main view |
+| `-nocursor` | (switch) | off | Hide the crosshair cursor |
+| `-rotate-around-cursor` | (switch) | off | In 3D view, rotate around the cursor position rather than the view centre |
 
 ### 2.4 3D-Specific Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-hide-3d-slices` | (switch) | Hide all 2D slice planes in the 3D view |
-| `-hide-3d-frames` | (switch) | Hide the coloured slice-frame borders in the 3D view |
-| `-hide-x-slice` | (switch) | Hide only the sagittal (X) slice plane in 3D |
-| `-hide-y-slice` | (switch) | Hide only the coronal (Y) slice plane in 3D |
-| `-hide-z-slice` | (switch) | Hide only the axial (Z) slice plane in 3D |
-| `-cam` | `<OP1> <F1> [<OP2> <F2> ...]` | Series of 3D camera operations — see §4 |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-hide-3d-slices` | (switch) | off | Hide all 2D slice planes in the 3D view |
+| `-hide-3d-frames` | (switch) | off | Hide the coloured slice-frame borders in the 3D view |
+| `-hide-x-slice` | (switch) | off | Hide only the sagittal (X) slice plane in 3D |
+| `-hide-y-slice` | (switch) | off | Hide only the coronal (Y) slice plane in 3D |
+| `-hide-z-slice` | (switch) | off | Hide only the axial (Z) slice plane in 3D |
+| `-cam` / `-camera` | `<OP1> <F1> [<OP2> <F2> ...]` | — | Series of 3D camera operations — see §4 |
 
 ### 2.5 Resampling and Data Handling
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-r` | (switch) | **Resample oblique data to standard RAS.** When set, appended as an extra argument to `loadvolume`, `loadsurface`, `loaddti`, `loadtrackvolume`, and `loadwaypoints` scripts |
-| `-conform` | (switch) | Conform every subsequently loaded volume to the **geometry of the first loaded volume** |
-| `-trilinear` | (switch) | Set default resample method to `SAMPLE_TRILINEAR` for subsequent loads |
-| `-cubic` | (switch) | Set default resample method to `SAMPLE_CUBIC_BSPLINE` for subsequent loads |
-| `-smoothed` | (switch) | Enable display smoothing for all subsequently loaded volumes |
-| `-colormap` | `<TYPE>` | Apply this colour map to every subsequent `-v` (unless the volume has an inline `:colormap=`). TYPE follows `:colormap=` vocabulary |
-| `-edgecolor` | `<color>` | Apply this edge colour to every subsequent `-f` (unless the surface specifies `:edgecolor=`) |
-| `-percentile_all` | `<MIN> <MAX>` | Global percentile window applied to every `-v` and floating-argument volume that does not supply its own colormap |
-| `-sphere-ignore-vg` | (switch) | Set `FV_SPHERE_IGNORE_VG=1`: ignore the volume-geometry block when the surface filename contains "sphere" |
-| `-no-sphere-ignore-vg` | (switch) | Set `FV_SPHERE_IGNORE_VG=0`: respect the volume-geometry block even for sphere surfaces |
-| `-auto-load-surf` | (switch) | **Enable** automatic loading of `?h.sphere` and supplemental surface data when loading a surface. The default is *no autoload*; this flag flips it on |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-r` / `-resample` | (switch) | off | **Resample oblique data to standard RAS.** When set, appended as an extra argument to `loadvolume`, `loadsurface`, `loaddti`, `loadtrackvolume`, and `loadwaypoints` scripts |
+| `-conform` | (switch) | off | Conform every subsequently loaded volume to the **geometry of the first loaded volume** |
+| `-trilinear` | (switch) | off | Set default resample method to `SAMPLE_TRILINEAR` for subsequent loads |
+| `-cubic` | (switch) | off | Set default resample method to `SAMPLE_CUBIC_BSPLINE` for subsequent loads |
+| `-smoothed` | (switch) | off | Enable display smoothing for all subsequently loaded volumes |
+| `-colormap` | `<TYPE>` | — | Apply this colour map to every subsequent `-v` (unless the volume has an inline `:colormap=`). TYPE follows `:colormap=` vocabulary |
+| `-edgecolor` | `<color>` | — | Apply this edge colour to every subsequent `-f` (unless the surface specifies `:edgecolor=`) |
+| `-percentile_all` | `<MIN> <MAX>` | — | Global percentile window applied to every `-v` and floating-argument volume that does not supply its own colormap |
+| `-sphere-ignore-vg` | (switch) | off | Set `FV_SPHERE_IGNORE_VG=1`: ignore the volume-geometry block when the surface filename contains "sphere" |
+| `-no-sphere-ignore-vg` | (switch) | off | Set `FV_SPHERE_IGNORE_VG=0`: respect the volume-geometry block even for sphere surfaces |
+| `-auto-load-surf` | (switch) | off | **Enable** automatic loading of `?h.sphere` and supplemental surface data when loading a surface. The default is *no autoload*; this flag flips it on |
 
 > [!gotcha] `-auto-load-surf` help text is inverted
 > The help string attached to this flag reads "Do not automatically load
@@ -302,46 +326,46 @@ Any arguments given without a flag are treated as volume filenames and loaded as
 
 ### 3.1 Command Files
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-cmd` | `<FILE>` | Execute FreeView commands from a plain-text file on startup. One command per line; lines starting with `#` are comments. Lines whose first token begins with `-` or `freeview`/`fv` are re-parsed as CLI-flag lines via `ParseCommand()` and so may contain any CLI flag. Lines that do not begin with `-` are executed as internal scripting commands (see §5) |
-| `-stdin` | (switch) | Continuously listen to stdin for FreeView commands, routed through the same dispatcher as `-cmd` (allowing external programs to drive the GUI) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-cmd` / `-command` | `<FILE>` | — | Execute FreeView commands from a plain-text file on startup. One command per line; lines starting with `#` are comments. Lines whose first token begins with `-` or `freeview`/`fv` are re-parsed as CLI-flag lines via `ParseCommand()` and so may contain any CLI flag. Lines that do not begin with `-` are executed as internal scripting commands (see §5) |
+| `-stdin` | (switch) | off | Continuously listen to stdin for FreeView commands, routed through the same dispatcher as `-cmd` (allowing external programs to drive the GUI) |
 
 ### 3.2 Screenshot and Movie
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-ss` | `<FILE> [<MAG>] [<AUTO_TRIM>]` | Save a screenshot of the main viewport. `MAG` is the resolution multiplier (default 1, minimum 1). `AUTO_TRIM` ∈ `autotrim`/`true`/`1` to crop whitespace. If `FILE` contains `%name`, FreeView cycles through every loaded MRI or Surface layer, hides the others, saves one file per layer (with `%name` replaced by the layer name) and optionally trims them. Unless combined with `-noquit`, `-ss` implies `-quit` |
-| `-write-slice-intersection` | `<PLANE> <FNAME_FMT> <START> <END>` | For each slice in `[START, END]`, write a polyline file containing the intersection of loaded surfaces with that slice. `PLANE` is `sag`, `cor`, or `hor`. `FNAME_FMT` must contain `%d` which is substituted with the slice number |
-| `-noquit` | (switch) | Cancel the implicit `-quit` that `-ss` would otherwise add |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-ss` / `-screenshot` | `<FILE> [<MAG>] [<AUTO_TRIM>]` | — | Save a screenshot of the main viewport. `MAG` is the resolution multiplier (default 1, minimum 1). `AUTO_TRIM` ∈ `autotrim`/`true`/`1` to crop whitespace. If `FILE` contains `%name`, FreeView cycles through every loaded MRI or Surface layer, hides the others, saves one file per layer (with `%name` replaced by the layer name) and optionally trims them. Unless combined with `-noquit`, `-ss` implies `-quit` |
+| `-write-slice-intersection` | `<PLANE> <FNAME_FMT> <START> <END>` | — | For each slice in `[START, END]`, write a polyline file containing the intersection of loaded surfaces with that slice. `PLANE` is `sag`, `cor`, or `hor`. `FNAME_FMT` must contain `%d` which is substituted with the slice number |
+| `-noquit` | (switch) | off | Cancel the implicit `-quit` that `-ss` would otherwise add |
 
 ### 3.3 Execution Flow
 
-| Flag        | Argument                         | Description                                                                                                                                                                                              |
-| ----------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-quit`     | (switch)                         | Append a `quit` script at the end of parsing — FreeView exits after the last scripted command finishes                                                                                                   |
-| `-continue` | (switch)                         | Sets `m_bContinue = true`: continue processing subsequent scripts even if an earlier one failed                                                                                                          |
-| `-verbose`  | (switch)                         | Print additional diagnostics (e.g. clicked coordinates)                                                                                                                                                  |
-| `-sync`     | `[<SYNC_FILE>]`                  | Synchronise cursor position across concurrent FreeView instances through a shared JSON file. Without argument, uses `/tmp/.freeview_coord_sync` (or a home-directory fallback if `/tmp` is not writable) |
-| `-rorder`   | (switch)                         | Reverse the loading order of all `-v`, `-l`, `-f`, `-w` arguments (topmost layer in the list becomes the last loaded)                                                                                    |
-| `-prefix`   | `<prefix> <file1> [<file2> ...]` | Prepend `<prefix>/` to the displayed name of each named file in the layer panel. Repeatable                                                                                                              |
-| `-subtitle` | `<TEXT>`                         | Set a window-title subtitle (shown as `FreeView: <TEXT>`)                                                                                                                                                |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-quit` | (switch) | off | Append a `quit` script at the end of parsing — FreeView exits after the last scripted command finishes |
+| `-continue` | (switch) | off | Sets `m_bContinue = true`: continue processing subsequent scripts even if an earlier one failed |
+| `-verbose` | (switch) | off | Print additional diagnostics (e.g. clicked coordinates) |
+| `-sync` / `-sync-cursor` | `[<SYNC_FILE>]` | — | Synchronise cursor position across concurrent FreeView instances through a shared JSON file. Without argument, uses `/tmp/.freeview_coord_sync` (or a home-directory fallback if `/tmp` is not writable) |
+| `-rorder` / `-reverse-order` | (switch) | off | Reverse the loading order of all `-v`, `-l`, `-f`, `-w` arguments (topmost layer in the list becomes the last loaded) |
+| `-prefix` | `<prefix> <file1> [<file2> ...]` | — | Prepend `<prefix>/` to the displayed name of each named file in the layer panel. Repeatable |
+| `-subtitle` | `<TEXT>` | — | Set a window-title subtitle (shown as `FreeView: <TEXT>`) |
 
 ### 3.4 Layer Management in Scripts
 
 Used primarily inside `-cmd` command files between load operations:
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-hide` | `<LAYER_TYPE>` | Hide the currently active layer of the given type. `LAYER_TYPE`: `volume`/`mri`, `surface`/`surf`, `label`/`roi` |
-| `-unload` | `<LAYER_TYPE>` | Close / unload the currently active layer of the given type (same vocabulary as `-hide`) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-hide` | `<LAYER_TYPE>` | — | Hide the currently active layer of the given type. `LAYER_TYPE`: `volume`/`mri`, `surface`/`surf`, `label`/`roi` |
+| `-unload` | `<LAYER_TYPE>` | — | Close / unload the currently active layer of the given type (same vocabulary as `-hide`) |
 
 ### 3.5 Miscellaneous
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-timecourse` | (switch) | Open the time-course plot window on startup |
-| `-transform-volume` | (switch) | Open the Transform Volume dialog on startup |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-timecourse` | (switch) | off | Open the time-course plot window on startup |
+| `-transform-volume` | (switch) | off | Open the Transform Volume dialog on startup |
 
 ---
 

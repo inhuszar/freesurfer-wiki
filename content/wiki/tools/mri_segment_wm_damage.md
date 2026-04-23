@@ -62,8 +62,9 @@ White matter lesions (hyperintensities on FLAIR, hypointensities on T1) are mark
 
 ## Configuration Options
 
-> [!gap] Flags unknown
-> Configuration flags were not extracted from the attic source.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel diagnostic output (attic tool, single-dash-strip parser) |
 
 ## Configuration Interactions
 

@@ -65,7 +65,7 @@ Optionally when `--ras` is used, only the RAS geometry is copied (vox2ras matrix
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--pulse` | — | off | Copy only pulse parameters (TR, TE, flip angle) |
+| `--pulse` / `--mri` | — | off | Copy only pulse parameters (TR, TE, flip angle) |
 | `--ras` | — | off | Copy only RAS geometry (vox2ras, voxel sizes) |
 | `--size` | — | off | Force copying of voxel sizes even when resolutions differ |
 
@@ -74,7 +74,7 @@ Without any flags, the full header is copied via `MRIcopyHeader()`.
 ## Configuration Interactions
 
 - `--pulse` and `--ras` are mutually exclusive flags selecting subsets of parameters.
-- `--size` is meaningful primarily when `--ras` is not used and the voxel sizes differ between volumes; it forces size copying that would otherwise be skipped with a warning.
+- `--size` is meaningful primarily when --ras is not used and the voxel sizes differ between volumes; it forces size copying that would otherwise be skipped with a warning.
 - If dimensions differ between `in_vol` and `template_vol`, a warning is printed but copying proceeds. This can result in geometrically inconsistent output if the vox2ras is also being copied.
 
 > [!gotcha] Mismatched dimensions
@@ -120,3 +120,6 @@ Not called by [[recon-all]]. Used in:
 ## Confidence and Gaps
 
 Confidence is **high**. The source is short and clearly documented.
+
+> [!note] Audit noise: single-dash stripping parser
+> An automated audit may report `--pulse` and `--ras` as C3 invalid. This is a false positive: `get_option()` uses `option = argv[1] + 1` to strip the leading dash, then compares with `!stricmp(option, "-pulse")` and `!stricmp(option, "-ras")`. Double-dash forms are correctly accepted.

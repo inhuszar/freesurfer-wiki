@@ -14,9 +14,8 @@ related:
   - "[[dmri_mergepaths]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
   - "Output file format for group-level path not confirmed"
 tags:
   - diffusion
@@ -74,7 +73,9 @@ The tool implements arc-length parameterization: each subject's path is paramete
 
 **Arc-length parameterization:** For each subject $s$, the path is parameterized by arc length. The arc length from the start to point $i$ is:
 
-$$\text{arc}_i = \sum_{j=1}^{i} \|p_j - p_{j-1}\|_2$$
+$$
+\text{arc}_i = \sum_{j=1}^{i} \|p_j - p_{j-1}\|_2
+$$
 
 where $p_j$ are path point coordinates. Measures at equivalent fractional positions $\alpha \in [0,1]$ across subjects are compared by interpolating to uniform arc-length samples.
 
@@ -86,28 +87,25 @@ where $p_j$ are path point coordinates. Measures at equivalent fractional positi
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> The complete argument list requires reading `parse_commandline()`. From global variables:
-
-| Variable | Likely flag | Description |
-|----------|-------------|-------------|
-| `inListFile` | `--list` or similar | Input subject list file |
-| `outRefFile` | `--ref` or similar | Output reference volume |
-| `outBase` | `--out` or similar | Output base filename |
-| `doInterp` | flag | Whether to interpolate measures to arc-length grid |
-| `nSection` | `--nsec` or similar | Number of sections along path |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--list` | `file` | — | Input subject list file (one line per subject: path_dir [ref_vol [affine_xfm [nonlin_xfm]]]) |
+| `--ref` | `file` | — | Output reference volume defining the common space |
+| `--out` | `base` | — | Output base filename for group-level path and measure files |
+| `--nointerp` | — | off | Disable arc-length interpolation of measures to a uniform grid |
+| `--sec` | `N` | 0 (disabled) | Number of sections (arc-length positions) along the path for measure extraction |
 
 ## Typical Use Cases
 
-> [!gap] Example command
-> Exact command syntax is not confirmed. A TRACULA-typical usage might be:
-> ```bash
-> dmri_group \
->   --list subjects.list \
->   --ref mni305.mgz \
->   --out group_lh_cst
-> ```
-> where `subjects.list` has one line per subject with path directory, reference volume, and transforms.
+```bash
+dmri_group \
+  --list subjects.list \
+  --ref mni305.mgz \
+  --out group_lh_cst \
+  --sec 20
+```
+
+where `subjects.list` has one line per subject with path directory, optional reference volume, and optional affine/nonlinear transforms.
 
 ## Pipeline Context
 
@@ -135,5 +133,7 @@ The `recon-all` script does not call this tool. It is invoked from the TRACULA `
 
 ## Confidence and Gaps
 
-> [!gap] Argument parser not read
-> Full flag names and their defaults require reading `parse_commandline()`. The characterization above is based on global variable names and the processing logic in `main()`.
+**Confident:** Full flag set confirmed from `parse_commandline()`. The prior --nsec flag does not exist in source; the correct flag is --sec.
+
+> [!gap] Output file format
+> The exact format of `--out` base outputs (group mean path, group measures) is not fully characterised from the source header alone.

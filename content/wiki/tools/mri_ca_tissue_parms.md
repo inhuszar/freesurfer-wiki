@@ -60,43 +60,60 @@ Per subject (read from `$SUBJECTS_DIR/<subject>/mri/`):
 ## Outputs
 
 - Updates the GCA's `tissue_parms` table (T1_mean, PD_mean per label) in memory.
-- If `-w` (write flag) is set, writes the updated GCA back to `<atlas.gca>`.
-- If `-log <file>` is set, writes a text table of label → T1_mean, PD_mean.
+- If `-l <file>` is set, writes a text table of label → T1_mean, PD_mean to `<file>`.
+- The GCA itself is **not written to disk** (see gotcha in Configuration Options).
 
 ## Mathematical Foundations
 
 For each subject and each label $k$, the tool accumulates:
 
-$$\bar{T1}_k = \frac{1}{N_k} \sum_{v \in k} T1(v)$$
-$$\bar{PD}_k = \frac{1}{N_k} \sum_{v \in k} PD(v)$$
+$$
+\bar{T1}_k = \frac{1}{N_k} \sum_{v \in k} T1(v)
+$$
+$$
+\bar{PD}_k = \frac{1}{N_k} \sum_{v \in k} PD(v)
+$$
 
 via `GCAhistogramTissueStatistics()`. After processing all subjects, `GCAnormalizeTissueStatistics()` normalizes the accumulated sums by the training count.
 
 For FLASH sequences, the signal model at each voxel enables computing expected intensities:
-$$S(v) = M_0 \cdot \sin\alpha \cdot \frac{1 - e^{-TR/T1}}{1 - \cos\alpha \cdot e^{-TR/T1}} \cdot e^{-TE/T2^*}$$
+$$
+S(v) = M_0 \cdot \sin\alpha \cdot \frac{1 - e^{-TR/T1}}{1 - \cos\alpha \cdot e^{-TR/T1}} \cdot e^{-TE/T2^*}
+$$
 
 where $M_0 \propto PD$.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-sd <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory |
-| `-w` | flag | off | Write updated GCA back to `<atlas.gca>` |
-| `-log <file>` | string | — | Write T1/PD per label to ASCII file |
-| `-histo <file>` | string | — | Pass histogram parameter file to `GCAhistogramTissueStatistics` |
-| `-T1 <name>` | string | `flash/T1.mgh` | Override T1 map filename within subject's mri/ |
-| `-PD <name>` | string | `flash/PD.mgh` | Override PD map filename |
-| `-parc <name>` | string | `parc` | Override parcellation directory/file name |
-| `-xform <name>` | string | — | Transform file to align FLASH maps to parcellation space |
+The parser strips one leading dash (`option = argv[1] + 1`) and dispatches via case-insensitive string comparisons and a character switch.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override the subjects directory |
+| `-l <file>` | path | — | Write T1/PD mean per label to an ASCII file |
+| `-h <file>` | path | — | Pass a histogram parameter file to `GCAhistogramTissueStatistics` |
+| `-t1 <name>` | string | `flash/T1.mgh` | Override the T1 map filename (relative to `<subject>/mri/`) |
+| `-pd <name>` | string | `flash/PD.mgh` | Override the PD map filename (relative to `<subject>/mri/`) |
+| `-parc_dir <name>` | string | `parc` | Override the parcellation directory/file name (relative to `<subject>/mri/`) |
+| `-xform <name>` | string | — | Transform file (relative to `<subject>/mri/`) to align FLASH maps to parcellation space |
+
+> [!gotcha] No write flag in parser
+> `write_flag` is declared in the source but is never set by any parsed option — the switch block has no `case 'W'` or equivalent. The GCA is **never written back to disk** by this tool regardless of the flags supplied. Use `-l` to record the computed tissue parameters to an ASCII file.
 
 ## Typical Use Cases
 
-**Populate GCA tissue parameters from FLASH data:**
+**Populate GCA tissue parameters and write a log file:**
 ```bash
-mri_ca_tissue_parms -w -log tissue_params.txt \
+mri_ca_tissue_parms -l tissue_params.txt \
   $FREESURFER_HOME/average/RB_all.gca \
   subject1 subject2 subject3
+```
+
+**Override FLASH data paths:**
+```bash
+mri_ca_tissue_parms -t1 flash30/T1.mgh -pd flash30/PD.mgh \
+  -l tissue_params.txt \
+  $FREESURFER_HOME/average/RB_all.gca subject1
 ```
 
 ## Pipeline Context
@@ -108,8 +125,8 @@ Not a standard [[recon-all]] stage for typical T1-weighted pipelines. Used when 
 > [!gotcha] Requires FLASH data
 > The tool requires separate T1 and PD map volumes derived from multi-flip-angle FLASH acquisitions. It cannot be used with standard T1-weighted MPRAGE data.
 
-> [!gotcha] No write by default
-> Without `-w`, the GCA is not written to disk even after computing tissue parameters. The `-log` option only writes the ASCII table; the GCA itself is updated only in memory unless `-w` is specified.
+> [!gotcha] GCA is never written to disk
+> The source declares `write_flag` but no command-line option sets it. The GCA's tissue parameter table is updated in memory but the GCA file is never written back regardless of flags. Use `-l` to save the computed T1/PD means to an ASCII table.
 
 ## Related Tools
 

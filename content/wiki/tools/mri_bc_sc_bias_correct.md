@@ -61,8 +61,10 @@ tags:
 
 ## Configuration Options
 
-> [!gap] Unknown
-> See source code for flag definitions.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-s <sigma>` | float | 10 | Gaussian smoothing sigma (in voxels) applied to the bias field before correction |
+| `-v <n>` | int | — | Set diagnostic voxel number (`Gdiag_no`) for verbose internal diagnostics |
 
 ## Pipeline Context
 

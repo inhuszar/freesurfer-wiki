@@ -72,7 +72,9 @@ The tool reads from `$SUBJECTS_DIR/<subject>/mri/` (`brain.finalsurfs.mgz`, `ase
 
 The atrophy simulation replaces cortical grey matter with CSF in the partial volume model. At each voxel, the simulated intensity is:
 
-$$I_{\text{sim}}(x) = f_{\text{WM}} \cdot I_{\text{WM}} + f_{\text{GM}}(1-\alpha) \cdot I_{\text{GM}} + [f_{\text{CSF}} + f_{\text{GM}} \cdot \alpha] \cdot I_{\text{CSF}}$$
+$$
+I_{\text{sim}}(x) = f_{\text{WM}} \cdot I_{\text{WM}} + f_{\text{GM}}(1-\alpha) \cdot I_{\text{GM}} + [f_{\text{CSF}} + f_{\text{GM}} \cdot \alpha] \cdot I_{\text{CSF}}
+$$
 
 where $\alpha \in [0,1]$ is the atrophy fraction, $f_{\text{WM}}, f_{\text{GM}}, f_{\text{CSF}}$ are the partial volume fractions computed at resolution `resolution` (default: 0.5 mm), and $I_{\text{WM}}, I_{\text{GM}}, I_{\text{CSF}}$ are the "unpartial-volumed" (pure-tissue) intensities estimated from the volume.
 

@@ -74,7 +74,9 @@ The RFA structure organizes the ensemble by atlas-space location, allowing spati
 
 > [!math] Feature vector
 > For $T$ timepoints, the feature vector at voxel $v$ includes:
-> $$\mathbf{f}(v) = [\text{local features}(I_1(v)), \ldots, \text{local features}(I_T(v)), \Delta I_{12}(v), \ldots, \Delta I_{T-1,T}(v)]$$
+> $$
+> \mathbf{f}(v) = [\text{local features}(I_1(v)), \ldots, \text{local features}(I_T(v)), \Delta I_{12}(v), \ldots, \Delta I_{T-1,T}(v)]
+> $$
 > where $\Delta I_{ij}(v) = I_j(v) - I_i(v)$ are inter-timepoint intensity differences.
 
 ## Configuration Options
@@ -96,7 +98,7 @@ All flags are case-insensitive (`stricmp`). Single-letter flags are handled via 
 | `-insert` | `<fname> <label>` | — | Insert non-zero voxels from `fname` as label value `label` in the segmentation. |
 | `-ctab` | `<fname>` | — | Read ASCII color table from `fname` and embed it in the output file. |
 | `-gradient` | (none) | off | Add image gradient components (3 extra inputs) to the feature vector. |
-| `-spacing` | `<float>` | RFA default | Node spacing (mm) between classifiers in atlas space. |
+| `-training_fraction` | `<float>` | RFA default | Fraction of training examples to use (subsample for faster training). |
 | `-ntrees` | `<int>` | RFA default | Number of trees in each random forest classifier. |
 | `-max_depth` | `<int>` | RFA default | Maximum depth of each decision tree. |
 | `-W` | `<int>` | RFA default | Window half-size for feature extraction neighbourhood. |

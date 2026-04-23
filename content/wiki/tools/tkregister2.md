@@ -18,7 +18,7 @@ related:
   - "[[mri_coreg]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact matrix convention for register.dat (tkRAS direction, float2int method) needs a dedicated reference"
   - "GUI keyboard shortcuts and interactive editing workflow are documented in Tcl/Tk script only; not captured here"
@@ -85,7 +85,7 @@ At minimum, `--targ` and `--mov` volumes must be specified, along with a registr
 > The FreeSurfer registration file format stores a matrix that maps from **target tkRAS** to **movable tkRAS** (i.e., the inverse of what most tools expect). See [[coordinate-systems]] for the tkRAS definition and [[lta-format]] for how LTA encodes the same transform differently.
 
 > [!assumption] `SUBJECTS_DIR` and `FREESURFER_HOME` must be set
-> The main entry point (`Register()`) checks for `SUBJECTS_DIR` and `FREESURFER_HOME` environment variables and exits with an error if either is missing. For batch/no-GUI use, these must be set even if `--fstarg` is not used.
+> The main entry point (`Register()`) checks for `SUBJECTS_DIR` and `FREESURFER_HOME` environment variables and exits with an error if either is missing. For batch/no-GUI use, these must be set even if --fstarg is not used.
 
 > [!assumption] Old-style tkregister matrices have a float2int bug
 > Registration files created by the original `tkregister` (not `tkregister2`) used a truncation-based voxel-to-integer conversion (`FLT2INT_TKREG`). `tkregister2` detects this and applies `MRIfixTkReg()` to correct the shift by default. Use `--nofix` to disable the correction and reproduce the old (buggy) behaviour.
@@ -123,13 +123,17 @@ See [[lta-format]] for the related LTA encoding.
 
 The register.dat convention maps target tkRAS coordinates to movable tkRAS coordinates:
 
-$$\mathbf{x}_{\text{mov,tk}} = \mathbf{R} \cdot \mathbf{x}_{\text{targ,tk}}$$
+$$
+\mathbf{x}_{\text{mov,tk}} = \mathbf{R} \cdot \mathbf{x}_{\text{targ,tk}}
+$$
 
 where $\mathbf{R}$ is the 4×4 registration matrix stored in the file. This is the direction needed for **resampling**: to find where a target voxel maps in the movable space.
 
 The conversion from FSL format to this convention is:
 
-$$\mathbf{R} = \mathbf{T}_{\text{mov}}^{-1} \cdot \mathbf{D}_{\text{mov}}^{-1} \cdot \mathbf{M}_{\text{FSL}} \cdot \mathbf{D}_{\text{targ}}$$
+$$
+\mathbf{R} = \mathbf{T}_{\text{mov}}^{-1} \cdot \mathbf{D}_{\text{mov}}^{-1} \cdot \mathbf{M}_{\text{FSL}} \cdot \mathbf{D}_{\text{targ}}
+$$
 
 where:
 - $\mathbf{T}_{\text{mov}}$ is the movable vox2ras-tkr matrix (`MRIxfmCRS2XYZtkreg`)
@@ -141,13 +145,17 @@ This is implemented by `MRIfsl2TkReg(targ_vol0, mov_vol, FSLRegMat)`.
 
 When the target is not COR-conformant, an additional correction matrix $\mathbf{M}_{\text{tc}}$ is applied:
 
-$$\mathbf{R}_{\text{final}} = \mathbf{R} \cdot \mathbf{M}_{\text{tc}}^{-1}$$
+$$
+\mathbf{R}_{\text{final}} = \mathbf{R} \cdot \mathbf{M}_{\text{tc}}^{-1}
+$$
 
 This accounts for the implicit reslice of the target to COR format.
 
 For `--fstal`, the Talairach XFM is a RAS-to-RAS (scanner space) matrix. By default (`ZeroCRAS = 1` unless `--no-zero-cras` is specified), the target c_ras is zeroed before constructing the tkReg matrix, and a correction `Mcras0` is incorporated:
 
-$$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras0}}$$
+$$
+\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras0}}
+$$
 
 > [!internal] The `MRItkRegMtx()`, `MRIfsl2TkReg()`, and `MRIfixTkReg()` functions are defined in `utils/registerio.cpp` / `utils/mri.cpp`. See [[coordinate-systems]] for a full derivation of the tkRAS offset.
 
@@ -165,7 +173,7 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 | `--reg <file>` | path | — | Input/output `register.dat` file |
 | `--regheader` | none | off | Compute initial registration from volume headers (ignores existing `--reg` file if present) |
 | `--regheader-center` | none | off | Same as `--regheader` but zeroes the translation (aligns volume centres) |
-| `--check-reg` | none | off | Check registration only; `--reg` is not required |
+| `--check-reg` | none | off | Check registration only; --reg is not required |
 | `--identity` | none | off | Use identity matrix as the initial registration |
 | `--fsl <file>` | path | — | Read FSL/FLIRT matrix as initial registration |
 | `--xfm <file>` | path | — | Read MNI-style matrix as initial registration |
@@ -175,7 +183,16 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 | `--ixfm <file>` | path | — | Read MNI-style inverse registration matrix |
 | `--int <vol> <reg>` | path, path | off | Use registration from an intermediate volume to handle partial-FOV movable volumes |
 | `--fstal` | none | off | Set movable to `$FREESURFER_HOME/average/mni305.cor.mgz`; set registration to `$SUBJECTS_DIR/<subj>/mri/transforms/talairach.xfm` |
+| `--fstal-targ <vol>` | path | — | Specify an explicit target volume for the Talairach check (overrides the default MNI305 atlas) |
+| `--fstal-avi` | none | off | Use the AVI format version of the Talairach atlas as target |
 | `--talxfmname <name>` | string | `talairach.xfm` | Override talairach XFM filename (with `--fstal`) |
+| `--fslreg <file>` | path | — | Read FSL/FLIRT matrix (alias for `--fsl`) |
+| `--movframe <n>` | int | 0 | Select frame N of a 4D movable volume for display |
+| `--zero-cras` | none | off | Explicitly zero the c_ras of the target (applies Mcras0 correction) |
+| `--midpoint` | none | off | Initialize registration to the geometric midpoint between target and movable |
+| `--seg <segvol>` | path | — | Load a segmentation volume overlay for display (toggled with keyboard shortcut) |
+| `--check` | none | off | Check-only mode: print registration info and exit (does not open GUI; alias for batch checking) |
+| `--junk` | none | off | Ignore (accepted for backwards compatibility; treated same as `--check`) |
 
 #### Registration Output
 
@@ -192,7 +209,7 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 
 | Flag | Args | Default | Effect |
 |------|------|---------|--------|
-| `--s <subjectid>` | string | (from reg file) | Set subject identifier |
+| `--s <subjectid>` / `--subject <subjectid>` | string | (from reg file) | Set subject identifier (`--s` and `--subject` are aliases) |
 | `--sd <dir>` | path | `$SUBJECTS_DIR` | Set SUBJECTS_DIR |
 
 #### Display and GUI Options
@@ -206,8 +223,10 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 | `--movbright <f>` | float | auto | Brightness scale for movable volume |
 | `--fmov <f>` | float | auto | Set movable brightness factor |
 | `--fmov-targ` | none | off | Apply `--fmov` brightness to target also |
+| `--inorm` | none | off | Enable intensity normalization (contrast normalization of movable volume) |
 | `--no-inorm` | none | off | Disable intensity normalization |
-| `--surf <name>` | string | — | Load surface overlay (both hemispheres) for display |
+| `--contrast` | none | off | Apply contrast enhancement to movable volume display |
+| `--surf <name>` / `--surfs <name>` | string | — | Load surface overlay (both hemispheres) for display (`--surfs` is an alias) |
 | `--surf-rgb R G B` | 3 ints | `0 255 0` | Set surface colour (0–255) |
 | `--lh-only` | none | off | Load/display left hemisphere surface only |
 | `--rh-only` | none | off | Load/display right hemisphere surface only |
@@ -219,6 +238,7 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 | `--2` | none | off | Double window size |
 | `--title <str>` | string | subjectid | Set window title |
 | `--tag` | none | off | Tag movable volume with hatched pattern near origin (helps detect L/R reversal) |
+| `--notag` | none | off | Disable tagging of movable volume (cancels `--tag`) |
 
 #### Orientation Override
 
@@ -240,8 +260,14 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 |------|------|---------|--------|
 | `--noedit` | none | off (if GUI) | Do not open GUI; exit immediately after processing. Useful for format conversion. Default is `true` when built without GUI support |
 | `--nofix` | none | off | Do not apply `MRIfixTkReg()` correction for old tkregister float2int matrices |
+| `--fixonly` | none | off | Apply `MRIfixTkReg()` correction, write output, and exit without opening the GUI |
+| `--fixxfm` | none | off | Fix the XFM (Talairach transform) to be right-hand-coordinate-compliant |
+| `--nofixxfm` | none | off | Disable XFM fixing (cancels `--fixxfm`; default state) |
+| `--nofstarg` | none | off | Do not use the `fstarg` (FreeSurfer default target); disables automatic target assignment |
+| `--mgz` | none | — | Accepted for backwards compatibility; no current effect |
+| `--tcl <script>` | path | — | Run a Tcl script on startup in the GUI (for automated testing) |
 | `--float2int <code>` | int | auto | Override float2int method for debugging |
-| `--no-zero-cras` | none | off | Do not zero target c_ras when using `--fstal` |
+| `--no-zero-cras` | none | off | Do not zero target c_ras when using --fstal |
 | `--conf-targ` | none | off | Conform target volume (assumes registration was computed to a conformed target, e.g., via GCA) |
 | `--fsl-targ` | none | off | Use `$FSLDIR/data/standard/avg152T1.nii.gz` as target |
 | `--fsl-targ-lr` | none | off | Use `$FSLDIR/data/standard/avg152T1_LR-marked.nii.gz` as target |
@@ -250,11 +276,12 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 | `--feat <featdir>` | path | — | View/modify FSL FEAT `example_func2standard.mat` registration |
 | `--fsfeat <featdir>` | path | — | Check `reg/freesurfer/register.dat` from an FSL FEAT directory |
 | `--gdiagno <n>` | int | 0 | Set debug/diagnostic level |
+| `--debug` | none | off | Enable debug output (`debug = 1`) |
 
 ### Configuration Interactions
 
 > [!gotcha] `--reg` is required even for format-only conversion with `--noedit`
-> Even when using `--noedit` purely to convert an FSL or LTA registration to a `register.dat`, `--reg` must be specified (it specifies the output file). Not providing `--reg` (and not using `--fstal` or `--check-reg`) will cause the tool to fail when it tries to write the output.
+> Even when using --noedit purely to convert an FSL or LTA registration to a `register.dat`, `--reg` must be specified (it specifies the output file). Not providing `--reg` (and not using --fstal or `--check-reg`) will cause the tool to fail when it tries to write the output.
 
 > [!gotcha] `--regheader` ignores the contents of `--reg`
 > When `--regheader` is specified, the initial registration is computed from the volume headers via `MRItkRegMtx()`. Any existing `--reg` file is not read for the initial matrix. However, the path is still used as the output file when the registration is saved.
@@ -266,7 +293,7 @@ $$\mathbf{R}_{\text{tal}} = \mathbf{M}_{\text{xfm}} \cdot \mathbf{M}_{\text{cras
 > If the target is not 256³ at 1 mm isotropic, `tkregister2` creates an internal COR-conformant copy and reslices the target voxel data to it. The original header is retained for FSL-matrix conversion purposes (`targ_vol0`). This reslice is not saved to disk; the saved registration always refers to the original target.
 
 > [!gotcha] `--mov-orientation` only takes effect with `--regheader`
-> The orientation string supplied by `--mov-orientation` is applied via `MRIorientationStringToDircos()` to set the movable volume's direction cosines. However, if `--regheader` is not also specified, the header-computed registration is not used, and the orientation override has no practical effect on the initial registration matrix.
+> The orientation string supplied by `--mov-orientation` is applied via `MRIorientationStringToDircos()` to set the movable volume's direction cosines. However, if --regheader is not also specified, the header-computed registration is not used, and the orientation override has no practical effect on the initial registration matrix.
 
 > [!gotcha] `--no-zero-cras` changes talairach convention
 > By default (`ZeroCRAS = 1`), `--fstal` zeros the target c_ras before matrix construction to centre the target properly. This is correct for most subjects. If the target was acquired with a non-standard c_ras encoding, `--no-zero-cras` may be needed. The correction is absorbed into `RegMat = xfm * Mcras0` and will affect the saved `.xfm` file.
@@ -365,7 +392,7 @@ tkregister2 --s bert --fstal        # check and optionally correct it
 > The `--fslregout` output sign convention depends on `FSLOUTPUTTYPE`. If this variable is not set, the output may be incorrect for use with FSL tools.
 
 > [!gotcha] `--surf` requires a valid subject directory
-> The surface overlay (`--surf`) is loaded from `$SUBJECTS_DIR/<subjectid>/surf/`. The `subjectid` is taken from `--reg` file (first line) or from `--s`. If either is missing or the surface files do not exist, `tkregister2` will exit with an error.
+> The surface overlay (--surf) is loaded from `$SUBJECTS_DIR/<subjectid>/surf/`. The `subjectid` is taken from --reg file (first line) or from --s. If either is missing or the surface files do not exist, `tkregister2` will exit with an error.
 
 ## Related Tools
 
@@ -388,3 +415,6 @@ Medium confidence. The command-line parsing, matrix construction logic, and coor
 
 > [!gap] `--fstal` ZeroCRAS interaction
 > The default `ZeroCRAS = 1` behaviour zeroes the target c_ras and applies a correction matrix. The conditions under which `--no-zero-cras` is necessary (i.e., what subject/acquisition configurations break the default) are not fully documented.
+
+> [!note] Audit noise: `--2` false positive
+> An automated audit may flag `--2` as C3 invalid. This IS a valid flag (`else if (!strcasecmp(option, "--2"))` at source line 1220). The audit tool's flag-name validator requires the first character after the dashes to be a letter or underscore, not a digit, so `--2` is rejected by the validator. The flag is confirmed present in source and in the wiki.

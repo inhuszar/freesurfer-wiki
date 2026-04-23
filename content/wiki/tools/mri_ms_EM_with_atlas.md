@@ -16,9 +16,8 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Complete flag list requires get_option() body"
   - "GCA atlas integration details not fully traced"
 tags:
   - segmentation
@@ -72,7 +71,9 @@ This tool extends [[mri_ms_EM]] with two major enhancements:
 
 Extends the [[mri_ms_EM]] GMM-EM with atlas-derived spatial priors:
 
-$$q_{ik} \propto \pi_k^{atlas}(\mathbf{x}_i) \cdot \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$$
+$$
+q_{ik} \propto \pi_k^{atlas}(\mathbf{x}_i) \cdot \mathcal{N}(\mathbf{y}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)
+$$
 
 where $\pi_k^{atlas}(\mathbf{x}_i)$ is the GCA-derived prior probability for class $k$ at voxel $\mathbf{x}_i$.
 
@@ -86,6 +87,8 @@ where $\pi_k^{atlas}(\mathbf{x}_i)$ is the GCA-derived prior probability for cla
 
 ## Configuration Options
 
+Flag list verified against `attic/mri_ms_EM_with_atlas/mri_ms_EM_with_atlas.cpp` (`get_option()`).
+
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `-gca <fname>` | string | null | GCA atlas filename |
@@ -95,15 +98,46 @@ where $\pi_k^{atlas}(\mathbf{x}_i)$ is the GCA-derived prior probability for cla
 | `-T1_PD` | flag | off | Treat inputs as T1 and PD (not two flip angles) |
 | `-invert` | flag | off | Invert output image contrast |
 | `-remove_cerebellum` | flag | off | Remove cerebellum in the final synthesized image |
-
-> [!gap] Complete flag list
-> Inferred from static variable declarations. `get_option()` body needed for confirmation.
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Enable debug output for the voxel at coordinates `(x, y, z)` |
+| `-conform` | flag | off | Interpolate volume to isotropic 1 mm³ |
+| `-noconform` | flag | — | Inhibit isotropic volume interpolation (cancels `-conform`) |
+| `-fuzzy_lda` | flag | off | Use fuzzy LDA weighting scheme instead of standard class assignments |
+| `-clear_dura` | flag | off | Remove voxels belonging to the second tissue class (dura removal) |
+| `-whole_volume` | flag | off | Synthesize background region as well (only with `-lda`) |
+| `-lda <class1> <class2>` | 2 ints | — | Use LDA method to generate synthesized volume from the two specified classes |
+| `-synthonly` | flag | off | Write synthesized image only; do not output membership functions |
+| `-norm` | flag | off | Normalize input volumes to N(0,1) before EM |
+| `-mask <fname>` | string | — | Use `<fname>` as a mask for regions of interest |
+| `-rescale` | flag | off | Rescale membership functions to improve contrast |
+| `-noprior` | flag | off | Do not use prior in computing memberships |
+| `-synth_f <fname>` | string | — | Output synthesized image to the given file |
+| `-hseg_f <fname>` | string | — | Output hard segmentation to the given file |
+| `-hard_seg` | flag | off | Output a hard segmentation to `<out_pre>.hseg` |
+| `-label <fname>` | string | — | Use `<fname>` as segmentation volume |
+| `-mask_subcortical` | flag | off | Also mask subcortical grey matter regions |
+| `-st <method>` / `-sample <method>` / `-sample_type <method>` / `-interp <method>` | string | `trilinear` | Interpolation method (`trilinear`, `nearest`, `sinc`, `cubic`) |
+| `-sinc [<hw>]` | int (opt.) | 3 | Use sinc interpolation with optional half-window size |
+| `-trilinear` | flag | — | Use trilinear interpolation (explicit shorthand) |
+| `-cubic` | flag | — | Use cubic interpolation |
+| `-nearest` | flag | — | Use nearest-neighbour interpolation |
+| `-sinchalfwindow <n>` / `-hw <n>` | int | 3 | Set sinc interpolation half-window size |
+| `-beta <f>` | float | — | Weight for MRF (Markov Random Field) regularization |
+| `-regularize <lambda>` | float | — | Regularize covariance matrix with the given lambda |
+| `-e <f>` | float | — | Convergence tolerance; EM iterations stop when the log-likelihood change falls below this value |
+| `-m <n>` | int | — | Number of tissue classes (positional-argument shortcut; same as the positional `<num_classes>`) |
+| `-r <n>` | int | — | Maximum number of EM iterations |
+| `-t <f>` | float | — | Intensity threshold for background noise; applied to the first input volume to define the brain mask |
+| `-window` | (none) | — | Window option (accepted but not implemented; prints a notice and does nothing) |
 
 ## Configuration Interactions
 
 - `-gca` and `-xform` must be provided together; one without the other will cause an error.
 - `-T1_PD` changes the interpretation of the two input volumes from flip-angle images to T1 and PD maps.
 - `-invert` combined with `-remove_cerebellum` produces a stripped, contrast-inverted synthetic image.
+- `-synthonly` skips membership function output; `-synth_f` and `-hseg_f` specify alternative output paths.
+- `-lda` requires `-whole_volume` if synthesis of background regions is needed.
+- Interpolation flags (`-st`, `-sample`, `-trilinear`, `-nearest`, `-sinc`, `-cubic`) are aliases; the last one specified wins.
+- `-conform` and `-noconform` are mutually exclusive; default is to not conform.
 
 ## Typical Use Cases
 
@@ -144,4 +178,4 @@ Not part of standard `recon-all`. Was used in research pipelines for multi-echo 
 
 **Confident:** Atlas integration concept, CSF identification via flip-angle ratio, FIX_DURA behaviour, hardcoded FLASH weights, attic status.
 
-**Less confident:** Complete flag list, exact GCA integration algorithm, synthesized image computation.
+**Less confident:** Exact GCA integration algorithm, synthesized image computation details.

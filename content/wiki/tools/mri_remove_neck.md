@@ -87,6 +87,8 @@ All flags are case-insensitive (parsed via `stricmp` after uppercasing the optio
 | `-TE <f>` | float | 0.0 | Echo time in ms for FLASH sequence GCA mapping; sets `TE` |
 | `-ALPHA <f>` | float (degrees) | 0.0 | Flip angle in degrees for FLASH sequence GCA mapping; stored internally as radians (`RADIANS(f)`); sets `alpha` |
 | `-V <n>` | int | — | Set global diagnostic number `Gdiag_no` for per-voxel debugging |
+| `-debug_label <n>` | int | — | Label number to trace through GCA processing for diagnostic output |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 | `-?` / `-H` / `-U` | — | — | Print usage and exit |
 
 ## Configuration Interactions

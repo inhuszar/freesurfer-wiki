@@ -69,7 +69,9 @@ For each input map $f$, the tool:
 
 The CSD is an empirical distribution:
 
-$$\hat{P}(\text{max cluster size} \geq k) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}[\text{maxcluster}_i \geq k]$$
+$$
+\hat{P}(\text{max cluster size} \geq k) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}[\text{maxcluster}_i \geq k]
+$$
 
 This distribution is used to determine cluster-level p-values: a cluster of size $k$ in the real data is significant at level $\alpha$ if $\hat{P}(\text{max cluster size} \geq k) \leq \alpha$.
 
@@ -95,8 +97,8 @@ This distribution is used to determine cluster-level p-values: a cluster of size
 > [!gotcha] `--sign` takes numeric values, not strings
 > The `--sign` flag stores its argument via `sscanf(pargv[0], "%lf", &csd->threshsign)`. Pass `+1`, `-1`, or `0`, **not** strings like `pos`/`neg`/`abs`.
 
-> [!gotcha] `--pdf` not `--csdpdf`
-> The flag for the output PDF file is `--pdf`, not `--csdpdf`.
+> [!gotcha] `--pdf` not --csdpdf
+> The flag for the output PDF file is `--pdf`, not --csdpdf.
 
 > [!gotcha] `--s` takes three arguments
 > `--s subject hemi surf` requires all three arguments in sequence: the subject name, the hemisphere, and the surface name.

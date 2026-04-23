@@ -64,13 +64,17 @@ The input is typically a GCAM (`.m3z`) morph file produced by nonlinear registra
 
 For a deformation field $\phi: \mathbb{R}^3 \to \mathbb{R}^3$, the Jacobian matrix at point $\mathbf{x}$ is:
 
-$$J(\mathbf{x}) = \frac{\partial \phi}{\partial \mathbf{x}} = \begin{pmatrix} \frac{\partial \phi_1}{\partial x_1} & \frac{\partial \phi_1}{\partial x_2} & \frac{\partial \phi_1}{\partial x_3} \\ \frac{\partial \phi_2}{\partial x_1} & \cdots & \cdots \\ \frac{\partial \phi_3}{\partial x_1} & \cdots & \frac{\partial \phi_3}{\partial x_3} \end{pmatrix}$$
+$$
+J(\mathbf{x}) = \frac{\partial \phi}{\partial \mathbf{x}} = \begin{pmatrix} \frac{\partial \phi_1}{\partial x_1} & \frac{\partial \phi_1}{\partial x_2} & \frac{\partial \phi_1}{\partial x_3} \\ \frac{\partial \phi_2}{\partial x_1} & \cdots & \cdots \\ \frac{\partial \phi_3}{\partial x_1} & \cdots & \frac{\partial \phi_3}{\partial x_3} \end{pmatrix}
+$$
 
 The Jacobian determinant $\det(J(\mathbf{x}))$ measures local volume change.
 
 In the GCAM representation, local volume changes are computed as the ratio of current voxel areas to original voxel areas:
 
-$$J_\text{det} = \frac{A_\text{current}}{A_\text{original}}$$
+$$
+J_\text{det} = \frac{A_\text{current}}{A_\text{original}}
+$$
 
 where areas are the metric-space areas stored in the GCAM nodes.
 
@@ -78,13 +82,17 @@ The computation (`GCAMmorphFieldFromAtlas` or `GCAMwriteMRI` with `GCAM_AREA`) e
 
 **Log-Jacobian (with `-log`):**
 
-$$\log J = \log_{10}\left(\frac{A_\text{current}}{A_\text{original}}\right)$$
+$$
+\log J = \log_{10}\left(\frac{A_\text{current}}{A_\text{original}}\right)
+$$
 
 **Smoothing:** If `-sigma <s>` is specified, a Gaussian kernel with standard deviation $s$ is convolved with the Jacobian map before writing.
 
 **LTA correction:** If a linear transform is provided via `-lta`, the Jacobian determinant is divided by the linear part of the transform's determinant:
 
-$$J_\text{corrected} = \frac{J}{\det(M_L)}$$
+$$
+J_\text{corrected} = \frac{J}{\det(M_L)}
+$$
 
 This isolates the nonlinear component of volume change.
 
@@ -99,9 +107,8 @@ All flags use a single dash and are matched case-insensitively.
 | `-s <sigma>` | float | 0 (no smoothing) | Gaussian smooth both the area and original-area volumes with standard deviation `<sigma>` voxels before computing the ratio. |
 | `-w` | — | false | Also write the current area and original-area volumes, suffixed `_area.mgz` and `_orig_area.mgz` on the output filename. |
 | `-a` | — | false | Operate in atlas coordinate space (uses `GCAMwriteMRI` path) instead of subject space (uses `GCAMmorphFieldFromAtlas` path). |
-| `-init` | — | false | Re-initialize GCAM node areas to the cube of the GCAM grid spacing before computing; use when the area fields in the GCAM are not set. |
 | `-remove <lta>` | string | — | Read an LTA linear transform and divide the original-area volume by the determinant of that transform, isolating the nonlinear Jacobian component. |
-| `-tm3d` | — | false | Indicates the input `.m3z` was produced by `mri_cvs_register` (tm3d format); implies `-init` to reinitialize GCAM areas. |
+| `-tm3d` | — | false | Indicates the input `.m3z` was produced by `mri_cvs_register` (tm3d format); reinitializes GCAM areas before computing. |
 | `-debug_voxel <x> <y> <z>` | 3 × int | — | Print per-voxel debugging information for the GCAM node nearest to atlas voxel `(x, y, z)`. |
 | `-dt` | — | — | Accepted but performs no operation (dead flag). |
 
@@ -115,7 +122,7 @@ All flags use a single dash and are matched case-insensitively.
 
 - `-l` and `-z` are related: `-z` implies `-l`. Using `-z` without `-l` still enables log-transform.
 - `-remove <lta>` is the flag for LTA-based correction (not `-lta` as sometimes erroneously written); it divides the `orig_area` by the linear determinant before computing the ratio, isolating the nonlinear volume change.
-- `-init` and `-tm3d` both trigger GCAM area re-initialization; `-tm3d` additionally logs the CVS-register origin of the file.
+- `-tm3d` triggers GCAM area re-initialization in addition to logging the CVS-register origin of the file.
 - `-a` changes whether the Jacobian is computed in subject space or atlas space; the interpretation differs between these contexts.
 - `-s` smoothing is applied before the area ratio computation (to both numerator and denominator), not after; this differs from post-hoc smoothing and produces slightly different results.
 

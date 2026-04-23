@@ -58,11 +58,11 @@ The tool uses `MRISrotate()` for Euler angle rotation and `LTAmat2RotMat()` to e
 - **`<gamma>`** — rotation about Z axis (degrees).
 - **`<output surface>`** — destination for the rotated surface.
 
-Note: when `--reg` is specified, the alpha/beta/gamma values are still required positional arguments but are ignored (they are replaced by the rotational component of the registration matrix).
+Note: when `-r` is specified, the alpha/beta/gamma values are still required positional arguments but are ignored (they are replaced by the rotational component of the registration matrix).
 
 ### Optional Inputs
 
-- **`--reg <regfile>`** — registration file (`.dat` tkregister format or LTA). When provided, the rotational component is extracted from this file and applied instead of the Euler angles.
+- **`-r <regfile>`** — registration file (`.dat` tkregister format or LTA). When provided, the rotational component is extracted from this file and applied instead of the Euler angles.
 
 ### Input Assumptions
 
@@ -78,11 +78,15 @@ Note: when `--reg` is specified, the alpha/beta/gamma values are still required 
 ## Mathematical Foundations
 
 **Euler angle rotation:** The rotation is composed of three sequential rotations about the X, Y, and Z axes:
-$$R = R_z(\gamma) \cdot R_y(\beta) \cdot R_x(\alpha)$$
+$$
+R = R_z(\gamma) \cdot R_y(\beta) \cdot R_x(\alpha)
+$$
 where each $R_i(\theta)$ is the standard rotation matrix for angle $\theta$ about axis $i$. Applied to each vertex:
-$$(x', y', z')^T = R \cdot (x, y, z)^T$$
+$$
+(x', y', z')^T = R \cdot (x, y, z)^T
+$$
 
-**Registration-based rotation:** When `--reg` is specified:
+**Registration-based rotation:** When `-r` is specified:
 1. The LTA is read and converted to `REGISTER_DAT` (tkregister) type via `LTAchangeType()`.
 2. `LTAmat2RotMat()` extracts the rotational component $R$ by performing polar decomposition (or equivalent) on the linear part of the transform, discarding translation and scale.
 3. `MRISrotate()` is called with the extracted rotation matrix.
@@ -95,21 +99,18 @@ The source note indicates that `MRIScenter()` (centering the surface before rota
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--reg <regfile>` | string | — | Registration file (`.dat` or `.lta`). When specified, the rotational component of the transform is extracted and applied instead of the Euler angles. |
-| `--no-volgeom` | boolean | — | (Inferred from `VolGeomValid` variable.) Disables volume geometry updating. |
+| `-r <regfile>` | string | — | Registration file (`.dat` or `.lta`). When specified, the rotational component of the transform is extracted and applied instead of the Euler angles. |
+| `-n` | boolean | — | Disables volume geometry updating (`VolGeomValid = 0`). |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` | boolean | — | Print usage and exit. |
 
-> [!gap] `VolGeomValid` flag syntax
-> The source declares `VolGeomValid = 1` and `regfile = NULL`. The exact command-line flag that sets `VolGeomValid = 0` was not read from `get_option()` in full.
-
 ### Configuration Interactions
 
-- When `--reg` is specified, the Euler angle positional arguments (`alpha`, `beta`, `gamma`) must still be provided but are completely ignored.
+- When `-r` is specified, the Euler angle positional arguments (`alpha`, `beta`, `gamma`) must still be provided but are completely ignored.
 - When the LTA type is not `REGISTER_DAT`, it is automatically converted before extraction of rotational component.
 
-> [!gotcha] Positional angles required even with --reg
-> The command-line parser still expects 5 positional arguments (`input alpha beta gamma output`) even when `--reg` is provided. Placeholder values (e.g., `0 0 0`) must be supplied.
+> [!gotcha] Positional angles required even with -r
+> The command-line parser still expects 5 positional arguments (`input alpha beta gamma output`) even when `-r` is provided. Placeholder values (e.g., `0 0 0`) must be supplied.
 
 ## Typical Use Cases
 
@@ -124,7 +125,7 @@ Rotates the sphere 45 degrees about the Z axis.
 ### Use Case 2: Apply rotational component from a registration
 
 ```bash
-mris_rotate --reg talairach.lta lh.sphere 0 0 0 lh.sphere.reg_rotated
+mris_rotate -r talairach.lta lh.sphere 0 0 0 lh.sphere.reg_rotated
 ```
 
 Extracts the rotation from `talairach.lta` and applies it to the sphere surface.
@@ -146,7 +147,4 @@ Extracts the rotation from `talairach.lta` and applies it to the sphere surface.
 
 ## Confidence and Gaps
 
-Confidence is **high**. The main logic is clearly read from source. The flag for `VolGeomValid` is the only minor gap.
-
-> [!gap] VolGeomValid flag syntax
-> The exact command-line flag(s) that control `VolGeomValid` should be verified from `get_option()` or `--help`.
+Confidence is **high**. The main logic is clearly read from source. All flags verified from `get_option()` in the source.

@@ -67,19 +67,29 @@ The Euler characteristic is a topological invariant. A closed genus-0 triangulat
 
 For a closed triangulated surface with $V$ vertices, $E$ edges, and $F$ faces:
 
-$$\chi = V - E + F \quad \text{(Euler characteristic)}$$
+$$
+\chi = V - E + F \quad \text{(Euler characteristic)}
+$$
 
 For a genus-$g$ closed surface:
-$$\chi = 2 - 2g$$
+$$
+\chi = 2 - 2g
+$$
 
 For a topologically correct cortical hemisphere (genus 0): $\chi = 2$, $g = 0$.
 
 **Number of holes:**
-$$\text{holes} = 1 - \frac{\chi}{2}$$
+$$
+\text{holes} = 1 - \frac{\chi}{2}
+$$
 
 A valid surface also satisfies:
-$$F = 2V - 4 \quad \text{(for a triangulated sphere)}$$
-$$2E = 3F \quad \text{(Euler relation for triangulations)}$$
+$$
+F = 2V - 4 \quad \text{(for a triangulated sphere)}
+$$
+$$
+2E = 3F \quad \text{(Euler relation for triangulations)}
+$$
 
 The **topological defect index** (from `MRIStopologicalDefectIndex()`) measures the total number of vertices involved in topological defects.
 

@@ -61,12 +61,16 @@ The `SUBJECTS_DIR` environment variable must be set.
 For each white matter voxel at column-row-slice $(c, r, s)$:
 
 1. Convert CRS to Surface RAS using the tkregister vox2ras matrix $M_{vox2ras}$:
-   $$\mathbf{r} = M_{vox2ras} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+   \mathbf{r} = M_{vox2ras} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 2. Find the nearest vertex in the lh.white hash table with distance $d_{lh}$ and in the rh.white hash table with distance $d_{rh}$.
 
 3. Assign the annotation of the closest surface:
-   $$\text{label}(c,r,s) = \text{annotid}(\text{nearest vertex}) + \begin{cases} 1000 & \text{if } d_{lh} < d_{rh} \\ 2000 & \text{otherwise} \end{cases}$$
+$$
+   \text{label}(c,r,s) = \text{annotid}(\text{nearest vertex}) + \begin{cases} 1000 & \text{if } d_{lh} < d_{rh} \\ 2000 & \text{otherwise} \end{cases}
+$$
 
 The hash table `MHTcreateVertexTable_Resolution(..., 16)` enables $O(1)$ average-case nearest-vertex lookup.
 

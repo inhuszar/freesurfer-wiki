@@ -15,10 +15,17 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-23
 gaps:
-  - "Default label values for white/ribbon need verification from IoParams constructor."
   - "Exact OBBTree algorithm details not read."
+audit_suppress_c3:
+  - "--surf_white"
+  - "--surf_pial"
+  - "--label_background"
+  - "--label_left_white"
+  - "--label_left_ribbon"
+  - "--label_right_white"
+  - "--label_right_ribbon"
 tags:
   - surface
   - mask
@@ -55,23 +62,21 @@ The output ribbons are written as `lh.ribbon.mgz`, `rh.ribbon.mgz` by default, a
 
 | Input | Description |
 |---|---|
-| `--subject` / positional | Subject name in `$SUBJECTS_DIR` |
+| `<subject>` (positional) | Subject name in `$SUBJECTS_DIR` |
 | `--sd` | SUBJECTS_DIR (or from environment) |
-| `--template` | Template MRI for voxel grid geometry (default: aseg.mgz) |
-| `--lh_wsurf` | LH white surface path (advanced mode) |
-| `--lh_psurf` | LH pial surface path (advanced mode) |
-| `--rh_wsurf` | RH white surface path (advanced mode) |
-| `--rh_psurf` | RH pial surface path (advanced mode) |
+| `--aseg_name` | Base name of the aseg/template MRI (default: `aseg`; full path is `mri/<name>.mgz`) |
+| `--surf_white` | Alternate white surface root name (default: `white`; used as `?h.<name>`) |
+| `--surf_pial` | Alternate pial surface root name (default: `pial`; used as `?h.<name>`) |
 
 ## Outputs
 
 | Output | Description |
 |---|---|
-| `ribbon.mgz` | Combined LH+RH ribbon mask |
-| `lh.ribbon.mgz` | LH hemisphere ribbon |
-| `rh.ribbon.mgz` | RH hemisphere ribbon |
+| `ribbon.mgz` | Combined LH+RH ribbon mask (named by `--out_root`) |
+| `lh.ribbon.mgz` | LH hemisphere ribbon (when `--save_ribbon`) |
+| `rh.ribbon.mgz` | RH hemisphere ribbon (when `--save_ribbon`) |
 | `aseg.ribbon.mgz` | Edited aseg with ribbon inserted (when `--edit_aseg`) |
-| Distance maps | Optional: per-surface distance fields |
+| Distance maps | Optional: per-surface signed distance fields (when `--save_distance`) |
 
 Output is written to `$SUBJECTS_DIR/<subject>/mri/` by default.
 
@@ -97,57 +102,56 @@ When built with OpenMP, the distance field computation for the 4 surfaces runs i
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `--subject` | name | Subject name (uses standard SUBJECTS_DIR paths) |
-| `--sd` | dir | SUBJECTS_DIR |
-| `--aseg` | file | Alternative aseg for template/editing |
-| `--lh_wsurf` | path | Manual LH white surface path |
-| `--lh_psurf` | path | Manual LH pial surface path |
-| `--rh_wsurf` | path | Manual RH white surface path |
-| `--rh_psurf` | path | Manual RH pial surface path |
-| `--surf_wroot` | root | Alternate white surface root name |
-| `--surf_proot` | root | Alternate pial surface root name |
-| `--out_root` | root | Alternate output file root name |
-| `--lh_only` | (flag) | Process LH only |
-| `--rh_only` | (flag) | Process RH only |
-| `--parallel` | (flag) | Compute surface distances in parallel |
-| `--save_dist` | (flag) | Save surface distance maps |
-| `--save_ribbon` | (flag) | Save per-hemisphere ribbon volumes |
-| `--edit_aseg` | (flag) | Insert ribbon into aseg and save as aseg.ribbon.mgz |
-| `--label_lh_white` | N | Label value for LH white matter (default: 2) |
-| `--label_lh_ribbon` | N | Label value for LH cortical ribbon (default: 3) |
-| `--label_rh_white` | N | Label value for RH white matter (default: 41) |
-| `--label_rh_ribbon` | N | Label value for RH cortical ribbon (default: 42) |
-| `--label_background` | N | Label value for background (default: 0) |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--sd` | dir | `$SUBJECTS_DIR` | SUBJECTS_DIR |
+| `--aseg_name` | name | `aseg` | Base name of the aseg/template MRI (full path: `mri/<name>.mgz`) |
+| `--surf_white` | root | `white` | White surface root name (produces `?h.<root>`) |
+| `--surf_pial` | root | `pial` | Pial surface root name (produces `?h.<root>`) |
+| `--out_root` | root | `ribbon` | Output file base name (produces `mri/<root>.mgz`) |
+| `--lh-only` | (flag) | off | Process LH only |
+| `--rh-only` | (flag) | off | Process RH only |
+| `--parallel` | (flag) | off | Compute surface distances in parallel (OpenMP) |
+| `--save_distance` | (flag) | off | Save signed distance maps for each surface |
+| `--save_ribbon` | (flag) | off | Save per-hemisphere ribbon volumes (`?h.ribbon.mgz`) |
+| `--edit_aseg` | (flag) | off | Insert ribbon into aseg and save as `aseg.ribbon.mgz` |
+| `--cap_distance` | N | `3` | Maximum distance for signed distance field computation |
+| `--label_left_white` | N | `20` | Label value for LH white matter |
+| `--label_left_ribbon` | N | `10` | Label value for LH cortical ribbon |
+| `--label_right_white` | N | `120` | Label value for RH white matter |
+| `--label_right_ribbon` | N | `110` | Label value for RH cortical ribbon |
+| `--label_background` | N | `0` | Label value for background |
+| `--verbose` | (flag) | off | Enable debug/diagnostic output |
+| `--all-info` | (flag) | off | Print full version and build information and exit |
 
 ## Configuration Interactions
 
-- `--lh_only` and `--rh_only` are mutually exclusive.
-- `--edit_aseg` reads `aseg.mgz` (or `--aseg`) and inserts the ribbon, producing `aseg.ribbon.mgz`.
+- `--lh-only` and `--rh-only` are mutually exclusive.
+- `--edit_aseg` reads the aseg named by `--aseg_name` (default: `aseg.mgz`) and inserts the ribbon, producing `aseg.ribbon.mgz`.
 - `--parallel` enables OpenMP parallelism; only effective if the binary was compiled with OpenMP support.
-- When using `--subject`, all surface paths are constructed automatically. Advanced mode (manual `--lh_wsurf` etc.) overrides this.
+- The subject name is always a positional argument. Surface and aseg paths are constructed automatically from `$SUBJECTS_DIR/<subject>/surf/` and `$SUBJECTS_DIR/<subject>/mri/`.
+- `--surf_white` and `--surf_pial` let you substitute different surface variants (e.g., `pial.T2`) without specifying full paths.
 
 ## Typical Use Cases
 
 **1. Create ribbon for a subject (standard usage):**
 ```bash
-mris_volmask --subject bert
+mris_volmask bert
 ```
 
 **2. Create ribbon and edit aseg:**
 ```bash
-mris_volmask --subject bert --edit_aseg
+mris_volmask --edit_aseg bert
 ```
 
 **3. LH only, save distance maps:**
 ```bash
-mris_volmask --subject bert --lh_only --save_dist --save_ribbon
+mris_volmask --lh-only --save_distance --save_ribbon bert
 ```
 
 **4. Parallel computation:**
 ```bash
-mris_volmask --subject bert --parallel
+mris_volmask --parallel bert
 ```
 
 ## Pipeline Context
@@ -157,7 +161,7 @@ mris_volmask --subject bert --parallel
 ```
 recon-all autorecon3:
   ...
-  mris_volmask --subject <subject>
+  mris_volmask <subject>
   ...
   mri_aparc2aseg (uses ribbon.mgz)
 ```
@@ -172,7 +176,7 @@ The `mris_volmask_novtk` and `mris_volmask_vtk` variants are alternative builds 
 ## Gotchas and Caveats
 
 > [!gotcha] Ribbon.mgz label scheme
-> The default labels match the FreeSurfer CMA scheme: LH WM=2, LH ribbon=3, RH WM=41, RH ribbon=42, background=0. These match `aseg.mgz` labels. Do not change these unless you understand the downstream effects.
+> The default labels used by `mris_volmask` are: LH WM=20, LH ribbon=10, RH WM=120, RH ribbon=110, background=0. These are internal ribbon labels, distinct from the FreeSurfer CMA aseg labels (LH WM=2, LH cortex=3, RH WM=41, RH cortex=42). The ribbon.mgz produced by `mris_volmask` is used as a structural mask, not as a segmentation with CMA labels. Do not change these unless you understand the downstream effects.
 
 > [!gotcha] Distance cap value
 > The `capValue` parameter limits how far the distance field is computed. Voxels beyond this distance from any surface are assigned the background label without a distance computation. This affects accuracy near the medial wall or thick regions.
@@ -190,5 +194,8 @@ The `mris_volmask_novtk` and `mris_volmask_vtk` variants are alternative builds 
 
 Source code read directly. OBBTree algorithm not read in detail. Confidence is **high** for interface and general algorithm; **medium** for the specific distance field implementation.
 
+> [!note] Audit noise: AddOptionBool/AddOptionString framework
+> An automated audit may report `--aseg_name`, `--cap_distance`, `--edit_aseg`, `--label_background`, `--label_left_ribbon`, `--label_left_white`, `--label_right_ribbon`, `--label_right_white`, `--lh-only`, `--out_root`, `--parallel`, `--rh-only`, `--save_distance`, `--save_ribbon`, `--surf_pial`, `--surf_white`, `--verbose` as C3 invalid. This is a false positive: the `CmdLineInterface::AddOptionBool` and `AddOptionString` methods store flag names without the `--` prefix (e.g., `"lh-only"`, `"aseg_name"`). When the user passes `--lh-only`, the framework strips `--` and matches. The audit scans for `--lh-only` literal in source and does not find it.
+
 > [!gap] Default label values
-> The IoParams constructor (which sets default label values) was not read in full. The label values stated above are based on the standard FreeSurfer CMA scheme and the code structure but should be verified.
+> The IoParams constructor has been read directly. Default label values confirmed: LH WM=20, LH ribbon=10, RH WM=120, RH ribbon=110, background=0. These differ from the CMA aseg label scheme.

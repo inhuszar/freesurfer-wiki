@@ -17,6 +17,7 @@ related:
   - "[[recon-all]]"
   - "[[tkmeditfv]]"
   - "[[tksurferfv]]"
+  - "[[fsgd-format]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-20
@@ -220,7 +221,7 @@ Layers are listed in the side panel. The topmost visible layer is drawn on top i
 | Save Camera… | Save current 3D camera state |
 | Load Camera… | Restore saved 3D camera state |
 | Show Label/ROI Stats… | Display statistics for loaded labels/ROIs |
-| Plot FSGD Data… | Plot FreeSurfer Group Descriptor data |
+| Plot FSGD Data… | Plot [[fsgd-format\|FreeSurfer Group Descriptor]] data |
 | Save GIF… | Export animated GIF |
 | Preferences… | Open application preferences dialog |
 

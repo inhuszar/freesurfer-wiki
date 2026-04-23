@@ -15,8 +15,7 @@ related:
 status: draft
 confidence: medium
 last_agent_update: 2026-04-15
-gaps:
-  - "No flag documentation available (no help text in header)"
+gaps: []
 tags:
   - labels
   - segmentation
@@ -59,36 +58,21 @@ The tool is conceptually a batch version of the cluster extraction step normally
 
 ## Mathematical Foundations
 
-The tool thresholds the input volume at the specified value to produce a binary mask, then applies connected-component analysis (`MRIsegment()`) with an upper bound of $10^{10}$ (effectively unlimited). Components with fewer voxels than `size_thresh` (default 10) are removed. Each surviving component is converted to a FreeSurfer label via `MRIsegmentToLabel()`, which records voxel coordinates and values.
-
-Optionally, if `-abs` is specified, the absolute value of the volume is taken before segmentation, enabling extraction of both positive and negative clusters.
+The tool thresholds the input volume at the specified value to produce a binary mask, then applies connected-component analysis (`MRIsegment()`) with an upper bound of $10^{10}$ (effectively unlimited). Components with fewer voxels than `size_thresh` (hardcoded default: 10) are removed. Each surviving component is converted to a FreeSurfer label via `MRIsegmentToLabel()`, which records voxel coordinates and values.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-abs` | flag | off | Use absolute value of input before thresholding |
-| `-size <n>` | int | 10 | Minimum segment size in voxels; smaller segments are discarded |
-
-> [!gap] Additional flags
-> The `get_option()` function is not shown in the header. These two static variables (`use_abs`, `size_thresh`) are the only non-positional parameters visible in the source preamble.
-
-## Configuration Interactions
-
-- `-abs` is useful for finding clusters in signed residual or z-score maps where both positive and negative extremes are of interest.
-- `-size` should be tuned to the expected cluster size; too small a threshold will produce many spurious single-voxel labels.
+> [!note] No command-line flags
+> The source `main()` function has no option parser. `use_abs` and `size_thresh` are static global variables initialized at compile time (defaults: `use_abs = 0`, `size_thresh = 10`). They are **not settable from the command line**. The tool takes only the three positional arguments described in the Inputs section.
 
 ## Typical Use Cases
 
 ```bash
 # Extract connected components from a residual volume above threshold 2.0
 mri_make_labels residual.mgz 2.0 /tmp/cluster_labels/seg
-
-# With absolute value (finds both positive and negative clusters)
-mri_make_labels -abs zmap.mgz 2.5 /tmp/clusters/z
 ```
 
-The output files will be named `/tmp/clusters/z.000.label`, `/tmp/clusters/z.001.label`, etc.
+The output files will be named `/tmp/cluster_labels/seg.000.label`, `/tmp/cluster_labels/seg.001.label`, etc.
 
 ## Pipeline Context
 
@@ -113,9 +97,4 @@ Not invoked in standard `recon-all`. This was a pre-processing utility for group
 
 ## Confidence and Gaps
 
-**Confident:** Basic functionality (threshold + connected components + label output), input/output structure, `use_abs` and `size_thresh` parameters.
-
-**Less confident:** Whether additional flags exist, coordinate system handling in `MRIsegmentToLabel`.
-
-> [!gap] Complete flag enumeration
-> Only the static variable declarations are visible in the source header. A full `--help` invocation or reading `get_option()` completely is needed for confidence.
+**Confident (from source):** Basic functionality (threshold + connected components + label output), input/output structure, positional argument order. Confirmed from `main()`: no option parser exists.

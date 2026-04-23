@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - quality-control
@@ -48,7 +48,7 @@ The tool can also compute the intensity slope across the WM-GM boundary using a 
 - `<vol1> [<vol2>...]` — one or more MRI volumes to evaluate (positional arguments 2+)
 
 Optional:
-- `--label <lh_label> <rh_label>` — restrict analysis to specified label files (one per hemisphere)
+- `-label <lh_label> <rh_label>` — restrict analysis to specified label files (one per hemisphere)
 
 ## Outputs
 
@@ -69,34 +69,35 @@ Optionally:
 
 CNR is defined as:
 
-$$\text{CNR} = \frac{(\mu_{WM} - \mu_{GM})^2}{\sigma^2_{WM} + \sigma^2_{GM}}$$
+$$
+\text{CNR} = \frac{(\mu_{WM} - \mu_{GM})^2}{\sigma^2_{WM} + \sigma^2_{GM}}
+$$
 
 For bilateral total CNR:
-$$\text{CNR}_{\text{total}} = \frac{\text{CNR}_{lh} + \text{CNR}_{rh}}{2N_{\text{vols}}}$$
+$$
+\text{CNR}_{\text{total}} = \frac{\text{CNR}_{lh} + \text{CNR}_{rh}}{2N_{\text{vols}}}
+$$
 
 The slope fitting (`MRIScomputeSlope`) uses least-squares linear regression of intensity vs. distance across the WM-GM boundary:
-$$I(d) \approx a \cdot d + b$$
+$$
+I(d) \approx a \cdot d + b
+$$
 
 where $d$ is the distance from the white surface (negative into WM, positive toward CSF).
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `--label <lh_label> <rh_label>` | string×2 | — | Restrict to label region on each hemisphere |
-| `-log <file>` | string | — | Write CNR results to log file |
-| `-slope <base>` | string | — | Compute and write WM-GM slope/offset maps |
-| `-dist-in <val>` | float | — | Distance inside WM for slope sampling |
-| `-dist-out <val>` | float | — | Distance outside pial for slope sampling |
-| `-step-in <val>` | float | — | Step size inside for slope |
-| `-step-out <val>` | float | — | Step size outside for slope |
-| `-interp <type>` | int | TRILINEAR | Interpolation method for volume sampling |
-| `-only-total` | flag | off | Only print the total CNR, suppress per-hemisphere output |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-label <lh_label> <rh_label>` | string, string | — | Restrict analysis to label region on each hemisphere |
+| `-l <file>` | string | — | Log CNR results to file (8 values: gray_white_cnr, gray_csf_cnr, white_mean, gray_mean, csf_mean, sqrt(white_var), sqrt(gray_var), sqrt(csf_var)) |
+| `-s <slope_fname> <dist_in> <dist_out> <step_in> <step_out>` | string, float×4 | — | Compute WM-GM slope/offset maps; writes `<path>/<hemi>.<slope_fname>.slope.mgz` and `.offset.mgz` |
+| `-t` | (none) | off | Print only the total CNR to stdout (per-hemisphere detail goes to stderr) |
 
 ## Configuration Interactions
 
-- `-slope` requires `-dist-in`, `-dist-out`, `-step-in`, `-step-out` to be set; these define the sampling profile.
-- `-label` applies different region-of-interest masks to lh and rh simultaneously.
+- `-s` takes all five slope parameters in a single call: `<slope_fname> <dist_in> <dist_out> <step_in> <step_out>`. These define the sampling profile for the slope computation.
+- `-label` applies region-of-interest masks to lh and rh simultaneously; the two label files must correspond to the respective hemispheres.
 - Multiple input volumes are processed in a single run; CNR is reported for each.
 
 ## Typical Use Cases
@@ -116,7 +117,7 @@ mri_cnr $SUBJECTS_DIR/bert/surf \
 
 **Only print total (for scripting):**
 ```bash
-mri_cnr -only-total $SUBJECTS_DIR/bert/surf \
+mri_cnr -t $SUBJECTS_DIR/bert/surf \
   $SUBJECTS_DIR/bert/mri/norm.mgz
 ```
 

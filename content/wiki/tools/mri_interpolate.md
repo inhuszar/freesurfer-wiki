@@ -69,13 +69,13 @@ The source allocates `mri_in`, `mri_ctrl`, and `mri_out`, suggesting a control-p
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| (positional 1) | Input volume |
-| (positional 2) | Output volume |
-
-> [!gap] Flag list from source only
-> Uses a `get_option()` loop but specific flags were not traced. May accept `-navgs N` to override the default of 50.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| (positional 1) | path | required | Input volume |
+| (positional 2) | path | required | Output volume |
+| `-a <N>` | int | 50 | Number of soap-bubble averaging iterations (`navgs`) |
+| `-v <N>` | int | — | Diagnostic vertex number (`Gdiag_no`) for per-vertex debug output |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 
 ## Typical Use Cases
 

@@ -67,7 +67,9 @@ Outputs:
 **Endpoint identification:** The first point (index 0) and last point (index $N-1$) of each streamline are flagged. All intermediate points receive value 0; endpoint points receive value `ENDPOINT_VALUE = 1`.
 
 **Surface projection:** Endpoint 3D coordinates are projected to the nearest vertex on the pial surface using a VTK KD-tree:
-$$v^* = \arg\min_{v \in \text{surface}} \|\mathbf{p}_{\text{endpoint}} - \mathbf{v}\|_2$$
+$$
+v^* = \arg\min_{v \in \text{surface}} \|\mathbf{p}_{\text{endpoint}} - \mathbf{v}\|_2
+$$
 
 The `FSToVTK` helper function converts FreeSurfer surface format to VTK polydata for the KD-tree construction.
 

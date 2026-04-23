@@ -76,10 +76,14 @@ For each scale $i$:
 
 The full feature vector for the $3^3 = 27$ window locations × 4 scales × 4 channels gives:
 
-$$n_{\text{inputs}} = 3^3 \times N_{\text{scales}} \times (3 + 1) = 432$$
+$$
+n_{\text{inputs}} = 3^3 \times N_{\text{scales}} \times (3 + 1) = 432
+$$
 
 **SVM classification:**
-$$\text{decision} = \mathbf{w}^T \mathbf{x} + b$$
+$$
+\text{decision} = \mathbf{w}^T \mathbf{x} + b
+$$
 
 If $\text{decision} < 0$, the voxel is relabeled.
 
@@ -87,13 +91,14 @@ If $\text{decision} < 0$, the voxel is relabeled.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-T <label>` | int | 17 (Left_Hippocampus) | Target label to reclassify border voxels for |
+| `-l <label>` | int | 17 (Left_Hippocampus) | Target label to reclassify border voxels for (`case 'L':`) |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 | `--help` | flag | — | Print help |
 | `--version` | flag | — | Print version |
 
 ## Configuration Interactions
 
-Minimal interface: the four positional arguments are required. The only configurable parameter is the target label via `-T`.
+Minimal interface: the four positional arguments are required. The only configurable parameter is the target label via `-l`.
 
 ## Typical Use Cases
 

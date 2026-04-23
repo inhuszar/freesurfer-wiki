@@ -98,28 +98,28 @@ At inference:
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `--i` | path | Input image or folder |
-| `--o` | path | Segmentation output |
-| `--parc` | (flag) | Also perform cortical parcellation |
-| `--robust` | (flag) | Use robust model (SynthSeg-robust 2.0, slower) |
-| `--fast` | (flag) | Skip some processing steps for speed |
-| `--ct` | (flag) | Clip input to Hounsfield range [0, 80] for CT |
-| `--vol` | csvfile | Save structure volumes to CSV |
-| `--qc` | csvfile | Save QC scores to CSV |
-| `--post` | path | Save posterior probabilities |
-| `--resample` | path | Save resampled input |
-| `--crop` | size [size ...] | Analyse only a cropped patch |
-| `--autocrop` | (flag) | Auto-crop to ignore background voxels |
-| `--threads` | N | Number of CPU threads (default: 1) |
-| `--cpu` | (flag) | Force CPU processing (disable GPU) |
-| `--v1` | (flag) | Use SynthSeg 1.0 model |
-| `--keepgeom` | (flag) | Force output geometry to match input |
-| `--addctab` | (flag) | Embed color table in output (default: on) |
-| `--noaddctab` | (flag) | Do not embed color table |
-| `--photo` | left/right/both | Photo-SynthSeg: segment from dissection photo stack |
-| `--model` | h5file | Use alternative model weights |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--i` | path | — | Input image or folder |
+| `--o` | path | — | Segmentation output |
+| `--parc` | (flag) | `off` | Also perform cortical parcellation |
+| `--robust` | (flag) | `off` | Use robust model (SynthSeg-robust 2.0, slower) |
+| `--fast` | (flag) | `off` | Skip some processing steps for speed |
+| `--ct` | (flag) | `off` | Clip input to Hounsfield range [0, 80] for CT |
+| `--vol` | csvfile | — | Save structure volumes to CSV |
+| `--qc` | csvfile | — | Save QC scores to CSV |
+| `--post` | path | — | Save posterior probabilities |
+| `--resample` | path | — | Save resampled input |
+| `--crop` | size [size ...] | — | Analyse only a cropped patch |
+| `--autocrop` | (flag) | `off` | Auto-crop to ignore background voxels |
+| `--threads` | N | `1` | Number of CPU threads |
+| `--cpu` | (flag) | `off` | Force CPU processing (disable GPU) |
+| `--v1` | (flag) | `off` | Use SynthSeg 1.0 model |
+| `--keepgeom` | (flag) | `off` | Force output geometry to match input |
+| `--addctab` | (flag) | `on` | Embed color table in output |
+| `--noaddctab` | (flag) | `off` | Do not embed color table |
+| `--photo` | left/right/both | — | Photo-SynthSeg: segment from dissection photo stack |
+| `--model` | h5file | — | Use alternative model weights |
 
 ## Configuration Interactions
 

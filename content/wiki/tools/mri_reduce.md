@@ -49,22 +49,24 @@ tags:
 
 Each output voxel is an average of the corresponding 2x2x2 input voxels:
 
-$$O(i,j,k) = \frac{1}{8} \sum_{di=0}^{1} \sum_{dj=0}^{1} \sum_{dk=0}^{1} I(2i+di,\, 2j+dj,\, 2k+dk)$$
+$$
+O(i,j,k) = \frac{1}{8} \sum_{di=0}^{1} \sum_{dj=0}^{1} \sum_{dk=0}^{1} I(2i+di,\, 2j+dj,\, 2k+dk)
+$$
 
 The voxel size in the output header is doubled accordingly, and the RAS center of the volume is preserved.
 
-For multiple reductions (`-r N`), the operation is applied $N$ times sequentially, resulting in a volume with dimensions reduced by $2^N$ along each axis.
+For multiple reductions (`-n N`), the operation is applied $N$ times sequentially, resulting in a volume with dimensions reduced by $2^N$ along each axis.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-r` | `<int>` | Number of reductions to apply (default: 1) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-n <N>` | int | 1 | Number of reductions to apply |
 
 ## Configuration Interactions
 
 - The only option is the repeat count. Each repeat halves all three dimensions.
-- For a 256x256x256 volume: `-r 1` → 128x128x128; `-r 2` → 64x64x64; `-r 3` → 32x32x32.
+- For a 256x256x256 volume: `-n 1` → 128x128x128; `-n 2` → 64x64x64; `-n 3` → 32x32x32.
 
 ## Typical Use Cases
 
@@ -73,7 +75,7 @@ For multiple reductions (`-r N`), the operation is applied $N$ times sequentiall
 mri_reduce input.mgz reduced.mgz
 
 # Reduce by factor 4 (apply twice)
-mri_reduce -r 2 input.mgz reduced_4x.mgz
+mri_reduce -n 2 input.mgz reduced_4x.mgz
 ```
 
 ## Pipeline Context

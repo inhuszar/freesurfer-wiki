@@ -57,13 +57,17 @@ During spherical parameterisation (`mris_sphere`), the cortical surface is mappe
 
 The integration parameters define an energy functional where the negative-vertex penalty is driven by the `l_neg` term. The default `l_neg = 0.0` in the code initialisation, but this may be overridden:
 
-$$E = l_{angle} E_{angle} + l_{area} E_{area} + l_{neg} E_{neg} + l_{spring} E_{spring}$$
+$$
+E = l_{angle} E_{angle} + l_{area} E_{area} + l_{neg} E_{neg} + l_{spring} E_{spring}
+$$
 
 where $E_{neg}$ penalises faces with negative orientation (clockwise winding on the sphere).
 
 The optimisation uses momentum-based integration (`INTEGRATE_MOMENTUM`):
 
-$$v_i^{t+1} = v_i^t + \mu \cdot v_i^t - \eta \nabla E(v_i^t)$$
+$$
+v_i^{t+1} = v_i^t + \mu \cdot v_i^t - \eta \nabla E(v_i^t)
+$$
 
 with `parms.momentum = 0.0` and `parms.tol = 0.5` for convergence.
 

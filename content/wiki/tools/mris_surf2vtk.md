@@ -60,11 +60,11 @@ Coordinates are in surface RAS space (the native FreeSurfer surface coordinate s
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-i` | surface file | Input FreeSurfer surface file (required) |
-| `-o` | output file | Output VTK file (required) |
-| `--help` / `-h` | — | Print usage and exit |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-i` | surface file | required | Input FreeSurfer surface file |
+| `-o` | output file | required | Output VTK file |
+| `--help` / `-h` | — | — | Print usage and exit |
 
 **Usage:** `mris_surf2vtk -i <surface> -o <output.vtk>`
 

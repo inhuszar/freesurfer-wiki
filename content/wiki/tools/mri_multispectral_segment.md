@@ -13,7 +13,7 @@ related:
   - "[[mri_ca_label]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Tool is in attic/ — may not be installed in 8.2.0"
   - "T2/PD tissue segmentation criteria not fully traced"
@@ -74,16 +74,23 @@ A centre of gravity (COG) computation and spherical coordinate system are used f
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| (positional 1) | volume | required | T1 volume |
-| (positional 2) | volume | required | PD volume |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| (positional 1) | volume | required | T1 volume (also accepted via `-t1 <fname>`) |
+| (positional 2) | volume | required | PD volume (also accepted via `-pd <fname>`) |
 | (positional 3) | path | required | Output segmentation |
-| `-field_strength <fs>` | float | 3.0 | Field strength in Tesla |
-| `-pdthresh <t>` | long | 0 | PD threshold |
-
-> [!gap] Complete option list
-> Options not fully read from source.
+| `-t1 <fname>` | file | — | T1 volume path |
+| `-pd <fname>` | file | — | Proton density volume path |
+| `-err <fname>` | file | — | Error/variance volume |
+| `-csf <fname>` | file | — | CSF volume |
+| `-out <fname>` | file | — | Output volume (alternative to positional arg 3) |
+| `-surf <fname>` | file | — | Surface file name |
+| `-3t` | (none) | default | Use 3T T1 thresholds (GM < 3000 ms, WM > 800 ms) |
+| `-1.5t` | (none) | off | Use 1.5T T1 thresholds (GM < 1200 ms, WM > 500 ms) |
+| `-max_gm_t1 <val>` | float | field-strength default | Maximum T1 threshold for GM classification |
+| `-min_wm_t1 <val>` | float | field-strength default | Minimum T1 threshold for WM classification |
+| `-pdthresh <t>` | long | 0 | PD threshold for tissue exclusion |
+| `-correction` | (none) | off | Apply MR intensity correction (top-of-head bias) |
 
 ## Typical Use Cases
 

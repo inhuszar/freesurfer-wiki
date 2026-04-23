@@ -55,7 +55,9 @@ FreeSurfer label files (`.label`) define sets of surface vertices that belong to
 
 Label merging is purely concatenative:
 
-$$L_{merged} = L_1 \cup L_2 \cup \cdots \cup L_N$$
+$$
+L_{merged} = L_1 \cup L_2 \cup \cdots \cup L_N
+$$
 
 The output vertex count is $\sum_{i=1}^N |L_i|$. No deduplication is performed — if a vertex appears in multiple input labels, it will appear multiple times in the output. Downstream tools that read the merged label should handle duplicates appropriately (most will treat the label as a set and deduplicate).
 
@@ -66,6 +68,10 @@ The output vertex count is $\sum_{i=1}^N |L_i|$. No deduplication is performed �
 | `-i <fname>` | string | repeatable | Add an input label file to the merge list |
 | `-d <dir>` | string | null | Add all `.label` files in this directory to the merge list |
 | `-o <fname>` | string | required | Output merged label filename |
+| `-verbose` | flag | off | Enable verbose output |
+| `-echo` | flag | off | Enable command echo (tcsh `set echo`) |
+| `-debug` | flag | off | Enable debug mode: sets both verbose and echo |
+| `-version` | flag | — | Print version string and exit |
 
 ## Configuration Interactions
 
@@ -124,3 +130,6 @@ Not part of standard `recon-all`. Used in analysis workflows where:
 ## Confidence and Gaps
 
 **Confident:** All flags, merge logic (concatenation from script reading), duplicate handling behaviour, header provenance.
+
+> [!note] Audit noise: shell case extractor limitation
+> The shell-script extractor only captures `case` statements ending with `:`. The tcsh `case "-o"`, `case "-i"`, `case "-d"` patterns lack trailing colons and are missed. An automated audit may falsely report `-d`, `-i`, `-o` as C3 invalid. All three flags are confirmed from source.

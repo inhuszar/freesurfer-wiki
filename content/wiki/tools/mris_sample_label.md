@@ -91,7 +91,7 @@ When input is an `.mgz` volume, `LabelfromASeg(mri, voxval)` creates a label fro
 | `-u` or `?` | boolean | — | Print usage and exit. |
 | `--help` or `-help` | boolean | — | Print help text and exit. |
 
-> [!gotcha] No `--voxval` flag exists
+> [!gotcha] No --voxval flag exists
 > The previous wiki entry listed `--voxval` and `-v` as flags for controlling the MGZ label value to extract. These flags do **not** exist in the source. The variable `voxval` is a static global initialised to 1 and is never modifiable via the command line. To extract a label value other than 1, the MGZ input must be pre-processed to remap the desired label to value 1 (e.g., with `mri_binarize`).
 
 ### Configuration Interactions

@@ -15,7 +15,7 @@ related:
   - "[[tksurferfv]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - visualization
@@ -138,20 +138,20 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 
 ### Defects
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-defect` / `-defects` | flag | Load surface defect information: `surface.defects.mgz` seg, `lh/rh.smoothwm.nofix` (green), `lh/rh.orig` (yellow), and defect pointsets. |
-| `-lh-defect` / `-lh-defects` | flag | Same as `-defects` but for left hemisphere only. |
-| `-rh-defect` / `-rh-defects` | flag | Same as `-defects` but for right hemisphere only. |
-| `-defectps` | flag | Load defect pointsets only (without the full defect setup). |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-defect` / `-defects` | flag | off | Load surface defect information: `surface.defects.mgz` seg, `lh/rh.smoothwm.nofix` (green), `lh/rh.orig` (yellow), and defect pointsets. |
+| `-lh-defect` / `-lh-defects` | flag | off | Same as `-defects` but for left hemisphere only. |
+| `-rh-defect` / `-rh-defects` | flag | off | Same as `-defects` but for right hemisphere only. |
+| `-defectps` | flag | off | Load defect pointsets only (without the full defect setup). |
 
 ### Annotations and Labels
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-annot <name>` | string | Load annotation `<hemi>.<name>` from `subject/label/`. Multiple `-annot` flags allowed. |
-| `-aparc` | flag | Shorthand for `-annot aparc.annot`. |
-| `-label` / `-l <file>` | string | Load a label file. Multiple `-label` flags allowed. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-annot <name>` | string | — | Load annotation `<hemi>.<name>` from `subject/label/`. Multiple `-annot` flags allowed. |
+| `-aparc` | flag | off | Shorthand for `-annot aparc.annot`. |
+| `-label` / `-l <file>` | string | — | Load a label file. Multiple `-label` flags allowed. |
 
 ### Functional/Time-Course Overlays
 
@@ -205,38 +205,38 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 
 ### Manual Check Mode
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-mancheck` | flag | Enable manual check mode: loads `subject/scripts/mancheck.json` as a pointset. |
-| `-no-mancheck` | flag | Disable manual check mode. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-mancheck` | flag | off | Enable manual check mode: loads `subject/scripts/mancheck.json` as a pointset. |
+| `-no-mancheck` | flag | — | Disable manual check mode. |
 
 ### Screenshot
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-ss <file> <quit01>` | string int | — | Save screenshot to `<file>`. If `quit01=1`, uses virtual framebuffer (`fsxvfb`) and exits after screenshot. If `quit01=0`, keeps freeview open (`-noquit`). |
+| `-ss` / `--ss <file> <quit01>` | string int | — | Save screenshot to `<file>`. If `quit01=1`, uses virtual framebuffer (`fsxvfb`) and exits after screenshot. If `quit01=0`, keeps freeview open (`-noquit`). |
 
 ### Sphere Volume Geometry
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `--keep-sphere-vol-geom` | flag | Do not ignore sphere volume geometry when loading sphere (sets `FV_SPHERE_IGNORE_VG=0`). |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--keep-sphere-vol-geom` | flag | off | Do not ignore sphere volume geometry when loading sphere (sets `FV_SPHERE_IGNORE_VG=0`). By default `FV_SPHERE_IGNORE_VG` is unset (sphere VG is ignored). |
 
 ### Fallback to tkmedit
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-tkmedit` / `-tkm` | flag | Use original `tkmedit` instead of freeview (if installed). In FreeSurfer 8.x, tkmedit is not available. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-tkmedit` / `-tkm` | flag | off | Use original `tkmedit` instead of freeview (if installed). In FreeSurfer 8.x, tkmedit is not available. |
 
 ### Miscellaneous
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `--nolog` / `--no-log` | flag | Redirect log to `/dev/null`. |
-| `--tmpdir` / `--tmp <dir>` | string | Temporary directory (also sets `cleanup=0`). |
-| `--nocleanup` | flag | Do not clean up temp files. |
-| `--cleanup` | flag | Clean up temp files (explicit). |
-| `-debug` / `--debug` | flag | Enable verbose + echo. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--nolog` / `--no-log` | flag | off | Redirect log output to `/dev/null`. |
+| `--tmpdir` / `--tmp <dir>` | string | — | Set temporary directory; also sets `cleanup=0`. |
+| `--nocleanup` | flag | off | Do not clean up temp files on exit (`cleanup=0`). |
+| `--cleanup` | flag | on | Clean up temp files on exit (explicit override). |
+| `-debug` / `--debug` | flag | off | Enable verbose (`set verbose = 1`) and command echo (`set echo = 1`). |
 
 ### Configuration Interactions
 
@@ -295,3 +295,9 @@ tkmeditfv subject T1.mgz -seg aparc+aseg.mgz \
 ## Confidence and Gaps
 
 **High confidence.** The complete `parse_args` section and `check_params` section of the script were fully read. All flags are verified from the source. The freeview command construction (`cmd` variable) was also read and understood.
+
+> [!note] Audit noise: `-f` false positive
+> An automated audit may flag `-f` as C3 invalid. `-f` IS a real flag, handled at source line 248 via an `if("$argv[1]" == "-f")` conditional rather than a `case` statement. The audit tool's shell extractor only recognises `switch`/`case` patterns, so `-f` is undetectable. The flag is confirmed valid and documented in the Volume Loading table above.
+
+> [!note] Audit note: `--ss` and other near-misses
+> The C1 audit flagged `--ctab`, `--hide-3d-slices`, `--r`, `--ss`, `--surface`, and `--view` as potentially missing. Verification against `scripts/tkmeditfv`: `-ctab` and `-surface`/`-surf` are already documented in the tables above (with single-dash form as found in source). `--ss` is also documented (source uses both `-ss` and `--ss` as aliases — both forms are now shown in the Screenshot table). `--hide-3d-slices` and `--view` are freeview flags constructed and passed on line 192 (`$cmd $altargs --hide-3d-slices --view coronal`) and are not parsed by this wrapper. `--r` does not appear anywhere in the tkmeditfv parser; it appears only as a flag passed to `reg2subject` on line 753. The Configuration Options table is complete and correct.

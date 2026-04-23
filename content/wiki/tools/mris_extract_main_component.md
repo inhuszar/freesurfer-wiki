@@ -56,7 +56,9 @@ The algorithm performs a **connected-component analysis** on the mesh graph: two
 
 Mathematically, let $G = (V, E)$ be the mesh graph. The output is the induced subgraph $G[V^*]$ where:
 
-$$V^* = \arg\max_{C \in \text{CC}(G)} |C|$$
+$$
+V^* = \arg\max_{C \in \text{CC}(G)} |C|
+$$
 
 and $\text{CC}(G)$ is the set of connected components of $G$.
 

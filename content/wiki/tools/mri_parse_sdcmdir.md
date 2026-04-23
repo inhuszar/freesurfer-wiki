@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Complete output file format specification"
   - "Exact column definitions in the output table"
@@ -58,40 +58,51 @@ No mathematical processing is performed. The tool parses DICOM header fields and
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-d` | `<dirname>` | Siemens DICOM directory to parse |
-| `-o` | `<fname>` | Output file for results (default: stdout) |
-| `-summarize` | (none) | Print a summary (one line per series) rather than one line per file |
-| `-sortbyrun` | (none) | Sort output by run number |
-| `-TRSlice` | (none) | Include TR-per-slice information in output |
-| `--debug` | (none) | Enable verbose debugging output |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--d` | `<dirname>` | — | Siemens DICOM directory to parse |
+| `--o` | `<fname>` | stdout | Output file for results |
+| `--summarize` / `--sum` | (none) | off | Print a summary (one line per series) rather than one line per file |
+| `--sortbyrun` | (none) | off | Sort output by run number |
+| `--status` | `<file>` | — | Write a status file (used by automated pipelines to track completion) |
+| `--dwi` | (none) | off | Set `FS_LOAD_DWI=1` to include diffusion-weighted image metadata in output |
+| `--verbose` | (none) | off | Enable verbose output |
+| `--debug` | (none) | off | Enable verbose debugging output |
+| `--version` | (none) | off | Print version and exit |
+| `--help` | (none) | off | Print usage and exit |
 
 > [!gap] Full output column specification
 > The exact column names and order in the output table depend on the `SDCMFILEINFO` struct fields printed by the tool. These were not read in full from the source.
 
+> [!gotcha] Double-dash flags
+> All flags use `--` prefix (double-dash), not single `-`. For example: `--d`, `--o`, `--summarize`, `--sortbyrun`. The older documentation and some examples may show single-dash forms; these do not work.
+
 ## Configuration Interactions
 
-- `-summarize` and `-sortbyrun` can be combined; the summary will still be sorted by run number.
-- Without `-o`, all output goes to stdout, which can be redirected as needed.
+- `--summarize` and `--sortbyrun` can be combined; the summary will still be sorted by run number.
+- Without `--o`, all output goes to stdout, which can be redirected as needed.
+- `--dwi` must be specified before the directory scan begins; it sets an environment variable that controls the DICOM reader.
 
 ## Typical Use Cases
 
 ```bash
 # List all series in a DICOM directory
-mri_parse_sdcmdir -d /data/dicom/ -summarize
+mri_parse_sdcmdir --d /data/dicom/ --summarize
 
 # Write full per-file table sorted by run to a file
-mri_parse_sdcmdir -d /data/dicom/ -sortbyrun -o dicom_table.txt
+mri_parse_sdcmdir --d /data/dicom/ --sortbyrun --o dicom_table.txt
 
 # Display verbose debug info for a directory
-mri_parse_sdcmdir -d /data/dicom/ --debug
+mri_parse_sdcmdir --d /data/dicom/ --debug
+
+# Include DWI series in output
+mri_parse_sdcmdir --dwi --d /data/dicom/ --summarize
 ```
 
 ## Pipeline Context
 
 `mri_parse_sdcmdir` is not called by [[recon-all]]. It is a manual pre-processing utility used before running [[mri_convert]] on DICOM data. It helps identify:
-- Which series number to pass to `mri_convert` with `-scanonly` or `--dicom_info`
+- Which series number to pass to `mri_convert` with `--dicom_info` (a flag of `mri_convert`, not of this tool)
 - Whether the slice ordering is ascending or descending
 - Whether the acquisition has multiple runs
 

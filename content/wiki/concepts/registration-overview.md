@@ -116,9 +116,11 @@ configuration).
 > internals of `rca-surfreg` have not been documented.
 
 **Algorithm:** Optimises a joint energy functional over the sphere:
-$$E = l_\text{corr} \cdot (1 - \text{correlation}(\mathbf{f}_\text{subj}, \mathbf{f}_\text{atlas}))
+$$
+E = l_\text{corr} \cdot (1 - \text{correlation}(\mathbf{f}_\text{subj}, \mathbf{f}_\text{atlas}))
     + l_\text{dist} \cdot E_\text{distortion}
-    + l_\text{area} \cdot E_\text{area}$$
+    + l_\text{area} \cdot E_\text{area}
+$$
 where the feature vector $\mathbf{f}$ combines `?h.sulc` (sulcal depth) and
 `?h.curv` (mean curvature). Parameters: $l_\text{corr}=1$, $l_\text{dist}=5$,
 $l_\text{area}=0.1$.
@@ -212,7 +214,9 @@ dst volume info
 
 The src/dst volume geometry is critical for type conversion: to convert a
 `LINEAR_VOX_TO_VOX` LTA to `LINEAR_RAS_TO_RAS`, the code uses:
-$$\mathbf{M}_\text{RAS} = \mathbf{V}_\text{dst} \cdot \mathbf{M}_\text{vox} \cdot \mathbf{V}_\text{src}^{-1}$$
+$$
+\mathbf{M}_\text{RAS} = \mathbf{V}_\text{dst} \cdot \mathbf{M}_\text{vox} \cdot \mathbf{V}_\text{src}^{-1}
+$$
 where $\mathbf{V}$ is the vox2ras matrix of the respective volume. Both
 geometries must be valid for this conversion.
 

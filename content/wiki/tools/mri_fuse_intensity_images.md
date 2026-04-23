@@ -62,7 +62,9 @@ Cross-timepoint intensity normalization uses the **Parzen-window method** exclus
 
 The Parzen-window normalization replaces each voxel's intensity at each timepoint with a kernel-density-weighted mean across timepoints:
 
-$$\tilde{y}(x, t) = \frac{\sum_{t'} G_\sigma(y(x,t) - y(x,t')) \cdot y(x,t')}{\sum_{t'} G_\sigma(y(x,t) - y(x,t'))}$$
+$$
+\tilde{y}(x, t) = \frac{\sum_{t'} G_\sigma(y(x,t) - y(x,t')) \cdot y(x,t')}{\sum_{t'} G_\sigma(y(x,t) - y(x,t'))}
+$$
 
 where $G_\sigma$ is a Gaussian kernel with width `cross_time_sigma`. Voxels near which all timepoints have consistent intensities (small denominator variation) retain their values; outlier timepoints are down-weighted. This is analogous to bilateral filtering across time rather than space.
 
@@ -74,12 +76,12 @@ The option parser upcases all option strings before matching, so all flags are c
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--MASK` / `-mask` | `file` | — | Binary mask volume applied to each timepoint before normalization; values below `WM_MIN_VAL` (≈ 5) are zeroed. |
-| `--SIGMA` / `-sigma` | `float` | `4.0` | Spatial smoothing sigma for the bias field (declared but not actively used in the Parzen-window code path). |
-| `--cross_time_sigma` / `--cross-time-sigma` | `float` | `1.0` | Sigma of the Parzen (Gaussian) kernel in intensity space used for cross-timepoint normalization. |
-| `--DIAG` / `-diag` | `file` | — | Open diagnostic log file for writing. |
-| `--DEBUG_VOXEL` / `-debug_voxel` | `x y z` | — | Enable per-voxel debug output at the specified voxel coordinates (3 integer arguments). |
-| `--DEBUG_NODE` / `-debug_node` | `x y z` | — | Enable per-node debug output at GCA node coordinates (3 integer arguments). |
+| `-mask <file>` | file | — | Binary mask volume applied to each timepoint before normalization; values below `WM_MIN_VAL` (≈ 5) are zeroed (`!strcmp(option, "MASK")` after StrUpper) |
+| `-sigma <val>` | float | `4.0` | Spatial smoothing sigma for the bias field (parsed but not actively used in the Parzen-window code path) |
+| `-cross_time_sigma` / `-cross-time-sigma` | float | `1.0` | Sigma of the Parzen (Gaussian) kernel in intensity space used for cross-timepoint normalization |
+| `-diag <file>` | file | — | Open diagnostic log file for writing |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Enable per-voxel debug output at specified voxel coordinates |
+| `-debug_node <x> <y> <z>` | 3 ints | — | Enable per-node debug output at GCA node coordinates |
 | `-W` | (flag) | off | Enable `DIAG_WRITE` diagnostic mode. |
 | `-V` | `int` | — | Set `Gdiag_no` diagnostic vertex/voxel number. |
 
@@ -88,9 +90,9 @@ The option parser upcases all option strings before matching, so all flags are c
 
 ## Configuration Interactions
 
-- `--cross_time_sigma` is the only parameter that actively affects normalization output.
-- `--MASK` applies a binary mask derived from the segmentation before cross-timepoint normalization.
-- `--DEBUG_VOXEL` and `--DEBUG_NODE` both take 3 integer coordinates but set different global variables (`Gx/Gy/Gz` vs. `Ggca_x/Ggca_y/Ggca_z`).
+- `-cross_time_sigma` is the only parameter that actively affects normalization output.
+- `-mask` applies a binary mask derived from the segmentation before cross-timepoint normalization.
+- `-debug_voxel` and `-debug_node` both take 3 integer coordinates but set different global variables (`Gx/Gy/Gz` vs. `Ggca_x/Ggca_y/Ggca_z`).
 
 ## Typical Use Cases
 

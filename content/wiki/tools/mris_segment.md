@@ -65,42 +65,49 @@ Based on the source structure, the tool likely produces per-vertex label assignm
 
 Three classifier modes are implemented:
 
-**Gaussian classifier (`-classifier 0`):**
+**Gaussian classifier (`-g`):**
 Each vertex's feature vector (a column from the correlation matrix) is compared to a Gaussian model of the target region's feature distribution. Classification likelihood is:
-$$p(\mathbf{v}_i \mid \text{class}) \propto \exp\!\left(-\frac{(\mathbf{v}_i - \boldsymbol{\mu})^T \Sigma^{-1} (\mathbf{v}_i - \boldsymbol{\mu})}{2}\right)$$
+$$
+p(\mathbf{v}_i \mid \text{class}) \propto \exp\!\left(-\frac{(\mathbf{v}_i - \boldsymbol{\mu})^T \Sigma^{-1} (\mathbf{v}_i - \boldsymbol{\mu})}{2}\right)
+$$
 
-**Similarity classifier (`-classifier 1`):**
+**Similarity classifier:**
 Classification based on cosine or correlation similarity between the query vertex's feature vector and a template profile.
 
-**Label fusion classifier (`-classifier 2`):**
+**Label fusion classifier (`-l`):**
 Transfers labels from multiple training subjects by weighted voting, weighting each subject's contribution by the similarity of its feature vector to the query vertex.
 
 The spatial prior (log-odds map) modulates the classification likelihoods to incorporate anatomical constraints.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | subjects directory | Overrides `SUBJECTS_DIR` environment variable |
-| `-data data_name` | filename | Correlation matrix filename (default: `cormat.mgz`) |
-| `-label label_name` | label name | Prior label file (default: `MT.fsaverage5.label`) |
-| `-prior prior_name` | filename | Prior log-odds map (default: `invivo.MT.logodds.mgz`) |
-| `-ico N` | integer | Icosahedron order for average surface (default: 5) |
-| `-classifier N` | 0/1/2 | Classifier type: 0=Gaussian, 1=similarity, 2=label fusion (default: 0) |
-| `-hemi hemi` | `lh`/`rh` | Hemisphere (default: `lh`) |
-| `-prior_only` | — | Use spatial prior only, skip feature-based classification |
-| `-nsmooth N` | integer | Number of smoothing iterations applied to features (default: 1) |
-| `-nclose N` | integer | Number of morphological closing iterations (default: 1) |
-| `-cor_thresh T` | float | Correlation threshold for feature-based classification (default: 0.6) |
-| `-logodds_thresh T` | float | Log-odds threshold for prior-based classification (default: 0.001) |
-| `-prior_nverts N` | integer | Number of vertices used for prior estimation (default: 30) |
-| `-data_dir dir` | directory name | Subdirectory under subject dir containing fMRI data (default: `fmri`) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-sdir <path>` | directory | `$SUBJECTS_DIR` | Overrides subjects directory. |
+| `-cmat <name>` | filename | `cormat.mgz` | Correlation matrix filename; also accepted as `-input` or `-data`. |
+| `-input <name>` | filename | `cormat.mgz` | Alias for `-cmat`. |
+| `-data <name>` | filename | `cormat.mgz` | Alias for `-cmat`. |
+| `-label <name>` | label name | `MT.fsaverage5.label` | Prior label file. |
+| `-prior <name>` | filename | `invivo.MT.logodds.mgz` | Prior log-odds map. |
+| `-smooth <N>` | integer | — | Number of smoothing iterations applied to posteriors. |
+| `-g` | — | off | Use Gaussian classifier (same as `-classifier 0`). |
+| `-l` | — | off | Use label fusion classifier (same as `-classifier 2`). |
+| `-lh` | — | off | Process left hemisphere; also accepted as `-rh` for right. |
+| `-rh` | — | off | Process right hemisphere; alias for `-lh`. |
+| `-prioronly` | — | off | Use spatial prior only, skip feature-based classification; also `-prior_only`. |
+| `-prior_only` | — | off | Alias for `-prioronly`. |
+| `-noprior` | — | off | Do not use spatial prior; also accepted as `-no_prior`. |
+| `-no_prior` | — | off | Alias for `-noprior`. |
+| `-dir <dir>` | directory | `fmri` | Subdirectory under subject dir containing fMRI data; also `-input_dir`. |
+| `-input_dir <dir>` | directory | `fmri` | Alias for `-dir`. |
+| `-t <T>` | float | — | Correlation threshold for classification. |
+| `-lthresh <T>` | float | — | Log-odds threshold for prior-based classification. |
 
 ## Configuration Interactions
 
-- `-prior_only` bypasses feature-based classification entirely; only the spatial prior is used. This can serve as a sanity check or baseline.
-- `-cor_thresh` and `-logodds_thresh` together determine the joint threshold; both must be exceeded for a vertex to be classified as belonging to the target region.
-- `-classifier 2` (label fusion) requires multiple subjects to be specified; it ignores `-cor_thresh` in favor of weighted voting.
+- `-prioronly` (or `-prior_only`) bypasses feature-based classification entirely; only the spatial prior is used. This can serve as a sanity check or baseline.
+- `-t` and `-lthresh` together determine the joint threshold; both must be exceeded for a vertex to be classified as belonging to the target region.
+- Label fusion mode (`-l`) requires multiple subjects to be specified; it ignores `-t` in favor of weighted voting.
 
 ## Typical Use Cases
 
@@ -108,10 +115,9 @@ The spatial prior (log-odds map) modulates the classification likelihoods to inc
 ```bash
 mris_segment \
   -sdir $SUBJECTS_DIR \
-  -hemi lh \
-  -ico 5 \
-  -classifier 0 \
-  -data cormat.mgz \
+  -lh \
+  -g \
+  -cmat cormat.mgz \
   -label MT.fsaverage5.label \
   -prior invivo.MT.logodds.mgz \
   subject1 subject2 subject3 output_subject

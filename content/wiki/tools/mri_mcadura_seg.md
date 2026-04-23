@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Deep learning model architecture not documented (H5 file format)"
   - "Exact preprocessing steps applied before model inference are not confirmed"
@@ -52,8 +52,8 @@ This is an investigational tool not part of the standard `recon-all` pipeline, d
 
 | Input | Format | Description |
 |-------|--------|-------------|
-| Input volume | [[mgz]] / NIfTI | T1-weighted anatomical volume |
-| Subject name | string | FreeSurfer subject identifier (alternative to `-invol`) |
+| Input volume (`--i`) | [[mgz]] / NIfTI | T1-weighted anatomical volume |
+| Subject name (`--s`) | string | FreeSurfer subject identifier (alternative to `--i`) |
 | MNI152 prior (lh) | NIfTI `.nii.gz` | MNI152 spatial prior for left hemisphere (from `$FREESURFER/average/`) |
 | MNI152 prior (rh) | NIfTI `.nii.gz` | MNI152 spatial prior for right hemisphere |
 
@@ -77,38 +77,50 @@ MNI152 prior maps are warped to subject space using spherical morphometric regis
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--invol <fname>` | string | null | Input volume filename |
-| `--s <subject>` | string | null | Subject name (reads from `$SUBJECTS_DIR`) |
-| `--outdir <dir>` | string | required | Output directory |
-| `--outseg <fname>` | string | null | Output segmentation filename |
+| `--i <fname>` | string | null | Input volume filename |
+| `--s <subject>` | string | null | Subject name (sets input to `$SUBJECTS_DIR/<subj>/mri/nu.mgz`) |
+| `--o <fname>` | string | null | Output segmentation filename |
+| `--outdir <dir>` / `--odir` / `--out-dir` / `--tmpdir` / `--tmp` | string | derived from `--o` | Output directory; all five aliases are equivalent and all set `cleanup=0`, preserving the working directory on exit |
 | `--threads <n>` | int | 1 | Number of processing threads |
+| `--strip` | flag | on | Perform skull stripping before segmentation (default) |
 | `--no-strip` | flag | off | Skip skull stripping step |
-| `--hemi <hemi>` | string | `lh rh` | Process only specified hemisphere(s) |
-| `--force-update` | flag | off | Force reprocessing even if outputs exist |
-| `--smorphdir <dir>` | string | null | Directory containing smorph registration results |
+| `--lh` | flag | — | Process left hemisphere only |
+| `--rh` | flag | — | Process right hemisphere only |
+| `--force` | flag | off | Force reprocessing even if outputs exist |
+| `--no-force` | flag | — | Do not force reprocessing (default) |
+| `--smorphdir <dir>` / `--synthmorph-dir` / `--synthmorphdir` | string | null | Use pre-computed SynthMorph registration directory |
 | `--manseg <fname>` | string | null | Manual segmentation file (for post-processing override) |
-| `--no-cleanup` | flag | off | Do not delete temporary files |
-| `--lf <fname>` | string | auto | Log file path |
+| `--nocleanup` | flag | — | Do not delete temporary working directory |
+| `--cleanup` | flag | on | Delete temporary working directory (default) |
+| `--log <fname>` | string | auto | Log file path (auto: `<outdir>/log/mri_mcadura_seg.Y…log`) |
+| `--nolog` / `--no-log` | flag | — | Suppress log file (redirect to `/dev/null`) |
+| `--test` / `--no-test` | flag | off | Count cortex voxels from aseg (requires `--s`) |
+| `--debug` | flag | off | Enable tcsh verbose tracing (`set verbose=1; set echo=1`). |
+
+> [!gotcha] Sub-tool flags are not passed through
+> `mri_mcadura_seg` calls several sub-tools internally (`mri_sclimbic_seg`, `mri_vol2vol`, `mri_convert`, `mri_binarize`, `mri_segstats`, `fs-synthmorph-reg`, `freeview`). Flags that belong to those tools — such as `--conform`, `--ctab`, `--fov`, `--keep_ac`, `--model`, `--no-cite-sclimbic`, `--output-base`, `--percentile`, `--vmp`, `--write_posteriors` (from `mri_sclimbic_seg`), `--reg`, `--regheader`, `--mov`, `--targ`, `--interp` (from `mri_vol2vol`), `--left-right-reverse-pix`, `--left-right-swap-label-table` (from `mri_convert`), `--match` (from `mri_binarize`), `--accumulate`, `--seg`, `--sum` (from `mri_segstats`), `--affine-only`, `--strip-input` (from `fs-synthmorph-reg`), `--hide-3d-slices`, `--view` (from `freeview`) — are NOT accepted by `mri_mcadura_seg` itself. Passing them on the command line will trigger "ERROR: Flag unrecognized."
 
 ## Configuration Interactions
 
-- Either `--invol` or `--s` must be provided (not both). `--s` assumes the subject's `mri/T1.mgz` as input.
+- Either `--i` or `--s` must be provided (not both). `--s` reads `$SUBJECTS_DIR/<subject>/mri/nu.mgz` as input and auto-sets the output path to `$SUBJECTS_DIR/<subject>/mri/mca-dura.mgz` unless `--o` is also given.
 - `--no-strip` skips the internal skull-stripping step; if the input is already skull-stripped, this saves time.
-- `--smorphdir` provides pre-computed spherical morphometric registrations; if omitted, the tool will compute them internally.
-- `--hemi` restricts processing to one hemisphere, approximately halving runtime.
+- `--smorphdir` (aliases: `--synthmorph-dir`, `--synthmorphdir`) provides a pre-computed SynthMorph registration directory. If omitted, the tool runs `fs-synthmorph-reg` internally and stores results under `<outdir>/synthmorph/`.
+- `--lh` or `--rh` restricts processing to one hemisphere, approximately halving runtime.
+- `--outdir` (or its aliases `--odir`, `--out-dir`, `--tmpdir`, `--tmp`) implicitly sets `cleanup=0`, preserving the working directory.
+- `--nocleanup` also preserves the working directory. By default (`cleanup=1`) the entire `outdir` is deleted on success — only `--o` output and the log survive if neither `--outdir` nor `--nocleanup` is used.
 
 ## Typical Use Cases
 
 ```bash
 # Segment meningeal compartments for subject bert
-mri_mcadura_seg --s bert --outdir /data/bert/dura_seg
+mri_mcadura_seg --s bert --o /data/bert/mri/mca-dura.mgz
 
 # From an arbitrary volume without a subjects directory
-mri_mcadura_seg --invol /data/T1.mgz --outdir /data/dura_seg
+mri_mcadura_seg --i /data/T1.mgz --o /data/dura_seg/mca-dura.mgz
 
-# Right hemisphere only, no cleanup
-mri_mcadura_seg --s bert --outdir /data/bert/dura_seg \
-                --hemi rh --no-cleanup
+# Right hemisphere only, preserve working directory
+mri_mcadura_seg --s bert --o /data/bert/mri/mca-dura.mgz \
+                --rh --nocleanup --outdir /data/bert/dura_tmp
 ```
 
 ## Pipeline Context
@@ -128,6 +140,9 @@ Not part of standard `recon-all`. This is a standalone deep learning segmentatio
 
 > [!gotcha] MNI152 prior dependency
 > The MNI152 prior files are expected at fixed paths within `$FREESURFER/average/`. If these files are absent or corrupted, the tool will fail.
+
+> [!gotcha] Cleanup deletes outdir by default
+> By default (`cleanup=1`), the script deletes the entire working output directory on success. Only the final `--o` output and its log are preserved. Use `--nocleanup` or `--outdir` to retain intermediate files.
 
 > [!assumption] Input should be T1-weighted
 > The model was trained on T1-weighted sequences. FLAIR, T2, or other contrasts are not supported.

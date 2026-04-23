@@ -66,7 +66,9 @@ The pipeline:
 3. **Model inference:** The model predicts a signed distance-to-boundary field (or similar distance transform). The prediction is a single-channel volume with shape matching the input.
 
 4. **Mask creation:** Voxels with prediction value $\le \text{border}$ are assigned to the interior (brain mask); others are exterior:
-$$\text{mask}(x) = \begin{cases} 1 & \text{if prediction}(x) \le \text{border} \\ 0 & \text{otherwise} \end{cases}$$
+$$
+\text{mask}(x) = \begin{cases} 1 & \text{if prediction}(x) \le \text{border} \\ 0 & \text{otherwise} \end{cases}
+$$
 Default `--border = 4`.
 
 5. **Resampling:** The predicted mask is resampled to match the original input geometry using `mri_mask.resample_like(mri_in)`.

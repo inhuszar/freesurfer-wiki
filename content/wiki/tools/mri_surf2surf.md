@@ -17,7 +17,7 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact behaviour of --reshape-factor with non-icosahedral surfaces is unclear."
   - "Whether --cortex smoothing constraint is enforced by default in newer versions needs verification."
@@ -89,57 +89,159 @@ Smoothing (when requested) uses iterative nearest-neighbour averaging that appro
 
 > [!math] FWHM-to-iterations conversion
 > The relationship between FWHM and smoothing iterations uses the approximation:
-> $$\text{FWHM} \approx \sqrt{4 \ln 2 \cdot 2t} \approx \sqrt{4 \ln 2 \cdot 2 \cdot n_{\text{iter}} \cdot \bar{d}^2}$$
+> $$
+> \text{FWHM} \approx \sqrt{4 \ln 2 \cdot 2t} \approx \sqrt{4 \ln 2 \cdot 2 \cdot n_{\text{iter}} \cdot \bar{d}^2}
+> $$
 > where $\bar{d}$ is the mean inter-vertex spacing on the white surface. This is an approximation; actual smoothing behaviour depends on local surface geometry.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `--srcsubject` | subjectname | Source subject (or `ico`) |
-| `--sval` | file | Source overlay file |
-| `--sval-xyz` | surfname | Use surface coordinates as source |
-| `--sval-tal-xyz` | surfname | Surface coordinates in Talairach space |
-| `--sval-area` | surfname | Vertex area as source |
-| `--sval-nxyz` | surfname | Surface normals as source |
-| `--sval-annot` | annotfile | Source annotation file |
-| `--sfmt` | typestring | Source format (curv, paint/w, or mri_convert-compatible) |
-| `--srcicoorder` | order | Icosahedron order of source (needed for .w input) |
-| `--trgsubject` | subjectname | Target subject (or `ico`) |
-| `--trgicoorder` | order | Icosahedron order (0–7, see table) |
-| `--tval` | file | Output overlay file |
-| `--tval-xyz` | volume | Output binary surface with xyz from source |
-| `--tfmt` | typestring | Target format |
-| `--hemi` | lh or rh | Hemisphere |
-| `--surfreg` | surface | Registration surface (default: sphere.reg) |
-| `--mapmethod` | nnfr or nnf | Resampling method (default: nnfr) |
-| `--fwhm-src` | mm | Smooth source before resampling |
-| `--fwhm-trg` / `--fwhm` | mm | Smooth after resampling |
-| `--nsmooth-in` | N | Smoothing iterations on input |
-| `--nsmooth-out` / `--smooth` | N | Smoothing iterations on output |
-| `--label-src` | labelfile | Constrain smoothing to label (source) |
-| `--label-trg` | labelfile | Constrain smoothing to label (target) |
-| `--cortex` | (flag) | Smooth only within cortex.label |
-| `--no-cortex` | (flag) | Do not use cortex label for smoothing |
-| `--frame` | N | Output frame (for paint/w; zero-based) |
-| `--mul` | value | Multiply input by value |
-| `--div` | value | Divide input by value |
-| `--reshape` | (flag) | Save output as multi-slice (for large formats) |
-| `--reshape-factor` | N | Reshape to N slices (default 6) |
-| `--reshape3d` | (flag) | Reshape fsaverage ico7 to 42×47×83 |
-| `--sd` | dir | Set SUBJECTS_DIR |
-| `--reg` | regfile [vol] | Registration file (dat or lta) for coordinate mapping |
-| `--projfrac` | surfname frac | Project along normal by fraction |
-| `--projabs` | surfname dist | Project along normal by absolute distance |
+### Source specification
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--srcsubject` | subjectname | — | Source subject in `$SUBJECTS_DIR`, or `ico` for icosahedron |
+| `--s` | subjectname | — | Set both source and target to the same subject (convenience alias combining `--srcsubject` + `--trgsubject`) |
+| `--sval` / `--srcsurfval` | file | — | Source overlay file |
+| `--sval-xyz` | surfname | — | Use vertex XYZ coordinates of named surface as source |
+| `--sval-tal-xyz` | surfname | — | Surface XYZ coordinates transformed by `talairach.xfm` |
+| `--sval-area` | surfname | — | Vertex area of named surface as source |
+| `--sval-nxyz` | surfname | — | Surface normals of named surface as source |
+| `--sval-annot` | annotfile | — | Source annotation file; also forces `--mapmethod nnf` |
+| `--sval-rip` | surfname | — | Use vertex rip flag of named surface as source values |
+| `--sfmt` / `--srcfmt` / `--src_type` | typestring | (auto) | Source format: `curv`, `paint`/`w`, or any `mri_convert`-compatible type |
+| `--srcicoorder` | order | (auto-detected) | Icosahedron order for source; required when source is a `.w` file |
+| `--srchemi` | `lh` or `rh` | (value of `--hemi`) | Source hemisphere when different from target |
+| `--srcsurfreg` | surface | `sphere.reg` | Source registration surface |
+| `--srcdump` | file | — | Dump source surface data to file (debugging) |
+| `--srchits` | file | — | Save per-vertex source hit count to file (debugging) |
+| `--srcdist` | distfile | — | Compute and save distance from source surface |
+| `--projfrac` | surfname frac | — | Project surface `surfname` along normal by fraction `frac` and use projected XYZ as source |
+| `--projabs` | surfname dist | — | Project surface `surfname` along normal by absolute distance `dist` |
+
+### Target specification
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--trgsubject` | subjectname | — | Target subject in `$SUBJECTS_DIR`, or `ico` for icosahedron |
+| `--trgicoorder` | order | — | Icosahedron order (0–7); required when `--trgsubject ico` |
+| `--tval` / `--trgsurfval` / `--trgval` / `--o` | file | — | Output overlay file |
+| `--tval-xyz` | volume | — | Save output as a binary surface file with XYZ from source; the volume provides target geometry |
+| `--tfmt` / `--trgfmt` / `--trg_type` | typestring | (auto) | Target format: `curv`, `paint`/`w`, or any `mri_convert`-compatible type |
+| `--trghemi` | `lh` or `rh` | (value of `--hemi`) | Target hemisphere when different from source |
+| `--trgsurfreg` | surface | `sphere.reg` | Target registration surface |
+| `--trgdump` | file | — | Dump target surface data to file (debugging) |
+| `--trghits` | file | — | Save per-vertex target hit count to file (debugging; symmetric to `--srchits`) |
+| `--trgdist` | distfile | — | Save distance from source to each target vertex |
+
+### Hemisphere and registration
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--hemi` / `--h` | `lh` or `rh` | — | Hemisphere for both source and target (`--h` is an alias) |
+| `--surfreg` | surface | `sphere.reg` | Registration surface for both source and target |
+| `--dual-hemi` | — | `off` | Assume source registration file uses `?h.?h.surfreg` naming convention |
+| `--reg` | regfile [vol] | — | Registration file (`.dat` or `.lta`) to apply to `--sval-xyz` coordinates |
+| `--reg-inv` | regfile [vol] | — | Apply inverse of `regfile` to `--sval-xyz` coordinates |
+| `--reg-inv-lrrev` | regfile | — | Apply left-right reversed inverse of `regfile` (special coordinate mapping) |
+| `--reg-diff` | reg2 | — | Subtract `reg2` from `--reg` before applying (primarily for testing) |
+
+### Resampling method
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--mapmethod` | `nnfr` or `nnf` | `nnfr` | Resampling method: `nnfr` = nearest-neighbour forward+reverse (fills holes); `nnf` = forward only |
+| `--jac` | — | `off` | Apply Jacobian correction; required when resampling area or volume measures |
+| `--hash` / `--usehash` | — | `on` | Enable hash table for accelerated nearest-neighbour lookup |
+| `--nohash` / `--dontusehash` | — | — | Disable hash table for nearest-neighbour lookup |
+| `--old` | — | `on` | Use old surf2surf algorithm (default) |
+| `--new` | — | — | Use new surf2surf algorithm |
+| `--vtxmap` | file | — | Load or save the vertex mapping explicitly |
+| `--patch` | srcpatchfile targsurf ndilations | — | Resample a patch file onto target surface with `ndilations` dilations |
+
+### Smoothing
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--fwhm-src` | mm | `0` | Smooth source before resampling (FWHM in mm; iterative NN approximation) |
+| `--fwhm-trg` / `--fwhm` | mm | `0` | Smooth target after resampling (FWHM in mm) |
+| `--nsmooth-in` | N | `0` | Smoothing iterations on input (equivalent to `--fwhm-src` but in iteration count) |
+| `--nsmooth-out` / `--nsmooth` | N | `0` | Smoothing iterations on output (equivalent to `--fwhm-trg` but in iteration count) |
+
+> [!note] Noise tokens filtered from C1 audit
+> An audit reported the following as missing flags: `--fwhm-in`, `--fwhm-out`, `--normvar`, `--nsmooth-` (truncated), `--smooth`, `--smooth-in`, `--smooth-out`, `--surf`. None of these are real parsed options in `mri_surf2surf.cpp`. Specifically: `--fwhm-in` and `--fwhm-out` appear only in error message strings (the real flags are `--fwhm-src` and `--fwhm`/`--fwhm-trg`); `--normvar` appears only in a `printf` help line (the real parsed flag is `--norm-var`, already documented above); `--nsmooth-` is a truncated token with no parser entry; `--smooth`, `--smooth-in`, and `--smooth-out` appear only as prose in embedded help text describing the behaviour of `--nsmooth`, `--nsmooth-in`, and `--nsmooth-out`; `--surf` appears only in a source comment referencing `mri_vol2vol`.
+| `--label-src` | labelfile | — | Constrain source smoothing to this label |
+| `--label-trg` | labelfile | — | Constrain target smoothing to this label |
+| `--cortex` | — | `off` | Use `?h.cortex.label` as smoothing mask (recommended) |
+| `--no-cortex` | — | `on` | Do not use cortex label for smoothing (explicit default) |
+| `--label-invert` | — | `off` | Invert the source smoothing label |
+| `--prune` | — | `off` | Remove any vertex that is zero in any time point before smoothing |
+| `--no-prune` | — | `on` | Do not prune mask before smoothing (explicit default) |
+| `--prune_thr` | value | `FLT_MIN` | Threshold for the prune mask |
+
+### Frame and value operations
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--frame` | N | `0` | Output frame index (zero-based); relevant for paint/w format which stores one frame |
+| `--mul` | value | — | Multiply input values by `value` before resampling |
+| `--div` | value | — | Divide input values by `value` before resampling |
+| `--synth` | — | `off` | Replace input with white Gaussian noise |
+| `--ones` | — | `off` | Replace input with ones |
+| `--seed` | N | (auto) | Random seed for `--synth` |
+| `--norm-var` | — | `off` | Rescale output so that standard deviation = 1 (useful with `--synth`) |
+| `--split` | — | `off` | Save each output frame as a separate file |
+
+### Output reshape
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--reshape` | — | `off` | Save output as multiple slices (required for analyze/NIfTI with large icosahedra) |
+| `--noreshape` | — | `on` | Explicitly disable reshape (explicit default) |
+| `--reshape-factor` | N | `6` | Reshape to N slices (chooses closest prime factor of N); enables `--reshape` |
+| `--reshape3d` | — | `off` | Reshape fsaverage (ico7) into 42×47×83 (disables `--reshape`) |
+
+### Environment and directories
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--sd` | dir | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR` on the command line |
+
+### Surface coordinate projection utilities
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--proj-norm` | sourcesurf distmm outsurf | — | Project all surface vertices of `sourcesurf` by `distmm` along their normals; write result to `outsurf` (exits after operation) |
+| `--proj-surf` | surf projmagfile scale outsurf | — | Project surface `surf` vertices by `projmagfile × scale` at each vertex; write to `outsurf` (exits after operation) |
+
+### Diagnostics and testing
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--rms` | rms.dat | — | Save RMS difference between two registration surfaces to `rms.dat` (testing) |
+| `--rms-mask` | mask | — | Restrict RMS computation to vertices inside `mask` |
+| `--cavtx` | vtxno | — | Print coordinates for vertex `vtxno` during registration load (debugging) |
+| `--conv` | N | — | Run convolution test (debugging) |
+| `--usediff` | — | `off` | Enable diffusion-based smoothing |
+| `--nousediff` | — | `off` | Disable diffusion-based smoothing (explicit default) |
+| `--no-rev-face-order` | — | `off` | Prevent automatic face-order reversal |
+| `--debug` | — | `off` | Enable verbose debug output |
+| `--help` | — | — | Print full help text and exit |
+| `--version` | — | — | Print version string and exit |
 
 ## Configuration Interactions
 
 - `--sval-annot` automatically sets `--mapmethod nnf` (to avoid averaging annotation indices).
 - `--sval-xyz` / `--sval-tal-xyz` must be combined with `--tval-xyz` to produce a valid output surface file.
-- `--fwhm-src` and `--nsmooth-in` are equivalent ways to specify pre-resampling smoothing; using both is not recommended.
+- `--fwhm-src` and `--nsmooth-in` are equivalent ways to specify pre-resampling smoothing; using both is not recommended (the code will error if both are non-zero).
+- `--fwhm-trg`/`--fwhm` and `--nsmooth-out`/`--nsmooth` are equivalent for post-resampling smoothing; similarly should not be combined.
 - `--cortex` requires that `?h.cortex.label` exists in the source subject's `label/` directory (created by `recon-all`).
 - `--reshape` has no effect when the output type is paint/w.
 - When target is `ico`, `--trgicoorder` must be specified.
+- `--s subjectname` sets both `srcsubject` and `trgsubject` to the same value — useful for in-place smoothing or format conversion without cross-subject resampling.
+- `--reg-inv` uses the same code path as `--reg` but inverts the matrix before applying it; do not supply a template volume when using an LTA file.
+- `--reshape-factor` implicitly enables `--reshape`.
+- `--proj-norm` and `--proj-surf` exit the program immediately after writing the output surface — they cannot be combined with other resampling operations.
 
 > [!gotcha] Annotation mapping is not a substitute for parcellation
 > When transferring annotations between subjects with `--sval-annot`, the parcellation is being mapped geometrically, not re-estimated from folding patterns. The transferred labels may be inaccurate for the target subject. This is noted in the source code.

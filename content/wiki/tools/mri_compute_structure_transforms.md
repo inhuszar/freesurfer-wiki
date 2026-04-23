@@ -62,11 +62,15 @@ The approach is documented as using an "SVD pseudo-inverse to compute the optima
 
 For each label $l$, let the set of voxels in the label be $\{\mathbf{x}_i\}$ and their atlas-space counterparts (from the warp) be $\{\mathbf{y}_i\}$. The optimal affine matrix $A_l$ minimises:
 
-$$\|A_l \mathbf{X} - \mathbf{Y}\|_F^2$$
+$$
+\|A_l \mathbf{X} - \mathbf{Y}\|_F^2
+$$
 
 where $\mathbf{X}$ and $\mathbf{Y}$ are the stacked coordinate matrices. The solution is:
 
-$$A_l = \mathbf{Y} \mathbf{X}^+ = \mathbf{Y} \mathbf{X}^T (\mathbf{X} \mathbf{X}^T)^{-1}$$
+$$
+A_l = \mathbf{Y} \mathbf{X}^+ = \mathbf{Y} \mathbf{X}^T (\mathbf{X} \mathbf{X}^T)^{-1}
+$$
 
 computed via SVD for numerical stability (pseudo-inverse).
 
@@ -78,7 +82,9 @@ computed via SVD for numerical stability (pseudo-inverse).
 | (positional 2) | Segmentation volume |
 | (positional 3) | Output directory |
 
-No optional flags identified from the brief source inspection.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-n` | — | — | **No-op.** `case 'N': break;` — flag is silently consumed without performing any action. |
 
 > [!gap] Complete option list
 > The `get_option()` function was not fully read.

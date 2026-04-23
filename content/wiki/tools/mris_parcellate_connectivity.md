@@ -49,7 +49,6 @@ Connectivity-based parcellation partitions the cortex into regions such that ver
 - Positional arg 1: surface file path
 - Positional arg 2: connectivity matrix volume (must be `nvertices × 1 × 1 × nvertices`)
 - Positional arg 3: output parcellation filename
-- `-ico N` — icosahedron order (default 2)
 
 ## Outputs
 
@@ -63,20 +62,23 @@ The tool uses an icosahedral tessellation as a low-dimensional basis for connect
 
 ## Configuration Options
 
-| Flag | Description |
-|---|---|
-| (arg 1) | Surface file |
-| (arg 2) | Connectivity matrix volume |
-| (arg 3) | Output parcellation file |
-| `-ico N` | Icosahedron order for mapping (default 2) |
-| `-nbrs N` | Neighbourhood size (default 1) |
-| `-navgs N` | Number of averages (default 0) |
-| `-nsub N` | Number of subdivisions (default 2) |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| (arg 1) | path | required | Surface file |
+| (arg 2) | path | required | Connectivity matrix volume (`nvertices × 1 × 1 × nvertices`) |
+| (arg 3) | path | required | Output parcellation file |
+| `-n <N>` | int | — | Neighbourhood size (`case 'N':`) |
+| `-a <N>` | int | — | Smooth correlation matrix N times (`case 'A':`) |
+| `-s <N>` | int | 2 | Number of subdivisions (`case 'S':`) |
+| `-v <n>` | int | — | Set `Gdiag_no` for vertex debugging (`case 'V':`) |
+
+> [!note] `-ico` is not a CLI flag
+> `ico_no` (the icosahedron order) is hardcoded to 2 in the source and cannot be set from the command line. The wiki previously documented `-ico N` and `-nbrs`/`-navgs`/`-nsub` long forms, but the source parser uses only single-character flags.
 
 ## Configuration Interactions
 
 - The connectivity matrix must be exactly `nvertices × 1 × 1 × nvertices`; the code checks this and exits with an error if not satisfied.
-- `-ico` determines the resolution of the mapping; lower values = fewer regions.
+- The icosahedron order is hardcoded to 2 and cannot be changed without recompiling.
 
 ## Typical Use Cases
 
@@ -104,7 +106,7 @@ Not part of standard `recon-all`. Intended for connectivity-based parcellation w
 
 ## Confidence and Gaps
 
-**Confident (from code):** Input argument structure (3 positional args); connectivity matrix dimension check; `-ico` default 2; ICO overallocation issue.
+**Confident (from code):** Input argument structure (3 positional args); connectivity matrix dimension check; `ico_no` hardcoded to 2 (not CLI-settable); single-char flag parser (`-n`, `-a`, `-s`, `-v`). ICO overallocation issue.
 
 **Low confidence:** Whether the tool is actually functional; what the output parcellation format is.
 

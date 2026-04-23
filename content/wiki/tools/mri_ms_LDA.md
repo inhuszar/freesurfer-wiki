@@ -70,48 +70,58 @@ Let $S_W$ be the within-class scatter matrix and $S_B$ the between-class scatter
 
 The Fisher LDA direction is the eigenvector corresponding to the largest eigenvalue of $S_W^{-1} S_B$:
 
-$$\mathbf{w} = S_W^{-1} (\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)$$
+$$
+\mathbf{w} = S_W^{-1} (\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)
+$$
 
 where $\boldsymbol{\mu}_1$ and $\boldsymbol{\mu}_2$ are the multi-spectral class means.
 
 The synthesized image is:
 
-$$y(\mathbf{x}) = \mathbf{w}^T \mathbf{I}(\mathbf{x})$$
+$$
+y(\mathbf{x}) = \mathbf{w}^T \mathbf{I}(\mathbf{x})
+$$
 
 where $\mathbf{I}(\mathbf{x})$ is the vector of intensities at voxel $\mathbf{x}$ across all input volumes.
 
 **Configuration `CHOICE=0`:** Uses the diagonal of $S_W$ (ignores off-diagonal covariance terms). The source comment notes this is necessary to suppress noise in the output.
 
-**Window mode (`-window`):** LDA is computed only in a local neighbourhood of a specified debug voxel, for visualization purposes.
+**Window mode (`-window <n>`):** LDA is computed only in a local neighbourhood of size `n` around a specified debug voxel, for visualisation purposes.
 
-**Whole-volume mode (`-whole_volume`):** Uses the full volume scatter matrix instead of a local one.
+**Whole-volume mode (`-whole_volume`):** Synthesizes background region in addition to the foreground mask.
 
-**Mahalanobis distance mode (`-compute_m_distance`):** Computes distance in the original multi-spectral space rather than the LDA projection space.
+**Mahalanobis distance mode (`-distance`):** Computes the Mahalanobis distance between class centres in the original multi-spectral space rather than the LDA projection space.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-mask <fname>` | string | null | ROI mask |
-| `-label <fname>` | string | required | Segmentation volume defining tissue classes |
-| `-weight <fname>` | string | null | File to save/load LDA weight vector |
-| `-synth <fname>` | string | null | Synthesized image output filename |
-| `-window` | flag | off | Compute LDA in local neighbourhood only |
-| `-window_size <n>` | int | 30 | Neighbourhood radius for window mode |
-| `-whole_volume` | flag | off | Use whole-volume scatter matrix |
-| `-compute_m_distance` | flag | off | Compute Mahalanobis distance instead of LDA projection |
-| `-USE_ONE` | flag | off | Use WM scatter matrix only (SW from WM) |
-| `-just_test` | flag | off | Set SW = Identity (for testing) |
-| `-shift <f>` | float | -1 | Shift value for synthesized image |
-| `-debug` | flag | off | Enable debug output |
-| `-noise_threshold <f>` | float | 0.1 | Background noise threshold |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-lda` | `<class1> <class2>` | required | Two segmentation label IDs to optimise CNR between |
+| `-mask` | `<fname>` | — | ROI mask volume (UCHAR type) |
+| `-label` | `<fname>` | required | Segmentation volume defining tissue class labels |
+| `-weight` | `<fname>` | — | File to save/load LDA weight vector |
+| `-synth` | `<fname>` | — | Output synthesized LDA volume filename |
+| `-conform` | — | off | Conform input volumes to isotropic 1 mm³ |
+| `-noconform` | — | off | Inhibit isotropic conforming (override previous `-conform`) |
+| `-out_type` | `<n>` | 3 (MRI_FLOAT) | Output volume type code |
+| `-t` | `<f>` | 0.1 | Background noise threshold applied to first input volume |
+| `-w` | — | off | Indicate that LDA weights are pre-computed (read from `-weight` file) |
+| `-window` | `<n>` | off | Compute LDA in local neighbourhood of size `n` around debug voxel |
+| `-debug_voxel` | `<x> <y> <z>` | — | Debug voxel coordinates for windowed LDA mode |
+| `-whole_volume` | — | off | Synthesize background region as well as masked foreground |
+| `-test` | — | off | Set SW to identity matrix (ignore off-diagonal covariance) |
+| `-distance` | — | off | Compute Mahalanobis distance between class centres |
+| `-regularize` | `<lambda>` | off | Regularise covariance matrix: $(1-\lambda) S_W^{-1} + \lambda I$ |
+| `-shift` | `<f>` | -1 | Shift synthesized output values by `f` before truncating at zero |
+| `-use_one` | — | off | Use within-class scatter of class 1 only as $S_W$ |
 
 ## Configuration Interactions
 
-- `-label` is required to define the tissue classes for LDA estimation.
-- `-weight` can be used to save LDA weights from a training set and re-apply them to new data.
-- `-window` and `-whole_volume` are mutually exclusive; `-window` uses local scatter, `-whole_volume` uses global scatter.
-- `-USE_ONE` forces SW to be computed from WM voxels only, which may improve robustness if GM boundary voxels contaminate the within-class scatter.
+- `-lda <class1> <class2>` and `-label <fname>` are both required when computing weights from scratch.
+- `-w` signals that pre-computed weights should be read; in this mode `-weight <fname>` and `-synth <fname>` must also be provided.
+- `-window <n>` requires `-debug_voxel <x> <y> <z>` to specify the centre of the local region.
+- `-window` and `-whole_volume` are incompatible in intent; `-window` uses local scatter, `-whole_volume` uses all foreground voxels.
+- `-use_one` forces $S_W$ to be estimated from class 1 voxels only, which can reduce noise when the second class contains mixed-tissue boundary voxels.
 
 ## Typical Use Cases
 

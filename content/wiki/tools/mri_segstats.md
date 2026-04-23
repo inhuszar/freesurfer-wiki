@@ -16,10 +16,12 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The exact caching mechanism for brain volume statistics (--no-cached) is not documented here."
   - "PVE correction details for --pv are not fully extracted."
+  - "--qa-stats output format and exact metrics computed are not fully documented."
+  - "--synth and --seed interaction (random synthesis) not fully traced."
 tags:
   - segmentation
   - statistics
@@ -56,44 +58,59 @@ These files are the standard inputs to group-level analyses (e.g., `asegstats2ta
 **Primary inputs:**
 - `--seg <file>`: Segmentation volume (required unless `--annot` is used)
 - `--in <file>` / `--i <file>`: Optional input volume for intensity statistics
-- `--annot <subj> <hemi> <annotname>`: Use a surface annotation as the segmentation
+- `--annot <subj> <hemi> <annotname>`: Use a surface annotation as the segmentation (hemi and annotname are positional arguments to `--annot`, not separate flags)
+- `--slabel <subj> <hemi> <labelfile>`: Use a surface label as the segmentation
 - `--ctab <file>` / `--ctab-default`: [[color-lut|Colour lookup table]] for label names
 
 **Optional volume-based inputs:**
 - `--mask <file>`: Mask volume to restrict analysis
 - `--pv <file>`: Partial volume effect correction volume
 - `--brainmask <file>`: Brain mask for global volume computation
+- `--in-intensity-name <name>`: Label for the intensity metric written to the stats header (e.g., `norm`)
+- `--in-intensity-units <units>`: Units string for the intensity metric (e.g., `MR`)
 - `--reg <file>`: Registration from input volume to segmentation space
 - `--regheader`: Use volume headers for registration
 
 ## Outputs
 
 - `--sum <file>`: Main statistics table (text; the [[stats-format|`.stats` file]]). Columns: index, segID, N-voxels, volume-mm3, labelname, mean-intensity, std-intensity, min, max, range.
-- `--avgwf <file>`: Average waveform (for 4D functional inputs)
+- `--avgwf <file>`: Average waveform per label (for 4D functional inputs)
+- `--avgwf-norm-mean`: Normalize average waveform by its mean across time (modifier for `--avgwf`)
+- `--avgwf-remove-mean`: Remove the temporal mean from the average waveform (modifier for `--avgwf`)
 - `--avgwfvol <file>`: Average waveform as a volume
 - `--sfavg <file>`: Spatial average of waveform
 - `--ctab-out <file>`: Output colour table matching the reported labels
-- `--frame-avg <file>`: Frame-by-frame averages
+- `--sumwf <file>`: Per-label average waveform summary (for 4D functional inputs)
 - `--xfm2etiv <xfm> <outfile>`: Standalone eTIV computation from transform file
 
 ## Mathematical Foundations
 
 For each label $\ell$ with voxel set $\mathcal{V}_\ell$:
 
-$$N_\ell = |\mathcal{V}_\ell|$$
-$$V_\ell = N_\ell \cdot v_{\text{vox}} \quad \text{(mm}^3\text{)}$$
+$$
+N_\ell = |\mathcal{V}_\ell|
+$$
+$$
+V_\ell = N_\ell \cdot v_{\text{vox}} \quad \text{(mm}^3\text{)}
+$$
 
 where $v_{\text{vox}}$ is the voxel volume.
 
 When an input volume $I$ is provided:
 
-$$\bar{I}_\ell = \frac{1}{N_\ell} \sum_{v \in \mathcal{V}_\ell} I(v), \quad \sigma_\ell = \sqrt{\frac{1}{N_\ell-1} \sum_{v \in \mathcal{V}_\ell} (I(v) - \bar{I}_\ell)^2}$$
+$$
+\bar{I}_\ell = \frac{1}{N_\ell} \sum_{v \in \mathcal{V}_\ell} I(v), \quad \sigma_\ell = \sqrt{\frac{1}{N_\ell-1} \sum_{v \in \mathcal{V}_\ell} (I(v) - \bar{I}_\ell)^2}
+$$
 
-$$\text{SNR}_\ell = \frac{\bar{I}_\ell}{\sigma_\ell}$$
+$$
+\text{SNR}_\ell = \frac{\bar{I}_\ell}{\sigma_\ell}
+$$
 
 **eTIV (estimated total intracranial volume):**
 
-$$\text{eTIV} = \frac{V_{\text{atlas}}}{|\det(\mathbf{T}_{\text{Talairach}})|} \cdot k$$
+$$
+\text{eTIV} = \frac{V_{\text{atlas}}}{|\det(\mathbf{T}_{\text{Talairach}})|} \cdot k
+$$
 
 where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is the affine Talairach registration matrix, and $k = 1948.106$ is a scale factor empirically determined from MNI305 atlas dimensions.
 
@@ -118,8 +135,7 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--surf-wm-vol` | — | off | Compute surface-based WM volume |
 | `--surf` | `<surfname>` | `white` | Surface name for surface-based volumes |
 | `--annot` | `<subj> <hemi> <annot>` | — | Use annotation as segmentation |
-| `--subject` | `<subj>` | — | Subject name (used with `--annot`) |
-| `--hemi` | `lh\|rh` | — | Hemisphere (used with `--annot`) |
+| `--subject` | `<subj>` | — | Subject name (used with `--annot` and `--slabel`) |
 | `--mask` | `<file>` | — | Mask volume |
 | `--maskthresh` | `<float>` | 0.5 | Mask threshold |
 | `--masksign` | `pos\|neg\|abs` | — | Mask sign |
@@ -139,7 +155,8 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--seg-erode` | `<int>` | 0 | Erode segmentation by N voxels before stats |
 | `--seg-from-input` | — | off | Construct segmentation from input volume |
 | `--replace` | `<src> <tgt>` | — | Replace label `src` with `tgt` |
-| `--excl` | `<id>` | — | Exclude label ID |
+| `--replace-file` | `<file>` | — | File with pairs of label IDs to replace (same format as `--replace`) |
+| `--exclude` / `--excludeid` | `<id>` | — | Exclude label ID from statistics |
 | `--frame` | `<int>` | 0 | Frame of input volume to use |
 | `--robust` | `<pct>` | off | Use robust mean/std (trim `pct`% tails) |
 | `--snr` | — | off | Compute SNR per label |
@@ -148,8 +165,8 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--sqrt` | — | off | Use square root of input |
 | `--mul` | `<float>` | 1.0 | Multiply input by value |
 | `--div` | `<float>` | 1.0 | Divide input by value |
-| `--accumulate` | — | off | Accumulate stats across multiple runs |
-| `--non-empty` | — | on | Report only non-empty labels |
+| `--acc` / `--accumulate` | — | off | Accumulate stats across multiple runs |
+| `--non-empty` / `--nonempty` | — | on | Report only non-empty labels |
 | `--empty` | — | off | Report all labels including empty ones |
 | `--no-global-stats` | — | off | Suppress all global stat headers |
 | `--segborder` | — | on | Exclude border voxels from label statistics |
@@ -158,14 +175,40 @@ where $V_{\text{atlas}}$ is the atlas ICV, $\mathbf{T}_{\text{Talairach}}$ is th
 | `--no-cached` | — | off | Do not use cached brain volume statistics |
 | `--sd` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
 | `--xfm2etiv` | `<xfm> <outfile>` | — | Compute eTIV from transform (standalone mode) |
+| `--old-etiv-only` | — | off | Use older eTIV-only computation method and exit |
+| `--sum` / `--o` | `<file>` | — | Output statistics table (required; `--o` is an alias) |
+| `--sum-in` | `<file>` | — | Read an existing stats table as input (for accumulate mode) |
+| `--sumwf` | `<file>` | — | Write per-label average waveform summary |
+| `--avgwf` | `<file>` | — | Write per-label average waveform as a text file (one column per label, one row per frame) |
+| `--avgwf-norm-mean` | `<float>` | — | Normalize each label's average waveform by dividing by the given value |
+| `--avgwf-remove-mean` | — | off | Remove the temporal mean from each label's average waveform before writing |
+| `--avgwfvol` | `<file>` | — | Write per-label average waveform as a binary MRI volume (labels as columns, frames as rows) |
+| `--sfavg` | `<file>` | — | Write spatial frame average (per-frame mean across all voxels in each label) to a text file |
+| `--seed` | `<int>` | — | Set random number generator seed (calls `setRandomSeed()`; independent of `--synth`) |
+| `--in-intensity-name` | `<name>` | — | Label for the intensity metric in the output header (e.g., `norm`) |
+| `--in-intensity-units` | `<units>` | — | Units string for the intensity metric (e.g., `MR`) |
+| `--maskframe` | `<int>` | — | Frame of mask volume to use (for 4D mask inputs) |
+| `--label-thresh` | `<float>` | — | Minimum label stat value; used with `--slabel` to threshold vertices |
+| `--slabel` | `<subj> <hemi> <labelfile>` | — | Use a surface label file (subject/hemi/file) as the segmentation |
+| `--segbase` | `<int>` | — | Base offset added to all segment IDs |
+| `--rescale-by-seg` | — | off | Rescale input intensity values by segment ID (for use with certain atlases) |
+| `--gtm-default-seg-merge` | — | off | Apply GTM default segment merging (combines certain sub-segmentations) |
+| `--gtm-default-seg-merge-choroid` | — | off | Apply GTM default segment merging including choroid plexus |
+| `--qa-stats` | — | off | Compute and report additional QA statistics (WM-SN SNR, etc.) |
+| `--synth` | — | off | Synthesize random input data (for testing/simulation) |
+| `--newprint` | — | on | Use new-format stats table output |
+| `--no-newprint` | — | off | Use legacy stats table output format |
+| `--dontrun` | — | off | Parse and validate options but do not execute (dry run) |
+| `--usage` | — | — | Print usage and exit (alias for `--help`) |
 | `--debug` | — | off | Debug output |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 
-- `--seg` and `--annot` are mutually exclusive primary input modes.
-- `--annot` requires `--subject` and `--hemi`.
+- `--seg`, `--annot`, and `--slabel` are mutually exclusive primary input modes.
+- --annot takes three positional arguments: subject, hemi, and annot name. There is no separate --hemi flag in `mri_segstats`.
+- `--slabel` similarly takes subject, hemi, and label file as positional arguments.
 - `--surf-ctx-vol` and `--surf-wm-vol` require `--subject` (and optionally `--surf`).
 - `--supratent` requires `--surf-ctx-vol` (checks for surface-based cortical volume).
 - `--totalgray` requires `--surf-ctx-vol`.
@@ -245,8 +288,8 @@ Prerequisites:
 > [!gotcha] Global stats require specific flags
 > The global brain volume measures (BrainSegVol, eTIV, etc.) are only computed when the corresponding flags are set. `recon-all` uses a very specific combination. Not all flags are needed for simple volume-only runs.
 
-> [!gotcha] Frame average vs. single frame
-> For 4D inputs, `--frame N` selects a specific frame. Without this, frame 0 is used. To average all frames, use `--frame-avg`.
+> [!gotcha] Frame selection for 4D inputs
+> For 4D inputs, `--frame N` selects a specific frame (0-based). Without this, frame 0 is used. There is no `--frame-avg` flag in `mri_segstats`; to compute average waveforms, use `--avgwf` or `--avgwfvol`.
 
 > [!internal] Cached brain volumes
 > The tool can use cached brain volume statistics (enabled by default with `--no-cached` to disable). The cache is stored in the subject's `stats/` directory.

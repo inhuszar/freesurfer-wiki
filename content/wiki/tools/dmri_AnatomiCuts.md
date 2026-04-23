@@ -79,10 +79,14 @@ AnatomiCuts uses **normalized spectral clustering** (the Normalized Cuts algorit
    - **Label entropy/intersection:** Based on overlap of label histograms
 
    The Gaussian affinity is:
-   $$W_{ij} = \exp\!\left(-\frac{d(s_i, s_j)^2}{2\sigma^2}\right)$$
+$$
+   W_{ij} = \exp\!\left(-\frac{d(s_i, s_j)^2}{2\sigma^2}\right)
+$$
 
 3. **Normalized cuts:** The graph Laplacian is computed, and the generalized eigenvalue problem:
-   $$(\mathbf{D} - \mathbf{W})\mathbf{v} = \lambda \mathbf{D}\mathbf{v}$$
+$$
+   (\mathbf{D} - \mathbf{W})\mathbf{v} = \lambda \mathbf{D}\mathbf{v}
+$$
    is solved for the $k$ smallest non-zero eigenvalues (where $k$ = number of clusters). The resulting eigenvectors form a spectral embedding of the streamlines, which is then partitioned by $k$-means.
 
 4. **Hierarchical agglomeration:** Clusters are hierarchically merged to produce the dendrogram stored in `HierarchicalHistory.csv`.
@@ -100,12 +104,33 @@ AnatomiCuts uses **normalized spectral clustering** (the Normalized Cuts algorit
 | `-n <n>` | int | 10 | Number of points per resampled streamline |
 | `-e <n>` | int | 500 | Number of fibers used for eigenvector computation |
 | `-o <dir>` | dir | required | Output directory |
-| `-d <type>` | string | `a` | Neighbor connectivity type: `s`, `d`, `a`, `o` |
-| `-labels` | flag | off | Use label-based similarity function |
+| `-d <type>` | string | `a` | Neighbor connectivity type: `s`(straight), `d`(diagonal), `a`(all 26-connected), `o`(none) |
+| `-labels` | flag | off | Activate label-based similarity via `LabelsEntropyAndIntersectionMembershipFunction` (sets `SetLabels(true)`) |
+| `-labels2` | flag | off | Alternate label flag also activating `SetLabels(true)` in `LabelsEntropyAndIntersectionMembershipFunction` |
+| `-euclid` | flag | off | Use Euclidean point-to-point distance as the membership function (`EuclideanMembershipFunction`) |
+| `-hausdorff` | flag | off | Use Hausdorff distance as the membership function (`HausdorffMembershipFunction`) |
+| `-labelsPTP` | flag | off | Use point-to-point label membership function (`LabelsPointToPointMembershipFunction`); sets all label-count directions |
+| `-labelsPTPNN` | flag | off | Like `-labelsPTP` but uses only the nearest-neighbour label count (sets label count to 1) |
+| `-labelsAndEuclid` | flag | off | Combine label-based and Euclidean metrics (`SetLabelsAndEuclid(true)`) |
+| `-leuclid` | flag | off | Add Euclidean component to label-entropy membership function (`SetEuclidean(true)`) |
+| `-intersection` | flag | off | Use label intersection metric within `LabelsEntropyAndIntersectionMembershipFunction` (`SetIntersection(true)`) |
+| `-entropy` | flag | off | Use label entropy metric within `LabelsEntropyAndIntersectionMembershipFunction` (`SetEntropy(true)`) |
+| `-dice` | flag | off | Use Dice coefficient similarity metric (`SetDice(true)`) |
+| `-kulczynskis` | flag | off | Use Kulczynski's similarity coefficient (`SetKulczynskis(true)`) |
+| `-jensenshannon` | flag | off | Use Jensen-Shannon divergence as the similarity metric (`SetJensenShannon(true)`) |
+| `-ruzicka` | flag | off | Use Ruzicka similarity coefficient (`SetRuzicka(true)`) |
+| `-meanEuclidean` | flag | off | Use mean Euclidean distance across all streamline points (`SetMeanEuclidean(true)`) |
+| `-meanClosestPointInvert` | flag | off | Use mean closest-point distance with inversion (`SetMeanClosestPointInvert(true)`) |
+| `-meanClosestPointGaussian` | flag | off | Use mean closest-point distance with Gaussian weighting (`SetMeanClosestPointGaussian(true)`) |
+| `-meanAndCov` | flag | off | Use mean and covariance of the streamline point cloud (point data accumulated per fiber) |
+| `-meanAndCovGaussian` | flag | off | Use mean and covariance with Gaussian kernel (`SetMeanAndCovGaussian(true)`) |
+| `-meanAndCovInvert` | flag | off | Use mean and covariance with inversion (`SetMeanAndCovInvert(true)`) |
 
 ## Configuration Interactions
 
-- `-labels` activates the `LabelPerPointMembershipFunction` or `LabelsEntropyAndIntersectionMembershipFunction` rather than the default Euclidean distance. Label-based similarity is typically preferred when the parcellation is available.
+- **Membership function selection**: The tool uses a priority-based dispatch. If `-labelsPTPNN` or `-labelsPTP` is set, `LabelsPointToPointMembershipFunction` is used. Otherwise if `-euclid`, `EuclideanMembershipFunction` is used. Otherwise if `-hausdorff`, `HausdorffMembershipFunction` is used. Otherwise, `LabelsEntropyAndIntersectionMembershipFunction` is the fallback (all fine-grained options `-intersection`, `-entropy`, `-labels`, `-labels2`, `-leuclid`, `-labelsAndEuclid`, `-dice`, `-kulczynskis`, `-jensenshannon`, `-ruzicka`, `-meanEuclidean`, `-meanClosestPointInvert`, `-meanClosestPointGaussian`, `-meanAndCovGaussian`, `-meanAndCovInvert` apply only within this fallback path).
+- `-labels` and `-labels2` both call `SetLabels(true)` in the fallback membership function; they are effectively equivalent.
+- `-meanAndCov`, `-meanAndCovGaussian`, `-meanAndCovInvert`: when any of these is active, the per-fiber representation switches from individual sampled points to a mean + covariance encoding.
 - `-e` controls a subsampling step: only `-e` fibers are used to compute the affinity matrix eigenvectors, which are then used to assign all streamlines. Larger values improve accuracy but increase memory and computation.
 - `-d` controls which voxel neighbors are considered when computing label assignments. `a` (all 26-connected neighbors) is the most inclusive.
 

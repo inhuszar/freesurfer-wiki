@@ -89,7 +89,9 @@ The tool reads:
 ## Mathematical Foundations
 
 **Euler number and genus:** For a closed triangulated surface with $V$ vertices, $E$ edges, and $F$ faces:
-$$\chi = V - E + F = 2(1 - g)$$
+$$
+\chi = V - E + F = 2(1 - g)
+$$
 where $g$ is the genus (number of handles). A sphere has $g = 0$, $\chi = 2$. Each handle or hole reduces $\chi$ by 2.
 
 **Defect detection:** The algorithm identifies topological defects by analysing loops in the surface graph that are not contractible (i.e., cannot be shrunk to a point on the surface).
@@ -146,7 +148,7 @@ Flags use single-dash prefix (e.g., `-asc`). All are case-insensitive.
 | `--version` | boolean | — | Print version string and exit (handled by `handleVersionOption`). |
 | `--help` or `-help` | boolean | — | Print help and exit. |
 
-> [!gotcha] No `--sdir` flag exists
+> [!gotcha] No --sdir flag exists
 > Unlike many FreeSurfer tools, `mris_topo_fixer` does **not** have a command-line flag to override `SUBJECTS_DIR`. The subjects directory is read exclusively from the `$SUBJECTS_DIR` environment variable. Ensure this is set before running.
 
 ### Configuration Interactions

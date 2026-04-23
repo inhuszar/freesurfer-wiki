@@ -15,11 +15,11 @@ related:
   - "[[mris_ca_train]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Full flag set from get_option() not verified."
   - "Congealing algorithm (simultaneous vs. sequential registration) details need confirmation."
   - "gcsaSSE function semantics not documented."
+  - "Output file naming convention in output_dir not verified."
 tags:
   - surface
   - registration
@@ -77,7 +77,9 @@ Positional arguments:
 
 The congealing objective minimises the total registration energy across all subjects:
 
-$$E_{\text{total}} = \sum_{s=1}^{N} \left[ E_{\text{corr}}(s, \text{atlas}) + \lambda E_{\text{metric}}(s) \right]$$
+$$
+E_{\text{total}} = \sum_{s=1}^{N} \left[ E_{\text{corr}}(s, \text{atlas}) + \lambda E_{\text{metric}}(s) \right]
+$$
 
 where $E_{\text{corr}}$ is the GCSA-based label correlation term and $E_{\text{metric}}$ penalises surface distortion.
 
@@ -87,22 +89,73 @@ Multi-scale optimisation uses sigmas: `sigmas[0..nsigmas]` for progressive blurr
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-n <navgs>` | Feature smoothing averages | 0 |
-| `-sigma <s>` | Registration sigma (can be specified multiple times) | — |
-| `-l <ocorr>` | Overlap correlation weight | 1.0 |
-| `-1` | Single-subject mode (not group) | off |
-| `-a <annot>` | Annotation name | — |
-| `-P <n>` | Max registration passes | 4 |
-| `-A <max>` | Max degrees rotation | 64.0 |
-| `-a <min>` | Min degrees rotation | 0.5 |
-| `-G <nangles>` | Number of rotation angles | 8 |
-| `-N <nbrs>` | Neighbourhood size | 1 |
-| `-reverse` | Reverse subject | off |
-
-> [!gap] Flag names need verification
-> Most flags were inferred from global variables. Confirm from `get_option()`.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-a <n>` | int | — | Number of curvature averaging iterations |
+| `-adaptive` | flag | off | Use adaptive time-step integration |
+| `-addframe <field> <atlas_pos> <l_corr> <l_pcorr>` | int int float float | — | Add extra field to multiframe atlas |
+| `-annot <name>` | string | — | Zero medial wall using annotation file |
+| `-area <val>` | float | — | Set l_area coefficient |
+| `-c <fname>` | path | — | Load curvature from file |
+| `-canon <name>` | string | — | Use named surface for canonical properties |
+| `-corr <val>` | float | — | Set l_corr (correlation) coefficient |
+| `-curv` | flag | off | Use smoothwm curvature for final alignment |
+| `-dist <val>` | float | — | Set l_dist (distance) coefficient |
+| `-distance <fname> <navgs>` | path int | — | Add distance-transform overlay field |
+| `-distances <nbhd> <maxnbrs>` | int int | — | Alias for `-vnum` |
+| `-dt <val>` | float | — | Time step |
+| `-dt_dec <val>` | float | — | dt decrease factor |
+| `-dt_inc <val>` | float | — | dt increase factor |
+| `-e <val>` | float | — | Set l_external coefficient |
+| `-error_ratio <val>` | float | — | Error ratio for adaptive step |
+| `-h` | flag | off | Print help |
+| `-inflated` | flag | off | Use inflated surface for initial rigid alignment |
+| `-infname <name>` | string | — | Custom inflated surface name (also sets IP_USE_INFLATED) |
+| `-init` | flag | off | Use initial registration from file |
+| `-jacobian <fname>` | path | — | Write Jacobian of mapping to file |
+| `-l <label> <gcsa> <label_name>` | path path string | — | Specify manual label to align with atlas label |
+| `-lap <val>` | float | — | Set l_laplacian coefficient |
+| `-lm` | flag | off | Use line minimisation integration |
+| `-m <val>` | float | — | Momentum coefficient |
+| `-max_angle <val>` | float | 16.0 | Maximum search angle (degrees) |
+| `-max_degrees <val>` | float | 64.0 | Maximum rotation for coarse search (degrees) |
+| `-median` | flag | off | Use median normalisation |
+| `-min_degrees <val>` | float | 0.5 | Minimum rotation for coarse search (degrees) |
+| `-multi_scale <n>` | int | 0 | Number of scales for morphing |
+| `-n <n>` | int | — | Number of integration iterations |
+| `-nangles <n>` | int | 8 | Number of rotation angles per scale |
+| `-nbrs <n>` | int | 1 | Neighbourhood size |
+| `-nlarea <val>` | float | — | Set l_nlarea coefficient |
+| `-nocurv` | flag | off | Disable smoothwm curvature for final alignment |
+| `-nonorm` | flag | off | Disable normalisation |
+| `-norot` | flag | off | Disable initial rigid alignment |
+| `-nosulc` | flag | off | Disable initial sulcal depth alignment |
+| `-nsurfaces <n>` | int | — | Number of surfaces/curvatures used for alignment |
+| `-o <name>` | string | — | Original surface property name |
+| `-ocorr <val>` | float | 1.0 | Overlay correlation coefficient |
+| `-overlay <fname> <navgs>` | path int | — | Add overlay field (enables multiframe mode) |
+| `-overlay-dir <dir>` | path | — | Directory for overlay files |
+| `-p <n>` | int | 4 | Maximum registration passes |
+| `-parea <val>` | float | — | Set l_parea coefficient |
+| `-remove_negative <val>` | int (0/1) | — | Remove (1) or keep (0) negative triangles via iterative smoothing |
+| `-reverse` | flag | off | Mirror-image reverse brain before morphing |
+| `-rotate <a> <b> <g>` | float float float | — | Pre-rotate brain by (alpha, beta, gamma) degrees |
+| `-s <val>` | float | — | Scale distances |
+| `-sdir <dir>` | path | — | Override SUBJECTS_DIR |
+| `-search` | flag | off | Use binary search line minimisation |
+| `-sigma <val>` | float | — | Add smoothing sigma to multi-scale schedule (repeatable) |
+| `-spring <val>` | float | — | Set l_spring coefficient |
+| `-sreg <fname>` | path | — | Start registration from coordinates in file |
+| `-sulc <name>` | string | — | Replace sulc file with named curvature file |
+| `-tol <val>` | float | — | Convergence tolerance |
+| `-topology` | flag | off | Preserve topology of positive-area triangles |
+| `-u` | flag | off | Print usage |
+| `-v <n>` | int | — | Set Gdiag_no diagnostic vertex |
+| `-vector` | flag | off | Print multiframe field codes and exit |
+| `-vnum <nbhd> <maxnbrs>` | int int | — | Set neighbourhood size and max neighbours |
+| `-vsmooth` | flag | off | Use space/time varying smoothness weighting |
+| `-w <n>` | int | — | Write diagnostics every N iterations |
+| `-1` | — | off | Treat the target as a single subject's surface (`single_surf = True`) rather than a group average |
 
 ## Configuration Interactions
 

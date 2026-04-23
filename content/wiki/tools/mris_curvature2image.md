@@ -67,7 +67,9 @@ For each voxel at index $(i,j,k)$ in the reference volume:
 2. Query the VTK KD-tree to find the index $v^*$ of the nearest surface vertex.
 3. Assign the overlay value $c(v^*)$ to the output voxel.
 
-$$\text{output}(i,j,k) = c\!\left(\arg\min_{v} \|p_{ijk} - p_v\|_2\right)$$
+$$
+\text{output}(i,j,k) = c\!\left(\arg\min_{v} \|p_{ijk} - p_v\|_2\right)
+$$
 
 where $p_{ijk}$ is the surface-RAS coordinate of voxel $(i,j,k)$ and $p_v$ are the surface vertex positions.
 
@@ -75,16 +77,16 @@ The distance image stores $\|p_{ijk} - p_{v^*}\|_2$ for each voxel, providing a 
 
 ## Configuration Options
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-s <surface>` | Required | Input surface file. |
-| `-m <mask>` | Required | Reference mask/volume defining output geometry. |
-| `-o <output>` | Required | Output overlay image (volume). |
-| `-d <distanceImage>` | Optional | Output distance image (volume). |
-| `-c <overlay>` | Optional | Surface curvature/overlay file to project. |
-| `-l <label>` | Optional | Label value in mask to restrict projection (default: 1). |
-| `-r <radius>` | Optional | KD-tree search radius in mm (default: 1.1). |
-| `-inv` | Optional | Enable inverse mode (behaviour details below). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-s <surface>` | path | required | Input surface file |
+| `-m <mask>` | path | required | Reference mask/volume defining output geometry |
+| `-o <output>` | path | required | Output overlay image (volume) |
+| `-d <distanceImage>` | path | — | Output distance image (volume) |
+| `-c <overlay>` | path | — | Surface curvature/overlay file to project |
+| `-l <label>` | int | 1 | Label value in mask to restrict projection |
+| `-r <radius>` | float (mm) | 1.1 | KD-tree search radius in mm |
+| `-inv` | (none) | off | Enable inverse mode (see caveats) |
 
 ## Configuration Interactions
 

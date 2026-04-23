@@ -103,7 +103,9 @@ The default smoothing operation is iterative **mean-position averaging**.
 For `niterations` (default 10) iterations, each vertex $v_i$ is updated to
 the mean of its neighbourhood:
 
-$$v_i^{(t+1)} = \frac{1}{|\mathcal{N}(v_i)|} \sum_{j \in \mathcal{N}(v_i)} v_j^{(t)}$$
+$$
+v_i^{(t+1)} = \frac{1}{|\mathcal{N}(v_i)|} \sum_{j \in \mathcal{N}(v_i)} v_j^{(t)}
+$$
 
 where $\mathcal{N}(v_i)$ is the set of 1-ring neighbours at ring size `nbrs=2`.
 The actual kernel (`NORM_MEAN` vs. area-weighted) is implemented in

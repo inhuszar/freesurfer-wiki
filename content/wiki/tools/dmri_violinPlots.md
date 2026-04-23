@@ -83,7 +83,9 @@ Usage (from source):
 
 Violin plots display the kernel density estimate (KDE) of the data distribution for each group, mirrored around a central axis. The KDE uses a Gaussian kernel:
 
-$$\hat{f}(x) = \frac{1}{nh} \sum_{i=1}^n K\!\left(\frac{x - x_i}{h}\right)$$
+$$
+\hat{f}(x) = \frac{1}{nh} \sum_{i=1}^n K\!\left(\frac{x - x_i}{h}\right)
+$$
 
 where $K$ is the Gaussian kernel and $h$ is the bandwidth (determined by matplotlib's default Scott's rule or Silverman's rule).
 

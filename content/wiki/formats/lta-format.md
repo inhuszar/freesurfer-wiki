@@ -335,7 +335,9 @@ a missing line as `FLT2INT_TKREG` (from `utils/registerio.cpp:143–156`).
 > [!gotcha] The REGISTER_DAT matrix goes from ref (target) to mov (source), not mov to ref
 > This is a historical inversion error that is now frozen in the codebase.
 > The `REGISTER_DAT` matrix **R** satisfies:
-> $$\mathbf{x}_{\text{mov,tkRAS}} = R \cdot \mathbf{x}_{\text{ref,tkRAS}}$$
+> $$
+> \mathbf{x}_{\text{mov,tkRAS}} = R \cdot \mathbf{x}_{\text{ref,tkRAS}}
+> $$
 > i.e., it maps a point in the reference (structural) tkRAS space to the
 > corresponding point in the moving (functional) tkRAS space.
 > The comment in `utils/transform.cpp:2756–2760` reads:
@@ -356,14 +358,18 @@ the default case.
 conversion: given target and moving volume geometries and the tkRAS registration
 matrix R, it computes a `LINEAR_VOX_TO_VOX` LTA:
 
-$$M_{\text{vox2vox}} = T_{\text{mov}}^{-1} \cdot R \cdot T_{\text{ref}}$$
+$$
+M_{\text{vox2vox}} = T_{\text{mov}}^{-1} \cdot R \cdot T_{\text{ref}}
+$$
 
 where $T$ denotes the tkRAS vox2ras matrix (`MRIxfmCRS2XYZtkreg()`).
 
 The inverse function `TransformLTA2RegDat()` (from `utils/transform.cpp:4460`)
 reconstructs R from a `LINEAR_VOX_TO_VOX` or `LINEAR_RAS_TO_RAS` LTA:
 
-$$R = T_{\text{mov}} \cdot M_{\text{vox2vox}}^{-1} \cdot T_{\text{ref}}^{-1}$$
+$$
+R = T_{\text{mov}} \cdot M_{\text{vox2vox}}^{-1} \cdot T_{\text{ref}}^{-1}
+$$
 
 ## Coordinate System Semantics
 
@@ -377,7 +383,9 @@ Maps source voxel coordinates (column, row, slice, 1) to destination voxel
 coordinates. Voxel indices are zero-based integers; the homogeneous matrix
 allows for sub-voxel accuracy in floating-point.
 
-$$\begin{pmatrix} c_{\text{dst}} \\ r_{\text{dst}} \\ s_{\text{dst}} \\ 1 \end{pmatrix} = M_{\text{vox2vox}} \cdot \begin{pmatrix} c_{\text{src}} \\ r_{\text{src}} \\ s_{\text{src}} \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} c_{\text{dst}} \\ r_{\text{dst}} \\ s_{\text{dst}} \\ 1 \end{pmatrix} = M_{\text{vox2vox}} \cdot \begin{pmatrix} c_{\text{src}} \\ r_{\text{src}} \\ s_{\text{src}} \\ 1 \end{pmatrix}
+$$
 
 This is the natural output of registration algorithms that operate on voxel
 grids. It is geometry-dependent: the same anatomical registration expressed as
@@ -390,7 +398,9 @@ Maps source scanner RAS coordinates (mm) to destination scanner RAS
 coordinates (mm). Scanner RAS is tied to the physical scanner coordinate
 system, defined by the direction cosines and volume centre in the volume header.
 
-$$\mathbf{x}_{\text{dst,RAS}} = M_{\text{RAS2RAS}} \cdot \mathbf{x}_{\text{src,RAS}}$$
+$$
+\mathbf{x}_{\text{dst,RAS}} = M_{\text{RAS2RAS}} \cdot \mathbf{x}_{\text{src,RAS}}
+$$
 
 This is the preferred representation for storage because it is
 geometry-independent: if either volume is later re-sampled into a different
@@ -398,7 +408,9 @@ grid, the RAS-to-RAS matrix remains valid and a new vox2vox matrix can be
 derived on demand.
 
 To convert from `LINEAR_VOX_TO_VOX` to `LINEAR_RAS_TO_RAS`:
-$$M_{\text{RAS2RAS}} = V_{\text{dst}} \cdot M_{\text{vox2vox}} \cdot V_{\text{src}}^{-1}$$
+$$
+M_{\text{RAS2RAS}} = V_{\text{dst}} \cdot M_{\text{vox2vox}} \cdot V_{\text{src}}^{-1}
+$$
 where $V$ is the scanner vox2ras matrix. The function `LTAgetR2R()` implements
 this (called by `LTAchangeType()` from `utils/transform.cpp:3807–3813`).
 

@@ -72,7 +72,9 @@ The edge detection algorithm scans each row along one dimension of the gradient 
 
 The edge width is defined as the distance between the left and right boundaries, weighted by gradient magnitude:
 
-$$\bar{w}_\text{edge} = \frac{\sum_\text{edges} w_i \cdot g_i}{\sum_\text{edges} g_i}$$
+$$
+\bar{w}_\text{edge} = \frac{\sum_\text{edges} w_i \cdot g_i}{\sum_\text{edges} g_i}
+$$
 
 where $w_i$ is the width and $g_i$ is the maximum gradient at edge $i$.
 

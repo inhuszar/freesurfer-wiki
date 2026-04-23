@@ -14,7 +14,7 @@ related:
   - "[[mris_inflate]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Exact command-line syntax and required positional arguments not fully captured."
   - "Relationship between mris_shrinkwrap.cpp and mris_AA_shrinkwrap.cpp is unclear."
@@ -66,7 +66,7 @@ This produces smooth, topologically correct surfaces suitable for BEM computatio
 | Skin surface | BEM scalp boundary surface. | FreeSurfer binary surface |
 
 > [!gap] Output file naming
-> Exact output file names and their relation to the `-suffix` / `-osuffix` flags need confirmation from deeper source reading.
+> Exact output file names and their relation to the `-s` (suffix) and `-output` flags need confirmation from deeper source reading.
 
 ## Mathematical Foundations
 
@@ -80,27 +80,46 @@ The distance map is constructed with `BORDER_VAL = 128` inside the structure and
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-suffix suf` | string | Input file suffix |
-| `-osuffix suf` | string | Output file suffix |
-| `-target_label L` | integer | Target segmentation label to fit surface to |
-| `-smooth N` | integer | Number of surface smoothing iterations (default: 5) |
-| `-nbrs N` | integer | Neighborhood size for normal computation (default: 2) |
-| `-ic N` | integer | Icosahedron resolution (default: 5) |
-| `-pad N` | integer | Padding added around volume (default: 40 voxels) |
-| `-inner` | — | Generate inner skull surface only |
-| `-embed` | — | Use embedded surface mode |
-| `-tsmooth L` | float | Temporal smoothing weight `l_tsmooth` (default: 0.0) |
-| `-surf_repulse L` | float | Surface repulsion weight (default: 5.0) |
-| `-threshold T` | float | Binary threshold applied to masked volume (default: 0.0) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-fine` | — | — | Set icosahedron resolution to 5 (fine mesh) |
+| `-coarse` | — | — | Set icosahedron resolution to 4 (coarse mesh) |
+| `-ic <n>` | int | 5 | Icosahedron resolution level |
+| `-nbrs <n>` | int | 2 | Neighbourhood size for normal computation |
+| `-shrink <f>` | float | — | Shrinkwrap energy weight (`l_shrinkwrap`) |
+| `-label <L>` | int | — | Target segmentation label to shrinkwrap onto |
+| `-name <s>` | string | — | Base name for output files |
+| `-dt <f>` | float | — | Integration time step; selects momentum integration |
+| `-spring <f>` | float | — | Spring energy weight (`l_spring`) |
+| `-tsmooth <f>` | float | 0.0 | Tangential smoothing energy weight (`l_tsmooth`) |
+| `-grad <f>` | float | — | Gradient energy weight (`l_grad`) |
+| `-tspring <f>` | float | — | Tangential spring energy weight (`l_tspring`) |
+| `-nspring <f>` | float | — | Normal spring energy weight (`l_nspring`) |
+| `-curv <f>` | float | — | Curvature energy weight (`l_curv`) |
+| `-smooth <n>` | int | 5 | Number of surface smoothing iterations |
+| `-output <suf>` | string | — | Suffix appended to output filenames |
+| `-intensity <f>` | float | — | Intensity energy weight (`l_intensity`) |
+| `-embed` | — | off | Embed input in 2× blank volume |
+| `-lm` | — | off | Use line minimization integration |
+| `-inner_skull_only` | — | off | Stop after writing `inner_skull.tri` only |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Debug output at voxel (x, y, z) |
+| `-s <suf>` | string | — | Surface file suffix (single-character form) |
+| `-q` | — | off | Quick mode: disable self-intersection test |
+| `-m <f>` | float | — | Momentum value; selects momentum integration |
+| `-r <f>` | float | — | Surface repulsion energy weight (`l_surf_repulse`) |
+| `-b <f>` | float | — | Base time-step scale factor |
+| `-t <f>` | float | — | Threshold for binarising input volume |
+| `-w <n>` | int | — | Write surface snapshots every n iterations |
+| `-n <n>` | int | — | Number of deformation iterations |
+| `-tol <f>` | float | 0.05 | Convergence tolerance (`parms.tol`; in `mris_AA_shrinkwrap` variant) |
 
 ## Configuration Interactions
 
-- `-inner` restricts output to only the inner skull surface. Without it, all three surfaces (inner skull, outer skull, skin) are generated.
-- `-ic` controls the resolution of the icosahedral template; higher values produce denser meshes but are slower.
-- `-pad` adds voxels around the volume to ensure the initial icosahedral surface starts outside the target structure.
-- `-smooth` and `-surf_repulse` together control surface quality; higher repulsion avoids self-intersections at the cost of slower convergence.
+- `-inner_skull_only` stops the tool after writing `inner_skull.tri`; the outer skull and skin surfaces are not generated.
+- `-fine` and `-coarse` are shortcuts for `-ic 5` and `-ic 4`; `-ic` allows any integer resolution level.
+- `-dt` and `-m` both select momentum-based integration; `-lm` switches to line minimization instead.
+- `-smooth` and `-r` (surface repulsion) together control surface quality; higher repulsion avoids self-intersections at the cost of slower convergence.
+- `-label` and `-t` are two different ways to specify the target boundary: `-label` uses an integer segmentation label, while `-t` thresholds the input volume directly.
 
 ## Typical Use Cases
 
@@ -111,7 +130,7 @@ mris_shrinkwrap aseg.mgz ./bem_surfaces $FREESURFER_HOME/models
 
 **Generate inner skull only:**
 ```bash
-mris_shrinkwrap -inner aseg.mgz ./bem_surfaces $FREESURFER_HOME/models
+mris_shrinkwrap -inner_skull_only aseg.mgz ./bem_surfaces $FREESURFER_HOME/models
 ```
 
 ## Pipeline Context

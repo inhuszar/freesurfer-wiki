@@ -57,15 +57,25 @@ Overlap metrics are the standard way to quantify agreement between automated seg
 
 For two segmentations $S_1$ and $S_2$ and a label $\ell$:
 
-$$V_1(\ell) = |\{x : S_1(x) = \ell\}|,\quad V_2(\ell) = |\{x : S_2(x) = \ell\}|$$
-$$I(\ell) = |\{x : S_1(x) = \ell\ \text{and}\ S_2(x) = \ell\}|$$
-$$U(\ell) = V_1(\ell) + V_2(\ell) - I(\ell)$$
+$$
+V_1(\ell) = |\{x : S_1(x) = \ell\}|,\quad V_2(\ell) = |\{x : S_2(x) = \ell\}|
+$$
+$$
+I(\ell) = |\{x : S_1(x) = \ell\ \text{and}\ S_2(x) = \ell\}|
+$$
+$$
+U(\ell) = V_1(\ell) + V_2(\ell) - I(\ell)
+$$
 
 **Dice coefficient:**
-$$\text{DSC}(\ell) = \frac{2 \cdot I(\ell)}{V_1(\ell) + V_2(\ell)}$$
+$$
+\text{DSC}(\ell) = \frac{2 \cdot I(\ell)}{V_1(\ell) + V_2(\ell)}
+$$
 
 **Jaccard index:**
-$$J(\ell) = \frac{I(\ell)}{U(\ell)}$$
+$$
+J(\ell) = \frac{I(\ell)}{U(\ell)}
+$$
 
 Summary statistics include unweighted mean and volume-weighted mean (`wmean`). A separate weighted mean excluding WM and cortex labels (`wmean_sc`) is also reported.
 
@@ -88,7 +98,7 @@ Summary statistics include unweighted mean and volume-weighted mean (`wmean`). A
 - `--names` requires `--labels`; cannot be used without explicit label IDs.
 - `--seg` and any custom label specification (`--labels` or `--labelfile`) are mutually exclusive.
 - `--measures` can accept multiple values: e.g., `--measures dice jaccard` reports both.
-- When no label specification is given (and `--seg` is not set), all labels found in either segmentation are reported.
+- When no label specification is given (and --seg is not set), all labels found in either segmentation are reported.
 
 **Standard `--seg` label set:**
 Left/right pairs: Cerebral WM, Cerebral Cortex, Hippocampus, Caudate, Putamen, Pallidum, Amygdala, Thalamus, Lateral Ventricle, 3rd/4th Ventricle, Inf Lat Vent, Accumbens Area.

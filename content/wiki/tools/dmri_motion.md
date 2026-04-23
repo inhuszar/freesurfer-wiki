@@ -14,9 +14,8 @@ related:
   - "[[dt_recon]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Full argument list requires reading parse_commandline()"
   - "Exact motion score computation not traced beyond global variable initialization"
 tags:
   - diffusion
@@ -54,13 +53,13 @@ The tool handles two scenarios:
 
 | Input | Flag | Description |
 |-------|------|-------------|
-| Registration matrices | `inMatFile` | Text file of per-volume registration matrices |
-| DWI volumes | `inDwiList` | List of DWI volume files (for within-volume estimation) |
-| B-values | `inBvalList` | List of b-value files corresponding to DWI volumes |
-| Output file | `outFile` | Summary motion statistics output |
-| Frame output | `outFrameFile` | Per-frame motion values output |
+| Registration matrices | `--mat` | Text file of per-volume registration matrices |
+| DWI volumes | `--dwi` | List of DWI volume files (for within-volume estimation; multi-arg) |
+| B-values | `--bval` | List of b-value files corresponding to DWI volumes (multi-arg) |
+| Signal threshold | `--T` | Signal threshold for slice-dropout detection (default: 100) |
+| Diffusivity | `--D` | Diffusivity used in predicted signal model (default: 0.001) |
 
-Global defaults: `T = 100`, `D = .001`.
+Global defaults: `T = 100`, `D = 0.001`.
 
 ## Outputs
 
@@ -78,10 +77,14 @@ Global defaults: `T = 100`, `D = .001`.
 
 **Within-volume motion** (slice dropout detection): For each slice in each DWI volume, the observed signal is compared to the signal predicted from a diffusion model. A slice is flagged as "bad" if:
 
-$$\frac{S_{\text{observed}}}{S_{\text{predicted}}} < T$$
+$$
+\frac{S_{\text{observed}}}{S_{\text{predicted}}} < T
+$$
 
 where the predicted signal uses the Stejskal-Tanner equation:
-$$S = S_0 \exp(-b \cdot D)$$
+$$
+S = S_0 \exp(-b \cdot D)
+$$
 
 with $D$ as the apparent diffusion coefficient (default $D = 0.001$ mm²/s).
 
@@ -89,18 +92,15 @@ The **motion score** aggregates these measures into a single quality metric. Fra
 
 ## Configuration Options
 
-> [!gap] Full flag list
-> The complete flags require reading `parse_commandline()`. From global variables:
-
-| Variable | Likely flag | Description | Default |
-|----------|-------------|-------------|---------|
-| `inMatFile` | `--mat` | Input motion matrix file | — |
-| `inDwiList` | `--dwi` | List of DWI files (for within-volume estimation) | — |
-| `inBvalList` | `--bval` | List of b-value files | — |
-| `outFile` | `--out` | Output summary statistics file | — |
-| `outFrameFile` | `--frame` | Output per-frame motion file | — |
-| `T` | `--T` | Signal threshold for slice dropout | 100 |
-| `D` | `--D` | Diffusivity for signal prediction | 0.001 |
+| Flag | Argument | Description | Default |
+|------|----------|-------------|---------|
+| `--mat` | `file` | Input per-volume registration matrix file | — |
+| `--dwi` | `file [file ...]` | DWI volume files for within-volume motion estimation (multi-arg) | — |
+| `--bval` | `file [file ...]` | B-value files corresponding to `--dwi` inputs (multi-arg) | — |
+| `--out` | `file` | Output summary motion statistics file | — |
+| `--outf` | `file` | Output per-frame motion values file | — |
+| `--T` | `float` | Signal threshold for slice-dropout detection | 100 |
+| `--D` | `float` | Diffusivity (mm²/s) for predicted signal model | 0.001 |
 
 ## Typical Use Cases
 
@@ -112,7 +112,7 @@ The **motion score** aggregates these measures into a single quality metric. Fra
 dmri_motion \
   --mat eddy_correct_matrices.txt \
   --out motion_summary.txt \
-  --frame motion_per_frame.txt
+  --outf motion_per_frame.txt
 
 # Compute within-volume motion from DWI signal
 dmri_motion \
@@ -142,8 +142,7 @@ DWI acquisition --> eddy correction --> dmri_motion (QC) --> dmri_paths / dmri_t
 
 ## Confidence and Gaps
 
-> [!gap] Argument parser not read
-> Full flags and their defaults require reading `parse_commandline()`.
+**Confident:** Full flag set confirmed from `parse_commandline()`. The prior --frame, --d, --t flags do not exist in source; the correct flags are --outf, --D, and --T.
 
 > [!gap] Motion score formula
 > The exact formula for `score` (combining translation and rotation into a scalar quality score) is not traced from the top-level source.

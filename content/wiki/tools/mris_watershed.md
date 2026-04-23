@@ -58,13 +58,7 @@ Unlike `mri_surfcluster`, which grows clusters from a threshold, `mris_watershed
 | Positional arg 2 | Intensity overlay file (e.g., curvature or thickness) |
 | Positional arg 3 | Output label file name |
 
-Optional:
-| Flag | Description |
-|---|---|
-| `--nbrs N` | Neighbourhood size for vertex connectivity (default: 3) |
-| `--max_clusters N` | Target number of clusters after merging (default: 60) |
-| `--merge_type` | Merging strategy: `smallest` (merge smallest basin) or `most_similar` (merge most similar adjacent basins). Default: smallest |
-| `--label maskfile` | Mask label file (restrict watershed to these vertices) |
+See Configuration Options below for flag details.
 
 ## Outputs
 
@@ -83,17 +77,21 @@ See algorithm above. The merge step iteratively combines basins:
 
 > [!math] Basin merging criterion
 > For MERGE_SMALLEST at iteration $k$:
-> $$b_{\text{merge}} = \arg\min_{b_i} |b_i|$$
+> $$
+> b_{\text{merge}} = \arg\min_{b_i} |b_i|
+> $$
 > where $|b_i|$ is the number of vertices in basin $b_i$. The selected basin is merged with its adjacent basin that shares the most border edges.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-nbrs` | N | Neighbourhood ring size (default: 3) |
-| `-max_clusters` | N | Target cluster count (default: 60) |
-| `-merge` | type | Merge strategy: `smallest` or `most_similar` |
-| `-label` | file | Restrict to vertices in label file |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-n` | `<N>` | 3 | Neighbourhood ring size passed to `MRISresetNeighborhoodSize()` |
+| `-m` | `<N>` | 60 | Target maximum number of clusters after merging |
+| `-mask_label` | `<file>` | — | Label file; vertices outside the label have their intensity set to zero |
+| `-openmp` | `<N>` | — | Set number of OpenMP threads |
+| `-dilate` / `-dilate_label` / `-label_dilate` | `<N>` | — | Dilate label N times (parsed but not yet implemented in source) |
+| `-erode` / `-erode_label` / `-label_erode` | `<N>` | — | Erode label N times (parsed but not yet implemented in source) |
 
 Usage:
 ```
@@ -111,7 +109,7 @@ mris_watershed $SUBJECTS_DIR/bert/surf/lh.white \
 
 **2. With target of 30 clusters:**
 ```bash
-mris_watershed -max_clusters 30 \
+mris_watershed -m 30 \
                $SUBJECTS_DIR/bert/surf/lh.white \
                $SUBJECTS_DIR/bert/surf/lh.curv \
                lh.curv.watershed
@@ -128,6 +126,9 @@ Not part of standard `recon-all`. Used in research workflows for:
 
 > [!gotcha] max_clusters is a target, not a guarantee
 > Merging stops when the basin count reaches `max_clusters`, but the exact number of output basins depends on the input topology and merge sequence. The actual number of output label files may differ slightly.
+
+> [!gotcha] Dilate and erode flags are stubs
+> The `-dilate`, `-dilate_label`, `-label_dilate`, `-erode`, `-erode_label`, and `-label_erode` flags are parsed by `get_option()` and consume one argument, but the actual dilation/erosion code is commented out in the source. These flags have no effect.
 
 > [!gotcha] Not related to mri_watershed
 > Despite the similar name, `mris_watershed` operates on surfaces (cortical parcellation), whereas [[mri_watershed]] operates on volumes (skull stripping). They share the algorithm family but are completely different tools.

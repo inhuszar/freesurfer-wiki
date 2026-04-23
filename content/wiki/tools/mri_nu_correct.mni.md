@@ -18,7 +18,7 @@ related:
   - "[[mri_em_register]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-04-22
 gaps:
   - "MNI nu_correct's exact B-spline fitting algorithm is only documented in Sled 1997/1998 papers; not re-derived here"
   - "ANTs N4 backend's exact parameter mapping to the tcsh wrapper flags still needs confirmation — only --threads-nondetermistic and -x mask are clearly passed"
@@ -247,8 +247,8 @@ tools that use absolute intensity thresholds.
 
 ### Complete Flag Reference
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
 | `--i <vol>` | path | required | Input volume. |
 | `--o <vol>` | path | required | Output volume. |
 | `--mask <vol>` | path | — | Restrict the fit to `mask > 0`. |
@@ -275,13 +275,24 @@ tools that use absolute intensity thresholds.
 | `--ants-n4-replace-zeros` | bool | off (env override) | Set `ReplaceZeros=1`, which adds `--replace-zeros 0 1 1` to the ANTs N4 call. Default is taken from environment variable `FS_ANTS_N4_REPLACE_ZEROS` (defaults to 0 if unset). Only meaningful with `--ants-n4`. |
 | `--no-ants-n4-replace-zeros` | bool | on | Set `ReplaceZeros=0`. |
 | `--ants4-threads-nondetermistic <n>` | int | — | Thread count for the ANTs N4 backend (passed as `--threads-nondetermistic <n>`). ITK with multiple threads is non-deterministic; the source comment notes this is "convenient for getting answers faster during testing". Only meaningful with `--ants-n4`. |
-| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.$$` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
+| `--tmp <dir>` / `--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.<pid>` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
 | `--cleanup` | bool | on (initial `cleanup=1`) | Delete `tmpdir` at the end of the run. |
 | `--no-cleanup` | bool | off | Keep `tmpdir` (for debugging). |
 | `--log <file>` | path | `<outdir>/mri_nu_correct.mni.log` | Path to the log file. The wrapper renames any pre-existing file at this path to `<file>.bak` before writing. |
 | `--debug` | bool | off | Sets tcsh `verbose=1`, `echo=1`, and `debug=1` (turns on terminal echoing of every shell command). |
 | `--version` | bool | off | Print the version string and exit. Detected by an `egrep` on `argv` *before* the regular parser (lines 58–62), so it short-circuits all other parsing. |
 | `--help` / `-help` / `-h` / `-u` / `-usage` / `--usage` | bool | off | Print help (via `fsPrintHelp`) and exit. All six spellings are accepted. |
+
+### mri_make_uchar Direct-Invocation Flags
+
+`mri_make_uchar` (`mri_convert/mri_make_uchar.cpp`) is a standalone helper invoked by the wrapper when `--uchar` is set. It can also be called directly. Its own option parser (`get_option()`) accepts the following single-dash flags; none of these are forwarded by `mri_nu_correct.mni` itself.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-f <p>` | float | 0.01 | First percentile threshold `FIRST_PERCENTILE`: the lower CDF bound used to find the noise floor in the Talairach ball histogram. |
+| `-w <p>` | float | 0.90 | White-matter percentile `WM_PERCENTILE`: the CDF bound used to identify the WM intensity peak in the Talairach ball histogram. |
+| `-r <mm>` | float | 50.0 | Radius `MAX_R` in mm of the ball around the Talairach origin used to define the "mostly brain" region for histogram estimation. |
+| `-n` | (none) | — | No-op flag (accepted but does nothing; `case 'N': break`). |
 
 ### Configuration Interactions
 
@@ -335,7 +346,7 @@ tools that use absolute intensity thresholds.
 
 > [!gotcha] `--no-float` silently disables `--uchar`
 > The post-iteration call to `mri_make_uchar` is gated by
-> `if($UseFloat && $DoUchar)` (line 226). Passing `--no-float --uchar`
+> `if($UseFloat && $DoUchar)` (line 226). Passing --no-float --uchar
 > together does **not** error out; it simply skips the histogram
 > rescaling step and the output is left in the input data type.
 
@@ -518,6 +529,11 @@ of `nu.mgz` is stamped with `transforms/talairach.xfm` via
 - **Low confidence**: the exact parameter semantics of
   `AntsN4BiasFieldCorrectionFs` — the wrapper only passes a few
   flags and trusts ANTs defaults.
+
+> [!gap] Audit note: C1 flags from helper tools
+> Some flags detected by the C1 audit come from `mri_convert/mri_make_uchar.cpp`, which is listed in `source_files` because it is an integral part of the `--uchar` post-processing step. The flags `-f`, `-w`, `-r`, and `-n` belong to `mri_make_uchar` and are now documented in the "mri_make_uchar Direct-Invocation Flags" table above.
+>
+> Additionally, `--avgwf`, `--conform`, `--dilate`, `--dtype`, `--id`, `--like`, `--min`, `--replace-zeros`, `--seg`, `--sum`, and `--threads-nondetermistic` appear in the C1 audit but are not flags of this wrapper. They are passed to internal helper tools: `--min` and `--dilate` go to `mri_binarize`; `--id`, `--seg`, `--sum`, and `--avgwf` go to `mri_segstats`; `--conform` and `--like` go to `mri_convert`; `--dtype` and `--replace-zeros` go to `AntsN4BiasFieldCorrectionFs`; `--threads-nondetermistic` is what the wrapper passes to the ANTs N4 binary (the user-facing wrapper flag is `--ants4-threads-nondetermistic`, already documented above).
 
 > [!gap] What are `nu_correct`'s defaults for `-iterations`,
 > `-stop`, `-distance`, `-fwhm`?

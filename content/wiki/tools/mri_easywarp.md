@@ -66,13 +66,17 @@ The warping proceeds as follows:
 
 2. **Convert to input voxel indices**: Using the inverse of the input image affine $A_{\text{src}}^{-1}$:
 
-$$\begin{pmatrix} I \\ J \\ K \\ 1 \end{pmatrix} = A_{\text{src}}^{-1} \begin{pmatrix} \phi_x(i,j,k) \\ \phi_y(i,j,k) \\ \phi_z(i,j,k) \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} I \\ J \\ K \\ 1 \end{pmatrix} = A_{\text{src}}^{-1} \begin{pmatrix} \phi_x(i,j,k) \\ \phi_y(i,j,k) \\ \phi_z(i,j,k) \\ 1 \end{pmatrix}
+$$
 
 where $A_{\text{src}}$ is the $4 \times 4$ voxel-to-RAS affine of the input image.
 
 3. **Trilinear interpolation** (default): For fractional voxel coordinates $(I_v, J_v, K_v)$:
 
-$$Y(i,j,k) = \sum_{a \in \{f,c\}} \sum_{b \in \{f,c\}} \sum_{e \in \{f,c\}} w_a^x \, w_b^y \, w_e^z \, X(I_a, J_b, K_e)$$
+$$
+Y(i,j,k) = \sum_{a \in \{f,c\}} \sum_{b \in \{f,c\}} \sum_{e \in \{f,c\}} w_a^x \, w_b^y \, w_e^z \, X(I_a, J_b, K_e)
+$$
 
 where $f = \lfloor \cdot \rfloor$, $c = f+1$, and $w_c = v - f$, $w_f = 1 - w_c$.
 
@@ -115,8 +119,8 @@ mri_easywarp --i T1.mgz --field fwd_field.mgz --o T1_warped.mgz --threads 4
 ## Pipeline Context
 
 `mri_easywarp` is not called by `[[recon-all]]`. It is used after `[[mri_easyreg]]` to apply deformation fields. Typical workflow:
-1. `mri_easyreg` — compute registration and produce `--fwd_field`
-2. `mri_easywarp` — apply `fwd_field` to additional images or label maps
+1. `mri_easyreg` — compute registration and produce a forward deformation field (via its `--fwd_field` output flag)
+2. `mri_easywarp --field <fwd_field>` — apply that field to additional images or label maps
 
 ## Gotchas and Caveats
 

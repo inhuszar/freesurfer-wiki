@@ -56,7 +56,9 @@ The tool provides a surface-registered measure of local volumetric density near 
 
 For each vertex $v_i$ with position $(x_i, y_i, z_i)$, the tool constructs a spherical neighbourhood of radius $r$ at resolution $\delta$ and counts the number of voxels $N_i$ that lie interior to the surface:
 
-$$D(v_i) = N_i(\{x \in \mathbb{R}^3 : \|x - v_i\| \le r,\ x\ \text{interior to surface}\})$$
+$$
+D(v_i) = N_i(\{x \in \mathbb{R}^3 : \|x - v_i\| \le r,\ x\ \text{interior to surface}\})
+$$
 
 The intermediate density volume is computed at the resolution specified by `-R` (default $1/8$ mm), allowing sub-voxel precision relative to the input volume grid.
 
@@ -64,7 +66,7 @@ The intermediate density volume is computed at the resolution specified by `-R` 
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--radius` | `<float>` | 20.0 | Radius (mm) of the spherical neighbourhood used to count interior voxels |
+| `-radius` | `<float>` | 20.0 | Radius (mm) of the spherical neighbourhood used to count interior voxels |
 | `-R` | `<float>` | 0.125 | Resolution of the intermediate density volume used for interior counting |
 | `-V` | `<int>` | none | Debug vertex number; combined with `--debug` |
 | `--debug` | `<vtxno> <density_fname>` | none | Debug mode: write density volume for the specified vertex to `density_fname` |
@@ -76,7 +78,7 @@ The intermediate density volume is computed at the resolution specified by `-R` 
 
 - `-V` and `--debug` must be used together; `--debug` takes the vertex number and output filename as two separate arguments.
 - `-T` (translation surface) is only meaningful when `-V` (or `Gdiag_no`) has been set; it translates a vertex number on the alternate surface to the closest vertex on the input surface using canonical coordinates.
-- `--radius` and `-R` are independent: `--radius` controls the anatomical neighbourhood size; `-R` controls the computational grid resolution.
+- `-radius` and `-R` are independent: `-radius` controls the anatomical neighbourhood size; `-R` controls the computational grid resolution.
 
 ## Typical Use Cases
 
@@ -111,7 +113,7 @@ mris_density -V 12345 --debug 12345 /tmp/dens.mgz lh.white /tmp/out.curv
 
 ## Confidence and Gaps
 
-**Confident (from source):** Input/output file handling, the two main parameters (`--radius`, `-R`), debug mode, translation mechanism.
+**Confident (from source):** Input/output file handling, the two main parameters (`-radius`, `-R`), debug mode, translation mechanism.
 
 **Uncertain:** Whether the installed binary matches this attic source; whether output values are normalised.
 

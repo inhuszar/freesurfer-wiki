@@ -72,43 +72,52 @@ Optional log files (all append-mode):
 Let $A_i$ = voxels of label $i$ in seg1, $B_i$ = same in seg2.
 
 **Jaccard:**
-$$J_i = \frac{|A_i \cap B_i|}{|A_i \cup B_i| + 10^{-10}}$$
+$$
+J_i = \frac{|A_i \cap B_i|}{|A_i \cup B_i| + 10^{-10}}
+$$
 
 **Dice:**
-$$D_i = \frac{2 |A_i \cap B_i|}{|A_i| + |B_i| + 10^{-10}}$$
+$$
+D_i = \frac{2 |A_i \cap B_i|}{|A_i| + |B_i| + 10^{-10}}
+$$
 
 A small epsilon ($10^{-10}$) prevents division by zero when both volumes contain zero voxels for a given label.
 
 **Overall subcortical Dice** (18 structures):
-$$D_\text{subcort} = \frac{2 \cdot \text{subcor\_overlap}}{\text{subcor\_vol1} + \text{subcor\_vol2}}$$
+$$
+D_\text{subcort} = \frac{2 \cdot \text{subcor\_overlap}}{\text{subcor\_vol1} + \text{subcor\_vol2}}
+$$
 
 **True positive rate (TPR)** and **false discovery rate (FDR)** in `-dice` mode:
-$$\text{TPR} = \frac{|A \cap B|}{|A|} \qquad \text{FDR} = \frac{|B \setminus A|}{|B|}$$
+$$
+\text{TPR} = \frac{|A \cap B|}{|A|} \qquad \text{FDR} = \frac{|B \setminus A|}{|B|}
+$$
 
 ## Configuration Options
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `--all_labels` | — | off | Compute overlap for all labels present in either volume |
-| `--log fname` / `-L fname` | file | none | Log per-structure Dice values (append mode) |
-| `--mlog fname` | file | none | Log mean Dice (append) |
-| `--slog fname` | file | none | Log std Dice (append) |
-| `--olog fname` | file | none | Log overall subcortical Dice (append) |
-| `--wm 0\|1` | 0 or 1 | 1 | Include (1) or exclude (0) white matter from stats |
-| `--cortex 0\|1` | 0 or 1 | 1 | Include (1) or exclude (0) cortex from stats |
-| `--default-ctab` | — | off | Load `$FREESURFER_HOME/FreeSurferColorLUT.txt` for label names |
-| `--table fname` | file | none | Load color table from file and save tabular output |
-| `--dice seg1 seg2 ctab ReportEmpty ExcludeId datfile tablefile` | multiple | — | Standalone Dice computation mode with full table output |
-| `--dice-mask maskfile` | file | none | Apply mask before `-dice` computation (must precede `--dice`) |
-| `--tpfpfn outvol manseg autoseg segid...` | multiple | — | Create TP/FP/FN volume for given segmentation IDs |
+| `-log fname` / `-L fname` | file | none | Log per-structure Dice values (append mode) |
+| `-mlog fname` | file | none | Log mean Dice (append) |
+| `-slog fname` | file | none | Log std Dice (append) |
+| `-olog fname` | file | none | Log overall subcortical Dice (append) |
+| `-wm 0\|1` | 0 or 1 | 1 | Include (1) or exclude (0) white matter from stats |
+| `-cortex 0\|1` | 0 or 1 | 1 | Include (1) or exclude (0) cortex from stats |
+| `-default-ctab` | — | off | Load `$FREESURFER_HOME/FreeSurferColorLUT.txt` for label names |
+| `-table fname` | file | none | Load color table from file and save tabular output |
+| `-dice seg1 seg2 ctab ReportEmpty ExcludeId datfile tablefile` | multiple | — | Standalone Dice computation mode with full table output. Pass the literal string `-embedded` as `ctab` to use the color table embedded in `seg1` or `seg2` instead of an external file. |
+| `-embedded` | — | — | **Not a standalone flag.** Special `ctab` argument value for `-dice` mode: use the color table embedded in the input segmentation file rather than a separate file. |
+| `-dice-mask maskfile` | file | none | Apply mask before `-dice` computation (must precede `-dice`) |
+| `-tpfpfn outvol manseg autoseg segid...` | multiple | — | Create TP/FP/FN volume for given segmentation IDs |
 
 ## Configuration Interactions
 
 - `--all_labels` overrides the default 24-structure list and evaluates all labels with non-zero overlap.
-- `--default-ctab` / `--table` enable label name display in the Dice output; without them, only numeric IDs are shown.
-- `--wm 0` and `--cortex 0` can be used together to evaluate only subcortical structures.
+- `-default-ctab` / `-table` enable label name display in the Dice output; without them, only numeric IDs are shown.
+- `-wm 0` and `-cortex 0` can be used together to evaluate only subcortical structures.
 - `-dice` is a fully standalone mode that bypasses the regular processing path; it reads its own seg1/seg2 from its own arguments and exits immediately after writing outputs.
-- `--dice-mask` must be specified before `--dice` in the argument list (parsed earlier in get_option).
+- `-dice-mask` must be specified before `-dice` in the argument list (parsed earlier in get_option).
 
 ## Typical Use Cases
 
@@ -153,8 +162,8 @@ Not called by [[recon-all]]. Used for:
 > [!gotcha] Log files use append mode
 > Unlike [[mri_compute_overlap]], the log files in this tool are opened with `"a+"` (append), meaning repeated runs accumulate results in the same file.
 
-> [!gotcha] `--dice-mask` ordering constraint
-> The `-dice-mask` flag must appear before `--dice` on the command line because the mask is stored in a global variable checked when `--dice` is parsed. Wrong ordering silently ignores the mask.
+> [!gotcha] `-dice-mask` ordering constraint
+> The `-dice-mask` flag must appear before `-dice` on the command line because the mask is stored in a global variable checked when `-dice` is parsed. Wrong ordering silently ignores the mask.
 
 ## Related Tools
 

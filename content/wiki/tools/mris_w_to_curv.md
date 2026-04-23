@@ -59,9 +59,9 @@ This conversion is needed when:
 Optional flags:
 | Flag | Description |
 |---|---|
-| `-navgs N` | Number of averaging iterations to smooth the result |
-| `-sdir dir` | Override SUBJECTS_DIR |
-| `-normalize` | Normalize the output values |
+| `-a <N>` | Number of averaging iterations to smooth the result |
+| `-sdir <dir>` | Override SUBJECTS_DIR |
+| `-n <int>` | Normalize the output values (non-zero enables normalization) |
 
 The surface is loaded from `$SUBJECTS_DIR/<subject>/surf/<hemi>.white`.
 
@@ -77,11 +77,11 @@ The conversion is straightforward: the `.w` file stores values for specific vert
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-navgs` | N | Smooth the result with N averaging iterations |
-| `-sdir` | dir | Override SUBJECTS_DIR |
-| `-normalize` | (flag) | Normalize output values |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `-a` | N | 0 | Smooth the result with N averaging iterations |
+| `-sdir` | dir | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `-n` | int | 0 | Normalize output values (non-zero = enabled) |
 
 Usage:
 ```
@@ -97,7 +97,7 @@ mris_w_to_curv bert lh lh.thickness.w lh.thickness.from_w
 
 **2. Convert and smooth:**
 ```bash
-mris_w_to_curv -navgs 5 bert lh activation.w activation.sm5
+mris_w_to_curv -a 5 bert lh activation.w activation.sm5
 ```
 
 ## Pipeline Context

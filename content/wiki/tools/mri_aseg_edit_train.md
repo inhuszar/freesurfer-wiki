@@ -71,37 +71,48 @@ The tool reads per-subject:
 The voxel-level feature set is constructed from voxels that differ between the auto and manually edited aseg:
 
 **Training sample generation:**
-$$\mathcal{V}_{+} = \{v : \text{aseg\_edit}(v) = \text{target}\} \setminus \{v : \text{aseg\_auto}(v) = \text{target}\}$$
-$$\mathcal{V}_{-} = \{v : \text{aseg\_auto}(v) = \text{target}\} \setminus \{v : \text{aseg\_edit}(v) = \text{target}\}$$
+$$
+\mathcal{V}_{+} = \{v : \text{aseg\_edit}(v) = \text{target}\} \setminus \{v : \text{aseg\_auto}(v) = \text{target}\}
+$$
+$$
+\mathcal{V}_{-} = \{v : \text{aseg\_auto}(v) = \text{target}\} \setminus \{v : \text{aseg\_edit}(v) = \text{target}\}
+$$
 
-Features at each scale $\sigma \in \{0, 0.5, 1.0, 2.0\}$ (configurable via `-nscales`):
+Features at each scale $\sigma \in \{0, 0.5, 1.0, 2.0\}$ (hardcoded `sigmas[]` array, 4 scales):
 - Smoothed intensity, gradient (Sobel), Laplacian, second directional derivative
 - Distance transform to the label boundary
 
-The default classifier is `CA_GAUSSIAN` (`-ca gaussian`); SVM can be selected.
+The default classifier is `CA_GAUSSIAN`; classifier type is set internally (not exposed as a CLI flag in this version).
 
 For SVM training (when used), minimizes the hinge loss:
-$$\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \max(0, 1 - y_i(\mathbf{w}^T \mathbf{x}_i + b))$$
+$$
+\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_i \max(0, 1 - y_i(\mathbf{w}^T \mathbf{x}_i + b))
+$$
 
 SVM tolerance and regularization parameter $C$ are configurable.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-w <file>` | string | required | Output classifier weights/model file |
-| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory |
-| `-T <label>` | int | Left_fimbria | Target label to learn corrections for |
-| `-S <label>` | int | Left_Hippocampus | Source (incorrect) label for negative examples |
-| `-ca gaussian` | string | gaussian | Classifier type (gaussian or svm) |
-| `-wsize <N>` | int | 1 | Window half-size for spatial features |
-| `-nscales <N>` | int | 1 | Number of Gaussian scales to use |
-| `-C <val>` | float | DEFAULT_SVM_C | SVM regularization parameter |
-| `-tol <val>` | float | DEFAULT_SVM_TOL | SVM convergence tolerance |
-| `-rbf <sigma>` | float | 0 | Use RBF kernel with given sigma (0 = linear) |
-| `-poly <d>` | float | 0 | Use polynomial kernel of degree d |
-| `-momentum <val>` | float | 0 | SVM training momentum |
-| `-test <subject>` | string | — | Reserved test subject (held out from training) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-w` | `file` | required | Output classifier weights/model file |
+| `-sdir` | `dir` | `$SUBJECTS_DIR` | Override subjects directory |
+| `-l` | `label_int` | Left_fimbria | Target label integer to learn corrections for |
+| `-c` | `value` | DEFAULT_SVM_C | SVM regularization parameter C |
+| `-a` | `N` | 0 | Number of smoothing averages applied to feature values |
+| `-p` | `prefix` | `""` | Label prefix string |
+| `-m` | `value` | 0.0 | SVM training momentum |
+| `-aseg_edit` | `file` | `aseg.mgz` | Filename of manually edited aseg (relative to `mri/`) |
+| `-aseg_orig` | `file` | `aseg.auto.mgz` | Filename of auto-generated aseg (relative to `mri/`) |
+| `-c1` | `name` | `Left_Hippocampus` | Class 1 label name string |
+| `-c2` | `name` | `Left_fimbria` | Class 2 label name string |
+| `-width` | `N` | 8 | Classifier array dimension (N × N × N) |
+| `-max` | `N` | 1000000 | Maximum SVM iterations |
+| `-rbf` | `sigma` | 0 | Use RBF kernel with given sigma (0 = linear kernel) |
+| `-poly` | `d` | 0 | Use polynomial kernel of degree d |
+| `-tol` | `value` | DEFAULT_SVM_TOL | SVM convergence tolerance |
+| `-test` | `subject` | — | Reserved test subject (held out from training) |
+| `-debug_voxel` | `x y z` | — | Enable debug output at voxel (x, y, z) |
 
 ## Typical Use Cases
 
@@ -111,10 +122,10 @@ mri_aseg_edit_train -w fimbria_classifier.ca \
   subject1 subject2 subject3 fimbria_model.out
 ```
 
-**Train an SVM for hippocampus boundaries:**
+**Train with target label 17 (Left-Hippocampus):**
 ```bash
-mri_aseg_edit_train -w hippo_svm.model -ca svm \
-  -T 17 -S 0 subject1 subject2 hippo_model.out
+mri_aseg_edit_train -w hippo_model.out -l 17 \
+  subject1 subject2 hippo_model.out
 ```
 
 ## Pipeline Context

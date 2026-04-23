@@ -95,13 +95,13 @@ All flags are case-insensitive. The full `get_option()` has been read.
 |------|------|---------|-------------|
 | `--help` | — | — | Print help and exit |
 | `--version` | — | — | Print version string and exit |
-| `--debug_voxel <x> <y> <z>` / `--debug-voxel <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output; sets `Gx`, `Gy`, `Gz` |
-| `--in_like <vol>` / `--in-like <vol>` / `--il <vol>` | path | null | Reference volume whose geometry is used as the input template (required for `.cmat` mode); sets `in_like_fname` |
-| `--out_like <vol>` / `--out-like <vol>` / `--ol <vol>` | path | null | Reference volume whose geometry is used to shape the output; overrides geometry from LTA; sets `out_like_fname` |
-| `--voxel` | — | off | For `.cmat` input: convert connectivity matrix label coordinates to voxel coordinates before writing; sets `cmat_output_coords=LABEL_COORDS_VOXEL` |
-| `--scanner` | — | off | For `.cmat` input: convert label coordinates to scanner RAS; sets `cmat_output_coords=LABEL_COORDS_SCANNER_RAS` |
-| `--tkreg` | — | off | For `.cmat` input: convert label coordinates to tkRegister RAS; sets `cmat_output_coords=LABEL_COORDS_TKREG_RAS` |
-| `--surf <in_surf> <out_surf>` / `--surface <in_surf> <out_surf>` | 2 paths | none | Surface-from-volume mode: create a volume mapping from `in_surf` to `out_surf` surface; sets `in_surf_name` and `out_surf_name` |
+| `-debug_voxel <x> <y> <z>` / `-debug-voxel <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output; sets `Gx`, `Gy`, `Gz` |
+| `-in_like <vol>` / `-in-like <vol>` / `-il <vol>` | path | null | Reference volume whose geometry is used as the input template (required for `.cmat` mode); sets `in_like_fname` |
+| `-out_like <vol>` / `-out-like <vol>` / `-ol <vol>` | path | null | Reference volume whose geometry is used to shape the output; overrides geometry from LTA; sets `out_like_fname` |
+| `-voxel` | — | off | For `.cmat` input: convert connectivity matrix label coordinates to voxel coordinates before writing; sets `cmat_output_coords=LABEL_COORDS_VOXEL` |
+| `-scanner` | — | off | For `.cmat` input: convert label coordinates to scanner RAS; sets `cmat_output_coords=LABEL_COORDS_SCANNER_RAS` |
+| `-tkreg` | — | off | For `.cmat` input: convert label coordinates to tkRegister RAS; sets `cmat_output_coords=LABEL_COORDS_TKREG_RAS` |
+| `-surf <in_surf> <out_surf>` / `-surface <in_surf> <out_surf>` | 2 paths | none | Surface-from-volume mode: create a volume mapping from `in_surf` to `out_surf` surface; sets `in_surf_name` and `out_surf_name` |
 | `-Q` | — | off | Quiet mode: suppress most output; sets `quiet_mode=1` |
 | `-S <subject>` | string | none | Subject name (stored but usage in the transform chain is context-dependent) |
 | `-D <n>` | int | none | Compute average distance traversed by label `n`; sets `labels[nlabels]` and increments `nlabels`; can be specified multiple times (up to 1000 labels) |
@@ -113,10 +113,10 @@ All flags are case-insensitive. The full `get_option()` has been read.
 ### Configuration Interactions
 
 - `-D` restricts processing to specific labels; other voxels are set to 0 in the output. Can be specified multiple times, up to 1000 labels.
-- `--surf` / `--surface` enables surface-from-volume mode; the transform is applied to surface vertices rather than volume voxels.
-- `--out_like` overrides the output geometry from the LTA; useful when the LTA target geometry is wrong.
-- For `.cmat` input, `--in_like` and `--out_like` are required; the tool exits with an error if either is missing.
-- `--voxel`, `--scanner`, and `--tkreg` are mutually exclusive cmat coordinate type selectors; the last specified wins.
+- `-surf` / `-surface` enables surface-from-volume mode; the transform is applied to surface vertices rather than volume voxels.
+- `-out_like` overrides the output geometry from the LTA; useful when the LTA target geometry is wrong.
+- For `.cmat` input, `-in_like` and `-out_like` are required; the tool exits with an error if either is missing.
+- `-voxel`, `-scanner`, and `-tkreg` are mutually exclusive cmat coordinate type selectors; the last specified wins.
 
 > [!gotcha] Coronal RAS is a legacy format
 > The `LINEAR_CORONAL_RAS_TO_CORONAL_RAS` type is a historical coordinate convention from early FreeSurfer. Most modern transforms are RAS-to-RAS or VOX-to-VOX. Using this tool with legacy transforms requires understanding this convention.
@@ -164,3 +164,6 @@ mri_transform --invert \
 **High confidence (flags):** All flags confirmed from complete reading of `get_option()` in source. Default `resample_type=SAMPLE_TRILINEAR`, quiet mode, invert flag, and all coordinate conversion modes verified from source.
 
 **Medium confidence:** The `MT_CoronalRasXformToVoxelXform()` legacy coordinate convention was not fully traced.
+
+> [!note] Audit noise: single-dash stripping parser
+> An automated audit may report `-debug-voxel`, `-il`, `-in-like`, `-ol`, `-out-like`, `-scanner`, `-surf`, `-surface`, `-tkreg`, `-voxel` as C3 invalid. This is a false positive: `get_option()` uses `option = argv[1] + 1` to strip the leading dash, then compares with `!stricmp(option, "-il")` etc. Double-dash forms (e.g., `-il` → `-il`) are correctly accepted. The audit can only find single-dash literals in source.

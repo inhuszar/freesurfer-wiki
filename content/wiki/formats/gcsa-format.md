@@ -51,7 +51,9 @@ spherical icosahedral mesh:
 
 Inference at a target vertex computes the maximum *a posteriori* label
 
-$$\hat{L} = \arg\max_{L}\; P(L) \cdot N(x; \mu_L, \Sigma_L) \cdot \prod_{i=1}^{4} P(L_{\text{neigh}_i} \mid L)$$
+$$
+\hat{L} = \arg\max_{L}\; P(L) \cdot N(x; \mu_L, \Sigma_L) \cdot \prod_{i=1}^{4} P(L_{\text{neigh}_i} \mid L)
+$$
 
 where $x$ is the input feature vector at that vertex (resampled from the
 subject's `?h.sphere.reg` to the GCSA's classifier mesh by nearest
@@ -313,7 +315,9 @@ display labels as `** annotate` placeholders.
 For a target vertex `v` with feature vector $x \in \mathbb{R}^{n_{\text{inputs}}}$,
 the per-class likelihood at the nearest classifier-mesh node is
 
-$$p(x \mid L = \ell) \;=\; \frac{1}{(2\pi)^{n_{\text{inputs}}/2}\sqrt{\lvert \Sigma_{\ell} \rvert}} \;\exp\!\left(-\tfrac{1}{2}\,(x - \mu_{\ell})^{\!\top} \Sigma_{\ell}^{-1} (x - \mu_{\ell})\right)$$
+$$
+p(x \mid L = \ell) \;=\; \frac{1}{(2\pi)^{n_{\text{inputs}}/2}\sqrt{\lvert \Sigma_{\ell} \rvert}} \;\exp\!\left(-\tfrac{1}{2}\,(x - \mu_{\ell})^{\!\top} \Sigma_{\ell}^{-1} (x - \mu_{\ell})\right)
+$$
 
 with $(\mu_\ell, \Sigma_\ell)$ read from the GCS record for that
 (node, label) pair.
@@ -323,7 +327,9 @@ with $(\mu_\ell, \Sigma_\ell)$ read from the GCS record for that
 The per-vertex prior at the nearest prior-mesh node combines a marginal
 class prior with the four directional conditionals:
 
-$$p(L = \ell \mid L_{\text{neigh}}) \;\propto\; \pi_{\ell}(v) \cdot \prod_{i=1}^{4} P\!\left(L_{\text{neigh}_i} \mid L = \ell\right)$$
+$$
+p(L = \ell \mid L_{\text{neigh}}) \;\propto\; \pi_{\ell}(v) \cdot \prod_{i=1}^{4} P\!\left(L_{\text{neigh}_i} \mid L = \ell\right)
+$$
 
 where $\pi_\ell(v)$ is the `prior` field of the CP record. Note that
 *neighbour labels* are conditioned on the central label, not the other
@@ -335,7 +341,9 @@ a generative parameterisation of an MRF.
 At inference time, [[mris_ca_label]] iteratively updates each vertex's
 label by:
 
-$$\hat{L}(v) \;=\; \arg\max_{\ell}\; \pi_{\ell}(v) \cdot p(x_v \mid \ell) \cdot \prod_{i=1}^{4} P\!\left(\hat{L}(v_{\text{neigh}_i}) \mid \ell\right)$$
+$$
+\hat{L}(v) \;=\; \arg\max_{\ell}\; \pi_{\ell}(v) \cdot p(x_v \mid \ell) \cdot \prod_{i=1}^{4} P\!\left(\hat{L}(v_{\text{neigh}_i}) \mid \ell\right)
+$$
 
 The product over neighbour labels couples vertices, so the
 maximum-posterior assignment is solved by Iterated Conditional Modes

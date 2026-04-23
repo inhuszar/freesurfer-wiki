@@ -62,12 +62,14 @@ This tool is simpler than [[mri_average]] (which performs registration) and [[mr
 
 ### Files Created
 
-- **Averaged volume** — arithmetic mean of all input volumes, written to the path specified by `--o`. Same dimensions and type as input.
+- **Averaged volume** — arithmetic mean of all input volumes, written to the path specified by `--out`. Same dimensions and type as input.
 
 ## Mathematical Foundations
 
 For each voxel at location $(x, y, z, f)$ across $N$ input volumes:
-$$\text{out}(x,y,z,f) = \frac{1}{N} \sum_{n=1}^{N} \text{vol}_n(x,y,z,f)$$
+$$
+\text{out}(x,y,z,f) = \frac{1}{N} \sum_{n=1}^{N} \text{vol}_n(x,y,z,f)
+$$
 
 No weighting, outlier removal, or robust estimation. Simple arithmetic mean.
 
@@ -87,7 +89,7 @@ No weighting, outlier removal, or robust estimation. Simple arithmetic mean.
 | `--help` | flag | — | Print usage and exit. |
 
 > [!gotcha] Flag names differ from other tools
-> The input flag is `--vol` (not `--i`) and the output flag is `--out` (not `--o`). This differs from many other FreeSurfer tools. There are no `--i`/`--o` aliases.
+> The input flag is `--vol` (not --i) and the output flag is `--out` (not --o). This differs from many other FreeSurfer tools. There are no `--i`/`--o` aliases.
 
 ### Configuration Interactions
 
@@ -137,3 +139,6 @@ mri_xvolavg \
 ## Confidence and Gaps
 
 **High confidence.** The complete `parse_commandline()` function was read. All flags verified from source. Flag names (`--vol`, `--out`, `--vol_type`, `--out_type`) confirmed.
+
+> [!note] Audit noise: `--end`
+> An automated audit may flag `--end` as missing. This string does not appear as a CLI flag in the source. The occurrence is from a different context; `--end` is not a valid flag for `mri_xvolavg`.

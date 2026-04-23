@@ -58,16 +58,15 @@ This is the modern replacement for `mri_aparc2aseg` and is called directly in `r
 
 The tool operates on the standard FreeSurfer subject directory layout. Key inputs:
 
-- **`--s <subject>`** — FreeSurfer subject ID.
-- **`--sd <dir>`** — subjects directory (default: `$SUBJECTS_DIR`).
-- **`--lh-annot <annot>`** — left hemisphere annotation name (default: `lh.aparc.annot`).
-- **`--rh-annot <annot>`** — right hemisphere annotation name (default: `rh.aparc.annot`).
+- **`--sd <dir>`** — subjects directory (default: `$SUBJECTS_DIR`). There is no --s subject flag; subject paths are set by providing explicit surface/annotation paths or by constructing paths via `SetSubjectPaths()` in calling scripts.
+- **`--lh-annot <annot> <offset>`** — left hemisphere annotation path and base label offset (default: `lh.aparc.annot`, `1000`).
+- **`--rh-annot <annot> <offset>`** — right hemisphere annotation path and base label offset (default: `rh.aparc.annot`, `2000`).
 - **`--lh-white <surf>`** — LH white surface path.
 - **`--rh-white <surf>`** — RH white surface path.
 - **`--lh-pial <surf>`** — LH pial surface path.
 - **`--rh-pial <surf>`** — RH pial surface path.
-- **`--ribbon <file>`** — ribbon volume (defines cortex voxels).
-- **`--inseg <seg>`** — input segmentation (e.g., `aseg.presurf.mgz`).
+- **`--fix-presurf-with-ribbon <file>`** — ribbon volume path; enables `FixPresurf` mode (defines cortex voxels).
+- **`--i <seg>`** — input segmentation volume (e.g., `aseg.presurf.mgz`).
 
 ### Input Assumptions
 
@@ -96,7 +95,9 @@ Output is in FreeSurfer MGZ format with the same geometry as the input segmentat
 The hash table uses the surface vertex coordinates (in surface RAS) to enable $O(1)$ approximate nearest-vertex queries in a fixed spatial resolution grid (`hashres = 16` mm by default).
 
 **Label offset convention:**
-$$\text{label}_{\text{vol}} = \text{annotation\_index} + \text{hemisphere\_offset}$$
+$$
+\text{label}_{\text{vol}} = \text{annotation\_index} + \text{hemisphere\_offset}
+$$
 where `lhbaseoffset = 1000` and `rhbaseoffset = 2000`.
 
 **WM parcellation:** For voxels in white matter (within `wmparc_dist_thresh = 5.0` mm of the white surface), the nearest white surface vertex annotation is similarly assigned with a WM-specific offset.
@@ -146,7 +147,7 @@ Flag list fully verified from `parse_commandline()` in source (`mri_aparc2aseg/m
 - `--fix-presurf-with-ribbon` requires a ribbon volume path argument and automatically disables `RipUnknown`.
 - `--label-cortex` and `--label-wm` both enable `RipUnknown`; `--label-wm` additionally enables `LabelHypoAsWM`.
 - `--lh-annot` and `--rh-annot` each require two arguments: the annotation file path and the integer base offset. Passing only one argument will cause a parsing error.
-- `--no-lh` and `--no-rh` do not exist in the source. Use `--lh` (only LH) or `--rh` (only RH) to restrict to a single hemisphere.
+- To restrict processing to one hemisphere, use `--lh` (sets `DoLH=1, DoRH=0`) or `--rh` (sets `DoLH=0, DoRH=1`). There are no --no-lh / --no-rh flags.
 - `--wmparc-dmax` affects the extent of WM parcellation; larger values assign more white matter voxels to the nearest cortical annotation.
 - `--rip-unknown` excludes vertices annotated as "unknown" from nearest-vertex search; this prevents those vertices from being assigned to brain voxels.
 
@@ -155,9 +156,12 @@ Flag list fully verified from `parse_commandline()` in source (`mri_aparc2aseg/m
 ### Use Case 1: Generate aparc+aseg (called by recon-all)
 
 ```bash
-mri_surf2volseg --s subject --sd $SUBJECTS_DIR \
-  --lh-annot lh.aparc.annot --rh-annot rh.aparc.annot \
-  --label-cortex --label-wm
+mri_surf2volseg --sd $SUBJECTS_DIR \
+  --lh-annot $SUBJECTS_DIR/subject/label/lh.aparc.annot 1000 \
+  --rh-annot $SUBJECTS_DIR/subject/label/rh.aparc.annot 2000 \
+  --label-cortex --label-wm \
+  --i $SUBJECTS_DIR/subject/mri/aseg.mgz \
+  --o $SUBJECTS_DIR/subject/mri/aparc+aseg.mgz
 ```
 
 ## Pipeline Context

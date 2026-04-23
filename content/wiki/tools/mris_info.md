@@ -14,7 +14,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Full list of statistics printed for --area-stats and --edge-stats not documented"
   - "GIFTI handling and gifti_disp_image flag behavior not fully traced"
@@ -54,14 +54,14 @@ It handles multiple file types: binary triangle surfaces, GCS files, annotation 
 | Input | Description |
 |-------|-------------|
 | Surface file | Primary positional argument. Can be a binary surface, `.annot`, `.gcs`, or GIFTI file. |
-| `--curv curvfile` | Optional curvature/overlay file to print statistics for |
-| `--annot annotfile` | Optional annotation file to print color table from |
-| `--mask maskfile` | Optional MRI mask |
-| `--label label.label` | Optional label file |
+| `--c <curvfile>` | Optional curvature/overlay file to print statistics for; also disables GIFTI display |
+| `--a <annotfile>` | Optional annotation file to print color table from; also disables GIFTI display |
+| `--mask <maskfile>` | Optional MRI mask (restricts area/edge stats to masked vertices) |
+| `--label <label>` | Optional label file (restricts area/edge stats to labelled vertices; mutually exclusive with `--mask`) |
 
 **Subject-based input (alternative):**
 ```
-mris_info --subject subject --hemi hemi --surf surfname
+mris_info --s subject hemi surfname
 ```
 
 ## Outputs
@@ -80,9 +80,9 @@ mris_info --subject subject --hemi hemi --surf surfname
 **Output files (when flags used):**
 | Flag | Output |
 |------|--------|
-| `--o outfile` | Save vertex coordinates to a file |
-| `--edge edgefile` | Save edge data |
-| `--vmtx vmatlabfile` | Save vertex matrix in MATLAB4 format |
+| `--o <outfile>` | Save some surface data to a file |
+| `--edge-file <file>` | Print edge info for all edges into file |
+| `--v-matlab <vtxno> <mfile>` | Write MATLAB file to plot vertex neighbourhood |
 
 ## Mathematical Foundations
 
@@ -96,37 +96,42 @@ Metric properties computed by `MRIScomputeMetricProperties`:
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `surffile` | path | required | Surface file to inspect (positional) |
-| `--subject subject` | string | — | Subject name (alternative to surffile) |
-| `--hemi hemi` | lh or rh | — | Hemisphere (with --subject) |
-| `--surf surfname` | string | — | Surface name within subject/surf/ (with --subject) |
-| `--curv curvfile` | path | — | Curvature file to include in stats |
-| `--annot annotfile` | path | — | Annotation file to print color table |
-| `--o outfile` | path | — | Output vertex coordinate file |
-| `--edge edgefile` | path | — | Output edge file |
-| `--mask maskfile` | path | — | Mask volume |
-| `--label label` | path | — | Label file |
-| `--area-stats` | — | off | Print area statistics |
-| `--edge-stats` | — | off | Print edge statistics |
-| `--quality` | — | off | Compute mesh quality metrics |
-| `--tal` | — | off | Apply Talairach transform |
-| `--rescale scale` | float | — | Rescale surface by factor |
-| `--diag-vno vno` | integer | -1 | Print detailed info for vertex number |
-| `--v vnox` | integer | -1 | Alternative vertex diagnostic |
-| `--count-intersections` | — | off | Count self-intersections (slow) |
-| `--patch patchname` | string | — | Load and print patch info |
-| `--vmtx vno vmatlabfile` | int + path | — | Save vertex neighborhood matrix |
-| `--no-gifti-disp` | — | off | Disable GIFTI image display |
-| `--annot-assignment outfile` | path | — | Write annotation assignment table |
-| `--annot-hint hint` | string | — | Hint for annotation assignment |
-| `--tkrRAS` | — | off | Convert to tkRAS coordinates |
+| `--s subject hemi surfname` | string string string | — | Load surface by subject/hemi/surfname instead of direct path; requires SUBJECTS_DIR |
+| `--c <curvfile>` | path | — | Curvature/overlay file; verify vertex count and print stats; disables GIFTI display |
+| `--a <annotfile>` | path | — | Annotation file to print color table from; disables GIFTI display |
+| `--o <outfile>` | path | — | Save surface data to file |
+| `--mask <maskfile>` | path | — | Mask volume; restrict area/edge stats to masked vertices (mutually exclusive with `--label`) |
+| `--label <labelfile>` | path | — | Label file; restrict area/edge stats to labelled vertices (mutually exclusive with `--mask`) |
+| `--area-stats` | — | off | Compute statistics on triangle areas (n, mean, std, min, max) |
+| `--edge-stats <id>` | integer | — | Compute edge metric stats; id=0 length, id=1 dot, id=2 angle, id<0 all |
+| `--edge-file <file>` | path | — | Print edge info for all edges into file |
+| `--quality` | — | off | Compute mesh quality stats |
+| `--tal` / `--t` | — | off | Apply Talairach transform before reporting |
+| `--r` | — | off | Rescale group surface so metrics match average of individuals |
+| `--v <vno>` | integer | — | Print detailed info for vertex number |
+| `--vx <vno>` | integer | — | Print extended vertex info (neighbour distances, areas, face info) |
+| `--v-matlab <vtxno> <mfile>` | int + path | — | Write MATLAB file to plot vertex neighbourhood |
+| `--ex <edgeno>` | integer | — | Print extended info about a single edge |
+| `--intersections` | — | off | Count vertices belonging to self-intersecting faces |
+| `--patch <patchname>` | string | — | Load patch before reporting info |
+| `--nogifti-disp-image` | — | off | Disable GIFTI struct dump; read `.gii` as surface instead |
+| `--annot-label <outfile>` | path | — | Output annotation label assignments (`.annot` files only) |
+| `--annot-hint <out-ctab>` | path | — | Replace duplicate annotations with new suggestions; used with `--annot-label` |
+| `--mtx-fmt <format>` | string | — | Set printf format for matrix output (e.g., `%12.8f`) |
+| `--cog <surffile> <outfile>` | path + path | — | Compute centre of gravity of surface and write to file; exits immediately |
+| `--cog-zero <surffile> <outfile>` | path + path | — | Compute COG, shift surface to origin, and write; exits immediately |
+
+> [!gap] Flags not found in source
+> The following flags documented in earlier versions of this page were **not found** in the source `parse_commandline()`: --subject, --hemi, --surf (separate flags), --rescale <scale> (the real flag is --r, no argument), --diag-vno (real flag is --v), --count-intersections (real flag is --intersections), --no-gifti-disp (real flag is --nogifti-disp-image), --annot-assignment (real flag is --annot-label), --vmtx (real flag is --v-matlab), --tkrRAS / --tkrras (real flag is --t). The subject/hemi/surf triplet is provided via the single --s subject hemi surfname flag, not three separate flags.
 
 ## Configuration Interactions
 
-- `--subject`, `--hemi`, and `--surf` together specify a surface by subject/hemisphere/name rather than direct path.
+- `--s subject hemi surfname` (a single flag taking three arguments) specifies a surface by subject/hemisphere/surface name rather than direct path; requires `SUBJECTS_DIR`.
 - `--quality` enables mesh quality computation (slow for large surfaces).
-- `--count-intersections` is computationally expensive; use only when specifically needed.
+- `--intersections` is computationally expensive; use only when specifically needed.
 - `.annot` and `.gcs` files are handled specially: if the input extension matches, only the color table is printed and no full surface read is performed.
-- `--area-stats` and `--edge-stats` compute and print distribution statistics of face areas and edge lengths, respectively.
+- `--area-stats` and `--edge-stats <id>` compute and print distribution statistics of face areas and edge metrics, respectively. Both can be restricted to a subset of vertices using --mask or `--label`.
+- `--c` and `--a` both set `gifti_disp_image = 0`, suppressing the GIFTI display even if the primary file is GIFTI.
 
 ## Typical Use Cases
 
@@ -137,7 +142,7 @@ mris_info subjects/bert/surf/lh.white
 
 **Print using subject/hemi/surf triplet:**
 ```bash
-mris_info --subject bert --hemi lh --surf white
+mris_info --s bert lh white
 ```
 
 **Print annotation color table:**
@@ -147,7 +152,7 @@ mris_info subjects/bert/label/lh.aparc.annot
 
 **Get detailed info for a specific vertex:**
 ```bash
-mris_info --diag-vno 12345 lh.white
+mris_info --v 12345 lh.white
 ```
 
 **Check surface quality:**

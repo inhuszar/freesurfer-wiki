@@ -68,51 +68,64 @@ The tool is used in two main contexts:
 
 For each subject $s$ and each vertex $v$ on the icosahedral template, the subject's data value is obtained by nearest-neighbor lookup on the subject's registered sphere (using `MRIS_HASH_TABLE` for efficient lookup):
 
-$$\bar{D}(v) = \frac{1}{N} \sum_{s=1}^{N} D_s(\text{nn}(v, \text{sphere}_s))$$
+$$
+\bar{D}(v) = \frac{1}{N} \sum_{s=1}^{N} D_s(\text{nn}(v, \text{sphere}_s))
+$$
 
 where $\text{nn}(v, \text{sphere}_s)$ is the nearest neighbor on subject $s$'s sphere to the template vertex $v$.
 
 **For `label` averaging:** A label is treated as a binary mask; the average gives the fraction of subjects with that label at each vertex.
 
 **For `logodds` averaging:** The per-vertex log-odds spatial prior is computed as:
-$$\text{logodds}(v) = \log\frac{p(v)}{1-p(v)}$$
+$$
+\text{logodds}(v) = \log\frac{p(v)}{1-p(v)}
+$$
 where $p(v)$ is the fraction of subjects with the label at vertex $v$. This is used by [[mris_ca_label]] as a spatial prior.
 
 **Erode/dilate:** Before averaging, labels can be morphologically eroded or dilated.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides `SUBJECTS_DIR` |
-| `-osdir path` | directory | Separate subjects directory for output |
-| `-erode N` | integer | Morphologically erode each label N times before averaging |
-| `-dilate N` | integer | Morphologically dilate each label N times before averaging |
-| `-threshold T` | float | Threshold applied to overlay before averaging |
-| `-reassign` | — | Reassign vertex labels to nearest-neighbor |
-| `-normalize` | — | Normalize averaged values |
-| `-ic N` | integer | Icosahedron order for average surface (default: 7) |
-| `-osub subject` | string | Output subject name |
-| `-ohemi hemi` | `lh`/`rh` | Output hemisphere |
-| `-osurf surf` | string | Output surface name |
-| `-orig name` | string | Original surface name (default: `white`) |
-| `-surf_dir dir` | string | Subdirectory for surfaces (default: `surf`) |
-| `-navgs N` | integer | Number of smoothing averages after resampling |
-| `-dir path` | string | Subdirectory for overlay files |
-| `-mask name` | string | Mask file name |
-| `-condition N` | integer | Condition number (for multi-condition data) |
-| `-stat` | — | Statistical mode |
-| `-logodds_slope S` | float | Slope for log-odds computation (default: 0.1) |
-| `-spatial_prior_avgs N` | integer | Smoothing averages for spatial prior |
-| `-spatial_prior_fname fname` | string | Spatial prior filename |
+The first positional argument `which` selects the data mode. The remaining option flags follow.
 
-**Usage:** `mris_spherical_average [options] <which> <fname> <hemi> <surf> <subject1> ... <output>`
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-coords` | — | — | `which` mode: average vertex coordinates. |
+| `-vals` | — | — | `which` mode: average per-vertex scalar values (overlay files from `label/`). |
+| `-area` | — | — | `which` mode: average vertex areas (from `surf/`). |
+| `-curv` | — | — | `which` mode: average curvature values (from `surf/`). |
+| `-label` | — | — | `which` mode: average binary label overlays (from `label/`). |
+| `-logodds` | — | — | `which` mode: compute log-odds spatial prior from label probability map. |
+| `-sdir <path>` | directory | `$SUBJECTS_DIR` | Overrides subjects directory. |
+| `-osdir <path>` | directory | — | Separate subjects directory for output subject. |
+| `-ohemi <hemi>` | `lh`/`rh` | input hemi | Output hemisphere. |
+| `-osurf <name>` | string | input surf | Output surface name. |
+| `-orig <name>` | string | `orig` | Original surface name. |
+| `-surf_dir <dir>` | string | `surf` | Subdirectory for surfaces. |
+| `-dir <path>` | string | mode-dependent | Subdirectory for overlay files. |
+| `-mask <name>` | string | — | Mask file name. |
+| `-ic <N>` | integer | 7 | Icosahedron order for average surface (ic7 ≈ 163 k vertices). |
+| `-a <N>` | integer | 0 | Number of smoothing averages after resampling. |
+| `-t <T>` | float | 0.0 | Threshold label stat before writing. |
+| `-n` | — | off | Normalize averaged values. |
+| `-o <subject>` | string | — | Output subject name (paint output onto this subject). |
+| `-s <N>` | integer | — | Write summary statistics as condition number N. |
+| `-lslope <S>` | float | — | Slope for log-odds computation. |
+| `-prior <N> <fname>` | int + string | — | Blur label priors N times and write to `fname`. |
+| `-average_area` | — | off | Compute threshold that yields label surface area closest to average of individual areas. |
+| `-segment` | — | off | Use only largest connected component of label before averaging. |
+| `-close <N>` | integer | — | Morphologically close label N times (dilate then erode). |
+| `-erode <N>` | integer | — | Morphologically erode each label N times before averaging. |
+| `-dilate <N>` | integer | — | Morphologically dilate each label N times before averaging. |
+| `-reassign` | — | off | Recompute label vertex assignments before averaging. |
+
+**Usage:** `mris_spherical_average [options] <-coords|-vals|-area|-curv|-label|-logodds> <fname> <hemi> <surf> <subject1> ... <output>`
 
 ## Configuration Interactions
 
 - The first positional argument `which` determines what data type is averaged and sets default directory behavior (`vals`→`label/`, `curv`/`area`→`surf/`, `label`→`label/`, `logodds`→`label/`).
 - `-erode` and `-dilate` only apply to `label` and `logodds` modes; they have no effect on numerical data modes.
-- `-normalize` is relevant for the `vals` mode to normalize the average after accumulation.
+- `-n` is relevant for the `vals` mode to normalize the average after accumulation.
 - `-ic` selects the icosahedral resolution; ic7 (the default) has ~163,842 vertices.
 
 ## Typical Use Cases

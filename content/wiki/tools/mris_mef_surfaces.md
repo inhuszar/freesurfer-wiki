@@ -15,9 +15,8 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Full flag list requires reading get_option() in mris_mef_surfaces.cpp."
   - "Whether this tool is still called by recon-all or has been superseded by mris_make_surfaces -T2 needs confirmation."
   - "The MEF normalisation step (MRInormalizeMEF) and its effect on intensity statistics needs documentation."
 tags:
@@ -73,7 +72,9 @@ This tool was developed when multi-echo FLASH data acquisition was more common i
 
 The MEF surface placement extends the standard `mris_make_surfaces` energy functional to a two-channel formulation. Class statistics (WM mean and standard deviation, GM mean and standard deviation) are computed for both the 30° and 5° channels using `MRIcomputeClassStatistics_mef()`:
 
-$$\{(\mu_{w,30}, \sigma_{w,30}, \mu_{g,30}, \sigma_{g,30}),\ (\mu_{w,5}, \sigma_{w,5}, \mu_{g,5}, \sigma_{g,5})\}$$
+$$
+\{(\mu_{w,30}, \sigma_{w,30}, \mu_{g,30}, \sigma_{g,30}),\ (\mu_{w,5}, \sigma_{w,5}, \mu_{g,5}, \sigma_{g,5})\}
+$$
 
 These statistics are used in `MRIScomputeBorderValues_MEF_WHITE()` and `MRIScomputeBorderValues_MEF_PIAL()` to compute border values for the white and pial surfaces respectively.
 
@@ -85,33 +86,81 @@ The deformation uses the same multi-scale integration framework as `mris_make_su
 
 ## Configuration Options
 
-> [!gap] Full flag list requires source read
-> The following are confirmed from global variables in the source.
-
-| Flag (inferred/confirmed) | Default | Description |
-|--------------------------|---------|-------------|
-| Subject name (positional 1) | — | FreeSurfer subject. |
-| Hemisphere (positional 2) | — | `lh` or `rh`. |
-| `-nowhite` | 0 | Skip white surface placement (pial only). |
-| `-white_only` | 0 | Place white surface only (skip pial). |
-| `-orig_white <surf>` | null | Starting white surface override. |
-| `-orig_pial <surf>` | null | Starting pial surface override. |
-| `-max_pial_averages <N>` | 16 | Max pial curvature averaging. |
-| `-min_pial_averages <N>` | 2 | Min pial curvature averaging. |
-| `-max_white_averages <N>` | 4 | Max white curvature averaging. |
-| `-smooth <N>` | 5 | Smoothing iterations. |
-| `-vavgs <N>` | 5 | Vertex average iterations. |
-| `-pial_sigma <val>` | 2.0 | Gaussian sigma for pial gradient. |
-| `-white_sigma <val>` | 2.0 | Gaussian sigma for white gradient. |
-| `-mgz` | 0 | Use MGZ format (default: off in this tool). |
-| `-long` | 0 | Longitudinal mode. |
-| `-T1_30 <name>` | `flash30_T1` | Name of the 30° FLASH T1 volume. |
-| `-T1_5 <name>` | `flash5_T1` | Name of the 5° FLASH T1 volume. |
-| `-em <name>` | `atlas_EM_combined` | Name of the EM combined volume. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| (positional 1) | string | required | FreeSurfer subject name |
+| (positional 2) | string | required | Hemisphere (`lh` or `rh`) |
+| `-a <n>` | int | 10 | Average curvature values N times |
+| `-add` | flag | off | Add vertices to tessellation during deformation |
+| `-b <val>` | float | — | Base dt scale factor |
+| `-c` | flag | off | Create curvature and area files from WM surface |
+| `-curv` | — | — | Alias; see source |
+| `-dt <val>` | float | — | Time step (also sets integration type to momentum) |
+| `-em <name>` | string | `atlas_EM_combined` | Name of the EM tissue segmentation volume |
+| `-em_combined <name>` | string | `atlas_EM_combined` | Alias for `-em` |
+| `-em_seg <name>` | string | `atlas_EM_combined` | Alias for `-em` |
+| `-flash30 <name>` | string | `flash30_T1` | Alias for `-t1_30` |
+| `-flash5 <name>` | string | `flash5_T1` | Alias for `-t1_5` |
+| `-grad <val>` | float | — | Set l_grad coefficient |
+| `-graymid` | flag | off | Generate graymid (layer IV) surface |
+| `-highres <label>` | path | — | Read high-resolution label; alias for `-hires` |
+| `-hires <label>` | path | — | Read high-resolution deformation label |
+| `-inoutin` | flag | off | Apply final WM deformation after pial pass |
+| `-intensity <val>` | float | — | Set l_intensity coefficient |
+| `-lm` | flag | off | Use line minimisation integration |
+| `-long` | flag | off | Longitudinal scheme mode |
+| `-lval <n>` | int | — | Fill value for left hemisphere |
+| `-m <val>` | float | — | Momentum coefficient |
+| `-max <val>` | float | — | Maximum cortical thickness |
+| `-median` | flag | off | Apply median filter to intensity volumes |
+| `-mgz` | flag | off | Assume MGZ format for volumes |
+| `-n <n>` | int | — | Number of iterations |
+| `-name <base>` | string | — | Base name for output files |
+| `-nbhd_size <n>` | int | — | Neighbourhood size for thickness calculation |
+| `-nbrs <n>` | int | — | Neighbourhood size for surface deformation |
+| `-ngray <n>` | int | 30 | Pial surface integration steps |
+| `-noauto` | flag | off | Disable auto-detection of border ranges |
+| `-nowhite` | flag | off | Skip white surface placement; read previously computed surface |
+| `-nspring <val>` | float | — | Set l_nspring (normal spring) coefficient |
+| `-nwhite <n>` | int | 20 | White surface integration steps |
+| `-o <name>` | string | — | Original vertex position surface name |
+| `-orig_pial <surf>` | string | — | Starting pial surface name |
+| `-orig_white <surf>` | string | — | Starting white surface name |
+| `-output <suffix>` | string | — | Append suffix to output filenames |
+| `-overlay` | flag | off | Toggle overlay of edited WM on T1 |
+| `-pa <max> [<min>]` | int [int] | 16 [2] | Max (and optional min) pial curvature averages |
+| `-pial <name>` | string | — | Write pial surface to named file |
+| `-psigma <val>` | float | 2.0 | Gaussian sigma for pial gradient smoothing |
+| `-q` | flag | off | Quick mode: no self-intersection test; gray/white only |
+| `-r <val>` | float | — | Set l_surf_repulse coefficient |
+| `-rval <n>` | int | — | Fill value for right hemisphere |
+| `-s <suffix>` | string | — | Output filename suffix |
+| `-scale_std <val>` | float | — | Scale estimated WM and GM standard deviation |
+| `-sdir <dir>` | path | — | Override SUBJECTS_DIR |
+| `-smooth <n>` | int | 5 | Surface smoothing iterations |
+| `-smoothwm <n>` | int | — | Write smoothed WM surface with N smoothing iterations |
+| `-spring <val>` | float | — | Set l_spring coefficient |
+| `-t <fname>` | path | — | Apply ventricular transform from file |
+| `-t130 <name>` | string | `flash30_T1` | Alias for `-t1_30` |
+| `-t15 <name>` | string | `flash5_T1` | Alias for `-t1_5` |
+| `-t1_30 <name>` | string | `flash30_T1` | INU-normalised FLASH 30° flip angle T1 volume name |
+| `-t1_5 <name>` | string | `flash5_T1` | INU-normalised FLASH 5° flip angle T1 volume name |
+| `-tsmooth <val>` | float | — | Set l_tsmooth coefficient |
+| `-tspring <val>` | float | — | Set l_tspring (tangential spring) coefficient |
+| `-u` | flag | off | Print usage |
+| `-v <n>` | int | — | Set Gdiag_no diagnostic vertex |
+| `-vavgs <n>` | int | 5 | Vertex value averaging iterations |
+| `-w <n>` | int | — | Write diagnostics every N iterations |
+| `-wa <max> [<min>]` | int [int] | 4 [0] | Max (and optional min) white curvature averages |
+| `-white <name>` | string | — | White matter volume name |
+| `-whiteonly` | flag | off | Generate white matter surface only; skip pial |
+| `-write_vals` | flag | off | Write gray and white surface targets to `.w` files |
+| `-wsigma <val>` | float | 2.0 | Gaussian sigma for white gradient smoothing |
+| `-wvol <fname>` | path | — | Use named volume for white matter deformation |
 
 ## Configuration Interactions
 
-- `-nowhite` and `-white_only` are mutually exclusive.
+- `-nowhite` and `-whiteonly` are mutually exclusive.
 - Both FLASH channels must be present. The 5° channel guides white surface placement; the 30° channel guides pial placement.
 - The EM volume (`atlas_EM_combined`) is required for class statistics estimation. Without it, the tool will fail.
 - The `apply_median_filter` option (default: 0) applies a median filter to the intensity volumes before surface placement. This may help with noisy FLASH data.

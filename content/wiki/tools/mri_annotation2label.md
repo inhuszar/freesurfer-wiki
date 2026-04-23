@@ -16,7 +16,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - annotation
@@ -104,6 +104,8 @@ The segmentation base offsets for standard parcellations are:
 | `--sd <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory |
 | `--a2005s` | flag | off | Shortcut to set annotation to `aparc.a2005s` |
 | `--debug` | flag | off | Enable debug output |
+| `--diag-debug` | flag | off | Enable additional Gdiag diagnostics (`Gdiag |= DIAG_VERBOSE`) |
+| `--table` | — | — | **Removed.** Parsing this flag causes an immediate fatal error; the color table is now embedded directly in the annotation file. |
 
 ## Configuration Interactions
 
@@ -157,7 +159,7 @@ mri_annotation2label --subject bert --hemi lh \
 > If `--labelbase` is given a string without a `/` (e.g., just `aparc-lh`), the tool attempts to place files in `$SUBJECTS_DIR/<subject>/label/`. Prefix with `./` to write to the current directory: `--labelbase ./aparc-lh`.
 
 > [!gotcha] --table is obsolete
-> Passing `--table` causes a fatal error with a message explaining that the color table is now embedded directly in the annotation file. This flag no longer exists.
+> Passing --table causes a fatal error with a message explaining that the color table is now embedded directly in the annotation file. This flag no longer exists.
 
 > [!gotcha] Annotation file fallback naming
 > The code first tries `<SUBJECTS_DIR>/<subject>/label/<hemi>.<annotation>.annot`, then falls back to `<hemi>_<annotation>.annot` (underscore instead of dot). This accommodates older naming conventions.

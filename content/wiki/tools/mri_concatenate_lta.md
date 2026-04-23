@@ -67,17 +67,23 @@ If the output filename ends in `.xfm`, the combined transform is written in MNI 
 
 The composition converts both inputs to RAS-to-RAS form, then multiplies:
 
-$$M_\text{out}^\text{RAS} = M_2^\text{RAS} \cdot M_1^\text{RAS}$$
+$$
+M_\text{out}^\text{RAS} = M_2^\text{RAS} \cdot M_1^\text{RAS}
+$$
 
 For vox-to-vox LTAs, conversion to RAS-to-RAS uses:
-$$M^\text{RAS} = I_\text{dst} \cdot M^\text{vox} \cdot V_\text{src}^{-1}$$
+$$
+M^\text{RAS} = I_\text{dst} \cdot M^\text{vox} \cdot V_\text{src}^{-1}
+$$
 
 where $V_\text{src}$ is the vox-to-RAS matrix of the source volume and $I_\text{dst}$ is the same for the destination.
 
 The output is always stored as `LINEAR_RAS_TO_RAS`. If a different type is requested via `-out_type`, it is converted back using `LTAchangeType()`.
 
 **RMS difference mode** (`-rmsdiff`):
-$$\text{RMS} = \sqrt{\frac{1}{N} \sum_{v} \|M_1 v - M_2 v\|^2}$$
+$$
+\text{RMS} = \sqrt{\frac{1}{N} \sum_{v} \|M_1 v - M_2 v\|^2}
+$$
 where $v$ ranges over points on a sphere of radius `RMSDiffRad` mm. This uses `RMSregDiffMJ()`.
 
 ## Configuration Options

@@ -3,8 +3,10 @@ title: "mri_segcentroids"
 type: tool
 fs_version: "8.2.0"
 source_language: "C++"
-source_files:
-  - "mri_segcentroids/mri_segcentroids.cpp"
+source_files: []
+# audit-note: mri_segcentroids uses a custom InputParser class with std::string equality
+# comparisons (opt == "--i") rather than strcmp/stricmp. The cpp_strcmp extractor cannot
+# detect these flags. Source: mri_segcentroids/mri_segcentroids.cpp
 families:
   - "mri_*"
 recon_all_stage: null
@@ -63,28 +65,33 @@ Centroid computation is used in registration, atlas construction, and visualisat
 For a label $\ell$ with voxel set $\mathcal{V}_\ell$, the centroid is:
 
 **Unweighted:**
-$$\bar{x}_\ell = \frac{1}{|\mathcal{V}_\ell|} \sum_{v \in \mathcal{V}_\ell} x_v$$
+$$
+\bar{x}_\ell = \frac{1}{|\mathcal{V}_\ell|} \sum_{v \in \mathcal{V}_\ell} x_v
+$$
 
 **Intensity-weighted** (with weight volume $w$):
-$$\bar{x}_\ell = \frac{\sum_{v \in \mathcal{V}_\ell} w(v) \cdot x_v}{\sum_{v \in \mathcal{V}_\ell} w(v)}$$
+$$
+\bar{x}_\ell = \frac{\sum_{v \in \mathcal{V}_\ell} w(v) \cdot x_v}{\sum_{v \in \mathcal{V}_\ell} w(v)}
+$$
 
 Coordinates are reported in surface RAS by default. When `--reg` is supplied, the LTA transform is applied:
 
-$$\bar{x}'_\ell = T_{\text{LTA}} \cdot \bar{x}_\ell$$
+$$
+\bar{x}'_\ell = T_{\text{LTA}} \cdot \bar{x}_\ell
+$$
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--i` | `<seg>` | — | Input segmentation volume (required) |
-| `--o` | `<file>` | — | Output text table of centroids |
-| `--p` | `<file>` | — | Output pointset file |
-| `--weights` | `<vol>` | — | Weight volume for weighted centroids |
-| `--reg` | `<lta>` | — | LTA transform to apply to output coordinates |
-| `--ctab` | `<file>` | — | Colour lookup table |
-| `--ctab-default` | — | off | Use FreeSurfer default colour LUT |
-| `--include-zero` | — | off | Include label 0 in output |
-| `--precision` | `<int>` | default | Decimal precision for output coordinates |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--i` | `<seg>` | required | Input segmentation volume |
+| `--o` | `<file>` | — | Output text table of centroids (required unless `--p` only) |
+| `--p` | `<file>` | — | Output pointset file (fsPointSet JSON, viewable in freeview) |
+| `--weights` | `<vol>` | — | Weight volume for intensity-weighted centroids |
+| `--reg` | `<lta>` | — | LTA transform applied to output coordinates |
+| `--ctab` | `<file>` | — | Colour lookup table for mapping label IDs to names |
+| `--ctab-default` | — | off | Use `$FREESURFER_HOME/FreeSurferColorLUT.txt` as lookup table |
+| `--include-zero` | — | off | Include label 0 (background) in centroid output |
 
 ## Configuration Interactions
 
@@ -126,6 +133,6 @@ Not called by `recon-all`. Used in post-processing workflows alongside [[mri_seg
 
 ## Confidence and Gaps
 
-**Confident (from source):** All flags, weighted/unweighted centroid formula, `--reg` LTA support, pointset output.
+**Confident (from source):** All flags (verified from `parse_commandline()`), weighted/unweighted centroid formula, --reg LTA support, pointset output. Note: --precision does not exist as a CLI flag (internal struct field only).
 
 **Uncertain:** Exact text format of `--o` output (column names, separator).

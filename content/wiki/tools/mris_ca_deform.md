@@ -72,7 +72,9 @@ The deformation minimises an energy functional combining:
 2. **Gradient term** $E_{\text{grad}}$: alignment to intensity gradients.
 3. **Internal smoothness** term enforced by `INTEGRATION_PARMS`.
 
-$$E_{\text{total}} = w_{\text{LL}} E_{\text{LL}} + w_{\text{grad}} E_{\text{grad}} + E_{\text{smooth}}$$
+$$
+E_{\text{total}} = w_{\text{LL}} E_{\text{LL}} + w_{\text{grad}} E_{\text{grad}} + E_{\text{smooth}}
+$$
 
 The GCA model provides a probabilistic map of expected intensities near each label boundary. The GCAB (Gaussian Classifier Atlas Boundary) extension adds additional boundary-specific priors.
 
@@ -108,7 +110,6 @@ The GCA model provides a probabilistic map of expected intensities near each lab
 | `-write_gca <fname>` | string | — | Write renormalized GCA to file. |
 | `-gcab <fname>` | string | — | Read Gaussian Classifier Atlas Boundary (GCAB) from file. |
 | `-make_gca <label_vol> <int_vol>` | string × 2 | — | Build a GCA from scratch using the given high-resolution label and intensity volumes (2 arguments consumed). |
-| `-nbrs <n>` | integer | 2 | Surface neighbourhood size. |
 | `-DEBUG_VOXEL <x> <y> <z>` | integer × 3 | — | Enable voxel-level debug output at the specified voxel coordinates (3 arguments consumed). |
 | `--version` | boolean | — | Print version string and exit. |
 

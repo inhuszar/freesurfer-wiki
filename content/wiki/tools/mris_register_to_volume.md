@@ -12,8 +12,8 @@ related:
   - "[[mris_register_to_label]]"
   - "[[surface-format]]"
 status: draft
-confidence: medium
-last_agent_update: 2026-04-15
+confidence: high
+last_agent_update: 2026-04-21
 gaps:
   - "Skip and sigma search ranges not detailed in BEGINUSAGE block"
   - "CNR similarity function not fully characterised"
@@ -63,13 +63,17 @@ Applications include:
 
 The default similarity maximises:
 
-$$S(R, t) = \frac{\sum_v |\nabla I(Rv + t)|^2}{\text{Var}(|\nabla I|)}$$
+$$
+S(R, t) = \frac{\sum_v |\nabla I(Rv + t)|^2}{\text{Var}(|\nabla I|)}
+$$
 
 where $I$ is the input intensity volume, $R$ is the rotation matrix, and $t$ is the translation.
 
 The CNR-based similarity uses:
 
-$$S_{CNR}(R, t) = \text{CNR between WM and GM at surface vertices}$$
+$$
+S_{CNR}(R, t) = \text{CNR between WM and GM at surface vertices}
+$$
 
 A Gaussian blurring kernel of sigma $\sigma$ is optionally applied before computing gradients (`--sigma`).
 
@@ -77,40 +81,61 @@ The tool can also add Gaussian noise of specified standard deviation to test reg
 
 ## Configuration Options
 
-| Flag | Description |
-|---|---|
-| `--reg regfile` | Registration file (input/output) |
-| `--mov fvol` | Moving volume |
-| `--surf surface` | Surface file |
-| `--pial pial` | Pial surface (optional) |
-| `--pial_only pial` | Use only pial in similarity |
-| `--median` | Apply median filter |
-| `--patch patch` | Surface patch |
-| `--tx-mmd txmin txmax txdelta` | Translation search in x (mm) |
-| `--ty-mmd tymin tymax tydelta` | Translation search in y (mm) |
-| `--tz-mmd tzmin tzmax tzdelta` | Translation search in z (mm) |
-| `--ax-mmd axmin axmax axdelta` | Rotation search about x (deg) |
-| `--ay-mmd aymin aymax aydelta` | Rotation search about y (deg) |
-| `--az-mmd azmin azmax azdelta` | Rotation search about z (deg) |
-| `--cost costfile` | Output cost function file |
-| `--interp type` | Interpolation: `trilinear` or `nearest` |
-| `--no-crop` | Do not crop anatomy (crops by default) |
-| `--profile` | Print execution time |
-| `--noise stddev` | Add Gaussian noise for sensitivity testing |
-| `--seed randseed` | Random seed for noise |
-| `--skip min max` | Skip fraction of vertices for speed |
-| `--sigma min max` | Blurring kernel sigma range |
-| `--CNR` | Use CNR-based similarity function |
-| `--border border` | Ignore border region |
-| `--out-reg outreg` | Registration at lowest cost |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--reg` | `regfile` | — | Registration file (input/output); identity matrix used if omitted |
+| `--mov` | `fvol` | — | Moving (reference) volume; **required** |
+| `--surf` | `surface` | — | Surface file; **required** |
+| `--pial` | `pial` | _(none)_ | Pial surface to include in similarity |
+| `--pial_only` | `pial` | _(none)_ | Use pial surface only (discard white) in similarity |
+| `--median` | | `off` | Apply median filter to input volume before registration |
+| `--patch` | `patch` | _(none)_ | Load surface patch and limit calculations to patch vertices |
+| `--label` | `label` | _(none)_ | Load label and limit calculations to labelled vertices |
+| `--dilate` | `ndil` | `2` | Dilate rip flags N times (used with `--patch` / `--label`) |
+| `--tx-mmd` | `txmin txmax txdelta` | `0 0 0` | Translation grid search in x (mm) |
+| `--ty-mmd` | `tymin tymax tydelta` | `0 0 0` | Translation grid search in y (mm) |
+| `--tz-mmd` | `tzmin tzmax tzdelta` | `0 0 0` | Translation grid search in z (mm) |
+| `--ax-mmd` | `axmin axmax axdelta` | `0 0 0` | Rotation grid search about x (deg) |
+| `--ay-mmd` | `aymin aymax aydelta` | `0 0 0` | Rotation grid search about y (deg) |
+| `--az-mmd` | `azmin azmax azdelta` | `0 0 0` | Rotation grid search about z (deg) |
+| `--max_rot` | `angle` | `20` | Maximum rotation angle (degrees) to search over |
+| `--max_trans` | `dist` | `200` | Maximum translation (mm) to search over |
+| `--tscale` | `scale` | `5.0` | Translation scale factor for coarse grid search |
+| `--skip` | `min max` | `8 32` | Vertex skip range; registration iterates from max down to min |
+| `--sigma` | `min max` | `0.5 2` | Blurring kernel sigma range (mm); iterates from max down to min |
+| `--cost` | `costfile` | _(none)_ | Output cost function values during search |
+| `--out-reg` | `outreg` | _(none)_ | Registration file updated continuously at each new lowest cost |
+| `--interp` | `type` | `trilinear` | Interpolation method: `trilinear` or `nearest` |
+| `--no-crop` | | `off` | Disable automatic anatomy cropping |
+| `--crop` | | `off` | Force anatomy cropping on |
+| `--profile` | | `off` | Print execution timing information |
+| `--noise` | `stddev` | _(none)_ | Add Gaussian noise of given stddev to input (testing only) |
+| `--seed` | `randseed` | `-1` | Random seed for noise generation |
+| `--CNR` | | `off` | Use CNR-based similarity function |
+| `--DOT` | | `on` | Use gradient-normal (dot product) similarity (default) |
+| `--GRADIENT` | | `off` | Use raw gradient magnitude similarity |
+| `--dist` | | `off` | Use distance-based similarity function |
+| `--border` | `border` | `20` | Number of border voxels to ignore (mask size) |
+| `--aseg` | | `off` | Use aseg segmentation during registration |
+| `--noglobal` | | `off` | Skip global grid search; go straight to Powell optimisation |
+| `--w` | `N` | `1` | Write snapshot every N iterations |
+| `--rm` | | `off` | Read previously computed median-filtered volume from disk |
+| `--rg` | | `off` | Read previously computed gradient volume from disk |
+| `--s` | `subject` | _(none)_ | Subject name written into register.dat subject field |
+| `--cropy` | `y0 y1` | `-1 -1` | Restrict volume crop to Y-voxel range `[y0, y1]` |
+| `--debug` | | `off` | Enable verbose debug output during command-line parsing |
+| `--gdiagno` | `N` | `-1` | Set `Gdiag_no` for verbose diagnostic output |
 
 ## Configuration Interactions
 
 - `--tx-mmd`, `--ty-mmd`, `--tz-mmd`, `--ax-mmd`, `--ay-mmd`, `--az-mmd` define 6-DOF grid search bounds and step sizes.
-- `--CNR` replaces the default gradient-based similarity with a CNR function.
+- `--CNR` replaces the default gradient-normal similarity. `--DOT` restores the default. `--GRADIENT` uses raw gradient magnitude. `--dist` uses distance similarity.
 - `--median` and `--CNR` can be combined but their interaction is not documented.
-- `--no-crop` disables automatic anatomy cropping; cropping reduces computation by limiting the volume to the surface's bounding box.
+- `--no-crop` disables automatic anatomy cropping; cropping reduces computation by limiting the volume to the surface's bounding box. `--crop` forces cropping on.
 - `--noise` and `--seed` are for testing only; they corrupt the input data.
+- `--noglobal` skips the global grid search and goes directly to Powell optimisation; useful when the initial registration in `--reg` is already close to the solution.
+- `--max_rot` and `--max_trans` bound the global search space; defaults are 20 degrees and 200 mm.
+- `--label` and `--patch` both restrict calculations to a subset of vertices; `--dilate` expands the rip mask around the restricted area when used with these options.
 
 ## Typical Use Cases
 
@@ -143,7 +168,7 @@ Not part of `recon-all`. Used for surface-to-volume post-correction in research 
 > The tool crops the anatomy volume by default to speed up computation. Use `--no-crop` if this is undesirable.
 
 > [!gotcha] Grid search can be slow
-> A fine grid over 6 DOF with small step sizes can require enormous computation. For practical use, initialise near the expected solution with `--angle_init` / `--trans_init` and use a coarse grid.
+> A fine grid over 6 DOF with small step sizes can require enormous computation. For practical use, limit the search range with `--max_rot` / `--max_trans` and use `--noglobal` to skip the grid search entirely and go straight to Powell optimisation if a good initialisation is available in the registration file.
 
 ## Related Tools
 
@@ -152,8 +177,8 @@ Not part of `recon-all`. Used for surface-to-volume post-correction in research 
 
 ## Confidence and Gaps
 
-**Confident (from BEGINUSAGE):** Full flag set from embedded usage block; sinc warning; default crops anatomy; CNR option.
+**Confident (from source `parse_commandline`):** Full flag set from source; --angle_init/--trans_init do NOT exist (removed); --DOT, --GRADIENT, --dist similarity alternatives confirmed; --max_rot/--max_trans bounds; --noglobal; --rm/--rg; --aseg; --label/--patch/--dilate; --s/--tscale/--w/--gdiagno; --cropy; --debug; sinc warning; default crops anatomy; CNR option. All defaults verified from static variable initialisations.
 
-**Uncertain:** CNR similarity function implementation details; `--sigma` and `--skip` parameter semantics (min/max range meaning).
+**Uncertain:** CNR similarity function implementation details; --cropy interaction with the unconditional crop in main() (DoCrop=0 by default, but volume is always extracted in main). Note: --mri_reg appears in the printed usage text but is NOT parsed by `parse_commandline`; use --mov instead.
 
 > [!gap] The CNR-based similarity function (`--CNR`) implementation was not read. Its relationship to the mris_ms_surface_CNR formulation is unknown.

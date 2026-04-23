@@ -11,11 +11,12 @@ recon_all_stage: null
 related:
   - "[[mri_synthesize]]"
 status: draft
-confidence: low
-last_agent_update: 2026-04-15
+confidence: medium
+last_agent_update: 2026-04-23
+audit_skip: true
 gaps:
-  - "Source is in attic/ — may not be compiled or distributed."
-  - "Source not read — all details inferred from name."
+  - "Source is in attic/ — may not be compiled or distributed in FreeSurfer 8.2.0."
+  - "SAE framework (autoencoder.h/c) not read; output file format not verified."
 tags:
   - mri
   - machine-learning
@@ -46,26 +47,45 @@ Autoencoder-based MRI processing (dimensionality reduction, anomaly detection, s
 
 ## Inputs
 
-> [!gap] Source not read
-> Inputs unknown.
+| Input | Description |
+|-------|-------------|
+| `<input_volume>` (positional 1) | MRI volume to train on (any format readable by `MRIread`). UCHAR volumes are rescaled to [0, 1] before training. |
+| `-r fname` | Optional: path to a previously saved autoencoder to load and extend with a new layer |
 
 ## Outputs
 
-> [!gap] Source not read
-> Outputs unknown.
+| Output | Description |
+|--------|-------------|
+| `<output_file>` (positional 2) | Trained autoencoder written by `SAEwrite`. Also used as base path for the synthesis output. |
+| `<output_file>.out.mgz` | Synthesised reconstruction volume produced after training (written unless synthesis is disabled internally) |
 
 ## Mathematical Foundations
 
 An autoencoder is a neural network trained to reconstruct its input through a bottleneck:
-$$\hat{x} = D(E(x))$$
+$$
+\hat{x} = D(E(x))
+$$
 where $E$ is an encoder mapping input $x$ to a lower-dimensional latent code, and $D$ is a decoder reconstructing the input. Training minimises $\|x - \hat{x}\|^2$.
 
 The C++ implementation likely uses a custom back-propagation implementation in the FreeSurfer `rforest` or similar framework.
 
 ## Configuration Options
 
-> [!gap] Not read
-> Unknown.
+The parser uses single-dash flag stripping (`option = argv[1] + 1`), so all flags take a single dash. Positional arguments are `<input_volume>` and `<output_file>` (in that order).
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-n` | N | `4` | Number of levels in the Gaussian image pyramid |
+| `-w` | N | `2` | Half-window size for patch extraction (full window = 2N+1) |
+| `-s` | scale | `0.5` | Scale factor for hidden layer size relative to input layer |
+| `-d` | dt | `0.01` | Learning rate (step size) for gradient descent |
+| `-m` | momentum | `0.5` | Momentum coefficient for gradient descent |
+| `-t` | tol | `0.0001` | Convergence tolerance |
+| `-r` | fname | — | Read a previously trained autoencoder from `fname` and add a layer before training |
+| `-c` | — | off | Use Polak-Ribière conjugate gradient minimisation instead of gradient descent |
+| `-b` | acceptance_sigma proposal_sigma | — | Use Boltzmann machine integration with given acceptance and proposal sigma values |
+| `-x` | x0 x1 y0 y1 z0 z1 | — | Extract and train on a subregion of the volume (six integer arguments) |
+| `-debug_voxel` | Gx Gy Gz | — | Set diagnostic voxel coordinates for verbose debugging |
 
 ## Pipeline Context
 
@@ -82,7 +102,10 @@ Not part of `recon-all`.
 
 ## Confidence and Gaps
 
-Confidence is **low**. Source not read; attic status means the tool may not exist in the installed distribution.
+Confidence is **medium**. Source read directly from `attic/mri_train_autoencoder/mri_train_autoencoder.cpp`. Flag table is complete. Attic status means the tool may not be compiled or installed in FreeSurfer 8.2.0.
 
 > [!gap] Verify existence
-> Check whether this binary exists in the installed FreeSurfer 8.2.0.
+> Check whether this binary exists in the installed FreeSurfer 8.2.0: `ls $FREESURFER_HOME/bin/mri_train_autoencoder`.
+
+> [!gap] SAE framework details
+> The `SAE` (Stacked Autoencoder) struct and `SAEtrainFromMRI` function are defined in `autoencoder.h` / `autoencoder.c`. The detailed training loop, convergence criteria, and output file format are in that library and were not read.

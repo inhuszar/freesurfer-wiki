@@ -62,7 +62,9 @@ The "flatness" criterion is based on the dot product of the surface normal with 
 
 For each vertex $v$ with surface normal $\hat{\mathbf{n}}_v$, the flatness criterion is:
 
-$$\text{flat}(v) = \max\left(|\hat{\mathbf{n}}_v \cdot \hat{\mathbf{x}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{y}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{z}}|\right) > \theta$$
+$$
+\text{flat}(v) = \max\left(|\hat{\mathbf{n}}_v \cdot \hat{\mathbf{x}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{y}}|,\ |\hat{\mathbf{n}}_v \cdot \hat{\mathbf{z}}|\right) > \theta
+$$
 
 where $\theta$ is the threshold (default: 0.99) and $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ are the unit vectors along the cardinal axes.
 
@@ -72,10 +74,10 @@ When `-s` is used, connected components of flat vertices are segmented into ROIs
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-t <thresh>` | Threshold for flatness criterion (default: 0.99). Higher values = stricter (more parallel to axis required). |
-| `-s <min-vertices>` | Segment into ROIs with at least `<min-vertices>` vertices; outputs `.annot` format. |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-t <thresh>` | float | 0.99 | Threshold for flatness criterion. Higher values are stricter (require closer alignment to a cardinal axis). |
+| `-s <min-vertices>` | int | — | Segment into ROIs with at least `<min-vertices>` vertices; forces `.annot` output format. |
 
 ## Configuration Interactions
 

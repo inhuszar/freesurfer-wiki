@@ -77,7 +77,9 @@ The pial surface refinement uses a custom error functional with gradient, SSE (s
 
 The refinement deforms the surface to minimise intensity mismatch between the predicted and observed intensity profiles at the pial boundary, using the high-resolution volume:
 
-$$E_{pial} = \sum_{v \in \text{label}} \left(I(v + t\hat{n}) - I_{target}\right)^2$$
+$$
+E_{pial} = \sum_{v \in \text{label}} \left(I(v + t\hat{n}) - I_{target}\right)^2
+$$
 
 where $t$ is the normal offset, $\hat{n}$ is the outward normal, and $I_{target}$ is the expected pial intensity from the high-resolution volume.
 

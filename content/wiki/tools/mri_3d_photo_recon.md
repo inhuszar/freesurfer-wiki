@@ -5,6 +5,7 @@ fs_version: "8.2.0"
 source_language: "shell"
 source_files:
   - "mri_3d_photo_recon/mri_3d_photo_recon"
+  - "mri_3d_photo_recon/photo_reconstruction/utils.py"
 families:
   - "mri_*"
 recon_all_stage: null
@@ -121,6 +122,7 @@ Optimisation uses Adam followed by optional BFGS fine-tuning.
 | `--k_regularizer_nonlin` | float | — | 2D nonlinear regulariser weight |
 | `--k_regularizer_nonlin3d` | float | — | 3D nonlinear regulariser weight |
 | `--k_regularizer_sz` | float | — | AP stretch regulariser weight |
+| `--use_svf_for_photos` | flag | off | Use a diffeomorphic SVF deformation model for photo-to-volume alignment instead of the default affine model |
 
 ## Configuration Interactions
 

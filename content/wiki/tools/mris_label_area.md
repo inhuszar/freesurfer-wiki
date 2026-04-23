@@ -28,7 +28,7 @@ tags:
 
 ## Summary
 
-`mris_label_area` computes the surface area of cortical regions defined by an annotation (`.annot`) file on a FreeSurfer surface. For each labeled region, it sums the vertex areas of all vertices assigned to that label and reports the area in mm². Optionally, it can report area as a percentage of total surface area, and it can write output to a log file.
+`mris_label_area` computes the surface area of cortical regions defined by an annotation (`.annot`) file on a FreeSurfer surface. Given one or more integer label indices, it sums the vertex areas of all vertices assigned to each label and reports the area in mm². Optionally, it can report area as a percentage of total surface area (`-p`) and write output to a log file (`-l`).
 
 ## Source Information
 
@@ -47,17 +47,15 @@ This tool is simpler and more focused than `mris_anatomical_stats`: it reports a
 | Positional | Description |
 |------------|-------------|
 | `argv[1]` | Subject name |
-| `argv[2]` | Hemisphere (lh or rh) |
+| `argv[2]` | Hemisphere (`lh` or `rh`) |
 | `argv[3]` | Surface name (e.g., `white`, `pial`) |
 | `argv[4]` | Annotation name (e.g., `aparc`) |
-
-**Optional:**
-- `argv[5]` and beyond may specify label indices to include (when `-in_label`/`-out_label` are used)
+| `argv[5..N]` | One or more integer label indices to process (required — at least one label must be supplied) |
 
 ## Outputs
 
-- **stdout**: Printed table of label areas (and percentage if `-pct` is set)
-- **log file**: Written if `-log logfilename` is specified
+- **stdout**: Printed table of label areas (and percentage if `-p` is set)
+- **log file**: Written to `<logfile>` if `-l <logfile>` is specified
 
 Output format (stdout):
 ```
@@ -68,52 +66,60 @@ label_index  area_mm2  [pct]
 
 For each label $i$ in the annotation, the area is computed by summing per-vertex areas:
 
-$$A_i = \sum_{v : \text{annot}(v) = i} a_v$$
+$$
+A_i = \sum_{v : \text{annot}(v) = i} a_v
+$$
 
 where $a_v$ is the area associated with vertex $v$, computed from `MRIScomputeMetricProperties` as the average of the areas of the faces incident to vertex $v$:
 
-$$a_v = \frac{1}{3} \sum_{k \ni v} A_k^{\text{face}}$$
+$$
+a_v = \frac{1}{3} \sum_{k \ni v} A_k^{\text{face}}
+$$
 
 where $A_k^{\text{face}}$ is the area of face $k$ computed via the cross product of its edge vectors.
 
-If `-pct` is set, each label area is also expressed as a fraction of the total surface area.
+If `-p` is set, each label area is also expressed as a fraction of the total surface area.
 
 ## Configuration Options
 
+The parser strips one leading dash (`option = argv[1] + 1`) and dispatches via a case-insensitive string comparison and a character switch.
+
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-pct` | — | off | Also report area as percentage of total surface area |
-| `-log logfname` | path | — | Write output to log file |
-| `-in_label L` | integer | — | Only report area for label index L |
-| `-out_label L` | integer | — | Report area outside label L |
-| `-sdir SUBJECTS_DIR` | path | `$SUBJECTS_DIR` | Override subjects directory |
+| `-p` | — | off | Also report area as a percentage of total surface area |
+| `-l <logfname>` | path | — | Write per-label area output to `logfname` (supports `%d` for label number) |
+| `-c <table>` | path | — | Read a named annotation lookup table from `table` |
+| `-t <in> <out>` | 2 integers | — | Translate label index `in` to `out` before computing areas |
+| `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override the subjects directory |
 
-Positional arguments (required):
+Positional arguments (required after flags):
 1. Subject name
-2. Hemisphere (lh or rh)
-3. Surface name
-4. Annotation name
+2. Hemisphere (`lh` or `rh`)
+3. Surface name (e.g., `white`, `pial`)
+4. Annotation name (e.g., `aparc`)
+5..N. Label indices (at least one required)
 
 ## Configuration Interactions
 
-- `-in_label` and `-out_label` restrict computation to a specific label or its complement.
-- `-pct` and `-log` are independent flags that can be combined.
+- `-p` and `-l` are independent and can be combined.
+- `-t <in> <out>` translates label IDs before computing areas; useful for re-mapping annotation indices.
+- `-c <table>` loads a named annotation table that maps raw annotation integers to human-readable names; affects how labels are looked up internally.
 
 ## Typical Use Cases
 
-**Print area of all aparc regions:**
+**Print area for label index 42:**
 ```bash
-mris_label_area bert lh white aparc
+mris_label_area bert lh white aparc 42
 ```
 
-**Print area as percentage of total surface:**
+**Print area as percentage of total surface for multiple labels:**
 ```bash
-mris_label_area -pct bert lh white aparc > lh.aparc.areas.txt
+mris_label_area -p bert lh white aparc 42 43 44 > lh.aparc.areas.txt
 ```
 
 **Write to log file:**
 ```bash
-mris_label_area -log lh.areas.log bert lh white aparc
+mris_label_area -l lh.areas.log bert lh white aparc 42
 ```
 
 ## Pipeline Context
@@ -130,7 +136,7 @@ For a more complete set of statistics (thickness, volume, mean curvature), use [
 ## Gotchas and Caveats
 
 > [!gotcha] Requires SUBJECTS_DIR
-> The tool constructs surface and annotation paths from `$SUBJECTS_DIR`. Either set this environment variable or use `-sdir`.
+> The tool constructs surface and annotation paths from `$SUBJECTS_DIR`. Either set this environment variable or pass `-sdir <dir>` on the command line.
 
 > [!gotcha] Surface determines area type
 > The surface specified (e.g., `white` vs `pial`) determines which surface area is computed. FreeSurfer morphometric convention uses `white` for cortical surface area measurements.
@@ -144,6 +150,6 @@ For a more complete set of statistics (thickness, volume, mean curvature), use [
 ## Confidence and Gaps
 
 **Confident (from source):**
-- Required positional argument order
-- `-pct`, `-log`, `-in_label`, `-out_label` flags
-- Area computation using `MRIScomputeMetricProperties` + vertex area summation
+- Required positional argument order (subject, hemi, surf, annot, label indices)
+- `-p`, `-l`, `-c`, `-t`, `-sdir` flags confirmed from `get_option()`
+- Area computation using `MRIScomputeMetricProperties` + per-vertex area summation via `MRISannotArea()`

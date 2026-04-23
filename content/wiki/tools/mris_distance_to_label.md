@@ -45,7 +45,7 @@ This tool provides a surface-registered measure of proximity to deep brain struc
 ## Inputs
 
 - **Surface file** (positional arg 1): A FreeSurfer surface (e.g., `lh.white`).
-- **Segmentation volume** (`--aseg`): An aseg-style label volume (e.g., `aseg.mgz`) from which distances to specific structures are computed.
+- **Segmentation volume** (`-aseg`): An aseg-style label volume (e.g., `aseg.mgz`) from which distances to specific structures are computed.
 - **Optional**: Multiple structure labels can be specified via `labels[]`.
 
 ## Outputs
@@ -60,9 +60,11 @@ The named frame fields produced include:
 
 For each target structure label $L$, a 3D volumetric distance field $D_L(x)$ is computed via the fast-marching algorithm from the segmentation volume:
 
-$$D_L(x) = \min_{y \in L} \|x - y\|_2$$
+$$
+D_L(x) = \min_{y \in L} \|x - y\|_2
+$$
 
-The signed distance is clipped to $[-d_{\max}, +d_{\max}]$ where $d_{\max}$ is controlled by `fdistance` (default 20 mm). Values are then sampled at each surface vertex location via nearest-neighbour interpolation in the volume.
+The signed distance is clipped to $[-d_{\max}, +d_{\max}]$ where $d_{\max}$ is controlled by `-distance` (default 20 mm). Values are then sampled at each surface vertex location via nearest-neighbour interpolation in the volume.
 
 Distance values are optionally processed as:
 - **Mode 1:** $\max(0, D_L)$ — exterior distance only (positive)
@@ -72,26 +74,28 @@ Distance values are optionally processed as:
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--aseg` | `<seg_vol>` | — | Segmentation volume (aseg.mgz) |
-| `--navgs` | `<int>` | 0 | Number of surface averaging iterations |
-| `--fdistance` | `<float>` | 20.0 | Maximum distance (mm) for clipping |
-| `--mode` | `<int>` | 1 | Distance mode: 1=exterior only, 2=interior only |
+| `-aseg <seg_vol>` | path | — | Segmentation volume (aseg.mgz) |
+| `-navgs <n>` | int | 0 | Number of surface averaging iterations |
+| `-distance <val>` | float | `20.0` | Maximum distance (mm) for clipping (`!stricmp(option, "distance")`) |
+| `-mode <int>` | int | 1 | Distance mode: 1=exterior only, 2=interior only |
+| `-l <label>` | int | — | Add label integer to the list of target structures (`case 'L':`) |
+| `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR (`!stricmp(option, "SDIR")`) |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 
-- `--mode` controls the sign convention of the projected distance values; mode 1 gives cortex-to-structure distance from outside the structure, mode 2 from inside.
-- `--navgs` smooths the resulting surface values; larger values reduce vertex-to-vertex noise but smooth spatial gradients.
+- `-mode` controls the sign convention of the projected distance values; mode 1 gives cortex-to-structure distance from outside the structure, mode 2 from inside.
+- `-navgs` smooths the resulting surface values; larger values reduce vertex-to-vertex noise but smooth spatial gradients.
 
 ## Typical Use Cases
 
 ```bash
 # Compute distance to subcortical structures from white surface
-mris_distance_to_label --aseg aseg.mgz lh.white lh.subcort_dist
+mris_distance_to_label -aseg aseg.mgz lh.white lh.subcort_dist
 
 # With smoothing
-mris_distance_to_label --aseg aseg.mgz --navgs 5 lh.white lh.subcort_dist_smooth
+mris_distance_to_label -aseg aseg.mgz -navgs 5 lh.white lh.subcort_dist_smooth
 ```
 
 ## Pipeline Context

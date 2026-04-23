@@ -15,7 +15,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "DCT warp format (.dct file) not described in wiki — needs a format spec page"
   - "Number of DCT coefficients and their physical meaning not fully documented"
@@ -55,8 +55,8 @@ The tool operates in a coarse-to-fine manner: it starts with a large Gaussian sm
 - **`output`** (argv[3]): output DCT file (and optionally `output.mgz`)
 
 Optional:
-- LTA transform file via `-lta fname` for affine initialization
-- Aseg file via `-aseg` for specialized modes (hippocampus, WM)
+- LTA transform file via `-t fname` for affine initialization
+- Aseg file via `-hippo aseg.mgz` for hippocampus mode
 
 ## Outputs
 
@@ -68,53 +68,70 @@ Optional:
 
 The deformation is represented as a DCT basis expansion:
 
-$$d(x) = \sum_{k=0}^{N} c_k \phi_k(x)$$
+$$
+d(x) = \sum_{k=0}^{N} c_k \phi_k(x)
+$$
 
-where $\phi_k$ are DCT basis functions and $c_k$ are the coefficients optimized. The number of coefficients `Gncoef` defaults to 5.
+where $\phi_k$ are DCT basis functions and $c_k$ are the coefficients optimized. The number of coefficients defaults to 5 (set with `-n`).
 
 **Cost function:** sum of squared intensity differences between the smoothed source (warped) and target volumes:
-$$E = \sum_{\mathbf{x}} \left[ I_\text{src}(T(\mathbf{x})) - I_\text{tgt}(\mathbf{x}) \right]^2$$
+$$
+E = \sum_{\mathbf{x}} \left[ I_\text{src}(T(\mathbf{x})) - I_\text{tgt}(\mathbf{x}) \right]^2
+$$
 
 with Gaussian smoothing applied at each scale (sigma decreasing from initial value to 0.25).
 
 **Multi-scale strategy:**
 - Outer loop over sigma (halved each iteration until sigma < 0.25)
-- Inner loop over `mp.npasses = skip+1` passes per sigma level
-- Skip (subsampling) starts at default 4 and halves each inner pass
-
-**Optimization:** default is quasi-Newton minimization (`quasi_newton_minimize`) with Powell as alternative (`use_powell`).
+- Inner loop over `mp.npasses` passes per sigma level (default = skip+1 = 5)
+- Skip (subsampling) starts at default 4 (`-skip`) and halves each inner pass
 
 The affine initialization converts the LTA to a vox-to-vox matrix and applies `MRITransformedCenteredMatrix()` before DCT optimization begins.
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `-lta fname` | file | none | LTA affine initialization transform |
-| `-sigma s` | float | 4.0 | Initial Gaussian smoothing sigma |
-| `-skip N` | int | 4 | Initial voxel subsampling step |
-| `-ncoef N` | int | 5 | Number of DCT coefficients |
-| `-powell` | — | off | Use Powell optimizer instead of quasi-Newton |
-| `-noapply` | — | off | Do not apply transform to write aligned volume |
-| `-upsample N` | int | 0 | Upsample source before alignment |
-| `-aseg fname` | file | none | Aseg file (for specialized modes) |
-| `-mode N` | int | NONE | Processing mode: 0=none, 1=angio, 2=hippo, 3=wm, 4=label |
-| `-mode_filters N` | int | 0 | Apply mode filter N times to output |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-t <fname>` | file | — | LTA affine initialization transform |
+| `-sigma <f>` | float | 4.0 | Initial Gaussian smoothing sigma |
+| `-skip <n>` | int | 4 | Initial voxel subsampling step |
+| `-n <n>` | int | 5 | Number of DCT coefficients (`Gncoef`) |
+| `-m <f>` | float | — | Momentum for integration (`mp.momentum`) |
+| `-momentum` | — | — | Use fixed-step integration (alias for `-fixed`) |
+| `-fixed` | — | — | Use fixed-step integration (`GCAM_INTEGRATE_FIXED`) |
+| `-area <f>` | float | — | Area energy weight (`l_area`) |
+| `-tol <f>` | float | — | Convergence tolerance (`mp.tol`) |
+| `-si <f>` | float | -1.0 | Smooth GCAM intensities with sigma f |
+| `-rthresh <f>` | float | — | Jacobian ratio compression threshold |
+| `-dt <f>` | float | — | Integration time step (`mp.dt`) |
+| `-passes <n>` | int | — | Number of integration passes per sigma level |
+| `-levels <n>` | int | — | Number of multi-resolution levels |
+| `-upsample <n>` | int | 0 | Upsample source N times before alignment |
+| `-hippo <aseg>` | file | — | Hippocampus mode: source is hires hippo, target is aseg |
+| `-wm` | — | — | WM mode: source and target are white matter volumes |
+| `-none` | — | — | No assumptions about label types (default mode) |
 | `-morph_to` | — | off | Morph from atlas to subject (reverse direction) |
-| `-find_label l x y z` | int,3 floats | — | Find specific label at RAS coordinates |
-| `-source_intensity_fname fname` | file | none | Use separate intensity volume for cost |
-| `-cj` | — | off | Constrain Jacobian determinant |
+| `-find_label <l> <x> <y> <z>` | int+3 floats | — | Find label l at RAS coordinates (x, y, z) |
+| `-i <fname>` | file | — | Intensity image for debugging (`source_intensity_fname`) |
+| `-f <n>` | int | 0 | Apply n mode filters to output before writing |
+| `-b <f>` | float | — | Binary energy weight (`l_binary`) |
+| `-j <f>` | float | — | Jacobian energy weight (`l_jacobian`) |
+| `-a <n>` | int | — | Smooth gradient with n averages (`mp.navgs`) |
+| `-k <f>` | float | — | Exponential coefficient (`mp.exp_k`) |
+| `-w <n>` | int | 0 | Write snapshot volumes every n iterations |
+| `-view <x> <y> <z>` | 3 ints | — | View diagnostic output at voxel (x, y, z) |
+| `-cj` | — | off | Constrain Jacobian; enables ratio threshold, sets `l_jacobian=0` |
 | `-neg` | — | off | Allow negative Jacobian determinants |
-| `-scale_smoothness N` | float | — | Scale smoothness regularizer |
-| `-debug_voxel x y z` | 3 ints | — | Debug output at specific voxel |
-| `-write_iterations N` | int | 0 | Write snapshot volumes every N iterations |
+| `-scale_smoothness <n>` | int | — | Scale smoothness coefficient and set npasses=2 |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Debug output at voxel (x, y, z) |
 
 ## Configuration Interactions
 
-- `-powell` selects the optimizer; quasi-Newton is the default and generally preferred.
-- `-noapply` suppresses writing the aligned `.mgz`; only the DCT parameter file is saved.
-- `-mode hippo` (2) triggers hippocampus-specific preprocessing using `HIPPOestimateIntensityImage()`.
+- Quasi-Newton minimization (`quasi_newton_minimize`) is the default optimizer; there is no user-accessible flag to switch to Powell in this version (the `use_powell` variable is set internally).
+- `-hippo` uses a specialized intensity estimation preprocessing step (`HIPPOestimateIntensityImage()`); requires an aseg volume as argument.
+- `-wm` and `-none` select simpler processing modes; `-none` is the default.
 - `-cj` enables Jacobian constraint with `ratio_thresh=0.25`; implies `l_jacobian=0` and `noneg=false`.
+- `-momentum` and `-fixed` are aliases selecting the fixed-step integration type.
 
 ## Typical Use Cases
 
@@ -125,12 +142,12 @@ mri_dct_align source.mgz target.mgz warp.dct
 
 Initialize with affine transform:
 ```bash
-mri_dct_align -lta affine.lta source.mgz target.mgz warp.dct
+mri_dct_align -t affine.lta source.mgz target.mgz warp.dct
 ```
 
 Increase coefficient count for finer alignment:
 ```bash
-mri_dct_align -ncoef 10 source.mgz target.mgz warp.dct
+mri_dct_align -n 10 source.mgz target.mgz warp.dct
 ```
 
 ## Pipeline Context

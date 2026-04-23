@@ -69,15 +69,15 @@ Connected component labeling uses 26-connectivity (face + edge + corner neighbou
 | `-hemi <h>` | `lh` or `rh` | `lh` | Hemisphere for label-specific mode |
 | `-t <val>` | float | `90` | Threshold for binarization |
 | `-i` | flag | off | Inverse: extract largest background component |
-| `-v <val>` | int | `255` (or hemisphere label) | Target label value to extract |
-| `-orig <vol>` | path | none | Use this volume to determine original label values for output |
+| `-l <val>` | int | `255` (or hemisphere label) | Target label value to extract (`case 'L':`) |
+| `-o <vol>` | path | none | Use this volume to determine original label values for output (`case 'O':` — any flag beginning with `-o` is accepted) |
 
 ## Configuration Interactions
 
 - If `-hemi lh` is used (default), the target value is set to `LH_LABEL` from the FreeSurfer connectcomp library. `-hemi rh` sets it to `RH_LABEL`.
-- `-v <val>` overrides the hemisphere-based default target value.
-- When a custom `-v <val>` is specified that is neither LH_LABEL nor RH_LABEL, the binarization maps matching voxels to 255 and all others to 0, then finds the largest CC of 255 voxels.
-- `-orig <vol>` allows the output to contain original (possibly non-binary) label values from a reference volume instead of the binarized values.
+- `-l <val>` overrides the hemisphere-based default target value.
+- When a custom `-l <val>` is specified that is neither LH_LABEL nor RH_LABEL, the binarization maps matching voxels to 255 and all others to 0, then finds the largest CC of 255 voxels.
+- `-o <vol>` allows the output to contain original (possibly non-binary) label values from a reference volume instead of the binarized values.
 
 ## Typical Use Cases
 
@@ -89,7 +89,7 @@ mri_extract_largest_CC wm.mgz wm_largest_CC.mgz
 mri_extract_largest_CC -hemi rh filled.mgz filled_rh_CC.mgz
 
 # Extract largest component of a custom label (42 = right cortical WM)
-mri_extract_largest_CC -v 42 aseg.mgz largest_42.mgz
+mri_extract_largest_CC -l 42 aseg.mgz largest_42.mgz
 
 # Lower threshold for different intensity range
 mri_extract_largest_CC -t 50 wm.mgz wm_CC.mgz

@@ -63,7 +63,9 @@ For each time point `<tp>`, written to `$SUBJECTS_DIR/<tp>.long.<base-id>/mri/`:
 
 Each time-point volume is resampled into the base space by applying the affine LTA transform:
 
-$$\mathbf{x}_\text{base} = T_{\text{tp}\to\text{base}} \cdot \mathbf{x}_\text{tp}$$
+$$
+\mathbf{x}_\text{base} = T_{\text{tp}\to\text{base}} \cdot \mathbf{x}_\text{tp}
+$$
 
 For `norm.mgz`, trilinear (or default) interpolation is used. For `aseg.mgz`, nearest-neighbour interpolation (`-rt nearest`) is used to preserve integer label values.
 

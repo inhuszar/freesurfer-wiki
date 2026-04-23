@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - comparison
@@ -49,7 +49,7 @@ A key feature is the distinct exit status per difference type, allowing scripts 
 
 - **`vol1`**: first volume (any `MRIread`-compatible format)
 - **`vol2`**: second volume
-- Optionally: `--surf vol1 vol2` for surface-based comparison
+- Optionally: `--v1 vol1 --v2 vol2` for explicit volume specification
 
 ## Outputs
 
@@ -57,13 +57,15 @@ A key feature is the distinct exit status per difference type, allowing scripts 
 - **Exit status**: 0 = no difference; 1 = error; 101–107 = specific differences; 201–202 = morph/color table differences
 - **`--log logfile`**: if provided and a difference is found, writes details to `logfile` (file is deleted if no difference)
 - **`--diff diffvol`**: outputs the voxel-by-voxel difference image $|V_1 - V_2|$
-- **`--diffabs`** / **`--pct`**: absolute or percentage difference volume
+- **`--diffabs`** / **`--diffpct`**: absolute or percentage difference volume
 
 ## Mathematical Foundations
 
 **Pixel difference check:**
 
-$$\text{differs} = \exists (x,y,z,f) : |V_1(x,y,z,f) - V_2(x,y,z,f)| > \text{thresh}$$
+$$
+\text{differs} = \exists (x,y,z,f) : |V_1(x,y,z,f) - V_2(x,y,z,f)| > \text{thresh}
+$$
 
 where `thresh` defaults to 0 (exact comparison) and can be raised with `--thresh`.
 
@@ -89,28 +91,47 @@ where `thresh` defaults to 0 (exact comparison) and can be raised with `--thresh
 | `--notallow-geo` | — | off | Turn off geometry checking |
 | `--notallow-prec` | — | off | Turn off precision checking |
 | `--notallow-pix` | — | off | Turn off pixel data checking |
+| `--notallow-ori` | — | off | Turn off orientation checking |
+| `--notallow-type` | — | off | Turn off file-type checking |
+| `--no-exit-on-diff` | — | off | Do not exit on difference (continue checking all categories) |
+| `--no-exit-on-error` | — | off | Alias for `--no-exit-on-diff` |
 | `--qa` | — | off | QA mode: check res, acq, prec, orientation; skip pixel and exact geometry |
+| `--v1 vol1` | file | — | Explicit first volume (alternative to positional argument) |
+| `--v2 vol2` | file | — | Explicit second volume (alternative to positional argument) |
+| `--pix-only` | — | off | Only check pixel data (aliases: `--po`, `--pixonly`) |
+| `--po` | — | off | Alias for `--pix-only` |
+| `--pixonly` | — | off | Alias for `--pix-only` |
 | `--diff diffvol` | file | none | Save difference volume |
-| `--diffabs` | — | off | Use absolute difference |
-| `--pct` | — | off | Use percentage difference |
+| `--diff-file logfile` | file | none | Alias for `--log` |
+| `--absdiff` | — | on | Take absolute value of per-voxel difference (default on) |
+| `--no-absdiff` | — | — | Do not take absolute value of per-voxel difference |
+| `--diffabs` | — | off | Take absolute difference of absolute values: `|abs(v1) - abs(v2)|` |
+| `--diffpct` | — | off | Use percentage difference: `100*(v1-v2)/((v1+v2)/2)` |
+| `--rss` | — | off | Save root-sum-of-squares with `--diff` |
+| `--ssd` | — | off | Print sum of squared differences over all voxels |
+| `--rms` | — | off | Print root mean squared difference over all non-zero voxels |
+| `--count` | — | off | Print number of differing voxels |
+| `--segdiff labelIDX diffaseg` | int + file | — | Restrict difference to voxels with the given segmentation label |
+| `--diff_label_suspicious <vol>` | path | — | Save a volume where differing voxels are replaced with label `SUSPICIOUS`; intended for comparing `aseg.mgz` files |
+| `--merge-edits newauto oldauto edits out` | 4 files | — | Merge manual edits from one auto segmentation into another |
+| `--diff-ctab` | — | off | Check embedded color tables |
+| `--diff-imag` | — | off | Check imaginary component of complex volumes |
 | `--avg-diff avgfile` | file | none | Save average difference per frame |
 | `--log logfile` | file | none | Log file for differences |
-| `--color-table` | — | off | Check embedded color tables |
 | `--verbose` | — | off | Verbose output |
 | `--debug` | — | off | Debug output |
-
-## Configuration Options (surface mode)
-
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--surf vol1 vol2` | files | Compare two surfaces (not volumes) |
+| `--diag-debug` | — | off | Enable additional Gdiag diagnostics (`Gdiag |= DIAG_INFO`) |
+| `--checkopts` | — | off | Check options and exit without running |
+| `--nocheckopts` | — | off | Do not check options; continue even if option issues are detected |
 
 ## Configuration Interactions
 
 - `--qa` enables `--notallow-res=off`, `--notallow-acq=off`, `--notallow-prec=off` and disables geometry/pixel checks. It adds orientation checking instead.
-- `--notallow-*` flags turn **off** specific checks; all checks are on by default.
+- `--notallow-*` flags turn **off** specific checks; all checks are on by default. Available variants: `--notallow-res`, `--notallow-acq`, `--notallow-geo`, `--notallow-prec`, `--notallow-pix`, `--notallow-ori`, `--notallow-type`.
 - `--thresh` sets the pixel comparison tolerance; `--count-thresh` sets the minimum number of differing voxels to trigger a reported difference (useful for ignoring floating-point noise).
+- `--absdiff` (default on) and `--diffabs` are distinct: `--absdiff` computes `|v1 - v2|`; `--diffabs` computes `|abs(v1) - abs(v2)|`. `--diffpct` computes the percentage difference.
 - `--diff` and `--avg-diff` can be used simultaneously.
+- `--pix-only` (`--po`, `--pixonly`) skips all non-pixel checks and forces `CheckPixVals = 1`.
 
 ## Exit Codes
 

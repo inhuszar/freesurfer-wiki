@@ -13,7 +13,7 @@ related:
   - "[[mri_segstats]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Exact algorithm for head segmentation beyond the documented threshold/fill approach is not fully described in the source header."
 tags:
@@ -44,13 +44,14 @@ Head segmentation is distinct from brain/skull-stripping. `mri_seghead` produces
 
 ## Inputs
 
-- `--invol <file>`: Input T1 MRI volume (required).
+- `--invol <file>` (or `--i <file>`): Input T1 MRI volume (required).
 - `--thresh1 <int>` / `--thresh2 <int>`: Lower and upper intensity thresholds.
+- `--thresh <int>`: Convenience flag that sets both `--thresh1` and `--thresh2` to the same value.
 - `--nhitsmin <int>`: Minimum number of hits required for a voxel to be included.
 
 ## Outputs
 
-- `--outvol <file>`: Binary head segmentation volume (output mask). Fill value is 255 (adjustable with `--fill`).
+- `--outvol <file>` (or `--o <file>`): Binary head segmentation volume (output mask). Fill value is 255 (adjustable with `--fill`).
 - `--outbox <file>`: Optional bounding box volume for the head.
 - `--hvoldat <file>`: Optional text file with head volume statistics.
 
@@ -69,32 +70,45 @@ The "signal behind head" diagnostic fits a box 7 slices behind the outermost hea
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--invol` | `<file>` | — | Input MRI volume (required) |
-| `--outvol` | `<file>` | — | Output binary head mask (required) |
+| `--invol` / `--i` | `<file>` | — | Input MRI volume (required) |
+| `--outvol` / `--o` | `<file>` | — | Output binary head mask (required) |
 | `--outbox` | `<file>` | — | Write bounding box volume |
 | `--thresh1` | `<int>` | -1 (auto) | Lower intensity threshold |
 | `--thresh2` | `<int>` | -1 (auto) | Upper intensity threshold |
+| `--thresh` | `<int>` | — | Set both `--thresh1` and `--thresh2` to this value |
+| `--fhi` | `<float>` | 0.999 | Upper fractional intensity cutoff when converting to uchar |
 | `--nhitsmin` | `<int>` | 2 | Minimum hit count for fill |
 | `--fill` | `<uchar>` | 255 | Fill value for output mask voxels |
-| `--fillslices` | — | on | Fill along slice direction |
-| `--fillrows` | — | on | Fill along row direction |
-| `--fillcols` | — | on | Fill along column direction |
-| `--no-fillslices` | — | — | Disable slice-direction fill |
-| `--no-fillrows` | — | — | Disable row-direction fill |
-| `--no-fillcols` | — | — | Disable column-direction fill |
+| `--fillslices` | — | on | Enable fill along slice direction (on by default) |
+| `--fillrows` | — | on | Enable fill along row direction (on by default) |
+| `--fillcols` | — | on | Enable fill along column direction (on by default) |
+| `--fill-holes-islands` | — | off | Fill holes and remove islands in the mask |
+| `--no-fill-holes-islands` | — | — | Disable hole-filling and island removal |
 | `--dilate` | `<int>` | 0 | Number of morphological dilation iterations |
-| `--signal` | — | off | Compute and report signal intensity behind head |
+| `--rescale` | — | off | Rescale input intensities when converting to uchar |
+| `--no-rescale` | — | on | Do not rescale input when converting to uchar (default) |
+| `--get-signal-behind-head` | — | off | Compute and report mean signal and Sobel magnitude in a box posterior to the head |
+| `--or-mask` | `<file>` | — | Include voxels in this mask regardless of threshold |
+| `--no-or-mask` | — | — | Disable or-mask inclusion |
+| `--subject` / `--s` | `<subject>` | — | Subject name (sets input/output paths from `$SUBJECTS_DIR`) |
+| `--sd` / `-SDIR` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
+| `--skull` | — | off | Include skull in segmentation |
 | `--hvoldat` | `<file>` | — | Write head volume data to text file |
+| `--gdiag` | `<int>` | — | Set diagnostic level |
 | `--debug` | — | off | Enable debug output |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |
 
+> [!gotcha] No `--no-fillslices` / `--no-fillrows` / `--no-fillcols` flags
+> The source only implements `--fillslices`, `--fillrows`, `--fillcols` to enable each direction. There are no corresponding `--no-fill*` flags to disable them individually once enabled. Fill along all three axes is on by default and cannot be selectively disabled at the command line.
+
 ## Configuration Interactions
 
-- `--thresh1` and `--thresh2` are both required for explicit thresholding. When set to -1 (default), the tool attempts automatic threshold selection.
-- `--fillslices`, `--fillrows`, and `--fillcols` are all enabled by default. Disabling all three would leave only the thresholded hit map with no morphological closing.
-- `--signal` uses `--outbox` to optionally save the behind-head box volume; `--outbox` is independent otherwise.
+- `--thresh1` and `--thresh2` are both required for explicit thresholding. When set to -1 (default), the tool attempts automatic threshold selection. `--thresh` is a shortcut that sets both to the same value.
+- `--fillslices`, `--fillrows`, and `--fillcols` are all enabled by default. There are no `--no-fill*` counterparts; they can only be enabled, not individually disabled.
+- `--get-signal-behind-head` triggers the behind-head signal analysis; `--outbox` can optionally save the behind-head box volume and is independent otherwise.
 - `--dilate` expands the final mask; useful for ensuring the head surface encloses all expected tissue.
+- `--subject` / `--s` resolves input/output paths automatically from `$SUBJECTS_DIR`; `--sd` overrides the subjects directory used by this resolution.
 
 ## Typical Use Cases
 
@@ -109,7 +123,7 @@ mri_seghead --invol T1.mgz --outvol head.mgz --thresh1 20 --thresh2 255
 mri_seghead --invol T1.mgz --outvol head.mgz --dilate 2
 
 # Check signal behind head
-mri_seghead --invol T1.mgz --outvol head.mgz --signal --outbox behind_head_box.mgz
+mri_seghead --invol T1.mgz --outvol head.mgz --get-signal-behind-head --outbox behind_head_box.mgz
 ```
 
 ## Pipeline Context
@@ -125,7 +139,7 @@ Not called by `recon-all` directly but used in MEG/EEG pre-processing workflows.
 > The output mask uses value 255 by default (not 1). Code that checks `if (mask > 0.5)` will work correctly, but code expecting binary 0/1 values needs to normalise first.
 
 > [!gotcha] Conforming orientation
-> The `--signal` computation temporarily resamples the volume to LIA (conform) orientation. The result is reported on stdout.
+> The `--get-signal-behind-head` computation temporarily resamples the volume to LIA (conform) orientation. The result is reported on stdout.
 
 ## Related Tools
 
@@ -134,6 +148,6 @@ Not called by `recon-all` directly but used in MEG/EEG pre-processing workflows.
 
 ## Confidence and Gaps
 
-**Confident (from source):** All flags, fill algorithm, signal-behind-head computation, connected component selection.
+**Confident (from source):** All flags, fill algorithm, `--get-signal-behind-head` computation, connected component selection.
 
 **Uncertain:** Automatic threshold selection logic when `thresh1`/`thresh2` are -1.

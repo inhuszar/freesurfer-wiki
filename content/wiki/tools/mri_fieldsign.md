@@ -68,13 +68,17 @@ Optional processed phase maps:
 
 The field sign $\text{FS}(v)$ at surface vertex $v$ is the sign of the cross-product of the 2D gradients of eccentricity $E$ and polar angle $P$ on the cortical surface:
 
-$$\text{FS}(v) = \text{sign}\left( \nabla_s E(v) \times \nabla_s P(v) \right)$$
+$$
+\text{FS}(v) = \text{sign}\left( \nabla_s E(v) \times \nabla_s P(v) \right)
+$$
 
 where $\nabla_s$ denotes the surface gradient. This is the 2D Jacobian determinant of the mapping from cortical surface coordinates to visual field coordinates. A positive sign indicates that the cortical and visual field coordinate systems have the same handedness (non-mirror representation); negative sign indicates mirror representation.
 
 > [!math] Field sign from polar and eccentricity
 > Let $\mathbf{u} = \nabla_s E$ and $\mathbf{v} = \nabla_s P$ be surface gradient vectors. Then:
-> $$\text{FS} = \text{sign}(u_x v_y - u_y v_x)$$
+> $$
+> \text{FS} = \text{sign}(u_x v_y - u_y v_x)
+> $$
 > where subscripts denote components in a local surface coordinate frame.
 
 The function `RETcompute_fieldsign2()` implements this computation using surface vertex neighbours and the spherical coordinate representation.

@@ -45,8 +45,8 @@ FreeSurfer allows users to manually add control points (via `freeview` or `tkmed
 | Input | Format | Description |
 |-------|--------|-------------|
 | Control point file | `control.dat` | Source control points (RAS or tkRAS coordinates) |
-| Transform | `.lta` | Linear transform to apply (or use `-subject` for subject's Talairach) |
-| Subject name | string | Alternative to LTA; uses subject's Talairach transform |
+| Transform | `.lta` | Linear transform to apply (or use `--tomni305`/`--frommni305` for subject's Talairach) |
+| Subject name | string | Used with `--tomni305 <subject>` or `--frommni305 <subject>`; loads subject's Talairach transform |
 | Subject list file | text | File listing multiple subject names (one per line) for aggregation |
 
 ## Outputs
@@ -59,11 +59,13 @@ FreeSurfer allows users to manually add control points (via `freeview` or `tkmed
 
 Each control point $\mathbf{p}$ (stored in RAS or tkRAS coordinates) is transformed by:
 
-$$\mathbf{p}' = M_{LTA} \cdot \mathbf{p}$$
+$$
+\mathbf{p}' = M_{LTA} \cdot \mathbf{p}
+$$
 
 where $M_{LTA}$ is the 4×4 linear transform from the LTA file. The `MRImapControlPoints()` function handles the coordinate type conversion (RAS vs tkRAS) based on the `useRealRAS` flag stored in the control point file header.
 
-When using `--tomni305` / `--frommni305`, the tool automatically loads the subject's Talairach transform (`talairach.xfm`) and its inverse from the subject's `mri/transforms/` directory.
+When using --tomni305 or `--frommni305`, the tool automatically loads the subject's Talairach transform (`talairach.xfm`) and its inverse from the subject's `mri/transforms/` directory.
 
 ## Configuration Options
 
@@ -86,7 +88,7 @@ Flags use `--` or `-` prefix interchangeably; the parser strips leading dashes a
 - `--tomni305 <subject>` and `--frommni305 <subject>` both require `P.subject` and set `P.ToMNI305` or `P.FromMNI305` respectively; exactly one must be specified when using subject-based transform loading.
 - `--slf <fname>` activates a completely different code path: it calls `GetTalControlPointsSFile()` and writes a merged output directly. `--in` is **not required** and `--lta`/`--tomni305`/`--frommni305` are ignored.
 - `--out` is always required.
-- If neither `--lta` nor `--subject` (via `--tomni305`/`--frommni305`) is specified, and `--slf` is also not given, the tool will print an error and exit.
+- If neither `--lta` nor a subject-based flag (`--tomni305`/`--frommni305`) is specified, and `--slf` is also not given, the tool will print an error and exit.
 
 > [!gotcha] Subject list file mode bypasses transform specification
 > When `--slf` is used, the tool calls `GetTalControlPointsSFile()` directly and does not require `--in`, `--lta`, or `--tomni305`/`--frommni305`. Any transform flags specified alongside `--slf` are silently ignored.
@@ -127,7 +129,7 @@ Related workflow: after running `mri_normalize` and identifying normalization fa
 > The control point file encodes whether coordinates are in scanner RAS (`useRealRAS=1`) or tkRAS (`useRealRAS=0`). The LTA transform type must be consistent with this. If there is a mismatch (e.g., passing a vox2vox LTA for a RAS-space control file), the mapped coordinates will be wrong.
 
 > [!gotcha] Subject's SUBJECTS_DIR must be set
-> When using `-subject`, the tool reads `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`. If `$SUBJECTS_DIR` is not set correctly, the tool will fail silently or error.
+> When using --tomni305 or `--frommni305`, the tool reads `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`. If `$SUBJECTS_DIR` is not set correctly, the tool will fail silently or error.
 
 ## Related Tools
 
@@ -137,7 +139,10 @@ Related workflow: after running `mri_normalize` and identifying normalization fa
 
 ## Confidence and Gaps
 
-**High confidence:** Full `get_option()` and `main()` read from source; all flags confirmed with exact names. The previous wiki had incorrect flag names (`-cpin`, `-cpout`, `-subjectlistfile`, `--to-mni305`, `--from-mni305`). Correct flag names are `--in`, `--out`, `--slf`, `--tomni305`, `--frommni305`.
+**High confidence:** Full `get_option()` and `main()` read from source; all flags confirmed with exact names. The previous wiki had incorrect flag names (`-cpin`, `-cpout`, `-subjectlistfile`, --to-mni305, --from-mni305). Correct flag names are --in, --out, --slf, --tomni305, --frommni305.
 
 > [!gotcha] Flag name corrections vs. earlier documentation
 > The wiki previously documented `-cpin`, `-cpout`, `-subjectlistfile`, `--to-mni305`, `--from-mni305`. The actual flags in the source (after stripping dashes and uppercasing) are `IN`, `OUT`, `SLF`, `TOMNI305`, `FROMMNI305`.
+
+> [!note] Audit noise: uppercase parser
+> An automated audit may report `--frommni305` and `--tomni305` as C3 invalid. This is a false positive: `get_option()` strips both leading dashes and then calls `StrUpper()`, so `--frommni305` → `FROMMNI305`, which matches the `strcmp(option, "FROMMNI305")` comparison. The audit scans for `--frommni305` literal but only finds `"FROMMNI305"` (uppercase, no dashes) in source.

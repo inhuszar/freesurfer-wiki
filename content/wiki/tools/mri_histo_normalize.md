@@ -61,7 +61,7 @@ Unlike [[mri_histo_eq]] (which uses CDF matching), this tool applies a linear (s
 | Input volume name | Filename stem of the per-subject volumes |
 | Subject list | One subject name per argument (between input and output) |
 | Output volume name | Where to write the normalized result |
-| `$SUBJECTS_DIR` | Subject directory (from environment or `--sdir`) |
+| `$SUBJECTS_DIR` | Subject directory (from environment or `-sdir`) |
 | Optional mask | Binary mask limiting the region used for histogram computation |
 
 Usage pattern:
@@ -79,10 +79,14 @@ mri_histo_normalize <input_vol> <subject1> <subject2> ... <output_vol>
 
 The tool uses a linear histogram normalization approach. For each subject $i$, a linear mapping $y = a_i x + b_i$ is determined by aligning the subject's histogram to the template histogram. The mapping minimizes an RMS criterion:
 
-$$\text{RMS}_i = \sqrt{\frac{1}{N} \sum_v (y_{i,v}' - y_\text{template,v})^2}$$
+$$
+\text{RMS}_i = \sqrt{\frac{1}{N} \sum_v (y_{i,v}' - y_\text{template,v})^2}
+$$
 
 Iteration continues until:
-$$\bar{\text{RMS}} < \text{tol}$$
+$$
+\bar{\text{RMS}} < \text{tol}
+$$
 
 where $\text{tol}$ defaults to 0.5 (average RMS change in voxel intensities).
 
@@ -90,13 +94,13 @@ The template histogram `htemplate` is built from the average of all input histog
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--sdir` | `<dir>` | Override `$SUBJECTS_DIR` |
-| `--mask` | `<file>` | Mask volume for histogram computation |
-| `--xfm` | `<file>` | Transform file for alignment |
-| `--tol` | `<val>` | Convergence tolerance (default: 0.5) |
-| `--adaptive` | — | Use adaptive normalization |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR` |
+| `-mask` | `<file>` | — | Mask volume for histogram computation |
+| `-t <file>` | `<file>` | — | Transform file for alignment (`case 'T':`) |
+| `-tol` | `<val>` | 0.5 | Convergence tolerance (average RMS change in voxel intensities) |
+| `-a` | — | off | Use adaptive normalization (`case 'A':`) |
 
 > [!gap] Flag list reconstructed from source — needs verification
 > The flags above are inferred from source variable declarations. Complete help output needed.
@@ -104,8 +108,8 @@ The template histogram `htemplate` is built from the average of all input histog
 ## Configuration Interactions
 
 - Up to 100 subjects can be processed simultaneously (`MAX_SUBJECTS = 100`).
-- `--mask` restricts histogram computation to brain voxels, preventing background from skewing the intensity mapping.
-- `--tol` controls convergence sensitivity; lower values require more iterations.
+- `-mask` restricts histogram computation to brain voxels, preventing background from skewing the intensity mapping.
+- `-tol` controls convergence sensitivity; lower values require more iterations.
 
 ## Typical Use Cases
 

@@ -13,7 +13,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The precise connectivity map format and how it is used for registration is not determined"
 tags:
@@ -68,13 +68,17 @@ Constants:
 
 The correlation between vertex $v$ on the surface and voxel $x$ in the volume is:
 
-$$C(v, x) = \frac{\text{cov}(s_v, f_x)}{\sigma_{s_v} \sigma_{f_x}}$$
+$$
+C(v, x) = \frac{\text{cov}(s_v, f_x)}{\sigma_{s_v} \sigma_{f_x}}
+$$
 
 where $s_v$ is the surface time series at vertex $v$ and $f_x$ is the volume time series at voxel $x$.
 
 Registration minimises the error between the moving subject's correlation map and the fixed group-average map:
 
-$$E(\phi) = \text{error}(\phi \circ C_{mov}, C_{fixed})$$
+$$
+E(\phi) = \text{error}(\phi \circ C_{mov}, C_{fixed})
+$$
 
 The warp gradient is computed by `compute_warp_gradient` / `compute_hemi_warp_gradient` and applied via `warp_hemi` / `warp_surface`.
 
@@ -82,36 +86,36 @@ Powell minimisation is used for an additional weight optimisation step.
 
 ## Configuration Options
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `--subjects <s1> <s2> ...` | strings | List of subject names. Parsed until the next `--` flag is encountered. |
-| `--trgsubject <name>` | string | Name of the target (atlas/group-average) subject. |
-| `--prior <name>` | string | Name of the prior surface overlay file. |
-| `--label <name>` | string | Name of the label defining subcortical or cortical seed regions. |
-| `--temp-vol <file>` | string | Template volume file (used to define the output space). |
-| `--sdir <dir>` | string | Override `SUBJECTS_DIR`. |
-| `--hemi <hemi>` | string | Hemisphere (`lh` or `rh`). |
-| `--output <name>` | string | Output file prefix. |
-| `--cmat <name>` | string | Connectivity matrix name. |
-| `--fmri <vol> <surf>` | 2 strings | fMRI volume file and surface file (specifying a run's fMRI data). |
-| `--aseg <file> <label>` | string + int | Anatomical segmentation file and the label index within it to use as seed region. |
-| `--tol <f>` | float | Convergence tolerance for the warp. |
-| `--dt <f>` | float | Gradient descent step size. |
-| `--dilate <N>` | integer | Number of label dilation iterations applied to seed labels. |
-| `--ds <N>` | integer | Downsampling factor. |
-| `--averages <N>` | integer | Maximum number of gradient averages. |
-| `--min_averages <N>` | integer | Minimum number of gradient averages. |
-| `--max_iters <N>` | integer | Maximum number of warp iterations. |
-| `--maps <N>` | integer | Number of connectivity maps to use. |
-| `--runs <N>` | integer | Number of fMRI runs per subject. |
-| `--create_only` | flag | Only create the connectivity maps; do not register. |
-| `--v <vno>` | integer | Debug a specific vertex by number (`Gdiag_no`). |
-| `--debug_voxel <x> <y> <z>` | 3 integers | Enable debugging for voxel at coordinates `(x, y, z)`. |
-| `--debug` | flag | Enable verbose debug output. |
-| `--checkopts` | flag | Check options and exit without running. |
-| `--nocheckopts` | flag | Disable option checking. |
-| `--help` | flag | Print usage and exit. |
-| `--version` | flag | Print version string and exit. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--subjects <s1> <s2> ...` | strings | — | List of subject names. Parsed until the next `--` flag is encountered. |
+| `--trgsubject <name>` | string | — | Name of the target (atlas/group-average) subject. |
+| `--prior <name>` | string | — | Name of the prior surface overlay file. |
+| `--label <name>` | string | — | Name of the label defining subcortical or cortical seed regions. |
+| `--temp-vol <file>` | string | — | Template volume file (used to define the output space). |
+| `--sdir <dir>` | string | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
+| `--hemi <hemi>` | string | — | Hemisphere (`lh` or `rh`). |
+| `--output <name>` | string | — | Output file prefix. |
+| `--cmat <name>` | string | — | Connectivity matrix name. |
+| `--fmri <vol> <surf>` | 2 strings | — | fMRI volume file and surface file (specifying a run's fMRI data). |
+| `--aseg <file> <label>` | string + int | — | Anatomical segmentation file and the label index within it to use as seed region. |
+| `--tol <f>` | float | `0.01` | Convergence tolerance for the warp. |
+| `--dt <f>` | float | `0.1` | Gradient descent step size. |
+| `--dilate <N>` | integer | `0` | Number of label dilation iterations applied to seed labels. |
+| `--ds <N>` | integer | `0` | Downsampling factor. |
+| `--averages <N>` | integer | `16` | Maximum number of gradient averages. |
+| `--min_averages <N>` | integer | `16` | Minimum number of gradient averages. |
+| `--max_iters <N>` | integer | `500` | Maximum number of warp iterations. |
+| `--maps <N>` | integer | `100` | Number of connectivity maps to use. |
+| `--runs <N>` | integer | `1` | Number of fMRI runs per subject. |
+| `--create_only` | flag | on | Only create the connectivity maps; do not register. |
+| `--v <vno>` | integer | — | Debug a specific vertex by number (`Gdiag_no`). |
+| `--debug_voxel <x> <y> <z>` | 3 integers | — | Enable debugging for voxel at coordinates `(x, y, z)`. |
+| `--debug` | flag | off | Enable verbose debug output. |
+| `--checkopts` | flag | off | Check options and exit without running. |
+| `--nocheckopts` | flag | off | Disable option checking. |
+| `--help` | flag | — | Print usage and exit. |
+| `--version` | flag | — | Print version string and exit. |
 
 > [!gotcha] `--subjects` parsing terminates on `--` flags
 > The `--subjects` flag reads all subsequent arguments until it encounters one starting with `--`. All subject names must therefore appear together before any other `--` flag.
@@ -121,7 +125,7 @@ Powell minimisation is used for an additional weight optimisation step.
 
 ## Configuration Interactions
 
-- `--create_only` skips registration; use it to precompute connectivity maps for later registration.
+- `--create_only` skips registration; use it to precompute connectivity maps for later registration. Note: `create_only` is `1` by default in the source, so registration never runs unless this default is changed by a future code update.
 - `--averages` and `--min_averages` bracket the number of gradient smoothing averages applied during warp estimation.
 - `--ds` downsamples the surface/volume data before computing correlations, trading accuracy for speed.
 - Requires paired `--fmri` calls for each run across each subject (total calls = `n_subjects × n_runs`).

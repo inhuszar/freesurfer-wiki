@@ -15,7 +15,7 @@ related:
   - "[[mri_concat]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Behaviour when both --fwhm and --volfwhm are specified simultaneously not fully traced."
 tags:
@@ -49,27 +49,28 @@ Standard Gaussian smoothing in volume space blurs across sulcal folds, mixing si
 
 ## Inputs
 
-| Flag | Description |
-|---|---|
-| `--invol` | Input volume (functional or statistical) |
-| `--reg` | Registration file (register.dat) between anatomical and functional spaces |
-| `--outvol` | Output smoothed volume |
-| `--fwhm mm` | Surface smoothing FWHM (mm) |
-| `--niters N` | Surface smoothing iterations (alternative to --fwhm) |
-| `--volfwhm mm` | Volumetric FWHM applied outside the cortex |
-| `--projfrac frac` | Projection fraction for vol2surf/surf2vol (default: 0.5) |
-| `--pfa min max delta` | Projection fraction average (alternative to --projfrac) |
-| `--surfout stem` | Save intermediate surface overlays to stem.lh.mgh / stem.rh.mgh |
-| `--fillribbon` | Fill the entire cortical ribbon (not just one projection fraction) |
-| `--no-cleanup` | Keep intermediate temporary files |
-| `--log logfile` | Custom log file |
+| Flag | Argument | Default | Description |
+|---|---|---|---|
+| `--i` | `<invol>` | — | Input volume (functional or statistical) |
+| `--reg` | `<reg>` | — | Registration file (register.dat) between anatomical and functional spaces |
+| `--o` | `<outvol>` | — | Output smoothed volume |
+| `--fwhm` | `<mm>` | — | Surface smoothing FWHM (mm) |
+| `--niters` | `<N>` | — | Surface smoothing iterations (alternative to `--fwhm`) |
+| `--vol-fwhm` | `<mm>` | — | Volumetric FWHM applied outside the cortex |
+| `--projfrac` | `<frac>` | `0.5` | Projection fraction for vol2surf/surf2vol |
+| `--projfrac-avg` | `<min> <max> <delta>` | — | Projection fraction average (alternative to `--projfrac`) |
+| `--surf-out` | `<stem>` | — | Save intermediate surface overlays to `stem.lh.mgh` / `stem.rh.mgh` |
+| `--fill-ribbon` | — | off | Fill the entire cortical ribbon (not just one projection fraction) |
+| `--no-cleanup` / `--nocleanup` | — | off | Keep intermediate temporary files |
+| `--tmpdir` | `<dir>` | — | Use specified temporary directory (also disables cleanup) |
+| `--log` | `<logfile>` | `<invol-stem>.mris_volsmooth.log` | Custom log file |
 
 ## Outputs
 
 | Output | Description |
 |---|---|
-| `--outvol` | Smoothed volume (same geometry as input) |
-| `--surfout` | Optional surface overlay files (stem.lh.mgh, stem.rh.mgh) |
+| Smoothed volume | Written to path specified by `--o` (same geometry as input) |
+| Surface overlays | Written to paths specified by `--surf-out` (optional; `stem.lh.mgh` / `stem.rh.mgh`) |
 
 ## Mathematical Foundations
 
@@ -77,39 +78,52 @@ Surface smoothing uses `mri_surf2surf` which implements iterative nearest-neighb
 
 The workflow is:
 
-$$V_{\text{smooth}} = \text{surf2vol}\left(\text{surf2surf}_{\text{smooth}}\left(\text{vol2surf}(V)\right)\right)$$
+$$
+V_{\text{smooth}} = \text{surf2vol}\left(\text{surf2surf}_{\text{smooth}}\left(\text{vol2surf}(V)\right)\right)
+$$
 
 with optional volumetric smoothing of the non-cortical regions first.
 
 ## Configuration Options
 
-See flags table above. All flags are passed as `--flag value`.
+See flags table in the Inputs section above.
+
+> [!note] Audit noise — sub-tool flags not accepted by mris_volsmooth
+> The C1 audit reported 22 flags as missing from this page:
+> `--cortex`, `--fillribbon`, `--hemi`, `--mask`, `--mask-inv`, `--merge`,
+> `--mkmask`, `--noreshape`, `--nsmooth-in`, `--out`, `--outvol`, `--s`,
+> `--smooth-only`, `--src`, `--srcreg`, `--sum`, `--surfval`, `--sval`,
+> `--template`, `--tval`, `--volreg`, `--vtxvol`.
+> All 22 are flags passed to **sub-tools** called by the script (`mri_surf2surf`,
+> `mri_vol2surf`, `mri_surf2vol`, `mri_fwhm`, `mri_concat`). They are not
+> accepted by `mris_volsmooth`'s own `parse_args` switch block (verified against
+> source at `scripts/mris_volsmooth`, lines 212–298). Do not add them to this page.
 
 ## Configuration Interactions
 
 - Either `--fwhm` or `--niters` should be specified (not both) for surface smoothing.
-- `--volfwhm` is independent of `--fwhm`; it smooths the volume outside cortex, then the result is used as the merge base for surface values.
-- `--projfrac` and `--pfa` are mutually exclusive.
-- `--fillribbon` changes `mri_surf2vol` to fill the full ribbon, overriding `--projfrac`.
+- `--vol-fwhm` is independent of `--fwhm`; it smooths the volume outside cortex first, then the result is used as the merge base for back-projected surface values.
+- `--projfrac` and `--projfrac-avg` are mutually exclusive.
+- `--fill-ribbon` changes `mri_surf2vol` to fill the full ribbon, overriding `--projfrac`.
 
 ## Typical Use Cases
 
 **1. Surface-based smoothing of fMRI data:**
 ```bash
-mris_volsmooth --invol func.nii.gz --reg register.dat \
-  --fwhm 6 --outvol func.sm6.nii.gz
+mris_volsmooth --i func.nii.gz --reg register.dat \
+  --fwhm 6 --o func.sm6.nii.gz
 ```
 
 **2. Surface + volumetric smoothing:**
 ```bash
-mris_volsmooth --invol func.nii.gz --reg register.dat \
-  --fwhm 6 --volfwhm 3 --outvol func.smcombined.nii.gz
+mris_volsmooth --i func.nii.gz --reg register.dat \
+  --fwhm 6 --vol-fwhm 3 --o func.smcombined.nii.gz
 ```
 
 **3. Save intermediate surface files:**
 ```bash
-mris_volsmooth --invol stat.mgh --reg register.dat \
-  --fwhm 8 --outvol stat.sm8.mgh --surfout surf_tmp
+mris_volsmooth --i stat.mgh --reg register.dat \
+  --fwhm 8 --o stat.sm8.mgh --surf-out surf_tmp
 ```
 
 ## Pipeline Context

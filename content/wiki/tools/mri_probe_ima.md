@@ -13,10 +13,11 @@ related:
   - "[[mri_convert]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
-  - "Complete list of recognized attribute names"
+  - "Complete list of recognized --attr attribute names (defined in imautils.h)"
   - "Full IMA file format specification"
+  - "Accepted type strings for --o (short, int, long, float, double, string inferred from source but not exhaustive)"
 tags:
   - siemens
   - ima
@@ -43,13 +44,13 @@ Siemens `.ima` files are a legacy proprietary format predating DICOM, used by ol
 
 ## Inputs
 
-- **IMA file:** Path to a Siemens `.ima` file, specified with `--f`.
+- **IMA file:** Path to a Siemens `.ima` file, specified with --i (not --f; that flag does not exist).
 - **Query parameters:** Attribute name, offset, data type, or other flags.
 
 ## Outputs
 
 - Printed to stdout: The queried header field value, or general file information.
-- Optional pixel data dump to a file (binary stem, specified with `--bstem`).
+- Optional pixel data dump to bshort files (binary stem, specified with `--ob`).
 
 ## Mathematical Foundations
 
@@ -57,18 +58,26 @@ No computation — header field parsing and byte-offset extraction from a propri
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--f` | `<imafile>` | Siemens `.ima` file to probe |
-| `--t` | `<typestring>` | Data type string for value interpretation (e.g., `int`, `float`, `string`) |
-| `--o` | `<offset>` | Byte offset within the IMA header |
-| `--len` | `<int>` | String length when reading string-type fields |
-| `--key` | `<str>` | Named key to query (attribute name) |
-| `--keyno` | `<int>` | Key number to query (positional within header struct) |
-| `--dumpfileinfo` | (none) | Dump all available file information to stdout |
-| `--attr` | `<attrname>` | Query a named attribute (e.g., `isima` for Siemens IMA check) |
-| `--bstem` | `<stem>` | Dump pixel data to files with this basename |
-| `--debug` | (none) | Enable debug output |
+Flag list verified against `mri_probe_ima/mri_probe_ima.cpp`.
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `<imafile>` | — | Siemens `.ima` file to probe; replaces incorrect --f |
+| `--o` | `<offset> <type> [<len>]` | — | Byte offset, data type string, and optional string length; replaces split --o/--t/--len |
+| `--key` | `<str>` | — | Named key to query from the IMA dictionary |
+| `--keyno` | `<int>` | — | Key number to query (positional within header struct) |
+| `--attr` | `<attrname>` | — | Query a named attribute (e.g., `isima` for Siemens IMA check) |
+| `--fileinfo` | — | off | Dump all available interpreted file information to stdout; replaces incorrect --dumpfileinfo |
+| `--ob` | `<stem>` | `img` | Dump pixel data to bshort files with this basename; replaces incorrect --bstem |
+| `--dictionary` | — | off | Print the IMA dictionary to stdout and exit |
+| `--verbose` | — | off | Verbose output |
+| `--debug` | — | off | Enable debug output |
+
+> [!gotcha] --f, --t, --len, --bstem, --dumpfileinfo do not exist
+> The IMA file is specified with `--i`. The offset/type/length query is a single `--o offset type [len]` flag. File info dumping is `--fileinfo`. Pixel dump stem is `--ob`. None of the former names exist in the source.
+
+> [!gap] `--o` data type strings
+> The accepted type strings for `--o` are parsed internally but not enumerated in the help text. From code context they include: `short`, `int`, `long`, `float`, `double`, `string`.
 
 **Known attribute names for `--attr`:**
 
@@ -82,23 +91,28 @@ No computation — header field parsing and byte-offset extraction from a propri
 ## Configuration Interactions
 
 - `--attr isima` performs a format check and returns 0 or 1; this is independent of other query flags.
-- `--dumpfileinfo` prints all available header information and can be combined with `--o`/`--t` for additional targeted queries.
-- `--bstem` writes pixel data to binary files named `<bstem>_NNN.bshort` (or similar); the number of output files depends on the number of frames.
+- `--fileinfo` prints all available interpreted header information and can be combined with other targeted queries.
+- `--ob <stem>` writes pixel data to bshort binary files; the exact naming convention depends on the number of frames.
+- `--o <offset> <type>` requires at least two arguments; if `type` is `string`, a third argument `<len>` is required.
+- `--dictionary` prints the dictionary and exits immediately without requiring `--i`.
 
 ## Typical Use Cases
 
 ```bash
 # Check if a file is a valid Siemens IMA
-mri_probe_ima --f scan.ima --attr isima
+mri_probe_ima --i scan.ima --attr isima
 
-# Dump all file information
-mri_probe_ima --f scan.ima --dumpfileinfo
+# Dump all interpreted file information
+mri_probe_ima --i scan.ima --fileinfo
 
 # Query a specific header field by offset and type
-mri_probe_ima --f scan.ima --o 512 --t int
+mri_probe_ima --i scan.ima --o 512 int
 
 # Query by named key
-mri_probe_ima --f scan.ima --key TR
+mri_probe_ima --i scan.ima --key TR
+
+# Print the IMA dictionary (no file needed)
+mri_probe_ima --dictionary
 ```
 
 ## Pipeline Context
@@ -121,9 +135,12 @@ mri_probe_ima --f scan.ima --key TR
 
 ## Confidence and Gaps
 
-**High confidence:** Source language, file location, known attribute `isima`, general flag structure.
+**High confidence:** Full flag list verified from source. `--i` (not --f), `--fileinfo` (not --dumpfileinfo), `--ob` (not --bstem), `--o offset type [len]` (not split into separate flags) all confirmed. `--dictionary`, `--key`, `--keyno`, `--attr`, `--verbose`, `--debug` confirmed.
 
-**Medium confidence:** Full attribute list and IMA header structure (requires reading `imautils.h`).
+**Medium confidence:** Full attribute list for `--attr` and IMA header structure (requires reading `imautils.h`).
 
 > [!gap] IMA format documentation
-> The Siemens IMA format is proprietary and not publicly documented. The `imautils.h` header defines the recognized fields.
+> The Siemens IMA format is proprietary and not publicly documented. The `imautils.h` header defines the recognized fields and attribute names.
+
+> [!gap] `--view` removed
+> The `--view` flag is listed as `#if 0` (disabled) in the print_usage function, indicating it was compiled out. It is not a usable option.

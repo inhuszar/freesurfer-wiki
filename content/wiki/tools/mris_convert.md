@@ -15,7 +15,7 @@ related:
   - "[[curv-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "GIFTI multi-array (mergegifti/splitgifti) behaviour not fully documented."
   - "Upsample algorithm details for the --upsample flag need verification."
@@ -98,7 +98,9 @@ Most conversions are format changes with no coordinate transform. Exceptions:
 
 **Coordinate system conversion** (`--to-scanner` / `--to-tkr`):
 
-$$\mathbf{x}_{\text{scanner}} = \mathbf{M}_{\text{vox2ras}} \cdot \mathbf{M}_{\text{vox2ras-tkr}}^{-1} \cdot \mathbf{x}_{\text{tkr}}$$
+$$
+\mathbf{x}_{\text{scanner}} = \mathbf{M}_{\text{vox2ras}} \cdot \mathbf{M}_{\text{vox2ras-tkr}}^{-1} \cdot \mathbf{x}_{\text{tkr}}
+$$
 
 where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}_{\text{vox2ras}}$ is the scanner-to-vox matrix. In FreeSurfer code: `MRIStkr2Scanner()` and `MRISscanner2Tkr()`.
 
@@ -110,46 +112,48 @@ where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-p` | Input is a patch file | off |
-| `-c <scalars...>` | Input scalar overlay files | — |
-| `-f <func_file>` | Input functional data | — |
-| `-o <origname>` | Read original vertex positions | — |
-| `-s <scale>` | Scale vertex XYZ by scale factor | 1 |
-| `-r` | Rescale to group-average total area | off |
-| `-t <subject>` | Apply Talairach xfm of subject | — |
-| `-n` | Output ASCII with surface normals | off |
-| `-v` | Write vertex neighbour table to ASCII | off |
-| `-a` | Print only XYZ to ASCII (no faces) | off |
-| `--annot <file>` | Input annotation file | — |
-| `--ctab <file>` | Input custom colour table | — |
-| `--parcstats <file>` | Label/value pairs for scalar output | — |
-| `--da_num <n>` | GIFTI DataArray number to use | -1 |
-| `--label <file> <name>` | Input label file and name | — |
-| `--labelstats <file>` | Label stats for GIFTI | — |
-| `--combinesurfs` | Combine two input surfaces into one | off |
-| `--mergegifti` | Generate combined GIFTI with surface + overlays | off |
-| `--splitgifti` | Separate GIFTI surface and data arrays | off |
-| `--giftioutdir <dir>` | Output directory for splitgifti | — |
-| `--delete-cmds` | Delete command history from surface | off |
-| `--center` | Move centre of surface to origin | off |
-| `--vol-geom <vol>` | Use MRI vol to set volume geometry | — |
-| `--remove-vol-geom` | Set vg valid flag to 0 | off |
-| `--to-surf <surfcoords>` | Copy coordinates from another surface | — |
-| `--to-scanner` / `--userealras` | Convert tkr coords to scanner RAS | off |
-| `--to-tkr` / `--usesurfras` | Convert scanner coords to tkr RAS | off |
-| `--upsample <N> <SortType>` | Upsample by subdividing edges/faces | — |
-| `--volume <subj> <hemi> <out>` | Compute vertex-wise volume (th3) | — |
-| `--volume2 <white> <pial> <label> <out>` | Vertex-wise volume with label mask | — |
-| `--area <surf> <out>` | Compute vertex-wise area | — |
-| `--max-edge-stat <surf> <id> <out>` | Max-edge statistic (length/dot/angle) | — |
-| `--angle <surf> <out>` | Compute orientation angles | — |
-| `--label2mask <surf> <label> <out>` | Convert label to binary mask | — |
-| `--to-curv <in> <surf> <out>` | Convert input to curv format | — |
-| `--left-right-rev` | Left-right reverse surface | off |
-| `--cras_add` | Shift centre to scanner coord (deprecated) | off |
-| `--cras_subtract` | Reverse cras_add (deprecated) | off |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-p` | | `off` | Input is a patch file |
+| `-c` | `<scalar1> [scalar2...]` | `—` | Input scalar overlay files |
+| `-f` | `<func_file>` | `—` | Input functional data |
+| `-o` | `<origname>` | `—` | Read original vertex positions |
+| `-s` | `<scale>` | `0` | Scale vertex XYZ by scale factor |
+| `-r` | | `off` | Rescale to group-average total area |
+| `-t` | `<subject>` | `—` | Apply Talairach xfm of subject |
+| `-n` | | `off` | Output ASCII with surface normals |
+| `-v` | | `off` | Write vertex neighbour table to ASCII |
+| `-a` | | `off` | Print only XYZ to ASCII (no faces) |
+| `--annot` | `<file>` | `—` | Input annotation file |
+| `--ctab` | `<file>` | `—` | Input custom colour table |
+| `--parcstats` | `<file>` | `—` | Label/value pairs for scalar output |
+| `--da_num` | `<n>` | `-1` | GIFTI DataArray number to use |
+| `--label` | `<file> <name>` | `—` | Input label file and name |
+| `--labelstats` | `<file>` | `—` | Label stats for GIFTI |
+| `--combinesurfs` | | `off` | Combine two input surfaces into one |
+| `--mergegifti` | | `off` | Generate combined GIFTI with surface + overlays |
+| `--splitgifti` | | `off` | Separate GIFTI surface and data arrays |
+| `--giftioutdir` | `<dir>` | `—` | Output directory for splitgifti |
+| `--delete-cmds` | | `off` | Delete command history from surface |
+| `--center` / `-center` | | `off` | Move centre of surface to origin |
+| `--vol-geom` | `<vol>` | `—` | Use MRI vol to set volume geometry |
+| `--remove-vol-geom` | | `off` | Set vg valid flag to 0 |
+| `--to-surf` | `<surfcoords>` | `—` | Copy coordinates from another surface |
+| `--to-scanner` / `--userealras` | | `off` | Convert tkr coords to scanner RAS |
+| `--to-tkr` / `--usesurfras` | | `off` | Convert scanner coords to tkr RAS |
+| `--upsample` | `<N> <SortType>` | `—` | Upsample by subdividing edges/faces |
+| `--volume` | `<subj> <hemi> <out>` | `—` | Compute vertex-wise volume (th3) |
+| `--volume2` | `<white> <pial> <label> <out>` | `—` | Vertex-wise volume with label mask |
+| `--area` | `<surf> <out>` | `—` | Compute vertex-wise area |
+| `--max-edge-stat` | `<surf> <id> <out>` | `—` | Max-edge statistic (length/dot/angle) |
+| `--angle` | `<surf> <out>` | `—` | Compute orientation angles |
+| `--label2mask` | `<surf> <label> <out>` | `—` | Convert label to binary mask |
+| `--to-curv` | `<in> <surf> <out>` | `—` | Convert input to curv format |
+| `--left-right-rev` | | `off` | Left-right reverse surface |
+| `--cras_add` / `--cras_correction` | | `off` | Shift centre to scanner coord (deprecated; `--cras_correction` is alias) |
+| `--cras_subtract` / `--cras_remove` | | `off` | Reverse cras_add (deprecated; `--cras_remove` is alias) |
+| `--no-writect` | | `off` | Suppress writing the colour table to the output file |
+| `-nolabel` | — | — | **Not a flag — positional value.** Passing the string `nolabel` as positional argument 4 suppresses label reading. The audit extractor promotes this `strcmp(argv[4], "nolabel")` comparison to pseudo-flag `-nolabel`. |
 
 ## Configuration Interactions
 
@@ -228,7 +232,7 @@ Not part of `recon-all` automatically but used extensively in post-processing:
 > The `.w` format (binary overlay) is automatically handled by extension — it bypasses the normal surface read/write pipeline. If the input or output extension is `.w`, it uses `convertFromWFile()` / `convertToWFile()`.
 
 > [!gotcha] Deprecated cras flags
-> `--cras_add` and `--cras_subtract` are noted as deprecated in the source. They remain for backwards compatibility but `--to-tkr` and `--to-scanner` should be used instead.
+> `--cras_add` and --cras_subtract are noted as deprecated in the source. They remain for backwards compatibility but `--to-tkr` and `--to-scanner` should be used instead.
 
 > [!gotcha] GIFTI annotation colour table writeback
 > The `writect` flag (default 1) controls whether the colour table is written into the GIFTI output. It can be suppressed.
@@ -249,3 +253,6 @@ Not part of `recon-all` automatically but used extensively in post-processing:
 
 > [!gap] Upsample algorithm
 > The `--upsample` edge subdivision algorithm and the effect of `SortType` values (0, 1, 2, 3) were not fully documented from source.
+
+> [!note] Audit noise: single-dash stripping parser
+> An automated audit may report all double-dash flags (e.g., `--center`, `--cras_add`, `--to-scanner`) as C3 invalid. This is a false positive: the `get_option()` function uses `option = argv[1] + 1` to strip the leading dash, leaving a single-dash prefix. It then compares with `!stricmp(option, "-center")` etc., so `--center` (stripped to `-center`) is correctly accepted. The audit scans for `--center` literal and finds only `"-center"` (single-dash). All 18 such flags in the wiki are verified from source. Additionally, `--combinesurf` (without 's') appears only in an error message typo (line 1122); the real parser flag is `--combinesurfs`. The combined tokens `--to-scanner/--userealras` and `--to-tkr/--usesurfras` appear in a printf comment (line 1130) and are extracted by the audit as single combined flags — both components are documented separately in the flag table.

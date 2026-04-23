@@ -14,8 +14,11 @@ related:
   - "[[mri_convert]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
+audit_fixes:
+  - "C2 2026-04-21: added Default column to Configuration Options table (23 flags)"
+  - "C1 2026-04-21: --key and --tag not found in source — not added; --i already documented"
 tags:
   - dicom
   - metadata
@@ -44,7 +47,7 @@ The tool supports several query directives beyond raw tag access, including chec
 
 ## Inputs
 
-- **DICOM file:** Path to a single DICOM file, specified with `--f`.
+- **DICOM file:** Path to a single DICOM file, specified with --i (not --f; that flag does not exist).
 - **Query directive:** The type of query to perform (see options below).
 
 ## Outputs
@@ -57,17 +60,36 @@ No computation — pure DICOM header parsing and value extraction.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--f` | `<dicomfile>` | DICOM file to probe |
-| `--t` | `<group> <element>` | DICOM group and element tag IDs (hex integers) to query |
-| `--d` | `<directive>` | Named directive string (e.g., `filetype`, `tag`, `representation`, `description`, `multiplicity`, `length`, `value`, `haspixeldata`, `dwi`) |
-| `--v` | (none) | Verbose output |
-| `--debug` | (none) | Debug output |
-| `--dcm2niix-dicom-dump` | (none) | Use dcm2niix to dump extended DICOM metadata |
-| `--dicom-extra-info` | (none) | Include extra DICOM info in dcm2niix dump |
-| `--dicomdir` | `<dir>` | DICOM directory for dcm2niix dump |
-| `--series-info` | `<str>` | Series info string for dcm2niix |
+Flag list verified against `mri_probedicom/mri_probedicom.cpp` (`parse_commandline()`, lines 360–508).
+
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--i` | `<dicomfile>` | *(required)* | DICOM file to probe; `--f` does not exist |
+| `--t` | `<group> <element>` | — | DICOM group and element tag IDs (hex integers) to query; sets `DoPartialDump=0` |
+| `--d` | `<directive>` | `value` | Named directive string (see table below); sets `DoPartialDump=0` |
+| `--n` | `<tagname>` | — | Look up a tag by name |
+| `--g` | `<group>` | `-1` | Group tag (hex integer); can be combined with `--e` |
+| `--e` | `<element>` | `-1` | Element tag (hex integer); can be combined with `--g` |
+| `--o` | `<file>` | — | Dump pixel data to file; implicitly sets grouptag=0x7FE0, elementtag=0x10, DoPartialDump=0 |
+| `--ob` | `<file>` | — | Dump binary pixel data as bshort to file; implicitly sets pixel data tag, DoPartialDump=0 |
+| `--max` | — | off | Get max pixel value from pixel data tag (0x7FE0, 0x10); sets DoPartialDump=0 |
+| `--compare` | `<file1> <file2>` | — | Compare two DICOM files using dcm2niix on key parameters; exits immediately |
+| `--compare-thresh` | `<float>` | `0.00001` | Numerical threshold for `--compare`; must precede `--compare` on the command line |
+| `--backslash` | — | off | Use backslash delimiter in multi-value output |
+| `--title` | `<str>` | — | Set window title string when using `--view` |
+| `--view` | — | off | Display image in X window; requires OpenGL (compile-time option); sets DoPartialDump=0 |
+| `--partial` | — | on | Enable partial dump mode (default behaviour when only `--i` is given) |
+| `--siemens-ascii` | — | on | Enable Siemens ASCII header dump during partial dump |
+| `--no-siemens-ascii` | — | — | Disable Siemens ASCII header dump |
+| `--siemens-crit` | — | off | Include Siemens-specific criterion tag (0x51, 0x1016) in partial dump |
+| `--no-name` | — | off | Do not print patient name (0010,0010) in partial dump |
+| `--alt` | — | off | Use alternative Siemens ASCII dump format |
+| `--tsec` | — | off | Convert time value (HHMMSS.FFF format) to seconds |
+| `--verbose` | — | off | Verbose output; `--v` does not exist |
+| `--dcm2niix-dicom-dump` | `<dicomdir> <series_info>` | — | Use dcm2niix to dump extended DICOM metadata; takes two positional arguments |
+| `--extra-info` | — | off | Include extra DICOM info; only effective with `--dcm2niix-dicom-dump`; `--dicom-extra-info` does not exist |
+| `--dictionary` / `--dic` | — | — | Print DICOM dictionary (calls `dcm_print_dictionary`) and exit |
+| `--debug` | — | off | Enable debug output and set `FS_DICOM_DEBUG=1` |
 
 **Query directive constants:**
 
@@ -85,27 +107,39 @@ No computation — pure DICOM header parsing and value extraction.
 
 ## Configuration Interactions
 
-- `--dcm2niix-dicom-dump` is independent of `--t`/`--d`; it invokes a separate dcm2niix-based dump and does not require a group/element specification.
-- `--dicom-extra-info` only has effect when `--dcm2niix-dicom-dump` is also given.
+- --dcm2niix-dicom-dump is independent of --t/--d; it invokes a separate dcm2niix-based dump and takes two arguments directly on the flag (not via --dicomdir/--series-info, which do not exist).
+- `--extra-info` (not --dicom-extra-info) only has effect when `--dcm2niix-dicom-dump` is also given.
 - `--t` and `--d` are complementary: `--t` specifies the tag numerically, `--d` provides the query type.
+- `--g` and `--e` can be used separately to set only the group or element part of a tag.
+- `--compare` reads two filenames as arguments and exits immediately after comparison (no further processing).
+
+> [!gotcha] --f does not exist
+> The DICOM input file flag is --i, not --f. Using --f will produce an "unknown option" error.
+
+> [!gotcha] --dicomdir and --series-info do not exist
+> These flags are not in the source. `--dcm2niix-dicom-dump` takes the directory and series info as two positional arguments on the same flag: `--dcm2niix-dicom-dump <dicomdir> <series_info>`.
+
+> [!gotcha] --dicom-extra-info does not exist
+> The correct flag is `--extra-info`.
 
 ## Typical Use Cases
 
 ```bash
-# Check if a file is a valid DICOM file (exit code 0=yes)
-mri_probedicom --f file.dcm --d filetype
+# Check if a file is a valid DICOM file
+mri_probedicom --i file.dcm --d filetype
 
 # Query a specific DICOM tag (group 0008, element 0060 = Modality)
-mri_probedicom --f file.dcm --t 8 60 --d value
+mri_probedicom --i file.dcm --t 8 60 --d value
 
 # Check for pixel data
-mri_probedicom --f file.dcm --d haspixeldata
+mri_probedicom --i file.dcm --d haspixeldata
 
 # Get TR (repetition time) from tag (0018,0080)
-mri_probedicom --f file.dcm --t 24 128 --d value
+mri_probedicom --i file.dcm --t 24 128 --d value
 
 # Dump extended DICOM info using dcm2niix
-mri_probedicom --dcm2niix-dicom-dump --dicomdir /data/dicom/
+# (directory and series_info are two arguments to --dcm2niix-dicom-dump)
+mri_probedicom --dcm2niix-dicom-dump /data/dicom/ "series001"
 ```
 
 ## Pipeline Context
@@ -117,8 +151,8 @@ mri_probedicom --dcm2niix-dicom-dump --dicomdir /data/dicom/
 > [!gotcha] Exits with non-zero status for non-DICOM files
 > When used as a file type check, the exit code indicates DICOM validity. Scripts should check the exit code, not just the stdout output.
 
-> [!gotcha] Group and element IDs are decimal integers in the code
-> Despite DICOM tags conventionally being written as hex (e.g., `(0018,0080)`), the `--t` flag takes decimal integers. Convert hex to decimal before passing to the flag.
+> [!gotcha] Group and element IDs for `--t` are parsed as hex
+> The source uses `sscanf(pargv[0],"%lx",...)` to parse the group and element values, so they are interpreted as **hexadecimal** integers. Pass the tag values in hex (e.g., `--t 18 80` for tag `(0018,0080)`).
 
 > [!gotcha] OpenGL dependency
 > The source has optional OpenGL/GLUT support (`#ifdef HAVE_OPENGL`) for image display. This is a compile-time option and may not be available in all builds.
@@ -131,4 +165,7 @@ mri_probedicom --dcm2niix-dicom-dump --dicomdir /data/dicom/
 
 ## Confidence and Gaps
 
-**High confidence:** Source language, file location, directive constants (defined as `#define` in source), tag query mechanism, dcm2niix integration.
+**High confidence:** Full flag list verified from source. --i (not --f) is the DICOM file flag. --dicomdir, --series-info, --dicom-extra-info, and --v do not exist. --dcm2niix-dicom-dump takes two positional arguments. Directive constants confirmed from source `#define` values. All remaining flags (--n, --g, --e, --o, --ob, --max, --compare, --compare-thresh, --backslash, --title, --view, --partial, --siemens-ascii, --no-siemens-ascii, --siemens-crit, --no-name, --alt, --tsec, --verbose, --extra-info, --dictionary/--dic) confirmed.
+
+> [!gap] `--view` flag requires OpenGL
+> The `--view` option is guarded by `#ifdef HAVE_OPENGL` in the source. It may not be available in all builds.

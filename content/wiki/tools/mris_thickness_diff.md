@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps: []
 tags:
   - cortical-thickness
@@ -66,11 +66,15 @@ Positional arguments: `surface1 data1 surface2 data2`
 
 For each vertex $v$ on surface 1 at position $\mathbf{p}_{v,1}$, find the nearest vertex $w^*$ on surface 2:
 
-$$w^* = \arg\min_{w \in \text{surface2}} \|\mathbf{p}_{v,1} - \mathbf{p}_{w,2}\|_2$$
+$$
+w^* = \arg\min_{w \in \text{surface2}} \|\mathbf{p}_{v,1} - \mathbf{p}_{w,2}\|_2
+$$
 
 Compute the signed difference:
 
-$$\Delta_v = f_2(w^*) - f_1(v)$$
+$$
+\Delta_v = f_2(w^*) - f_1(v)
+$$
 
 where $f_1$ and $f_2$ are the scalar maps on surface 1 and 2 respectively.
 
@@ -81,6 +85,9 @@ The nearest-neighbor search uses `MRIS_HASH_TABLE` for efficient spatial lookup.
 ## Configuration Options
 
 ### Complete Flag Reference
+
+> [!note] Single-dash flag format
+> `mris_thickness_diff` uses a legacy single-dash option parser (`get_option`). All flags take a single leading dash (e.g., `-out`, `-src`, `-dst`). Double-dash variants (e.g., `--src`) are NOT accepted.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|

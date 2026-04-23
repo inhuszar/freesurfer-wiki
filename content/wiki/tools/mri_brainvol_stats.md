@@ -64,7 +64,9 @@ The computation (`ComputeBrainVolumeStats2` with `KeepCSF=1`) computes multiple 
 **Brain volume** — total non-zero voxels in `brainmask.mgz` × voxel volume
 
 **Estimated Total Intracranial Volume (eTIV)** — computed from the determinant of the talairach transform (a proxy for head size):
-$$\text{eTIV} = \frac{V_{\text{atlas}}}{\det(M_{\text{talairach}})}$$
+$$
+\text{eTIV} = \frac{V_{\text{atlas}}}{\det(M_{\text{talairach}})}
+$$
 
 where $V_{\text{atlas}}$ is the atlas brain volume and $M_{\text{talairach}}$ is the affine transform from subject to Talairach space.
 

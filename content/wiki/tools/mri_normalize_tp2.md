@@ -15,7 +15,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Full option list not verified (binary execution denied)"
   - "Exact recon-all longitudinal stream stage that calls this tool"
@@ -53,11 +53,11 @@ This is analogous to [[mri_normalize]] but adapted for longitudinal consistency:
 |-------|-------------|
 | Input volume (positional arg 1) | T1-weighted volume for `tp2` to be normalized |
 | Output volume (positional arg 2) | Normalized output volume path |
-| `--ctrl1 <fname>` | Control point volume from `tp1` |
-| `--T1_1 <fname>` | T1 volume from `tp1` (for intensity scaling reference) |
-| `--xform <fname>` | LTA transform from `tp2` to `tp1` space |
-| `--mask1 <fname>` | Brain mask for `tp1` (optional) |
-| `--mask2 <fname>` | Brain mask for `tp2` (optional) |
+| `-ctrl <fname>` | Control point volume from `tp1` |
+| `-t1 <fname>` | T1 volume from `tp1` (for intensity scaling reference) |
+| `-xform <fname>` | LTA transform from `tp2` to `tp1` space |
+| `-mask1 <fname>` | Brain mask for `tp1` (optional) |
+| `-mask2 <fname>` | Brain mask for `tp2` (optional) |
 
 ## Outputs
 
@@ -73,46 +73,52 @@ The normalization procedure follows the same bias field estimation as [[mri_norm
 2. A bias field $B(v)$ is estimated by fitting a smooth surface through the intensities at the control point locations, targeting a uniform white matter intensity.
 3. The corrected volume is:
 
-$$I_\text{corrected}(v) = \frac{I(v)}{B(v)}$$
+$$
+I_\text{corrected}(v) = \frac{I(v)}{B(v)}
+$$
 
-The bias field is estimated using local averaging with a Gaussian kernel of sigma `bias_sigma = 8.0` voxels (default).
+The bias field is estimated using local averaging with a Gaussian kernel (default sigma 8.0 voxels, hardcoded in source).
 
 The code also computes intensity scale statistics: mean ($\mu_1$, $\mu_2$), standard deviation ($\sigma_1$, $\sigma_2$), and counts ($n_1$, $n_2$) from masked regions of both timepoints to compute a global linear slope and offset for inter-timepoint intensity calibration.
 
 > [!math] Inter-timepoint intensity scaling
 > A linear model maps `tp1` intensities to `tp2` intensities:
-> $$I_{tp2} = \text{slope} \cdot I_{tp1} + \text{offset}$$
+> $$
+> I_{tp2} = \text{slope} \cdot I_{tp1} + \text{offset}
+> $$
 > The slope and offset are computed from the masked white-matter statistics.
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--ctrl1` | `<fname>` | Control point volume from tp1 (required) |
-| `--T1_1` | `<fname>` | T1 volume from tp1 (required) |
-| `--xform` | `<fname>` | LTA registration transform from tp2 to tp1 (required) |
-| `--invert` | (none) | Invert the LTA transform direction |
-| `--lta_src` | `<fname>` | Source volume geometry for LTA (optional override) |
-| `--lta_dst` | `<fname>` | Destination volume geometry for LTA (optional override) |
-| `--mask1` | `<fname>` | Brain mask for tp1 |
-| `--mask2` | `<fname>` | Brain mask for tp2 |
-| `--bias_sigma` | `<float>` | Sigma of bias field smoothing kernel (default: 8.0) |
-| `--noise_threshold` | `<float>` | Voxels below this intensity are excluded from statistics (default: 1.0) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-ctrl <fname>` | file | — | Control point volume from tp1 (required) |
+| `-t1 <fname>` | file | — | T1 volume from tp1 (required) |
+| `-xform <fname>` | file | — | LTA registration transform from tp2 to tp1 (required) |
+| `-invert` | (none) | off | Invert the LTA transform direction |
+| `-lta_src <fname>` | file | — | Override source volume geometry in LTA (`-src` is an alias) |
+| `-lta_dst <fname>` | file | — | Override destination volume geometry in LTA (`-dst` is an alias) |
+| `-src <fname>` | file | — | Alias for `-lta_src` |
+| `-dst <fname>` | file | — | Alias for `-lta_dst` |
+| `-mask1 <fname>` | file | — | Brain mask for tp1 |
+| `-mask2 <fname>` | file | — | Brain mask for tp2 |
+| `-threshold <val>` | float | 1.0 | Voxels below this intensity are excluded from statistics |
+| `-debug_voxel <x> <y> <z>` | int×3 | — | Enable debug output for the specified voxel coordinate |
 
 ## Configuration Interactions
 
-- `--invert` is only meaningful when the LTA is provided in the `tp1 -> tp2` direction rather than the expected `tp2 -> tp1` direction.
-- `--lta_src` and `--lta_dst` override the volume geometry metadata stored inside the LTA file, useful when the LTA was computed from resampled versions of the volumes.
-- `--mask1` and `--mask2` restrict the intensity statistics to brain tissue, preventing CSF and background from biasing the slope/offset computation.
+- `-invert` is only meaningful when the LTA is provided in the `tp1 -> tp2` direction rather than the expected `tp2 -> tp1` direction.
+- `-lta_src` / `-src` and `-lta_dst` / `-dst` override the volume geometry metadata stored inside the LTA file, useful when the LTA was computed from resampled versions of the volumes.
+- `-mask1` and `-mask2` restrict the intensity statistics to brain tissue, preventing CSF and background from biasing the slope/offset computation.
 
 ## Typical Use Cases
 
 ```bash
 # Normalize tp2 using tp1 control points and a registration transform
 mri_normalize_tp2 \
-  --ctrl1 /subjects/tp1/mri/ctrl.mgz \
-  --T1_1  /subjects/tp1/mri/T1.mgz \
-  --xform /subjects/tp2/mri/transforms/tp2_to_tp1.lta \
+  -ctrl /subjects/tp1/mri/ctrl.mgz \
+  -t1   /subjects/tp1/mri/T1.mgz \
+  -xform /subjects/tp2/mri/transforms/tp2_to_tp1.lta \
   /subjects/tp2/mri/T1.mgz \
   /subjects/tp2/mri/norm.mgz
 ```
@@ -126,7 +132,7 @@ The standard cross-sectional normalization is done by [[mri_normalize]]; this to
 ## Gotchas and Caveats
 
 > [!gotcha] Both tp1 control points and T1 are required
-> The tool will error if either `--ctrl1` or `--T1_1` is not provided. Unlike the cross-sectional `mri_normalize`, there is no fallback to automatic control point detection.
+> The tool will error if either `-ctrl` or `-t1` is not provided. Unlike the cross-sectional `mri_normalize`, there is no fallback to automatic control point detection.
 
 > [!gotcha] Transform direction matters
 > The LTA is expected to map `tp2` voxels to `tp1` space so that control points from `tp1` can be mapped back. Providing the wrong-direction transform (without `-invert`) will silently produce an incorrect normalization.

@@ -70,7 +70,9 @@ Positional arguments:
 
 For each bin of geodesic distances $d_i$, the spatial autocorrelation is:
 
-$$\text{acorr}(d_i) = \frac{\sum_{(u,v): \|u-v\|=d_i} f(u) \cdot f(v)}{\text{count}(d_i)}$$
+$$
+\text{acorr}(d_i) = \frac{\sum_{(u,v): \|u-v\|=d_i} f(u) \cdot f(v)}{\text{count}(d_i)}
+$$
 
 where $f(v)$ is the scalar field value at vertex $v$ (e.g., residual or class mean difference).
 
@@ -88,10 +90,10 @@ The geodesic distance bins have fixed bin size `BIN_SIZE = 1` mm up to `MAX_DIST
 | `-T <thresh>` or `-t <thresh>` | float | 0.0 | Probability threshold for vertex inclusion. |
 | `-N <fname>` or `-n <fname>` | string | `noise_acorr.dat` | Output filename for the noise (within-group) autocorrelation. |
 | `-S <fname>` or `-s <fname>` | string | `signal_acorr.dat` | Output filename for the signal (between-group) autocorrelation. |
-| `--avgs <n>` | integer | 100 | Maximum number of scale-space smoothing averages for the scale-space output (`scalespace.dat`). |
+| `-avgs <n>` | integer | 100 | Maximum number of scale-space smoothing averages for the scale-space output (`scalespace.dat`). |
 
-> [!gotcha] `--max-avgs` does not exist — use `--avgs`
-> The flag for the maximum scale-space averages is `--avgs`, not `--max-avgs`. Using `--max-avgs` will cause the tool to exit with an unrecognised option error.
+> [!gotcha] --max-avgs does not exist — use --avgs
+> The flag for the maximum scale-space averages is `-avgs`, not --max-avgs. Using --max-avgs will cause the tool to exit with an unrecognised option error.
 
 ## Configuration Interactions
 

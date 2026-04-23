@@ -13,7 +13,7 @@ related:
   - "[[dt_recon]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - diffusion
@@ -37,7 +37,7 @@ tags:
 
 ## Purpose and Context
 
-Multi-shell diffusion acquisitions contain volumes acquired at multiple b-values (e.g., b=0, b=1000, b=2000, b=3000). Many downstream analyses require only a subset of shells. `dmri_bset` automates the extraction of specific b-shells while keeping b-values, gradient vectors, and image volumes synchronized. It delegates the actual volume extraction to `mri_convert` (using `--frame` selection) and handles the text-file-based bvals/bvecs extraction with `sed`.
+Multi-shell diffusion acquisitions contain volumes acquired at multiple b-values (e.g., b=0, b=1000, b=2000, b=3000). Many downstream analyses require only a subset of shells. `dmri_bset` automates the extraction of specific b-shells while keeping b-values, gradient vectors, and image volumes synchronized. It delegates the actual volume extraction to `mri_convert` (using --frame selection) and handles the text-file-based bvals/bvecs extraction with `sed`.
 
 This is a preprocessing utility used before DTI fitting, tractography, or other shell-specific analyses.
 
@@ -66,7 +66,9 @@ Default output b-value and gradient file names are derived from the output DWI f
 
 Frame selection is purely index-based. For each requested b-value $b_t$ with tolerance $\tau$ (default 0.05 = 5%), the frames satisfying:
 
-$$b_t(1 - \tau) \leq b_{\text{frame}} \leq b_t(1 + \tau)$$
+$$
+b_t(1 - \tau) \leq b_{\text{frame}} \leq b_t(1 + \tau)
+$$
 
 are selected. The minimum b-value (typically $b=0$) in the dataset is always prepended to the extraction list to ensure a reference volume is present.
 
@@ -74,18 +76,19 @@ Frame extraction is performed by `mri_convert --frame <indices>`.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `--in <file>` | file | required | Input DWI series |
-| `--out <file>` | file | required | Output DWI series |
-| `--inb <file>` | file | auto | Input b-value table (default: input base + `.bvals`) |
-| `--outb <file>` | file | auto | Output b-value table (default: output base + `.bvals`) |
-| `--ing <file>` | file | auto | Input gradient table (default: input base + `.bvecs`) |
-| `--outg <file>` | file | auto | Output gradient table (default: output base + `.bvecs`) |
-| `--b <num>` | float | — | Extract specific b-value shell (repeatable) |
-| `--btol <frac>` | float | 0.05 | Fractional tolerance around each b-value |
-| `--bsort` | flag | off | Reorder output by b-shell (default: maintain acquisition order) |
-| `--bmax <num>` | float | — | Extract all frames with b ≤ this maximum |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--in` | `<file>` | required | Input DWI volume |
+| `--out` | `<file>` | required | Output DWI volume |
+| `--inb` | `<file>` | `<in>.bvals` | Input b-value table |
+| `--outb` | `<file>` | `<out>.bvals` | Output b-value table |
+| `--ing` | `<file>` | `<in>.bvecs` | Input gradient table |
+| `--outg` | `<file>` | `<out>.bvecs` | Output gradient table |
+| `--b` | `<num>` | — | B-value shell to extract; can be specified multiple times |
+| `--btol` | `<frac>` | `0.05` | Fractional tolerance around each `--b` value |
+| `--bmax` | `<num>` | — | Extract all frames with b ≤ this maximum |
+| `-verbose` | — | off | Enable verbose output |
+| `-debug` | — | off | Enable both verbose and echo |
 
 ## Configuration Interactions
 
@@ -94,7 +97,7 @@ Frame extraction is performed by `mri_convert --frame <indices>`.
 - `--btol` applies only to `--b` mode; `--bmax` does an exact inequality test.
 - `--bsort` changes the ordering of output frames when multiple shells are extracted. Without `--bsort`, frames appear in their original acquisition order. With `--bsort`, frames are grouped by b-shell.
 - The minimum b-value in the input is **always included** regardless of shell specification, ensuring a b=0 reference is available.
-- If `--inb` is not specified, the script looks for a file with the same base name as `--in` but with `.bvals` extension.
+- If --inb is not specified, the script looks for a file with the same base name as `--in` but with `.bvals` extension.
 
 > [!gotcha] Tolerance applies bidirectionally
 > `--btol 0.05` with `--b 1000` matches frames where 950 ≤ b ≤ 1050. Frames nominally acquired at b=1000 but written as 998 or 1002 by scanner software will still be matched.

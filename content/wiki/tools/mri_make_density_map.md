@@ -63,7 +63,9 @@ The tool accepts a GCA morphological transform (GCAM) and can optionally smooth 
 
 For each label $l$ and voxel $\mathbf{x}$ in the source segmentation, the partial-volume estimate $p_l(\mathbf{x})$ is mapped to the target voxel $\mathbf{y} = T(\mathbf{x})$ where $T$ is the transform. With Jacobian correction enabled, the contribution is scaled by $|J_T(\mathbf{x})|$, the determinant of the Jacobian of the warp, preserving tissue volume under the transformation:
 
-$$\rho_l(\mathbf{y}) = \sum_{\mathbf{x}: T(\mathbf{x})=\mathbf{y}} p_l(\mathbf{x}) \cdot |J_T(\mathbf{x})|$$
+$$
+\rho_l(\mathbf{y}) = \sum_{\mathbf{x}: T(\mathbf{x})=\mathbf{y}} p_l(\mathbf{x}) \cdot |J_T(\mathbf{x})|
+$$
 
 Optional Gaussian smoothing with kernel width $\sigma$ is applied post-warp to create continuous density fields.
 
@@ -71,22 +73,30 @@ The spatial resolution for accumulation is controlled by the `resolution` parame
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-like <fname>` | string | null | Use this volume's geometry for output |
-| `-xform <fname>` | string | null | Apply this transform to segmentation |
-| `-sigma <f>` | float | 0 | Gaussian smoothing sigma (mm) applied after warping |
-| `-nreductions <n>` | int | 0 | Number of reductions applied to output resolution |
-| `-surf` | flag | off | Use surface-based rather than volume-based mode |
+The parser strips one leading dash (`option = argv[1] + 1`). Single-character switch labels (`-a`, `-r`, `-s`, `-t`, `-v`) are matched case-insensitively via `switch(toupper(*option))`.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-out_like` / `-ol` | `<fname>` | null | Use this volume's geometry (resolution, vox size, RAS orientation) for the output |
+| `-t` | `<fname>` | null | Apply a spatial transform (LTA or GCAM `.m3z`) to the segmentation. Provides an alternative to the positional `<xform>` argument |
+| `-s` | `<sigma>` | 0 | Apply a Gaussian smoothing kernel of width `sigma` (mm) after warping |
+| `-r` | `<n>` | 0 | Reduce (downsample) the output volume `n` times after density accumulation |
+| `-a` | `<atlas>` | — | Read a GCA atlas file (used when GCA-based label mapping is needed) |
+| `-surf` | — | off | Use surface-based mode: the density is accumulated by filling the interior of a loaded surface rather than by voxel traversal |
+| `-resolution` | `<mm>` | 0.25 | Sub-voxel accumulation grid spacing in mm; applies to surface-fill mode |
+| `-debug_voxel` | `<x> <y> <z>` | — | Print debugging output for the specified voxel (CRS coordinates) |
+| `-v` | `<diag_no>` | — | Set diagnostic voxel number (`Gdiag_no`) for verbose per-voxel tracing |
 
 ## Configuration Interactions
 
-- `-xform` and the positional `xform_fname` argument are both pathways to supply a transform; the positional argument takes precedence.
+- `-t <fname>` and the positional `<xform>` argument are both pathways to supply a transform; the positional argument (argv[3]) takes precedence when both are given.
 - `-surf` mode alters the processing pathway substantially — the density accumulation traverses surface vertices rather than volume voxels.
-- `-sigma` > 0 enables a post-warp Gaussian blur; the blur is applied in the target space.
+- `-s <sigma>` > 0 enables a post-warp Gaussian blur; the blur is applied in the target space.
+- `-r <n>` reduces the output volume `n` times using `MRIreduce()`; each reduction halves the voxel count per axis.
+- `-out_like` / `-ol` overrides the output geometry; without it, the output geometry matches the target volume supplied by the transform.
 
 > [!gap] Jacobian correction activation
-> The source code header mentions optional Jacobian correction but the flag to enable it explicitly is not identified from the header alone. Full argument parsing in `get_option()` would need to be reviewed.
+> The source code header mentions optional Jacobian correction (`apply a transform, optionally jacobian correcting it`). No explicit flag was found in `get_option()` to enable it; the Jacobian scaling may be applied unconditionally for GCAM transforms. Needs full code trace to confirm.
 
 ## Typical Use Cases
 

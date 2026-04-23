@@ -62,7 +62,9 @@ Potential applications:
 
 For each vertex $v$ on the surface, a profile vector $\mathbf{p}_v \in \mathbb{R}^{N \times D}$ is formed by sampling $N$ input images at $D$ depths along the outward normal. K-means clustering minimises:
 
-$$\arg\min_{k=1..K} \sum_{v} \|\mathbf{p}_v - \mathbf{\mu}_{k(v)}\|^2$$
+$$
+\arg\min_{k=1..K} \sum_{v} \|\mathbf{p}_v - \mathbf{\mu}_{k(v)}\|^2
+$$
 
 where $\mathbf{\mu}_k$ is the centroid of cluster $k$. ITK's `KdTreeBasedKmeansEstimator` implements this using a KD-tree acceleration structure.
 

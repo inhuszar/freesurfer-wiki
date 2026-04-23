@@ -153,3 +153,6 @@ mri_rf_label -wmsa \
 ## Confidence and Gaps
 
 **High confidence:** Source language, file, key functions, post-processing options (min_voxels default=6, surface_dist default=1.0, wmsa logic). Flag list verified from `get_option()` in source.
+
+> [!note] Audit noise: `-1` false positive
+> An automated audit may flag `-1` as C3 invalid. This IS a valid flag (`case '1':` in the source switch-on-first-char parser). The extractor skips digit-only case values when extracting flags, so it doesn't find `-1` in source. The flag is confirmed valid.

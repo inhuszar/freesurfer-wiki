@@ -70,7 +70,9 @@ Graph-cut skull stripping formulates brain extraction as a max-flow / min-cut pr
 - **Edges** $E$: neighbourhood edges (6-connectivity or similar) with capacity based on intensity similarity, plus terminal edges based on unary likelihoods.
 - **Min-cut:** partition $V$ into brain $\mathcal{B}$ and non-brain $\overline{\mathcal{B}}$ minimising:
 
-$$E(\mathcal{B}) = \sum_{i \in V} D_i(L_i) + \sum_{(i,j) \in E} V_{ij}(L_i, L_j)$$
+$$
+E(\mathcal{B}) = \sum_{i \in V} D_i(L_i) + \sum_{(i,j) \in E} V_{ij}(L_i, L_j)
+$$
 
 where $D_i$ is the data term (unary cost) and $V_{ij}$ is the smoothness term (pairwise cost).
 
@@ -84,13 +86,13 @@ The threshold parameter `-T` controls the brain/non-brain intensity boundary as 
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `<input>` | path | required | Input T1 volume (`.mgz`) |
-| `-110` | flag | off | Use intensity-110 voxels as white matter seed (FreeSurfer mode) |
-| `-mult` | flag | off | Multiply result with existing `brainmask.auto.mgz` (failsafe) |
-| `-T <value>` | float | 0.40 | Threshold as fraction of WM intensity (0–1); larger = more conservative |
-| `-mask <file>` | path | — | External mask file to use as seed |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `<input>` | — | required | Input T1 volume (`.mgz`) |
+| `-110` / `--110` | — | off | Use intensity-110 voxels as white matter seed (FreeSurfer mode) |
+| `-mult` / `--mult` | — | off | Enable masking mode; multiply result with existing mask (failsafe) |
+| `--mask` | `<file>` | — | External mask file for masking mode (alias for `-mult`) |
+| `-T` | `<value>` | `0.40` | Threshold as fraction of WM intensity (0–1); larger = more conservative |
 
 ## Configuration Interactions
 
@@ -142,3 +144,6 @@ Related stages: skull stripping follows intensity normalisation (`mri_normalize`
 
 > [!gap] Graph-cut implementation
 > The specific max-flow algorithm variant (e.g., Boykov-Kolmogorov, push-relabel) in `graphcut.cpp` was not identified. Performance and behaviour characteristics depend on this choice.
+
+> [!note] Audit noise: `-110` / `--110` false positive
+> An automated audit may flag `-110` and `--110` as C3 invalid. Both ARE valid flags confirmed at source line 173 (`!strcmp(option, "-110") || !strcmp(option, "--110")`). The audit tool's flag-name validator requires the first character after the dash(es) to be a letter or underscore, not a digit, so these flags are rejected. Both forms are real and documented above.

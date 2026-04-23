@@ -68,9 +68,15 @@ The template file stores `IMAGES_PER_SURFACE * SURFACES` = 6 parameter images (m
 
 The spherical parameterisation maps the cortical surface to a sphere. A surface scalar field $f(v)$ defined at each vertex $v$ is mapped to spherical coordinates $(\theta, \phi)$ via the registered sphere. The template accumulates:
 
-$$\mu(\theta, \phi) \mathrel{+}= f(\theta, \phi)$$
-$$\sigma^2(\theta, \phi) \mathrel{+}= f(\theta, \phi)^2$$
-$$n(\theta, \phi) \mathrel{+}= 1$$
+$$
+\mu(\theta, \phi) \mathrel{+}= f(\theta, \phi)
+$$
+$$
+\sigma^2(\theta, \phi) \mathrel{+}= f(\theta, \phi)^2
+$$
+$$
+n(\theta, \phi) \mathrel{+}= 1
+$$
 
 After all subjects are added, normalisation yields mean and variance maps used as the registration target.
 
@@ -80,20 +86,15 @@ The `which_norm` parameter (default `NORM_MEAN`) controls how the curvature scal
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| (none documented via `--help`) | — | — | Tool uses positional arguments only |
-| `-w <curv_fname>` | string | `""` | Specify a custom curvature file name |
-| `-n <navgs>` | int | `0` | Number of smoothing averages applied to curvature before adding |
-| `-s <scale>` | float | `1.0` | Scale factor applied to curvature values |
-| `-m` | flag | `NORM_MEAN` | Use mean normalisation (default) |
-| `-v` | flag | — | Verbose output |
-
-> [!gap] Unresolved question
-> The full set of command-line flags is not documented in the binary's help output. Flags were inferred from the global variables in the source (`navgs`, `scale`, `curvature_fname`, `which_norm`). Verify by inspecting the `get_option()` function in detail.
+| `-a <navgs>` | int | `0` | Number of smoothing averages applied to curvature before adding (`case 'A':`) |
+| `-c <curv_fname>` | string | `""` | Specify a custom curvature file name (`case 'C':`) |
+| `-s <scale>` | float | `1.0` | Scale factor applied to curvature values (`case 'S':`) |
+| `-nbrs <n>` | int | — | Set neighbourhood size (`!stricmp(option, "nbrs")`) |
 
 ## Configuration Interactions
 
-- `-n` (smoothing) is applied before accumulation; heavy smoothing reduces the specificity of the template.
-- The `which_norm` option (mean vs. median) affects the scale of accumulated values.
+- `-a` (smoothing averages) is applied before accumulation; heavy smoothing reduces the specificity of the template.
+- The curvature normalisation is applied before accumulation (default: `NORM_MEAN`); there is no flag to change the normalisation mode from the command line.
 
 ## Typical Use Cases
 

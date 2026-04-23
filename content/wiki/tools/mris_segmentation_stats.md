@@ -66,10 +66,18 @@ This is a research/validation tool, not part of the standard `recon-all` pipelin
 
 For each subject, at each threshold $t$ applied to the overlay, the tool classifies each vertex as:
 
-$$\text{TP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 1\}|$$
-$$\text{FP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 0\}|$$
-$$\text{FN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 1\}|$$
-$$\text{TN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 0\}|$$
+$$
+\text{TP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 1\}|
+$$
+$$
+\text{FP}(t) = |\{v : \text{overlay}(v) > t \cap \text{label}(v) = 0\}|
+$$
+$$
+\text{FN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 1\}|
+$$
+$$
+\text{TN}(t) = |\{v : \text{overlay}(v) \leq t \cap \text{label}(v) = 0\}|
+$$
 
 ROC coordinates: sensitivity $= \text{TP}/(\text{TP}+\text{FN})$, specificity $= \text{TN}/(\text{TN}+\text{FP})$.
 
@@ -77,12 +85,12 @@ Morphological operations (dilation/erosion via `-dilate`/`-erode`) can be applie
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides `SUBJECTS_DIR` |
-| `-min_area A` | float (mm²) | Minimum segment area threshold (default: 10 mm²) |
-| `-dilate N` | integer | Number of dilation iterations applied to label boundary |
-| `-erode N` | integer | Number of erosion iterations applied to label boundary |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir path` | directory | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR` |
+| `-min_area A` | float (mm²) | 10 | Minimum segment area threshold (mm²) |
+| `-dilate N` | integer | 0 | Number of dilation iterations applied to label boundary |
+| `-erode N` | integer | 0 | Number of erosion iterations applied to label boundary |
 
 **Positional arguments:** `<segmentation_name> <true_label_name> <subject1> ... <subjectN> <output_file>`
 

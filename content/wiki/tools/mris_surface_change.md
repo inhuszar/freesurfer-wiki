@@ -64,7 +64,9 @@ This approach is different from thickness differencing (see [[mris_thickness_dif
 
 For each vertex $v$ on surface 1, the displacement is computed as the signed distance to the corresponding vertex on surface 2, projected onto the surface normal:
 
-$$d_v = (\mathbf{p}_{v,2} - \mathbf{p}_{v,1}) \cdot \hat{\mathbf{n}}_v$$
+$$
+d_v = (\mathbf{p}_{v,2} - \mathbf{p}_{v,1}) \cdot \hat{\mathbf{n}}_v
+$$
 
 where $\mathbf{p}_{v,1}$ and $\mathbf{p}_{v,2}$ are the 3D positions of vertex $v$ on surface 1 and surface 2, and $\hat{\mathbf{n}}_v$ is the unit surface normal at vertex $v$ on surface 1. Negative values indicate inward displacement (atrophy); positive values indicate outward displacement (expansion).
 
@@ -72,8 +74,12 @@ The `compute_surface_distance()` function implements this computation internally
 
 ## Configuration Options
 
-> [!gap] Full option list
-> The full option list is defined in `parse_commandline()`, which was not read in full. The tool uses the standard FreeSurfer cmdargs pattern.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--temp-vol` | `<volfile>` | — | Template volume supplying voxel geometry for the output displacement map |
+| `--debug` | — | off | Enable debug output |
+| `--checkopts` | — | off | Validate options and exit without running |
+| `--nocheckopts` | — | on | Disable option checking (inverse of `--checkopts`) |
 
 ## Typical Use Cases
 

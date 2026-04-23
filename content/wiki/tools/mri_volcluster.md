@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "The CSD (cluster-size distribution) file format and simulation workflow is not fully documented here."
   - "The Bonferroni correction interaction with CSD-based cluster-wise p-values needs clarification."
@@ -50,28 +50,28 @@ This tool is the volumetric analogue of surface-based cluster tools and is frequ
 
 ## Inputs
 
-| Flag | Description |
-|------|-------------|
-| `--in vol` / `--i vol` | Input statistical volume |
-| `--thmin thresh` | Minimum threshold (required) |
-| `--thmax thresh` | Maximum threshold (optional upper bound) |
-| `--sign {abs,pos,neg}` | Threshold sign: `abs` (both), `pos` (positive only), `neg` (negative only) |
-| `--reg regfile` | Registration to MNI305 for coordinate reporting |
-| `--mask maskid` | Restrict analysis to a mask volume |
-| `--frame n` | Process frame n of a 4D volume (default 0) |
-| `--csd csdfile` | Cluster-size distribution file for empirical p-values |
-| `--fwhm fwhm` | FWHM for GRF-based cluster p-values |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--in vol` / `--i vol` | — | Input statistical volume |
+| `--thmin thresh` | — (required) | Minimum threshold |
+| `--thmax thresh` | none (∞) | Maximum threshold (optional upper bound) |
+| `--sign {abs,pos,neg}` | `abs` | Threshold sign: `abs` (both), `pos` (positive only), `neg` (negative only) |
+| `--reg regfile` | — | Registration to MNI305 for coordinate reporting |
+| `--mask maskid` | — | Restrict analysis to a mask volume |
+| `--frame n` | 0 | Process frame n of a 4D volume |
+| `--csd csdfile` | — | Cluster-size distribution file for empirical p-values |
+| `--fwhm fwhm` | — | FWHM for GRF-based cluster p-values |
 
 ## Outputs
 
-| Flag | Description |
-|------|-------------|
-| `--sum sumfile` | Text summary file with cluster table (primary output) |
-| `--o outvol` | Cluster-labelled output volume |
-| `--outmask outmaskid` | Binary mask of all suprathreshold voxels |
-| `--pointset file` | Cluster maxima as a Freeview-compatible pointset |
-| `--voxwisesig file` | Voxel-wise significance map |
-| `--clustwisesig file` | Cluster-wise significance map |
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--sum sumfile` | — | Text summary file with cluster table (primary output) |
+| `--o outvol` | — | Cluster-labelled output volume |
+| `--outmask outmaskid` | — | Binary mask of all suprathreshold voxels |
+| `--pointset file` | — | Cluster maxima as a Freeview-compatible pointset |
+| `--vwsig file` | — | Voxel-wise significance map |
+| `--cwsig file` | — | Cluster-wise significance map |
 
 ### Summary file format
 
@@ -88,7 +88,9 @@ This tool is the volumetric analogue of surface-based cluster tools and is frequ
 
 **Coordinate reporting:** Cluster peak coordinates are transformed to MNI305 Talairach space via the registration matrix when `--reg` is provided:
 
-$$\begin{pmatrix} x_{\text{MNI}} \\ y_{\text{MNI}} \\ z_{\text{MNI}} \end{pmatrix} = M_{\text{CRS2MNI}} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}$$
+$$
+\begin{pmatrix} x_{\text{MNI}} \\ y_{\text{MNI}} \\ z_{\text{MNI}} \end{pmatrix} = M_{\text{CRS2MNI}} \begin{pmatrix} c \\ r \\ s \\ 1 \end{pmatrix}
+$$
 
 **GRF cluster p-values** (when `--fwhm` is provided): Uses `RFprobZClusterSigThresh()` / `RFprobZCluster()` from the `randomfields` library, implementing Gaussian random field theory for the probability of a cluster of given size at a given threshold under the null hypothesis.
 
@@ -98,49 +100,79 @@ $$\begin{pmatrix} x_{\text{MNI}} \\ y_{\text{MNI}} \\ z_{\text{MNI}} \end{pmatri
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `--in` / `--i` | `vol` | Input statistical volume |
-| `--thmin` | `thresh` | Lower threshold |
-| `--thmax` | `thresh` | Upper threshold |
-| `--sign` | `string` | `abs` (default), `pos`, or `neg` |
-| `--frame` | `n` | Frame index in 4D input (default 0) |
-| `--mask` | `maskid` | Restrict to mask |
-| `--maskthresh` | `t` | Mask threshold (default 0.5) |
-| `--masksign` | `string` | Mask sign (`abs`, `pos`, `neg`) |
-| `--maskinvert` | — | Invert mask |
-| `--maskframe` | `n` | Frame of mask volume to use |
-| `--sizethresh` | `mm3` | Minimum cluster size in mm³ |
-| `--distthresh` | `mm` | Minimum distance between cluster peaks |
-| `--allowdiag` | — | Allow diagonal connectivity (26-connectivity) |
-| `--reg` | `regfile` | Registration to MNI305 space |
-| `--regheader` | — | Use identity registration |
-| `--sum` | `sumfile` | Output text summary |
-| `--o` | `outvol` | Cluster-labelled output volume |
-| `--outmask` | `outmaskid` | Binary suprathreshold mask |
-| `--csd` | `csdfile` | Cluster-size distribution for empirical p-values |
-| `--csdpdf` | `pdffile` | Save CSD as PDF |
-| `--cwpvalthresh` | `pval` | Cluster-wise p-value threshold for output |
-| `--mincwpval` | `file` | Save p-value of largest cluster |
-| `--fwhm` | `fwhm` | FWHM (mm) for GRF cluster p-values |
-| `--bonferroni` | `n` | Bonferroni correction factor |
-| `--sig2p-max` | — | Convert max value from -log10(p) to p |
-| `--synth` | `function` | Synthesise input for null distribution testing |
-| `--voxwisesig` | `file` | Save voxel-wise significance |
-| `--clustwisesig` | `file` | Save cluster-wise significance map |
-| `--pointset` | `file` | Save cluster maxima as pointset |
-| `--subject` | `subjectid` | Subject for anatomical annotation |
-| `--segvol` | `segvolfile` | Segmentation to annotate clusters |
-| `--no-fix-mni` | — | Report MNI305 instead of Talairach coordinates |
-| `--debug` | — | Verbose debug output |
-| `--version` | — | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--in` / `--i` | `vol` | — | Input statistical volume |
+| `--thmin` | `thresh` | — (required) | Lower threshold |
+| `--thmax` | `thresh` | none (∞) | Upper threshold |
+| `--sign` | `string` | `abs` | `abs`, `pos`, or `neg` |
+| `--match` | `val` (int) | — | Set `thmin = val − 0.5`, `thmax = val + 0.5` (for matching integer labels) |
+| `--frame` | `n` | 0 | Frame index in 4D input |
+| `--mask` | `maskid` | — | Restrict to mask |
+| `--maskthresh` | `t` | 0.5 | Mask threshold |
+| `--masksign` | `string` | `abs` | Mask sign (`abs`, `pos`, `neg`) |
+| `--maskinvert` | — | off | Invert mask |
+| `--maskframe` | `n` | 0 | Frame of mask volume to use |
+| `--mask_type` | `type` | auto | File format type of the mask volume |
+| `--outmask` | `outmaskid` | — | Binary suprathreshold mask |
+| `--outmask_type` | `type` | auto | File format type of the outmask volume |
+| `--minsize` | `mm3` | 0.0 | Minimum cluster size in mm³ |
+| `--minsizevox` | `n` | 0 | Minimum cluster size in voxels |
+| `--mindist` | `mm` | 0.0 (off) | Minimum distance between cluster peaks |
+| `--allowdiag` | — | off | Allow diagonal connectivity (26-connectivity) |
+| `--no-allowdiag` | — | on | Disable diagonal connectivity (default face-only) |
+| `--reg` | `regfile` | — | Registration to MNI305 space |
+| `--regheader` | `subject` | — | Use header geometry (writes temp reg file) |
+| `--mni152reg` | — | — | Use built-in MNI152 registration |
+| `--fsaverage` | — | off | Assume input is in fsaverage space |
+| `--sum` | `sumfile` | — | Output text summary |
+| `--o` / `--out` | `outvol` | — | Cluster-labelled output volume |
+| `--out_type` | `type` | auto | Output volume type |
+| `--in_type` | `type` | auto | Input volume type |
+| `--ocn` | `file` | — | Output cluster number volume |
+| `--ocn_type` | `type` | auto | Output cluster number volume type |
+| `--csd` | `csdfile` | — | Cluster-size distribution for empirical p-values |
+| `--csd-out` | `file` | — | Write CSD to file |
+| `--csdpdf` | `pdffile` | — | Save CSD as PDF |
+| `--csdpdf-only` | — | off | Write CSD PDF file and exit; skip cluster analysis |
+| `--cwpvalthresh` | `pval` | −1 (off) | Cluster-wise p-value threshold for output |
+| `--cwsig` | `file` | — | Save cluster-wise significance map |
+| `--mincwpval` | `file` | — | Save p-value of largest cluster |
+| `--vwsig` | `file` | — | Save voxel-wise significance map |
+| `--vwsigmax` | `file` | — | Save maximum voxel-wise significance |
+| `--fwhm` | `fwhm` | −1 (off) | FWHM (mm) for GRF cluster p-values |
+| `--fwhmdat` | `file` | — | Read FWHM from a text file (alternative to `--fwhm`) |
+| `--bonferroni` | `n` | 0 (off) | Bonferroni correction factor (for multiple spaces) |
+| `--bonferroni-max` | `n` | 0 (off) | Bonferroni factor applied only with `--sig2p-max` |
+| `--sig2p-max` | — | off | Convert max value from −log10(p) to p |
+| `--gte` | — | off | Use >= (rather than >) for CSD p-value lookup |
+| `--synth` | `function` | — | Synthesise input for null distribution testing (`uniform`, `loguniform`, `gaussian`) |
+| `--label` / `--labelfile` | `file` | — | Label file to restrict analysis |
+| `--labelbase` | `base` | — | Base name for per-cluster label files |
+| `--nlabelcluster` | `n` | −1 | Cluster number to save as label (requires `--label`) |
+| `--seg` | `subject segvol` | — | Annotate clusters with FreeSurfer segmentation (requires SUBJECTS_DIR) |
+| `--sd` | `dir` | — | Set SUBJECTS_DIR |
+| `--ctab` | `file` | — | Color table for segmentation annotation |
+| `--grow` | — | — | Grow clusters beyond threshold |
+| `--fill` | — | — | Remove islands and holes in a binary volume (standalone mode) |
+| `--verbose` | — | off | Verbose output |
+| `--no-fixmni` | — | off | Report raw MNI305 coordinates (not Talairach-converted) |
+| `--fixmni` | — | on | Apply MNI-to-Talairach fix |
+| `--fixtkreg` | — | on | Apply tkregister fix to registration (default on) |
+| `--nofixtkreg` | — | — | Disable tkregister fix |
+| `--no-adjust` | — | off | Disable one-tail GRF threshold adjustment |
+| `--pointset` | `file` | — | Save cluster maxima as pointset |
+| `--debug` | — | off | Verbose debug output |
+| `--diag` | `diagno` (int) | — | Set diagnostic level (`Gdiag_no`); controls diagnostic verbosity of FreeSurfer library functions |
+| `--help` | — | — | Print full help text and exit |
+| `--version` | — | — | Print version |
 
 ## Configuration Interactions
 
 - `--csd` and `--fwhm` are alternative methods for cluster-wise p-values; do not use both simultaneously.
 - `--reg` is required for coordinates to be reported in MNI305/Talairach space; without it, voxel indices are reported instead.
 - `--sign pos` or `neg` with `--thmin` implements one-tailed thresholding; `abs` (default) is two-tailed.
-- `--sizethresh` is in mm³; the equivalent voxel count depends on voxel size, which is computed automatically.
+- `--minsize` is in mm³; the equivalent voxel count depends on voxel size, which is computed automatically. Use `--minsizevox` to specify in voxels directly.
 - `--allowdiag` changes connectivity from 6-face to 26-neighbour, producing larger clusters.
 - `--bonferroni n` multiplies the number of tests for Bonferroni correction (used for multiple spaces, e.g., surface + volume).
 
@@ -179,7 +211,7 @@ mri_volcluster \
     --thmin 2.5 \
     --sign abs \
     --mask brainmask.mgz \
-    --sizethresh 100 \
+    --minsize 100 \
     --sum clusters.txt
 ```
 
@@ -194,7 +226,7 @@ mri_volcluster \
 ## Gotchas and Caveats
 
 > [!gotcha] "Talairach" coordinates are MNI305
-> Cluster coordinates are reported as "Talairach" in the summary file but are actually in MNI305 space. Use `--no-fix-mni` to report raw MNI305 coordinates. See [[coordinate-systems]] for the distinction.
+> Cluster coordinates are reported as "Talairach" in the summary file but are actually in MNI305 space. Use `--no-fixmni` to report raw MNI305 coordinates (disabling the default Talairach fix). See [[coordinate-systems]] for the distinction.
 
 > [!gotcha] One-tailed threshold correction
 > When `threshsign == 0` (abs), the GRF p-value computation applies a factor-of-2 correction as an acknowledged hack in the source comments. This may not be mathematically rigorous for all use cases.
@@ -202,8 +234,8 @@ mri_volcluster \
 > [!gotcha] Random seed is hardcoded
 > The random seed for synthesis (`setRandomSeed(53)`) is hardcoded at program startup, not user-configurable. Monte Carlo simulations for CSD generation should use dedicated tools.
 
-> [!gotcha] sizethresh in mm³, not voxels
-> The `--sizethresh` argument is in mm³. The equivalent voxel count is computed internally from the voxel dimensions. This is different from surface cluster tools, which use mm².
+> [!gotcha] --minsize is in mm³; use --minsizevox for voxel counts
+> The `--minsize` argument is in mm³. The equivalent voxel count is computed internally from the voxel dimensions. Use `--minsizevox` to specify the threshold directly in voxels. This is different from surface cluster tools, which use mm².
 
 ## Related Tools
 
@@ -214,6 +246,14 @@ mri_volcluster \
 ## Confidence and Gaps
 
 **High confidence:** core algorithm (connected components, pruning, sorting), output format, flag table (from variable declarations and parse logic in source), coordinate transform.
+
+> [!note] Help-text alias discrepancies — not real flags
+> The `BEGINUSAGE` / `PrintUsage()` help text in `mri_volcluster.cpp` uses names that differ from the option strings the parser actually matches:
+> - Help says `--maskinverse`; `parse_commandline()` matches `--maskinvert` (line 783). Only `--maskinvert` works.
+> - Help says `--mindistance`; `parse_commandline()` matches `--mindist` (line 1028). Only `--mindist` works.
+> - Help says `--sumfile`; `parse_commandline()` matches `--sum` (line 917). Only `--sum` works.
+> - Help says `--sig2pmax`; `parse_commandline()` matches `--sig2p-max` (line 790). Only `--sig2p-max` works.
+> The flag table above uses the authoritative parsed names.
 
 > [!gap] CSD file format
 > The format of the `.csd` (cluster-size distribution) file generated by Monte Carlo simulation was not documented. This is required for the `--csd` workflow.

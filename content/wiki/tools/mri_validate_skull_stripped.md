@@ -69,11 +69,17 @@ No output volumes are created.
 
 The program counts voxels in the union of the two non-zero masks and computes:
 
-$$p_f = \frac{N_{\text{false positive}}}{N_{\text{union}}}$$
+$$
+p_f = \frac{N_{\text{false positive}}}{N_{\text{union}}}
+$$
 
-$$p_m = \frac{N_{\text{false negative}}}{N_{\text{union}}}$$
+$$
+p_m = \frac{N_{\text{false negative}}}{N_{\text{union}}}
+$$
 
-$$E(c) = \frac{p_f + c \cdot p_m}{1 + c}$$
+$$
+E(c) = \frac{p_f + c \cdot p_m}{1 + c}
+$$
 
 where:
 - $N_{\text{false positive}}$: voxels with `test > 0` but `reference == 0`

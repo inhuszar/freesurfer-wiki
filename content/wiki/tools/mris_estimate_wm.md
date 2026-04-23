@@ -2,7 +2,7 @@
 title: "mris_estimate_wm"
 type: tool
 fs_version: "8.2.0"
-source_language: "unknown"
+source_language: "Python"
 source_files:
   - "mris_estimate_wm/mris_estimate_wm"
 families:
@@ -14,9 +14,9 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Source is a compiled binary only (no .cpp found in mris_estimate_wm/) — implementation language and algorithm unknown."
+  - "Deep learning model architecture (TopoFit) not fully traced; model weights are in $FREESURFER_HOME/models/topofit/."
 tags:
   - surface
   - white-matter
@@ -27,16 +27,13 @@ tags:
 
 ## Summary
 
-`mris_estimate_wm` estimates the white matter boundary on a cortical surface. The source directory contains only a binary and a `CMakeLists.txt` — no C++ source file was found in the expected location. Therefore, implementation details are largely unknown. The tool is likely used in the surface generation pipeline to refine the initial white matter boundary estimate.
+`mris_estimate_wm` applies the TopoFit deep learning model to estimate (or refine) the white matter surface boundary on a cortical hemisphere. It takes one or more FreeSurfer subjects, loads the `norm.mgz` volume, and deforms a template mesh to fit the white matter boundary using a PyTorch neural network. It is the surface deformation step of the TopoFit pipeline.
 
 ## Source Information
 
-- **Language:** Unknown (binary only in source tree)
-- **Source location:** `mris_estimate_wm/` (binary: `mris_estimate_wm/mris_estimate_wm`, `CMakeLists.txt`)
-- **No .cpp source found** in `mris_estimate_wm/`
-
-> [!gap] Source not available
-> Only a compiled binary was found in `mris_estimate_wm/`. The implementation language, algorithm, inputs, outputs, and flags are unknown without running the binary or locating the source elsewhere in the tree.
+- **Language:** Python
+- **Source file:** `mris_estimate_wm/mris_estimate_wm` (Python script, no `.cpp`)
+- **Dependencies:** PyTorch, surfa (`sf`), optionally `torch_scatter`
 
 ## Purpose and Context
 
@@ -56,7 +53,17 @@ Based on the tool name, `mris_estimate_wm` likely refines or estimates the white
 
 ## Configuration Options
 
-> [!gap] Flags unknown
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-s` / `--subjs` | string (repeatable) | required | List of subjects to process. |
+| `--hemi` | string | required | Hemisphere to reconstruct (`lh` or `rh`). |
+| `-d` / `--sdir` | string | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
+| `-m` / `--model` | string | `$FREESURFER_HOME/models/topofit/topofit.<hemi>.1.pt` | Override default TopoFit model file. |
+| `-x` / `--suffix` | string | `topofit` | Suffix appended to the output surface name. |
+| `-g` / `--gpu` | flag | off | Use the GPU (requires CUDA). When off, runs on CPU. |
+| `--rsi` | flag | off | Remove self-intersecting faces during mesh deformation. |
+| `--single-iter` | flag | off | Prevent deformation steps from running more than once. |
+| `--vol` | string | `norm.mgz` | Subject volume to use as input (relative to `mri/`). |
 
 ## Configuration Interactions
 

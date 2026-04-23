@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-21
 gaps:
   - "Full argument list for mri_sclimbic_seg passthrough not documented here"
   - "Output segmentation label set not confirmed beyond ctab reference"
@@ -113,3 +113,6 @@ mri_edit_wm_with_aseg -entowm entowm.mgz <level> <lhval> <rhval> \
 ## Confidence and Gaps
 
 **Medium confidence:** wrapper logic is fully readable. The underlying `mri_sclimbic_seg` behaviour and model architecture require separate documentation.
+
+> [!note] mri_sclimbic_seg flags are not mri_entowm_seg flags
+> The `parse_args` section of `scripts/mri_entowm_seg` only directly handles `--debug`. Every other flag falls through to a `default:` case that appends it to `$sclimbicargs` (line 120) for forwarding to `mri_sclimbic_seg`. The flags `--ctab`, `--i`, `--keep_ac`, `--model`, `--no-cite-sclimbic`, `--o`, `--output-base`, `--percentile`, and `--vmp` are `mri_sclimbic_seg` options that `mri_entowm_seg` hardcodes in its internal invocation (lines 67–69) or that users can pass through — they are **not** flags parsed by `mri_entowm_seg` itself. Automated flag-scanning tools that read the sub-tool invocation at line 67 will erroneously report these as `mri_entowm_seg` flags.

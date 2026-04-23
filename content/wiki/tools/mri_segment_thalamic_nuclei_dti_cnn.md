@@ -69,7 +69,9 @@ Individual thalamic nuclei (e.g., VPL, MD, LP, LGN) are extremely difficult to d
 
 The multimodal CNN takes concatenated T1, FA, and V1 volumes (aligned to a common space) and predicts per-voxel posteriors over thalamic nucleus classes:
 
-$$p(\text{nucleus}_k | T1(x), FA(x), V1(x))$$
+$$
+p(\text{nucleus}_k | T1(x), FA(x), V1(x))
+$$
 
 Post-processing uses:
 - Binary morphological operations (dilation, erosion, closing, fill holes) via `scipy.ndimage`
@@ -78,7 +80,9 @@ Post-processing uses:
 
 The final segmentation is:
 
-$$\text{seg}(x) = \arg\max_k p(\text{nucleus}_k | T1(x), FA(x), V1(x))$$
+$$
+\text{seg}(x) = \arg\max_k p(\text{nucleus}_k | T1(x), FA(x), V1(x))
+$$
 
 The output is at 0.7 mm isotropic resolution to capture fine nuclear boundaries, interpolated from the native diffusion space.
 
@@ -97,6 +101,10 @@ The output is at 0.7 mm isotropic resolution to capture fine nuclear boundaries,
 | `--vol` | `<file>` | — | Output CSV with structure volumes |
 | `--post` | `<path>` | — | Output posterior file/folder |
 | `--threads` | `<int>` | 1 | Number of CPU threads |
+| `--cpu` | — | off | Force CPU execution even if a GPU is available |
+| `--version1` | — | off | Use model version 1.0 (default is 1.1, updated 2023-06-01) |
+| `--model` | `<path>` | — | Override the default model file path |
+| `--clean` | — | off | Remove auto-generated realigned input images after segmentation |
 | `--help` / `-h` | — | — | Print usage and exit |
 
 ## Configuration Interactions

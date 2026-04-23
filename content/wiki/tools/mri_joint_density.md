@@ -78,18 +78,24 @@ where `nbins` is determined from the intensity range and `step` parameter.
 
 The joint density is defined as:
 
-$$H(i, j) = \#\left\{v : \text{bin}(V_1(v)) = i \text{ and } \text{bin}(V_2(v)) = j\right\}$$
+$$
+H(i, j) = \#\left\{v : \text{bin}(V_1(v)) = i \text{ and } \text{bin}(V_2(v)) = j\right\}
+$$
 
 where $\text{bin}(x) = \lfloor (x - x_\min) / \Delta \rfloor$ and $\Delta$ is the bin width (default `step = 10.0`).
 
 The intensity range for binning is determined by the minimum and maximum voxel values in each volume, constrained by `cfmin = 10.0` and `cfmax = 5000.0`.
 
 The number of bins is:
-$$N_\text{bins} = \left\lceil \frac{x_\max - x_\min}{\Delta} \right\rceil$$
+$$
+N_\text{bins} = \left\lceil \frac{x_\max - x_\min}{\Delta} \right\rceil
+$$
 
 **Entropy and mutual information** can be derived from the joint density:
 
-$$I(V_1; V_2) = \sum_{i,j} H(i,j) \log\frac{H(i,j)}{H_1(i) H_2(j)}$$
+$$
+I(V_1; V_2) = \sum_{i,j} H(i,j) \log\frac{H(i,j)}{H_1(i) H_2(j)}
+$$
 
 where $H_1$ and $H_2$ are the marginal histograms.
 

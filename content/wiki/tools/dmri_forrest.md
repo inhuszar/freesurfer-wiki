@@ -66,11 +66,15 @@ From the verified `parse_commandline()`:
 
 A random forest is an ensemble of $T$ decision trees. Each tree is trained on a bootstrap sample of the training data with random feature subsets at each node. During inference, each tree votes for a class label, and the final classification is determined by majority vote:
 
-$$\hat{y}(\mathbf{x}) = \text{mode}\left\{h_t(\mathbf{x})\right\}_{t=1}^{T}$$
+$$
+\hat{y}(\mathbf{x}) = \text{mode}\left\{h_t(\mathbf{x})\right\}_{t=1}^{T}
+$$
 
 where $h_t$ is the $t$-th decision tree. The probability estimate for class $c$ is:
 
-$$\hat{p}(c|\mathbf{x}) = \frac{1}{T} \sum_{t=1}^T \mathbf{1}[h_t(\mathbf{x}) = c]$$
+$$
+\hat{p}(c|\mathbf{x}) = \frac{1}{T} \sum_{t=1}^T \mathbf{1}[h_t(\mathbf{x}) = c]
+$$
 
 Features likely include local diffusion orientation histograms, tensor-derived measures, and anatomical context from the aseg parcellation, consistent with the input files (orientation map, aseg).
 
