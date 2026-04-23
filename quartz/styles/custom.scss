@@ -1,3 +1,578 @@
-@use "./base.scss";
+// ==========================================================================
+// FreeSurfer Documentation Project — Custom Quartz styles
+// Editorial academic aesthetic: warm paper, Fraunces display, data-table
+// treatment for flag references, color-coded callouts per type.
+//
+// Place at: quartz/styles/custom.scss
+// Enable by adding `@import "custom";` at the END of quartz/styles/base.scss
+// ==========================================================================
 
-// put your custom CSS here!
+
+// ─────────────────────────────────────────────────────────────────────────
+// Design tokens
+// ─────────────────────────────────────────────────────────────────────────
+
+:root {
+  --fs-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --fs-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;
+  --fs-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  --ink: var(--darkgray);
+  --ink-strong: var(--dark);
+  --rule: var(--lightgray);
+  --muted: var(--gray);
+  --accent: var(--secondary);
+  --warm: var(--tertiary);
+
+  // Callout accents (readable on warm paper)
+  --callout-gotcha: #c88547;
+  --callout-gap: #7a7e99;
+  --callout-math: #5c7aa8;
+  --callout-assumption: #6d9a5f;
+  --callout-contradiction: #c25454;
+  --callout-internal: #8a7baa;
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Layout — wider content for flag tables
+// ─────────────────────────────────────────────────────────────────────────
+
+.page > #quartz-body {
+  max-width: none;
+}
+
+.center,
+article.popover-hint {
+  max-width: 920px !important;
+}
+
+@media (min-width: 1400px) {
+  .page > #quartz-body .center {
+    flex: 1 1 920px;
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Typography
+// ─────────────────────────────────────────────────────────────────────────
+
+html { font-size: 16.5px; }
+
+body {
+  font-family: var(--fs-body);
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+h1, h2, h3 {
+  font-family: var(--fs-display);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--ink-strong);
+  line-height: 1.15;
+}
+
+article > h1:first-of-type {
+  font-size: 2.4rem;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+article h2 {
+  font-size: 1.55rem;
+  margin: 2.75rem 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -1rem;
+    top: 0.45rem;
+    width: 3px;
+    height: 1.3rem;
+    background: var(--warm);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover::before { opacity: 0.7; }
+}
+
+article h3 {
+  font-size: 1.2rem;
+  margin: 2rem 0 0.75rem;
+}
+
+article p, article li {
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+article p { margin: 0 0 1.1rem; }
+
+article ul, article ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.5rem;
+
+  li { margin-bottom: 0.35rem; }
+  ul, ol { margin: 0.35rem 0; }
+}
+
+strong, b {
+  font-weight: 600;
+  color: var(--ink-strong);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Article meta & tags
+// ─────────────────────────────────────────────────────────────────────────
+
+article .content-meta,
+.page-meta {
+  font-family: var(--fs-body);
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  margin-bottom: 1.75rem;
+}
+
+article .tags,
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+  padding: 0;
+  list-style: none;
+
+  a.tag-link,
+  .tag-link {
+    display: inline-block;
+    font-family: var(--fs-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.22em 0.7em;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease;
+
+    &::before { content: none; }
+
+    &:hover {
+      color: var(--warm);
+      border-color: var(--warm);
+    }
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Tables — the big fix
+// ─────────────────────────────────────────────────────────────────────────
+
+article table {
+  width: 100%;
+  margin: 1.75rem 0 2rem;
+  border-collapse: collapse;
+  font-family: var(--fs-body);
+  font-size: 0.9rem;
+  line-height: 1.55;
+
+  thead th {
+    text-align: left;
+    font-family: var(--fs-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.55rem 0.9rem 0.55rem 1rem;
+    border-bottom: 1.5px solid var(--ink-strong);
+    background: transparent;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 0.65rem 0.9rem 0.65rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink);
+  }
+
+  // First column: monospace flag/key with the accent colour
+  tbody td:first-child {
+    font-family: var(--fs-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    white-space: nowrap;
+    font-weight: 500;
+
+    code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font-weight: 500;
+    }
+  }
+
+  // Last column (typically Description) gets remaining space
+  tbody td:last-child { width: 100%; }
+
+  tbody tr:nth-child(even) { background: rgba(0, 0, 0, 0.015); }
+  tbody tr:hover { background: rgba(184, 92, 58, 0.05); }
+
+  code {
+    font-family: var(--fs-mono);
+    font-size: 0.82em;
+    padding: 0.12em 0.4em;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+    color: var(--ink-strong);
+  }
+}
+
+:root[saved-theme="dark"] article table {
+  tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+  tbody tr:hover { background: rgba(232, 151, 112, 0.07); }
+  code { background: rgba(255, 255, 255, 0.06); }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Inline code
+// ─────────────────────────────────────────────────────────────────────────
+
+article :not(pre) > code {
+  font-family: var(--fs-mono);
+  font-size: 0.88em;
+  padding: 0.1em 0.4em;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--ink-strong);
+  border-radius: 3px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+:root[saved-theme="dark"] article :not(pre) > code {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--dark);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Code blocks
+// ─────────────────────────────────────────────────────────────────────────
+
+article pre {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+  background: rgba(0, 0, 0, 0.025);
+  font-family: var(--fs-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow-x: auto;
+
+  code {
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    color: var(--ink);
+  }
+}
+
+:root[saved-theme="dark"] article pre {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Callouts — a distinct colour & tone per semantic type
+// ─────────────────────────────────────────────────────────────────────────
+
+.callout {
+  margin: 1.5rem 0;
+  padding: 0;
+  border-radius: 2px;
+  border-left: 3px solid var(--callout-gap);
+  background: rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+
+  .callout-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem 0.25rem;
+    font-family: var(--fs-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+
+    .callout-icon { display: none; }
+  }
+
+  .callout-content {
+    padding: 0 1rem 0.8rem;
+    font-size: 0.93rem;
+    line-height: 1.65;
+
+    p:first-child { margin-top: 0; }
+    p:last-child { margin-bottom: 0; }
+  }
+}
+
+.callout[data-callout="gotcha"] {
+  border-left-color: var(--callout-gotcha);
+  background: rgba(200, 133, 71, 0.06);
+  .callout-title { color: var(--callout-gotcha); }
+}
+.callout[data-callout="gap"] {
+  border-left-color: var(--callout-gap);
+  background: rgba(122, 126, 153, 0.05);
+  .callout-title { color: var(--callout-gap); }
+}
+.callout[data-callout="math"] {
+  border-left-color: var(--callout-math);
+  background: rgba(92, 122, 168, 0.05);
+  .callout-title { color: var(--callout-math); }
+}
+.callout[data-callout="assumption"] {
+  border-left-color: var(--callout-assumption);
+  background: rgba(109, 154, 95, 0.05);
+  .callout-title { color: var(--callout-assumption); }
+}
+.callout[data-callout="contradiction"] {
+  border-left-color: var(--callout-contradiction);
+  background: rgba(194, 84, 84, 0.05);
+  .callout-title { color: var(--callout-contradiction); }
+}
+.callout[data-callout="internal"] {
+  border-left-color: var(--callout-internal);
+  background: rgba(138, 123, 170, 0.05);
+  .callout-title { color: var(--callout-internal); }
+}
+
+:root[saved-theme="dark"] {
+  .callout[data-callout="gotcha"] { background: rgba(200, 133, 71, 0.1); }
+  .callout[data-callout="gap"] { background: rgba(160, 165, 190, 0.1); }
+  .callout[data-callout="math"] { background: rgba(142, 164, 217, 0.1); }
+  .callout[data-callout="assumption"] { background: rgba(145, 190, 120, 0.1); }
+  .callout[data-callout="contradiction"] { background: rgba(232, 104, 104, 0.1); }
+  .callout[data-callout="internal"] { background: rgba(180, 165, 220, 0.1); }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Links
+// ─────────────────────────────────────────────────────────────────────────
+
+article a:not(.internal):not(.tag-link):not(.anchor) {
+  color: var(--accent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+
+  &:hover {
+    color: var(--warm);
+    text-decoration-color: var(--warm);
+  }
+}
+
+article a.internal {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 50%, transparent);
+  transition: color 0.15s ease, border-bottom-color 0.15s ease,
+              border-bottom-style 0.15s ease;
+
+  &:hover {
+    color: var(--warm);
+    border-bottom-color: var(--warm);
+    border-bottom-style: solid;
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Blockquotes (non-callout)
+// ─────────────────────────────────────────────────────────────────────────
+
+article blockquote:not(.callout) {
+  margin: 1.25rem 0;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  border-left: 3px solid var(--rule);
+  font-style: italic;
+  color: var(--muted);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Horizontal rules → editorial dividers
+// ─────────────────────────────────────────────────────────────────────────
+
+article hr {
+  margin: 2.5rem 0;
+  border: none;
+  text-align: center;
+  line-height: 0;
+
+  &::after {
+    content: "· · ·";
+    display: inline-block;
+    color: var(--muted);
+    letter-spacing: 0.5em;
+    font-size: 0.85rem;
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Breadcrumbs
+// ─────────────────────────────────────────────────────────────────────────
+
+.breadcrumb-container {
+  margin-bottom: 1.5rem;
+  font-family: var(--fs-body);
+  font-size: 0.85rem;
+  color: var(--muted);
+
+  a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover { color: var(--warm); }
+  }
+
+  .breadcrumb-element:not(:last-child)::after {
+    content: "→";
+    margin: 0 0.5rem;
+    color: var(--rule);
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Sidebars: explorer, TOC, backlinks — supporting roles, quieter
+// ─────────────────────────────────────────────────────────────────────────
+
+.explorer {
+  font-family: var(--fs-body);
+  font-size: 0.88rem;
+
+  .folder-container { line-height: 1.5; }
+  .folder-title, .file-title { padding: 0.12rem 0.3rem; }
+
+  button.folder-button {
+    font-weight: 500;
+    color: var(--ink-strong);
+  }
+
+  a.internal {
+    border-bottom: none;
+    color: var(--ink);
+
+    &:hover { color: var(--warm); }
+  }
+}
+
+.toc h3,
+.backlinks h3 {
+  font-family: var(--fs-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.toc ul a.internal,
+.backlinks a.internal {
+  border-bottom: none;
+  font-size: 0.87rem;
+  color: var(--ink);
+
+  &:hover { color: var(--warm); }
+}
+
+.toc ul a.internal.in-view {
+  color: var(--warm);
+  font-weight: 500;
+}
+
+.backlinks { margin-top: 2rem; }
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Site header
+// ─────────────────────────────────────────────────────────────────────────
+
+.page-header .page-title {
+  font-family: var(--fs-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// KaTeX / display math
+// ─────────────────────────────────────────────────────────────────────────
+
+.katex-display {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+}
+
+:root[saved-theme="dark"] .katex-display {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Images
+// ─────────────────────────────────────────────────────────────────────────
+
+article img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 3px;
+  margin: 1.5rem 0;
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────
+// Responsive
+// ─────────────────────────────────────────────────────────────────────────
+
+@media (max-width: 800px) {
+  article > h1:first-of-type { font-size: 1.85rem; }
+  article h2 {
+    font-size: 1.3rem;
+    &::before { display: none; }
+  }
+  article table {
+    font-size: 0.82rem;
+    thead th, tbody td { padding: 0.45rem 0.55rem; }
+  }
+  article pre {
+    font-size: 0.78rem;
+    padding: 0.75rem 1rem;
+  }
+}
