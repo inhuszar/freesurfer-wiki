@@ -162,3 +162,6 @@ Script source fully read. Confidence is high for the pipeline flow. Confidence i
 
 > [!note] Audit noise: version-number filter on `--mni-1.0` and `--mni-1.5`
 > An automated audit may flag `--mni-1.0` and `--mni-1.5` as C3 invalid. These ARE valid flags (tcsh `case` statements at source lines 726–729). The audit filters out any source token ending in `.<digit>` as a version-number artefact, so `--mni-1.0` and `--mni-1.5` are dropped from the source set before comparison.
+
+> [!note] Audit noise: `--direct` false positive
+> An automated audit may flag `--direct` as C3 invalid. This IS a valid flag (`case "--direct"` at source line 622). The audit tool's shell `case` extractor requires a `:` or `)` terminator after the label (bash/sh style). tcsh `case` labels end with a bare newline, so the extractor misses them. `--direct` is confirmed present in source and in the wiki.

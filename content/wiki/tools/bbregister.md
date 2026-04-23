@@ -93,7 +93,7 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--s <subject>` | string | required | FreeSurfer subject ID |
+| `--s <subject>` / `--subject` | string | required | FreeSurfer subject ID |
 | `--mov <vol>` | file | required | Moving (functional/diffusion) volume |
 | `--reg <file>` | file | required* | Output register.dat file |
 | `--lta <file>` | file | — | Output LTA format registration |
@@ -123,8 +123,6 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--rh-only` | flag | off | Restrict to right hemisphere |
 | `--label <file>` | file | — | Restrict registration to a label file |
 | `--no-cortex-label` | flag | off | Do not restrict to cortex label |
-| `--interp trilinear` | string | trilinear | Interpolation method |
-| `--interp nearest` | string | — | Nearest-neighbor interpolation |
 | `--tol <val>` | float | 1e-8 | Powell convergence tolerance |
 | `--nmax <n>` | int | 36 | Maximum Powell iterations |
 | `--cost-fail <thresh>` | float | — | Error if final cost exceeds threshold |
@@ -134,12 +132,11 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--sd <dir>` | dir | `$SUBJECTS_DIR` | Override subjects directory |
 | `--feat <dir>` | dir | — | FSL FEAT directory shortcut |
 | `--threads <n>` | int | 1 | Number of OMP threads |
-| `--nocleanup` | flag | off | Do not remove temporary directory |
+| `--nocleanup` / `--no-cleanup` | flag | off | Do not remove temporary directory |
 | `--debug` | flag | off | Verbose/debug output |
 | `--nolog` | flag | off | Suppress log file creation |
-| `--no-cleanup` | flag | off | Alias for `--nocleanup` |
-| `--cleanup` | flag | on | Explicitly enable cleanup of temporary directory |
-| `--reg-header` | flag | off | Alias for `--init-header`: initialise from volume headers |
+| `--cleanup` / `--clean-up` | flag | on | Explicitly enable cleanup of temporary directory |
+| `--regheader` / `--reg-header` / `--init-header` | flag | off | Initialise from volume headers (all three are aliases) |
 | `--s-from-reg` | `<regfile>` | — | Extract subject ID from an existing register.dat file |
 | `--init-reg-out` | `<file>` | — | Save the initial (pre-BBR) registration to file |
 | `--init-best-header` | — | — | Add header-based init to `--init-best` candidate list |
@@ -149,9 +146,9 @@ where $\mathbf{T}$ is the 6-DOF rigid-body transform, $I_{\text{WM},i}$ and $I_{
 | `--include-zero-voxels` | — | off | Pass `--include-zero-voxels` to mri_segreg (include out-of-FoV voxels) |
 | `--mask` | `lhmask rhmask` | — | Per-hemisphere surface masks passed to mri_segreg |
 | `--nearest` | — | — | Use nearest-neighbour interpolation in mri_segreg |
-| `--trilinear` | — | on | Use trilinear interpolation (default) |
+| `--trilin` / `--trilinear` | — | on | Use trilinear interpolation in mri_segreg (default) |
 | `--surf-cost` | `<basename>` | — | Save per-vertex BBR cost map (basename.?h.mgh) |
-| `--subsamp` | `<n>` | — | Sample every Nth surface vertex during optimisation (speed/accuracy trade-off) |
+| `--nsub` / `--subsamp` | `<n>` | — | Sample every Nth surface vertex during optimisation (speed/accuracy trade-off) |
 | `--tolf` | `<val>` | — | Powell function-value tolerance (separate from overall `--tol`) |
 | `--tol1d` | `<val>` | — | Powell 1-D line search tolerance |
 | `--spm-nii` | — | off | Tell SPM registration sub-call to use NIfTI format |
@@ -293,3 +290,9 @@ The script logic is well-documented and the key parameters are clearly enumerate
 
 > [!gap] VSM registration space
 > The exact coordinate space relationship between the VSM and the moving volume (controlled by `--vsm-reg`) is not fully characterized from the script alone.
+
+> [!note] Audit noise: `--target-volume` C3 false positive
+> An automated audit may flag `--target-volume` as C3 invalid. The flag IS implemented (`case "--target-volume"` at source line 796) but the tcsh `case` statement is missing the trailing `:` that the shell extractor requires. The flag is valid and documented correctly above.
+
+> [!note] Audit noise: `--interp` removed
+> `--interp` was previously documented here but is NOT parsed by `bbregister`. It is constructed and passed as `--interp $Interp` to `mri_vol2surf` or `mri_segreg` internally. Use `--trilin`/`--trilinear` or `--nearest` to control interpolation at the `bbregister` level.

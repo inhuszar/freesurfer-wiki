@@ -80,23 +80,23 @@ The input feature space (`MRI_SP`) is a multi-frame surface parameter overlay, p
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides `SUBJECTS_DIR` |
-| `-true_class T` | float | Known class label for output comparison |
-| `-log fname` | filename | Log output file |
-| `-navgs N` | integer | Smoothing averages applied to input before classification |
-| `-label name` | label name | Restrict classification to a label region |
-| `-annot name` | annotation name | Annotation name for region mapping (default: `aparc`) |
-| `-annot_name name` | string | Additional annotation name |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-sdir <path>` | directory | `$SUBJECTS_DIR` | Overrides `SUBJECTS_DIR` environment variable |
+| `-a <N>` | integer | 0 | Number of smoothing averages applied to input curvature before classification |
+| `-c <true_class> <logfile>` | float, path | — | Known true class label for accuracy reporting; log results to file |
+| `-l <label_name>` | string | — | Restrict classification to vertices within this label region |
+| `-aname <name>` | string | `aparc` | Annotation file name used for region mapping |
+| `-annot <name>` | string | — | Include this annotation region in feature extraction (repeatable) |
 
 **Usage (inferred):** `mris_svm_classify [options] <subject> <hemi> <surf> <input> <output_subject> <svm_model>`
 
 ## Configuration Interactions
 
-- `-navgs` smoothing is applied to the input features before classification, identical to the smoothing applied during [[mris_svm_train]] (must match).
-- `-label` restricts classification to vertices within the label; other vertices receive a default value.
-- `-annot` enables annotation-based feature extraction (region-coded features).
+- `-a` smoothing is applied to the input features before classification, identical to the smoothing applied during [[mris_svm_train]] (must match).
+- `-l` restricts classification to vertices within the label; other vertices are masked out via `MRISmaskNotLabel()`.
+- `-annot` enables annotation-based feature extraction; vertices not matching the specified annotations are ripped.
+- `-c` takes two arguments: the true class value and a log filename. If `true_class > 1.0`, it is mapped to `-1.0` (binary class convention).
 
 ## Typical Use Cases
 

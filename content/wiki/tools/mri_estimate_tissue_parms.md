@@ -15,8 +15,7 @@ status: draft
 confidence: medium
 last_agent_update: 2026-04-15
 gaps:
-  - "Source is in attic/; full option list not read"
-  - "Optimization convergence criteria not documented"
+  - "Optimization convergence criteria not fully characterized"
 tags:
   - qmri
   - tissue-parameters
@@ -84,27 +83,33 @@ Constants: `MIN_T1 = 5`, `MIN_PD = 5` (avoid singularity), `MAX_ITER = 5000`.
 
 ## Configuration Options
 
-| Flag | Arguments | Default | Description |
-|------|-----------|---------|-------------|
-| `-tr <value>` | float | 0 | Repetition time (ms) |
-| `-te <value>` | float | 0 | Echo time (ms) |
-| `-fa <value>` | float | 0 | Flip angle (degrees) |
-| `-R <name>` | string | none | Output residual volume name |
-| `-conform` | flag | off | Conform input volumes |
-| `-sinc` | flag | on | Use sinc interpolation |
-| `-window <n>` | int | 3 | Sinc interpolation half-window size |
-| `-steps <n>` | int | 4 | Number of optimization steps |
-| `-thresh <value>` | float | 25 | Intensity threshold for valid voxels |
-| `-write_iters` | flag | off | Write intermediate iteration results |
+All flags are parsed via a single-dash-strip parser (case-insensitive for the multi-char flags, case-insensitive via `toupper` for single-char cases).
 
-> [!gap] Full flag list
-> The above is inferred from global variable declarations. The complete `get_option()` body was not read.
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-tr <val>` | float | 0 | Repetition time (ms) |
+| `-te <val>` | float | 0 | Echo time (ms) |
+| `-fa <val>` | float | 0 | Flip angle (degrees) |
+| `-r <name>` | string | none | Output residual volume name (`case 'R':`) |
+| `-conform` | — | off | Resample to isotropic 1 mm³ before fitting |
+| `-noconform` | — | off | Inhibit isotropic resampling (overrides `-conform`) |
+| `-sinc <halfwin>` | int | — | Use sinc interpolation with window half-width `halfwin` |
+| `-trilinear` | — | — | Use trilinear interpolation (disables `-sinc`) |
+| `-window` | — | off | Apply Hanning window to volumes |
+| `-dt <val>` | float | — | Optimization step size (`parms.dt`) |
+| `-tol <val>` | float | — | Optimization tolerance (`parms.tol`) |
+| `-n <n>` | int | — | Number of steps for global search (`case 'N':`) |
+| `-t <val>` | float | — | Intensity threshold: ignore voxels below this value in all images (`case 'T':`) |
+| `-w <n>` | int | — | Write intermediate volumes every N slices (`case 'W':`) |
+| `-m <val>` | float | — | Momentum for optimization (`case 'M':`) |
+| `-a` | — | off | Align volumes before averaging (`case 'A':`) |
 
 ## Configuration Interactions
 
 - `-tr`, `-te`, `-fa` can be specified globally to override header values. For multi-flip-angle datasets, these should match the acquisition parameters.
-- `-conform` enables volume conforming to standard FreeSurfer space before fitting.
-- `-sinc` and `-window` control interpolation during the optional alignment step.
+- `-conform` enables volume conforming to isotropic 1 mm³; `-noconform` suppresses this.
+- `-sinc <halfwin>` enables sinc interpolation with a specific window; `-trilinear` switches back to trilinear (disables sinc).
+- `-a` enables volume alignment before fitting; `-dt`, `-tol`, `-m` control the optimizer used in that alignment.
 
 ## Typical Use Cases
 
@@ -137,4 +142,4 @@ Not called by `[[recon-all]]`. Used in quantitative MRI research pipelines for m
 
 ## Confidence and Gaps
 
-**Medium confidence:** main function, FLASH model, and key optimization functions are confirmed from source. Complete option list was not read.
+**High confidence:** Full `get_option()` read. All flags confirmed from source. Note: first `case 'W':` block is compiled out with `#if 0`; only the second `case 'W':` (writing intermediate slices) is active.

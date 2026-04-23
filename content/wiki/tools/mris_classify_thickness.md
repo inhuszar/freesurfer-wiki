@@ -12,11 +12,11 @@ related:
   - "[[mris_anatomical_stats]]"
   - "[[mris_register]]"
 status: draft
-confidence: low
-last_agent_update: 2026-04-15
+confidence: medium
+last_agent_update: 2026-04-22
 gaps:
   - "Source in attic/ — may not be installed in 8.2.0."
-  - "Full flag set not read."
+  - "main() I/O flow and training/test split not traced."
   - "Random forest library (rforest.h) interface not documented."
 tags:
   - surface
@@ -69,17 +69,39 @@ where $\mathbf{x}$ is the thickness vector for a subject (one value per vertex i
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--true-class <n>` | int | 1 | Class label for "true" class |
-
-> [!gap] Full flag set not documented
-> Source was read only to line 80. Additional flags almost certainly exist.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-test <subject> <class> <log>` | string+int+string | — | Test subject `<subject>` as class `<class>` and write classification to `<log>`. |
+| `-aseg <label>` | int | — | Use aseg label `<label>` volume as an additional feature (repeatable). |
+| `-aseg_name <name>` | string | — | Segmentation volume name for aseg features. |
+| `-feature_fraction <f>` | float | — | Fraction of features to use at each tree node (in (0,1]). |
+| `-training_fraction <f>` | float | — | Fraction of subjects to use for training (in (0,1]). |
+| `-avgs <N>` | int | — | Compute kernel for maximum SNR up to N averages. |
+| `-num <N>` | int | — | Minimum number of labels required. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-ntrees <N>` | int | — | Number of trees in the random forest. |
+| `-max_depth <N>` | int | — | Maximum depth of each decision tree. |
+| `-nsteps <N>` | int | — | Number of steps for SNR computation. |
+| `-wt <dir>` / `-write <dir>` | string | — | Write optimal thickness vectors to directory `<dir>` (both flags are equivalent). |
+| `-stats` | — | off | Compute multi-scale p-values. |
+| `-bug` | — | off | Use multiplicative variance in SNR calculations (legacy behaviour). |
+| `-l <label>` | string | — | Mask classification to the specified label file. |
+| `-c <n>` | int | 1 | Class label for "true" (positive) class. |
+| `-s <N>` | int | — | Sort vertices by SNR and use top N for classification. |
+| `-m <area>` | float | — | Discard labels with surface area smaller than `<area>` mm². |
+| `-p <prefix>` | string | — | Label file prefix. |
+| `-t <thresh>` | float | — | F-statistic SNR threshold. |
+| `-w <file>` | string | — | Write trained random forest to `<file>`. |
+| `-o <subject>` | string | — | Use `<subject>` as the output subject name. |
+| `-n` | — | off | Use distribution-free estimate of SNR. |
+| `-b` | — | off | Apply Bonferroni correction to SNR values. |
 
 ## Configuration Interactions
 
-> [!gap] Interactions unknown
-> Not enough source was read to document configuration interactions.
+- `-wt <dir>` and `-write <dir>` are equivalent aliases; both set the write directory for optimal thickness vectors.
+- `-test <subject> <class> <log>` shifts the tool to inference mode; without it, the tool trains on all provided subjects.
+- `-aseg <label>` is repeatable; each call adds one more segmentation-volume feature.
+- `-stats` enables multi-scale p-value computation, which is separate from the random forest classification path.
 
 ## Typical Use Cases
 
@@ -107,7 +129,7 @@ Not part of `recon-all`. Used in group comparison research studies.
 
 ## Confidence and Gaps
 
-**Confidence: low.** Only the preamble and function prototypes were read. The tool's exact I/O, training/prediction split, and output format are all unknown.
+**Confidence: medium.** The full `get_option()` function has been read and all flags documented. The tool's training/prediction split logic and output format details were not traced through `main()`.
 
-> [!gap] Nearly all details unverified
-> Read the full `main()` and `get_option()` functions to document this tool properly.
+> [!gap] I/O and training flow not fully traced
+> The full `main()` function was not read. The exact format of input subject lists, the training/test split mechanism, and the structure of output files (beyond the write directory flag) remain unverified.

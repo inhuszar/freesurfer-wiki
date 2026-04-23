@@ -129,6 +129,7 @@ All flags are case-insensitive (parsed with `stricmp`). Single-character fallbac
 | `-L <file>` | path | none | Write cutting plane log to the specified file |
 | `-A <file>` | path | none | Write augmented cutting plane log (CRS and Talairach XYZ for CC and pons) to the specified file |
 | `-D` | — | off | Enable diagnostic logging (`logging=1`) |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel diagnostic output (single-dash form; uses `+1` strip) |
 | `-auto-man <auto> <man> <editsfile>` | 3 paths | off | Propagate manual edits: compare automatically-generated volume `auto` to manually-edited volume `man`, write differences to `editsfile` (pass `nofile` to suppress); sets `DoAutoMan=1` |
 | `-no-auto-man` | — | — | Disable auto-man propagation (`DoAutoMan=0`) |
 | `-ctab <file>` | path | none | Load a colour table from the specified ASCII file for label interpretation |

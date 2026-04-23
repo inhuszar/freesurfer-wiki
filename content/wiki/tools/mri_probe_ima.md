@@ -62,13 +62,13 @@ Flag list verified against `mri_probe_ima/mri_probe_ima.cpp`.
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| --i | `<imafile>` | — | Siemens `.ima` file to probe; replaces incorrect --f |
+| `--i` | `<imafile>` | — | Siemens `.ima` file to probe; replaces incorrect --f |
 | `--o` | `<offset> <type> [<len>]` | — | Byte offset, data type string, and optional string length; replaces split --o/--t/--len |
 | `--key` | `<str>` | — | Named key to query from the IMA dictionary |
 | `--keyno` | `<int>` | — | Key number to query (positional within header struct) |
 | `--attr` | `<attrname>` | — | Query a named attribute (e.g., `isima` for Siemens IMA check) |
-| --fileinfo | — | off | Dump all available interpreted file information to stdout; replaces incorrect --dumpfileinfo |
-| --ob | `<stem>` | `img` | Dump pixel data to bshort files with this basename; replaces incorrect --bstem |
+| `--fileinfo` | — | off | Dump all available interpreted file information to stdout; replaces incorrect --dumpfileinfo |
+| `--ob` | `<stem>` | `img` | Dump pixel data to bshort files with this basename; replaces incorrect --bstem |
 | `--dictionary` | — | off | Print the IMA dictionary to stdout and exit |
 | `--verbose` | — | off | Verbose output |
 | `--debug` | — | off | Enable debug output |

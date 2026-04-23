@@ -14,9 +14,8 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Full option list requires reading get_option() which was not included in source read"
   - "Exact overlap/distance-transform cost metric not fully characterized"
 tags:
   - registration
@@ -82,18 +81,43 @@ The DCT coefficient optimization uses Powell's method (`powell_minimize`) with t
 
 ## Configuration Options
 
-> [!gap] Options not fully enumerated
-> The `get_option()` function was not read. Based on global variable definitions:
-
-| Variable | Default | Likely flag | Description |
-|----------|---------|-------------|-------------|
-| `Gncoef` | 10 | `-ncoef` | Number of DCT coefficients |
-| `skip` | 2 | `-skip` | Voxel subsampling step |
-| `distance` | 1.0 | `-distance` | Distance threshold |
-| `binary_label` | 128 | `-label` | Label value for binary mask |
-| `target_label` | 128 | `-target_label` | Target label value |
-| `apply_transform` | 1 | `-noapply` | Write aligned output |
-| `pf_overlap` | `compute_overlap` | `-dt` (inferred) | Switch to distance-transform cost |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-debug_voxel` | `<x> <y> <z>` | — | Enable per-voxel debugging at the given voxel coordinates |
+| `-cj` | — | off | Constrain the Jacobian; sets `ratio_thresh=0.25` and disables negative-vertex allow |
+| `-neg` | — | off | Allow negative vertices during morphing |
+| `-morph_to` | — | off | Morph source to atlas space instead of the default |
+| `-find_label` | `<label> <x> <y> <z>` | — | Find a specific CMA label near the given RAS coordinates |
+| `-distance` | — | — | Use distance-transform SSE as the overlap cost instead of direct overlap counting |
+| `-scale_smoothness` | `<0\|1>` | 1 | Scale the smoothness coefficient; also sets `npasses=2` |
+| `-momentum` | — | — | Use fixed time-step integration (alias: `-fixed`) |
+| `-fixed` | — | — | Use fixed time-step integration (alias: `-momentum`) |
+| `-levels` | `<n>` | — | Number of multi-resolution levels |
+| `-area` | `<float>` | — | Area term weight (`l_area`) |
+| `-tol` | `<float>` | — | Convergence tolerance |
+| `-si` | `<float>` | — | Smooth GCA morph intensities with the given sigma |
+| `-sigma` | `<float>` | — | Sigma parameter for GCA morph |
+| `-rthresh` | `<float>` | — | Jacobian compression ratio threshold |
+| `-dt` | `<float>` | — | Integration time step |
+| `-passes` | `<n>` | 2 | Number of integration passes |
+| `-skip` | `<n>` | 2 | Voxel subsampling step for source/target voxel lists |
+| `-hippo` | — | off | Assume source is a high-resolution hippocampal volume and target is an aseg; sets `navgs=1024`, `sigma=0`, `l_distance=0` |
+| `-none` | — | off | Make no assumptions about label type (neither angio nor hippo) |
+| `-wm` | — | off | Assume source and target are white-matter volumes |
+| `-upsample` | `<n>` | — | Upsample the GCA morph `n` times |
+| `-a` | `<n>` | — | Smooth gradient with the given number of averages (`navgs`) |
+| `-b` | `<float>` | — | Binary term weight (`l_binary`) |
+| `-f` | `<n>` | — | Apply `n` mode filters before writing the transformed volume |
+| `-i` | `<fname>` | — | Read intensity image from file for debugging |
+| `-j` | `<float>` | — | Jacobian term weight (`l_jacobian`) |
+| `-k` | `<float>` | — | Exponential `k` parameter (`exp_k`) |
+| `-l` | `<label>` | Right\_Hippocampus | Use named aseg label as the target structure (sets mode to LABEL) |
+| `-m` | `<float>` | — | Momentum value |
+| `-n` | `<n>` | 10 | Number of DCT coefficients |
+| `-p` | `<n>` | 1 | Padding of source bounding box in voxels (`PADVOX`) |
+| `-t` | `<fname>` | — | Read initial affine transform from file |
+| `-view` | `<x> <y> <z>` | — | Set the viewing voxel coordinates for diagnostic output (`Gsx`, `Gsy`, `Gsz`) |
+| `-w` | `<n>` | — | Write snapshot every `n` iterations (enables `DIAG_WRITE`) |
 
 ## Configuration Interactions
 
@@ -126,4 +150,4 @@ Specialized tool for vascular or binary-mask registration. Not called by [[recon
 
 ## Confidence and Gaps
 
-Confidence is **medium**. Core algorithm concepts are clear. Full option list needs verification.
+Confidence is **medium**. Core algorithm concepts are clear from source. All flags documented from `get_option()`. Cost metric details need further characterisation.

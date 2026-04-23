@@ -112,6 +112,7 @@ where `thresh` defaults to 0 (exact comparison) and can be raised with `--thresh
 | `--rms` | — | off | Print root mean squared difference over all non-zero voxels |
 | `--count` | — | off | Print number of differing voxels |
 | `--segdiff labelIDX diffaseg` | int + file | — | Restrict difference to voxels with the given segmentation label |
+| `--diff_label_suspicious <vol>` | path | — | Save a volume where differing voxels are replaced with label `SUSPICIOUS`; intended for comparing `aseg.mgz` files |
 | `--merge-edits newauto oldauto edits out` | 4 files | — | Merge manual edits from one auto segmentation into another |
 | `--diff-ctab` | — | off | Check embedded color tables |
 | `--diff-imag` | — | off | Check imaginary component of complex volumes |

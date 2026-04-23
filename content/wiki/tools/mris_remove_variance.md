@@ -82,7 +82,7 @@ $$
 c_i' = c_i - r \cdot \frac{\sigma_c}{\sigma_v} \cdot v_i
 $$
 (or equivalent linear regression residual — exact formula from `MRISremoveValueVarianceFromCurvature()` in `mrisurf.c` should be verified).
-5. Optionally smooth the residuals (`MRISaverageCurvatures(mris, navgs)`).
+5. Optionally smooth the residuals with `-a <n>` averaging iterations (`MRISaverageCurvatures(mris, navgs)`).
 6. Write residuals to `<out_curv>`.
 
 > [!gap] Exact projection formula
@@ -94,14 +94,14 @@ $$
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--navgs <n>` / `-n <n>` | integer | 0 | Number of curvature averaging iterations applied to the residual output. 0 means no smoothing. |
+| `-a <n>` | integer | 0 | Number of curvature averaging iterations applied to the residual output. 0 means no smoothing. |
 | `-v <diagno>` | integer | 0 | Set diagnostic vertex number; enables verbose reporting including post-decorrelation correlation coefficient. |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` | boolean | — | Print usage and exit. |
 
 ### Configuration Interactions
 
-- `--navgs` smooths the output after decorrelation. If the variance removal reduces high-frequency noise, additional smoothing may be redundant.
+- `-a` smooths the output after decorrelation. If the variance removal reduces high-frequency noise, additional smoothing may be redundant.
 - When `-v` is set to a valid vertex number, the tool reports both the pre- and post-decorrelation correlation coefficient.
 
 ## Typical Use Cases

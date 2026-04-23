@@ -52,19 +52,19 @@ The workflow:
 
 ## Inputs
 
-| Positional | Description |
-|------------|-------------|
-| `argv[1]` | First surface (with `origx/origy/origz` representing original positions) |
-| `argv[2]` | Second surface (providing `x/y/z` representing deformed positions) |
-| `--like vol` | Template volume defining the output geometry |
-| `--i invol` | Optional input volume (unclear usage) |
-| `--o outfile` | Output volume filename |
+| Argument | Description |
+|----------|-------------|
+| `argv[1]` (positional) | Start surface (read as current vertex positions `x/y/z`) |
+| `argv[2]` (positional) | End surface (saved as `origx/origy/origz`; displacement = `argv[1] − argv[2]`) |
+| `-l <vol>` | Template volume defining the output geometry |
+| `-a <invol> <outfile>` | Optional: input volume to warp and output path |
 
 ## Outputs
 
 | Output | Description |
 |--------|-------------|
-| 3-frame warp volume | Volume with frames (dx, dy, dz) per voxel, in voxel coordinates. Saved to `--o outfile`. |
+| `<output>.m3z` (positional `argv[3]`) | GCA morph file written via `GCAMwrite`. Contains the volumetric displacement field. |
+| Optional warped volume (via `-a`) | Result of applying the computed warp to an input volume, written to the specified output path. |
 
 ## Mathematical Foundations
 
@@ -80,7 +80,7 @@ $$
 
 Scattered into the volume at voxel position $(x_v^{\text{vox}}, y_v^{\text{vox}}, z_v^{\text{vox}})$ using trilinear splatting.
 
-Gaps are filled via iterative Laplacian smoothing over `niter` (default: 500) iterations, solving:
+Gaps are filled via iterative Laplacian smoothing over `N` (default: 500, set via `-i`) iterations, solving:
 $$
 \mathbf{w}_{\text{smooth}} \leftarrow \text{smooth}(\mathbf{w}, \text{niter})
 $$
@@ -89,30 +89,35 @@ with zero boundary conditions at the volume edges (when not in `#if 0` code bloc
 
 ## Configuration Options
 
+The parser strips one leading dash (`option = argv[1] + 1`) and dispatches on the first character (case-insensitive). Flags are single-character short options only.
+
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--like vol` | path | required | Template volume for output geometry |
-| `--i invol` | path | — | Input volume |
-| `--o outfile` | path | required | Output warp volume filename |
-| `-niter N` | integer | 500 | Number of smoothing iterations |
-| `-no_write` | — | off | Compute but do not write output |
-| `-pad N` | integer | 20 | Padding added around the surface bounding box |
+| `-l <vol>` | path | — | Template volume defining the output geometry (like-volume) |
+| `-i <N>` | integer | 500 | Number of soap-bubble smoothing iterations |
+| `-n` | — | off | Suppress writing the final warp (no-write mode) |
+| `-a <invol> <outfile>` | 2 paths | — | Apply computed warp to `invol` and write result to `outfile` |
 
-Positional: `argv[1]` = surface 1 (original), `argv[2]` = surface 2 (deformed).
+Positional: `argv[1]` = surface 1 (start/original), `argv[2]` = surface 2 (end/deformed), `argv[3]` = output `.m3z` warp file (when `-n` is not used).
 
 ## Configuration Interactions
 
 - The two input surfaces must have the same number of vertices and the same topology.
-- `--like vol` defines the voxel grid for the output — the warp is in that volume's voxel coordinates.
-- `niter` controls the smoothness of the interpolated warp; more iterations = smoother but potentially less accurate.
-- Zero boundary conditions at volume edges (encoded in the `#if 0` block) appear disabled in the current source.
+- `-l <vol>` defines the voxel grid for the output — the warp is in that volume's voxel coordinates.
+- `-i <N>` controls the smoothness of the interpolated warp; more iterations = smoother but potentially less accurate.
+- Zero boundary conditions at volume edges (encoded in a `#if 0` block) are disabled in the current source.
+- `-n` suppresses writing `argv[3]`; `-a` applies the warp to a volume and writes the result independently.
 
 ## Typical Use Cases
 
-**Interpolate a surface-to-sphere deformation into a volume:**
+**Interpolate a surface-to-sphere deformation into a warp field:**
 ```bash
-mris_interpolate_warp --like brain.mgz --o warp.mgz \
-    lh.white lh.sphere
+mris_interpolate_warp -l brain.mgz lh.white lh.sphere warp.m3z
+```
+
+**Apply the computed warp to a volume:**
+```bash
+mris_interpolate_warp -l brain.mgz -a input.mgz warped.mgz lh.white lh.sphere warp.m3z
 ```
 
 ## Pipeline Context
@@ -125,7 +130,7 @@ Not part of `recon-all`. Used in post-processing morphometry and registration wo
 > The code for setting zero boundary conditions at the volume edges is inside a `#if 0` block and is therefore not active. This may result in edge effects in the smoothed warp.
 
 > [!gotcha] Warp is in voxel coordinates
-> The output displacement field is in voxel coordinates of the `--like` template volume, not in mm. This needs to be accounted for when applying the warp.
+> The output displacement field is in voxel coordinates of the `-l` template volume, not in mm. This needs to be accounted for when applying the warp.
 
 ## Related Tools
 
@@ -138,6 +143,4 @@ Not part of `recon-all`. Used in post-processing morphometry and registration wo
 - Displacement computation (current - original vertex positions)
 - Voxel-coordinate splatting via `MRIinterpolateIntoVolumeFrame`
 - Iterative smoothing to fill gaps
-
-> [!gap] Output format
-> Whether the output is a standard 3-frame MGZ volume or a GCA morph file has not been confirmed.
+- Output is a GCA morph (`.m3z`) written via `GCAMwrite(gcam, argv[3])`

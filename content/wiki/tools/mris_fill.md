@@ -67,36 +67,38 @@ $$
 \text{voxel}(i,j,k) = \begin{cases} 1 & \text{if point } p_{ijk} \text{ is inside } \mathcal{S} \\ 0 & \text{otherwise} \end{cases}
 $$
 
-The surface is sampled at the specified resolution (`-res`) or at the resolution of the template volume (`-vol`). The `MRISfillInterior()` function handles the inside-outside determination.
+The surface is sampled at the specified resolution (`-r`) or at the resolution of the template volume (`-t`). The `MRISfillInterior()` function handles the inside-outside determination.
 
-If `-conform` is used, the output is resampled to a 256³ 1 mm isotropic LIA volume, matching the standard FreeSurfer conformed space.
+If `-c` is used, the output is resampled to a 256³ 1 mm isotropic LIA volume, matching the standard FreeSurfer conformed space.
 
-When a template volume is provided with `-vol`, the output geometry (voxel size, dimensions, orientation) is copied from the template, and the surface is filled at that template's resolution.
+When a template volume is provided with `-t`, the output geometry (voxel size, dimensions, orientation) is copied from the template, and the surface is filled at that template's resolution.
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-res <val>` | Output voxel resolution in mm (default: 0.25 mm isotropic). |
-| `-conform` | Output a 256³ 1 mm isotropic conformed volume (overrides `-res`). |
-| `-vol <template.mgz>` | Use this volume's geometry as the output template (overrides `-res`). |
-| `-sf <factor>` | Upsample the template by this integer factor before filling. |
+The parser strips one leading dash (`option = argv[1] + 1`) and dispatches on the first character (case-insensitive).
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-r <val>` | float | 0.25 | Output voxel resolution in mm (isotropic). Passed directly to `MRISfillInterior`. |
+| `-c` | — | off | Conform the output to a 256³ 1 mm isotropic LIA volume (overrides `-r`). |
+| `-t <template.mgz>` | path | — | Use this volume's geometry as the output template (overrides `-r`). |
+| `-s <factor>` | integer | 1 | Upsample the template by this integer factor before filling (used with `-t`). |
 
 ## Configuration Interactions
 
-- `-conform` takes precedence over `-res` and produces a standard FreeSurfer conformed 256³ volume.
-- `-vol` and `-sf` together allow filling at a finer grid than the template: the template is upsampled by `factor` before rasterisation.
-- Without any resolution flags, the default resolution is 0.25 mm isotropic — much finer than the standard 1 mm processing resolution. This produces large output volumes (e.g., ~260 MB for a full cortical surface at 0.25 mm).
+- `-c` takes precedence over `-r` and produces a standard FreeSurfer conformed 256³ volume.
+- `-t` and `-s` together allow filling at a finer grid than the template: the template is upsampled by `factor` before rasterisation.
+- Without any resolution flags, the default resolution is 0.25 mm isotropic — much finer than the standard 1 mm processing resolution. This produces large output volumes.
 
 > [!gotcha] Default resolution produces large files
-> The default 0.25 mm resolution produces a volume of approximately $1024^3$ voxels, which is ~1 GB for a full brain. Specify `-vol brain.mgz` to match the standard resolution if fine detail is not needed.
+> The default 0.25 mm resolution produces a volume of approximately $1024^3$ voxels, which is ~1 GB for a full brain. Specify `-t brain.mgz` to match the standard resolution if fine detail is not needed.
 
 ## Typical Use Cases
 
 ### Fill white surface at standard resolution
 
 ```bash
-mris_fill -vol $SUBJECTS_DIR/subject01/mri/brain.mgz \
+mris_fill -t $SUBJECTS_DIR/subject01/mri/brain.mgz \
   $SUBJECTS_DIR/subject01/surf/lh.white \
   $SUBJECTS_DIR/subject01/mri/lh.white.fill.mgz
 ```
@@ -104,7 +106,7 @@ mris_fill -vol $SUBJECTS_DIR/subject01/mri/brain.mgz \
 ### Fill pial surface at high resolution
 
 ```bash
-mris_fill -res 0.5 \
+mris_fill -r 0.5 \
   $SUBJECTS_DIR/subject01/surf/lh.pial \
   $SUBJECTS_DIR/subject01/mri/lh.pial.highres.fill.mgz
 ```
@@ -112,7 +114,7 @@ mris_fill -res 0.5 \
 ### Fill surface to conformed space
 
 ```bash
-mris_fill -conform \
+mris_fill -c \
   $SUBJECTS_DIR/subject01/surf/lh.white \
   $SUBJECTS_DIR/subject01/mri/lh.white.conformed.fill.mgz
 ```

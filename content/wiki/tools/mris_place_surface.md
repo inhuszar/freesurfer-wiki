@@ -126,7 +126,7 @@ For T2/FLAIR pial placement, the `MRIS_MultimodalRefinement` engine is used when
 | `--repulse-surf` | `surface` | — | Surface to repel from (usually white for pial) |
 | `--white-surf` | `surface` | — | Sets white{xyz} coordinates used for T2/FLAIR and `--pin-medial-wall` |
 | `--blend-surf` | `weight surface` | — | Blend input with this surface: `new = (1-w)*input + w*blend` |
-| `--cover-seg` | `SegVol` | — | Force surface to cover a segmentation volume (alias: `--cover_seg`) |
+| `--cover-seg` / `--cover_seg` | `SegVol` | — | Force surface to cover a segmentation volume |
 | `--rip-label` | `label` | — | Do not move vertices outside this label; also sets `RipMidline=0` |
 | `--rip-overlay` | `file` | — | Rip vertices where overlay value > 0.5 |
 | `--rip-surf` | `surface` | — | Reference surface for midline/BG/WMSA ripping (default: use input surface) |
@@ -226,7 +226,7 @@ These flags override thresholds read from `--adgws-in`. Must be specified after 
 | `--segvolname` | `name` | `aseg.presurf.mgz` | Override default segmentation volume name (used with `--s`) |
 | `--n_averages` | `N` | `0` (auto) | Starting number of smoothing averages (0 = use surface-type default) |
 | `--max-threads` | _(none)_ | off | Use all available OpenMP threads |
-| `--max-threads-1` | _(none)_ | off | Use all available OpenMP threads minus one (alias: `--max-threads-minus-1`) |
+| `--max-threads-1` / `--max-threads-minus-1` | _(none)_ | off | Use all available OpenMP threads minus one |
 | `--threads` | `N` | `1` | Set number of OpenMP threads explicitly (alias: `--nthreads`) |
 
 ### Optional — Output/Debug
@@ -253,9 +253,13 @@ These flags cause `mris_place_surface` to perform a standalone computation and e
 | `--curv-map` | `surf nbrs curvature_avgs out` | — | Compute and write mean curvature map |
 | `--area-map` | `surf out` | — | Compute and write vertex area map |
 | `--fit` | `inputsurf mri targsurf loc hin nzr rep iters outsurf` | — | Fit a surface to a target using specified cost weights |
-
-> [!gap] Experimental / advanced flags not documented
-> Additional undocumented flags exist for target-point-set placement (`--tps`, `--tps-debug`, `--tps-targetpointset`, `--tps-vertexpointset`, `--tps-mask`, `--tps-vector`, `--tps-patch`) and a `--s` subject-shorthand mode that may not be fully supported in current usage. Consult `mris_make_surfaces/mris_place_surface.cpp` for full details.
+| `--tps` | `weight pointset nhops fill01 angleprune01 AngleDegThresh distprune01 DistMmThresh` | — | Target-point-set placement: add a cost term attracting surface vertices toward a JSON pointset (8 args required) |
+| `--tps-debug` | _(none)_ | off | Enable debug output for target-point-set placement |
+| `--tps-targetpointset` | `<file>` | — | Save the target pointset to file (JSON format) |
+| `--tps-vertexpointset` | `<file>` | — | Save the vertex pointset to file |
+| `--tps-mask` | `<file>` | — | Mask file restricting target-point-set attraction |
+| `--tps-vector` | `<file>` | — | Vector file for target-point-set placement |
+| `--tps-patch` | `<file>` | — | Patch file for target-point-set placement |
 
 ## Configuration Interactions
 

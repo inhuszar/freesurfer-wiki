@@ -55,7 +55,7 @@ Positional arguments:
 
 1. **Label extraction:** For each label value on the command line, calls `extract_labeled_image()` which sets matching voxels to the label value and all others to 0.
 
-2. **Gaussian smoothing** (optional): If `-sigma <s>` is specified, a 3D Gaussian kernel of standard deviation `s` is convolved with the binary mask:
+2. **Gaussian smoothing** (optional): If `-s <s>` is specified, a 3D Gaussian kernel of standard deviation `s` is convolved with the binary mask:
 $$
 \text{out}(x) = \mathcal{G}_\sigma * \text{mask}(x)
 $$
@@ -69,15 +69,16 @@ $$
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `-T <file>` | path | none | LTA transform to apply to the output |
-| `-out_like <vol>` | path | none | Output volume has geometry of this template |
-| `-sigma <s>` | float | 0 | Smooth the output with Gaussian of std dev `s` mm |
+| `-out_like <vol>` / `-ol` | path | none | Output volume has geometry of this template |
+| `-s <s>` | float | 0 | Smooth the output with Gaussian of std dev `s` mm (`case 'S':`) |
 | `-dilate <n>` | int | 0 | Dilate the binary mask `n` times |
 | `-erode <n>` | int | 0 | Erode the binary mask `n` times |
 | `-exit_none_found` | flag | off | Exit with error code if no voxels of specified label found |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 
 ## Configuration Interactions
 
-- `-sigma` converts the output to floating-point; use carefully if downstream tools expect integer labels.
+- `-s` converts the output to floating-point; use carefully if downstream tools expect integer labels.
 - `-T` and `-out_like` can be combined to remap labels to a different space.
 - `-dilate` and `-erode` are sequential operations; dilation followed by erosion is a morphological closing.
 - Multiple label values are extracted cumulatively into the same output volume.
@@ -95,7 +96,7 @@ mri_extract_label aseg.mgz 17 53 both_hippo.mgz
 mri_extract_label aseg.mgz 17 lh_hippo_dilated.mgz -dilate 3
 
 # Extract with Gaussian smoothing
-mri_extract_label aseg.mgz 17 lh_hippo_smooth.mgz -sigma 1.5
+mri_extract_label aseg.mgz 17 lh_hippo_smooth.mgz -s 1.5
 
 # Exit with error if label not found
 mri_extract_label aseg.mgz 999 dummy.mgz -exit_none_found
@@ -110,7 +111,7 @@ Not called by `[[recon-all]]` directly. Used in post-processing scripts to isola
 > [!gotcha] Multiple labels create a combined mask
 > When multiple labels are specified, the output contains all of them in a single volume. Voxels from different labels retain their original integer values, not a unified binary mask.
 
-> [!gotcha] -sigma produces float output
+> [!gotcha] `-s` produces float output
 > Gaussian smoothing converts the output type to float, which may cause issues with tools expecting integer segmentation values.
 
 > [!gotcha] nvoxels is tracked globally

@@ -135,7 +135,7 @@ where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}
 | `--splitgifti` | | `off` | Separate GIFTI surface and data arrays |
 | `--giftioutdir` | `<dir>` | `—` | Output directory for splitgifti |
 | `--delete-cmds` | | `off` | Delete command history from surface |
-| `--center` | | `off` | Move centre of surface to origin |
+| `--center` / `-center` | | `off` | Move centre of surface to origin |
 | `--vol-geom` | `<vol>` | `—` | Use MRI vol to set volume geometry |
 | `--remove-vol-geom` | | `off` | Set vg valid flag to 0 |
 | `--to-surf` | `<surfcoords>` | `—` | Copy coordinates from another surface |
@@ -150,8 +150,10 @@ where $\mathbf{M}_{\text{vox2ras-tkr}}$ is the tkr-to-vox matrix and $\mathbf{M}
 | `--label2mask` | `<surf> <label> <out>` | `—` | Convert label to binary mask |
 | `--to-curv` | `<in> <surf> <out>` | `—` | Convert input to curv format |
 | `--left-right-rev` | | `off` | Left-right reverse surface |
-| `--cras_add` | | `off` | Shift centre to scanner coord (deprecated) |
-| `--cras_subtract` | | `off` | Reverse cras_add (deprecated) |
+| `--cras_add` / `--cras_correction` | | `off` | Shift centre to scanner coord (deprecated; `--cras_correction` is alias) |
+| `--cras_subtract` / `--cras_remove` | | `off` | Reverse cras_add (deprecated; `--cras_remove` is alias) |
+| `--no-writect` | | `off` | Suppress writing the colour table to the output file |
+| `-nolabel` | — | — | **Not a flag — positional value.** Passing the string `nolabel` as positional argument 4 suppresses label reading. The audit extractor promotes this `strcmp(argv[4], "nolabel")` comparison to pseudo-flag `-nolabel`. |
 
 ## Configuration Interactions
 

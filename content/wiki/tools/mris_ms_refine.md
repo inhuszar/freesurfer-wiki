@@ -79,48 +79,50 @@ Flags are parsed by a custom `get_option()` function using case-insensitive matc
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--nbrs` | `int` | — | Set neighbourhood size for surface averaging. |
-| `--sample` | `nearest`\|`trilinear` | — | Volume sampling type: `nearest` or `trilinear`. |
-| `--fix_T1` | (flag) | off | Fix T1 values of gray and white matter (enables T1-corrected tissue classification). |
-| `--min_max_scale` | `int` | — | Min/max filter size (in voxels); controls the scale of intensity normalization. |
-| `--orig` | (flag) | off | Use the `orig` surface as the initial surface placement instead of the input surface. |
-| `--start` | `white pial` | — | Use named white and pial surface files for initial placement (disables `--orig`). Two string arguments. |
-| `--maxv` | `int` | — | Limit computations to the first N vertices (for debugging). |
-| `--minv` | `int` | — | Start computations from vertex number N (for debugging). |
-| `--dstep` | `float` | — | Volume sampling step size in mm along the normal. |
-| `--T1` | `file` | — | Read pre-computed T1 parameter map from file (bypasses T1 estimation from FLASH). |
-| `--TOL` | `float` | `1e-3` | Integration tolerance for convergence. |
-| `--PD` | `file` | — | Read pre-computed PD (proton density) parameter map from file. |
-| `--brain` | `string` | `brain` | Name of brain volume to load from the subject's `mri/` directory. |
-| `--SDIR` | `dir` | `$SUBJECTS_DIR` | Override subjects directory. |
-| `--median` | (flag) | off | Apply median filtering to parameter maps before use. |
-| `--map_dir` | `dir` | — | Read parameter maps and residuals from this directory instead of the default. |
-| `--graymid` | (flag) | off | Generate a graymid surface at the midpoint between white and pial. |
-| `--rval` | `int` | — | Fill value for right hemisphere in the segmentation. |
-| `--nbhd_size` | `int` | — | Neighbourhood size for cortical thickness calculation. |
-| `--lval` | `int` | — | Fill value for left hemisphere in the segmentation. |
-| `--whiteonly` | (flag) | off | Generate only the white matter surface (skip pial refinement). |
-| `--pial` | `string` | — | Output pial surface filename. |
-| `--write_vals` | (flag) | off | Write gray and white surface targets to `.w` files for inspection. |
-| `--name` | `string` | — | Base name for output files (overrides `parms.base_name`). |
-| `--dt` | `float` | `0.5` | Integration time step; sets `parms.dt` and switches to momentum integration. |
-| `--spring` | `float` | `0.0` | Spring energy weight (`parms.l_spring`). |
-| `--repulse` | `float` | `1.0` | Self-repulsion energy weight (`parms.l_repulse`). |
-| `--grad` | `float` | — | Gradient energy weight (`parms.l_grad`). |
-| `--external` | `float` | `1.0` | External energy weight (`parms.l_external`). |
-| `--tspring` | `float` | `1.0` | Tangential spring energy weight (`parms.l_tspring`). |
-| `--nspring` | `float` | `0.5` | Normal spring energy weight (`parms.l_nspring`). |
-| `--curv` | `float` | `0.1` | Curvature energy weight (`parms.l_curv`). |
-| `--smooth` | `int` | — | Number of smoothing iterations to apply to the surface before deformation. |
-| `--smooth_parms` | `int` | — | Number of smoothing iterations to apply to parameter maps. |
-| `--output` | `string` | — | Output suffix appended to all output file names. |
-| `--vavgs` | `int` | — | Number of averaging iterations to smooth surface values before use. |
-| `--white` | `string` | `white` | White matter surface name. |
-| `--intensity` | `float` | `0.0` | Intensity energy weight (`parms.l_intensity`). |
-| `--lm` | (flag) | off | Use line minimization instead of momentum integration. |
-| `--smoothwm` | `int` | — | Write a smoothed white-matter surface with this many iterations. |
-| `--sigma` | `float` | — | Gaussian smoothing sigma applied to volumes. |
-| `--add` | (flag) | off | Allow adding vertices to the tessellation during deformation. |
+| `-nbrs` | `int` | — | Set neighbourhood size for surface averaging. |
+| `-sample` | `nearest`\|`trilinear` | — | Volume sampling type: `nearest` or `trilinear`. |
+| `-nearest` | — | — | **Not a standalone flag — argument value.** Passing `nearest` as the argument to `-sample` selects nearest-neighbour sampling. The audit extractor promotes `stricmp(argv[2], "nearest")` to pseudo-flag `-nearest`. |
+| `-trilinear` | — | — | **Not a standalone flag — argument value.** Passing `trilinear` as the argument to `-sample` selects trilinear interpolation. The audit extractor promotes `stricmp(argv[2], "trilinear")` to pseudo-flag `-trilinear`. |
+| `-fix_T1` | (flag) | off | Fix T1 values of gray and white matter (enables T1-corrected tissue classification). |
+| `-min_max_scale` | `int` | — | Min/max filter size (in voxels); controls the scale of intensity normalization. |
+| `-orig` | (flag) | off | Use the `orig` surface as the initial surface placement instead of the input surface. |
+| `-start` | `white pial` | — | Use named white and pial surface files for initial placement (disables `-orig`). Two string arguments. |
+| `-maxv` | `int` | — | Limit computations to the first N vertices (for debugging). |
+| `-minv` | `int` | — | Start computations from vertex number N (for debugging). |
+| `-dstep` | `float` | — | Volume sampling step size in mm along the normal. |
+| `-T1` | `file` | — | Read pre-computed T1 parameter map from file (bypasses T1 estimation from FLASH). |
+| `-TOL` | `float` | `1e-3` | Integration tolerance for convergence. |
+| `-PD` | `file` | — | Read pre-computed PD (proton density) parameter map from file. |
+| `-brain` | `string` | `brain` | Name of brain volume to load from the subject's `mri/` directory. |
+| `-SDIR` | `dir` | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-median` | (flag) | off | Apply median filtering to parameter maps before use. |
+| `-map_dir` | `dir` | — | Read parameter maps and residuals from this directory instead of the default. |
+| `-graymid` | (flag) | off | Generate a graymid surface at the midpoint between white and pial. |
+| `-rval` | `int` | — | Fill value for right hemisphere in the segmentation. |
+| `-nbhd_size` | `int` | — | Neighbourhood size for cortical thickness calculation. |
+| `-lval` | `int` | — | Fill value for left hemisphere in the segmentation. |
+| `-whiteonly` | (flag) | off | Generate only the white matter surface (skip pial refinement). |
+| `-pial` | `string` | — | Output pial surface filename. |
+| `-write_vals` | (flag) | off | Write gray and white surface targets to `.w` files for inspection. |
+| `-name` | `string` | — | Base name for output files (overrides `parms.base_name`). |
+| `-dt` | `float` | `0.5` | Integration time step; sets `parms.dt` and switches to momentum integration. |
+| `-spring` | `float` | `0.0` | Spring energy weight (`parms.l_spring`). |
+| `-repulse` | `float` | `1.0` | Self-repulsion energy weight (`parms.l_repulse`). |
+| `-grad` | `float` | — | Gradient energy weight (`parms.l_grad`). |
+| `-external` | `float` | `1.0` | External energy weight (`parms.l_external`). |
+| `-tspring` | `float` | `1.0` | Tangential spring energy weight (`parms.l_tspring`). |
+| `-nspring` | `float` | `0.5` | Normal spring energy weight (`parms.l_nspring`). |
+| `-curv` | `float` | `0.1` | Curvature energy weight (`parms.l_curv`). |
+| `-smooth` | `int` | — | Number of smoothing iterations to apply to the surface before deformation. |
+| `-smooth_parms` | `int` | — | Number of smoothing iterations to apply to parameter maps. |
+| `-output` | `string` | — | Output suffix appended to all output file names. |
+| `-vavgs` | `int` | — | Number of averaging iterations to smooth surface values before use. |
+| `-white` | `string` | `white` | White matter surface name. |
+| `-intensity` | `float` | `0.0` | Intensity energy weight (`parms.l_intensity`). |
+| `-lm` | (flag) | off | Use line minimization instead of momentum integration. |
+| `-smoothwm` | `int` | — | Write a smoothed white-matter surface with this many iterations. |
+| `-sigma` | `float` | — | Gaussian smoothing sigma applied to volumes. |
+| `-add` | (flag) | off | Allow adding vertices to the tessellation during deformation. |
 | `-S` | `string` | — | Suffix appended to output filenames (single-char alias). |
 | `-T` | `file` | — | Apply ventricular transform from file (sets `xform_fname`). |
 | `-O` | `string` | — | Read original vertex positions from named surface. |
@@ -138,9 +140,9 @@ Flags are parsed by a custom `get_option()` function using case-insensitive matc
 ## Configuration Interactions
 
 - The tool requires at least two FLASH volumes to estimate T1 and PD; a single volume will produce undefined behaviour.
-- `--T1` and `--PD` bypass the FLASH-based T1/PD estimation; if provided, the FLASH volumes are still read but T1/PD are taken from the supplied maps.
-- `--orig` and `--start` are mutually exclusive; `--start` wins (sets `orig_flag = 0`).
-- `--lm` and `-M` are mutually exclusive integration mode selectors.
+- `-T1` and `-PD` bypass the FLASH-based T1/PD estimation; if provided, the FLASH volumes are still read but T1/PD are taken from the supplied maps.
+- `-orig` and `-start` are mutually exclusive; `-start` wins (sets `orig_flag = 0`).
+- `-lm` and `-M` are mutually exclusive integration mode selectors.
 - `-W` enables `DIAG_WRITE`, which activates verbose diagnostic output throughout the deformation loop.
 - `-A` accepts one or two integer arguments depending on whether the next token is a digit.
 

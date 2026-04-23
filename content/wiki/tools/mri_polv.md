@@ -73,10 +73,10 @@ $$
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-w` | `<int>` | Window size for POLV computation (default: 5) |
-| `-v` | (none) | Verbose mode (progress messages; default: on) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-w` | `<int>` | 5 | Window size for POLV computation |
+| `-v` | (none) | on | Verbose mode (progress messages) |
 
 > [!gap] Complete flag list
 > Only two options are visible in the source (`-w` for window size and verbosity). The binary was not run to confirm.

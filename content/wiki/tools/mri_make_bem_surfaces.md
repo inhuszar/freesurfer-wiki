@@ -15,8 +15,7 @@ status: draft
 confidence: medium
 last_agent_update: 2026-04-15
 gaps:
-  - "Full command-line interface not extracted"
-  - "Exact number and naming of output surfaces not confirmed"
+  - "Exact output surface filenames and mfile argument purpose not confirmed"
 tags:
   - bem
   - meg
@@ -75,15 +74,13 @@ The attraction/repulsion force used in the `shrink()` function is based on `rtan
 
 ## Configuration Options
 
-> [!gap] Command-line interface not extracted
-> The `main()` and option parsing code was not read in detail. The tool likely takes the subject directory and/or subjects directory as arguments, similar to other FreeSurfer tools.
+> [!note] Positional arguments only
+> `main()` reads `argv[1]` as the subject name and optionally `argv[2]` as `mfile`. There is no option parser — no flags are accepted. Usage: `mri_make_bem_surfaces name [mfile]`.
 
-Based on the source structure:
-
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| (likely) subject dir | path | required | FreeSurfer subject directory |
-| `-sd <dir>` | string | $SUBJECTS_DIR | Subjects directory |
+| Positional arg | Description |
+|----------------|-------------|
+| `name` (required) | Subject directory name |
+| `mfile` (optional) | Output surface file path |
 
 ## Typical Use Cases
 
@@ -113,7 +110,7 @@ Not part of standard `recon-all`. Typically run after `recon-all` completes to p
 
 ## Confidence and Gaps
 
-**Medium confidence:** purpose and surface generation approach confirmed from source header and function names.
+**Medium confidence:** purpose and surface generation approach confirmed from source header and function names. Positional argument structure confirmed from `main()`.
 
-> [!gap] Full command-line interface
-> The `main()` function and argument parsing were not read. The exact flags and positional arguments are unknown.
+> [!gap] Output surface names and mfile format
+> The exact output filenames and the purpose of the optional `mfile` argument were not fully traced through the source.

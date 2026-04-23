@@ -79,16 +79,16 @@ $$
 
 The default norm type is `FROBENIUS_NORM` (value 0), defined as a compile-time constant.
 
-Neighborhood size is controlled by `nbhd_size` (default: 3), which sets the number of hops for neighbor lookup via `MRISresetNeighborhoodSize`.
+Neighborhood size is controlled by `-n` (default: 3), which sets the number of hops for neighbor lookup via `MRISresetNeighborhoodSize`.
 
 ## Configuration Options
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-nbhd_size N` | integer | 3 | Neighborhood size (hops) for gradient estimation |
-| `-label label.label` | path | — | Use this label as a mask (compute gradient only within label) |
-| `-label_dilate N` | integer | 0 | Dilate label N times before masking |
-| `-label_erode N` | integer | 0 | Erode label N times before masking |
+| `-n <N>` | integer | 3 | Neighborhood size (hops) for gradient estimation (`case 'N':`) |
+| `-mask_label <file>` | path | — | Use this label as a mask; vertices outside are set to 0 (`!stricmp(option, "mask_label")`) |
+| `-dilate <N>` / `-label_dilate` / `-dilate_label` | integer | 0 | Dilate label N times before masking |
+| `-erode <N>` / `-label_erode` / `-erode_label` | integer | 0 | Erode label N times before masking |
 
 Positional arguments:
 1. Surface file
@@ -97,9 +97,9 @@ Positional arguments:
 
 ## Configuration Interactions
 
-- `-label_dilate` and `-label_erode` are applied after the label is loaded, in that order (dilate first, then erode).
-- When a label mask is used, vertices outside the label have their gradient magnitude set to 0.
-- Larger `-nbhd_size` produces a smoother gradient estimate but may blur true boundaries.
+- `-dilate` (alias: `-label_dilate`, `-dilate_label`) and `-erode` (alias: `-label_erode`, `-erode_label`) are applied after the label is loaded, in that order (dilate first, then erode).
+- When a `-mask_label` is used, vertices outside the label have their gradient magnitude set to 0.
+- Larger `-n` (neighborhood size) produces a smoother gradient estimate but may blur true boundaries.
 
 ## Typical Use Cases
 
@@ -110,7 +110,7 @@ mris_gradient lh.white lh.thickness lh.thickness_gradient.mgz
 
 **Compute gradient within a label region:**
 ```bash
-mris_gradient -label lh.V1.label lh.white lh.thickness lh.V1_thickness_gradient.mgz
+mris_gradient -mask_label lh.V1.label lh.white lh.thickness lh.V1_thickness_gradient.mgz
 ```
 
 ## Pipeline Context

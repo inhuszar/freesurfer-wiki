@@ -64,7 +64,7 @@ Optional flags:
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i <file>` | path | — | Input surface file (required; also `-i` / `--input`) |
+| `--i <file>` / `--input` / `-i` | path | — | Input surface file (required) |
 | `--close_sphere_size <n>` | int | 15 | Morphological closing sphere size (mm) for outer surface construction |
 | `--smooth_iters <n>` | int | 30 | Smoothing iterations for outer surface |
 | `--step_size <n>` | int | 100 | Step size (vertex stride) for lGI computation |

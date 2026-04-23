@@ -100,6 +100,7 @@ All flags are case-insensitive (`stricmp`). Single-letter flags are handled via 
 | `-ctab` | `<fname>` | — | Read ASCII color table from `fname` and embed it in the output file. |
 | `-gradient` | (none) | off | Add image gradient components (3 extra inputs: ∇x, ∇y, ∇z) to the feature vector. |
 | `-spacing` | `<float>` | RFA default | Node spacing (mm) between classifiers in canonical atlas space. |
+| `-training_fraction` | `<float>` | RFA default | Fraction of training examples to use (subsampling for faster training). |
 | `-ntrees` | `<int>` | RFA default | Number of trees in each random forest classifier. |
 | `-max_depth` | `<int>` | RFA default | Maximum depth of each decision tree in the forest. |
 | `-W` | `<int>` | RFA default | Window half-size for feature extraction neighbourhood. |
@@ -164,3 +165,6 @@ mri_rf_train \
 
 > [!gap] RFA file format
 > The binary format of the `.rfa` output file is not documented. It is read/written by functions in `rfa.h`/`rfa.c`.
+
+> [!note] Audit noise: `-1` false positive
+> An automated audit may flag `-1` as C3 invalid. This IS a valid flag (`case '1':` at source line 807). The audit tool's flag-name validator requires the first character after the dash to be a letter or underscore, not a digit, so `-1` is rejected. The flag is confirmed present in source and in the wiki.

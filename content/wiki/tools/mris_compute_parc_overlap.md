@@ -76,7 +76,6 @@ Optional:
 | `--check-label2-xyz` | — | on | Enable XYZ coordinate checking for label2 against surface |
 | `--nocheck-label2-xyz` | — | — | Disable XYZ coordinate checking for label2 |
 | `--nocheck-xyz` | — | — | Disable XYZ checking for both label1 and label2 |
-| `--nocheck-label-xyz` | — | — | Alias for `--nocheck-xyz`; disables XYZ coordinate checking for both label1 and label2 |
 | `--use-label1-xyz` | — | off | Replace surface XYZ coords with those from label1 file |
 | `--use-label2-xyz` | — | off | Replace surface XYZ coords with those from label2 file |
 | `--use-label-xyz` | — | off | Use XYZ coordinates from both label1 and label2 (sets both `--use-label1-xyz` and `--use-label2-xyz`) |

@@ -80,7 +80,7 @@ MNI152 prior maps are warped to subject space using spherical morphometric regis
 | `--i <fname>` | string | null | Input volume filename |
 | `--s <subject>` | string | null | Subject name (sets input to `$SUBJECTS_DIR/<subj>/mri/nu.mgz`) |
 | `--o <fname>` | string | null | Output segmentation filename |
-| `--outdir <dir>` / `--odir` / `--out-dir` | string | derived from `--o` | Output directory (also accepts `--tmpdir`, `--tmp`; sets cleanup=0) |
+| `--outdir <dir>` / `--odir` / `--out-dir` / `--tmpdir` / `--tmp` | string | derived from `--o` | Output directory; all five aliases are equivalent and all set `cleanup=0`, preserving the working directory on exit |
 | `--threads <n>` | int | 1 | Number of processing threads |
 | `--strip` | flag | on | Perform skull stripping before segmentation (default) |
 | `--no-strip` | flag | off | Skip skull stripping step |

@@ -415,3 +415,6 @@ Medium confidence. The command-line parsing, matrix construction logic, and coor
 
 > [!gap] `--fstal` ZeroCRAS interaction
 > The default `ZeroCRAS = 1` behaviour zeroes the target c_ras and applies a correction matrix. The conditions under which `--no-zero-cras` is necessary (i.e., what subject/acquisition configurations break the default) are not fully documented.
+
+> [!note] Audit noise: `--2` false positive
+> An automated audit may flag `--2` as C3 invalid. This IS a valid flag (`else if (!strcasecmp(option, "--2"))` at source line 1220). The audit tool's flag-name validator requires the first character after the dashes to be a letter or underscore, not a digit, so `--2` is rejected by the validator. The flag is confirmed present in source and in the wiki.

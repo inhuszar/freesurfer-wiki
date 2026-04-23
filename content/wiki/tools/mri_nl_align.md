@@ -14,10 +14,10 @@ related:
   - "[[mri_compute_structure_transforms]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Full command-line interface not extracted"
   - "Specific energy functional terms not all identified"
+  - "Some single-letter flags (-v, -x, -tl, -save, etc.) need source line lookup for exact semantics"
 tags:
   - registration
   - non-linear
@@ -73,9 +73,9 @@ The warp field is parameterised as a dense displacement $\phi(\mathbf{x}) = \mat
 
 Key parameters:
 - `skip` (default 2): subsampling factor during initial stages
-- `distance` (default 1.0 mm): spacing of control points
+- `distance` (default 1.0 mm): expand border by this distance each outer cycle
 - `match_mean_intensity` (default 1): scale intensities to match means before comparison
-- `nozero` (default 1): exclude zero voxels from the similarity computation
+- `-z` (controls `nozero`, default 1): exclude zero voxels from the similarity computation
 - `renormalize` (default 1): renormalise intensities
 - WMSA labels are removed from the atlas by default (`nowmsa = 1`)
 
@@ -84,29 +84,78 @@ Key parameters:
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
 | (positional 1) | volume | required | Target volume |
 | (positional 2) | volume | required | Source volume |
 | (positional 3) | path | required | Output warp / registered volume |
-| `-skip <n>` | int | 2 | Subsampling stride |
-| `-distance <d>` | float | 1.0 | Control point spacing (mm) |
-| `-ribbon <vol>` | volume | — | Ribbon volume for constrained alignment |
-| `-nozero` | flag | on | Exclude zero voxels |
-| `-renormalize` | flag | on | Renormalise intensity |
-| `-match_mean` | flag | on | Match mean intensity |
-| `-erosions <n>` | int | 0 | Number of erosions before alignment |
-| `-scale_values <s>` | float | 1.0 | Scale source values |
-| `-label_dist <file>` | path | — | Label distance map |
-| `-label_ignore <file>` | path | — | Labels to ignore |
-| `-regrid` | flag | off | Regrid the morph |
-| `-rip` | flag | off | Rip (restrict in place) |
-| `-apply` | flag | on | Apply transform |
-| `-no_apply` | flag | — | Do not apply transform |
-| `-handle_expanded_ventricles` | flag | off | Special handling for expanded ventricles |
-
-> [!gap] Complete option list
-> Full `get_option()` not read.
+| `-a <n>` | int | — | Smooth gradient with N averages |
+| `-apply <val>` | int (0/1) | 1 | Apply (1) or skip (0) transform after registration |
+| `-area <val>` | float | — | Set l_area coefficient |
+| `-area_intensity <val>` | float | — | Set l_area_intensity coefficient |
+| `-area_smoothness <val>` | float | — | Set l_area_smoothness coefficient |
+| `-aseg` | flag | off | Treat inputs as segmentations; disables intensity renorm, sets dtrans=1 |
+| `-asmooth <val>` | float | — | Alias for `-area_smoothness` |
+| `-b <val>` | float | — | Set l_binary coefficient |
+| `-bigventricles` | flag | off | Enable special handling for expanded ventricles |
+| `-nobigventricles` | flag | off | Disable special handling for expanded ventricles |
+| `-d <val>` | float | — | Set l_distance coefficient |
+| `-debug_label <n>` | int | — | Debug label by index |
+| `-debug_node <x> <y> <z>` | int int int | — | Debug a specific node coordinate |
+| `-debug_voxel <x> <y> <z>` | int int int | — | Debug a specific voxel coordinate |
+| `-diag <vol>` | volume | — | Write diagnostics to volume |
+| `-diag2 <vol>` | volume | — | Write d2 diagnostics to volume |
+| `-diag_target <vol>` | volume | — | Write target diagnostics to volume |
+| `-distance <d>` | float | 1.0 | Expand border by d mm per outer cycle |
+| `-dt <val>` | float | 0.005 | Time step |
+| `-dtrans <val>` | float | — | Distance transform coefficient |
+| `-e <val>` | float | — | Set l_elastic coefficient |
+| `-erode <n>` | int | 0 | Erode source and target N times before morphing |
+| `-fixed` | flag | off | Use fixed time-step integration (alias for `-momentum`) |
+| `-i <fname>` | path | — | Read inverse of transform from file |
+| `-intensity <val>` | float | 0.025 | Set l_log_likelihood coefficient (alias for `-ll`) |
+| `-j <val>` | float | 1.0 | Set l_jacobian coefficient |
+| `-k <val>` | float | 20.0 | Set exp_k parameter |
+| `-label <fname>` | path | — | Ignore voxels in named label |
+| `-label_dist <fname>` | path | — | Preserve metric properties in named label |
+| `-lambda <val>` | float | — | Set Lame lambda parameter |
+| `-levels <n>` | int | 6 | Number of multi-scale levels |
+| `-likelihood <val>` | float | — | Set l_likelihood coefficient |
+| `-ll <val>` | float | 0.025 | Set l_log_likelihood coefficient (alias for `-intensity`) |
+| `-m <val>` | float | 0.9 | Set momentum |
+| `-mask <fname>` | path | — | Mask inputs with named volume |
+| `-match_mean <val>` | int (0/1) | 1 | Match (1) or skip (0) mean intensity matching |
+| `-match_peak` | flag | off | Match peak of intensity ratio histogram |
+| `-min_sigma <val>` | float | 0.4 | Minimum sigma value |
+| `-momentum` | flag | off | Use fixed time-step integration (alias for `-fixed`) |
+| `-mu <val>` | float | — | Set Lame mu parameter |
+| `-n <n>` | int | 1000 | Number of iterations |
+| `-nobigventricles` | flag | off | Disable expanded ventricle handling |
+| `-noneg <val>` | int | — | Control fold handling during minimisation (0/1/-1) |
+| `-noregrid` | flag | off | Disable regridding |
+| `-optimal` | flag | off | Use line-search (optimal) integration |
+| `-passes <n>` | int | 3 | Number of passes through all levels |
+| `-regrid` | flag | off | Enable regridding |
+| `-renormalize <val>` | int (0/1) | 1 | Enable (1) or disable (0) intensity renormalisation |
+| `-ribbon <fname>` | path | — | Read ribbon and insert into aseg |
+| `-rip` | flag | off | Rip all nodes except the one being debugged |
+| `-rthresh <val>` | float | — | Compression ratio threshold (also enables uncompress) |
+| `-s <val>` | float | 2.0 | Set l_smoothness coefficient |
+| `-scale <val>` | float | 1.0 | Scale input values |
+| `-sigma <val>` | float | 8.0 | Gaussian sigma |
+| `-skip <n>` | int | 2 | Subsampling stride in source data |
+| `-t <fname>` | path | — | Read forward transform from file |
+| `-target_diag <vol>` | volume | — | Alias for `-diag_target` |
+| `-threads <n>` | int | — | Number of OpenMP threads |
+| `-tol <val>` | float | 0.1 | Convergence tolerance |
+| `-uncompress` | flag | off | Enable morph uncompression |
+| `-v <val>` | — | — | Set Gdiag verbosity level |
+| `-view <x> <y> <z>` | int int int | — | Set viewing voxel for diagnostics |
+| `-w <n>` | int | — | Write diagnostics every N iterations |
+| `-wmsa <val>` | int (0/1) | 1 | Enable (1) or disable (0) WMSA label removal from atlas |
+| `-write_grad` | flag | off | Write gradient maps |
+| `-write_neg` | flag | off | Write map of negative nodes |
+| `-z <val>` | int | 1 | Control zero-voxel exclusion (1=exclude, 0=include, -1=exclude then include) |
 
 ## Configuration Interactions
 
@@ -125,7 +174,7 @@ mri_nl_align target.mgz source.mgz warp.m3z \
   -ribbon ribbon.mgz -skip 1
 
 # Compute warp only, don't apply
-mri_nl_align target.mgz source.mgz warp.m3z -no_apply
+mri_nl_align target.mgz source.mgz warp.m3z -apply 0
 ```
 
 ## Pipeline Context

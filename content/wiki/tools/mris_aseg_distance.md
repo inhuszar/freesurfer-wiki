@@ -38,7 +38,7 @@ tags:
 
 ## Purpose and Context
 
-Studies of brain organisation sometimes require quantifying how close each cortical region is to subcortical structures. By projecting the centroid of a subcortical label (from the `aseg` volume) into the same coordinate space as the white surface, and computing per-vertex distances, this tool produces a continuous cortical map of proximity. The `--dot` flag provides a directional projection (dot product with surface normal), and `--divide` enables spatial subdivision of the target label.
+Studies of brain organisation sometimes require quantifying how close each cortical region is to subcortical structures. By projecting the centroid of a subcortical label (from the `aseg` volume) into the same coordinate space as the white surface, and computing per-vertex distances, this tool produces a continuous cortical map of proximity. The `-dot` flag provides a directional projection (dot product with surface normal), and `-divide` enables spatial subdivision of the target label.
 
 ## Inputs
 
@@ -67,33 +67,31 @@ $$
 d(v) = \sqrt{(x_v - x_c)^2 + (y_v - y_c)^2 + (z_v - z_c)^2}
 $$
 
-With `--dot`, the signed projection along the surface normal $\hat{n}(v)$ is computed instead:
+With `-dot`, the signed projection along the surface normal $\hat{n}(v)$ is computed instead:
 
 $$
 d(v) = (\mathbf{p}_v - \mathbf{c}) \cdot \hat{n}(v)
 $$
 
-With `--normalize`, values are divided by the maximum distance.
+With `-normalize`, values are divided by the maximum distance.
 
 ## Configuration Options
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
-| `--surf <name>` | string | `white` | Surface name to use |
-| `--notransform` | — | off | Skip LTA coordinate transform |
-| `--dist` | — | on | Compute distance (default behaviour) |
-| `--dot` | — | off | Compute dot product with surface normal |
-| `--normalize` | — | off | Normalise output values |
-| `--divide <n>` | int | 1 | Divide label into `n` spatial units |
-
-> [!gap] Flag set incomplete
-> Flags were inferred from global variables in the source. The `get_option()` function body was not fully read. Verify against the source for the complete flag list.
+| `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR (`!stricmp(option, "SDIR")`) |
+| `-d` | — | on | Store distances (scalar) instead of full vector (`case 'D':`) |
+| `-n` | — | off | Skip Talairach transform (`case 'N':`, sets `notransform = 1`) |
+| `-l` | — | — | Accepted flag, no operation (`case 'L':`, empty handler) |
+| `-log <file>` | path | — | Write diagnostic log to file (`!stricmp(option, "log")`) |
+| `-dot` | — | off | Compute dot product with surface normal (`!stricmp(option, "dot")`) |
+| `-normalize` | — | off | Normalise output values (`!stricmp(option, "normalize")`) |
+| `-divide <n>` | int | 1 | Divide label into `n` spatial units (`!stricmp(option, "divide")`) |
 
 ## Configuration Interactions
 
-- `--dist` and `--dot` are mutually exclusive modes; using --dot overrides the distance calculation.
-- `--divide` splits the aseg label into spatial subunits and computes a separate distance map for each unit; this enables resolving directional structure relationships.
+- `-d` and `-dot` are mutually exclusive modes; using `-dot` overrides the default distance calculation.
+- `-divide` splits the aseg label into spatial subunits and computes a separate distance map for each unit; this enables resolving directional structure relationships.
 
 ## Typical Use Cases
 
@@ -112,7 +110,7 @@ Not part of the standard `recon-all` pipeline. Used in research analyses explori
 > Source is in `attic/`. May not be installed in all distributions. Verify binary availability.
 
 > [!gotcha] LTA transform required
-> An LTA (linear transform array) between the aseg volume and the surface coordinate system is required. If it cannot be found, the tool will fail unless `--notransform` is specified.
+> An LTA (linear transform array) between the aseg volume and the surface coordinate system is required. If it cannot be found, the tool will fail unless `-n` (notransform) is specified.
 
 ## Related Tools
 

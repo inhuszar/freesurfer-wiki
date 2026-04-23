@@ -125,7 +125,7 @@ All flags use `--` prefix and are case-insensitive (parsed with `strcasecmp`).
 | Flag | Alias | Arguments | Default | Description |
 |------|-------|-----------|---------|-------------|
 | `--threads <n>` | `--nthreads` | int | 0 | Number of OpenMP threads; 0 uses the system default |
-| `--sd <dir>` | `-SDIR` | path | `$SUBJECTS_DIR` | Override the FreeSurfer subjects directory |
+| `--sd <dir>` / `-sdir` | `-SDIR` | path | `$SUBJECTS_DIR` | Override the FreeSurfer subjects directory |
 
 ### Diagnostic outputs
 

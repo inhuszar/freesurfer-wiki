@@ -75,11 +75,10 @@ The tool scales the brain by $\sqrt{A_{\text{orig}} / A_{\text{total}}}$ to norm
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-n <nbhd_size>` | Neighbourhood size | 2 |
-| `-a <navgs>` | Number of smoothing averages | 0 |
-| `-w <white_name>` | White surface name | `white` |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-n <nbhd_size>` | int | 2 | Neighbourhood size |
+| `-a <navgs>` | int | 0 | Number of smoothing averages |
 
 > [!gap] Flag set incomplete
 > Additional flags may exist; `get_option()` was not fully read.

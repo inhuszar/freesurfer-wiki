@@ -85,32 +85,51 @@ On a triangulated mesh, these are estimated by fitting a local quadratic or poly
 
 ### Standard mode (with positional input surface)
 
-| Flag | Description |
-|------|-------------|
-| `-w` | Save curvature files to disk. Without this flag, results are printed to stdout only. |
-| `-max` | Save maximum principal curvature $k_1$ to `<insurf>.max`. |
-| `-min` | Save minimum principal curvature $k_2$ to `<insurf>.min`. |
-| `-mgh` | Save outputs in `.mgz` format instead of FreeSurfer `.curv` format. |
-| `-a <avgs>` | Perform `<avgs>` iterations of neighbourhood averaging before saving. |
-| `-nbrs <nbrs>` | Set neighbourhood size for curvature computation (default: 2; typical: 2). |
-| `-seed N` | Set random number generator seed to N. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-w` | flag | off | Save curvature files to disk. Without this flag, results are printed to stdout only. |
+| `-max` | flag | off | Save maximum principal curvature $k_1$ to `<insurf>.max`. |
+| `-min` | flag | off | Save minimum principal curvature $k_2$ to `<insurf>.min`. |
+| `-mgh` / `--mgh` | flag | off | Save outputs in `.mgz` format instead of FreeSurfer `.curv` format. Aliases `--mgz` / `-mgz`. |
+| `-mgz` / `--mgz` | flag | off | Alias for `-mgh`; sets output format to `.mgz`. |
+| `-a <avgs>` | int | 0 | Perform `<avgs>` iterations of neighbourhood averaging before saving. |
+| `-nbrs <nbrs>` | int | 2 | Set neighbourhood size for curvature computation. |
+| `-seed <N>` | int | — | Set random number generator seed to `N`. |
+| `-n` | flag | off | Normalise curvature values after computation. |
+| `-p` | flag | off | Enable patch mode: read `lh.orig` first, then apply the patch file as the positional input. |
+| `-thresh <t>` | float | -1 (off) | Threshold curvature histogram at percentile `t` (passed to `MRIShistoThresholdCurvature`). Requires `-w`. |
+| `-diff` | flag | off | Compute and save curvature difference ($k_1 - k_2$) to `<insurf><suffix>.diff`. |
+| `-ratio` / `-defect` | flag | off | Compute and save curvature ratio ($k_1 / k_2$) to `<insurf><suffix>.ratio`. |
+| `-contrast` | flag | off | Compute and save curvature contrast to `<insurf><suffix>.contrast`. |
+| `-neg` | flag | off | Mark vertices with negative-area triangles and save to `<insurf><suffix>.neg`. |
+| `-stretch` | flag | off | Compute and save curvature stretch (ratio of original to inflated areas) to `<insurf><suffix>.stretch`. |
+| `-median` | flag | off | Use median normalization instead of mean when `-n` is combined with ratio/contrast/stretch modes. |
+| `-suffix <s>` | string | `""` | Append `<s>` to all output filenames before the extension. |
+| `-distance <mm>` | float | 0 | Sample neighbours up to `<mm>` mm geodesic distance (sets `max_mm`). |
+| `-distances <nbhd> <nbrs_per>` | ints | — | Sample `<nbrs_per>` neighbours at each distance step up to `<nbhd>` mm. Alias: `-vnum`. |
+| `-vnum <nbhd> <nbrs_per>` | ints | — | Alias for `-distances`. |
+| `-nparam <file[#n]>` | string | — | Normalise a parameterization file and write the result to `<stem>.param`. Optionally specify parameter index with `#n`. |
+| `-param <file>` | path | — | Read a spherical parameterization file and map it to the surface using `MRISfromParameterization`. |
 
 ### Standalone modes (self-contained: specify surface + neighbourhood + output stem)
 
-| Flag | Syntax | Description |
-|------|--------|-------------|
-| `-curvs` | `-curvs surf nbrhdsize stem` | Compute and save H, K, k1, k2 to `stem.{H,K,k1,k2}.mgz`. |
-| `-H` | `-H surf nbrhdsize stem` | Save mean curvature H to `stem.H.mgz`. |
-| `-K` | `-K surf nbrhdsize stem` | Save Gaussian curvature K to `stem.K.mgz`. |
-| `-k1` | `-k1 surf nbrhdsize stem` | Save primary principal curvature k1 to `stem.k1.mgz`. |
-| `-k2` | `-k2 surf nbrhdsize stem` | Save secondary principal curvature k2 to `stem.k2.mgz`. |
-| `-k1k2` | `-k1k2 surf nbrhdsize stem` | Save both k1 and k2 to `stem.{k1,k2}.mgz`. |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-curvs <surf> <nbrhdsize> <stem>` | mixed | — | Compute and save H, K, k1, k2 to `stem.{H,K,k1,k2}.mgz`. |
+| `-H <surf> <nbrhdsize> <stem>` | mixed | — | Save mean curvature H to `stem.H.mgz`. |
+| `-K <surf> <nbrhdsize> <stem>` | mixed | — | Save Gaussian curvature K to `stem.K.mgz`. |
+| `-k1 <surf> <nbrhdsize> <stem>` | mixed | — | Save primary principal curvature k1 to `stem.k1.mgz`. |
+| `-k2 <surf> <nbrhdsize> <stem>` | mixed | — | Save secondary principal curvature k2 to `stem.k2.mgz`. |
+| `-k1k2 <surf> <nbrhdsize> <stem>` | mixed | — | Save both k1 and k2 to `stem.{k1,k2}.mgz`. |
 
 ## Configuration Interactions
 
 - Without `-w`, the tool computes curvature and prints summary statistics but does **not** write any files. This is useful for diagnostic checking.
-- `-mgh` affects the output format for the standard mode H and K files. The standalone modes (`-curvs`, `-H`, etc.) always produce `.mgz` output regardless of `-mgh`.
+- `-mgh` / `--mgh` and `-mgz` / `--mgz` are aliases; any of them sets the output file type to `.mgz`. Only applies to standard (non-standalone) mode.
 - `-a` smoothing is applied after computation. Smoothing reduces noise in the curvature estimate but also blurs fine-scale cortical geometry. The `recon-all` default uses `-a 10` for the inflated surface curvature.
+- `-ratio` and `-defect` are aliases that both set `ratio_flag`; they produce the same output.
+- `-distances` and `-vnum` are aliases; both set `nbhd_size` and `nbrs_per_distance`.
+- `-param` and `-nparam` are alternative parameterization modes; `-nparam` normalises the result with `MRISnormalizeFromParameterization` before writing. Both write to `<stem>.param` and exit.
 - Standalone modes (`-H`, `-K`, etc.) take the surface as the first argument to the flag, not as a positional argument. These modes exit after processing and do not use any other flags set before them.
 
 > [!gotcha] No output without `-w` in standard mode

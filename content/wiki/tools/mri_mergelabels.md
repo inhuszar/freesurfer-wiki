@@ -68,6 +68,10 @@ The output vertex count is $\sum_{i=1}^N |L_i|$. No deduplication is performed â
 | `-i <fname>` | string | repeatable | Add an input label file to the merge list |
 | `-d <dir>` | string | null | Add all `.label` files in this directory to the merge list |
 | `-o <fname>` | string | required | Output merged label filename |
+| `-verbose` | flag | off | Enable verbose output |
+| `-echo` | flag | off | Enable command echo (tcsh `set echo`) |
+| `-debug` | flag | off | Enable debug mode: sets both verbose and echo |
+| `-version` | flag | â€” | Print version string and exit |
 
 ## Configuration Interactions
 
@@ -126,3 +130,6 @@ Not part of standard `recon-all`. Used in analysis workflows where:
 ## Confidence and Gaps
 
 **Confident:** All flags, merge logic (concatenation from script reading), duplicate handling behaviour, header provenance.
+
+> [!note] Audit noise: shell case extractor limitation
+> The shell-script extractor only captures `case` statements ending with `:`. The tcsh `case "-o"`, `case "-i"`, `case "-d"` patterns lack trailing colons and are missed. An automated audit may falsely report `-d`, `-i`, `-o` as C3 invalid. All three flags are confirmed from source.

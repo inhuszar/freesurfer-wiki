@@ -82,7 +82,9 @@ computed via SVD for numerical stability (pseudo-inverse).
 | (positional 2) | Segmentation volume |
 | (positional 3) | Output directory |
 
-No optional flags identified from the brief source inspection.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-n` | — | — | **No-op.** `case 'N': break;` — flag is silently consumed without performing any action. |
 
 > [!gap] Complete option list
 > The `get_option()` function was not fully read.

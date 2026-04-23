@@ -49,7 +49,7 @@ Cross-hemispheric registration enables:
 
 The algorithm is essentially the same as `mris_register` (spherical registration via curvature feature matching) but uses the opposite hemisphere's surface features as the registration target. The default surfaces used for registration features are `inflated` and `smoothwm` (via sulc/H).
 
-The tool supports single-surface mode (`-1`) for registering to another individual's surface rather than an atlas, and multi-scale registration via the `-nsigmas` and `-sigmas` flags.
+The tool supports multi-scale registration via the `-sigma` (repeatable) and `-multi_scale` flags.
 
 ## Inputs
 
@@ -91,37 +91,77 @@ curvature_names[] = {"inflated.H", "sulc", NULL}
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-1` | — | off | Single surface mode (register to individual, not atlas) |
 | `-reverse` | — | off | Use reversed hemisphere as target |
-| `-w N` | integer | 0 | Write intermediate results every N iterations |
-| `-v N` | integer | -1 | Set Gdiag_no to vertex N for verbose diagnostics |
-| `-n nbrs` | integer | 1 | Neighborhood size |
-| `-navgs N` | integer | 0 | Number of smoothing averages |
-| `-s scale` | float | 1.0 | Scale factor |
+| `-w N` | integer | 100 | Write intermediate results every N iterations |
+| `-v N` | integer | — | Set Gdiag_no to vertex N for verbose diagnostics |
+| `-s scale` | float | 1.0 | Scale factor applied to parameterization |
+| `-n N` | integer | 100 | Number of iterations per pass |
+| `-a N` | integer | 1024 | Number of gradient smoothing averages |
+| `-m momentum` | float | 0.95 | Momentum for gradient descent |
+| `-p N` | integer | 4 | Maximum number of registration passes |
+| `-o name` | string | `smoothwm` | Name of original surface for metric properties |
 | `-ocorr weight` | float | 1.0 | Overall correlation weight (`l_ocorr`) |
-| `-target_hemi H` | int | LEFT | Target hemisphere (LEFT=0, RIGHT=1) |
-| `-multi_scale` | — | off | Enable multi-scale registration |
-| `-which_norm N` | int | NORM_MEAN | Normalization method |
-| `-annot annot_name` | string | — | Annotation name for alignment |
-| `-nangles N` | integer | 8 | Number of angular search directions |
-| `-max_passes P` | integer | 4 | Maximum registration passes |
-| `-min_degrees D` | float | 0.5 | Minimum angular step (degrees) |
-| `-max_degrees D` | float | 64.0 | Maximum angular step (degrees) |
-| `-start fname` | path | — | Starting registration surface |
-| `-inflated name` | string | — | Inflated surface name |
-| `-sigma S` | float | — | Add smoothing sigma (repeatable, up to 10) |
-| `-jacobian fname` | path | — | Output Jacobian file |
-| `-dalpha D` | float | 0 | Alpha rotation offset |
-| `-dbeta D` | float | 0 | Beta rotation offset |
-| `-dgamma D` | float | 0 | Gamma rotation offset |
+| `-multi_scale N` | integer | — | Number of scales for multi-scale registration |
+| `-median` | — | off | Use median normalization instead of mean |
+| `-nonorm` | — | off | Disable curvature normalization entirely |
+| `-annot name` | string | — | Annotation name; zero medial wall before registration |
+| `-nangles N` | integer | 8 | Number of angular search directions per scale |
+| `-min_degrees D` | float | 0.5 | Minimum angular step size (degrees) |
+| `-max_degrees D` | float | 64.0 | Maximum angular step size (degrees) |
+| `-inflated name` | string | — | Use named surface as the inflated surface; also sets `IP_USE_INFLATED` |
+| `-infname name` | string | — | Set inflated surface name and corresponding curvature file (e.g., `name.H`) |
+| `-sigma S` | float | — | Add smoothing sigma level (repeatable, up to 10) |
+| `-jacobian fname` | path | — | Write Jacobian of the registration to this file |
+| `-rotate alpha beta gamma` | 3 floats | 0 0 0 | Apply initial rotation by (alpha, beta, gamma) degrees |
+| `-sreg fname` | path | — | Start registration from coordinates in this file |
+| `-dist coef` | float | 5.0 | Weight for distance preservation term (`l_dist`) |
+| `-area coef` | float | 0.0 | Weight for area preservation term (`l_area`) |
+| `-parea coef` | float | 0.1 | Weight for pairwise area term (`l_parea`) |
+| `-nlarea coef` | float | 1.0 | Weight for non-linear area term (`l_nlarea`) |
+| `-corr coef` | float | 1.0 | Weight for cross-correlation term (`l_corr`) |
+| `-spring coef` | float | — | Weight for spring energy term (`l_spring`) |
+| `-lap coef` | float | — | Weight for Laplacian energy term (`l_lap`) |
+| `-e coef` | float | 10000 | Weight for external label energy (`l_external`) |
+| `-curv` | — | on | Use smoothwm curvature for final alignment |
+| `-nocurv` | — | off | Disable smoothwm curvature for final alignment |
+| `-norot` | — | off | Disable initial rigid alignment |
+| `-nosulc` | — | off | Disable sulc-based initial alignment |
+| `-sulc name` | string | `sulc` | Replacement curvature file for sulc alignment |
+| `-canon name` | string | `sphere` | Name of canonical surface for reading coordinates |
+| `-c fname` | path | — | Curvature filename for diagnostics |
+| `-l label gcsa name` | path path string | — | Add label constraint using GCSA atlas |
+| `-lm` | — | off | Use line minimization integration |
+| `-adaptive` | — | off | Use adaptive time step integration |
+| `-search` | — | off | Use binary search line minimization |
+| `-dt DT` | float | 0.9 | Time step for gradient descent |
+| `-dt_inc val` | float | 1.0 | Time step increase factor |
+| `-dt_dec val` | float | 1.0 | Time step decrease factor |
+| `-error_ratio val` | float | 1.1 | Error ratio threshold for step size adaptation |
+| `-tol val` | float | 0.5 | Convergence tolerance |
+| `-distances nbhd max` | 2 ints | -10 10 | Neighborhood size and max neighbors for distance computation |
+| `-vnum nbhd max` | 2 ints | -10 10 | Alias for `-distances` |
+| `-nbrs N` | integer | 1 | Neighborhood size for curvature computation |
+| `-nsurfaces N` | integer | — | Number of surfaces/curvatures to use for alignment |
+| `-surf0 name` | string | `inflated` | Override name of surface 0 |
+| `-surf1 name` | string | `smoothwm` | Override name of surface 1 |
+| `-surf2 name` | string | `smoothwm` | Override name of surface 2 |
+| `-curv0 name` | string | `inflated.H` | Override curvature file for surface 0 |
+| `-curv1 name` | string | `sulc` | Override curvature file for surface 1 |
+| `-curv2 name` | string | — | Override curvature file for surface 2 |
+| `-topology` | — | off | Preserve topology of positive-area triangles |
+| `-vsmooth` | — | off | Use space/time varying smoothness weighting |
+| `-remove_negative N` | int | 1 | Remove negative triangles via iterative smoothing (1=yes, 0=no) |
+| `-overlay-dir dir` | path | — | Set overlay directory path |
+| `-1` | — | off | Treat the target as a single subject's surface (`single_surf = True`) rather than a group average |
 
 ## Configuration Interactions
 
-- `-1` (single surface mode) enables direct subject-to-subject registration without an atlas target. The input and atlas surfaces are treated as both derived from individual subjects.
 - `-reverse` mirrors the subject's surface before registration.
 - `-sigma` can be specified multiple times (up to `MAX_SIGMAS=10`) to define a multi-scale smoothing schedule.
-- `-target_hemi` controls which hemisphere is used as the target in the registration.
 - `-jacobian` writes the Jacobian of the registration to the specified file.
+- `-rotate` applies an initial rigid rotation before the iterative optimization; unlike the `-dalpha`/`-dbeta`/`-dgamma` pattern seen in older tools, this is a single flag taking three angular arguments.
+- `-infname` sets a custom inflated surface name and automatically sets the corresponding curvature file to `<name>.H`, which differs from `-inflated` (which only enables `IP_USE_INFLATED`).
+- `-canon` overrides the canonical surface from which vertex coordinates are read (default: `sphere`).
 
 ## Typical Use Cases
 
@@ -130,9 +170,9 @@ curvature_names[] = {"inflated.H", "sulc", NULL}
 mris_left_right_register lh.sphere.reg rh.sphere.reg lh.rh.sphere.reg
 ```
 
-**Single-surface mode (register lh to rh of the same subject):**
+**Use multi-scale smoothing schedule:**
 ```bash
-mris_left_right_register -1 lh.sphere rh.sphere lh.to_rh.sphere
+mris_left_right_register -sigma 4 -sigma 2 -sigma 1 lh.sphere.reg rh.sphere.reg lh.rh.sphere.reg rh.lh.sphere.reg
 ```
 
 ## Pipeline Context
@@ -162,7 +202,7 @@ Not part of standard `recon-all`. Used in asymmetry analysis pipelines:
 **Confident (from source):**
 - Registration surfaces (inflated, smoothwm, inflated.H, sulc)
 - Default parameter values
-- Single-surface mode via `-1`
+- Multi-scale sigma schedule via `-sigma` (repeatable)
 
 > [!gap] Output format and naming
 > Whether the output is written as a standard sphere file or with a special naming convention is not confirmed.

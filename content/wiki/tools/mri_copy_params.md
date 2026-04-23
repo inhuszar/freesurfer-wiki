@@ -65,7 +65,7 @@ Optionally when `--ras` is used, only the RAS geometry is copied (vox2ras matrix
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--pulse` | — | off | Copy only pulse parameters (TR, TE, flip angle) |
+| `--pulse` / `--mri` | — | off | Copy only pulse parameters (TR, TE, flip angle) |
 | `--ras` | — | off | Copy only RAS geometry (vox2ras, voxel sizes) |
 | `--size` | — | off | Force copying of voxel sizes even when resolutions differ |
 

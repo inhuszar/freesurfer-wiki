@@ -15,7 +15,7 @@ related:
   - "[[fsgd-format]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "Tool is in the attic/ directory — may be deprecated; unclear if it is installed in 8.2.0 binary"
   - "Relationship to mri_glmfit (preferred alternative) is undocumented"
@@ -105,7 +105,8 @@ where $\text{Var}(\text{CES}) = \hat{\sigma}^2 \mathbf{c}^T (\mathbf{X}^T \mathb
 | `--design fname`        | path                  | —                          | ASCII design matrix file. First column is subject ID; remaining columns are the design matrix.                                                                                     |
 | `--fsgd fname [gd2mtx]` | path, optional string | `dods` (if gd2mtx omitted) | [[fsgd-format\|FreeSurfer Group Descriptor file]]. Optional second argument is the matrix construction method: `dods` (different offset, different slope) or `doss` (different offset, same slope). |
 | `--hemi hemi`           | `lh` or `rh`          | —                          | Hemisphere to process. Required.                                                                                                                                                   |
-| `--trgsubj subject`     | string                | —                          | Target subject for resampling (e.g., `fsaverage`, `ico`). Required. Also accepted as `--ts`.                                                                                       |
+| `--trgsubj subject`     | string                | —                          | Target subject for resampling (e.g., `fsaverage`, `ico`). Required. Alias: `--ts`.                                                                                                |
+| `--ts subject`          | string                | —                          | Alias for `--trgsubj`. |
 | `--sd subjectsdir`      | path                  | `$SUBJECTS_DIR`            | Subjects directory.                                                                                                                                                                |
 | `--icoorder order`      | integer               | `7` (163842 vertices)      | Icosahedron order when `--trgsubj ico`.                                                                                                                                            |
 | `--surfmeas name`       | string                | —                          | Surface measure name resolved under each subject's `surf/` directory (e.g., `thickness`). Sets input format to `curv` automatically.                                               |
@@ -184,7 +185,8 @@ where $\text{Var}(\text{CES}) = \hat{\sigma}^2 \mathbf{c}^T (\mathbf{X}^T \mathb
 - `--frame` selects a single frame when the input overlays have multiple frames.
 - `--beta_in` and `--var_in` must be used together. When both are specified, the estimation step is skipped and only contrast/inference is performed.
 - `--trgsubj` is required in all cases. Use `ico` for icosahedron target (then `--icoorder` controls resolution); otherwise specify a subject in `$SUBJECTS_DIR`.
-- `--ts` is an alias for `--trgsubj`.
+- `--ts` is a confirmed alias for `--trgsubj` (verified from `parse_commandline()`: `!strcmp(option, "--trgsubj") || !strcmp(option, "--ts")`).
+
 
 ## Typical Use Cases
 

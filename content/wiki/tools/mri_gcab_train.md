@@ -13,8 +13,8 @@ related:
   - "[[mri_ca_train]]"
   - "[[mri_ca_label]]"
 status: draft
-confidence: low
-last_agent_update: 2026-04-15
+confidence: medium
+last_agent_update: 2026-04-22
 gaps:
   - "Tool is in attic/ — may not be installed in 8.2.0"
   - "GCAB boundary deformation details not confirmed"
@@ -71,25 +71,31 @@ where $\delta$ is the boundary displacement from the GCA-predicted position.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-seg <dir>` | string | `seg` | Segmentation subdirectory within each subject |
-| `-T1 <name>` | string | `orig` | T1 volume name (without extension) |
-| `-xform <name>` | string | — | Transform name to atlas space |
-| `-smooth <s>` | float | -1 | Label smoothing sigma |
-| `-TR <val>` | float | — | FLASH TR |
-| `-TE <val>` | float | — | FLASH TE |
-| `-FA <val>` | float | — | FLASH flip angle |
-| `-navgs <n>` | int | 0 | Number of averaging iterations |
-| `-mask <vol>` | volume | — | Brain mask |
-| `-insert <label> <vol>` | int+path | — | Insert label from volume |
-| `-histo <file>` | path | — | Histogram file |
-| `-binarize` | flag | off | Binarise input |
-| `-binarize_in <n>` | int | — | Input binarisation value |
-| `-binarize_out <n>` | int | — | Output binarisation value |
-
-> [!gap] Complete option list
-> The `get_option()` function was not fully read.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-a <n>` | integer | 0 | Number of mean-filter averaging iterations applied to classifiers after training. |
+| `-binarize <in> <out>` | integer integer | — | Binarise segmentation: map input label value `<in>` to output value `<out>`. |
+| `-debug_label <n>` | integer | — | Debug label by CMA index. |
+| `-debug_nbr <n>` | integer | — | Debug neighbour label by CMA index. |
+| `-debug_node <x> <y> <z>` | 3 integers | — | Debug GCA node at atlas coordinates (x,y,z). |
+| `-debug_voxel <x> <y> <z>` | 3 integers | — | Debug voxel at volume coordinates (x,y,z). |
+| `-h <file>` | string | — | Write histogram of classes per voxel to `<file>`. |
+| `-insert <fname> <label>` | string integer | — | Insert non-zero voxels from `<fname>` as label `<label>`. |
+| `-mask <vol>` | string | — | Mask input volumes with the specified MRI volume. |
+| `-node_spacing <f>` | float | — | Node spacing in mm for the GCAB model. |
+| `-nomrf` | — | off | Disable computation of MRF statistics. |
+| `-noxform` | — | off | Disable application of transform to atlas space. |
+| `-parc_dir <dir>` | string | `seg` | Segmentation subdirectory within each subject (alias for `-seg_dir`). |
+| `-s <scale>` | float | — | Scale all input volumes by `<scale>` after reading. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Subjects directory. |
+| `-seg <dir>` | string | `seg` | Segmentation subdirectory within each subject (alias for `-seg_dir`). |
+| `-seg_dir <dir>` | string | `seg` | Segmentation subdirectory within each subject (alias for `-parc_dir`). |
+| `-segmentation <dir>` | string | `seg` | Alias for `-seg_dir`. |
+| `-smooth <s>` | float | -1 | Sigma for regularizing conditional densities (disabled if ≤ 0). |
+| `-spacing <f>` | float | 8.0 | PDF sampling spacing in mm. |
+| `-T1 <name>` | string | `orig` | T1 volume name (without extension) within subject `mri/` directory. |
+| `-v <n>` | integer | — | Diagnostic level (`Gdiag_no`). |
+| `-xform <name>` | string | — | Transform filename for atlas registration. |
 
 ## Typical Use Cases
 
@@ -116,4 +122,7 @@ Not part of `recon-all`. Development/research tool for creating new atlas varian
 
 ## Confidence and Gaps
 
-**Low confidence:** tool is in attic; GCAB details not fully verified.
+**Medium confidence:** full `get_option()` function read from source; all flags verified. GCAB algorithmic details remain unconfirmed from this source file alone.
+
+> [!gap] GCAB technical details
+> The boundary deformation parameterisation is defined in `gcaboundary.h/c`. The exact semantics of `GCABalloc` parameters (8, 0, 30, 10, target_label) were not fully traced.

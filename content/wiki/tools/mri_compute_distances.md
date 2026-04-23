@@ -83,6 +83,8 @@ between corresponding segment centroids via `MRIcomputeSegmentPairCentroidDistan
 | (positional 3+) | int(s) | required | Label value(s) to compute distances for |
 | `-t <in> <out>` | int pair | — | Translate label `<in>` to `<out>` before computing (repeatable) |
 | `-c` | flag | off | Compute centroid distances instead of Hausdorff |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel diagnostic output |
+| `-l <arg>` | string | — | Echo `<arg>` to stdout (used for shell-pipeline logging); consumes one extra argument token |
 
 ## Configuration Interactions
 

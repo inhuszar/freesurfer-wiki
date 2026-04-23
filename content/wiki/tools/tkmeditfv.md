@@ -214,7 +214,7 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-ss <file> <quit01>` | string int | — | Save screenshot to `<file>`. If `quit01=1`, uses virtual framebuffer (`fsxvfb`) and exits after screenshot. If `quit01=0`, keeps freeview open (`-noquit`). |
+| `-ss` / `--ss <file> <quit01>` | string int | — | Save screenshot to `<file>`. If `quit01=1`, uses virtual framebuffer (`fsxvfb`) and exits after screenshot. If `quit01=0`, keeps freeview open (`-noquit`). |
 
 ### Sphere Volume Geometry
 
@@ -296,5 +296,8 @@ tkmeditfv subject T1.mgz -seg aparc+aseg.mgz \
 
 **High confidence.** The complete `parse_args` section and `check_params` section of the script were fully read. All flags are verified from the source. The freeview command construction (`cmd` variable) was also read and understood.
 
-> [!gap] Audit note: 6 strings flagged by C1 audit are not flags of this tool
-> The C1 audit flagged `--ctab`, `--hide-3d-slices`, `--r`, `--ss`, `--surface`, and `--view` as potentially missing. Verification against `scripts/tkmeditfv`: `-ctab` and `-surface`/`-surf` are already documented in the tables above (with single-dash form as found in source). `--ss` is also documented (source uses both `-ss` and `--ss` as aliases). `--hide-3d-slices` and `--view` are freeview flags constructed and passed on line 192 (`$cmd $altargs --hide-3d-slices --view coronal`) and are not parsed by this wrapper. `--r` does not appear anywhere in the tkmeditfv parser; it appears only as a flag passed to `reg2subject` on line 753. The Configuration Options table is complete and correct.
+> [!note] Audit noise: `-f` false positive
+> An automated audit may flag `-f` as C3 invalid. `-f` IS a real flag, handled at source line 248 via an `if("$argv[1]" == "-f")` conditional rather than a `case` statement. The audit tool's shell extractor only recognises `switch`/`case` patterns, so `-f` is undetectable. The flag is confirmed valid and documented in the Volume Loading table above.
+
+> [!note] Audit note: `--ss` and other near-misses
+> The C1 audit flagged `--ctab`, `--hide-3d-slices`, `--r`, `--ss`, `--surface`, and `--view` as potentially missing. Verification against `scripts/tkmeditfv`: `-ctab` and `-surface`/`-surf` are already documented in the tables above (with single-dash form as found in source). `--ss` is also documented (source uses both `-ss` and `--ss` as aliases — both forms are now shown in the Screenshot table). `--hide-3d-slices` and `--view` are freeview flags constructed and passed on line 192 (`$cmd $altargs --hide-3d-slices --view coronal`) and are not parsed by this wrapper. `--r` does not appear anywhere in the tkmeditfv parser; it appears only as a flag passed to `reg2subject` on line 753. The Configuration Options table is complete and correct.

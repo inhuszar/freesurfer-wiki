@@ -13,7 +13,7 @@ related:
   - "[[dt_recon]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - diffusion
@@ -76,21 +76,19 @@ Frame extraction is performed by `mri_convert --frame <indices>`.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `--in <file>` | file | required | Input DWI series |
-| `--out <file>` | file | required | Output DWI series |
-| `--inb <file>` | file | auto | Input b-value table (default: input base + `.bvals`) |
-| `--outb <file>` | file | auto | Output b-value table (default: output base + `.bvals`) |
-| `--ing <file>` | file | auto | Input gradient table (default: input base + `.bvecs`) |
-| `--outg <file>` | file | auto | Output gradient table (default: output base + `.bvecs`) |
-| `--b <num>` | float | — | Extract specific b-value shell (repeatable) |
-| `--btol <frac>` | float | 0.05 | Fractional tolerance around each b-value |
-| `--bsort` | flag | off | Reorder output by b-shell (default: maintain acquisition order) |
-| `--bmax <num>` | float | — | Extract all frames with b ≤ this maximum |
-| `-verbose` | flag | off | Enable verbose output (`set verbose = 1`) |
-| `-echo` | flag | off | Enable command echo to stdout (`set echo = 1`) |
-| `-debug` | flag | off | Enable both verbose and echo (`set verbose = 1; set echo = 1`) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `--in` | `<file>` | required | Input DWI volume |
+| `--out` | `<file>` | required | Output DWI volume |
+| `--inb` | `<file>` | `<in>.bvals` | Input b-value table |
+| `--outb` | `<file>` | `<out>.bvals` | Output b-value table |
+| `--ing` | `<file>` | `<in>.bvecs` | Input gradient table |
+| `--outg` | `<file>` | `<out>.bvecs` | Output gradient table |
+| `--b` | `<num>` | — | B-value shell to extract; can be specified multiple times |
+| `--btol` | `<frac>` | `0.05` | Fractional tolerance around each `--b` value |
+| `--bmax` | `<num>` | — | Extract all frames with b ≤ this maximum |
+| `-verbose` | — | off | Enable verbose output |
+| `-debug` | — | off | Enable both verbose and echo |
 
 ## Configuration Interactions
 

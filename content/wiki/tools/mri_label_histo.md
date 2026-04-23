@@ -63,15 +63,15 @@ where $I(\mathbf{x})$ is the intensity volume, $L(\mathbf{x})$ is the label volu
 
 ## Configuration Options
 
-| Argument | Description |
-|----------|-------------|
-| (positional 1) | T1 intensity volume |
-| (positional 2) | Segmentation/label volume |
-| (positional 3) | Integer label value |
-| (positional 4) | Output histogram plot file |
-| `-l <logfile>` | Optional log file path; if specified, the log file is opened in append mode and results are logged there |
-| `-q` | Quiet mode (sets `quiet = 1`; effect on output not fully traced but parsed) |
-| `-a` | All-labels mode: compute histograms for all labels present in the segmentation volume |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| (positional 1) | — | required | T1 intensity volume |
+| (positional 2) | — | required | Segmentation/label volume |
+| (positional 3) | — | required | Integer label value |
+| (positional 4) | — | required | Output histogram plot file |
+| `-l <logfile>` | path | — | Log file; opened in append mode if specified |
+| `-q` | (none) | off | Quiet mode |
+| `-a` | (none) | off | All-labels mode (effect uncertain; see gap note) |
 
 ## Configuration Interactions
 

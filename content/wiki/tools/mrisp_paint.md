@@ -126,7 +126,9 @@ When `-coords <white|pial>` is used, `MRIScoordsFromParameterizationBarycentric(
 | `-W` | none | off | Enable `DIAG_WRITE` diagnostic output |
 | `--help` / `-?` / `-U` | none | — | Print help and exit |
 | `--version` / `-version` | none | — | Print version and exit |
-| `--all-info` / `-all-info` | none | — | Print BIRN-standard program information |
+| `-nframes <n>` | int | 1 | **Stub — not implemented.** Parsing accepted but `printf("NOT IMPLEMENTED YET")` and `exit(1)` called immediately. Do not use. |
+| `-white` | — | — | **Not a standalone flag — argument value.** Passing `white` as argument to `-coords` selects white surface coordinates. The audit extractor promotes `stricmp(argv[2], "white")` to pseudo-flag `-white`. |
+| `-pial` | — | — | **Not a standalone flag — argument value.** Passing `pial` as argument to `-coords` selects pial surface coordinates. The audit extractor promotes `stricmp(argv[2], "pial")` to pseudo-flag `-pial`. |
 
 ### Configuration Interactions
 

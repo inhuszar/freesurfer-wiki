@@ -84,11 +84,11 @@ Ventricles are separately handled via `MRIfillVentricle` to ensure they are not 
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-p <pct>` | float | 95.0 | Percentile of T1 for thresholding |
-| `-nsigma <val>` | float | 0.1 | Number of sigma for T1 threshold refinement |
-| `-fix` | flag | off | Fix mode (details unclear from source) |
-| `-dilate <N>` | int | 0 | Dilate WM mask N times |
-| `old` | flag | off | Use legacy M3D morph instead of GCAmorph |
+| `-p <pct>` / `-t <pct>` | float | 95.0 | Percentile of T1 for thresholding (`case 'P':` / `case 'T':` fall-through) |
+| `-n <val>` | float | 0.1 | Number of sigma for T1 threshold refinement (`case 'N':`) |
+| `-f` | flag | off | Toggle hemisphere-overlap correction (`case 'F':` toggles `fix`) |
+| `-dilate <N>` | int | 0 | Dilate ventricles N times before filling (`!stricmp`) |
+| `-old` | flag | off | Use legacy M3D morph instead of GCAmorph (`!strcmp`, case-sensitive) |
 
 ## Typical Use Cases
 

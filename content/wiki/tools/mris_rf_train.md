@@ -58,10 +58,10 @@ Classes are defined as: 0 = "Normal Cortex", 1 = "Dysplasia" (hard-coded in sour
 (Positional arguments: `<subject1> [<subject2> ...] <output_model>` with flag-driven feature specification)
 
 - **`<subject1>` ... `<subjectN>`** — FreeSurfer subject IDs with known FCD labels. Surfaces and overlays loaded from `$SUBJECTS_DIR/<subject>/`.
-- **`--overlay <name>`** (one or more) — surface overlay feature names (e.g., `thickness`, `curv`). Each overlay is loaded as `<hemi>.<name>` from the subject's `surf/` directory.
+- **`-overlay <name>`** (one or more) — surface overlay feature names (e.g., `thickness`, `curv`). Each overlay is loaded as `<hemi>.<name>` from the subject's `surf/` directory.
 - **Output model file** — final positional argument; path to write the trained RF model.
 
-Environment variable `SUBJECTS_DIR` must be set, or provided via `--sdir`.
+Environment variable `SUBJECTS_DIR` must be set, or provided via `-sdir`.
 
 ### Input Assumptions
 
@@ -102,10 +102,10 @@ where $K = \text{noverlays} \times (\text{nbhd\_size} + 1)$. With `nbhd_size > 0
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
-| `--hemi <hemi>` | string | `lh` | Hemisphere (`lh` or `rh`). |
-| `--surf <name>` | string | `white` | Surface name. |
-| `--overlay <name>` | string | — | Feature overlay name; may be specified multiple times (up to 100). |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-hemi <hemi>` | string | `lh` | Hemisphere (`lh` or `rh`). |
+| `-surf <name>` | string | `white` | Surface name. |
+| `-overlay <name>` | string | — | Feature overlay name; may be specified multiple times (up to 100). |
 | `-L <name>` | string | `FCD` | Name of the positive-class label file (single-character flag). |
 | `-N <n>` | integer | 0 | Neighbourhood size for feature extraction (single-character flag). |
 | `-T <n>` | integer | 40 | Number of trees in the random forest (single-character flag). |
@@ -117,8 +117,8 @@ where $K = \text{noverlays} \times (\text{nbhd\_size} + 1)$. With `nbhd_size > 0
 > [!gotcha] `-N` (`nbhd_size`) is dead code at runtime
 > The source calls `ErrorExit(ERROR_UNSUPPORTED, ...)` whenever `nbhd_size > 0`. Setting `-N` to any value greater than 0 will abort the program.
 
-> [!gotcha] `--hemi` is overridden by label detection
-> Even if `--hemi` is set on the command line, the hemisphere is re-assigned inside `main()` based on which hemisphere (`lh` or `rh`) has the FCD label file for each training subject. The `--hemi` flag effectively has no guaranteed effect.
+> [!gotcha] `-hemi` is overridden by label detection
+> Even if `-hemi` is set on the command line, the hemisphere is re-assigned inside `main()` based on which hemisphere (`lh` or `rh`) has the FCD label file for each training subject. The `-hemi` flag effectively has no guaranteed effect.
 
 ### Configuration Interactions
 

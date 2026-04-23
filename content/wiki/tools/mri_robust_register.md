@@ -111,18 +111,18 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Alias | Argument | Default | Description |
 |------|-------|----------|---------|-------------|
-| `--mov` | `-m` | `<fname>` | required | Moving (source) volume to be registered |
-| `--dst` | `-d` | `<fname>` | required | Destination (target/reference) volume |
+| `--mov` / `--m` | `-m` | `<fname>` | required | Moving (source) volume to be registered |
+| `--dst` / `--d` | `-d` | `<fname>` | required | Destination (target/reference) volume |
 | `--lta` | — | `<fname>` | required (unless `--iscaleonly`) | Output linear transform in LTA format |
 
 ### Degrees of freedom
 
 | Flag | Alias | Argument | Default | Description |
 |------|-------|----------|---------|-------------|
-| `--affine` | `-a` | (none) | off | Use affine (12 DOF) registration instead of rigid (6 DOF) |
+| `--affine` / `--a` | `-a` | (none) | off | Use affine (12 DOF) registration instead of rigid (6 DOF) |
 | `--transonly` | — | (none) | off | Translation-only (3 DOF) registration |
 | `--isoscale` | — | (none) | off | Add isotropic scale (7 DOF: rigid + uniform scale) |
-| `--iscale` | `-i` | (none) | off | Also estimate a global intensity scale factor jointly with the transform |
+| `--iscale` / `--i` | `-i` | (none) | off | Also estimate a global intensity scale factor jointly with the transform |
 | `--iscaleonly` | — | (none) | off | Estimate intensity scale only; skip all spatial registration |
 
 ### Robust cost function
@@ -178,7 +178,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Alias | Argument | Default | Description |
 |------|-------|----------|---------|-------------|
-| `--mapmov` | `--warp` | `<fname>` | none | Save the moving volume resampled into the destination (or half-way) space |
+| `--mapmov` / `--warp` | `--warp` | `<fname>` | none | Save the moving volume resampled into the destination (or half-way) space |
 | `--mapmovhdr` | — | `<fname>` | none | Save the moving volume with only its header adjusted to the target space (no resampling) |
 | `--weights` | — | `<fname>` | none | Save the per-voxel robust weights (1 = inlier, 0 = outlier) in destination space |
 | `--halfmov` | — | `<fname>` | none | Save the moving volume warped to the half-way space |
@@ -194,7 +194,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--entradius` | `<int>` | 5 | Half-side of the local box used for entropy computation; box side = 2·radius + 1 |
+| `--entradius` / `--radius` | `<int>` | 5 | Half-side of the local box used for entropy computation; box side = 2·radius + 1 |
 | `--entball` | (none) | off | Use a spherical neighbourhood instead of a cubic box for entropy computation |
 | `--entcorrection` | (none) | off | Enable 'correction' mode in entropy image computation |
 | `--entmov` | `<fname>` | none | Save the entropy image computed from the moving volume |
@@ -225,7 +225,7 @@ All flags use `--` prefix and are case-insensitive. Single-letter aliases are no
 | `--verbose` | `<int>` | 1 | Verbosity level (0 = silent, 1 = normal, higher = more detail) |
 | `--debug` | (none) | off | Enable debug output and write intermediate files |
 | `--test` | `<int> <file>` | — | Developer test mode: calls `RegRobust::testRobust(file, int)` and exits immediately; not intended for production use |
-| `--help` | (none) | — | Print usage and exit (also accepted as `-h`) |
+| `--help` / `--h` | (none) | — | Print usage and exit |
 | `--version` | (none) | — | Print version string and exit |
 
 > [!gotcha] Dead code: `--satest`

@@ -55,9 +55,9 @@ Stacked autoencoders (SAEs) are deep unsupervised neural networks that learn com
 
 ## Outputs
 
-- Feature map volume: the encoder activations for each voxel's neighbourhood, written as an MGZ volume.
-- When `--synth` mode is active (controlled by `-synth` flag), a synthesised reconstruction is written.
-- Optionally: p-value maps, label files in `cube.inputs.label` / `cube.outputs.label`.
+- Feature map volume: the encoder activations for each voxel's neighbourhood, written as `<out>.AE.p.mgz`.
+- When `-s` (synthesize) mode is active, a synthesised reconstruction is written to `<out>.out.mgz`.
+- When `-r` (read) mode is active: reads a pre-computed p-value map and writes label files `cube.inputs.label` / `cube.outputs.label`.
 
 ## Mathematical Foundations
 
@@ -76,24 +76,21 @@ The tool builds an image pyramid (`mri_pyramid`) with `nlevels` levels (default 
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| (positional 1) | path | required | Input volume |
-| (positional 2) | path | required | SAE model file |
-| (positional 3) | path | required | Output volume |
-| `-synth` | int | 0 | Synthesise output rather than encode |
-| `-levels` | int | 4 | Number of pyramid levels |
-| `-ras <r> <a> <s>` | float x3 | — | Specify a RAS point for focused analysis |
-| `-read` | flag | off | Read pre-computed AE p-value map and generate label |
-| `-window <x0> <x1> <y0> <y1> <z0> <z1>` | int x6 | — | Restrict processing to voxel window |
-
-> [!gap] Complete flag list
-> The full option list was not extracted because `get_option()` was not read in full. The above reflects flags observed in the global variable declarations.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-t <vol>` | path | — | Training volume used to compute similarity measures |
+| `-s` | — | off | Synthesise output volume using the autoencoder instead of encoding |
+| `-r` | — | off | Read pre-computed AE p-value map (`<out>.AE.p.mgz`) and generate label files |
+| `-x <x0> <x1> <y0> <y1> <z0> <z1>` | integers | — | Restrict processing to the specified voxel sub-region |
+| `-ras <r> <a> <s>` | floats | — | Apply SAE at a specific TK RAS point; maps to voxel for debug focus |
+| `-debug_voxel <x> <y> <z>` | integers | — | Enable debug output for voxel at coordinates (x, y, z) |
 
 ## Configuration Interactions
 
-- `-ras` sets a specific point for visualisation/debugging and overrides the default whole-volume processing.
-- `-read` mode changes the tool from feature extraction to label file generation based on a pre-computed p-value map.
+- `-ras` sets a specific TK RAS focus point; the corresponding voxel becomes `Gx/Gy/Gz` for debug/similarity output.
+- `-r` (read) mode bypasses feature extraction entirely; the tool reads a pre-computed `<out>.AE.p.mgz` file and writes label files.
+- `-s` (synthesize) and normal feature-extraction mode are mutually exclusive paths through `main()`.
+- `-x` crops the input before building the image pyramid; voxel coordinates in other flags are relative to the original (uncropped) volume.
 
 ## Typical Use Cases
 

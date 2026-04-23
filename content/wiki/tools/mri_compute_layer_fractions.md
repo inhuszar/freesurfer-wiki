@@ -85,27 +85,31 @@ The fractional contributions to the lower-resolution target volume are then comp
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `-hemi` | `lh` or `rh` | `lh` | Hemisphere to process |
-| `-sdir` | path | `$SUBJECTS_DIR` | Subjects directory |
-| `-resolution` | float | `0.5` | Internal upsampling resolution in mm |
-| `-nlayers` | int | `6` | Number of cortical layers |
-| `-noaseg` | — | off | Skip aseg loading (for testing) |
-| `-cortex_only` | — | on | Restrict to cortex ribbon only |
-| `-FS_names` | — | off | Use FreeSurfer standard naming for output frames |
-| `-subject` | name | from reg file | Override subject name |
-| `-synth` | fname | — | Create synthetic test volume instead |
-
-> [!gap] Option `-laminar_name`
-> The source defines `LAMINAR_NAME = "gwdist"` but does not expose this as a user flag. The laminar depth surface overlay is always read from `?h.gwdist`. Whether users can substitute a custom depth map is unclear.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-lh` | — | on | Process left hemisphere only |
+| `-rh` | — | off | Process right hemisphere only |
+| `-both` | — | off | Process both hemispheres |
+| `-sdir` / `-SDIR` | `<path>` | `$SUBJECTS_DIR` | Subjects directory override |
+| `-s` | `<name>` | from reg file | Override subject name from registration file |
+| `-r` | `<f>` | 0.5 | Internal upsampling resolution in mm |
+| `-n` | `<name>` | `gwdist` | Laminar surface overlay name (stem used to find `?h.<name>.<i>`) |
+| `-a` | `<name>` | `aseg.mgz` | Name of the aseg volume within subject's `mri/` directory |
+| `-nlayers` | `<n>` | 6 | Number of cortical layers to compute |
+| `-noaseg` | — | off | Skip loading of `aseg.mgz` (skip subcortical structure labelling) |
+| `-cortex` | — | on | Restrict grey matter labels to cortex ribbon only |
+| `-FS_names` | — | off | Use FreeSurfer standard surface names (`white`, `pial`) instead of `gwdist` naming |
+| `-synth` | `<fname>` | — | Create a synthetic parcellation volume instead of laminar fractions |
+| `-debug_voxel` | `<x> <y> <z>` | — | Enable verbose debugging for a specific voxel |
+| `-w` | — | off | Enable write diagnostics (writes intermediate label volumes to disk) |
 
 ## Configuration Interactions
 
 - `-noaseg` disables loading of `aseg.mgz`; non-cortical structures will not be correctly labeled in the output.
-- `-cortex_only` (default on) restricts fractional computation to the cortical ribbon; background voxels receive zero in all cortical frames.
+- `-cortex` (default on) restricts fractional computation to the cortical ribbon; background voxels receive zero in all cortical frames.
 - `-nlayers` changes the number of output frames; downstream scripts expecting 6 cortical layers will break if this is changed.
-- `-hemi` processes only one hemisphere at a time; both hemispheres can be combined by running the tool twice and summing.
+- Use `-lh`, `-rh`, or `-both` to control hemisphere processing; `-lh` is the default.
+- `-FS_names` requires `-nlayers 1` or `-nlayers 2`; the source enforces this with an error exit if `nlayers > 2`.
 
 ## Typical Use Cases
 
@@ -120,7 +124,7 @@ mri_compute_layer_fractions \
 Use right hemisphere:
 ```bash
 mri_compute_layer_fractions \
-  -hemi rh \
+  -rh \
   register.dat \
   func.nii.gz \
   rh_layer_fracs.mgz
@@ -137,8 +141,8 @@ This tool is not called by [[recon-all]]. It is a post-processing utility used i
 
 ## Gotchas and Caveats
 
-> [!gotcha] Only one hemisphere at a time
-> Unlike [[mri_compute_volume_fractions]], this tool processes one hemisphere per run. To obtain whole-brain laminar fractions, you must run for both `lh` and `rh` and combine the results.
+> [!gotcha] Hemisphere selection
+> By default this tool processes the left hemisphere only (`-lh`). Use `-rh` for right or `-both` for both hemispheres in one run. When using `-both` the tool internally combines the two hemisphere label volumes before computing fractions.
 
 > [!gotcha] Requires gwdist overlay
 > The tool reads `?h.gwdist` from the subject's `surf/` directory. This file is not created by standard `recon-all` and must be generated separately (e.g., via `mris_thickness` or laminar depth utilities).

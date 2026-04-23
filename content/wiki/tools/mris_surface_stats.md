@@ -49,9 +49,9 @@ The tool is designed for quick exploratory group statistics; it is not a full GL
 
 | Input | Description | Format |
 |-------|-------------|--------|
-| Surface file (`-surf_fname`) | The underlying surface mesh. | FreeSurfer binary surface |
+| Surface file (`-surf` / `-surf_name` / `-surf_file`) | The underlying surface mesh. | FreeSurfer binary surface |
 | Multiple overlay files (positional) | Per-subject scalar maps (e.g., thickness difference files from [[mris_thickness_diff]]). | `.mgh`, `.mgz`, or type-specified |
-| Mask label (`-mask`) | Optional subcortical mask. | `.label` |
+| Mask label (`-mask` / `-mask_name` / `-mask_fname`) | Optional subcortical mask. | `.label` |
 
 **Usage (inferred from code):** The overlay files are passed as positional arguments.
 
@@ -59,10 +59,10 @@ The tool is designed for quick exploratory group statistics; it is not a full GL
 
 | Output | Description | Format |
 |--------|-------------|--------|
-| Mean map (`-stat`) | Per-vertex mean of signed values. | `.mgh`, `.mgz` |
-| Mean map (`-mean`) | Same as above (alternate flag). | `.mgh`, `.mgz` |
-| Absolute mean (`-absmean`) | Per-vertex mean of absolute values. | `.mgh`, `.mgz` |
-| Absolute std (`-absstd`) | Per-vertex std of absolute values. | `.mgh`, `.mgz` |
+| Std map (`-out` / `-out_name` / `-out_fname`) | Per-vertex standard deviation of signed values (required). | `.mgh`, `.mgz` |
+| Mean map (`-mean` / `-mean_name` / `-mean_fname`) | Per-vertex mean of signed values. | `.mgh`, `.mgz` |
+| Absolute mean (`-absmean` / `-absmean_name` / `-absmean_fname`) | Per-vertex mean of absolute values. | `.mgh`, `.mgz` |
+| Absolute std (`-absstd` / `-absstd_name` / `-absstd_fname`) | Per-vertex std of absolute values. | `.mgh`, `.mgz` |
 | Z-score (`-zscore`) | Per-vertex z-score for group contrast. | `.mgh`, `.mgz` |
 
 ## Mathematical Foundations
@@ -84,21 +84,19 @@ Optional spatial smoothing via `MyMRISsmoothMRI()` (heat kernel smoothing, `nSmo
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-surf_fname file` | surface file | Underlying surface mesh |
-| `-stat file` | output | Mean signed stat map output |
-| `-mean file` | output | Mean signed stat map output (alternate) |
-| `-absmean file` | output | Absolute mean output |
-| `-absstd file` | output | Absolute std output |
-| `-zscore file` | output | Z-score output (requires `-first_group_size`) |
-| `-first_group_size N` | integer | Number of subjects in first group (for two-group contrast) |
-| `-mask file` | mask label | Mask to exclude vertices |
-| `-nsmooth N` | integer | Smoothing iterations applied to each input (default: 0) |
-
-**Input type flags** (forwarded to MRI reader):
-| `-src type` | string | Source file type |
-| `-trg type` | string | Target file type |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-surf` / `-surf_name` / `-surf_file` | `<file>` | required | Underlying surface mesh file |
+| `-out` / `-out_name` / `-out_fname` | `<file>` | required | Output std-of-data map filename |
+| `-mean` / `-mean_name` / `-mean_fname` | `<file>` | — | Output mean map filename |
+| `-absmean` / `-absmean_name` / `-absmean_fname` | `<file>` | — | Output absolute-mean map filename |
+| `-absstd` / `-absstd_name` / `-absstd_fname` | `<file>` | — | Output std-of-abs-mean map filename |
+| `-zscore` | `<file>` | — | Output z-score map filename (requires `-first_group_size`) |
+| `-first_group_size` | `<N>` | 0 | Number of subjects in the first group; enables two-group contrast |
+| `-mask` / `-mask_name` / `-mask_fname` | `<file>` | — | Label file masking vertices to exclude from statistics |
+| `-nsmooth` | `<N>` | 0 | Number of smoothing iterations applied to each input overlay |
+| `-src_type` | `<type>` | paint | Input surface data format (e.g., `paint`, `curv`, `w`) |
+| `-trg_type` | `<type>` | paint | Output surface data format |
 
 ## Configuration Interactions
 
@@ -111,7 +109,8 @@ Optional spatial smoothing via `MyMRISsmoothMRI()` (heat kernel smoothing, `nSmo
 **Compute mean and std of thickness differences across subjects:**
 ```bash
 mris_surface_stats \
-  -surf_fname lh.white \
+  -surf_name lh.white \
+  -out_name lh.std_thickdiff.mgh \
   -mean lh.mean_thickdiff.mgh \
   -absstd lh.absstd_thickdiff.mgh \
   sub01_thickdiff.mgh sub02_thickdiff.mgh sub03_thickdiff.mgh
@@ -120,7 +119,8 @@ mris_surface_stats \
 **Two-group z-score (10 patients vs 10 controls):**
 ```bash
 mris_surface_stats \
-  -surf_fname lh.white \
+  -surf_name lh.white \
+  -out_name lh.std.mgh \
   -zscore lh.zscore.mgh \
   -first_group_size 10 \
   sub01.mgh sub02.mgh ... sub20.mgh

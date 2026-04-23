@@ -49,12 +49,12 @@ The input volume and output path are **positional arguments** (not flags): the s
 |------|-------|-------------|
 | `<in_vol>` | — | Input target volume (base template) — **positional, second-to-last** |
 | `<out_vol>` | — | Output fused segmentation — **positional, last** |
-| `--norm <vol> [...]` | `-n` | Normalised T1 volumes for each time point |
-| `--aseg <vol> [...]` | `-a` | Segmentation volumes for each time point |
-| --nocc <vol> [...] | `-c` | Segmentation volumes without corpus callosum labels; replaces incorrect --aseg-nocc |
-| `--trx <lta> [...]` | `-t` | Registration transforms for each time point (or `identity.nofile`) |
-| `--sigma <s>` | `-s` | Cross-time sigma for temporal Gaussian weighting (default: 3.0) |
-| `--debug <x> <y> <z>` | `-d` | Enable debug output at the specified voxel coordinate |
+| `--norm <vol> [...]` / `-n` | `-n` | Normalised T1 volumes for each time point |
+| `--aseg <vol> [...]` / `-a` | `-a` | Segmentation volumes for each time point |
+| `--nocc <vol> [...]` / `-c` | `-c` | Segmentation volumes without corpus callosum labels; replaces incorrect --aseg-nocc |
+| `--trx <lta> [...]` / `-t` | `-t` | Registration transforms for each time point (or `identity.nofile`) |
+| `--sigma <s>` / `-s` | `-s` | Cross-time sigma for temporal Gaussian weighting (default: 3.0) |
+| `--debug <x> <y> <z>` / `-d` | `-d` | Enable debug output at the specified voxel coordinate |
 
 ## Outputs
 
@@ -89,12 +89,12 @@ Flag list verified against `mri_fuse_segmentations/mri_fuse_segmentations.cpp`. 
 |------|-------|------|---------|-------------|
 | `<in_vol>` | — | volume | required | Input base template — positional (second-to-last arg) |
 | `<out_vol>` | — | volume | required | Output fused segmentation — positional (last arg) |
-| `--norm <vol> [...]` | `-n` | volumes | required | Normalised T1 per time point |
-| `--aseg <vol> [...]` | `-a` | volumes | required | Segmentation per time point |
-| `--nocc <vol> [...]` | `-c` | volumes | required | Segmentation without CC labels per time point |
-| `--trx <lta> [...]` | `-t` | LTA files | — | Transform per time point |
-| `--sigma <s>` | `-s` | float | 3.0 | Cross-time Gaussian weighting sigma |
-| `--debug <x> <y> <z>` | `-d` | ints | — | Debug at voxel coordinate |
+| `--norm <vol> [...]` / `-n` | `-n` | volumes | required | Normalised T1 per time point |
+| `--aseg <vol> [...]` / `-a` | `-a` | volumes | required | Segmentation per time point |
+| `--nocc <vol> [...]` / `-c` | `-c` | volumes | required | Segmentation without CC labels per time point |
+| `--trx <lta> [...]` / `-t` | `-t` | LTA files | — | Transform per time point |
+| `--sigma <s>` / `-s` | `-s` | float | 3.0 | Cross-time Gaussian weighting sigma |
+| `--debug <x> <y> <z>` / `-d` | `-d` | ints | — | Debug at voxel coordinate |
 
 > [!gotcha] No --in, --out, or --aseg-nocc flags
 > These flags do not exist in the source. Input and output volumes are positional. The no-CC segmentation flag is --nocc (or `-c`), not --aseg-nocc.

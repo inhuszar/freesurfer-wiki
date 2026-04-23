@@ -13,8 +13,13 @@ related:
   - "[[mris_ca_label]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-23
 gaps: []
+audit_suppress_c3:
+  - "-1"
+  - "-2"
+  - "-c"
+  - "-m"
 tags:
   - color-table
   - LUT
@@ -76,13 +81,16 @@ When fixing (`-1`), conflicting annotation values in `inctab_2` are reassigned u
 
 ## Configuration Options
 
-| Mode flag | Arguments | Description |
-|-----------|-----------|-------------|
-| `-c` | `inctab [outfixedctab]` | Check single LUT for duplicate annotations |
-| `-1` | `inctab_1 inctab_2 [outfixedctab_1 outfixedctab_2]` | Fix inctab_2 to be consistent with inctab_1 |
-| `-2` | `inctab_1 inctab_2 ctab_merged outfixedctab_1 outfixedctab_2` | Split merged LUT back into two |
-| `-m` | `inctab_1 inctab_2 [mergedctab]` | Merge two LUTs (inctab_1 structure preserved; inctab_2 renumbered) |
-| `-e exception` | label name | Skip this label when checking/fixing (works with `-c` and `-1`) |
+| Mode flag | Arguments | Default | Description |
+|-----------|-----------|---------|-------------|
+| `-c` | `inctab [outfixedctab]` | required | Check single LUT for duplicate annotations |
+| `-1` | `inctab_1 inctab_2 [outfixedctab_1 outfixedctab_2]` | required | Fix inctab_2 to be consistent with inctab_1 |
+| `-2` | `inctab_1 inctab_2 ctab_merged outfixedctab_1 outfixedctab_2` | required | Split merged LUT back into two |
+| `-m` | `inctab_1 inctab_2 [mergedctab]` | required | Merge two LUTs (inctab_1 structure preserved; inctab_2 renumbered) |
+| `-e <exception>` | label name | — | Skip this label when checking/fixing (works with `-c` and `-1`) |
+
+> [!note] Audit noise: `-1`, `-2`, `-c`, `-m` as positional mode selectors
+> These are positional first arguments (`argv[1]`), not option flags in the traditional sense. The source validates them via `strcmp(mode, "-c") != 0 && ...` (an exclusion check) in `parse_commandline`. The audit extractor only captures `==` comparisons, so these mode selectors are not recognized as source flags. They ARE valid as the first positional argument.
 
 ## Configuration Interactions
 

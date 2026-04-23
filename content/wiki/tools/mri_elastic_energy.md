@@ -69,11 +69,17 @@ where $\varepsilon = \frac{1}{2}(F + F^T) - I$ is the linearized strain tensor.
 
 ## Configuration Options
 
-No command-line flags were identified beyond the two positional arguments. The global variable `scale = 1e12` is used internally.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| (positional 1) | path | required | Input deformation field volume |
+| (positional 2) | path | required | Output energy volume |
+| `-n` | 1 token | — | **No-op stub.** `case 'N': nargs = 1; break;` — consumes one argument token without assigning it. |
+
+The global variable `scale = 1e12` is used internally.
 
 ## Configuration Interactions
 
-N/A — no configurable flags.
+N/A — no configurable flags beyond the positional arguments.
 
 ## Typical Use Cases
 

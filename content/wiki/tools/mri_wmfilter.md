@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source is in attic/ — may be deprecated."
   - "Full flag set and algorithm were not read from source."
@@ -59,12 +59,24 @@ After initial white matter segmentation, it may be necessary to remove voxels wi
 
 ## Configuration Options
 
-> [!gap] Flags not documented
-> See `mri_wmfilter --help` for current options.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-central` | — | off | Only consider variance in the central plane (the plane passing through the origin) when computing orientation statistics. Suppresses the planar Laplacian term. |
+| `-grayscale` | — | off | Use grayscale (raw intensity) image data instead of the binary-thresholded segmented image when computing the plane-of-least-variance. |
+| `-slope` | `<pct>` | `0` | Modify the voting fraction by `<pct>%` per intensity unit above/below the midpoint between `white_lolim` and `white_hilim`. Argument is a percentage (e.g., `2` → 0.02/unit). |
+| `-lslope` | `<pct>` | `0` | Modify the voting fraction by `<pct>%` multiplied by the binary planar Laplacian. Positive Laplacian (central plane darker than surroundings) biases toward non-white; negative biases toward white. |
+| `-wlo` | `<val>` | `95` | White matter lower intensity limit. Voxels below this value are set to zero in the initial thresholding step. |
+| `-whi` | `<val>` | `125` | White matter upper intensity limit. Voxels above this value are set to zero. |
+| `-ghi` | `<val>` | `100` | Gray matter upper intensity limit. Voxels above `ghi` but below `whi` are treated as unambiguously white. |
+| `-o` | `<name>` | `wm` | Output volume name relative to `$SUBJECTS_DIR/<subject>/mri/`. Default output is `$SUBJECTS_DIR/<subject>/mri/wm`. |
 
 ## Configuration Interactions
 
-> [!gap] Interactions not documented
+- `-wlo`, `-whi`, and `-ghi` define the three intensity boundaries used in classification. The midpoint `(white_lolim + gray_hilim) / 2` is `probably_white`.
+- `-slope` and `-lslope` additively modify the voting fraction `cfrac` (default 0.6) during reclassification: `cfrac += (intensity - probably_white) * slope - laplacian * lslope`.
+- `-central` disables the Laplacian computation; `-lslope` has no effect when `-central` is active.
+- `-grayscale` switches the plane-of-least-variance computation to use the grayscale image (current grey values) instead of the binarised input; affects the plane orientation chosen but not the voting step.
+- `-o` changes the output file path; the input is always read from `$SUBJECTS_DIR/<subject>/mri/brain`.
 
 ## Typical Use Cases
 

@@ -78,9 +78,9 @@ The mapping is a nearest-neighbour transfer in spherical parameter space: vertic
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-D <N>` | Dilate the ripped region by N iterations after mapping (default: 0). |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-D <N>` | int | 0 | Dilate the ripped region by N iterations after mapping |
 
 The tool also uses the following defaults that can be overridden by modifying the globals (but no command-line flags expose them):
 - `orig_surf_name = "sphere.reg"` — surface file used for canonical vertex positions.

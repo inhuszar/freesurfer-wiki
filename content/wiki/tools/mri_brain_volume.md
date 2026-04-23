@@ -64,8 +64,10 @@ The coarse brain center $(x_{\text{COG}}, y_{\text{COG}}, z_{\text{COG}})$ and r
 
 ## Configuration Options
 
-> [!gap] Unknown — requires reading full source
-> The tool inherits the `STRIP_PARMS` structure from the watershed framework and likely supports many of the same flags as [[mri_watershed]].
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-forceParam <val>` | float | 1.0 | Override the pushout force parameter used during template deformation surface fitting |
+| `-surf_debug` | — | off | Write intermediate deformable surfaces into the output volume for debugging; equivalent to setting the `DEBUG_BRAIN` environment variable |
 
 ## Pipeline Context
 

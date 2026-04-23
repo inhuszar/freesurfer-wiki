@@ -83,11 +83,13 @@ where $\sigma_n = 4$ by default. The noise is masked to exclude non-brain voxels
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-label L` | integer | Left_Hippocampus | Target label to simulate atrophy in |
-| `-border L [L2...]` | integers | Left_Lateral_Ventricle, Left_Inf_Lat_Vent, Unknown | Border labels (neighbors of target) |
-| `-pct P` | float | 0.05 (5%) | Atrophy percentage (fraction of boundary intensity to remove) |
-| `-sigma S` | float | 4.0 | Standard deviation of added Gaussian noise |
-| `-nlabels N` | integer | 3 | Number of border labels |
+| `-l <label>` | integer | Left_Hippocampus (17) | Target label to simulate atrophy in (CMA label integer) |
+| `-a <pct>` | float | 0.05 (5%) | Atrophy fraction; values > 1 are interpreted as a percentage and divided by 100 |
+| `-n <sigma>` | float | 4.0 | Standard deviation of added Gaussian noise |
+| `-debug_voxel <x> <y> <z>` | integers | — | Enable debug output for voxel at coordinates (x, y, z) |
+
+> [!gotcha] No CLI flag for border labels
+> The border labels (neighbors used to detect the boundary of the target structure) are hardcoded in `main()`. For `Left_Hippocampus` these are `Left_Lateral_Ventricle`, `Left_Inf_Lat_Vent`, and `Unknown`. There is no CLI flag to override them.
 
 **Default border labels for Left_Hippocampus:**
 - Left_Lateral_Ventricle
@@ -96,9 +98,9 @@ where $\sigma_n = 4$ by default. The noise is masked to exclude non-brain voxels
 
 ## Configuration Interactions
 
-- `-label` and `-border` together define the structure to simulate: atrophy is simulated at the interface between the target label and its specified border labels.
-- `-nlabels` must match the number of `-border` labels specified.
+- `-l` sets the target label. The corresponding border labels are hardcoded per target and cannot be changed via the CLI.
 - Noise is always added regardless of other settings (no option to disable it).
+- `-a` values above 1 are treated as a percentage (e.g., `-a 10` becomes 0.10 internally); values above 100 cause an error.
 
 ## Typical Use Cases
 
@@ -109,7 +111,7 @@ mri_simulate_atrophy aseg.mgz norm.mgz simulated_atrophy.mgz
 
 **Simulate 10% atrophy in a different structure:**
 ```bash
-mri_simulate_atrophy -label 17 -pct 0.10 aseg.mgz norm.mgz norm_10pct_atrophy.mgz
+mri_simulate_atrophy -l 17 -a 0.10 aseg.mgz norm.mgz norm_10pct_atrophy.mgz
 ```
 
 ## Pipeline Context

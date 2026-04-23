@@ -85,12 +85,12 @@ Morphological operations (dilation/erosion via `-dilate`/`-erode`) can be applie
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides `SUBJECTS_DIR` |
-| `-min_area A` | float (mm²) | Minimum segment area threshold (default: 10 mm²) |
-| `-dilate N` | integer | Number of dilation iterations applied to label boundary |
-| `-erode N` | integer | Number of erosion iterations applied to label boundary |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir path` | directory | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR` |
+| `-min_area A` | float (mm²) | 10 | Minimum segment area threshold (mm²) |
+| `-dilate N` | integer | 0 | Number of dilation iterations applied to label boundary |
+| `-erode N` | integer | 0 | Number of erosion iterations applied to label boundary |
 
 **Positional arguments:** `<segmentation_name> <true_label_name> <subject1> ... <subjectN> <output_file>`
 

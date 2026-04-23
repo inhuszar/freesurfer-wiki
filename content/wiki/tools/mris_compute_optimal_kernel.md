@@ -14,7 +14,7 @@ related:
   - "[[mris_register]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source in attic/. Installation status in 8.2.0 unknown."
   - "Internal MRIScomputeOptimalGaussianKernel() function details not documented."
@@ -78,7 +78,8 @@ The search is implemented by `MRIScomputeOptimalGaussianKernel()`, which iterate
 | `-step <n>` | int | 10 | Step size for kernel search |
 | `-max <n>` | int | 1000 | Maximum averaging steps |
 | `-w <file>` | path | `""` (no write) | Write kernel output to file |
-| `--orig <name>` | string | `orig` | Original surface name |
+| `-orig <name>` | string | `orig` | Original surface name |
+| `-sdir <path>` | path | `$SUBJECTS_DIR` | Override the subjects directory. When set, the tool uses this path instead of the `SUBJECTS_DIR` environment variable. |
 
 > [!gap] Flag names need verification
 > Inferred from global variables. Confirm from `get_option()`.

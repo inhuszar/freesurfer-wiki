@@ -144,7 +144,7 @@ Identifiers and I/O:
 |------|------|---------|-------------|
 | `--s <subjid>` | string | — | Subject name; resolves all implicit input paths under `$SUBJECTS_DIR/<subjid>`. Required. |
 | `--sd <dir>` | string | `$SUBJECTS_DIR` env | Override the subjects directory (also sets `SUBJECTS_DIR` for child calls). |
-| `--o <outvol>` | string | `mri/<annotname>+aseg.mgz` | Output segmentation volume. Synonym: `--oaseg`. |
+| `--o <outvol>` / `--oaseg` | string | `mri/<annotname>+aseg.mgz` | Output segmentation volume. |
 | `--oaparc <vol>` | string | — | Optional separate output containing only the cortical parcellation (without subcortical labels merged in). |
 | `--aseg <name>` | string | `aseg` | Input aseg base name (resolved as `$SUBJECTS_DIR/<subj>/mri/<name>.mgz` or `.mgh`, or as a direct path). |
 | `--annot <name>` | string | `aparc` | Annotation stem; reads `label/lh.<name>.annot` and `label/rh.<name>.annot`. |

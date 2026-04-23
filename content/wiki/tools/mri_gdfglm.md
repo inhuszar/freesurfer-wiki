@@ -18,7 +18,6 @@ last_agent_update: 2026-04-21
 gaps:
   - "Tool is in attic/ — unclear whether it is still distributed or superseded entirely by mri_glmfit"
   - "DVT file format specification not publicly documented"
-  - "--psdwin flag exists in source only as a commented-out example; cannot be used at runtime"
 tags:
   - glm
   - statistics
@@ -105,10 +104,6 @@ Flag list verified against `attic/mri_gdfglm/mri_gdfglm.cpp`.
 | `--keepid` | — | off | Keep subject ID in output files |
 | `--o` | `<base>` | — | Output file base name |
 | `--debug` | — | off | Enable debug output |
-| `--psdwin` | `<min> <max> [step]` | — | (Not active) Example argument in source; the corresponding `if` branch is commented out and the option is not wired to any variable — cannot be used at runtime |
-
-> [!gap] `--psdwin` not active in compiled code
-> The source contains a comment block illustrating `--psdwin min max [step]` as an example for argument parsing, but the corresponding `if` branch is commented out and the option is not wired to any variable. It cannot be used at runtime.
 
 > [!gap] `--fsgd` not in source
 > The flag --fsgd does not appear in the source. The correct flag is `--gdf`.
@@ -166,3 +161,4 @@ mri_gdfglm --gdf study.fsgd --dvt measurements.dat \
 
 > [!gap] Verify distribution status
 > Confirm whether `mri_gdfglm` is compiled and installed in FreeSurfer 8.2.0, or whether it exists only as source in the attic.
+

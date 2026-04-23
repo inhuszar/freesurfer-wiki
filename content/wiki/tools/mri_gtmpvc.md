@@ -126,7 +126,7 @@ An optional PSF optimization mode fits the FWHM parameters to the data by minimi
 | `--auto-mask` | `<fwhm> <thresh>` | — | Automatically compute brain mask |
 | `--frame` | `<n>` | all | Use only 0-based frame n of multi-frame input |
 | `--last-frame` | — | — | Use only the last frame of multi-frame input |
-| `--sd` | `<dir>` | `$SUBJECTS_DIR` | Set SUBJECTS_DIR |
+| `--sd` / `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Set SUBJECTS_DIR (also accepts `-SDIR`) |
 
 ### PSF / Scanner Resolution
 

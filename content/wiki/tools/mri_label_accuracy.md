@@ -76,10 +76,10 @@ The implementation pads the volumes by `PAD = 20` voxels to ensure all boundary 
 
 | Flag | Argument | Description |
 |------|----------|-------------|
-| `-target` | `<label>` | Target label value (default: any non-zero) |
-| (morphological flags) | — | Various erosion/dilation operations (inferred from header) |
+| `-l <label>` | `int` | — | Restrict operations to the specified label value; sets `Gdiag_no = target_label` (`case 'L':`) |
+| `-log <file>` | `path` | — | Write diagnostic output to this log file (`Gdiag_fp`) |
 
-> [!gap] Flag list not fully traced
+> [!gap] Morphological preprocessing flags
 > The `ERODE`, `DILATE`, `CLOSE`, `OPEN`, `DILATE_LABEL`, `MODE_FILTER` constants suggest configurable morphological preprocessing. Exact flags require help output verification.
 
 ## Typical Use Cases

@@ -17,8 +17,7 @@ related:
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
-gaps:
-  - "Optional flags beyond positional args not confirmed from code header alone"
+gaps: []
 tags:
   - conversion
   - intensity-normalization
@@ -80,20 +79,16 @@ The target white matter value of 110 is a FreeSurfer convention and matches the 
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| (none documented in header) | — | — | Only positional args confirmed from source |
+All flags use a single `-` prefix. Flag matching is case-insensitive via `toupper()`.
 
-The following compile-time parameters can be modified but are not runtime flags:
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `FIRST_PERCENTILE` | 0.01 | Bottom of the intensity range (background) |
-| `WM_PERCENTILE` | 0.90 | Top of the intensity range (white matter) |
-| `MAX_R` | 50.0 mm | Radius of brain sphere for histogram estimation |
-
-> [!gap] Runtime flags
-> The `get_option()` function exists but its contents are not shown in the first 120 lines of source. Additional flags beyond the three positional arguments may exist but are unconfirmed.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-f <val>` | float | 0.01 | Override `FIRST_PERCENTILE`: the cumulative histogram percentile used as the low-end (background) anchor for intensity rescaling |
+| `-w <val>` | float | 0.90 | Override `WM_PERCENTILE`: the cumulative histogram percentile used as the white-matter (high-end) anchor |
+| `-r <val>` | float | 50.0 | Override `MAX_R`: radius (mm) of the Talairach-centred sphere used to select brain voxels for the histogram |
+| `-n` | (none) | — | Accepted but does nothing (no-op in `get_option()`) |
+| `-h <file>` | path | off | Write the cumulative histogram (CDF) used for intensity anchoring to `<file>` (text format) |
+| `-v <file>` | path | off | Write a volume with all voxels outside the `MAX_R` sphere zeroed to `<file>` (diagnostic radius-mask output) |
 
 ## Configuration Interactions
 
@@ -143,6 +138,4 @@ The output feeds into:
 
 ## Confidence and Gaps
 
-**Confident:** Core algorithm (sphere-based WM histogram normalization), Talairach sphere radius, percentile parameters, pipeline placement, output type.
-
-**Less confident:** Whether additional runtime flags exist beyond the three positional arguments.
+**Confident:** Core algorithm (sphere-based WM histogram normalization), Talairach sphere radius, percentile parameters, pipeline placement, output type. All runtime flags confirmed from complete `get_option()` source.

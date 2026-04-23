@@ -13,7 +13,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Full command-line interface confirmed from embedded BEGINUSAGE block in source"
   - "Similarity function implementations (median, L1, default) not fully characterised"
@@ -48,11 +48,11 @@ Use cases include:
 
 ## Inputs
 
-- `--reg regfile` — input/output registration file
-- `--mov fvol` — moving volume (reference space)
 - `--surf surface` — surface to register
-- `--targ vol` — target label volume
-- `--pial pial_surface` — pial surface (optional, adds to similarity)
+- `--mov fvol` — moving volume (reference space for label coordinates)
+- `--label label` — label file (registration target)
+- `--reg regfile` — initial registration file (optional; identity if omitted)
+- `--targ vol` — target volume (optional; used only for diagnostic outputs)
 - `--res resolution` — distance transform resolution in mm
 
 ## Outputs
@@ -76,51 +76,65 @@ The search is over a grid defined by:
 - `--trans_init tx0 ty0 tz0` — initial translations
 
 Alternative similarity functions:
-- `--median` — median cost function
-- `--L1` — L1 norm cost function
+- `--max` — maximum distance value at label points
+- `--median` — median distance value
+- `--L1` — L1 norm (mean absolute distance)
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--reg` | `<regfile>` | identity | Input registration file (LTA format); if omitted, identity matrix is used as initial registration |
-| `--mov` | `<fvol>` | — | Moving volume (reference space for the label coordinates) |
-| `--surf` | `<surface>` | — | Surface file to register |
-| `--targ` | `<vol>` | — | Target label volume |
-| `--pial` | `<pial>` | — | Pial surface (optional); adds pial contribution to similarity function |
-| `--pial_only` | `<pial>` | — | Use pial surface only; excludes white surface from similarity |
-| `--res` | `<mm>` | `0.5` | Distance transform resolution in mm |
-| `--angle_init` | `<ax> <ay> <az>` | `0 0 0` | Centre of rotation search grid (degrees) |
-| `--trans_init` | `<tx> <ty> <tz>` | `0 0 0` | Centre of translation search grid (mm) |
-| `--median` | none | off | Use median cost function (default is RMS) |
-| `--L1` | none | off | Use L1 norm cost function (default is RMS) |
-| `--patch` | `<patch>` | — | Surface patch file to restrict registration to a patch |
-| `--cost` | `<costfile>` | — | Output cost file (optional) |
-| `--interp` | `<type>` | `trilinear` | Interpolation method: `trilinear` or `nearest` |
-| `--profile` | none | off | Print execution time information |
-| `--border` | `<border>` | — | Size of border region to ignore (optional) |
-| `--out-reg` | `<outreg>` | — | Output registration file at lowest cost (updated continuously) |
+> [!gotcha] BEGINUSAGE comment vs. actual parser
+> The source file contains a `BEGINUSAGE` comment block that lists `--pial`, `--pial_only`, `--cost`, `--interp`, `--profile`, and `--border`. None of these are handled in `parse_commandline()`. They are not functional flags in FreeSurfer 8.2.0.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--surf` | `<surface>` | required | Surface file to register. |
+| `--mov` | `<fvol>` | required | Moving volume (defines the coordinate space for label points). |
+| `--label` | `<label>` | required | Label file; registration target — the surface is aligned to the label boundary. |
+| `--out-reg` | `<outreg>` | — | Output registration file at lowest cost (written continuously during search). |
+| `--reg` | `<regfile>` | identity | Initial registration file (LTA format); identity matrix is used if omitted. |
+| `--targ` | `<vol>` | — | Target volume for reorientation output; used only for diagnostic intermediate file writes. |
+| `--res` | `<mm>` | `0.5` | Distance transform resolution in mm. |
+| `--downsample` | `<N>` | `0` | Downsample input volume by factor `<N>` before registration. |
+| `--s` | `<subject>` | — | Subject name (used when writing `register.dat` output format). |
+| `--sdir` | `<dir>` | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR`. |
+| `--patch` | `<patch>` | — | Surface patch file to restrict registration to a patch region. |
+| `--angle_init` | `<ax> <ay> <az>` | `0 0 0` | Centre of the rotation search grid in degrees; offsets applied to search range. |
+| `--trans_init` | `<tx> <ty> <tz>` | `0 0 0` | Centre of the translation search grid in mm. |
+| `--max_rot` | `<deg>` | `10.0` | Maximum rotation in degrees to search over (RADIANS(10) ≈ 0.175 rad). |
+| `--max_trans` | `<mm>` | `20.0` | Maximum translation in mm to search over. |
+| `--angle_step_size` | `<deg>` | `0.333` | Step size for rotation grid search in degrees. |
+| `--trans_step_size` | `<mm>` | `1.0` | Step size for translation grid search in mm. |
+| `--scale` | `<min:steps:max>` | `1:1:1` | Scale search range in `min:steps:max` format (no scaling by default). |
+| `--max` | — | off | Use MAX cost function instead of default RMS. |
+| `--rms` | — | on | Use RMS cost function (default). |
+| `--median` | — | off | Use median cost function. |
+| `--L1` | — | off | Use L1 norm cost function. |
+| `--w` | `<N>` | — | Write intermediate registrations every `<N>` improvements found. |
+| `--gdiagno` | `<N>` | `-1` | Set `Gdiag_no` diagnostic vertex number for debug output. |
 
 ## Configuration Interactions
 
-- `--pial` and `--pial_only` control whether the pial surface contributes to the similarity: `--pial` adds it, `--pial_only` uses only pial (excludes white).
-- `--median`, `--L1`, and the default gradient-based function are mutually exclusive.
-- `--angle_init` and `--trans_init` define the centre of the grid search, not a fixed transform.
+- `--max`, `--rms`, `--median`, and `--L1` are mutually exclusive cost functions; the last one specified on the command line wins. Default is RMS.
+- `--angle_init` and `--trans_init` define the centre of the search grid, not a fixed transform. The search range is ±`max_rot` and ±`max_trans` around the init values.
+- `--angle_step_size` and `--trans_step_size` interact with `--max_rot` and `--max_trans` to determine the total number of grid points: `angle_steps = (2/angle_step_size) * DEGREES(max_rot) + 1`.
+- `--w <N>` writes intermediate registration files every `<N>` improvements; set to a large value to reduce I/O during long searches.
 
 ## Typical Use Cases
 
 ```bash
 # Register left white surface to a label volume
 mris_register_to_label \
-  --reg lh.dat --mov brain.mgz \
-  --surf lh.white --targ boundary_label.mgz \
+  --surf lh.white --mov brain.mgz \
+  --label lh.cortex.label \
+  --reg lh.dat \
   --res 0.5 --out-reg lh.registered.dat
 
-# Include pial in similarity
+# Wider search range with finer step size
 mris_register_to_label \
-  --reg lh.dat --mov brain.mgz \
-  --surf lh.white --pial lh.pial \
-  --targ boundary_label.mgz \
+  --surf lh.white --mov brain.mgz \
+  --label lh.cortex.label \
+  --max_rot 15 --max_trans 30 \
+  --angle_step_size 0.2 --trans_step_size 0.5 \
   --out-reg lh.registered.dat
 ```
 
@@ -143,8 +157,6 @@ Not part of `recon-all`. Used for post-hoc rigid surface correction when a refer
 
 ## Confidence and Gaps
 
-**Confident (from embedded BEGINUSAGE block):** Full flag set confirmed from source comments; sinc broken warning from source.
+**Confident (from `parse_commandline()` in source):** Full flag set confirmed from actual C++ parsing code; sinc broken warning from source comments; cost function constants confirmed.
 
-**Uncertain:** Search grid specification (step sizes are not documented in the BEGINUSAGE block); distance transform implementation.
-
-> [!gap] The grid search step sizes for translations and rotations were not documented in the extracted source. The full search range specification is unclear.
+**Uncertain:** Whether `--targ` volume affects cost computation or is only used for diagnostic intermediate file output; exact behavior of `--downsample`.

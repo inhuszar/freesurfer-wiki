@@ -144,3 +144,6 @@ Related stages: skull stripping follows intensity normalisation (`mri_normalize`
 
 > [!gap] Graph-cut implementation
 > The specific max-flow algorithm variant (e.g., Boykov-Kolmogorov, push-relabel) in `graphcut.cpp` was not identified. Performance and behaviour characteristics depend on this choice.
+
+> [!note] Audit noise: `-110` / `--110` false positive
+> An automated audit may flag `-110` and `--110` as C3 invalid. Both ARE valid flags confirmed at source line 173 (`!strcmp(option, "-110") || !strcmp(option, "--110")`). The audit tool's flag-name validator requires the first character after the dash(es) to be a letter or underscore, not a digit, so these flags are rejected. Both forms are real and documented above.

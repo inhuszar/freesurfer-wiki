@@ -14,7 +14,7 @@ related:
   - "[[mri_binarize]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - mri
@@ -119,7 +119,9 @@ The $-\log_{10}$ transformation is computed from the internal function `z2p()` /
 | `--p <vol>` | | string | — | Output raw (untransformed) p-value volume. |
 | `--mask <vol>` | | string | — | Mask volume; only masked (non-zero) voxels are processed; others are set to 0 in all outputs. |
 | `--two-sided` | `--unsigned` | boolean | true | Compute two-sided p-value: $p = 2(1 - \Phi(\|z\|))$; sign of output equals sign of z (default). |
+| `--unsigned` | | boolean | — | Alias for `--two-sided`. |
 | `--one-sided` | `--signed` | boolean | false | Compute one-sided p-value: $p = 1 - \Phi(z)$; output is unsigned. |
+| `--signed` | | boolean | — | Alias for `--one-sided`. |
 | `--feat <dir>` | | string | — | Process all FSL/FEAT z-stat and zf-stat volumes in `<dir>/stats/`, writing `zsig*` and `zfsig*` outputs alongside them; bypasses `--z`/`--log10p`/`--p`. |
 | `--featfmt <ext>` | | string | auto | Override output format extension for FEAT mode (e.g., `nii`, `nii.gz`, `mgh`, `mgz`, `img`); auto-detected from `$FSLOUTPUTTYPE` if not given. |
 | `--nii` | | boolean | — | Set FEAT output format to `nii`. |

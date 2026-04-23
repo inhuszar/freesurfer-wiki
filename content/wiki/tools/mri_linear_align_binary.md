@@ -13,7 +13,7 @@ related:
   - "[[mri_nl_align]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Full command-line interface not extracted"
   - "Binary label handling not fully traced"
@@ -28,7 +28,7 @@ tags:
 
 ## Summary
 
-`mri_linear_align_binary` is a variant of [[mri_linear_align]] that operates on binarised label volumes (rather than raw intensity images) for linear registration. It aligns a binary or label-derived mask from a source volume to a target, using the same global search + Powell optimisation framework. It includes special handling for high-resolution hippocampal registration (`-hires_hippo`).
+`mri_linear_align_binary` is a variant of [[mri_linear_align]] that operates on binarised label volumes (rather than raw intensity images) for linear registration. It aligns a binary or label-derived mask from a source volume to a target, using the same global search + Powell optimisation framework. It includes special handling for high-resolution hippocampal registration (`-h <label>`).
 
 ## Source Information
 
@@ -60,34 +60,49 @@ $$
 \mathcal{L}(A) = \sum_{i \in \text{binary voxels}} \left(B_T(\mathbf{x}_i) \oplus B_S(A^{-1}\mathbf{x}_i)\right)
 $$
 
-or an overlap-based measure (Dice or similar). The `binary_label` variable (default 128) defines the threshold for binarisation.
+or an overlap-based measure (Dice or similar). The `-b <thresh>` flag defines the binarisation threshold; without it the volumes are treated as pre-binarised.
 
-Default search bounds: `MAX_ANGLE` = 25°, `MAX_SCALE` = 0.25 (smaller scale range than intensity-based version).
+Default search bounds: `MAX_ANGLE` = 25° (`-max_angle`), `MAX_SCALE` = 0.25 (`-max_scale`), both more conservative than the intensity-based variant.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| (positional 1) | volume | required | Target binary/label volume |
-| (positional 2) | volume | required | Source binary/label volume |
-| (positional 3) | path | required | Output |
-| `-hires_hippo` | flag | off | Use high-resolution hippocampus-specific mode |
-| `-binarize <t>` | float | 0 | Binarise at threshold `t` before aligning |
-| `-ncloses <n>` | int | 0 | Number of morphological close operations |
-| `-conform` | flag | off | Conform output geometry |
-| `-binary_label <l>` | int | 128 | Label value treated as "binary" foreground |
-
-> [!gap] Complete option list
-> The `get_option()` function was not fully read.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-h <label>` | int | — | Assume source is high-resolution hippocampus labeling; align to target label `<label>`. |
+| `-l <label>` | int | — | Use label `<label>` from source and destination as the registration target. |
+| `-b <thresh>` | float | — | Binarise volumes at threshold `<thresh>` before aligning. |
+| `-c <N>` | int | — | Apply N morphological close operations on the binary image. |
+| `-n <N>` | int | — | Number of registration passes. |
+| `-w <N>` | int | — | Write intermediate volumes every N iterations (enables `DIAG_WRITE`). |
+| `-r` | — | off | Constrain transform to be rigid (no scaling). |
+| `-f <N>` | int | — | Apply N mode filters before writing final volume. |
+| `-s` | — | off | Interpret target as a surface. |
+| `-debug_voxel <x> <y> <z>` | int×3 | — | Debug specific voxel at coordinates (x, y, z). |
+| `-angio` | — | off | Use distance transform SSE for aligning angiograms. |
+| `-nopowell` | — | off | Skip Powell optimisation step. |
+| `-view <x> <y> <z>` | int×3 | — | Visualise registration at voxel (x, y, z). |
+| `-wm` | — | off | Align white matter labels using distance transform SSE. |
+| `-target <label>` | int | — | Align specific target label using distance transform SSE. |
+| `-filled <label>` | int | — | Align filled label using distance transform SSE. |
+| `-distance` | — | off | Use distance transform for SSE cost computation. |
+| `-trans <val>` | float | — | Set maximum translation search range (`MAX_TRANS`). |
+| `-max_angle <deg>` | float | 25.0 | Set maximum rotation angle for search (degrees). |
+| `-max_scale <val>` | float | 0.25 | Set maximum scale range for search (±fraction). |
+| `-skip <N>` | int | — | Skip every N voxels in both source and target during registration. |
+| `-source_skip <N>` | int | — | Skip every N voxels in source during registration. |
+| `-target_skip <N>` | int | — | Skip every N voxels in target during registration. |
 
 ## Typical Use Cases
 
 ```bash
-# Align binary hippocampus mask from source to target
-mri_linear_align_binary target_hipp_mask.mgz source_hipp_mask.mgz aligned.mgz
+# Align pre-binarised hippocampus mask from source to target
+mri_linear_align_binary target_hipp_mask.mgz source_hipp_mask.mgz aligned.lta
 
-# High-resolution hippocampus alignment
-mri_linear_align_binary target_hipp.mgz source_hipp.mgz out.mgz -hires_hippo
+# Binarise at threshold 100 before aligning
+mri_linear_align_binary target.mgz source.mgz out.lta -b 100
+
+# High-resolution hippocampus alignment to CA1 label (17)
+mri_linear_align_binary target_hipp.mgz source_hipp.mgz out.lta -h 17
 ```
 
 ## Pipeline Context
@@ -96,8 +111,9 @@ Not a standard `recon-all` stage. Used in high-resolution segmentation pipelines
 
 ## Gotchas and Caveats
 
-- The `MAX_SCALE` is 0.25 (±25%) which is more conservative than [[mri_linear_align]]'s 0.5 (±50%).
-- The `-binarize` threshold must be appropriate for the input volume; incorrect thresholding produces poor registration.
+- The default `MAX_SCALE` is 0.25 (±25%) which is more conservative than [[mri_linear_align]]'s 0.5 (±50%). Override with `-max_scale`.
+- The `-b <thresh>` binarisation threshold must be appropriate for the input volume; incorrect thresholding produces poor registration.
+- The uppercase StrUpper normalisation is applied to options before matching, so flags are case-insensitive at the command line.
 
 ## Related Tools
 

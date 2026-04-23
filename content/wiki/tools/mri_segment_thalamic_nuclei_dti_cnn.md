@@ -101,6 +101,10 @@ The output is at 0.7 mm isotropic resolution to capture fine nuclear boundaries,
 | `--vol` | `<file>` | — | Output CSV with structure volumes |
 | `--post` | `<path>` | — | Output posterior file/folder |
 | `--threads` | `<int>` | 1 | Number of CPU threads |
+| `--cpu` | — | off | Force CPU execution even if a GPU is available |
+| `--version1` | — | off | Use model version 1.0 (default is 1.1, updated 2023-06-01) |
+| `--model` | `<path>` | — | Override the default model file path |
+| `--clean` | — | off | Remove auto-generated realigned input images after segmentation |
 | `--help` / `-h` | — | — | Print usage and exit |
 
 ## Configuration Interactions

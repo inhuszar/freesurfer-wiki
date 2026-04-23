@@ -68,7 +68,6 @@ The Random Forest option (`-ca rforest`) is more recent and may still be functio
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-ca <type>` | string | `rforest` | Classifier type: `rforest`, `gaussian`, etc. |
 | `-N <N>` | int | 6 | Number of RBF clusters per class |
 | `-F <hex>` | hex-int | default feature mask | Feature set (hex flags) |
 | `-P <file>` | string | `none` | Priors file |

@@ -110,7 +110,6 @@ The GCA model provides a probabilistic map of expected intensities near each lab
 | `-write_gca <fname>` | string | — | Write renormalized GCA to file. |
 | `-gcab <fname>` | string | — | Read Gaussian Classifier Atlas Boundary (GCAB) from file. |
 | `-make_gca <label_vol> <int_vol>` | string × 2 | — | Build a GCA from scratch using the given high-resolution label and intensity volumes (2 arguments consumed). |
-| `-nbrs <n>` | integer | 2 | Surface neighbourhood size. |
 | `-DEBUG_VOXEL <x> <y> <z>` | integer × 3 | — | Enable voxel-level debug output at the specified voxel coordinates (3 arguments consumed). |
 | `--version` | boolean | — | Print version string and exit. |
 

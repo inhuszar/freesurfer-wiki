@@ -100,9 +100,9 @@ See [[coordinate-systems]] for definitions of the coordinate spaces involved.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--is-inverse` | boolean | false | Apply the inverse transform. |
-| `--trx-src <vol>` | string | — | Source volume to supply geometry for the transform. Required if LTA lacks valid source geometry. |
-| `--trx-dst <vol>` | string | — | Destination volume to supply geometry. Required if LTA lacks valid destination geometry. |
+| `--is-inverse` / `-i` | boolean | false | Apply the inverse transform. |
+| `--trx-src <vol>` / `-s` | string | — | Source volume to supply geometry for the transform. Required if LTA lacks valid source geometry. |
+| `--trx-dst <vol>` / `-d` | string | — | Destination volume to supply geometry. Required if LTA lacks valid destination geometry. |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` | boolean | — | Print usage and exit. |
 

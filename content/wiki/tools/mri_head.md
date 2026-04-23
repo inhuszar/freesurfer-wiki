@@ -69,11 +69,11 @@ No mathematical operations. This is a file I/O utility.
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-identify` | Identify the file format of the input file |
-| `-read` | Open and read the volume, dump header info |
-| `-u` / `-h` / `-?` | Print usage |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-identify` | (none) | — | Identify the file format of the input file |
+| `-read` | (none) | — | Open and read the volume, dump header info |
+| `-u` / `-h` / `-?` | (none) | — | Print usage |
 
 Usage:
 ```

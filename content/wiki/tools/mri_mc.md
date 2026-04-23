@@ -77,14 +77,14 @@ $$
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-downsample <n>` | int | 0 | Downsample the volume by factor n before tessellation |
+| `-d <n>` | int | 0 | Downsample the volume by factor n before tessellation |
 
 > [!gap] Connectivity parameter
 > The source defines a `connectivity` field in `tesselation_parms`, suggesting a connectivity choice flag exists. However, the command-line flag to set it is not confirmed from the header.
 
 ## Configuration Interactions
 
-- `-downsample` reduces the resolution before tessellation, producing a coarser surface. This can accelerate processing for QC purposes but should not be used for analysis.
+- `-d` reduces the resolution before tessellation, producing a coarser surface. This can accelerate processing for QC purposes but should not be used for analysis.
 
 ## Typical Use Cases
 
@@ -93,7 +93,7 @@ $$
 mri_mc aseg.mgz 2 lh.white_mc.surf
 
 # Extract with downsampling for quick QC
-mri_mc -downsample 2 aseg.mgz 2 lh.white_coarse.surf
+mri_mc -d 2 aseg.mgz 2 lh.white_coarse.surf
 ```
 
 ## Pipeline Context

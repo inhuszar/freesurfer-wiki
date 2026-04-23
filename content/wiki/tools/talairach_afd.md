@@ -56,8 +56,8 @@ This is called in `recon-all autorecon1` to catch catastrophic registration fail
 
 (Via flags or positional arguments)
 
-- **`-s <subject>`** — FreeSurfer subject ID. The `.xfm` path is derived from `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`.
-- **`-xfm <path>`** — explicit path to the Talairach `.xfm` file (alternative to `-s`).
+- **`-subj <subject>`** — FreeSurfer subject ID. The `.xfm` path is derived from `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`.
+- **`-xfm <path>`** — explicit path to the Talairach `.xfm` file (alternative to `-subj`).
 
 ### Input Assumptions
 
@@ -97,16 +97,16 @@ The p-value is computed by integrating this density from $-\infty$ to the observ
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-s <subject>` | string | — | Subject ID. The transform path is derived automatically. |
-| `-xfm <path>` | string | — | Explicit transform file path (alternative to `-s`). |
+| `-subj <subject>` | string | — | Subject ID. The transform path is derived automatically from `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`. |
+| `-xfm <path>` | string | — | Explicit transform file path (alternative to `-subj`). |
 | `-afd <dir>` | string | `$FREESURFER_HOME/average/` | Directory containing the AFD reference files (mean, covariance, probability distribution). |
-| `-t <threshold>` | float | 0.01 | P-value threshold below which registration is flagged as failed. |
+| `-t <threshold>` / `-threshold` | float | 0.01 | P-value threshold below which registration is flagged as failed. (`-T` also accepted via `case 'T':` switch.) |
 | `-v` | boolean | false | Verbose mode. |
 | `--version` | boolean | — | Print version and exit. |
 
 ### Configuration Interactions
 
-- `-s` and `-xfm` are alternative input specifications. If `-s` is used, the transform path is constructed from `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`.
+- `-subj` and `-xfm` are alternative input specifications. If `-subj` is used, the transform path is constructed from `$SUBJECTS_DIR/<subject>/mri/transforms/talairach.xfm`.
 - `-t` controls sensitivity. Lower values reduce false positives but may miss some failures.
 
 ## Typical Use Cases
@@ -114,7 +114,7 @@ The p-value is computed by integrating this density from $-\infty$ to the observ
 ### Use Case 1: Check Talairach registration quality (called by recon-all)
 
 ```bash
-talairach_afd -s subject -v
+talairach_afd -subj subject -v
 ```
 
 ### Use Case 2: Check explicit transform file
@@ -127,7 +127,7 @@ talairach_afd -xfm /path/to/talairach.xfm -t 0.05
 
 ```bash
 for s in subject1 subject2 subject3; do
-  talairach_afd -s $s && echo "$s: PASS" || echo "$s: FAIL"
+  talairach_afd -subj $s && echo "$s: PASS" || echo "$s: FAIL"
 done
 ```
 

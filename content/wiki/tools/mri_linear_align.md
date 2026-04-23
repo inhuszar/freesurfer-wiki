@@ -124,6 +124,7 @@ All option flags use a single `-` prefix and are case-insensitive.
 |------|-----------|---------|-------------|
 | `-W <n>` | int | 0 | Write snapshot volumes every `n` iterations (enables `DIAG_WRITE`) |
 | `-debug_voxel <x> <y> <z>` | 3 ints | off | Enable per-voxel debugging output for the specified voxel (sets `Gx`, `Gy`, `Gz`) |
+| `-view <x> <y> <z>` | 3 ints | off | Set a "viewing" voxel for diagnostic display (sets `Gsx`, `Gsy`, `Gsz`); distinct from `-debug_voxel` |
 
 ## Configuration Interactions
 

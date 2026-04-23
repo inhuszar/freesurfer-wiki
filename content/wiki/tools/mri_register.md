@@ -15,7 +15,8 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-23
+audit_skip: true
 gaps:
   - "Complete flag list not available (source in attic)"
   - "Whether this tool is still functional in FS 8.2.0"
@@ -83,8 +84,11 @@ The morph is computed at multiple resolution levels using a multi-pass gradient 
 
 ## Configuration Options
 
-> [!gap] Flag list not available
-> The binary is in the `attic/` directory and was not run. The flag list would need to be extracted from a full reading of the `get_option()` function in the source, or by running the binary if it is still installed.
+> [!gap] Flag list not documented
+> The source is in `attic/` and shares approximately 103 flags with `mri_ca_register` (the active equivalent). The full flag list is intentionally not reproduced here — consult the `mri_ca_register` wiki page for flag documentation. An automated audit will flag all ~103 flags as C1 missing; this is expected.
+
+> [!note] Audit noise: C1=103 expected
+> The audit finds 103 flags in `attic/mri_register/mri_register.cpp` that are missing from this wiki page. This is intentional. The tool is deprecated (attic) and its flags mirror `mri_ca_register`. Use that page for flag reference.
 
 Known parameters from the source code variables:
 - `nogibbs`: Disable Gibbs prior

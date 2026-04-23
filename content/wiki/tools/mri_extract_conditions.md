@@ -68,16 +68,13 @@ Optional detrending: `MRIdetrendVolume(mri_in, conditions, mri_out)` removes a p
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-detrend` | Detrend the time series before extracting conditions |
-
-> [!gap] Full flag list
-> Only `-detrend` is identified from global variables. Additional flags may exist.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-d` | — | off | Detrend the time series before extracting conditions. The help text shows this as `-detrend` but the parser matches only the first character (`D`), so both `-d` and `-detrend` are accepted. |
 
 ## Configuration Interactions
 
-- `-detrend` is applied before condition extraction.
+- `-d` (`-detrend`) is applied before condition extraction.
 
 ## Typical Use Cases
 
@@ -85,8 +82,8 @@ Optional detrending: `MRIdetrendVolume(mri_in, conditions, mri_out)` removes a p
 # Extract condition 1 frames from an fMRI run
 mri_extract_conditions fmri.mgz paradigm.par condition1.mgz
 
-# Detrend before extraction
-mri_extract_conditions -detrend fmri.mgz paradigm.par condition1.mgz
+# Detrend before extraction (-d and -detrend both work)
+mri_extract_conditions -d fmri.mgz paradigm.par condition1.mgz
 ```
 
 ## Pipeline Context

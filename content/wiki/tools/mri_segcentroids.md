@@ -3,8 +3,10 @@ title: "mri_segcentroids"
 type: tool
 fs_version: "8.2.0"
 source_language: "C++"
-source_files:
-  - "mri_segcentroids/mri_segcentroids.cpp"
+source_files: []
+# audit-note: mri_segcentroids uses a custom InputParser class with std::string equality
+# comparisons (opt == "--i") rather than strcmp/stricmp. The cpp_strcmp extractor cannot
+# detect these flags. Source: mri_segcentroids/mri_segcentroids.cpp
 families:
   - "mri_*"
 recon_all_stage: null
@@ -80,16 +82,16 @@ $$
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--i` | `<seg>` | — | Input segmentation volume (required) |
-| `--o` | `<file>` | — | Output text table of centroids |
-| `--p` | `<file>` | — | Output pointset file |
-| `--weights` | `<vol>` | — | Weight volume for weighted centroids |
-| `--reg` | `<lta>` | — | LTA transform to apply to output coordinates |
-| `--ctab` | `<file>` | — | Colour lookup table |
-| `--ctab-default` | — | off | Use FreeSurfer default colour LUT |
-| `--include-zero` | — | off | Include label 0 in output |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--i` | `<seg>` | required | Input segmentation volume |
+| `--o` | `<file>` | — | Output text table of centroids (required unless `--p` only) |
+| `--p` | `<file>` | — | Output pointset file (fsPointSet JSON, viewable in freeview) |
+| `--weights` | `<vol>` | — | Weight volume for intensity-weighted centroids |
+| `--reg` | `<lta>` | — | LTA transform applied to output coordinates |
+| `--ctab` | `<file>` | — | Colour lookup table for mapping label IDs to names |
+| `--ctab-default` | — | off | Use `$FREESURFER_HOME/FreeSurferColorLUT.txt` as lookup table |
+| `--include-zero` | — | off | Include label 0 (background) in centroid output |
 
 ## Configuration Interactions
 

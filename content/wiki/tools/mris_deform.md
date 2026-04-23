@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Relationship to mris_place_surface (the newer surface placement tool) not confirmed."
   - "Whether this is used in any recon-all stage needs confirmation."
@@ -142,6 +142,7 @@ All flags use single-dash prefix; names are case-insensitive.
 | `-I` | boolean | — | Invert the transform before applying (`invert=1`). |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` or `?` | boolean | — | Print usage and exit. |
+| `-identity.nofile` | — | — | **Not a flag.** This is the literal string value `identity.nofile` passed as the `<xform>` positional argument to skip the transform step. When `argv[3]` equals this string (case-insensitive), `MRIStransform()` is not called. Commonly used for ex vivo data or when the volume is already in surface space. |
 
 ### Configuration Interactions
 

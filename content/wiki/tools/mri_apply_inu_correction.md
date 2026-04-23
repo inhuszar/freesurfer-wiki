@@ -84,12 +84,12 @@ This is a voxel-wise operation; no spatial interpolation or smoothing is applied
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
 | `-before <file>` | string | required | Template volume before N3/NU correction |
 | `-after <file>` | string | required | Template volume after N3/NU correction |
-| `debug_voxel <x> <y> <z>` | int×3 | — | Enable per-voxel debug output at CRS coordinate |
-| `-u` / `-?` | flag | — | Print usage and exit |
+| `-debug_voxel <x> <y> <z>` | int int int | — | Enable per-voxel debug output at the specified CRS coordinate; sets global debug voxel `Gx`/`Gy`/`Gz` and internal `debug_flag` |
+| `-u` / `-?` | — | — | Print usage and exit |
 
 ## Configuration Interactions
 

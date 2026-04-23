@@ -79,17 +79,17 @@ The resulting $V_{\text{to\_V}}$ is stored in the LTA together with the full vol
 > [!math] Coordinate convention
 > FSL FLIRT convention defines the transform as mapping from source voxels to destination voxels, with voxel sizes incorporated. The FreeSurfer LTA convention typically stores RAS-to-RAS transforms internally but the code here stores the voxel-to-voxel form.
 
-When `-invert` is specified, `MatrixInverse(V_to_V)` is computed before writing.
+When `-inverse` is specified, `MatrixInverse(V_to_V)` is computed before writing.
 
 ## Configuration Options
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-invert` | flag | off | Invert the transform before writing to LTA |
+| `-inverse` | flag | off | Invert the transform before writing to LTA |
 
 ## Configuration Interactions
 
-- `-invert` flips the direction of the transform (destination → source instead of source → destination).
+- `-inverse` flips the direction of the transform (destination → source instead of source → destination).
 - The four positional arguments are mandatory in the specified order; there is no named argument mode.
 
 ## Typical Use Cases
@@ -99,7 +99,7 @@ When `-invert` is specified, `MatrixInverse(V_to_V)` is computed before writing.
 mri_fslmat_to_lta source.nii.gz destination.nii.gz flirt.mat output.lta
 
 # Invert before writing
-mri_fslmat_to_lta source.nii.gz destination.nii.gz flirt.mat output_inv.lta -invert
+mri_fslmat_to_lta source.nii.gz destination.nii.gz flirt.mat output_inv.lta -inverse
 
 # Using mgz volumes
 mri_fslmat_to_lta source.mgz destination.mgz flirt.mat output.lta

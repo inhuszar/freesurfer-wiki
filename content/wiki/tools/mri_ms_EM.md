@@ -17,11 +17,10 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
-  - "Complete flag list requires get_option() body"
   - "Exact Gaussian mixture EM convergence criteria not traced"
-  - "INU/bias field correction implementation details"
+  - "INU/bias field correction Poisson solver implementation details"
 tags:
   - segmentation
   - EM
@@ -85,35 +84,58 @@ where $\pi_k$ are class priors, $\boldsymbol{\mu}_k$ are class mean vectors (in 
 
 **M-step:** Update $\boldsymbol{\mu}_k$, $\boldsymbol{\Sigma}_k$, and $\pi_k$.
 
-**INU bias field:** A smooth bias field $b_i$ is estimated simultaneously by a Poisson solver (`PoissonSolver.h`), with smoothness regularized by a weight $\lambda$ (`lap_weight`, default 1.0).
+**INU bias field:** A smooth bias field $b_i$ is estimated simultaneously by a Poisson solver (`PoissonSolver.h`), with smoothness regularized by an internal Laplacian weight (default 1.0).
 
 **MRF regularization:** An ICM (Iterated Conditional Modes) step enforces spatial coherence by encouraging neighbouring voxels to share the same label.
 
 **Covariance regularization:** The covariance matrices are regularized by adding a small multiple of the identity ($\kappa \cdot I$) to prevent degeneracy.
 
-Background voxels (intensity < `noise_threshold`, default 1.0) are excluded from the EM estimation.
+Background voxels (intensity below the `-t` threshold, default 1.0) are excluded from the EM estimation.
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-num_classes <n>` | int | 3 | Number of tissue classes |
-| `-no_INU` | flag | off | Disable bias field correction |
-| `-kappa <f>` | float | 1e-8 | Covariance regularization constant |
-| `-tolerance <f>` | float | 0.01 | Convergence criterion |
-| `-lap_weight <f>` | float | 1.0 | Smoothness weight for bias field |
-| `-noise_threshold <f>` | float | 1.0 | Minimum intensity for non-background |
-| `-normflag` | flag | off | Normalize input volume before processing |
-| `-fix_class_size` | flag | on | Fix class sizes (prevents degenerate solutions) |
-
-> [!gap] Complete flag list
-> The static variable declarations suggest the above flags. Full `get_option()` parsing is needed for confirmation.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-no_INU` | — | off | Disable INU bias field correction |
+| `-kappa <f>` | float | 1e-8 | Covariance regularization constant (sensitivity warning: see gotcha) |
+| `-norm` | — | off | Normalize input volumes to N(0,1) before clustering |
+| `-conform` | — | on | Interpolate volume to isotropic 1 mm³ |
+| `-noconform` | — | off | Inhibit isotropic volume interpolation |
+| `-mask <fname>` | file | — | Brain mask volume for region of interest |
+| `-rescale` | — | off | Rescale membership functions to improve contrast |
+| `-hard_seg` | — | off | Output a hard segmentation to `<out>.hseg` |
+| `-synthonly` | — | off | Do not output membership functions |
+| `-lda <c1> <c2>` | 2 ints | — | Use LDA method to synthesize volume from classes c1 and c2 |
+| `-fuzzy_lda` | — | off | Use fuzzy LDA weighting scheme |
+| `-whole_volume` | — | off | Synthesize background region too (when using LDA) |
+| `-clear_dura` | — | off | Remove voxels belonging to the second class |
+| `-regularize <f>` | float | — | Regularize covariance matrix with lambda value |
+| `-label <fname>` | file | — | Use segmentation volume as label map |
+| `-mask_subcortical` | — | off | Mask subcortical GM region |
+| `-beta <f>` | float | — | MRF weight for spatial regularization |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Debug output at voxel (x, y, z) |
+| `-interp <method>` | string | trilinear | Interpolation method (trilinear, nearest, cubic, sinc) |
+| `-st <method>` | string | trilinear | Alias for `-interp` (sample type) |
+| `-sample <method>` | string | trilinear | Alias for `-interp` |
+| `-sample_type <method>` | string | trilinear | Alias for `-interp` |
+| `-trilinear` | — | — | Use trilinear interpolation |
+| `-nearest` | — | — | Use nearest-neighbour interpolation |
+| `-cubic` | — | — | Use cubic interpolation |
+| `-sinc [<hw>]` | int (opt.) | — | Use sinc interpolation with optional half-window size |
+| `-sinchalfwindow <n>` | int | 6 | Sinc interpolation half-window size |
+| `-hw <n>` | int | 6 | Alias for `-sinchalfwindow` |
+| `-m <n>` | int | 3 | Number of tissue classes (alias for positional class count) |
+| `-t <f>` | float | 1.0 | Background noise threshold (applied to first input volume) |
+| `-e <f>` | float | 0.01 | EM convergence tolerance |
+| `-r <n>` | int | — | Maximum number of EM iterations |
+| `-window` | — | — | Recognized but not implemented (no-op) |
 
 ## Configuration Interactions
 
 - `-no_INU` disables the bias field correction, making the algorithm a pure GMM-EM without spatial adaptation.
 - `-kappa` must be chosen carefully: values too large (e.g., 0.01) over-regularize covariances; too small causes numerical instability.
-- `-fix_class_size` prevents the EM from converging to a solution where one class captures all voxels.
+- `-lda` requires specifying two class indices; `-fuzzy_lda` and `-whole_volume` are only meaningful when LDA synthesis is active.
+- `-interp`, `-st`, `-sample`, and `-sample_type` are aliases for the same parameter; the last one specified wins.
 
 > [!gotcha] kappa sensitivity
 > The source comment notes: "this number seems need to be reduced if using 16 echoes, but needs to be this large for just using average; so critical, not good." This indicates the algorithm is sensitive to the number of input channels and the appropriate `kappa` value must be tuned empirically.
@@ -149,6 +171,6 @@ Not part of standard `recon-all`. Was used in multi-echo FLASH processing pipeli
 
 ## Confidence and Gaps
 
-**Confident:** Core EM algorithm, INU correction via Poisson solver, covariance regularization, MRF spatial regularization, attic status.
+**Confident:** Core EM algorithm, INU correction via Poisson solver, covariance regularization, MRF spatial regularization, attic status, complete flag list (from `get_option()`).
 
-**Less confident:** Complete flag list, exact MRF implementation, convergence behaviour with many channels.
+**Less confident:** Exact MRF implementation, convergence behaviour with many channels, Poisson solver coupling details.

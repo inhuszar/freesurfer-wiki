@@ -18,7 +18,6 @@ last_agent_update: 2026-04-21
 gaps:
   - "Template surface and label files required are not documented (mideface library)"
   - "MIDEFACE library internals not characterized"
-  - "--gdiag flag appears in print_usage() but has no corresponding parse_commandline() handler; may be handled by a global FreeSurfer mechanism"
 tags:
   - defacing
   - de-identification
@@ -115,7 +114,6 @@ The `MRISpaintSphere()` function (defined in this file but unused in the binary)
 | `--apply` | `<vol> <facemask> <reg|regheader> <out>` | — | Stand-alone mode: apply an existing face mask to another volume; use `regheader` if no registration file is needed |
 | `--apply-ripple` | `<surf> <axis> <amp> <period> <label> <outsurf>` | — | Stand-alone mode: apply ripple to a surface and save; axis is 1 or 2 |
 | `--check-code` | `<vol> [<outfile>]` | — | Stand-alone mode: check whether a mideface provenance code is embedded in the volume; prints 0 or 1 and optionally writes to `<outfile>` |
-| `--gdiag` | `<diagno>` | 0 | Set FreeSurfer diagnostic level |
 | `--debug` | (none) | off | Enable debug output |
 | `--checkopts` | (none) | off | Check options and exit without processing |
 | `--nocheckopts` | (none) | off | Do not exit after checking options |

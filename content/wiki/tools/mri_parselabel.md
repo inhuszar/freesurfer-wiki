@@ -77,15 +77,12 @@ When `fillup` is enabled, the tool interpolates additional points between existi
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-useRealRAS` | flag | off | Use real (scanner) RAS instead of tkRAS |
+| `-cras` | flag | off | Use scanner (real) RAS instead of surface RAS for label position |
 | `-fillup` | flag | off | Fill gaps between label points |
 | `-scale <s>` | float | 1.0 | Scale coordinates by factor |
 | `-xfm <file>` | string | — | Transform file to apply |
-| `-invert` | flag | off | Invert transform |
-| `-stats` | flag | off | Print statistics |
-
-> [!gap] Complete positional arguments and options
-> The full argument parsing was not read.
+| `-invert` | flag | off | Invert the transform before applying it |
+| `-stats` | flag | off | Put the label's stats value into the output volume instead of label index |
 
 ## Typical Use Cases
 
@@ -102,7 +99,7 @@ Not part of `recon-all`. Research/utility tool for label file manipulation.
 
 - Tool is in `attic/`; availability uncertain.
 - The GCC < 3 workaround in the source (`#if (__GNUC__ < 3)`) suggests the code is very old.
-- `useRealRAS` controls the coordinate reference frame interpretation — incorrect setting produces spatially wrong outputs.
+- `-cras` controls the coordinate reference frame interpretation — incorrect setting produces spatially wrong outputs.
 
 ## Related Tools
 

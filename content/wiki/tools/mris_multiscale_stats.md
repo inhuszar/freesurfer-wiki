@@ -99,8 +99,8 @@ Flags are parsed by a custom `get_option()` function using case-insensitive matc
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `-o` | `subject` | required | Output subject name (must be specified; fatal error otherwise). |
-| `--max` | `int` | `500` | Maximum number of smoothing averages (scales) to test. |
-| `--roi` | (flag) | off | Automatically generate regions of interest from significant vertices. |
+| `-max` | `int` | `500` | Maximum number of smoothing averages (scales) to test. |
+| `-roi` | (flag) | off | Automatically generate regions of interest from significant vertices. |
 | `-C` | `cond1 cond2` | — | Write output statistics as condition numbers `cond1` and `cond2` (two integer arguments). |
 | `-L` | `label` | — | Restrict analysis to vertices within the named label file. |
 | `-V` | `int` | — | Set diagnostic vertex number (`Gdiag_no`) for per-vertex debug output. |
@@ -115,10 +115,10 @@ Flags are parsed by a custom `get_option()` function using case-insensitive matc
 ## Configuration Interactions
 
 - `-o` / `-O` are functionally equivalent paths to setting `output_subject`; `-o` is required (enforced via `ErrorExit`).
-- `--max` sets the upper limit of scales; the analysis iterates from 0 averages up to `max_avgs` averages.
+- `-max` sets the upper limit of scales; the analysis iterates from 0 averages up to `max_avgs` averages.
 - `-T` is the SNR/t threshold applied after optional Bonferroni correction.
 - `-B` (Bonferroni) and `-N` (distribution-free SNR) are independent; both can be combined.
-- `--roi` generates label files from significant vertices and writes them to the output subject's `label/` directory.
+- `-roi` generates label files from significant vertices and writes them to the output subject's `label/` directory.
 
 ## Typical Use Cases
 

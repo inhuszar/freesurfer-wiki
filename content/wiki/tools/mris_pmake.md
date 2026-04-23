@@ -10,6 +10,7 @@ source_files:
   - "mris_pmake/C_mpmProg.cpp"
   - "mris_pmake/c_surface.cpp"
   - "mris_pmake/env.cpp"
+  - "mris_pmake/help.h"
 families:
   - "mris_*"
 recon_all_stage: null
@@ -18,7 +19,7 @@ related:
   - "[[mris_smooth]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "OpenCL GPU implementation (dijkstra.cl) not characterised"
   - "Full mpmProg list not determined"
@@ -125,8 +126,8 @@ $$
 | `--mpmProg` | `<name>` | — | Embedded program: `autodijk`, `autodijk_fast`, `pathFind`, `ROI`, `externalMesh` |
 | `--mpmArgs` | `<args>` | — | Arguments for mpmProg (comma-delimited key=value pairs) |
 | `--port` | `<port>` | `1701` | Server port for UDP communication |
-| `--listen` | — | off | Start in listen mode; initialize but wait for UDP `RUN` command |
-| `--listenOnPort` | `<port>` | — | Start in minimal listen mode on specified port; no options file loaded |
+| `--mpmOverlay` | `<name>` | — | MRI parameter overlay name; sets `st_mpmOverlay` (short: `-O`) |
+| `--mpmOverlayArgs` | `<args>` | — | Arguments string for the MRI parameter overlay; sets `st_mpmOverlayArgs` (short: `-V`) |
 
 ### Options File Parameters (selected)
 
@@ -145,7 +146,7 @@ $$
 ## Configuration Interactions
 
 - When `--optionsFile` is specified, most command-line flags override the corresponding options file settings.
-- UDP listening is triggered via the options file mechanism (not a separate `--listen` flag). The `--port` flag sets the server port.
+- UDP listening is triggered via the options file mechanism. The `--port` flag sets the server port.
 - `--mpmProg autodijk` changes the operation from single start/end path to computing path costs from one vertex to all others.
 - `--useAbsCurvs` applies `fabs()` to the curvature map, making the cost function respond to curvature magnitude rather than sign.
 
@@ -208,4 +209,4 @@ Not part of `recon-all`. Used in research workflows for:
 > [!gap] The `patchMake` mpmProg listed in the earlier wiki version was incorrect — it is not in the source enum or `vstr_mpmProgName` list. The actual mpmProgs (from `help.cpp` and `env.cpp`) are: NULL, NOP, pathFind, autodijk, autodijk_fast, ROI, externalMesh.
 
 > [!note] Audit noise: getopt_long flag table
-> An automated audit may report `--curv`, `--curv1`, `--hemi`, `--mpmargs`, `--mpmprog`, `--port`, `--subject`, `--surface`, `--surface1`, `--useabscurvs` as C3 invalid. This is a false positive: `mris_pmake` uses `getopt_long()` with the `longopts[]` table defined in `help.h`. Flag names in that table are stored without `--` (e.g., `"subject"`, `"hemi"`). The framework adds `--` when parsing. The audit scans for `--subject` literal and finds only `"subject"` (no dashes).
+> An automated audit may report `--curv`, `--curv1`, `--hemi`, `--mpmargs`, `--mpmprog`, `--mpmoverlay`, `--mpmoverlayargs`, `--port`, `--subject`, `--surface`, `--surface1`, `--useabscurvs` as C3 invalid. This is a false positive: `mris_pmake` uses `getopt_long()` with the `longopts[]` table defined in `help.h`. Flag names in that table are stored without `--` (e.g., `"subject"`, `"mpmOverlay"`). The framework adds `--` when parsing. The audit scans for `--subject` literal and finds only `"subject"` (no dashes).

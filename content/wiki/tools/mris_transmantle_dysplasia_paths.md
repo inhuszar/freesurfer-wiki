@@ -104,13 +104,14 @@ Flags are parsed by a custom `get_option()` function using `stricmp` (case-insen
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--DEBUG_VOXEL` | `x y z` | — | Enable debug output for voxel at coordinates `(x, y, z)` (three integer arguments; sets `Gx`, `Gy`, `Gz`). |
-| `--RAND` | (flag) | off | Randomize input intensity data; used for null distribution estimation. |
+| `-DEBUG_VOXEL` | `x y z` | — | Enable debug output for voxel at coordinates `(x, y, z)` (three integer arguments; sets `Gx`, `Gy`, `Gz`). |
+| `-RAND` | (flag) | off | Randomize input intensity data; used for null distribution estimation. |
 | `-R` | (flag) | off | Read previously computed splines from disk instead of running MCMC (`read_flag = 1`). |
 | `-L` | `string` | — | Read a cortex label file and rip (freeze) vertices outside the label, restricting MCMC to the labelled region. |
 | `-P` | `int` | `10000` | Number of MCMC sampling iterations (`mcmc_samples`). |
 | `-V` | `int` | — | Diagnostic vertex number (`Gdiag_no`); enables per-vertex debug output. |
 | `-N` | `float` | — | Noise level used to deflect the ventricle distance transform negative gradient vectors (affects path randomness). |
+| `-identity.nofile` | — | — | **Not a flag — positional value.** Passing the string `identity.nofile` as positional argument 4 selects identity transform mode (no transform file required). The audit extractor promotes this positional `stricmp` comparison to pseudo-flag `-identity.nofile`. |
 
 > [!gotcha] Many flags in the previous version of this page did not exist
 > Flags such as `--spline_cp`, `--spline_len_pen`, `--spline_nonwm_pen`, `--spline_int_pen`, `--max_wm_dist`, `--proposal_sigma`, `--accept_sigma`, `--mcmc_samples`, `--label`, `--read`, `--randomize` were not present in `get_option()`. The MCMC sample count is set via `-P`; all other parameters (spline control points, penalties, sigma) are hardcoded constants in the source.
@@ -120,7 +121,7 @@ Flags are parsed by a custom `get_option()` function using `stricmp` (case-insen
 - `-P` (MCMC samples) is the primary performance/accuracy tradeoff parameter.
 - `-L` (label) restricts computation to a subset of cortical vertices, dramatically reducing runtime.
 - `-R` skips MCMC and reads previously saved splines; use after a prior run to recompute posteriors with different weighting without re-running the full MCMC.
-- `--RAND` randomizes intensities for statistical null hypothesis testing.
+- `-RAND` randomizes intensities for statistical null hypothesis testing.
 
 ## Typical Use Cases
 

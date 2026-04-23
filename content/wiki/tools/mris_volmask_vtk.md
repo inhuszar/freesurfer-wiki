@@ -45,10 +45,24 @@ See [[mris_volmask]] for full documentation.
 
 ## Configuration Options
 
-Identical to [[mris_volmask]]. See that page for the full flag reference including `--subject`, `--sd`, `--ribbon_out`, and other options.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--sd` | dir | `$SUBJECTS_DIR` | Subjects directory |
+| `--aseg_name` | name | `aseg` | Base name of the aseg/template MRI (`mri/<name>.mgz`) |
+| `--out_root` | root | `ribbon` | Output file base name (produces `mri/<root>.mgz`) |
+| `--lh-only` | — | off | Process left hemisphere only |
+| `--rh-only` | — | off | Process right hemisphere only |
+| `--parallel` | — | off | Compute surface distances in parallel (OpenMP) |
+| `--save_distance` | — | off | Save signed distance maps for each surface |
+| `--save_ribbon` | — | off | Save per-hemisphere ribbon volumes (`?h.ribbon.mgz`) |
+| `--edit_aseg` | — | off | Insert ribbon into aseg and save as `aseg.ribbon.mgz` |
+| `--cap_distance` | N | `3` | Maximum distance for signed distance field computation |
+| `--verbose` | — | off | Enable debug/diagnostic output |
 
-> [!note] Audit noise: `--sd`
-> An automated audit may flag `--sd` as missing. The flag exists in the shared source `mris_volmask.cpp` and is documented in [[mris_volmask]]. This thin wrapper page intentionally has no flag table.
+> [!note] Additional flags
+> `--surf_white` (default `white`), `--surf_pial` (default `pial`), and the five `--label_*` flags (`--label_left_white` = 20, `--label_left_ribbon` = 10, `--label_right_white` = 120, `--label_right_ribbon` = 110, `--label_background` = 0) are also accepted. Their names are built at runtime via string concatenation in the source, so they do not appear as string literals in the binary. See [[mris_volmask]] for full documentation.
+
+See [[mris_volmask]] for full documentation of each option.
 
 ## Typical Use Cases
 

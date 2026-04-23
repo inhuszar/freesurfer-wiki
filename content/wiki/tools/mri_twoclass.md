@@ -13,10 +13,9 @@ related:
   - "[[mri_glmfit]]"
   - "[[mri_segstats]]"
 status: draft
-confidence: medium
-last_agent_update: 2026-04-15
-gaps:
-  - "get_option() and full main() logic not read — flag list and statistical method details not confirmed."
+confidence: high
+last_agent_update: 2026-04-22
+gaps: []
 tags:
   - mri
   - statistics
@@ -47,8 +46,7 @@ Voxel-based morphometry (VBM) comparisons between two groups (e.g., patients vs.
 
 (Inferred from variable declarations)
 
-- **Group 1 volumes** — per-subject morphometric volumes for group 1. Specified via `--read1` or a file list.
-- **Group 2 volumes** — per-subject morphometric volumes for group 2. Specified via `--read2` or a file list.
+- **Group 1 and 2 volumes** — per-subject morphometric volumes for each group. Passed as colon-separated subject lists on the command line, or precomputed via `-read <vl1> <vl2>`.
 - **Output volume** — destination for the statistical map.
 
 Environment: `SUBJECTS_DIR` may be required depending on how subjects are specified.
@@ -85,30 +83,33 @@ Optional pre-processing: Gaussian smoothing (`sigma > 0`) applied to each input 
 
 ### Complete Flag Reference
 
-> [!gap] get_option() not read
-> The following are inferred from variable declarations.
-
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `--read1 <vol>` | string | — | Group 1 volume (or file list). |
-| `--read2 <vol>` | string | — | Group 2 volume (or file list). |
-| `--stat <type>` | string | `t` | Statistical type: `t`, `f`, or `mean`. |
-| `--res <mm>` | float | 2.0 | Output resolution in mm. |
-| `--sigma <mm>` | float | 0.0 | Gaussian smoothing sigma (mm). Applied to inputs before statistics. |
-| `--mask <vol>` | string | — | Mask volume; only voxels inside mask are processed. |
-| `--fthresh <f>` | float | -1 | F-statistic threshold for output. |
-| `--no-normalize` | boolean | false | Disable normalization of inputs. |
-| `--wm` | boolean | false | Use WM-only mask. |
-| `--vol` | boolean | false | Use volume-based mask. |
-| `--Gxyz <x> <y> <z>` | 3 integers | — | Debug single voxel at (x,y,z) in volume coordinates. |
-| `--Gnxyz <x> <y> <z>` | 3 integers | — | Debug single voxel at (nx,ny,nz) in normalized coordinates. |
-| `--version` | boolean | — | Print version string and exit. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-b` | — | off | Apply Bonferroni correction to SNR values. |
+| `-debug_node <x> <y> <z>` | 3 integers | — | Debug atlas node at normalized coordinates (x,y,z). |
+| `-debug_voxel <x> <y> <z>` | 3 integers | — | Debug voxel at volume coordinates (x,y,z). |
+| `-l <label>` | string | — | Mask processing to vertices in the named label. |
+| `-m <mask>` | string | — | Mask input volumes with the specified volume file. |
+| `-mean` | — | off | Compute group mean difference instead of t/F statistic (`STAT_MEAN`). |
+| `-n <0|1>` | integer | 1 | Normalize voxel label counts to percentages (1=on, 0=off). |
+| `-p <prefix>` | string | `""` | Label prefix string. |
+| `-r <mm>` | float | 2.0 | Output atlas resolution in mm. |
+| `-read <file1> <file2>` | string string | — | Read precomputed voxel label files for group 1 and group 2. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Subjects directory. |
+| `-sigma <mm>` | float | 0.0 | Gaussian smoothing sigma (mm) applied to each input volume before statistics. |
+| `-t <fthresh>` | float | -1 | F-statistic SNR threshold for output. |
+| `-test <subject>` | string | — | Write `test.dat` diagnostics for the named subject. |
+| `-vol` | — | off | Generate maps of volumetric (non-labelled) differences. |
+| `-wm` | — | off | Generate map of white matter differences. |
+| `-write_labels <vl1> <vl2>` | string string | — | Write voxel label volumes for group 1 and group 2 to the specified files. |
+| `-x <xform>` | string | `talairach.lta` | Transform file name for atlas registration. |
 
 ### Configuration Interactions
 
-- `--stat t` is the default and most common use case.
-- `--sigma` enables spatial smoothing before the test; this increases sensitivity at the cost of spatial resolution.
-- `--wm` and `--vol` enable white matter and volume masks respectively; these are mutually non-exclusive modifiers.
+- `-mean` switches from the default t-test (`STAT_T`) to computing a group mean difference.
+- `-sigma` enables spatial smoothing before the test; this increases sensitivity at the cost of spatial resolution.
+- `-wm` and `-vol` select white matter or volumetric (non-labelled) analysis modes respectively; they are mutually non-exclusive.
+- `-n 0` disables normalization of voxel label counts; by default counts are normalized to percentages.
 
 ## Typical Use Cases
 
@@ -116,11 +117,10 @@ Optional pre-processing: Gaussian smoothing (`sigma > 0`) applied to each input 
 
 ```bash
 mri_twoclass \
-  --read1 /path/to/group1_subjects.txt \
-  --read2 /path/to/group2_subjects.txt \
-  --sigma 4 \
-  --stat t \
-  /path/to/tmap.bfloat
+  -sigma 4 \
+  aseg.mgz output_subject tmap.bfloat \
+  c1_subject1 c1_subject2 : \
+  c2_subject1 c2_subject2
 ```
 
 ## Pipeline Context
@@ -146,7 +146,4 @@ mri_twoclass \
 
 ## Confidence and Gaps
 
-Confidence is **medium**. The statistical approach and key variable declarations are clear from the source header. Full flag enumeration was not performed.
-
-> [!gap] Verify full flag list
-> Read `get_option()` or run `mri_twoclass --help`.
+Confidence is **high**. The complete `get_option()` function was read from source. All flags confirmed from the `stricmp` chain and single-character `switch` statement. Parser uses `option = argv[1] + 1` (single-dash strip). Variable defaults confirmed from static declarations in the source.

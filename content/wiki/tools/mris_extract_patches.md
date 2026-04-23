@@ -48,13 +48,12 @@ FCD (focal cortical dysplasia) detection algorithms benefit from bilateral symme
 - **Output directory** (positional arg 2): Directory to write patches.
 
 **Optional inputs via flags:**
-- `--surf`: Surface name (default: `white`)
-- `--sphere`: Sphere name for bilateral mapping (default: `sphere.d1.left_right`)
-- `--hemi`: Hemisphere (default: `lh`)
-- `--ohemi`: Opposite hemisphere (default: `rh`)
-- `--vol`: Volume to sample patches from (default: `norm.mgz`)
-- `--ovol`: Opposite hemisphere volume (default: `norm.mgz`)
-- `--label`: Label name defining patch centres (default: `FCD`)
+- `-s`: Surface name (default: `white`)
+- `-sphere_name`: Sphere name for bilateral mapping (default: `sphere.d1.left_right`)
+- `-hemi`: Hemisphere (default: `lh`)
+- `-vol_name` / `-vol`: Volume to sample patches from (default: `norm.mgz`)
+- `-ovol_name` / `-ovol`: Opposite hemisphere volume (default: `norm.mgz`)
+- `-l`: Label name defining patch centres (default: `FCD`)
 
 ## Outputs
 
@@ -69,29 +68,25 @@ A cubic volume patch of side $w$ voxels is extracted from the normalised T1 volu
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--surf` | `<name>` | `white` | Surface name |
-| `--sphere` | `<name>` | `sphere.d1.left_right` | Sphere for bilateral mapping |
-| `--hemi` | `lh\|rh` | `lh` | Source hemisphere |
-| `--ohemi` | `lh\|rh` | `rh` | Opposite hemisphere |
-| `--wsize` | `<int>` | 32 | Patch window size (voxels) |
-| `--nbrs` | `<int>` | 3 | Number of neighbours for averaging |
-| `--label` | `<name>` | `FCD` | Label name (file: `<hemi>.<name>.label`) |
-| `--vol` | `<name>` | `norm.mgz` | Volume for patch sampling |
-| `--ovol` | `<name>` | `norm.mgz` | Opposite hemisphere volume |
-| `--sdir` | `<dir>` | `$SUBJECTS_DIR` | Subjects directory |
-| `--rand` | `<pct>` | 0.0 | Fraction of random (non-FCD) patches to add |
-| `--augment` | — | off | Enable patch augmentation (rotations) |
-| `--version` | — | — | Print version and exit |
-| `--help` | — | — | Print usage and exit |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-s` | `name` | `white` | Surface name |
+| `-sphere_name` | `name` | `sphere.d1.left_right` | Sphere for bilateral mapping |
+| `-hemi` | `lh\|rh` | `lh` | Source hemisphere (also sets opposite hemisphere) |
+| `-w` | `N` | 32 | Patch window size in voxels |
+| `-l` | `name` | `FCD` | Label name (file: `<hemi>.<name>.label`) |
+| `-vol_name` / `-vol` | `name` | `norm.mgz` | Volume for patch sampling |
+| `-ovol_name` / `-ovol` | `name` | `norm.mgz` | Opposite hemisphere volume |
+| `-sd` / `-sdir` | `dir` | `$SUBJECTS_DIR` | Subjects directory |
+| `-r` | `pct` | 0.0 | Fraction of random (non-label) patches to add for class balance |
+| `-a` | `N` | 0 | Number of rotational augmentations per labelled patch |
 
 ## Configuration Interactions
 
-- `--rand` adds random non-FCD patches in proportion `pct` of the total label patches, for class balancing in training.
-- `--augment` enables rotational augmentation of the extracted patches.
-- `--sphere` must name a bilateral sphere that maps the source hemisphere to the opposite hemisphere. The default `sphere.d1.left_right` is a research-specific registered sphere not present in all subjects.
-- `--vol` and `--ovol` can differ if the hemispheres use different input volumes.
+- `-r` adds random non-FCD patches in proportion `pct` of the total label patches, for class balancing in training.
+- `-a N` enables `N` rotational augmentations per patch (random planar rotations in the surface tangent plane).
+- `-sphere_name` must name a bilateral sphere that maps the source hemisphere to the opposite hemisphere. The default `sphere.d1.left_right` is a research-specific registered sphere not present in all subjects.
+- `-vol` and `-ovol` can differ if the hemispheres use different input volumes.
 
 ## Typical Use Cases
 
@@ -100,10 +95,10 @@ A cubic volume patch of side $w$ voxels is extracted from the normalised T1 volu
 mris_extract_patches subj001 /tmp/patches/subj001
 
 # With random non-FCD patches for class balance
-mris_extract_patches --rand 0.5 subj001 /tmp/patches/subj001
+mris_extract_patches -r 0.5 subj001 /tmp/patches/subj001
 
 # Custom label and window size
-mris_extract_patches --label MyLabel --wsize 64 subj001 /tmp/patches/subj001
+mris_extract_patches -l MyLabel -w 64 subj001 /tmp/patches/subj001
 ```
 
 ## Pipeline Context
@@ -125,6 +120,6 @@ Not called by `recon-all`. Used in research for building training datasets for F
 
 ## Confidence and Gaps
 
-**Confident (from source):** All flags, FCD/bilateral design, bilateral sphere dependency, output patch structure, random augmentation options.
+**Confident (from source):** All flags (verified against source parser), FCD/bilateral design, bilateral sphere dependency, output patch structure, random augmentation options.
 
 **Uncertain:** Exact output file naming convention; patch rotation angles for augmentation.

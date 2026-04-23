@@ -71,22 +71,23 @@ The sigma parameter (default 2.0 mm) controls the spatial scale of the gradient 
 
 ## Configuration Options
 
-| Position / Flag | Description |
-|---|---|
-| arg 1 | Input surface file path |
-| arg 2 | Input volume file path |
-| arg 3 | Seed vertex number |
-| arg 4 | Target intensity value |
-| arg 5 | Neighbourhood size (vertex radius) |
-| arg 6 | Output surface file path |
-| `-sigma S` | Gaussian smoothing sigma for gradient (default 2.0) |
+| Flag / Position | Argument | Default | Description |
+|---|---|---|---|
+| arg 1 | path | required | Input surface file path |
+| arg 2 | path | required | Input volume file path |
+| arg 3 | int | required | Seed vertex number |
+| arg 4 | float | required | Target intensity value |
+| arg 5 | int | required | Neighbourhood size (vertex radius) |
+| arg 6 | path | required | Output surface file path |
+| `-s <S>` | float | `2.0` | Gaussian smoothing sigma for gradient; accepted as any flag starting with `-s` (e.g., `-sigma`) via `case 'S':` |
+| `-vavgs` | — | — | No-op stub; empty handler body (`!stricmp(option, "vavgs")`). |
 
 The tool requires exactly 7 positional arguments (6 + the program name); calling with fewer exits with the usage message.
 
 ## Configuration Interactions
 
 - The neighbourhood size determines how many vertices are unfrozen (unfrozen region = seed vertex ± nsize hops).
-- Increasing `-sigma` reduces noise sensitivity but blurs the gradient signal.
+- Increasing `-s` (sigma) reduces noise sensitivity but blurs the gradient signal.
 
 ## Typical Use Cases
 
@@ -95,7 +96,7 @@ The tool requires exactly 7 positional arguments (6 + the program name); calling
 mris_nudge lh.white brain.mgz 12345 110.0 5 lh.white.nudged
 
 # Use larger sigma for noisy data
-mris_nudge -sigma 3.0 lh.white brain.mgz 12345 110.0 10 lh.white.nudged
+mris_nudge -s 3.0 lh.white brain.mgz 12345 110.0 10 lh.white.nudged
 ```
 
 ## Pipeline Context

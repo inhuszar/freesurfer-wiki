@@ -58,7 +58,7 @@ The feature set is determined entirely by the trained model; the model stores th
 - **`<rf_model>`** — path to the trained random forest model file (produced by [[mris_rf_train]]).
 - **`<output>`** — output MGZ file path.
 
-Environment variable `SUBJECTS_DIR` must be set, or provided via `--sdir`.
+Environment variable `SUBJECTS_DIR` must be set, or provided via `-sdir`.
 
 ### Input Assumptions
 
@@ -104,16 +104,16 @@ If `nbhd_size > 0`, neighbourhood features are included (features from neighbour
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
-| `--hemi <hemi>` | string | `lh` | Hemisphere (`lh` or `rh`). |
-| `--surf <name>` | string | `white` | Surface name (e.g., `white`, `pial`). |
-| `--overlay <name>` | string | — | (Parsed but unused at inference time) Overlay name; at inference the overlay list comes from the RF model. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-hemi <hemi>` | string | `lh` | Hemisphere (`lh` or `rh`). |
+| `-surf <name>` | string | `white` | Surface name (e.g., `white`, `pial`). |
+| `-overlay <name>` | string | — | (Parsed but unused at inference time) Overlay name; at inference the overlay list comes from the RF model. |
 | `-N <n>` | integer | 0 | Neighbourhood size for feature extraction (single-character flag). |
 | `-V <n>` | integer | — | Debug vertex index: enable verbose diagnostics for the specified vertex. |
 | `--version` | boolean | — | Print version string and exit. |
 
 > [!gotcha] Overlay list is determined by the model, not by flags
-> Unlike [[mris_rf_train]], `mris_rf_label` ignores any `--overlay` flags and reads `rf->nfeatures` and `rf->feature_names` directly from the loaded RF model. The overlays in the model determine what feature files are loaded. The `--overlay` flag is parsed but the count (`noverlays`) is immediately overwritten by `rf->nfeatures` on line 107.
+> Unlike [[mris_rf_train]], `mris_rf_label` ignores any `-overlay` flags and reads `rf->nfeatures` and `rf->feature_names` directly from the loaded RF model. The overlays in the model determine what feature files are loaded. The `-overlay` flag is parsed but the count (`noverlays`) is immediately overwritten by `rf->nfeatures` on line 107.
 
 > [!gotcha] `-N` (`nbhd_size`) is dead code at runtime
 > Setting `-N` to any value greater than 0 calls `ErrorExit(ERROR_UNSUPPORTED, ...)` and aborts the program.
@@ -123,7 +123,7 @@ If `nbhd_size > 0`, neighbourhood features are included (features from neighbour
 
 ### Configuration Interactions
 
-- `--hemi` and `--surf` together determine which surface and overlays are loaded from the subject directory.
+- `-hemi` and `-surf` together determine which surface and overlays are loaded from the subject directory.
 - `--ndilates` only affects the marking of known FCD vertices (for diagnostic output); it does not influence the classification itself.
 
 ## Typical Use Cases

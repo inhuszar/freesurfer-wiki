@@ -77,6 +77,8 @@ The code exits with an error if the total L2 norm is zero (all-zero overlay).
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `-n` | `<int>` | 0 | Number of surface smoothing iterations before computing entropy |
+| `-a <n>` | int | — | Number of curvature averaging iterations before computing (`navgs`) |
+| `-l <file>` | string | — | Log results to the specified file |
 | `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |

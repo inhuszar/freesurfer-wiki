@@ -13,10 +13,9 @@ related:
   - "[[mris_anatomical_stats]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source is in the attic/ directory, indicating it may be deprecated or unmaintained."
-  - "Source file was not read — functionality is inferred from name and analogy with mri_twoclass."
 tags:
   - surface
   - group-comparison
@@ -46,22 +45,64 @@ Surface-based group analysis comparing two classes (e.g., patients vs. controls)
 
 ## Inputs
 
-> [!gap] Source not read
-> The source file `attic/mris_twoclass/mris_twoclass.cpp` was not read. Inputs, outputs, and flags are unknown.
+Positional arguments (from `print_usage()`):
+
+```
+mris_twoclass -o <output_subject> [options]
+    <hemi> <surf> <curv> <out_prefix>
+    <c1_subject1> <c1_subject2> ... :
+    <c2_subject1> <c2_subject2> ...
+```
+
+- **`hemi`**: hemisphere (`lh` or `rh`)
+- **`surf`**: spherical surface file (for geodesic computation)
+- **`curv`**: curvature/morphometric file to compare
+- **`out_prefix`**: output file prefix
+- **`c1_subjects`**: subjects in class 1 (e.g., patients), separated from class 2 by `:`
+- **`c2_subjects`**: subjects in class 2 (e.g., controls)
 
 ## Outputs
 
-> [!gap] Source not read
-> Output format and content unknown.
+- Per-vertex statistical maps (t-statistics, F-statistics, mean differences, or percent differences)
+- Optionally label files for significantly different regions
 
 ## Mathematical Foundations
 
-Expected to compute per-vertex t-statistics or similar group comparison statistics by analogy with [[mri_twoclass]].
+Computes per-vertex group-comparison statistics (t-test, F-test, mean difference, or percent difference) between two subject groups on surface morphometric measures. Supports adaptive smoothing to find the optimal kernel at each vertex.
 
 ## Configuration Options
 
-> [!gap] Flags unknown
-> Source not read.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-b` | — | off | Apply Bonferroni correction to SNR values |
+| `-c` | `<class>` | 1 | True class index for test subject output (1 or 2) |
+| `-conditions` | `<c0> <c1>` | — | Write summary statistics to `sigavg<c0>` and `sigavg<c1>` files |
+| `-conf` | `<float>` | 0.0 | Confidence interval threshold (0–1 or 0–100; e.g., 0.95 for 95%) |
+| `-fabs` | — | off | Rectify (absolute-value) input vectors before comparison (alias: `-rectify`) |
+| `-fixed` | `<navgs>` | — | Use fixed smoothing kernel with the given number of averaging iterations (disables adaptive search) |
+| `-l` | `<label_fname>` | — | Restrict analysis to a surface label file |
+| `-labels` | `<list_fname> <out_fname>` | — | Read label names from file and write per-label report to output file |
+| `-m` | `<float>` | 25.0 | Minimum label surface area in mm²; smaller clusters are discarded |
+| `-max` | `<n>` | 5000 | Maximum number of smoothing iterations to search |
+| `-mean` | — | STAT_T | Compute mean difference between groups instead of t-statistic |
+| `-n` | — | off | Use distribution-free (rank-based) SNR estimate |
+| `-normalize` | — | off | Normalise input vectors before comparison |
+| `-num` | `<n>` | MIN_LABELS | Minimum number of vertices required in a label |
+| `-o` | `<subject>` | — | Output subject name for writing results |
+| `-optimal` | — | on | Find the optimal smoothing kernel at each cortical location (default behaviour) |
+| `-p` | `<prefix>` | "" | Label filename prefix |
+| `-pct` | — | off | Compute percent difference between groups instead of t-statistic |
+| `-read` | `<dir>` | — | Read pre-computed optimal thickness vectors from directory (alias: `-rt`) |
+| `-rectify` | — | off | Rectify (absolute-value) input vectors before comparison (alias: `-fabs`) |
+| `-rt` | `<dir>` | — | Read pre-computed optimal thickness vectors from directory (alias: `-read`) |
+| `-s` | `<n>` | −1 | Sort vertices by SNR and use only top `n` for classification |
+| `-sigma` | `<float>` | 0.0 | Confidence interval width in standard errors |
+| `-t` | `<float>` | 2.0 | F-statistic SNR threshold for marking significant vertices |
+| `-test` | `<subject>` | — | Write `test.dat` classification data for the named test subject |
+| `-w` | — | off | Enable writing of per-subject per-vertex data |
+| `-wfile` | — | off | Read input from `.w` files instead of curvature files |
+| `-write` | `<dir>` | — | Write optimal thickness vectors to directory (alias: `-wt`) |
+| `-wt` | `<dir>` | — | Write optimal thickness vectors to directory (alias: `-write`) |
 
 ## Pipeline Context
 
@@ -80,10 +121,7 @@ Not part of `recon-all`. Standalone group-analysis utility.
 
 ## Confidence and Gaps
 
-Confidence is **low**. Source was not read; the tool's attic status raises questions about its current functionality.
+Confidence is **medium**. Source was read from `attic/mris_twoclass/mris_twoclass.cpp`; all flags documented from `get_option()`. Attic status means the tool may not be compiled or installed in FreeSurfer 8.2.0.
 
 > [!gap] Verify installation
-> Check whether `mris_twoclass` is present in `/usr/local/freesurfer/8.2.0/bin/`. If not, this page should note that it is not available.
-
-> [!gap] Source code review
-> Read `attic/mris_twoclass/mris_twoclass.cpp` to document actual functionality if the tool is of interest.
+> Check whether `mris_twoclass` is present in `$FREESURFER_HOME/bin/`. If not, this page should be tagged as historical/legacy only.

@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "The mathematical definition of the connectivity measure (correlation, coherence, etc.) was not traced in detail."
   - "The output file format and organisation in the outdir was not documented from source."
@@ -125,6 +125,8 @@ Short-range vs. long-range connectivity is separated by a distance threshold (`-
 | `--test-fail` | — | `off` | Run self-test and force a failure (for testing error handling) |
 | `--save-test` | — | `off` | Run self-test and save the test outputs |
 | `--uppersub-test` | `N` | — | Run `Index2UpperSubscriptTest(N)` and exit (developer diagnostic) |
+| `--diag-show` | — | `off` | Enable `DIAG_SHOW` diagnostic output (`Gdiag & DIAG_SHOW`). |
+| `--diag-verbose` | — | `off` | Enable `DIAG_VERBOSE` diagnostic output (`Gdiag & DIAG_VERBOSE`). |
 | `--debug` | — | `off` | Enable debug output |
 | `--version` | — | — | Print version and exit |
 

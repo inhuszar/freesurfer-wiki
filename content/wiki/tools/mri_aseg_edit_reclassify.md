@@ -91,13 +91,14 @@ If $\text{decision} < 0$, the voxel is relabeled.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-T <label>` | int | 17 (Left_Hippocampus) | Target label to reclassify border voxels for |
+| `-l <label>` | int | 17 (Left_Hippocampus) | Target label to reclassify border voxels for (`case 'L':`) |
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 | `--help` | flag | — | Print help |
 | `--version` | flag | — | Print version |
 
 ## Configuration Interactions
 
-Minimal interface: the four positional arguments are required. The only configurable parameter is the target label via `-T`.
+Minimal interface: the four positional arguments are required. The only configurable parameter is the target label via `-l`.
 
 ## Typical Use Cases
 

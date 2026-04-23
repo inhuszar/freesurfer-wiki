@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - motion-correction
@@ -69,21 +69,20 @@ $$
 |------|------|---------|-------------|
 | `-i <fname>` | string | repeatable | Input run volume |
 | `-o <stem>` | string | required | Output specifier |
-| `-target <fname>` | string | first input | Use this volume as registration target |
-| `-hires` | flag | off | High-resolution mode |
-| `-fmt <format>` | string | auto | Output format (e.g., `COR`, `mgz`) |
-| `-no-save-xfm` | flag | off | Do not save per-run transforms |
-| `-tmp <dir>` | string | auto | Temporary directory |
-| `-no-cleanup` | flag | off | Keep temporary files |
-| `-log <fname>` | string | auto | Log file path |
+| `-t <fname>` | string | first input | Use this volume as registration target |
+| `-tmp <dir>` / `-tmpdir <dir>` | string | auto | Temporary directory; also disables cleanup |
+| `-umask <mask>` | string | system default | Set umask for file creation |
+| `-nocleanup` | flag | off | Keep temporary directory after completion |
+| `-verbose` | flag | off | Enable verbose output |
+| `-cm` | flag | off | High-resolution (`-cm`) mode for `minctracc` |
 | `-wild` | flag | off | Allow wildcard expansion for input files |
 
 ## Configuration Interactions
 
-- `-target` selects a specific run as the registration reference. Without this, the first input is used.
-- `-hires` adjusts MINC registration parameters for high-resolution data; the specific parameter changes are internal to the script.
-- `-no-save-xfm` disables the default behaviour of writing per-run transform files alongside the output.
-- `-fmt COR` forces the output to COR directory format; otherwise the format matches the input.
+- `-t` selects a specific run as the registration reference. Without this, the first input is used.
+- `-cm` passes the `-cm` flag to `minctracc`, enabling the high-resolution centres-of-mass cost function. This is the equivalent of the `-hires` concept; the flag name comes from `minctracc`'s option name.
+- `-tmp`/`-tmpdir` both set the temporary directory and implicitly disable cleanup (`CleanUp = 0`). Use `-nocleanup` alone if you want the default auto-generated temp dir but kept after completion.
+- Transform files are saved by default (`SaveXFM = 1` is hardcoded); there is no flag to suppress this behaviour in the current source.
 
 ## Typical Use Cases
 
@@ -91,12 +90,12 @@ $$
 # Standard two-run average
 mri_motion_correct2 -i run1.mgz -i run2.mgz -o rawavg.mgz
 
-# Three runs, high-res mode
-mri_motion_correct2 -hires -i r1.mgz -i r2.mgz -i r3.mgz -o rawavg.mgz
+# Three runs, high-res minctracc mode
+mri_motion_correct2 -cm -i r1.mgz -i r2.mgz -i r3.mgz -o rawavg.mgz
 
 # Custom target, preserve temp files for debugging
-mri_motion_correct2 -i r1.mgz -i r2.mgz -target r2.mgz \
-  -no-cleanup -tmp /tmp/mc_debug -o rawavg.mgz
+mri_motion_correct2 -i r1.mgz -i r2.mgz -t r2.mgz \
+  -nocleanup -tmp /tmp/mc_debug -o rawavg.mgz
 ```
 
 ## Pipeline Context

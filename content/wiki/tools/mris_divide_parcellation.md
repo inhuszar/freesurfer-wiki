@@ -64,8 +64,8 @@ For the area-threshold method, each parcel of area $A > A_{\text{thresh}}$ is sp
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--sdir` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
-| `--rgb-scale` | `<int>` | 30 | Colour scale for new label colours in the annotation |
+| `-sdir` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory |
+| `-scale` | `<int>` | 20 | RGB offset scaling for new label colours in the annotation |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |
 
@@ -74,7 +74,7 @@ The primary parameters are positional: `subject hemi sourceannot [splitfile|area
 ## Configuration Interactions
 
 - The fourth positional argument determines the method: if it can be parsed as a floating-point number, it is treated as an area threshold; otherwise it is treated as a splitfile path.
-- `--rgb-scale` controls how new sub-division labels get assigned colours in the output annotation colour table.
+- `-scale` controls how new sub-division labels get assigned colours in the output annotation colour table.
 
 ## Typical Use Cases
 

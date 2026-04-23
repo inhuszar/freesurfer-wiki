@@ -14,7 +14,7 @@ related:
   - "[[mri_em_register]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Source is in attic/ — may not be compiled or distributed."
   - "Source not read — functionality inferred from name."
@@ -70,7 +70,12 @@ where $N_k$ is the existing count, $n_k$ is new data count, and $\bar{x}_k$, $s_
 
 ## Configuration Options
 
-> [!gap] Unknown
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-n` | `<n>` | — | Parsed but performs no action (no-op placeholder in source). The argument is consumed but ignored. |
+
+> [!gap] `-n` is a no-op
+> The `case 'N'` branch in `get_option()` increments `nargs` to consume one argument but performs no computation. This flag has no effect.
 
 ## Pipeline Context
 

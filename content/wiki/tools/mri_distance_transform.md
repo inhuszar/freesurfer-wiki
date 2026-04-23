@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - distance-transform
@@ -56,15 +56,15 @@ Positional arguments (at least 5 required):
 5. **`output volume`**: output distance volume (float)
 
 Optional:
-- `-surf fname`: restrict computation to voxels inside/adjacent to a surface
-- `-area fname`: area volume for normalization
+- `-wsurf fname`: restrict computation to voxels inside/adjacent to a surface
+- `-label fname`: area volume for CSF-path analysis (requires `-wsurf` and `-wthresh`)
 - `-aseg fname`: aseg for WM/cortex masking
-- `-wt thresh -wn`: white matter intensity threshold
-- `-csf fname`: CSF fraction file
-- `-normalize`: normalize distances by surface area
-- `-binarize val`: binarize input to label before computing distance
-- `-dil N`: dilate label by N before computing distance
-- `-posterior dist` / `-anterior dist`: restrict computation to posterior/anterior half
+- `-wthresh <vol> <thresh>`: white matter intensity volume and threshold
+- `-csf fname`: write CSF voxel count to file
+- `-normalize`: normalize distances by sqrt(surface area)
+- `-b val`: binarize input to label before computing distance
+- `-dilate N`: dilate label by N voxels before computing distance
+- `-posterior dist` / `-anterior dist`: restrict computation to posterior/anterior portion of label
 
 ## Outputs
 
@@ -99,28 +99,30 @@ where $A_\text{surface}$ is the total surface area (`mris->total_area`).
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `-surf fname` | file | none | Restrict to surface-defined region |
-| `-area fname` | file | none | Area map for normalization |
-| `-aseg fname` | file | none | Aseg for WM/cortex label filtering |
-| `-normalize` | — | off | Normalize distances by sqrt(surface area) |
-| `-binarize val` | float | 0 | Binarize input at threshold val |
-| `-dil N` | int | 0 | Dilate label by N voxels before computing |
-| `-wt thresh` | float | — | White matter intensity threshold |
-| `-wn fname` | file | — | White matter normalization volume |
-| `-csf fname` | file | none | CSF volume for path masking |
-| `-percent` | — | off | Output as percentage of max distance |
-| `-anterior dist` | float | none | Restrict to anterior half of label |
-| `-posterior dist` | float | none | Restrict to posterior half of label |
-| `-ndil N` | int | 0 | Number of dilations (same as `-dil`) |
+Flags are parsed with single-dash stripping: the parser strips one leading `-` from `argv[N]` before comparison, so `-wsurf` and `--wsurf` are both accepted, but the canonical user-facing form is single-dash.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-wm` | `<aseg>` | — | Load `<aseg>` and create a white matter mask by copying WM-class labels; also sets `mri_aseg` for cortex/WM filtering. |
+| `-anterior` | `<dist>` | — | Restrict computation to the anterior-most `<dist>` mm of the label. |
+| `-aseg` | `<aseg>` | — | Load segmentation volume `<aseg>`; non-WM/cortex interior voxels are excluded from the distance computation. |
+| `-label` | `<vol>` | — | Load area volume `<vol>`; used to compute CSF volume bordering regions closer than the label. Requires `-wsurf` and `-wthresh`. |
+| `-posterior` | `<dist>` | — | Restrict computation to the posterior-most `<dist>` mm of the label. |
+| `-wsurf` | `<surf>` | — | Surface file; interior of `<surf>` is used to restrict the distance computation to the cortical ribbon/WM. |
+| `-csf` | `<file>` | — | Write CSF voxel count to text file `<file>`. |
+| `-normalize` | — | off | Normalize distances by `sqrt(surface_area)` (requires `-wsurf`). |
+| `-wthresh` | `<vol> <thresh>` | — | Load intensity volume `<vol>` and threshold at `<thresh>` to identify CSF voxels inside the white surface. |
+| `-dilate` | `<N>` | `0` | Dilate the label by `<N>` voxels before computing the distance transform. |
+| `-b` | `<val>` | `0` | Binarize input volume at threshold `<val>` before computing the distance transform. |
+| `-p` | — | off | Scale output distances to percentage of maximum distance. |
 
 ## Configuration Interactions
 
-- `-normalize` requires `-surf` to compute the surface area normalization factor.
-- `-aseg` with `-surf`: labels that are not WM or cortex are zeroed out in the interior map, restricting the computation to the cortical ribbon and WM.
-- `-wt thresh` and `-wn` are used together to exclude CSF voxels from the distance paths.
-- `-binarize val` applies before dilation, which applies before distance computation.
+- `-normalize` requires `-wsurf` to compute the surface area normalization factor (`sqrt(mris->total_area)`).
+- `-aseg` with `-wsurf`: voxels inside the surface that are not WM or cortex class labels are zeroed out, restricting the distance computation to the cortical ribbon and WM.
+- `-wthresh <vol> <thresh>` marks CSF voxels (intensity below threshold) inside the white surface; use with `-csf <file>` to record the count and with `-label` to compute CSF path correction.
+- `-b <val>` binarization applies before `-dilate`, which applies before the distance transform computation.
+- `-label` requires both `-wsurf` and `-wthresh` to be set; the code enforces this and exits with an error if either is missing.
 
 ## Typical Use Cases
 

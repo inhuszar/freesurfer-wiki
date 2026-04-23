@@ -54,8 +54,8 @@ Positional arguments: `<subject_name> <hemisphere>`
 |-------|-------------|
 | `<subject_name>` (positional 1) | FreeSurfer subject identifier. |
 | `<hemisphere>` (positional 2) | `lh` or `rh`. For ex vivo single-hemisphere data, this is almost always `lh`. |
-| Flash 30° volume | Provided via `--flash30`, `--T130`, or `--T1_30`. |
-| Flash 5° volume | Provided via `--flash5`, `--T15`, or `--T1_5`. |
+| Flash 30° volume | Provided via `-flash30`, `-T130`, or `-T1_30`. |
+| Flash 5° volume | Provided via `-flash5`, `-T15`, or `-T1_5`. |
 | `filled.mgz` (internal) | Used in place of EM segmentation to define WM. Must exist in `$SUBJECTS_DIR/<subject>/mri/`. |
 
 ## Outputs
@@ -89,70 +89,70 @@ Border values (intensity thresholds for surface deformation) are computed by `MR
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--flash30 <vol>` / `--T130 <vol>` / `--T1_30 <vol>` | string | — | MEF 30° flip angle volume (all three are accepted as aliases). |
-| `--flash5 <vol>` / `--T15 <vol>` / `--T1_5 <vol>` | string | — | MEF 5° flip angle volume (all three are accepted as aliases). |
-| `--em <vol>` / `--em_seg <vol>` / `--em_combined <vol>` | string | — | Optional EM tissue segmentation volume (all three accepted as aliases). Replaces `filled.mgz` as the WM prior if specified. |
-| `--wvol <vol>` | string | — | Use this volume for white matter surface deformation (overrides the 5° channel). |
-| `--PD <vol>` | string | — | Use a proton density map for surface placement. |
-| `--T1 <vol>` | string | — | Use a T1 map for surface placement. |
+| `-flash30 <vol>` / `-T130 <vol>` / `-T1_30 <vol>` | string | — | MEF 30° flip angle volume (all three are accepted as aliases). |
+| `-flash5 <vol>` / `-T15 <vol>` / `-T1_5 <vol>` | string | — | MEF 5° flip angle volume (all three are accepted as aliases). |
+| `-em <vol>` / `-em_seg <vol>` / `-em_combined <vol>` | string | — | Optional EM tissue segmentation volume (all three accepted as aliases). Replaces `filled.mgz` as the WM prior if specified. |
+| `-wvol <vol>` | string | — | Use this volume for white matter surface deformation (overrides the 5° channel). |
+| `-PD <vol>` | string | — | Use a proton density map for surface placement. |
+| `-T1 <vol>` | string | — | Use a T1 map for surface placement. |
 
 #### Surface naming
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--white <name>` | string | `white` | Name of the output white surface file. |
-| `--pial <name>` | string | `pial` | Name of the output pial surface file. |
-| `--name <name>` | string | — | Override the `parms.base_name` for output file naming. |
-| `--output <suffix>` | string | — | Append this suffix to all output file names. |
+| `-white <name>` | string | `white` | Name of the output white surface file. |
+| `-pial <name>` | string | `pial` | Name of the output pial surface file. |
+| `-name <name>` | string | — | Override the `parms.base_name` for output file naming. |
+| `-output <suffix>` | string | — | Append this suffix to all output file names. |
 | `-S <suffix>` | string | — | Additional suffix appended to surface file names. |
 
 #### Starting surface positions
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--orig_white <name>` | string | — | Read initial white surface vertex positions from this file. |
-| `--orig_pial <name>` | string | — | Read initial pial surface vertex positions from this file. |
+| `-orig_white <name>` | string | — | Read initial white surface vertex positions from this file. |
+| `-orig_pial <name>` | string | — | Read initial pial surface vertex positions from this file. |
 | `-O <name>` | string | — | Read original vertex positions from this file. |
 
 #### Deformation control
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--nowhite` | boolean | — | Skip white surface placement; use the previously computed surface. |
-| `--whiteonly` / `--nopial` | boolean | — | Place the white surface only; skip pial surface deformation. |
-| `--inoutin` | boolean | — | Apply a final white matter deformation pass after pial surface placement. |
-| `--graymid` | boolean | — | Generate a mid-gray (layer IV) surface from the white and pial. |
-| `--nwhite <n>` | integer | — | Number of deformation time steps for the white surface. |
-| `--ngray <n>` | integer | — | Number of deformation time steps for the pial surface. |
-| `--dt <f>` | float | — | Integration time step. |
-| `--tol <f>` | float | — | Convergence tolerance. |
-| `--lm` | boolean | — | Use line minimization integration instead of gradient descent. |
+| `-nowhite` | boolean | — | Skip white surface placement; use the previously computed surface. |
+| `-whiteonly` / `-nopial` | boolean | — | Place the white surface only; skip pial surface deformation. |
+| `-inoutin` | boolean | — | Apply a final white matter deformation pass after pial surface placement. |
+| `-graymid` | boolean | — | Generate a mid-gray (layer IV) surface from the white and pial. |
+| `-nwhite <n>` | integer | — | Number of deformation time steps for the white surface. |
+| `-ngray <n>` | integer | — | Number of deformation time steps for the pial surface. |
+| `-dt <f>` | float | — | Integration time step. |
+| `-tol <f>` | float | — | Convergence tolerance. |
+| `-lm` | boolean | — | Use line minimization integration instead of gradient descent. |
 | `-M <f>` | float | — | Use momentum integration with the given momentum value. |
-| `--add` | boolean | — | Add vertices to the tessellation during deformation. |
+| `-add` | boolean | — | Add vertices to the tessellation during deformation. |
 
 #### Smoothing and averaging
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--smooth <n>` | integer | — | Number of surface position smoothing iterations. |
-| `--smoothwm <n>` | integer | — | Number of smoothing iterations applied to the WM surface before output. |
-| `--vavgs <n>` | integer | — | Number of iterations for smoothing target intensity values. |
-| `--wa <max> [<min>]` | integer(s) | — | Maximum (and optionally minimum) white surface smoothing averages. |
-| `--pa <max> [<min>]` | integer(s) | — | Maximum (and optionally minimum) pial surface smoothing averages. |
-| `--wsigma <f>` | float | — | Gaussian sigma (mm) for white surface volume smoothing. |
-| `--psigma <f>` | float | — | Gaussian sigma (mm) for pial surface volume smoothing. |
+| `-smooth <n>` | integer | — | Number of surface position smoothing iterations. |
+| `-smoothwm <n>` | integer | — | Number of smoothing iterations applied to the WM surface before output. |
+| `-vavgs <n>` | integer | — | Number of iterations for smoothing target intensity values. |
+| `-wa <max> [<min>]` | integer(s) | — | Maximum (and optionally minimum) white surface smoothing averages. |
+| `-pa <max> [<min>]` | integer(s) | — | Maximum (and optionally minimum) pial surface smoothing averages. |
+| `-wsigma <f>` | float | — | Gaussian sigma (mm) for white surface volume smoothing. |
+| `-psigma <f>` | float | — | Gaussian sigma (mm) for pial surface volume smoothing. |
 
 #### Energy term weights
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--spring <f>` | float | — | Spring term weight (`parms.l_spring`). |
-| `--tsmooth <f>` | float | — | Tangential smoothness weight (`l_tsmooth`). |
-| `--grad <f>` | float | — | Gradient term weight (`parms.l_grad`). |
-| `--tspring <f>` | float | — | Tangential spring weight (`parms.l_tspring`). |
-| `--nspring <f>` | float | — | Normal spring weight (`parms.l_nspring`). |
-| `--curv <f>` | float | — | Curvature term weight (`parms.l_curv`). |
-| `--intensity <f>` | float | — | Intensity term weight (`parms.l_intensity`). |
+| `-spring <f>` | float | — | Spring term weight (`parms.l_spring`). |
+| `-tsmooth <f>` | float | — | Tangential smoothness weight (`l_tsmooth`). |
+| `-grad <f>` | float | — | Gradient term weight (`parms.l_grad`). |
+| `-tspring <f>` | float | — | Tangential spring weight (`parms.l_tspring`). |
+| `-nspring <f>` | float | — | Normal spring weight (`parms.l_nspring`). |
+| `-curv <f>` | float | — | Curvature term weight (`parms.l_curv`). |
+| `-intensity <f>` | float | — | Intensity term weight (`parms.l_intensity`). |
 | `-R <f>` | float | — | Surface repulsion weight (`l_surf_repulse`). |
 | `-B <f>` | float | — | Base time step scale factor. |
 
@@ -160,28 +160,29 @@ Border values (intensity thresholds for surface deformation) are computed by `MR
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--max <f>` | float | — | Maximum cortical thickness (mm). |
-| `--nbrs <n>` | integer | — | Surface neighbourhood size. |
-| `--nbhd_size <n>` | integer | — | Neighbourhood size for thickness calculation. |
-| `--rval <n>` | integer | — | Fill value used for the right hemisphere label. |
-| `--lval <n>` | integer | — | Fill value used for the left hemisphere label. |
+| `-max <f>` | float | — | Maximum cortical thickness (mm). |
+| `-nbrs <n>` | integer | — | Surface neighbourhood size. |
+| `-nbhd_size <n>` | integer | — | Neighbourhood size for thickness calculation. |
+| `-rval <n>` | integer | — | Fill value used for the right hemisphere label. |
+| `-lval <n>` | integer | — | Fill value used for the left hemisphere label. |
 | `-L <label>` | string | — | Label file to restrict surface deformation. |
-| `--hires <label>` | string | — | High-resolution label for local refinement. |
+| `-hires <label>` / `-highres` | string | — | High-resolution label for local refinement (`-highres` is accepted as alias). |
+| `-a <max> [<min>]` | integer(s) | — | **Dead code (`#if 0`).** Would set `max_averages` and optionally `min_averages`; disabled via preprocessor. |
 
 #### Miscellaneous
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--SDIR <dir>` | string | `$SUBJECTS_DIR` | Override the FreeSurfer subjects directory. |
-| `--long` | boolean | — | Use longitudinal processing scheme. |
-| `--formalin <0|1>` | integer | — | Indicate whether the hemisphere is embedded in formalin (affects intensity assumptions). |
-| `--median` | boolean | — | Apply a median filter to the volume before processing. |
-| `--scale_std <f>` | float | — | Scale the estimated WM and GM standard deviation by this factor. |
-| `--noauto` | boolean | — | Disable automatic detection of border intensity ranges. |
-| `--fill_interior <0|1>` | integer | — | Fill surface interior during gradient computation. |
-| `--overlay` | boolean | — | Toggle overlaying T1 volume with edited white matter. |
-| `--write_vals` | boolean | — | Write gray and white surface intensity targets to overlay files. |
-| `--mgz` | boolean | — | Assume MGZ format for volume files. |
+| `-SDIR <dir>` | string | `$SUBJECTS_DIR` | Override the FreeSurfer subjects directory. |
+| `-long` | boolean | — | Use longitudinal processing scheme. |
+| `-formalin <0|1>` | integer | — | Indicate whether the hemisphere is embedded in formalin (affects intensity assumptions). |
+| `-median` | boolean | — | Apply a median filter to the volume before processing. |
+| `-scale_std <f>` | float | — | Scale the estimated WM and GM standard deviation by this factor. |
+| `-noauto` | boolean | — | Disable automatic detection of border intensity ranges. |
+| `-fill_interior <0|1>` | integer | — | Fill surface interior during gradient computation. |
+| `-overlay` | boolean | — | Toggle overlaying T1 volume with edited white matter. |
+| `-write_vals` | boolean | — | Write gray and white surface intensity targets to overlay files. |
+| `-mgz` | boolean | — | Assume MGZ format for volume files. |
 | `-T <xform>` | string | — | Apply a ventricular transform file. |
 | `-C` | boolean | — | Toggle creation of area and curvature files for the WM surface. |
 | `-Q` | boolean | — | Quick mode: disable self-intersection test during surface positioning. |
@@ -193,16 +194,16 @@ Border values (intensity thresholds for surface deformation) are computed by `MR
 
 ## Configuration Interactions
 
-- `--flash30` / `--T130` / `--T1_30` are exact aliases for the same flag. Only one need be specified.
-- `--flash5` / `--T15` / `--T1_5` are exact aliases for the same flag.
-- `--em`, `--em_seg`, `--em_combined` are exact aliases for the same flag.
-- `--whiteonly` and `--nopial` both set `white_only = 1` and are fully equivalent.
-- `--nowhite` reads the previously computed white surface without recomputing it; the pial surface is still placed.
-- `--PD` and `--T1` provide alternative intensity volumes for cases where a proton-density or T1 map is available instead of MEF echoes. When neither is provided, the MEF 30° and 5° channels are used for pial and white placement respectively.
+- `-flash30` / `-T130` / `-T1_30` are exact aliases for the same flag. Only one need be specified.
+- `-flash5` / `-T15` / `-T1_5` are exact aliases for the same flag.
+- `-em`, `-em_seg`, `-em_combined` are exact aliases for the same flag.
+- `-whiteonly` and `-nopial` both set `white_only = 1` and are fully equivalent.
+- `-nowhite` reads the previously computed white surface without recomputing it; the pial surface is still placed.
+- `-PD` and `-T1` provide alternative intensity volumes for cases where a proton-density or T1 map is available instead of MEF echoes. When neither is provided, the MEF 30° and 5° channels are used for pial and white placement respectively.
 - The two-channel approach means that white and pial surfaces use different underlying intensity data. The 5° channel (better WM/GM contrast) drives white surface placement; the 30° channel (better GM/CSF contrast) drives pial placement.
-- Without `filled.mgz`, the WM statistics estimation will fail unless `--em` is supplied.
+- Without `filled.mgz`, the WM statistics estimation will fail unless `-em` is supplied.
 - `-W` (write snapshots) also sets the `DIAG_WRITE` diagnostic flag globally.
-- `-M <f>` switches the integration type to `INTEGRATE_MOMENTUM`; `--lm` switches to `INTEGRATE_LINE_MINIMIZE`. Both are mutually exclusive with the default gradient-descent integration.
+- `-M <f>` switches the integration type to `INTEGRATE_MOMENTUM`; `-lm` switches to `INTEGRATE_LINE_MINIMIZE`. Both are mutually exclusive with the default gradient-descent integration.
 
 ## Typical Use Cases
 
@@ -239,10 +240,10 @@ mris_exvivo_surfaces \
 > The source code comment states "Exvivo data only have one hemi, assume it to be left (255)." Using this tool for a right hemisphere may require modification.
 
 > [!gotcha] No EM segmentation required
-> Unlike `mris_mef_surfaces`, this tool does not use `mri_em_seg`. The filled volume (`filled.mgz`) takes the place of the probabilistic segmentation. If `filled.mgz` is absent or incorrect, surface placement will fail unless `--em` is also supplied.
+> Unlike `mris_mef_surfaces`, this tool does not use `mri_em_seg`. The filled volume (`filled.mgz`) takes the place of the probabilistic segmentation. If `filled.mgz` is absent or incorrect, surface placement will fail unless `-em` is also supplied.
 
 > [!gotcha] Ex vivo tissue intensities differ from in vivo
-> The default intensity thresholds in `mris_make_surfaces` and `mris_mef_surfaces` are calibrated for in vivo data. This tool has separate calibration for ex vivo tissue, and the `--formalin` flag adjusts for formalin fixation.
+> The default intensity thresholds in `mris_make_surfaces` and `mris_mef_surfaces` are calibrated for in vivo data. This tool has separate calibration for ex vivo tissue, and the `-formalin` flag adjusts for formalin fixation.
 
 > [!gotcha] Source file is in mris_make_surfaces/ directory
 > Despite the tool name, the source file is `mris_make_surfaces/mris_exvivo_surfaces.cpp`, not in a separate `mris_exvivo_surfaces/` directory.

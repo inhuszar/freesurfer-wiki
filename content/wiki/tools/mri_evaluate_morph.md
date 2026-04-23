@@ -78,9 +78,9 @@ $$
 
 ## Configuration Options
 
-| Flag | Description |
-|------|-------------|
-| `-sdir <dir>` | Override `SUBJECTS_DIR` with `<dir>` |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir <dir>` | `<dir>` | `$SUBJECTS_DIR` | Override `SUBJECTS_DIR` with `<dir>` |
 
 > [!gap] Full flag list
 > Only `-sdir` is identified from the global variable `sdir`. Additional flags may exist in `get_option()`.

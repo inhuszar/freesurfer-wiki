@@ -131,7 +131,6 @@ $$
 | `--in_type` | `type` | auto | Input volume type |
 | `--ocn` | `file` | — | Output cluster number volume |
 | `--ocn_type` | `type` | auto | Output cluster number volume type |
-| `--ocp` | — | off | Output cluster p-value (used internally) |
 | `--csd` | `csdfile` | — | Cluster-size distribution for empirical p-values |
 | `--csd-out` | `file` | — | Write CSD to file |
 | `--csdpdf` | `pdffile` | — | Save CSD as PDF |

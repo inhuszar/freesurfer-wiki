@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Which recon-all stage or pipeline calls this tool, if any"
 tags:
@@ -98,19 +98,19 @@ All option flags use a single `-` prefix and are case-insensitive. Flags are par
 
 ### Energy term weights
 
-| Flag | Alias | Arguments | Default | Description |
-|------|-------|-----------|---------|-------------|
-| `-B <w>` | — | float | 0.025 | Weight for binary label overlap energy term `l_binary` |
-| `-D <w>` | — | float | 1.0 | Weight for distance-field energy term `l_distance` |
-| `-S <w>` | — | float | (default) | Weight for smoothness regularisation term `l_smoothness` |
-| `-J <w>` | — | float | 1.0 | Weight for Jacobian determinant penalty `l_jacobian` |
-| `-area <w>` | — | float | (default) | Weight for area preservation term `l_area` |
-| `-spring <w>` | — | float | (from parms) | Weight for spring regularisation term `l_spring` |
-| `-intensity <w> <fname>` | `-ll` | float + path | off | Weight for log-likelihood intensity term `l_log_likelihood`; reads intensity volume `fname` |
-| `-likelihood <w> <fname>` | — | float + path | off | Weight for linear likelihood term `l_likelihood`; reads intensity volume `fname` |
-| `-area_intensity <w> <fname>` | `-aint` | float + path | off | Weight for area-intensity coupling term `l_area_intensity`; reads intensity volume `fname` |
-| `-K <val>` | — | float | 5.0 | Exponential parameter `exp_k` in the Jacobian energy |
-| `-rthresh <val>` | — | float | 0.25 | Compression ratio threshold; nodes below this ratio trigger compression penalty |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-B <w>` | float | 0.025 | Weight for binary label overlap energy term `l_binary` |
+| `-D <w>` | float | 1.0 | Weight for distance-field energy term `l_distance` |
+| `-S <w>` | float | (default) | Weight for smoothness regularisation term `l_smoothness` |
+| `-J <w>` | float | 1.0 | Weight for Jacobian determinant penalty `l_jacobian` |
+| `-area <w>` | float | (default) | Weight for area preservation term `l_area` |
+| `-spring <w>` | float | (from parms) | Weight for spring regularisation term `l_spring` |
+| `-intensity <w> <fname>` / `-ll <w> <fname>` | float + path | off | Weight for log-likelihood intensity term `l_log_likelihood`; reads intensity volume `fname`. `-ll` is an alias. |
+| `-likelihood <w> <fname>` | float + path | off | Weight for linear likelihood term `l_likelihood`; reads intensity volume `fname` |
+| `-area_intensity <w> <fname>` / `-aint <w> <fname>` | float + path | off | Weight for area-intensity coupling term `l_area_intensity`; reads intensity volume `fname`. `-aint` is an alias. |
+| `-K <val>` | float | 5.0 | Exponential parameter `exp_k` in the Jacobian energy |
+| `-rthresh <val>` | float | 0.25 | Compression ratio threshold; nodes below this ratio trigger compression penalty |
 
 ### Morph optimisation
 
@@ -122,7 +122,8 @@ All option flags use a single `-` prefix and are case-insensitive. Flags are par
 | `-dt <val>` | float | 0.005 | Integration time step |
 | `-passes <n>` | int | 3 | Number of optimisation passes |
 | `-tol <val>` | float | (default) | Convergence tolerance |
-| `-M <val>` | int (momentum mode) | GCAM_INTEGRATE_BOTH | Set integration type to `GCAM_INTEGRATE_FIXED` (optimal step, also `-MOMENTUM`/`-FIXED`) |
+| `-M <val>` | float | (from parms) | Set the gradient descent momentum scalar `mp.momentum` |
+| `-MOMENTUM` / `-FIXED` | (none) | off | Set integration type to `GCAM_INTEGRATE_FIXED` (optimal time-step integration). Both spellings are accepted; option string is uppercased before comparison. |
 | `-sigma <val>` | float | 8.0 | Initial Gaussian smoothing sigma for multi-resolution |
 | `-min_sigma <val>` | float | 1.0 | Minimum sigma; smoothing stops when sigma reaches this value |
 | `-si <sigma>` | float | −1 (off) | Smooth GCA morph intensity estimates with Gaussian of `sigma` |
@@ -175,7 +176,7 @@ All option flags use a single `-` prefix and are case-insensitive. Flags are par
 - `-intensity`/`-ll` and `-likelihood` both load an intensity volume and set a corresponding weight; they can be combined but may conflict if the same `mri_norm` pointer is overwritten.
 - `-upsample <n>` upsamples the GCA morph `n` times; each step doubles linear resolution, so memory scales as $8^n$ relative to original.
 - `-skip <n>` reduces the number of source voxels used in the cost; this speeds up the alignment but may reduce accuracy for small structures.
-- `-MOMENTUM` and `-FIXED` are aliases; both set `mp.integration_type = GCAM_INTEGRATE_FIXED`.
+- `-MOMENTUM` and `-FIXED` are aliases; both set `mp.integration_type = GCAM_INTEGRATE_FIXED`. Note: `-M <val>` is a separate flag that sets the momentum scalar `mp.momentum`, not the integration type.
 
 ## Typical Use Cases
 

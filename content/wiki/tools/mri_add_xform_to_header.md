@@ -75,6 +75,7 @@ When `-s` is NOT used (i.e., normal mode), the transform is also loaded and vali
 | (positional 3) | path | — | Output volume (default: overwrite input) |
 | `-c` | flag | off | Copy name only (do not load/validate the transform) |
 | `-v` | flag | off | Verbose output |
+| `-n` | any 1 arg | — | **No-op.** Consumes one argument token (`nargs=1`) without assigning it to any variable. Stubbed-out option. |
 
 > [!gotcha] In-place overwrite
 > If only two positional arguments are given, the input file is overwritten silently. There is no confirmation prompt.

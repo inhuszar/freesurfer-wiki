@@ -21,7 +21,7 @@ related:
   - "[[longitudinal-processing]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "Exact structure label set produced by samseg vs. standard aseg — which extra structures (e.g. extracerebral) are included or excluded by default"
   - "Detailed GEMS C++ optimization internals (L-BFGS mesh deformation, multi-resolution schedule) not verified"
@@ -168,7 +168,7 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--i file.mgz` | string (repeatable) | — | Pre-aligned input volume. Use multiple `--i` flags for multimodal inputs. Cannot be combined with `--t1w/--t2w/--flair/--mode`. |
+| `--i` / `-i` / `--input` | string (repeatable) | — | Pre-aligned input volume. Use multiple `--i` flags for multimodal inputs. `-i`/`--input` are the `run_samseg` short/long forms. Cannot be combined with `--t1w/--t2w/--flair/--mode`. |
 | `--i2 file.mgz` | string | — | Alias for a second `--i` input (equivalent to specifying `--i` twice). |
 | `--i3 file.mgz` | string | — | Alias for a third `--i` input. |
 | `--i4 file.mgz` | string | — | Alias for a fourth `--i` input. |
@@ -179,7 +179,8 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--flair file` | string (repeatable) | — | FLAIR-weighted input. Triggers fsr-import pipeline. |
 | `--mode name file` | string pair (repeatable) | — | Arbitrary-modality input with an explicit mode name. Triggers fsr-import pipeline. |
 | `--refmode name` | string | — | Reference modality to which other modalities are co-registered. Required when using --t1w/--t2w/--flair/--mode. |
-| `--o outdir` | string | — | Output directory. Required unless `--s` is specified. |
+| `--o` / `-o` / `--output` | string | — | Output directory. `-o`/`--output` are the `run_samseg` short/long forms. Required unless `--s` is specified. |
+| `-m` / `--mode` | string (repeatable) | auto | Output basenames for each input image mode (one per `--input`). `-m`/`--mode` are `run_samseg` flags; not exposed directly by the tcsh wrapper. |
 | `--s subject` | string | — | Subject name in `$SUBJECTS_DIR`. Sets output to `$SUBJECTS_DIR/<subject>/mri/samseg`. Requires fsr-import mode. |
 | `--sd dir` | string | `$SUBJECTS_DIR` | Override `$SUBJECTS_DIR`. |
 
@@ -187,7 +188,7 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--atlas dir` | string | `$FREESURFER_HOME/average/samseg/20Subjects_smoothing2_down2_smoothingForAffine2` | Path to atlas directory. Also sets `SAMSEG_DATA_DIR`. |
+| `--atlas` / `-a` | string | `$FREESURFER_HOME/average/samseg/20Subjects_smoothing2_down2_smoothingForAffine2` | Path to atlas directory. Also sets `SAMSEG_DATA_DIR`. `-a` is the `run_samseg` short form. |
 | `--sdd dir` | string | — | Alias for `--atlas` (sets `SAMSEG_DATA_DIR`). |
 | `--ssdd dir` | string | — | Second alias for `--atlas`/`--sdd` (sets `SAMSEG_DATA_DIR`). Functionally identical. |
 | `--cpvcw` | boolean | off | Use the expanded atlas `samseg+cc+pons+verm+charm+wmcrowns` (includes corpus callosum, pons, vermis, and WM crowns). |
@@ -200,9 +201,9 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--reg file` | string | — | Skip atlas registration and load an existing transform (LTA or `.mat`). The transform should map input → atlas. |
+| `--reg` / `-r` | string | — | Skip atlas registration and load an existing transform (LTA or `.mat`). The transform should map input → atlas. `-r` is the `run_samseg` short form. |
 | `--regmat file` | string | — | Alias for `--reg`. |
-| `--initlta file` | string | — | Use this LTA as the initial affine registration (starting point for optimisation). |
+| `--initlta` / `--init-reg` | string | — | Use this LTA as the initial affine registration (starting point for optimisation). `--init-reg` is the `run_samseg` flag name; `--initlta` is the tcsh wrapper name. |
 | `--reg-only` | boolean | off | Run only the affine registration; skip segmentation. Outputs `samseg.talairach.lta`. |
 | `--regonly` | boolean | off | Alias for `--reg-only`. |
 
@@ -213,9 +214,9 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--threads n` | integer | 1 (or `$OMP_NUM_THREADS`) | Number of CPU threads for GEMS. |
 | `--max-iters n` | integer | atlas default | Maximum EM iterations. |
 | `--pallidum-separate` | boolean | off | Move pallidum outside the global white matter Gaussian class. Use for T2w or FLAIR data where pallidum appears brighter than WM. |
-| `--stiffness K` | float | atlas default | Mesh deformation regularisation weight. Higher = more rigid atlas. |
+| `--stiffness` / `--mesh-stiffness` | float | atlas default | Mesh deformation regularisation weight. Higher = more rigid atlas. `--mesh-stiffness` is the `run_samseg` flag name; `--stiffness` is the tcsh wrapper name. |
 | `--bias-field-smoothing-kernel mm` | float | atlas default | Width parameter of the bias field smoothing kernel (mm to first sinc zero crossing). |
-| `--smooth-wm-cortex sigma` | float | 0 (disabled) | Gaussian smoothing sigma (mm) applied to white matter and cortex atlas priors before segmentation. |
+| `--smooth-wm-cortex` / `--smooth-wm-cortex-priors` | float | 0 (disabled) | Gaussian smoothing sigma (mm) applied to white matter and cortex atlas priors before segmentation. `--smooth-wm-cortex-priors` is the `run_samseg` flag name; `--smooth-wm-cortex` is the tcsh wrapper name. |
 | `--mrf` / `--no-mrf` | boolean | off | Run `mri_ca_label` MRF post-processing on the samseg segmentation. Produces `seg.mrf.mgz`. |
 | `--options file.json` | string | — | JSON file overriding advanced model or optimisation parameters passed to `run_samseg`. |
 | `--ignore-unknown` | boolean | off | Ignore final priors for the "unknown" class. |
@@ -253,7 +254,7 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--no-normalization2` / `--nonormalization2` | boolean | on | Disable samseg-based normalization2 (restore default recon-all behaviour). |
 | `--use-t2w` | boolean | off | When running recon-all, pass `-T2pial` to refine pial surface with T2w data. |
 | `--use-flair` | boolean | off | When running recon-all, pass `-FLAIRpial` to refine pial surface with FLAIR data. |
-| `--hires` | boolean | off | Pass `-hires` to recon-all; also skips conforming in fsr-import. |
+| `--hires` / `-hires` | boolean | off | Pass `-hires` to recon-all; also skips conforming in fsr-import. Both spellings accepted by the tcsh wrapper. |
 | `--no-hires` | boolean | on | Disable hires mode (restores conforming in fsr-import and removes `-hires` from the recon-all call). Explicit inverse of `--hires`. |
 | `--parallel` | boolean | off | Pass `-parallel` to recon-all. |
 
@@ -262,8 +263,8 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `--save-posteriors` | boolean | off | Save per-structure posterior probability maps to `posteriors/`. |
+| `--save-p` | boolean | off | Shorthand for both `--save-posteriors` and `--save-probabilities` simultaneously (tcsh wrapper only). |
 | `--save-probabilities` | boolean | off | Save per-tissue-class posterior/prior/likelihood (3-frame) to `probabilities/`. |
-| `--save-p` | boolean | off | Enable both `--save-posteriors` and `--save-probabilities`. |
 | `--save-warp` / `--no-save-warp` | boolean | on | Save nonlinear warp as `template.m3z`. |
 | `--save-mesh` / `--no-save-mesh` | boolean | off | Save final deformed mesh to `mesh.pkl` (for longitudinal samseg analysis). |
 | `--history` / `--no-history` | boolean | off | Save full optimization history object. |
@@ -283,7 +284,7 @@ A multi-resolution scheme is used: affine registration at coarser resolution fir
 | `--cleanup` | boolean | on | Remove temporary directory after completion (default; use to override `--nocleanup`). |
 | `--bin` | boolean | off | Use the compiled `run_samseg` binary (`usebin=1`, clears `monly`). For testing binary vs. Python-script execution. |
 | `--no-bin` | boolean | on | Run `run_samseg` via Python directly rather than the compiled binary (`usebin=0`). |
-| `--monly file.m` | string | — | Write the run_samseg call as MATLAB script to `file.m` and do not execute it; for debugging. |
+| `--monly` / `-monly` | string | — | Write the run_samseg call as MATLAB script to the given `.m` file and do not execute it; for debugging. Both spellings accepted by the tcsh wrapper. |
 | `--valgrind` | boolean | off | Run `run_samseg` under Valgrind memory checker (developer/debugging only; very slow). |
 | `--debug` | boolean | off | Enable tcsh verbose tracing. |
 
@@ -441,15 +442,12 @@ For longitudinal analysis, see `[[samseg-long]]` which builds an unbiased cross-
 
 ## Confidence and Gaps
 
-> [!note] C1 audit noise sources
-> An automated flag-inventory audit of `samseg` reported 29 apparent C1_MISSING flags. After cross-referencing each against the tcsh `samseg/samseg` source, all 29 are confirmed as audit noise — none are genuine samseg flags missing from this page. The noise originates from three sub-tool call sites embedded in the script:
->
-> - **Valgrind argument list** (line 15 of source): `--error-limit`, `--leak-check`, `--tool`, `--track-origins` — these are arguments to the `valgrind` binary, not to `samseg`.
-> - **`mri_segstats` call** (invoked when `--seg-stats` is set): `--ctab-default`, `--seg`, `--sum` — these are `mri_segstats` flags.
-> - **`lta_convert` call** (always run post-segmentation): `--inlta`, `--outmni` — these are `lta_convert` flags.
-> - **`fsr-import` / `fsr-coreg` call** (fsr-import mode only): `--conform`, `--force-update` — these are sub-tool flags passed via `$inputargs` forwarding.
->
-> Additional noise tokens include combined help-string tokens (`--mode/--t1w/--t2w/--flair`, `--mrf/--no-mrf`) whose individual flags are already documented, typos (`--save-prosteriors` for `--save-posteriors`, `--inilta` for `--initlta`), run_samseg pass-through flags that differ from the tcsh flag name (`--mesh-stiffness` = tcsh `--stiffness`; `--smooth-wm-cortex-priors` = tcsh `--smooth-wm-cortex`), and flags that do not exist in the source at all (`--base`, `--dof`, `--importdir`, `--input`, `--mov`, `--no-`, `--output`, `--ref`, `--scratch`, `--targ`).
+> [!note] Audit extractor notes
+> The audit also picks up sub-tool flags from embedded call sites as spurious C1 entries. These are not samseg flags:
+> - **Valgrind argument list**: `--error-limit`, `--leak-check`, `--tool`, `--track-origins`
+> - **`mri_segstats` call**: `--ctab-default`, `--seg`, `--sum`
+> - **`lta_convert` call**: `--inlta`, `--outmni`
+> - **`fsr-import`/`fsr-coreg` forwarded args**: `--conform`, `--force-update`
 
 > [!gap] Exact label set
 > The full list of anatomical labels present in the default `seg.mgz` (including any extracerebral structures like skull, CSF, and skin) has not been enumerated. The `modifiedFreeSurferColorLUT.txt` in the atlas directory defines the label mapping, but it has not been cross-referenced with the standard `FreeSurferColorLUT.txt`.

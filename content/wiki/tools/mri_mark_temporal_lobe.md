@@ -72,16 +72,15 @@ The exact spatial criteria (likely involving neighbourhood label statistics or a
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-seg <name>` | string | `seg` | Name of segmentation volume in subject's `mri/` dir |
+| `-seg_dir <name>` / `-parc_dir` | string | `seg` | Name of segmentation volume subdirectory in subject's `mri/` dir (`-parc_dir` is accepted as alias) |
 | `-sdir <path>` | string | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
-
-> [!gap] Full flag list
-> The `get_option()` function may contain additional flags not visible in the source header. The `-seg` flag is inferred from the `seg_dir` static variable initialized to `"seg"`.
+| `-debug_voxel <x> <y> <z>` | 3 ints | — | Set global debug voxel `(Gx,Gy,Gz)` for verbose per-voxel output |
 
 ## Configuration Interactions
 
 - The output filename is always relative to the subject's `mri/` directory. You cannot specify an absolute output path without modifying `subjects_dir`.
 - The `-sdir` flag allows overriding `$SUBJECTS_DIR` for batch processing.
+- `-seg_dir` and `-parc_dir` are interchangeable aliases for the segmentation subdirectory name.
 
 ## Typical Use Cases
 

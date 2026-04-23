@@ -98,7 +98,7 @@ All flags are case-insensitive (`stricmp`). Single-letter flags are handled via 
 | `-insert` | `<fname> <label>` | — | Insert non-zero voxels from `fname` as label value `label` in the segmentation. |
 | `-ctab` | `<fname>` | — | Read ASCII color table from `fname` and embed it in the output file. |
 | `-gradient` | (none) | off | Add image gradient components (3 extra inputs) to the feature vector. |
-| `-spacing` | `<float>` | RFA default | Node spacing (mm) between classifiers in atlas space. |
+| `-training_fraction` | `<float>` | RFA default | Fraction of training examples to use (subsample for faster training). |
 | `-ntrees` | `<int>` | RFA default | Number of trees in each random forest classifier. |
 | `-max_depth` | `<int>` | RFA default | Maximum depth of each decision tree. |
 | `-W` | `<int>` | RFA default | Window half-size for feature extraction neighbourhood. |

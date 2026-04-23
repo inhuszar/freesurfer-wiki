@@ -339,9 +339,9 @@ row and left to the help text for details.
 | `-cs <mm>` / `--conform_size <mm>` | float | 1.0 | Conform to the given isotropic voxel size. Implies `--conform`. |
 | `--conform-dc` | bool | false | Conform while preserving source direction cosines (padded grid). Implies `--conform`. |
 | `--cw256` | bool | false | Force the conform width to 256 even if the FoV does not fit. Implies `--conform`. |
-| `-vs <sx> <sy> <sz>` / `--voxsize` | floats | input sizes | Upsample/downsample to the specified output voxel size. |
-| `-ds <dsx> <dsy> <dsz>` / `--downsample` | 3 floats | 1 1 1 | Downsample by factor in each dimension (header-aware). Mutually exclusive with `--downsampleold`. |
-| `-dsold <dsx> <dsy> <dsz>` / `--downsampleold` | 3 floats | 1 1 1 | Legacy downsampler that does not preserve the RAS centre. Mutually exclusive with `--downsample`. |
+| `-vs <sx> <sy> <sz>` / `--voxsize` / `-voxsize` | floats | input sizes | Upsample/downsample to the specified output voxel size. |
+| `-ds <dsx> <dsy> <dsz>` / `--downsample` / `-downsample` | 3 floats | 1 1 1 | Downsample by factor in each dimension (header-aware). Mutually exclusive with `--downsampleold`. |
+| `-dsold <dsx> <dsy> <dsz>` / `--downsampleold` / `-downsampleold` | 3 floats | 1 1 1 | Legacy downsampler that does not preserve the RAS centre. Mutually exclusive with `--downsample`. |
 | `-ds2` / `--downsample2` | bool | false | Downsample by exactly factor 2 (averages 2x2x2 blocks). |
 | `--upsample <N>` | int | — | Reduce voxel size by integer factor `N` in all three dimensions (`MRIupsampleN`). |
 | `--reduce <n>` | int | 0 | Apply `MRIreduce` `n` times — successive 2:1 downsampling with a low-pass prefilter. |
@@ -441,15 +441,15 @@ row and left to the help text for details.
 | `-dicomread2` / `-dicomread0` | bool | — | Select between two C DICOM reader implementations (`UseDICOMRead2`). |
 | `-siemensBVecsCross` / `-no-siemensBVecsCross` | bool | — | Toggle the Siemens DICOM bvec voxel-space code path (`FS_dcmGetDWIParamsSiemens_VoxelSpace`). |
 | `-siemens-ascii-dump` / `-siemens-ascii-alt-dump` | bool | false | Dump Siemens CSA ASCII header to stdout (debug). |
-| `--dcm2niix` / `-dicomread3` | bool | false | Read DICOM via the internal `dcm2niix` code path. |
-| `--no-dcm2niix` | bool | true | Disable the dcm2niix code path (default). |
-| `--dcm2niix-createBIDS` / `--createBIDS` | bool | false | Emit BIDS JSON sidecars (requires `--dcm2niix` and `--dcm2niix-outdir`). |
-| `--dcm2niix-outdir <dir>` | path | — | BIDS sidecar output directory (requires `--dcm2niix`). |
-| `--dcm2niix-no-ForceStackSameSeries` | bool | false | Disable forced stacking of slices from the same series (requires `--dcm2niix`). |
-| `--dcm2niix-info-dump <file>` | path | — | Dump raw DICOM info used by dcm2niix (requires `--dcm2niix`). |
-| `--dcm2niix-dicom-flist <file>` | path | — | Provide a pre-built DICOM file list to dcm2niix. |
-| `--dcm2niix-singlefile` | bool | false | Tell dcm2niix to read only the single file passed as input. |
-| `--dcm2niix-opts <str>` | string | — | Extra raw option string forwarded to dcm2niix. |
+| `--dcm2niix` / `-dcm2niix` / `-dicomread3` | bool | false | Read DICOM via the internal `dcm2niix` code path. |
+| `--no-dcm2niix` / `-no-dcm2niix` | bool | true | Disable the dcm2niix code path (default). |
+| `--dcm2niix-createBIDS` / `-dcm2niix-createBIDS` / `--createBIDS` / `-createBIDS` | bool | false | Emit BIDS JSON sidecars (requires `--dcm2niix` and `--dcm2niix-outdir`). |
+| `--dcm2niix-outdir <dir>` / `-dcm2niix-outdir <dir>` | path | — | BIDS sidecar output directory (requires `--dcm2niix`). |
+| `--dcm2niix-no-ForceStackSameSeries` / `-dcm2niix-no-ForceStackSameSeries` | bool | false | Disable forced stacking of slices from the same series (requires `--dcm2niix`). |
+| `--dcm2niix-info-dump <file>` / `-dcm2niix-info-dump <file>` | path | — | Dump raw DICOM info used by dcm2niix (requires `--dcm2niix`). |
+| `--dcm2niix-dicom-flist <file>` / `-dcm2niix-dicom-flist <file>` | path | — | Provide a pre-built DICOM file list to dcm2niix. |
+| `--dcm2niix-singlefile` / `-dcm2niix-singlefile` | bool | false | Tell dcm2niix to read only the single file passed as input. |
+| `--dcm2niix-opts <str>` / `-dcm2niix-opts <str>` | string | — | Extra raw option string forwarded to dcm2niix. |
 
 ### Segmentation-specific
 
@@ -512,6 +512,15 @@ row and left to the help text for details.
 | `--diag-debug` | bool | false | OR `DIAG_INFO` into the `Gdiag` mask. |
 | `-version2` | bool | — | Print "version 2" exit code (97); used by build scripts. |
 | `-u` / `-h` / `--help` / `--usage` | bool | — | Print help text and exit. |
+
+### `mri_make_uchar` flags
+
+These flags belong to the `mri_make_uchar` helper binary (built from the same source directory). They are not valid for the `mri_convert` binary itself.
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-n` | flag | — | No-op placeholder (case `'N'` in `get_option()`; does nothing). |
+| `-w <pct>` | float | 0.90 | WM percentile for intensity centring (sets `WM_PERCENTILE`). |
 
 ## Configuration Interactions
 

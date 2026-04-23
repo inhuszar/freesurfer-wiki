@@ -17,7 +17,6 @@ confidence: medium
 last_agent_update: 2026-04-21
 gaps:
   - "The exact spatial correlation statistic (MRIspatialCC) implementation needs verification."
-  - "--sd and --gdiag appear in print_usage() but are not implemented in parse_commandline()."
 tags:
   - statistics
   - spin-test
@@ -112,12 +111,9 @@ $$
 | `--max-threads-1` / `--max-threads-minus-1` | — | `off` | Use one fewer than the maximum available OpenMP threads |
 | `--debug` | — | `off` | Enable debug output |
 | `--checkopts` | — | `off` | Validate options and exit without running |
-| `--sd` | `<dir>` | — | (Listed in help, not implemented) Would set `SUBJECTS_DIR`; not handled in `parse_commandline()` — passing it causes an "Option unknown" error |
-| `--gdiag` | `<int>` | — | (Listed in help, not implemented) Would set diagnostic level; not handled in `parse_commandline()` — passing it causes an "Option unknown" error |
-| `--s` | `<subject> <hemi>` | — | (Planned, not implemented) Mentioned in a source comment (`// revmapflag, dojac, --s subject hemi`) but not wired in the parser |
 
 > [!gap] --sd, --gdiag, and --s listed in help or comments but not implemented
-> `print_usage()` lists `--sd SUBJECTS_DIR` and `--gdiag diagno`, but neither is handled in `parse_commandline()`. A source comment also references `--s subject hemi` but it is not wired. All three will cause an "Option unknown" error if passed. They appear to be planned but unimplemented flags.
+> `print_usage()` lists `--sd SUBJECTS_DIR` and `--gdiag diagno`, but neither is handled in `parse_commandline()`. A source comment also references `--s subject hemi` but it is not wired. All three will cause an "Option unknown" error if passed. They appear to be planned but unimplemented flags. They are excluded from the Configuration Options table above for this reason.
 
 ## Configuration Interactions
 

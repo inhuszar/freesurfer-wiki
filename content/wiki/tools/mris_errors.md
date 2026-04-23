@@ -45,7 +45,7 @@ After surface deformations (e.g., inflation, registration), the original metric 
 ## Inputs
 
 - **Surface file** (positional arg 1): Path to a FreeSurfer surface or surface patch.
-- When `--patch` is set, the tool reads `<hemi>.smoothwm` from the same directory as the patch, then reads the patch file.
+- When `-p` is set, the tool reads `<hemi>.smoothwm` from the same directory as the patch, then reads the patch file.
 
 ## Outputs
 
@@ -57,17 +57,16 @@ Results are printed to stdout. When `-w` is set, the error values are written ba
 
 **Angle errors** (default): Compares face normal angles between the current and original surface, measuring angular distortion at each vertex.
 
-The neighbourhood sampling uses `MRISsampleAtEachDistance()` with `nbhd_size=7` and `max_nbrs=12` by default, sampling the local neighbourhood to build a statistical profile of distortions.
+The neighbourhood sampling uses `MRISsampleAtEachDistance()` with `nbhd_size=7` and `max_nbrs=12` by default (configurable together via `-vnum` or `-distances`), sampling the local neighbourhood to build a statistical profile of distortions.
 
 ## Configuration Options
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
 | `-a` | — | off | Compute area errors (default: angle errors) |
-| `-p` / `--patch` | — | off | Input is a surface patch rather than a full surface |
+| `-p` | — | off | Input is a surface patch rather than a full surface |
 | `-w` | — | off | Write error values to surface as curvature |
-| `-n` | `<int>` | 7 | Neighbourhood size for sampling |
-| `-m` | `<int>` | 12 | Maximum number of neighbours |
+| `-vnum` / `-distances` | `<nbhd_size> <max_nbrs>` | `7 12` | Set neighbourhood size and maximum neighbours (both flags accept two integer arguments) |
 | `--version` | — | — | Print version and exit |
 | `--help` | — | — | Print usage and exit |
 
@@ -75,6 +74,7 @@ The neighbourhood sampling uses `MRISsampleAtEachDistance()` with `nbhd_size=7` 
 
 - `-a` and the default (angle errors) are mutually exclusive; `-a` sets `area_flag=1` which routes to `MRISareaErrors()` instead of `MRISangleErrors()`.
 - `-p` (patch mode) requires `smoothwm` to be in the same directory as the patch; the full surface is loaded first, then the patch is overlaid.
+- `-vnum` and `-distances` are aliases for the same operation; both accept two arguments (`nbhd_size` and `max_nbrs`) and set both values simultaneously.
 
 ## Typical Use Cases
 

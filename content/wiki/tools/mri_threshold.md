@@ -79,12 +79,12 @@ Multi-frame logic: when no specific frame is selected, if **any** frame has a va
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-b` / `-B` | value | Binarize: set suprathreshold voxels to `value` |
-| `-u` / `-U` | (flag) | Upper threshold (zero voxels ABOVE threshold) |
-| `-f` / `-F` | N | Apply threshold to specific frame N only (zero-based) |
-| `--version` | (flag) | Print version |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-b` / `-B` | value | — | Binarize: set suprathreshold voxels to `value` |
+| `-u` / `-U` | (none) | off | Upper threshold (zero voxels ABOVE threshold) |
+| `-f` / `-F` | N | — | Apply threshold to specific frame N only (zero-based) |
+| `--version` | (none) | — | Print version |
 
 ## Configuration Interactions
 

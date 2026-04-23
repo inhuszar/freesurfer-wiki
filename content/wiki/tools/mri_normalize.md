@@ -313,7 +313,10 @@ Grouped by function.
 | `-no1d` | bool | off | Disable the 1-D pre-normalisation pass. |
 | `-no-gentle-cp` / `-gentle-cp` | bool | on | Toggle the "gentle normalisation" path when reading control points from a file. |
 | `-nosnr` / `-snr` | bool | on (nosnr) / off (snr) | Toggle SNR-based normalisation. |
-| `-prune <0|non-0>` | int | off | Turn control-point pruning on/off. |
+| `-p <0|non-0>` | int | off | Turn control-point pruning on/off (`case 'P':` in parser). |
+| `-grad <thresh>` | float | — | Gradient threshold for preventing control points from crossing edges (from `mri_normalize.cpp` `stricmp("GRAD")`). |
+| `-cross_time_sigma <σ>` | float | — | Parzen window sigma for longitudinal cross-time smoothing (from `mri_long_normalize.cpp`). |
+| `-s <σ>` | float | — | Sigma for smoothing the bias field (from `mri_long_normalize.cpp` `case 'S':`). |
 | `-conform` / `-noconform` | bool | off | Force the output to be 256³ 1 mm (calls [[mri_convert]]-style conform internally). With `-cm` in `recon-all`, `-noconform` is passed. |
 
 #### Renormalisation against a reference

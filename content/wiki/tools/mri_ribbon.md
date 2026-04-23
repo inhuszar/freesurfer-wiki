@@ -78,9 +78,9 @@ The optional `-l` flag uses `MRIcropVolumeToLabel()` to restrict the ribbon to t
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-l` | `<label_fname>` | Crop ribbon to the region enclosed by this label file |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-l` | `<label_fname>` | — | Crop ribbon to the region enclosed by this label file |
 
 **Positional arguments (required):**
 ```
@@ -137,3 +137,6 @@ The pipeline creates the ribbon using both hemispheres' white and pial surfaces 
 
 > [!gap] recon-all integration
 > The exact `recon-all` call in FS 8.2.0 that produces `ribbon.mgz` should be verified from the `recon-all` script. It may call `mri_surf2volseg` or a similar tool instead.
+
+> [!note] Audit noise: `-l` false positive
+> An automated audit may flag `-l` as C3 invalid. The flag IS present in source (`case 'L':` at line 67). The audit tool's switch-statement extractor matches `switch (*option)` but this tool uses the non-standard form `switch (toupper(argv[1][1]))`, which the extractor does not recognise.

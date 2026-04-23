@@ -70,6 +70,8 @@ Optional optimisation parameters:
 | `--linmintol <val>` | float | `1e-8` | Line minimisation tolerance |
 | `--inc <n>` | int | `1` | Increment parameter for search schema |
 | `--p <paramno> <val>` | int float | — | Set initial registration parameter `paramno` to `val` |
+| `--diag-show` | — | — | AND `Gdiag` with `DIAG_SHOW` to enable diagnostic display output |
+| `--diag-verbose` | — | — | AND `Gdiag` with `DIAG_VERBOSE` to enable verbose diagnostic output |
 
 ## Outputs
 

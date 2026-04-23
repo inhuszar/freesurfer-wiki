@@ -57,7 +57,7 @@ This tool provides a per-subject summary of the relationship between cortical fo
 | Output | Description | Format |
 |--------|-------------|--------|
 | Stdout | Mean and variance of thickness and w-values within the label. | Text |
-| Log file (optional, `-log`) | Appends results to a log file for multi-subject accumulation. | Text |
+| Log file (optional, `-l`) | Appends results to a log file for multi-subject accumulation. | Text |
 
 ## Mathematical Foundations
 
@@ -77,19 +77,19 @@ The `compute_thickness_stats()` function returns `mean_w`, `var_w`, `mean_thick`
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides `SUBJECTS_DIR` |
-| `-avgs N` | integer | Smoothing iterations applied before statistics |
-| `-log fname` | filename | Append results to log file |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-s <path>` | directory | `$SUBJECTS_DIR` | Overrides `SUBJECTS_DIR` |
+| `-a <N>` | integer | 0 | Smoothing iterations applied before statistics |
+| `-l <fname>` | filename | — | Write results to log file |
 
 **Positional arguments:** `<subject> <hemi> <thickness_name> <wfile_name> [label_name]`
 
 ## Configuration Interactions
 
 - Without a `label_name` argument, statistics are computed over the entire surface.
-- `-avgs` applies smoothing to the input data before computing statistics; this can reduce noise but blurs regional boundaries.
-- `-log` enables multi-subject accumulation: run the tool for each subject with the same log file, then analyze the log.
+- `-a` applies smoothing to the input data before computing statistics; this can reduce noise but blurs regional boundaries.
+- `-l` enables multi-subject accumulation: run the tool for each subject with the same log file, then analyze the log.
 
 ## Typical Use Cases
 
@@ -104,7 +104,7 @@ mris_thickness_comparison \
 ```bash
 for subj in sub01 sub02 sub03; do
   mris_thickness_comparison \
-    -log group_stats.txt \
+    -l group_stats.txt \
     $subj lh thickness w-g.pct.mgh
 done
 ```

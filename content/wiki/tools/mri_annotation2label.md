@@ -105,6 +105,7 @@ The segmentation base offsets for standard parcellations are:
 | `--a2005s` | flag | off | Shortcut to set annotation to `aparc.a2005s` |
 | `--debug` | flag | off | Enable debug output |
 | `--diag-debug` | flag | off | Enable additional Gdiag diagnostics (`Gdiag |= DIAG_VERBOSE`) |
+| `--table` | — | — | **Removed.** Parsing this flag causes an immediate fatal error; the color table is now embedded directly in the annotation file. |
 
 ## Configuration Interactions
 

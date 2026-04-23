@@ -85,13 +85,13 @@ The correspondence CSV maps the matched cluster index from subject to template, 
 
 ## Configuration Options
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-i <dir>` | dir | Input AnatomiCuts cluster directory |
-| `-n <n>` | int | Number of clusters |
-| `-c <file>` | file | Hungarian correspondence CSV from `dmri_match` |
-| `-m <n> name1 file1 ...` | int + pairs | Measure count and name/file pairs |
-| `-o <file>` | file | Output CSV |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-i <dir>` | dir | required | Input AnatomiCuts cluster directory |
+| `-n <n>` | int | required | Number of clusters |
+| `-c <file>` | file | required | Hungarian correspondence CSV from `dmri_match` |
+| `-m <n> name1 file1 ...` | int + pairs | required | Measure count and name/file pairs |
+| `-o <file>` | file | required | Output CSV |
 
 ## Typical Use Cases
 

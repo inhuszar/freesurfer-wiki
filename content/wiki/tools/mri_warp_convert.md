@@ -103,7 +103,7 @@ $$
 
 **SPM y-warp:** Stores absolute coordinates in either RAS or 1-based CRS of the source space. The default for `--inspm` is `abs-ras` (can be overridden with `--in-interp abs-crs`).
 
-**LTA composition:** When `-lta1` and/or `-lta2` are specified, the composite transform is:
+**LTA composition:** When `--lta1` and/or `--lta2` are specified, the composite transform is:
 
 $$
 \text{src} \leftarrow \text{LTA1} \leftarrow \text{GCAM} \leftarrow \text{LTA2} \leftarrow \text{dst}
@@ -113,36 +113,36 @@ using `GCAMconcat3()`.
 
 ## Configuration Options
 
-| Flag | Argument | Default | Description |
-|------|----------|---------|-------------|
-| `--infswarp` | `warpfile` | — | Input FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `--infswarp` / `--inm3z` / `--inmgzwarp` | `warpfile` | — | Input FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
 | `--infsl` | `warpfile` | — | Input FSL warp |
 | `--inspm` | `warpfile` | — | Input SPM y-warp |
-| `--inlps` | `warpfile` | — | Input ITK/ANTs LPS displacement field |
+| `--inlps` / `--initk` | `warpfile` | — | Input ITK/ANTs LPS displacement field |
 | `--invox` | `warpfile` | — | Input voxel-displacement warp |
 | `--inras` | `warpfile` | — | Input RAS-displacement warp |
-| `--outfswarp` | `warpfile` | — | Output FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
-| `--outfsl` | `warpfile` | — | Output FSL warp (NOT IMPLEMENTED) |
-| `--outlps` | `warpfile` | — | Output ITK/ANTs LPS displacement field |
+| `--outfswarp` / `--outm3z` / `--outmgzwarp` | `warpfile` | — | Output FreeSurfer morph (`.m3z`, `.mgz`, `.nii.gz`) |
+| `--outfsl` | `warpfile` | — | Output FSL warp (NOT IMPLEMENTED — exits with error) |
+| `--outlps` / `--outitk` | `warpfile` | — | Output ITK/ANTs LPS displacement field |
 | `--outvox` | `warpfile` | — | Output voxel-displacement warp |
 | `--outras` | `warpfile` | — | Output RAS-displacement warp |
-| `--insrcgeom` / `-g` | `geomfile` | — | Source geometry for FSL/SPM/VOX/RAS/ITK input |
+| `--insrcgeom` / `--g` | `geomfile` | — | Source geometry for FSL/SPM/VOX/RAS/ITK input |
 | `--in-interp` | `interp` | `abs-crs` | Input warp data interpretation: `abs-crs`, `disp-crs`, `abs-ras`, `disp-ras` |
 | `--out-interp` | `interp` | `abs-crs` | Output warp data interpretation for `--outfswarp`: `abs-crs`, `disp-crs`, `abs-ras`, `disp-ras` |
-| `-lta1` | `ltafile` | — | Pre-warp LTA transform |
-| `-lta1-inv` | `ltafile` | — | Pre-warp LTA (inverted) |
-| `-lta2` | `ltafile` | — | Post-warp LTA transform |
-| `-lta2-inv` | `ltafile` | — | Post-warp LTA (inverted) |
-| `--downsample` / `-d` | — | `off` | Save output FSWARP at half resolution |
-| `--version` | — | — | Print version |
-| `--help` | — | — | Print help |
+| `--lta1` | `ltafile` | — | Pre-warp LTA transform |
+| `--lta1-inv` | `ltafile` | — | Pre-warp LTA (inverted before concatenation) |
+| `--lta2` | `ltafile` | — | Post-warp LTA transform |
+| `--lta2-inv` | `ltafile` | — | Post-warp LTA (inverted before concatenation) |
+| `--downsample` / `--d` | — | off | Save output FSWARP at half resolution |
+| `--diag-debug` | — | off | Enable diagnostic info output (`DIAG_INFO`) |
+| `--vg-thresh` | `thresh` | (internal default) | Threshold for volume geometry equality check |
 
 ## Configuration Interactions
 
 - Exactly one input format flag and one output format flag must be specified. Specifying more than one input or output flag generates a warning about `multi_input` / `multi_output` but does not error.
 - `--insrcgeom` is required for `--infsl`, `--inspm`, `--invox`, `--inras`, and `--inlps` — it provides the geometry of the space being warped (the source/atlas).
 - `--inspm` defaults to `abs-ras` interpretation; use `--in-interp abs-crs` for SPM warps stored in 1-based CRS.
-- `-lta1` and `-lta2` can be used independently; if both are provided, the three-way concatenation is: LTA1 → GCAM → LTA2.
+- `--lta1` and `--lta2` can be used independently; if both are provided, the three-way concatenation is: LTA1 → GCAM → LTA2.
 - `--out-interp` only affects `--outfswarp` output and controls how the warp data is encoded in the output file.
 - `--downsample` only affects `--outfswarp` output.
 - --outfsl is recognised but **not implemented** (exits with error).
@@ -171,8 +171,8 @@ mri_warp_convert \
 # Convert with LTA pre- and post-transform
 mri_warp_convert \
     --infswarp warp.m3z \
-    -lta1 pre_transform.lta \
-    -lta2 post_transform.lta \
+    --lta1 pre_transform.lta \
+    --lta2 post_transform.lta \
     --outfswarp composite_warp.m3z
 ```
 

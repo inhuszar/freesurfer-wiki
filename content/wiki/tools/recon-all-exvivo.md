@@ -61,13 +61,12 @@ Ex vivo MRI of post-mortem brain tissue is increasingly used for histological va
 ### Optional Inputs
 
 - **`-lh`** / **`-rh`** — process left or right hemisphere only (default: both).
-- **`-samseg <samseg_fname> <vol_fname>`** — use SAMSEG segmentation output instead of standard GCA-based segmentation.
+- **`--samseg` / `-samseg <samseg_fname> <vol_fname>`** — use SAMSEG segmentation output instead of standard GCA-based segmentation.
 - **`-mask <mask_fname>`** — provide an explicit brain mask volume.
-- **`-bet`** / **`-run_bet`** — run BET (FSL Brain Extraction Tool) for skull stripping.
-- **`-nocerebellum`** — exclude the cerebellum from processing.
-- **`-norecon`** — skip surface reconstruction (run preprocessing only).
+- **`-bet`** / **`-runbet`** / **`-run_bet`** — run BET (FSL Brain Extraction Tool) for skull stripping.
+- **`-no-cerebellum`** / **`-nocerebellum`** — exclude the cerebellum from processing.
+- **`-no-recon`** / **`-no_recon`** / **`-norecon`** — skip surface reconstruction (run preprocessing only).
 - **`-sd <dir>`** — override subjects directory.
-- **`-no-recon`** / **`-no_recon`** — skip reconstruction stages.
 
 ### Input Assumptions
 
@@ -100,29 +99,36 @@ The ex vivo pipeline uses the same underlying algorithms as standard `recon-all`
 
 ### Complete Flag Reference
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-s <subject>` | string | required | Subject ID. |
-| `-lh` | boolean | false | Process only left hemisphere. |
-| `-rh` | boolean | false | Process only right hemisphere. |
-| `-samseg <seg> <vol>` | pair | — | Use SAMSEG segmentation output. |
-| `-mask <file>` | string | — | Explicit brain mask. |
-| `-bet` / `-run_bet` | boolean | false | Run BET skull stripping. |
-| `-nobet` | boolean | false | Disable BET skull stripping (sets `run_bet = 0`). |
-| `-renorm <file>` | string | — | Use an externally provided intensity renormalization file. |
-| `-fluidthresh <val>` | float | — | Set fluid threshold for intensity normalization. |
-| `-i <base>` | string | — | Explicit base volume path (overrides default input derivation). |
-| `-nocerebellum` | boolean | false | Exclude cerebellum. |
-| `-norecon` | boolean | false | Skip surface reconstruction. |
-| `-sd <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-s` / `--s` / `-subject` | `<subject>` | required | Subject ID. |
+| `-lh` | — | false | Process only left hemisphere. |
+| `-rh` | — | false | Process only right hemisphere. |
+| `--samseg` / `-samseg` | `<seg_fname> <vol_fname>` | — | Use SAMSEG segmentation output instead of GCA-based segmentation. Requires two arguments: segmentation file and volume file. |
+| `-mask` | `<mask_fname>` | — | Explicit brain mask volume. |
+| `-bet` / `-runbet` / `-run_bet` | — | false | Run BET (FSL Brain Extraction Tool) skull stripping. |
+| `-nobet` | — | false | Disable BET skull stripping (`run_bet = 0`). |
+| `-renorm` | `<file>` | — | Use an externally provided intensity renormalization file. |
+| `-i` | `<base>` | — | Explicit base volume path (overrides default input derivation). |
+| `-sd` | `<dir>` | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-no-recon` / `-no_recon` / `-norecon` | — | false | Skip surface reconstruction stages. |
+| `-no-cerebellum` / `-nocerebellum` | — | false | Exclude the cerebellum from processing. |
+| `-notalairach` | — | false | Skip Talairach registration (passed through to `recon-all`). |
+| `-noskullstrip` | — | false | Skip skull stripping (passed through to `recon-all`). |
+| `-openmp` | `<n>` | — | Set number of OpenMP threads (passed through to `recon-all`). |
+| `-no-wsatlas` / `-no-wgcasatlas` | — | — | Disable white-matter segmentation atlas (passed through to `recon-all`). |
+| `-wsatlas` | — | — | Enable white-matter segmentation atlas (passed through to `recon-all`). |
+| `-wsthresh` | `<val>` | — | Set white-matter segmentation threshold (passed through to `recon-all`). |
+| `-fluidthresh` | `<val>` | — | Set the fluid threshold via `setenv fluidthresh`; passed downstream to sub-commands. Precise downstream effect is not documented in the script body. |
 
 ### Configuration Interactions
 
 - `-lh` and `-rh` are mutually exclusive; omitting both processes both hemispheres.
-- `-samseg` requires two arguments (segmentation file + volume file).
-- `-norecon` is useful for running only the volumetric preprocessing stages.
+- `--samseg` / `-samseg` requires two arguments (segmentation file + volume file).
+- `-no-recon` / `-norecon` is useful for running only the volumetric preprocessing stages.
 - `-nobet` and `-bet` are mutually exclusive; `-nobet` takes precedence if both are specified.
-- `-renorm` and `-fluidthresh` affect the intensity normalization stage and are independent of skull stripping.
+- `-renorm` affects the intensity normalization stage and is independent of skull stripping.
+- `-notalairach`, `-noskullstrip`, `-openmp`, `-no-wsatlas`, `-no-wgcasatlas`, `-wsatlas`, `-wsthresh` are passed through to the underlying `recon-all` invocation.
 
 ## Typical Use Cases
 

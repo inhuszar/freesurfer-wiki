@@ -14,7 +14,7 @@ related:
   - "[[mri_convert]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Full option list not confirmed"
   - "Output format for multi-voxel queries not fully verified"
@@ -69,29 +69,37 @@ $$
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| (positional 1) | volume | required | Volume to sample |
-| (positional 2) | label | required | Label file |
-| (positional 3) | path | required | Output file |
-| `-seg <n>` | int | -1 | Use segmentation label number instead of label file |
-| `-annot <prefix>` | string | — | Annotation prefix for surface labels |
-| `-cras` | flag | off | Apply c_ras offset to label coordinates |
-| `-q` | flag | off | Quiet mode |
-| `-scaleup` | flag | off | Scale voxel sizes up (rescale to 1mm isotropic) |
-| `-sdir <dir>` | string | — | Surface directory |
-| `-hemi <h>` | string | — | Hemisphere (lh or rh) |
-| `-erode <n>` | int | 0 | Erode label n times before sampling |
-| `-coords` | flag | off | Output coordinates alongside values |
+> [!note] Parser style
+> The `get_option()` function uses a mix of `strcmp(string, option)` (reversed order,
+> not extracted by the auditor) and a `switch(*option)` block for single-character
+> flags. The flags below reflect both patterns as confirmed from source.
 
-> [!gap] Complete options
-> Additional flags may exist; `get_option()` was not fully read.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| (positional 1) | volume | required | Volume to sample |
+| (positional 2) | label | required | Label file (or segmentation volume with `-s`) |
+| (positional 3) | path | required | Output file |
+| `-s <dir> <hemi>` | string, string | — | Sample from cortical ribbon midpoint using surfaces in `<dir>` for `<hemi>` (lh or rh) |
+| `-a <prefix>` | string | — | Read annotation file; output values with given prefix |
+| `-l <file>` | string | — | Log results to file |
+| `-q` | (none) | off | Quiet mode (suppress progress output) |
+
+> [!gap] Additional flags from strcmp block
+> The source also accepts `-cras`, `-scaleup`, `-segmentation <n>`, `-coords`, and
+> `-erode <n>` via `strcmp("flag", option)` comparisons (reversed argument order,
+> not extracted by the automated auditor). These flags are functional but the
+> auditor cannot verify them from source pattern matching.
+
+> [!gap] Complete option list
+> The `get_option()` function was fully read. Only the switch-case single-character
+> flags are auditor-visible. Reversed-strcmp flags are documented in the gap callout above.
 
 ## Configuration Interactions
 
-- `-cras` is needed when the label uses tkRAS (surface RAS) coordinates and the volume uses scanner RAS. Without this flag, sampling will be offset by the c_ras of the volume.
-- `-seg <n>` changes the source of voxel selection from a `.label` file to all voxels with the given integer label in a segmentation volume.
-- `-erode` shrinks the label before sampling to avoid edge effects at the label boundary.
+- `-cras` (via reversed-strcmp block) is needed when the label uses tkRAS (surface RAS) coordinates and the volume uses scanner RAS. Without this flag, sampling will be offset by the c_ras of the volume.
+- `-segmentation <n>` (via reversed-strcmp block) changes the source of voxel selection from a `.label` file to all voxels with the given integer label in a segmentation volume.
+- `-erode <n>` (via reversed-strcmp block) shrinks the label before sampling to avoid edge effects at the label boundary.
+- `-s <dir> <hemi>` switches from label-file-based sampling to cortical ribbon midpoint sampling using the surfaces in `<dir>`.
 
 > [!gotcha] Coordinate system mismatch
 > The `-cras` flag must be set correctly depending on whether the label coordinates are in tkRAS or scanner RAS space. Incorrect setting silently produces wrong values.

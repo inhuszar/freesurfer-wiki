@@ -45,7 +45,7 @@ Understanding how much individual cortical surfaces deviate from a group average
 3. Binning these distances into a histogram.
 4. Writing the per-vertex histograms to output files.
 
-The distance range is configurable (`min_distance` to `max_distance`, default: 1–20 mm).
+The distance range extends from a hardcoded minimum (1 mm) to a configurable maximum (default: 20 mm, set with `-d`).
 
 ## Inputs
 
@@ -83,17 +83,17 @@ $$
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-sdir path` | directory | Overrides `SUBJECTS_DIR` |
-| `-min_dist D` | float | Minimum distance for histogram (default: 1 mm) |
-| `-max_dist D` | float | Maximum distance for histogram (default: 20 mm) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir <path>` | directory | `$SUBJECTS_DIR` | Overrides `SUBJECTS_DIR` |
+| `-d <D>` | float | `20` | Maximum distance (mm) for histogram; minimum is hardcoded at 1 mm |
+| `-v <diagno>` | integer | — | Set diagnostic vertex number for verbose output |
 
 **Usage:** `mris_surface_to_vol_distances [options] <avg_subject> <hemi> <subject1> ... <output_prefix>`
 
 ## Configuration Interactions
 
-The number of histogram bins is derived automatically from `max_distance - min_distance`.
+The number of histogram bins is derived automatically from `max_distance - min_distance`. The minimum distance is hardcoded at 1 mm and cannot be changed from the command line; only the maximum distance is configurable via `-d`.
 
 ## Typical Use Cases
 

@@ -44,10 +44,10 @@ Diffusion tensor imaging (DTI) yields estimates of fractional anisotropy (FA), m
 
 | Input | Description |
 |-------|-------------|
-| `-i <invol>` | Input 4D DWI volume (any format readable by `mri_convert`) |
-| `-b <bvals> <bvecs>` | b-value and b-vector files (text, FSL format) |
-| `-s <subject>` | FreeSurfer subject ID (required for registration) |
-| `-o <outputdir>` | Output directory |
+| `--i <invol>` | Input 4D DWI volume (any format readable by `mri_convert`) |
+| `--b <bvals> <bvecs>` | b-value and b-vector files (text, FSL format) |
+| `--s <subject>` | FreeSurfer subject ID (required for registration) |
+| `--o <outputdir>` | Output directory |
 
 Optional b-value / b-vector information can alternatively be derived from DICOM header via `--info-dump`.
 
@@ -114,6 +114,9 @@ Scalar maps (FA, MD, eigenvalues) are derived from $\mathbf{D}$ via eigendecompo
 | `--debug` | flag | off | Enable verbose output and command echo (sets both `--verbose` and `--echo`). |
 | `--version` | flag | — | Print script version string and exit. |
 | `--help` | flag | — | Print usage summary and extended help text; exit. |
+
+> [!note] Audit noise: `--i` false positive C3
+> The source has `case "--i"` at line 323 **without** a trailing colon. The shell extractor only captures `case` statements ending with `:`, so `--i` is missed by the extractor and reported as C3 (in wiki but not in source). The flag is real and confirmed from the source.
 
 > [!note] Noise tokens filtered from C1 audit
 > An audit reported 19 flags as missing from this page. All 19 are noise — they do not appear in the `dt_recon` `parse_args` switch statement and are not valid options for this tool:

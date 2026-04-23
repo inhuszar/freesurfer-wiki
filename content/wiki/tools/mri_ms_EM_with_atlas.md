@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "GCA atlas integration details not fully traced"
 tags:
@@ -123,6 +123,11 @@ Flag list verified against `attic/mri_ms_EM_with_atlas/mri_ms_EM_with_atlas.cpp`
 | `-sinchalfwindow <n>` / `-hw <n>` | int | 3 | Set sinc interpolation half-window size |
 | `-beta <f>` | float | — | Weight for MRF (Markov Random Field) regularization |
 | `-regularize <lambda>` | float | — | Regularize covariance matrix with the given lambda |
+| `-e <f>` | float | — | Convergence tolerance; EM iterations stop when the log-likelihood change falls below this value |
+| `-m <n>` | int | — | Number of tissue classes (positional-argument shortcut; same as the positional `<num_classes>`) |
+| `-r <n>` | int | — | Maximum number of EM iterations |
+| `-t <f>` | float | — | Intensity threshold for background noise; applied to the first input volume to define the brain mask |
+| `-window` | (none) | — | Window option (accepted but not implemented; prints a notice and does nothing) |
 
 ## Configuration Interactions
 

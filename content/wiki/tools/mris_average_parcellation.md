@@ -77,10 +77,10 @@ The `counts` array (shape: `nvertices × nlabels`) is the core data structure, a
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-sdir <dir>` | Override SUBJECTS_DIR | env var |
-| (positional args) | hemi, annot_name, subjects..., out_fname | required |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir <dir>` | `<dir>` | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| (positional args) | — | required | hemi, annot_name, subjects..., out_fname |
 
 > [!gap] Full flag set not verified
 > The `get_option()` body was not fully read. Additional flags may exist.

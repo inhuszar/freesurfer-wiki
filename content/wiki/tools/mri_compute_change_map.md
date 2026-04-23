@@ -88,6 +88,7 @@ All flags use a single dash. Option matching is case-insensitive.
 | `-b` | boolean | false | Apply Bonferroni correction: multiply the $-\log_{10}(p)$ value at each voxel by the number of non-zero voxels in the change map. |
 | `-mask <vol>` | volume | — | Binary mask volume; zeros out matching voxels in both input volumes prior to change map computation. |
 | `-debug_voxel <x> <y> <z>` | 3 × int | — | Enable per-voxel diagnostic output at voxel `(x, y, z)`. |
+| `-identity.nofile` | — | — | **Not a flag — positional value.** Passing the string `identity.nofile` as positional argument 3 selects identity transform mode (no LTA file required). The audit extractor promotes this positional comparison to pseudo-flag `-identity.nofile`. |
 
 ## Configuration Interactions
 

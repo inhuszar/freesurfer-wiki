@@ -57,13 +57,13 @@ The tool uses a surface distance transform (`MRISdistanceTransform`) rather than
 | `argv[2]` | First label file (`.label`) OR surface overlay (any MRI-readable format) |
 | `argv[3]` | Second label file (`.label`) OR surface overlay |
 
-When overlays are provided instead of label files, the tool creates binary labels by thresholding the overlay values at `--binarize` threshold.
+When overlays are provided instead of label files, the tool creates binary labels by thresholding the overlay values at the `-b` threshold.
 
-**Annotation mode (`--annot`):**
+**Annotation mode (`-a`):**
 
 | Flag | Description |
 |------|-------------|
-| `--annot annot_name` | Read annotation from surface; compute all-pairs Hausdorff distances between every pair of parcellation regions |
+| `-a <annot_name>` | Read annotation from surface; compute all-pairs Hausdorff distances between every pair of parcellation regions |
 
 ## Outputs
 
@@ -88,8 +88,8 @@ The Hausdorff computation (`MRIScomputeHausdorffDistance`) takes both signed dis
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--annot annot_name` | string | — | Annotation file name; triggers all-pairs mode |
-| `--binarize thresh` | float | 0 | When inputs are overlays: threshold to create binary labels |
+| `-a <annot_name>` | string | — | Annotation file name; triggers all-pairs mode |
+| `-b <thresh>` | float | 0 | When inputs are overlays: threshold to create binary labels |
 
 Positional arguments:
 1. Surface file
@@ -98,8 +98,8 @@ Positional arguments:
 
 ## Configuration Interactions
 
-- When `--annot` is specified, positional label arguments 2 and 3 are ignored; all-pairs distances are computed between every pair of annotation regions.
-- When `--binarize` is > 0, both input overlays are thresholded to create label sets. This mode is only active when the inputs are overlay files rather than `.label` files (detected via `mri_identify`).
+- When `-a` is specified, positional label arguments 2 and 3 are ignored; all-pairs distances are computed between every pair of annotation regions.
+- When `-b` is > 0, both input overlays are thresholded to create label sets. This mode is only active when the inputs are overlay files rather than `.label` files (detected via `mri_identify`).
 
 ## Typical Use Cases
 
@@ -110,12 +110,12 @@ mris_hausdorff_dist lh.white lh.region1.label lh.region2.label
 
 **Compute Hausdorff distance between two thresholded overlays:**
 ```bash
-mris_hausdorff_dist --binarize 0.5 lh.white lh.activation1.mgh lh.activation2.mgh
+mris_hausdorff_dist -b 0.5 lh.white lh.activation1.mgh lh.activation2.mgh
 ```
 
 **Compute all-pairs Hausdorff distances for an annotation:**
 ```bash
-mris_hausdorff_dist --annot aparc lh.white
+mris_hausdorff_dist -a aparc lh.white
 ```
 
 ## Pipeline Context

@@ -107,9 +107,8 @@ All flags use a single dash and are matched case-insensitively.
 | `-s <sigma>` | float | 0 (no smoothing) | Gaussian smooth both the area and original-area volumes with standard deviation `<sigma>` voxels before computing the ratio. |
 | `-w` | — | false | Also write the current area and original-area volumes, suffixed `_area.mgz` and `_orig_area.mgz` on the output filename. |
 | `-a` | — | false | Operate in atlas coordinate space (uses `GCAMwriteMRI` path) instead of subject space (uses `GCAMmorphFieldFromAtlas` path). |
-| `-init` | — | false | Re-initialize GCAM node areas to the cube of the GCAM grid spacing before computing; use when the area fields in the GCAM are not set. |
 | `-remove <lta>` | string | — | Read an LTA linear transform and divide the original-area volume by the determinant of that transform, isolating the nonlinear Jacobian component. |
-| `-tm3d` | — | false | Indicates the input `.m3z` was produced by `mri_cvs_register` (tm3d format); implies `-init` to reinitialize GCAM areas. |
+| `-tm3d` | — | false | Indicates the input `.m3z` was produced by `mri_cvs_register` (tm3d format); reinitializes GCAM areas before computing. |
 | `-debug_voxel <x> <y> <z>` | 3 × int | — | Print per-voxel debugging information for the GCAM node nearest to atlas voxel `(x, y, z)`. |
 | `-dt` | — | — | Accepted but performs no operation (dead flag). |
 
@@ -123,7 +122,7 @@ All flags use a single dash and are matched case-insensitively.
 
 - `-l` and `-z` are related: `-z` implies `-l`. Using `-z` without `-l` still enables log-transform.
 - `-remove <lta>` is the flag for LTA-based correction (not `-lta` as sometimes erroneously written); it divides the `orig_area` by the linear determinant before computing the ratio, isolating the nonlinear volume change.
-- `-init` and `-tm3d` both trigger GCAM area re-initialization; `-tm3d` additionally logs the CVS-register origin of the file.
+- `-tm3d` triggers GCAM area re-initialization in addition to logging the CVS-register origin of the file.
 - `-a` changes whether the Jacobian is computed in subject space or atlas space; the interpretation differs between these contexts.
 - `-s` smoothing is applied before the area ratio computation (to both numerator and denominator), not after; this differs from post-hoc smoothing and produces slightly different results.
 

@@ -77,7 +77,9 @@ The 3D rotation matrix is parameterized as a product of three axis rotations, im
 ## Configuration Options
 
 > [!gotcha] `print_usage()` vs actual parser mismatch
-> `print_usage()` lists `--v1/--v2/--v3`, `--nmax`, `--tol`, and `--tol1d`, but none of these flags appear in `parse_commandline()`. They are vestigial stubs. The correct flag for specifying input volumes is `--stack`.
+> `print_usage()` lists `--v1`, `--v2`, `--v3`, `--nmax`, `--tol`, and `--tol1d`, but none of these appear in `parse_commandline()`. They are vestigial stubs — the help text was not updated to match the implementation. The correct flag for specifying input volumes is `--stack`. For Powell tolerances, use `--low-tol`.
+>
+> Passing any of `--v1`, `--v2`, `--v3`, `--nmax`, `--tol`, or `--tol1d` will cause the tool to print "ERROR: Option unknown" and exit.
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
@@ -87,12 +89,6 @@ The 3D rotation matrix is parameterized as a product of three axis rotations, im
 | `--s` | string | `subject-unknown` | Subject name written into output registration files |
 | `--a2b-rigid` | — | on (default) | Use rigid-body parameterization: 6 alpha params per stack, shared by all slices |
 | `--a2b-equal` | — | off | Use per-slice parameterization: 6 alpha params per slice (6×depth per stack) |
-| `--v1` | `vol [regfile]` | — | Template volume 1 (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--stack` instead) |
-| `--v2` | `vol [regfile]` | — | Template volume 2 (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--stack` instead) |
-| `--v3` | `vol [regfile]` | — | Template volume 3 (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--stack` instead) |
-| `--nmax` | `nmax` | 36 | Maximum number of Powell iterations (listed in `print_usage()` only; not implemented in `parse_commandline()`; use `--low-tol` for tolerance instead) |
-| `--tol` | `tol` | — | Powell inter-iteration tolerance on cost (listed in `print_usage()` only; not implemented in `parse_commandline()`) |
-| `--tol1d` | `tol1d` | — | Tolerance on Powell 1D minimizations (listed in `print_usage()` only; not implemented in `parse_commandline()`) |
 | `--targ` | vol | — | Optional target/reference volume (read but not used in main optimization flow) |
 | `--mov` | `vol reg` | — | Optional moving volume with tkreg file (read but not used in main optimization flow) |
 | `--alpha` | file | — | Load initial alpha parameters from a `.ibmc` file |

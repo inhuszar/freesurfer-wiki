@@ -212,7 +212,7 @@ after any eTIV/sTIV normalization.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--tablefile FILE` | `-t` | path | none (required) | Output file path for the assembled table. |
+| `--tablefile FILE` / `-t` | `-t` | path | none (required) | Output file path for the assembled table. |
 
 ### File Location Overrides (subject-list modes only)
 
@@ -226,7 +226,7 @@ after any eTIV/sTIV normalization.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--meas <measure>` | `-m` | enum | `volume` | Measure to extract. Valid: `volume`, `Area_mm2`, `nvoxels`, `nvertices`, `mean`, `std`, `snr`, `max`. |
+| `--meas <measure>` / `-m` | `-m` | enum | `volume` | Measure to extract. Valid: `volume`, `Area_mm2`, `nvoxels`, `nvertices`, `mean`, `std`, `snr`, `max`. |
 
 ### Segmentation Filtering
 
@@ -244,7 +244,7 @@ after any eTIV/sTIV normalization.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--delimiter <name>` | `-d` | enum | `tab` | Column separator. Valid: `tab`, `space`, `comma`, `semicolon`. |
+| `--delimiter <name>` / `-d` | `-d` | enum | `tab` | Column separator. Valid: `tab`, `space`, `comma`, `semicolon`. |
 | `--transpose` | — | bool | off | Transpose output: rows become structures, columns become subjects. Values formatted with `%g`. |
 | `--append` | — | bool | off | Append to an existing output file rather than overwriting. |
 

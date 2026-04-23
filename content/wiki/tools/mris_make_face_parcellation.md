@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - surface
@@ -103,23 +103,29 @@ Key optimization parameters:
 
 ### Complete Flag Reference
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-w <n>` | integer | — | Write intermediate parcellation snapshots every `<n>` iterations. |
-| `-n <n>` | integer | 100 | Maximum number of optimization iterations. |
-| `-t <f>` | float | 1e-6 | Convergence tolerance. |
-| `-markov <f>` | float | 0 | Markov random field regularization weight (`parms.l_markov`). |
-| `-gaussian <f>` | float | 0 | Gaussian spatial smoothness weight (`parms.l_gaussian`). |
-| `-var <f>` | float | 1.0 | Within-parcel variance energy weight (`parms.l_var`). |
-| `-eden <f>` | float | 1.0 | External (data-driven) energy weight (`parms.l_eden`). |
-| `-L <label_file>` | string | — | Restrict the parcellation to vertices in the specified label. |
-| `-D <dmat_file>` | string | — | Load a precomputed distance matrix from the given file (enables `ENERGY_DISTANCE` or `ENERGY_VARIANCE` modes). |
-| `-similarity` | boolean | — | Use similarity energy (`ENERGY_SIMILARITY`, type 0). |
-| `-eta` | boolean | — | Use eta² correlation energy (`ENERGY_ETA`, type 1). |
-| `-distance` | boolean | — | Use distance-based energy (`ENERGY_DISTANCE`, type 2). Requires `-D`. |
-| `-variance` | boolean | — | Use within-parcel variance energy (`ENERGY_VARIANCE`, type 3). Default. |
-| `-v <n>` | integer | — | Verbose/debug level. |
-| `--version` | boolean | — | Print version string and exit. |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-a <f>` | float | — | Area penalty weight for parcels (`parms.l_area`). |
+| `-b <f>` | float | — | Border length regularization weight (`parms.l_border`). |
+| `-c <file>` | string | — | Read correlation matrix from `<file>`. |
+| `-ctab <file>` | string | — | Write colour table to `<file>`. |
+| `-e <annot> <log>` | string string | — | Evaluate energy of annotation file `<annot>` and log results to `<log>`. |
+| `-eden <f>` | float | — | External (data-driven) energy weight (`parms.l_eden`). |
+| `-f` | — | off | Write out face parcellation instead of vertex parcellation. |
+| `-g <f>` | float | — | Gaussian spatial smoothness weight (`parms.l_gaussian`). |
+| `-i` | — | off | Allow inflated surface as input (InflatedOK flag). |
+| `-m <n>` | integer | — | Maximum number of optimization iterations (`parms.max_iterations`). |
+| `-markov <f>` | float | — | Markov random field regularization weight (`parms.l_markov`). |
+| `-r <f>` | float | — | Use randomization to normalize energies (0 = off). |
+| `-read_dmat <file>` | string | — | Read precomputed distance matrix from `<file>` (enables `ENERGY_DISTANCE` / `ENERGY_VARIANCE`). |
+| `-tol <f>` | float | — | Convergence tolerance for optimization. |
+| `-var <f>` | float | — | Within-parcel variance energy weight (`parms.l_var`). |
+| `-v <n>` | integer | — | Debug vertex index (`Gdiag_no`). |
+| `-w <n>` | integer | — | Enable diagnostic writes every `<n>` iterations. |
+| `-wonly <corr> <annot>` | string string | — | Write correlation matrix from `<annot>` to `<corr>` only (no optimization). |
+| `-write_corr <file>` | string | — | Write parcellation correlation matrix to `<file>`. |
+| `-write_dmat <file>` | string | — | Write distance matrix to `<file>`. |
+| `--version` | — | — | Print version string and exit. |
 
 ## Typical Use Cases
 
@@ -132,13 +138,12 @@ mris_make_face_parcellation \
     $SUBJECTS_DIR/subject01/label/lh.face_parcellation.annot
 ```
 
-### Distance-based parcellation optimization
+### Parcellation optimization with precomputed distance matrix
 
 ```bash
 mris_make_face_parcellation \
-    -distance \
-    -D /path/to/lh.dmat \
-    -n 200 \
+    -read_dmat /path/to/lh.dmat \
+    -m 200 \
     lh.sphere.reg \
     $FREESURFER_HOME/subjects/fsaverage/surf/lh.sphere \
     lh.face_parcellation.annot
@@ -163,4 +168,7 @@ Not part of standard `recon-all`. Used in research workflows for functional or d
 
 ## Confidence and Gaps
 
-Confidence is **high**. The complete `get_option()` function (lines ~500–629 of `mris_make_face_parcellation.cpp`) was read from source. All flags and their defaults are confirmed. The four energy types and their corresponding flags (`-similarity`, `-eta`, `-distance`, `-variance`) are confirmed from the source `switch` statement and the `ENERGY_*` enum.
+Confidence is **high**. The complete `get_option()` function was read from source. All flags confirmed from the `stricmp` chain and single-character `switch` statement. Parser uses `option = argv[1] + 1` (single-dash strip).
+
+> [!gap] Energy type selection mechanism
+> The flags `-similarity`, `-eta`, `-distance`, `-variance` appeared in an older version. In the current source, energy type is set via `ENERGY_*` constants accessed through `parms`. The command-line mechanism for selecting energy type was not found in `get_option()` in the audited source; the correlation matrix (`-c`) and distance matrix (`-read_dmat`) implicitly select the energy type.

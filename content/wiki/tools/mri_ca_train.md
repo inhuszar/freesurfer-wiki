@@ -17,7 +17,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps: []
 tags:
   - atlas
@@ -68,7 +68,7 @@ Per subject (read from `<subjects_dir>/<subject>/mri/`):
   - Per-node, per-label conditional intensity Gaussian parameters ($\mu$, $\sigma^2$)
   - Node spacing (`node_spacing`, default 4 mm) and prior spacing (`prior_spacing`, default 2 mm)
 
-- Optionally: an `--done` file for pipeline monitoring.
+- Optionally: a `-done` file for pipeline monitoring.
 
 ## Mathematical Foundations
 
@@ -97,37 +97,57 @@ The dual-resolution design (node_spacing for conditional densities, prior_spacin
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-T1 <name>` | string | `orig` | Name of T1 volume within `mri/` directory |
-| `-seg <dir>` | string | `seg_edited.mgz` | Segmentation volume/directory name |
-| `-xform <name>` | string | (uses talairach.lta) | Transform file to atlas space |
-| `-node_spacing <val>` | float | 4.0 | GCA node spacing (mm) for conditional densities |
-| `-prior_spacing <val>` | float | 2.0 | GCA prior spacing (mm) |
-| `-ninputs <N>` | int | 1 | Number of input image channels |
-| `-input <name> <N>` | string+int | T1_name at 0 | Input channel name and index |
-| `-conform` | flag | on | Conform each subject volume to 1mm isotropic |
-| `-flash` | flag | off | Use FLASH multi-echo input protocol |
-| `-smooth <sigma>` | float | -1 | Gaussian smoothing of training data |
-| `-mask <file>` | string | — | Brain mask to restrict training |
-| `-insert <file> <label>` | string+int | — | Insert additional label voxels from file |
-| `-heq <file>` | string | — | Histogram equalization reference volume |
-| `-prune` | flag | off | Prune GCA after training |
-| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory |
-| `-allow_mismatch` | flag | off | Allow subject/atlas dimension mismatches |
-| `-sym` | flag | off | Enforce left-right symmetry |
-| `-sanity` | flag | off | Perform sanity check on training data |
-| `-fix_badsubjs` | flag | off | Auto-fix bad subjects found in sanity check |
-| `-done <file>` | string | — | Write done file on successful completion |
-| `-binarize <in> <out>` | int×2 | — | Binarize label values |
-| `--wmsa <file>` | string | — | White matter signal abnormality volume |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-T1 <name>` | string | `orig` | Name of T1 volume within `mri/` directory. |
+| `-seg <dir>` / `-parc_dir <dir>` / `-seg_dir <dir>` / `-segmentation <dir>` | string | `seg_edited.mgz` | Segmentation volume or directory name (all four flags are equivalent). |
+| `-xform <name>` | string | `talairach.lta` | Transform file to atlas space (path relative to `mri/transforms/`). |
+| `-noxform` | — | off | Disable application of any transform. |
+| `-node_spacing <val>` | float | 4.0 | GCA node spacing (mm) for conditional densities. |
+| `-prior_spacing <val>` | float | 2.0 | GCA prior spacing (mm). |
+| `-input <name>` | string | T1 volume | Specify an additional input channel by name (path relative to `mri/`). |
+| `-conform <0/1>` | int | 1 | Conform each subject volume to 1 mm isotropic before training. |
+| `-flash` | — | off | Use FLASH multi-echo input protocol (sets GCA type to FLASH). |
+| `-gradient` | — | off | Add intensity gradient components as extra input channels. |
+| `-xgrad` | — | off | Use x-component of intensity gradient as a training feature. |
+| `-ygrad` | — | off | Use y-component of intensity gradient as a training feature. |
+| `-zgrad` | — | off | Use z-component of intensity gradient as a training feature. |
+| `-smooth <sigma>` | float | — | Apply Gaussian smoothing to conditional statistics (value in [0,1]). |
+| `-mask <file>` | string | — | Brain mask volume to restrict training (path relative to `mri/`). |
+| `-insert <file> <label>` | string+int | — | Insert non-zero voxels from `<file>` as the given label. |
+| `-heq <file>` | string | — | Reference volume for histogram equalization. |
+| `-prune <N>` | int | — | Prune GCA N times after initial training. |
+| `-nomrf` | — | off | Skip computation of MRF statistics. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Override subjects directory. |
+| `-mismatch` | — | off | Allow MR parameter mismatches between subjects. |
+| `-check` | — | off | Perform sanity check on training labels. |
+| `-check_and_fix` | — | off | Perform sanity check and write corrected volume to `seg_fixed.mgz`. |
+| `-sym` | — | off | Enforce left-right symmetry in the output atlas. |
+| `-makesym <in> <out>` | string×2 | — | Read a GCA, symmetrize it, write to `<out>`, and exit. |
+| `-checksym <file>` | string | — | Check whether a GCA file is symmetric and exit. |
+| `-ctab <file>` | string | — | Embed color table from `<file>` into the output `.gca`. |
+| `-wmsa <file>` | string | — | Read white matter signal abnormality volume from `<file>`. |
+| `-binarize <in> <out>` | int×2 | — | Remap segmentation label value `<in>` to `<out>`. |
+| `-done <file>` | string | — | Write done-flag file on successful completion. |
+| `-debug_node <x> <y> <z>` | int×3 | — | Debug atlas node at voxel coordinates (x, y, z). |
+| `-debug_voxel <x> <y> <z>` | int×3 | — | Debug source voxel at coordinates (x, y, z). |
+| `-debug_prior <x> <y> <z>` | int×3 | — | Debug prior node at atlas coordinates (x, y, z). |
+| `-debug_label <l>` | int | — | Debug the specified label index. |
+| `-debug_nbr <l>` | int | — | Debug the specified neighbour label index. |
+| `-threads <N>` / `-nthreads <N>` | int | — | Set number of OpenMP threads. |
+| `-f` | — | off | Force use of inputs even if acquisition parameters do not match. |
+| `-s <scale>` | float | — | Scale all input volumes by `<scale>` after reading. |
+| `-a <N>` | int | — | Apply N mean filters to classifiers after training. |
+| `-h <file>` | string | — | Write histogram of classes per voxel to `<file>`. |
 
 ## Configuration Interactions
 
-- `-ninputs <N>` must match the number of `-input` flags provided if N > 1.
-- `-flash` enables reading FLASH multi-echo data (FLASH-specific GCA format).
+- Multiple `-input <name>` flags are used to specify additional input channels; the first call implicitly replaces the default T1 channel.
+- `-flash` enables reading FLASH multi-echo data (sets GCA type to FLASH).
 - `-conform 1` (default) resamples each subject to 256³ 1mm before accumulating — this is required because the GCA atlas space is defined in this geometry.
-- `-prune` removes GCA nodes with insufficient training examples.
+- `-prune <N>` removes GCA nodes with insufficient training examples; N specifies the number of pruning passes.
+- `-gradient` / `-xgrad` / `-ygrad` / `-zgrad` add gradient components as additional input channels; `-gradient` adds all three at once.
+- `-check_and_fix` implies `-check`; it additionally writes `seg_fixed.mgz` with corrected labels.
 
 ## Typical Use Cases
 
@@ -140,10 +160,10 @@ mri_ca_train -sdir /data/subjects \
 
 **Build multi-channel FLASH GCA:**
 ```bash
-mri_ca_train -flash -ninputs 3 \
-  -input flash30/T1.mgh 0 \
-  -input flash30/PD.mgh 1 \
-  -input flash30/T2s.mgh 2 \
+mri_ca_train -flash \
+  -input flash30/T1.mgh \
+  -input flash30/PD.mgh \
+  -input flash30/T2s.mgh \
   subj1 subj2 ... subj30 \
   RB_flash_atlas.gca
 ```

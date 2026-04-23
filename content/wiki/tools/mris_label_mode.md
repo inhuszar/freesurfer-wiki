@@ -88,14 +88,13 @@ The `AnnotHistLabel` and `AnnotHistCount` 3D arrays track these histograms.
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `-normalize` | — | off | Normalize label frequencies |
-| `-condition_no N` | integer | 0 | Condition number |
-| `-stat` | — | off | Compute statistics |
-| `-sigma S` | float | 0.0 | Smoothing sigma applied to annotation |
-| `-output_surf name` | string | — | Write output surface |
-| Grid dimensions: | | `udim=256`, `vdim=128` | Spherical parameterization grid size (hardcoded) |
-| `maxlabels` | | 25 | Maximum number of distinct labels (hardcoded) |
-| `maxvertices` | | 500000 | Maximum vertices (hardcoded) |
+| `-a <sigma>` | float | 0.0 | Smoothing sigma applied to annotation before parameterization |
+| `-o <subject>` | string | — | Override output surface; paint result onto this subject instead of the last positional subject |
+| `-s <cond_no>` | integer | — | Write summary statistics as condition number `cond_no`; enables `stat_flag` |
+| `-n` | — | off | Normalize label frequencies |
+
+> [!note] Hardcoded parameters
+> Grid dimensions (`udim=256`, `vdim=128`), `maxlabels=25`, and `maxvertices=500000` are compiled-in constants and cannot be changed via the CLI.
 
 ## Typical Use Cases
 

@@ -36,7 +36,7 @@ tags:
 - **Language:** C++
 - **Source file:** `mris_volume/mris_wm_volume.cpp`
 - **Original author:** Bruce Fischl (MGH)
-- **Key variables:** `resolution = 1.0/4.0` (0.25mm internal resolution for volume sampling)
+- **Key variables:** `resolution = 1.0/4.0` (0.25mm internal resolution for volume sampling; hardcoded, not configurable)
 
 ## Purpose and Context
 
@@ -63,7 +63,6 @@ Optional:
 | `-sdir dir` | Override SUBJECTS_DIR |
 | `-white surfname` | Alternative white surface name (default: `white`) |
 | `-aseg asegname` | Alternative aseg name (default: `aseg.mgz`) |
-| `-res resolution` | Internal sampling resolution in mm (default: 0.25) |
 
 Reads:
 - `$SUBJECTS_DIR/<subject>/surf/<hemi>.white`
@@ -88,12 +87,11 @@ The volume is computed by sampling a dense grid at `resolution` mm spacing insid
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-sdir` | dir | Override SUBJECTS_DIR |
-| `-white` | surfname | White surface name (default: `white`) |
-| `-aseg` | asegname | Aseg volume name (default: `aseg.mgz`) |
-| `-res` | mm | Sampling resolution (default: 0.25) |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-sdir` | dir | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
+| `-white` | surfname | `white` | White surface name |
+| `-aseg` | asegname | `aseg.mgz` | Aseg volume name |
 
 Usage:
 ```

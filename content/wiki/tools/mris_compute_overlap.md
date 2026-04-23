@@ -59,7 +59,7 @@ Positional arguments:
 Output to stdout (and optionally to a log file):
 
 - Per-label: label name, surface area in mm².
-- If `--pct` is set: area as percentage of total surface.
+- If `-p` is set: area as percentage of total surface.
 
 ## Mathematical Foundations
 
@@ -81,16 +81,16 @@ $$
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `-l <fname>` | path | stdout | Log file path |
-| `--in-label <n>` | int | -1 (all) | Restrict to input label integer |
-| `--out-label <n>` | int | -1 (all) | Restrict to output label integer |
-| `--pct` | — | off | Report areas as percentages |
+| `-l <fname>` | path | stdout | Log file path (note: `%d` in the path is replaced with the label number) |
+| `-t <in_label> <out_label>` | int int | — | Translate (remap) `in_label` to `out_label` in the annotation before area computation |
+| `-p` | — | off | Report areas as percentages of total brain area |
+| `-c <table>` | path | — | Read named annotation lookup table from `<table>` |
 | `-sdir <dir>` | path | `$SUBJECTS_DIR` | Override SUBJECTS_DIR |
 
 ## Configuration Interactions
 
-- `--pct` requires a successful call to `MRIScomputeMetricProperties()` so `mris->total_area` is valid.
-- `--in-label` and `--out-label` were present in the source but may be vestigial (originally for overlap computation between two labels).
+- `-p` requires a successful call to `MRIScomputeMetricProperties()` so `mris->total_area` is valid.
+- `-t <in_label> <out_label>` remaps label values in the annotation before area computation, which can be used to combine or reclassify parcels.
 
 ## Typical Use Cases
 
@@ -99,7 +99,7 @@ $$
 mris_compute_overlap bert lh white aparc
 
 # Report as percentages, log to file
-mris_compute_overlap --pct -l /tmp/areas.txt bert lh white aparc
+mris_compute_overlap -p -l /tmp/areas.txt bert lh white aparc
 ```
 
 ## Pipeline Context

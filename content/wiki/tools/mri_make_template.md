@@ -85,36 +85,36 @@ Prior probabilities are accumulated in `MRIupdatePriors()` by counting how many 
 
 ## Configuration Options
 
-| Flag | Type | Default | Description |
-|------|------|---------|-------------|
-| `-xform <fname>` | string | null | Filename of transform to atlas space |
-| `-T1 <name>` | string | `T1` | Name of T1 volume within subject's `mri/` directory |
-| `-var <fname>` | string | null | Output variance volume filename |
-| `-binary <name>` | string | null | Binary mask volume name |
-| `-smooth <f>` | float | 0 | Gaussian smoothing sigma |
-| `-erode <n>` | int | 0 | Number of morphological erosion iterations |
-| `-open <n>` | int | 0 | Number of open operations |
-| `-binarize` | flag | off | Binarize input volumes before accumulation |
-| `-xform_mean <fname>` | string | null | Output transform mean |
-| `-xform_covariance <fname>` | string | null | Output transform covariance |
-| `-stats_only` | flag | off | Only compute statistics, do not write template |
-| `-novar` | flag | off | Do not compute variance |
-| `-first_transform` | flag | off | Use only the first transform for all subjects |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-t` | `<xform>` | — | Transform filename to apply to each subject volume |
+| `-T1` | `<name>` | `T1` | Name of T1 volume within each subject's `mri/` directory |
+| `-s` / `-v` | `<fname>` | — | Write variance estimates to a separate file |
+| `-b` | `<name>` | — | Binary mask volume name; enables prior probability computation mode |
+| `-smooth` | `<f>` | 0 | Gaussian smoothing sigma applied to mean template |
+| `-erode` | `<n>` | 0 | Number of morphological erosion iterations applied to each volume |
+| `-open` | `<n>` | 0 | Number of morphological open operations applied to each volume |
+| `-binarize` | `<thresh>` | — | Binarize input volumes at given threshold before accumulation |
+| `-x` | `<mean_fname> <cov_fname>` | — | Write transform mean and covariance to the specified files |
+| `-statsonly` | — | off | Compute transform statistics only; skip intensity template |
+| `-novar` | — | off | Skip variance computation and output |
+| `-n` | — | — | Do not apply transform to the first subject volume |
+| `-sdir` | `<path>` | `$SUBJECTS_DIR` | Override subjects directory |
 
 ## Configuration Interactions
 
-- `-novar` and `-var <fname>` are mutually exclusive in intent.
+- `-novar` and `-s <fname>` (variance output) are mutually exclusive in intent; `-novar` suppresses variance output entirely.
 - `-smooth`, `-erode`, and `-open` are applied to each subject's volume before accumulation, acting as preprocessing steps.
-- `-stats_only` combined with `-xform_mean` / `-xform_covariance` is useful for computing transform statistics without building the intensity template.
+- `-statsonly` combined with `-x <mean> <cov>` is useful for computing transform statistics without building the intensity template.
+- `-n` skips the transform for the very first subject only; subsequent subjects still have `-t` applied.
 
 ## Typical Use Cases
 
 ```bash
-# Build a T1 mean template from 10 subjects
-for subj in $(cat subjectlist.txt); do
-  mri_make_template -xform $SUBJECTS_DIR/$subj/mri/transforms/talairach.lta \
-    $subj T1_mean.mgz T1_std.mgz
-done
+# Build a T1 mean template from a list of subjects
+mri_make_template -t talairach.lta \
+  sub01 sub02 sub03 sub04 sub05 \
+  T1_mean.mgz
 ```
 
 ## Pipeline Context
@@ -142,7 +142,4 @@ Not part of standard `recon-all`. This tool was used in atlas building workflows
 
 **Confident:** Purpose (multi-subject template construction), statistical accumulation approach, output types, attic status.
 
-**Less confident:** Complete flag list, prior accumulation algorithm, transform covariance format.
-
-> [!gap] Complete flag enumeration
-> The static variables visible in the header suggest roughly 12 flags, but `get_option()` must be read in full for confirmation.
+**Less confident:** Prior accumulation algorithm details, transform covariance matrix format.

@@ -121,38 +121,39 @@ The tool uses a subcommand structure:
 
 ### `mri_synthmorph register [options] moving fixed`
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-m` | model | Model: `joint` (default), `deform`, `affine`, `rigid` |
-| `-o` | image | Moving registered to fixed |
-| `-O` | image | Fixed registered to moving |
-| `-H` | (flag) | Update voxel-to-world header only (no resampling), matrix transforms only |
-| `-t` | trans | Save moving-to-fixed transform |
-| `-T` | trans | Save fixed-to-moving transform |
-| `-i` | trans | Initial matrix transform applied to moving |
-| `-M` | (flag) | Apply half initial transform to each image (for symmetry with deformable) |
-| `-j` | N | Number of TensorFlow threads |
-| `-g` | (flag) | Use GPU (CUDA_VISIBLE_DEVICES or GPU 0) |
-| `-r` | lambda | Regularization weight in (0,1) for deformable (default: 0.5) |
-| `-n` | N | Integration steps for deformable (default: 7, min: 5) |
-| `-e` | extent | Registration space extent: 192 or 256 voxels (default: 256) |
-| `-w` | weights | Alternative model weights (`.h5` file) |
-| `-h` | (flag) | Print help |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-m` | model | `joint` | Model: `joint`, `deform`, `affine`, or `rigid` |
+| `-o` | image | — | Moving registered to fixed |
+| `-O` | image | — | Fixed registered to moving |
+| `-H` | (none) | off | Update voxel-to-world header only (no resampling); matrix transforms only |
+| `-t` | trans | — | Save moving-to-fixed transform |
+| `-T` | trans | — | Save fixed-to-moving transform |
+| `-i` | trans | — | Initial matrix transform applied to moving |
+| `-M` | (none) | off | Apply half initial transform to each image (for symmetry with deformable) |
+| `-j` | N | — | Number of TensorFlow threads |
+| `-g` | (none) | off | Use GPU (CUDA_VISIBLE_DEVICES or GPU 0) |
+| `-d` | dir | — | Output directory for registered image and transforms |
+| `-r` | lambda | 0.5 | Regularization weight in (0, 1) for deformable |
+| `-n` | N | 7 | Integration steps for deformable (min: 5) |
+| `-e` | extent | 256 | Registration space extent: 192 or 256 voxels |
+| `-w` | weights | — | Alternative model weights (`.h5` file) |
+| `-h` | (none) | — | Print help |
 
 ### `mri_synthmorph apply [options] trans image`
 
 Apply an existing transform to another image.
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-o` | image | Output (warped) image |
-| `-r` | ref | Reference image for output geometry |
-| `-t` | type | Output data type (uint8, uint16, int16, int32, float32) |
-| `-n` | method | Interpolation: `linear` (default) or `nearest` |
-| `-f` | value | Fill value for voxels outside the FOV (default: 0) |
-| `-j` | N | TensorFlow threads |
-| `-g` | (flag) | Use GPU |
-| `-h` | (flag) | Print help |
+| Flag | Argument | Default | Description |
+|------|----------|---------|-------------|
+| `-o` | image | — | Output (warped) image |
+| `-r` | ref | — | Reference image for output geometry |
+| `-t` | type | — | Output data type (uint8, uint16, int16, int32, float32) |
+| `-n` | method | `linear` | Interpolation: `linear` or `nearest` |
+| `-f` | value | 0 | Fill value for voxels outside the FOV |
+| `-j` | N | — | TensorFlow threads |
+| `-g` | (none) | off | Use GPU |
+| `-h` | (none) | — | Print help |
 
 ## Configuration Interactions
 

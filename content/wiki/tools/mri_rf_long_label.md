@@ -15,9 +15,9 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-23
+audit_skip: true
 gaps:
-  - "Complete flag list not available (attic source)"
   - "Whether this tool is installed in FS 8.2.0"
   - "How longitudinal features differ from cross-sectional RF labeling"
 tags:
@@ -71,8 +71,31 @@ The longitudinal RFA incorporates temporal features: in addition to the standard
 
 ## Configuration Options
 
-> [!gap] Flag list not available
-> The source is in `attic/`; the flag list was not read in full. It is expected to be similar to [[mri_rf_label]] but with additional flags for specifying multiple timepoint volumes.
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-a` | `<n>` | 0 | Apply mean filter `n` times to conditional densities |
+| `-alpha` | `<degrees>` | −1 | Override flip angle for all input volumes (converted to radians) |
+| `-aseg` | `<vol>` | — | Read aseg volume for post-processing segmentation cleanup |
+| `-conform` | — | off | Resample each input volume to 256³ at 1 mm isotropic before labeling |
+| `-debug_label` | `<label>` | — | Enable debugging output for the specified label index |
+| `-debug_node` | `<x> <y> <z>` | — | Enable debugging for the specified atlas node coordinates |
+| `-debug_voxel` | `<x> <y> <z>` | — | Enable per-voxel debugging at the given input voxel coordinates |
+| `-f` | — | off | Apply gradient-direction second-derivative filter to input before labeling |
+| `-m` | `<vol>` | — | Mask the final labeling with this volume (zero out voxels where mask < 1) |
+| `-min_voxels` | `<n>` | 6 | Remove WMSA segments with fewer than `n` voxels during post-processing |
+| `-nbrs` | `<rf_file>` | — | Read a second random forest and apply it to relabel voxels neighbouring existing WMSAs |
+| `-nowmsa` | — | off | Disable WMSA labels in the output |
+| `-pthresh` | `<float>` | −1 | Relabel voxels adjacent to WMSA whose p-value is below this threshold (region growing) |
+| `-read_intensities` | `<fname>` | — | Read intensity scaling parameters from file; alias: `-ri` |
+| `-ri` | `<fname>` | — | Read intensity scaling parameters from file; alias: `-read_intensities` |
+| `-surface` | `<surf_fname>` | — | Remove WMSA voxels that are more than `surface_dist` mm interior to this surface (repeatable) |
+| `-surface_dist` | `<float>` | 1.0 | Distance threshold in mm for WMSA surface-proximity removal |
+| `-t` | `<float>` | 0.8 | WM prior threshold for building the candidate voxel set |
+| `-te` | `<ms>` | −1 | Override echo time (TE) for all input volumes |
+| `-thresh` | `<float>` | 0.0 | Only label voxels as WMSA if their random-forest p-value exceeds this threshold |
+| `-tr` | `<ms>` | −1 | Override repetition time (TR) for all input volumes |
+| `-wmsa` | — | off | Enable WMSA post-processing (relabeling with T2/PD data) |
+| `-wmsa_whalf` | `<n>` | 3 | Only examine voxels within `n` voxels of a prior WMSA occurrence |
 
 ## Typical Use Cases
 
@@ -106,7 +129,7 @@ This tool is not part of the standard [[recon-all]] pipeline. It would be used i
 
 ## Confidence and Gaps
 
-**Low confidence overall** — source is in attic directory; binary was not run; flag list not obtained.
+**Medium confidence** — source was read from `attic/mri_rf_long_label/mri_rf_long_label.cpp`; all flags documented from `get_option()`. Attic status means the tool may not be compiled in FreeSurfer 8.2.0.
 
 > [!gap] Installation status
 > Whether `mri_rf_long_label` is compiled and installed in FreeSurfer 8.2.0 needs verification.

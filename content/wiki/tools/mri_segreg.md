@@ -125,7 +125,7 @@ Pre-optimisation options include brute-force grid search (`--brute`, `--brute_tr
 | `--cur-reg` | `<file>` | — | Write registration at current optimum to file (updated at each improvement) |
 | `--rms` | `RMSDiffFile` | — | Save translation/rotation parameters and RMS difference to file |
 | `--dof` | `<int>` | 6 | Degrees of freedom for optimisation (6=rigid, 9=rigid+scale, 12=affine) |
-| `--nsub` | `<int>` | — | Sample every Nth vertex (alias: `--subsamp`, `--skip`) |
+| `--nsub` / `--skip` | `<int>` | — | Sample every Nth vertex (alias: `--subsamp`) |
 | `--scale` | `sx sy sz` | — | Apply pre-optimisation scaling (3 floats) to the registration |
 | `--shear` | `s01 s02 s12` | — | Apply pre-optimisation shear (3 floats) to the registration |
 | `--trans-rand` | `Tmax` | 0 | Apply random translation uniformly drawn from -Tmax..+Tmax mm (each axis) |

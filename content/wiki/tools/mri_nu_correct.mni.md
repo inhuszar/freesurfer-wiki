@@ -18,7 +18,7 @@ related:
   - "[[mri_em_register]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "MNI nu_correct's exact B-spline fitting algorithm is only documented in Sled 1997/1998 papers; not re-derived here"
   - "ANTs N4 backend's exact parameter mapping to the tcsh wrapper flags still needs confirmation — only --threads-nondetermistic and -x mask are clearly passed"
@@ -283,6 +283,17 @@ tools that use absolute intensity thresholds.
 | `--version` | bool | off | Print the version string and exit. Detected by an `egrep` on `argv` *before* the regular parser (lines 58–62), so it short-circuits all other parsing. |
 | `--help` / `-help` / `-h` / `-u` / `-usage` / `--usage` | bool | off | Print help (via `fsPrintHelp`) and exit. All six spellings are accepted. |
 
+### mri_make_uchar Direct-Invocation Flags
+
+`mri_make_uchar` (`mri_convert/mri_make_uchar.cpp`) is a standalone helper invoked by the wrapper when `--uchar` is set. It can also be called directly. Its own option parser (`get_option()`) accepts the following single-dash flags; none of these are forwarded by `mri_nu_correct.mni` itself.
+
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-f <p>` | float | 0.01 | First percentile threshold `FIRST_PERCENTILE`: the lower CDF bound used to find the noise floor in the Talairach ball histogram. |
+| `-w <p>` | float | 0.90 | White-matter percentile `WM_PERCENTILE`: the CDF bound used to identify the WM intensity peak in the Talairach ball histogram. |
+| `-r <mm>` | float | 50.0 | Radius `MAX_R` in mm of the ball around the Talairach origin used to define the "mostly brain" region for histogram estimation. |
+| `-n` | (none) | — | No-op flag (accepted but does nothing; `case 'N': break`). |
+
 ### Configuration Interactions
 
 > [!contradiction] Default for `--n` disagrees between sources
@@ -519,8 +530,10 @@ of `nu.mgz` is stamped with `transforms/talairach.xfm` via
   `AntsN4BiasFieldCorrectionFs` — the wrapper only passes a few
   flags and trusts ANTs defaults.
 
-> [!gap] Audit note: 11 strings flagged by C1 audit are not flags of this tool
-> The C1 audit flagged `--avgwf`, `--conform`, `--dilate`, `--dtype`, `--id`, `--like`, `--min`, `--replace-zeros`, `--seg`, `--sum`, and `--threads-nondetermistic` as potentially missing from this wiki page. Verification against `scripts/mri_nu_correct.mni` confirms that none of these appear in the wrapper's own `switch`/`case` parser. They are flags passed to **internal helper tools** called by the wrapper: `--min` and `--dilate` go to `mri_binarize`; `--id`, `--seg`, `--sum`, and `--avgwf` go to `mri_segstats`; `--conform` and `--like` go to `mri_convert`; `--dtype` and `--replace-zeros` go to `AntsN4BiasFieldCorrectionFs`; and `--threads-nondetermistic` is what the wrapper passes to the ANTs N4 binary (the user-facing flag for this wrapper is `--ants4-threads-nondetermistic`, already documented above). The Configuration Options table is complete and correct.
+> [!gap] Audit note: C1 flags from helper tools
+> Some flags detected by the C1 audit come from `mri_convert/mri_make_uchar.cpp`, which is listed in `source_files` because it is an integral part of the `--uchar` post-processing step. The flags `-f`, `-w`, `-r`, and `-n` belong to `mri_make_uchar` and are now documented in the "mri_make_uchar Direct-Invocation Flags" table above.
+>
+> Additionally, `--avgwf`, `--conform`, `--dilate`, `--dtype`, `--id`, `--like`, `--min`, `--replace-zeros`, `--seg`, `--sum`, and `--threads-nondetermistic` appear in the C1 audit but are not flags of this wrapper. They are passed to internal helper tools: `--min` and `--dilate` go to `mri_binarize`; `--id`, `--seg`, `--sum`, and `--avgwf` go to `mri_segstats`; `--conform` and `--like` go to `mri_convert`; `--dtype` and `--replace-zeros` go to `AntsN4BiasFieldCorrectionFs`; `--threads-nondetermistic` is what the wrapper passes to the ANTs N4 binary (the user-facing wrapper flag is `--ants4-threads-nondetermistic`, already documented above).
 
 > [!gap] What are `nu_correct`'s defaults for `-iterations`,
 > `-stop`, `-distance`, `-fwhm`?

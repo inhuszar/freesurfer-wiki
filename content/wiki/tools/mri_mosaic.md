@@ -69,11 +69,11 @@ If `-rectify` is specified, each input volume is rectified (absolute value taken
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `-rectify` | flag | off | Take absolute value of each input before tiling |
+| `-r` | flag | off | Take absolute value of each input before tiling (rectify) |
 
 ## Configuration Interactions
 
-- `-rectify` applies `|I(\mathbf{x})|$ to each input before placing it in the mosaic. Useful for displaying signed residual or z-score maps where both positive and negative extremes are visually important.
+- `-r` applies $|I(\mathbf{x})|$ to each input before placing it in the mosaic. Useful for displaying signed residual or z-score maps where both positive and negative extremes are visually important.
 
 ## Typical Use Cases
 
@@ -86,7 +86,7 @@ mri_mosaic \
   group_mosaic.mgz
 
 # Mosaic of residual maps (rectified for display)
-mri_mosaic -rectify \
+mri_mosaic -r \
   r01.mgz r02.mgz r03.mgz r04.mgz \
   residuals_mosaic.mgz
 ```
@@ -113,6 +113,6 @@ Not part of standard `recon-all`. Used in QC workflows and manual inspection of 
 
 ## Confidence and Gaps
 
-**Confident:** Basic purpose (volume tiling), `-rectify` flag, input limit of 10,000.
+**Confident:** Basic purpose (volume tiling), `-r` flag, input limit of 10,000.
 
 **Less confident:** Output layout algorithm, whether inputs must match in geometry.

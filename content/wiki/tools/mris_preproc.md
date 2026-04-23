@@ -157,7 +157,7 @@ initialisations at the top of the script.
 |------|-----------|---------|-------------|
 | `--meas` | `surfmeasure` (string) | — | Per-subject curvature/overlay file at `$SUBJECTS_DIR/$subj/$measdir/$hemi.$surfmeasure`. Sets `srcfmt=curv`, marks the run as surface-source (`srcsurf=1`) and as a measure-input (`MeasIn=1`). If the un-suffixed file is missing, the script silently falls back to `$hemi.$surfmeasure.mgz`. |
 | `--label` | `annotname` (string) | — | Per-subject label/annotation file at `$SUBJECTS_DIR/$subj/label/$hemi.$annotname`. Forces `measdir=label`, `mapmethod="--mapmethod nnf"`, `jac=0`, `srcsurf=1`, and clears `srcfmt`. Use for categorical/label data. |
-| --is / --isp | `path` (file) | — | Explicit per-subject input surface file; one --is per subject, in the same order as the subject list. Errors out if the file does not exist. Marks `srcsurf=1`. Repeatable. |
+| `--is` / `--isp` | `path` (file) | — | Explicit per-subject input surface file; one `--is` per subject, in the same order as the subject list. Errors out if the file does not exist. Marks `srcsurf=1`. Repeatable. |
 | `--area` | `surfname` (string) | — | Compute per-vertex surface area from `$hemi.$surfname` (e.g., `white`, `pial`). Sets `sval=area`, `svalsurf=$surfname`, `srcsurf=1`, and **forces `jac=1`** (Jacobian correction). |
 | `--tal-xyz` | `surfname` (string) | — | Emit MNI305 (Talairach) `xyz` coordinates of vertices from `$hemi.$surfname` as a 3-frame per-subject map. Sets `sval=tal-xyz`, `svalsurf=$surfname`, `srcsurf=1`. |
 | `--cache-in` | `name` (string) | — | Read previously cached resampled data from `$subj/$measdir/$hemi.$name.$format` instead of running `mri_surf2surf`. Sets `srcsurf=1`, `CacheIn=1`. |
@@ -195,8 +195,8 @@ initialisations at the top of the script.
 | `--fwhm-src` | `mm` (float) | empty | FWHM applied on the **source** surface, before resampling. |
 | `--niters` / `--niters-targ` | `n` (int) | empty | Number of nearest-neighbour smoothing iterations on the target surface. Alternative to `--fwhm-targ`. |
 | `--niters-src` | `n` (int) | empty | Number of NN iterations on the source surface. |
-| `--cortex-only` / `--smooth-cortex-only` | none | on (`CortexOnly=1`) | Restrict smoothing to vertices inside the `cortex` label (i.e., do not smooth into the medial wall). |
-| `--no-cortex-only` / `--no-smooth-cortex-only` | none | — | Disable cortex-only smoothing; allow smoothing across the medial-wall boundary. |
+| `--smooth-cortex-only` / `--cortex-only` | — | on | Restrict smoothing to vertices inside the `cortex` label (`CortexOnly=1`); prevents medial wall smoothing. |
+| `--no-smooth-cortex-only` / `--no-cortex-only` | — | on | Disable cortex-only smoothing restriction (`CortexOnly=0`). |
 
 #### Aggregation / paired operations
 
@@ -252,7 +252,7 @@ $$
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `--sf` | `file` (path) | — | FS-FAST session file (list of session directories). Triggers FS-FAST mode in `handle_fsfast`. Requires `--analysis`. |
-| --df / --sd | `file` (path) | — | FS-FAST session-directory file. Errors out if it does not exist. |
+| `--df` / `--sd` | `file` (path) | — | FS-FAST session-directory file. Errors out if it does not exist. |
 | `--analysis` / `--a` | `analysis` (string) | — | FS-FAST analysis name (subdirectory under each session). |
 | `--contrast` / `--c` | `contrast` (string) | — | FS-FAST contrast name (subdirectory under the analysis). Mutually exclusive with `--offset`. |
 | `--map` | `mapname` (string) | `ces` | Map filename stem within the contrast directory. |

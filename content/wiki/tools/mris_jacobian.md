@@ -93,7 +93,7 @@ The `compute_area_ratios` function implements this computation in `mris_jacobian
 **Optional transformations:**
 - Log Jacobian: $J_{\log}(v) = \log(J(v))$ (activated with `-log`)
 - Inverse Jacobian: $J_{\text{inv}}(v) = 1/J(v)$ (activated with `-invert`)
-- No-scale mode: raw area ratio without normalization (activated with `-noscale`)
+- No-scale mode: raw area ratio without normalization (activated with `-n`)
 
 ## Configuration Options
 
@@ -101,7 +101,7 @@ The `compute_area_ratios` function implements this computation in `mris_jacobian
 |------|-----------|---------|-------------|
 | `-log` | — | off | Compute log of area ratios (log Jacobian) |
 | `-invert` | — | off | Compute inverse of area ratios (1/J) |
-| `-noscale` | — | off | Do not normalize area ratios |
+| `-n` | — | off | Do not scale area ratios (no-scale mode) |
 
 Positional arguments:
 1. Original surface
@@ -111,7 +111,7 @@ Positional arguments:
 ## Configuration Interactions
 
 - `-log` and `-invert` can be combined: the inverse is computed first, then the log.
-- `-noscale` disables whatever area normalization is applied by default in `compute_area_ratios`; without this flag, ratios are typically normalized.
+- `-n` disables whatever area normalization is applied by default in `compute_area_ratios`; without this flag, ratios are typically normalized.
 - The tool writes via `MRISwriteCurvature`, so the output file format depends on the extension of `out_fname`.
 
 ## Typical Use Cases

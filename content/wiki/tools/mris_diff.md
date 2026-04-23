@@ -46,7 +46,7 @@ tags:
 ## Inputs
 
 - Two surface files passed directly, or specified via `--s1`/`--s2` + `--hemi` + `--surf`.
-- Optionally a curvature file pair (`--curv`) or annotation file pair (`--annot`).
+- Optionally a curvature file pair (`--curv`) or annotation file pair (`--aparc`).
 - Optional: `--worst-bucket` file and `--okayBucketMax` for bucket-based tolerance comparisons.
 - Optional: `--grid` specification for regular grid comparison.
 
@@ -104,12 +104,15 @@ When `--ndist` is active, a normal-distance metric is reported.
 | `--gdiag_no` | `<int>` | — | Set Gdiag_no diagnostic number |
 | `--seed` | `<int>` | — | Set random seed (for degenerate normals) |
 | `--debug` | — | off | Enable debug output |
-| `--annot` | — | — | (Help text only) Mentioned in usage example as a synonym for `--aparc`; not implemented as a separate flag in the parser — use `--aparc` instead |
-| `--log` | `<file>` | — | (Planned, not yet implemented) Would write output to a log file; listed as a TODO item in source |
-| `--test-aparc` | `<vtxno> <val>` | — | (Planned, not yet implemented) Would test annotation value at a vertex; listed as a TODO item in source |
-| `--test-curv` | `<vtxno> <val>` | — | (Planned, not yet implemented) Would test curvature value at a vertex; listed as a TODO item in source |
-| `--test-surf-face` | `<faceno> <val> <field>` | — | (Planned, not yet implemented) Would test a face field value; listed as a TODO item in source |
-| `--test-surf-vtx` | `<vtxno> <val> <field>` | — | (Planned, not yet implemented) Would test a vertex field value; listed as a TODO item in source |
+
+> [!gotcha] Unimplemented and help-only flags
+> The following flags appear in source file comments but are **not implemented** in `parse_commandline()` in v8.2.0. Passing them will cause an "Option unknown" error:
+> - `--annot` — appears only in a BEGINHELP usage example as an alias for `--aparc`; use `--aparc` instead.
+> - `--log <file>` — listed in a "// things to do:" comment; not implemented.
+> - `--test-aparc <vtxno> <val>` — TODO item; not implemented.
+> - `--test-curv <vtxno> <val>` — TODO item; not implemented.
+> - `--test-surf-face <faceno> <val> <field>` — TODO item; not implemented.
+> - `--test-surf-vtx <vtxno> <val> <field>` — TODO item; not implemented.
 
 ## Configuration Interactions
 

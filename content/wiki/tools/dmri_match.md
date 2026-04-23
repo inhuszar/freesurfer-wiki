@@ -56,8 +56,6 @@ This is called the "Hungarian" step in the `dmri_ac.sh` pipeline.
 | Cluster directory 2 | `-h2` | Directory containing subject 2's AnatomiCuts `.trk` clusters | path |
 | Number of clusters | `-c` | Number of clusters to match | int |
 | Output file | `-o` | Output correspondence CSV | CSV |
-| Labels flag | `-labels` | Use label-based similarity | flag |
-| Hungarian flag | `-hungarian` | Use Hungarian algorithm (vs. greedy) | flag |
 | Bounding box flag | `-bb` | Use bounding box constraint | flag |
 
 ## Outputs
@@ -90,43 +88,47 @@ The source also handles **symmetric matching** across hemispheres using `Symmetr
 
 From the `dmri_ac.sh` usage pattern:
 
-| Flag | Type | Description |
-|------|------|-------------|
-| `-s1 <file>` | file | Parcellation image for subject 1 |
-| `-s2 <file>` | file | Parcellation image for subject 2 |
-| `-h1 <dir>` | dir | AnatomiCuts cluster directory for subject 1 |
-| `-h2 <dir>` | dir | AnatomiCuts cluster directory for subject 2 |
-| `-c <n>` | int | Number of clusters to match |
-| `-o <file>` | file | Output correspondence CSV file |
-| `-labels` | flag | Use label-based membership function |
-| `-hungarian` | flag | Use Hungarian algorithm (vs. greedy matching) |
-| `-bb` | flag | Apply bounding-box spatial constraint |
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `-s1 <file>` | file | required | Parcellation image for subject 1 |
+| `-s2 <file>` | file | required | Parcellation image for subject 2 |
+| `-h1 <dir>` | dir | required | AnatomiCuts cluster directory for subject 1 |
+| `-h2 <dir>` | dir | required | AnatomiCuts cluster directory for subject 2 |
+| `-c <n>` | int | required | Number of clusters to match |
+| `-o <file>` | file | required | Output correspondence CSV file |
+| `-euclid` | flag | off | Use Euclidean centroid distance instead of label-histogram matching |
+| `-sym <val>` | float | 0.0 | Inter-hemisphere symmetry ratio for cluster removal |
+| `-bb` | flag | off | Apply bounding-box spatial constraint |
 
-> [!gap] Complete flag list
-> Additional flags may exist in the full argument parser that are not used in the `dmri_ac.sh` default call.
+> [!note] Hungarian algorithm is always used
+> Despite `-hungarian` appearing in usage strings and pipeline scripts, it corresponds to a commented-out `cl.search(1,"-hungarian")` in the source. The Hungarian algorithm (`vnl_hungarian_algorithm`) is unconditionally applied to the distance matrix regardless of any flag.
+
+> [!note] `-labels` is not a real flag
+> `-labels` appears in the usage string comment and in `dmri_ac.sh` calls, but in the source the `cl.search(1,"-labels")` call is in a comment: `else// if (cl.search(1,"-labels"))`. The label-histogram distance branch always runs when `-euclid` is not specified.
 
 ## Configuration Interactions
 
-- `-labels` and `-hungarian` are typically used together for optimal label-based assignment.
-- `-bb` restricts matches to spatially proximate clusters (bounding box overlap), which can improve speed and relevance when only anatomically nearby bundles should be matched.
+- `-euclid` selects Euclidean centroid distance; without it, label-histogram orientation matching is used (the default, formerly called `-labels`).
+- `-sym` enables hemispheric symmetry weighting when matching clusters across hemispheres.
+- `-bb` restricts matches to spatially proximate clusters (bounding box overlap), improving relevance when only anatomically nearby bundles should be matched.
 - The cluster count `-c` must match the count used in `dmri_AnatomiCuts`.
 
 ## Typical Use Cases
 
 ```bash
-# Standard Hungarian matching between subject and template
+# Standard matching between subject and template (label-based, Hungarian assignment)
 dmri_match \
   -s1 /data/template/dmri/wmparc2dwi.nii.gz \
   -s2 /data/subject01/dmri/wmparc2dwi.nii.gz \
   -h1 /data/template/dmri.ac/45/4/ \
   -h2 /data/subject01/dmri.ac/45/4/ \
-  -o /data/subject01/dmri.ac/45/4/match/template_subject01_c200_hungarian.csv \
-  -labels -hungarian -c 200
+  -o /data/subject01/dmri.ac/45/4/match/template_subject01_c200.csv \
+  -c 200
 
-# With bounding box constraint
+# With Euclidean distance and bounding box constraint
 dmri_match -s1 seg1.nii.gz -s2 seg2.nii.gz \
            -h1 clusters1/ -h2 clusters2/ \
-           -o match.csv -labels -hungarian -c 100 -bb
+           -o match.csv -euclid -c 100 -bb
 ```
 
 ## Pipeline Context
@@ -154,5 +156,4 @@ dmri_AnatomiCuts --> streamlineFilter --> dmri_match --> dmri_stats_ac
 
 ## Confidence and Gaps
 
-> [!gap] Full argument parser not read
-> The flag descriptions are based on the `dmri_ac.sh` usage. The full argument parser in `main()` was not read.
+**Confident (from source):** `-euclid`, `-sym`, `-bb`, `-s1`, `-s2`, `-h1`, `-h2`, `-c`, `-o` all confirmed from `main()`. Hungarian algorithm always used (not a flag). `-labels` and `-hungarian` are dead/commented-out code.

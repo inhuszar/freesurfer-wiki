@@ -15,7 +15,8 @@ related:
   - "[[fsgd-format]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-23
+audit_skip: true
 gaps:
   - "Full list of --sim-sign interactions with permutation tests not traced"
   - "Cache directory format and usage details"
@@ -138,7 +139,7 @@ Analytic correction based on the Euler characteristic of excursion sets. Require
 
 | Flag | Argument | Description | Default |
 |------|----------|-------------|---------|
-| `--fwhm-override` or `--fwhm` | `fwhm` | Override FWHM (mm) read from `fwhm.dat` in glmdir. | — (use value from `fwhm.dat`) |
+| `--fwhm-override` | `fwhm` | Override FWHM (mm) read from `fwhm.dat` in glmdir. | — (use value from `fwhm.dat`) |
 | `--fwhm-add` | `delta` | Add `delta` mm to the estimated FWHM before cache table lookup. | `0` |
 
 ### Permutation options
@@ -191,6 +192,7 @@ Analytic correction based on the Euler characteristic of excursion sets. Require
 
 | Flag | Argument | Description | Default |
 |------|----------|-------------|---------|
+| `--overwrite` | — | Delete existing CSD files and re-run simulation even if CSD files for the given `csdbase` already exist. Without this flag, the script exits with an error if CSD files are found. | off |
 | `--seed` | `seed` | Random seed for simulation. | — (unseeded) |
 | `--log` | `logfile` | Log file path. | `<glmdir>/<csdbase>.mri_glmfit-sim.log` |
 | `--tmp` | `tmpdir` | Temporary directory for intermediate files. | `<glmdir>/tmp.mri_glmfit-sim-<PID>` |

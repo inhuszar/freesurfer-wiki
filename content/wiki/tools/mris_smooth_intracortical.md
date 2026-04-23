@@ -105,13 +105,12 @@ The tool exits if fewer than 10 arguments are provided (`argc <= 9`), so the req
 | `--rad-size <n>` | integer | 1 | Radial extent of the intracortical smoothing kernel (number of adjacent surface meshes). `1` = no radial smoothing. |
 | `--rad-start <n>` | integer | 0 | Index of the starting surface mesh for radial smoothing (0 = white matter side). |
 | `--tan-weights <mode>` | string | `"gauss"` | Tangential weighting function: `"gauss"` (Gaussian with FWHM = `tan-size`) or `"distance"` (1/distance). |
-| `--rad-weights <type>` | string | — | Weighting function for radial smoothing kernel (not yet implemented in source). |
 
 > [!gotcha] `--tan-weights` takes a string, not an integer
 > The flag accepts the string value `"gauss"` or `"distance"`. Providing an integer (e.g., `--tan-weights 0`) will trigger the "Unknown value" warning and fall back to Gaussian weighting.
 
 > [!gotcha] Radial smoothing is unweighted (TODO in source)
-> When `--ic-size > 1`, the radial (across-layer) smoothing uses a simple unweighted mean of adjacent surface values. The source code contains a `// TODO` comment at this location indicating that weighted radial smoothing was planned but not yet implemented.
+> The radial (across-layer) smoothing uses a simple unweighted mean of adjacent surface values. The source code contains a `// TODO` comment indicating that weighted radial smoothing was planned but not yet implemented. The `--rad-weights` flag documented in the help text is not actually parsed.
 
 ## Configuration Interactions
 
@@ -157,4 +156,4 @@ mris_smooth_intracortical \
 
 ## Confidence and Gaps
 
-Confidence is **high**. The complete `parse_commandline()` and `print_usage()` functions were read from source. All flags confirmed: `--surf_dir`, `--surf_name`, `--overlay_dir`, `--overlay_name`, `--output_dir`, `--output_name`, `--tan-size`, `--rad-size`, `--rad-start`, `--tan-weights`, `--rad-weights`. The `--rad-weights` TODO and `--tan-weights` string-type semantics are confirmed from source directly. Note: `--surf-path`, `--over-path`, `--out-path`, `--surf-num`, --over-num are not CLI flags; counts and paths are set internally via glob.
+Confidence is **high**. The complete `parse_commandline()` and `print_usage()` functions were read from source. All flags confirmed: `--surf_dir`, `--surf_name`, `--overlay_dir`, `--overlay_name`, `--output_dir`, `--output_name`, `--tan-size`, `--rad-size`, `--rad-start`, `--tan-weights`. Note: `--surf-path`, `--over-path`, `--out-path`, `--surf-num`, `--over-num` are not CLI flags; counts and paths are set internally via glob. `--rad-weights` appears only in the `print_usage()` help text as "not yet implemented" and is not actually parsed — it has been removed from the flag table.

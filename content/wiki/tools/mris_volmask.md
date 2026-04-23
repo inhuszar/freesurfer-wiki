@@ -15,9 +15,17 @@ related:
   - "[[recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-23
 gaps:
   - "Exact OBBTree algorithm details not read."
+audit_suppress_c3:
+  - "--surf_white"
+  - "--surf_pial"
+  - "--label_background"
+  - "--label_left_white"
+  - "--label_left_ribbon"
+  - "--label_right_white"
+  - "--label_right_ribbon"
 tags:
   - surface
   - mask

@@ -15,7 +15,7 @@ related:
   - "[[mris_anatomical_stats]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-04-22
 gaps:
   - "Exact definition of 'areal error' quantity written to output — whether it is absolute area difference, ratio, or log ratio is not explicit without reading MRISwriteAreaError() internals."
 tags:
@@ -103,16 +103,17 @@ or a related quantity — exact form should be verified from `mrisurf.c`.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--nbrs <n>` | integer | 1 | Neighborhood size for computing metric properties. Values >1 expand the local neighborhood used in area computations. |
-| `--write_vals` | boolean | false | Write output in `.w` per-vertex values format instead of binary curvature format. |
+| `-nbrs <n>` | integer | 1 | Neighborhood size for computing metric properties. Values >1 expand the local neighborhood used in area computations. |
+| `-write_vals` | boolean | false | Write output in `.w` per-vertex values format instead of binary curvature format. |
 | `-v <diagno>` | integer | 0 | Set diagnostic vertex number for verbose output. |
+| `-name <name>` | string | — | **No-op.** Parsed but disabled (`#if 0` in source). The body that would set `parms.base_name` is compiled out. Has no effect. |
 | `--version` | boolean | — | Print version string and exit. |
 | `-u` | boolean | — | Print usage and exit. |
 
 ### Configuration Interactions
 
-- `--write_vals` changes the output format but not the computed values.
-- `--nbrs` affects the size of the neighborhood used when computing metric properties; this may influence the area estimates.
+- `-write_vals` changes the output format but not the computed values.
+- `-nbrs` affects the size of the neighborhood used when computing metric properties; this may influence the area estimates.
 
 ## Typical Use Cases
 

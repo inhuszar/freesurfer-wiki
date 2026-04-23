@@ -58,9 +58,9 @@ FreeSurfer's multi-echo FLASH protocol acquires volumes at multiple flip angles 
 | Positional arg 6 | Output volume |
 
 Optional:
-- T2* map (via `-T2star`)
-- Joint PDF for T1 remapping
-- Bias field coefficients
+- T2* map (via `-t2` or `-t2star`)
+- Joint PDF for T1 remapping (via `-jpdf` or `-ijpdf`)
+- Bias field coefficients (via `-bias`)
 
 ## Outputs
 
@@ -79,7 +79,7 @@ The FLASH signal equation:
 > $$
 > where $M_0 \propto PD$ (proton density), $\alpha$ is the flip angle, $TR$ is the repetition time, $TE$ is the echo time, $T_1$ and $T_2^*$ are the tissue relaxation times.
 
-When `--weighting` is used, a two-contrast combination is computed:
+When `-w` is used, a two-contrast combination is computed:
 $$
 S_{\text{comb}} = w_{30} \cdot S(\alpha=30°) + w_5 \cdot S(\alpha=5°)
 $$
@@ -87,18 +87,22 @@ with hardcoded weights $w_{30} = 2 \times 0.9527$, $w_5 = 2 \times (-0.3039)$, t
 
 ## Configuration Options
 
-| Flag | Argument | Description |
-|---|---|---|
-| `-T2star` | file | T2* map volume |
-| `-norm` | (flag) | Normalize PD map |
-| `-discard` | thresh | Discard PD values below threshold |
-| `-jpdf` | file | Joint PDF file for T1 nonlinear remapping |
-| `-invert` | (flag) | Invert T1 remapping |
-| `-PDsat` | value | PD saturation value |
-| `-weighting` | (flag) | Use optimal two-contrast weighting |
-| `-nbias` | N | Number of bias field components |
-| `-nfaf` | N | Number of flip-angle-to-field components |
-| `-extract` | (flag) | Extract mode |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-t2` / `-t2star` | `file` | — | T2* map volume for extended FLASH model |
+| `-n` | — | off | Normalize PD map to mean=1000 before synthesis |
+| `-d` | — | off | Discard PD: set values above 250 to constant 1500, others to 0 |
+| `-jpdf` | `file` | — | Joint PDF file for T1 nonlinear remapping |
+| `-ijpdf` | `file` | — | Joint PDF for T1 remapping (inverted direction) |
+| `-pdsat` | `value` | 0.0 | PD saturation value; applies `tanh` saturation to PD |
+| `-w` | — | off | Use optimal two-contrast (5° and 30°) weighting for WM/GM contrast |
+| `-bias` | `N ...` | — | Number of bias field components (N), followed by 6N float coefficients |
+| `-faf` | `N ...` | — | Number of flip-angle-field components (N), followed by 6N float coefficients |
+| `-remap` | `mean scale` | — | Apply nonlinear T1 remap: `mean * (tanh(scale * (T1 - mean)) + 1.5)` |
+| `-w5` | `value` | `2 * -0.3039` | Override 5° flip-angle weight for `-w` mode |
+| `-w30` | `value` | `2 * 0.9527` | Override 30° flip-angle weight for `-w` mode |
+| `-x` | — | off | Extract interior half of input images before synthesis |
+| `-debug_voxel` | `x y z` | — | Debug output for a specific voxel coordinate |
 
 ## Typical Use Cases
 
@@ -109,7 +113,7 @@ mri_synthesize 20 25 2 T1.mgz PD.mgz synthetic_T1w.mgz
 
 **2. With T2* decay:**
 ```bash
-mri_synthesize 20 25 2 T1.mgz PD.mgz synthetic_T1w.mgz -T2star T2star.mgz
+mri_synthesize 20 25 2 T1.mgz PD.mgz synthetic_T1w.mgz -t2star T2star.mgz
 ```
 
 ## Pipeline Context

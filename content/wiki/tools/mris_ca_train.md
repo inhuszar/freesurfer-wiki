@@ -16,7 +16,7 @@ related:
   - "[[curv-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-04-22
 gaps:
   - "Exact GCSA file format specification needs cross-reference with gcsa.h."
   - "Semantics of GCSAfill_cpn_holes and GCSAfill_gcsan_holes not fully traced."
@@ -89,29 +89,37 @@ The prior $p(c \mid \theta, \phi)$ is estimated from label frequencies at locati
 
 ## Configuration Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-n <nbrs>` | Surface neighbourhood size | 2 |
-| `-t <navgs>` | Smoothing averages applied to features | 5 |
-| `-1` | Use only sulcal depth (sulconly mode) | off |
-| `-w <curv_fname>` | Custom curvature file name | — |
-| `-l <label_name>` | Restrict training to a specific label | all labels |
-| `-L <label_index>` | Label index to use with `-l` | — |
-| `-p <ptable_fname>` | Output parcellation table file | — |
-| `-t <ctab_fname>` | Read [[color-lut|colour table]] file | — |
-| `-c <n>` | Input feature count (`ninputs`) | 1 |
-| `-f <input_fname>` | Override input scalar file name | — |
-| `-prior <icno>` | Icosahedron resolution for priors | 7 |
-| `-classifier <icno>` | Icosahedron resolution for classifiers | 4 |
-| `-nfill <n>` | Max fill iterations | -1 (unlimited) |
-| `-no-fill` | Disable label fill | off (fill is on by default) |
+| Flag | Arguments | Default | Description |
+|------|-----------|---------|-------------|
+| `-a <n>` | integer | 5 | Number of nearest-neighbour smoothing iterations applied to input feature 1. |
+| `-debug-vertex <n>` | integer | — | Set diagnostic vertex index (`Gdiag_no`). |
+| `-gcs-diff <gcsa1> <gcsa2>` | string string | — | Standalone: compare two GCSA files and report whether they differ. |
+| `-gcs-means <gcsa> <inputno> <out.mgz>` | string int string | — | Standalone: extract likelihood means for all classes at the given input index. |
+| `-gcs-priors <gcsa> <out.mgz>` | string string | — | Standalone: extract class priors from the GCSA file. |
+| `-ic <priors> <classifiers>` | integer integer | 7 4 | Icosahedron resolution for priors and classifiers respectively. |
+| `-input <file>` | string | — | Override input scalar feature file name. |
+| `-l <label>` | string | all labels | Restrict training to vertices in the named label. |
+| `-n <n>` | integer | 1 | Number of input scalar features (max 3: mean curvature, sulc, thickness). |
+| `-nbrs <n>` | integer | 2 | Surface neighbourhood size for feature averaging. |
+| `-nfill <n>` | integer | — | Maximum number of fill iterations for empty atlas locations. |
+| `-no-fill` | — | off | Disable label fill post-processing entirely. |
+| `-norm1` | — | off | Apply GCSA normalization to input feature 1 after reading. |
+| `-norm2` | — | off | Apply GCSA normalization to input feature 2 after reading. |
+| `-norm3` | — | off | Apply GCSA normalization to input feature 3 after reading. |
+| `-orig <file>` | string | `smoothwm` | Original surface filename used to load per-vertex geometry. |
+| `-sdir <dir>` | string | `$SUBJECTS_DIR` | Subjects directory. |
+| `-sulc` | — | off | Use sulcal depth as the only input feature (sulconly mode). |
+| `-sulconly` | — | off | Alias for `-sulc`. |
+| `-t <file>` | string | — | Read parcellation table (colour look-up table) from `<file>`. |
+| `-v <n>` | integer | — | Diagnostic level (`Gdiag_no`). |
 
 ## Configuration Interactions
 
-- `-1` (sulconly) disables curvature as a feature; only sulcal depth is used. This reduces the feature dimensionality.
-- `-c <n>` increases the number of input scalar features beyond the default 1 (sulc) or 2 (curv + sulc).
+- `-sulc` / `-sulconly` disables curvature as a feature; only sulcal depth is used. This reduces the feature dimensionality.
+- `-n <n>` increases the number of input scalar features beyond the default 1 (sulc only) or 2 (curv + sulc). Input order is: 1=mean curvature, 2=sulcal depth, 3=thickness.
 - `-nfill` / `-no-fill` control a post-training label fill step that propagates labels to unlabelled atlas locations. Fill is enabled by default; `-no-fill` disables it entirely, while `-nfill <n>` caps the number of fill iterations.
 - `which_norm` (mean normalisation) is applied to feature vectors before training.
+- `-gcs-means`, `-gcs-priors`, `-gcs-diff` are standalone diagnostic modes that operate on an existing GCSA file and exit; they do not train a new atlas.
 
 > [!gotcha] Annotation vs. colour table
 > If a colour table (`-t`) is supplied, it overrides the annotation's embedded colour table. This can cause mismatches if the annotation and colour table are from different atlas versions.
@@ -125,7 +133,7 @@ mris_ca_train lh sphere.reg aparc \
     /tmp/lh.training.gcs
 
 # Sulcal-depth-only atlas
-mris_ca_train -1 lh sphere.reg aparc \
+mris_ca_train -sulconly lh sphere.reg aparc \
     bert ernie alice bob \
     /tmp/lh.sulconly.gcs
 ```
