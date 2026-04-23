@@ -37,19 +37,16 @@
 // ─────────────────────────────────────────────────────────────────────────
 // Layout — wider content for flag tables
 // ─────────────────────────────────────────────────────────────────────────
+// Only expand the centre column. Do NOT touch #quartz-body width —
+// that's the flex container that holds explorer | content | TOC.
 
-.page > #quartz-body {
-  max-width: none;
-}
+@media (min-width: 1200px) {
+  .center {
+    max-width: 920px;
+  }
 
-.center,
-article.popover-hint {
-  max-width: 920px !important;
-}
-
-@media (min-width: 1400px) {
-  .page > #quartz-body .center {
-    flex: 1 1 920px;
+  article.popover-hint {
+    max-width: 920px;
   }
 }
 
