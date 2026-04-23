@@ -185,7 +185,7 @@ All binary operators perform element-wise operations across vertices. When
 | `--verbosity` | none | `int` | 0 | Set the global verbosity level (`G_verbosity`). 0 = silent, larger values print progress and diagnostics. Argument is parsed with `atoi`. |
 | `--version` | `-v`, `-V`, any option starting with `v`/`V` | none | — | Print the FreeSurfer build version and exit (status 1). |
 | `--help` | `--usage`, `-h`, `-H`, `-u`, `-U`, `-?`, any option starting with `h`/`u`/`?` | none | — | Print the full help/synopsis and exit (status 1). |
-| `-t` (and any option starting with `t`<br>`T`) | none | none | — | Recognised but is a no-op stub in `options_parse()` (sets a local `pch_text = "void"` and falls through). It does not take an argument and has no observable effect. Likely a leftover from earlier development. |
+| `-t` (and any option starting with `t`/`T`) | none | none | — | Recognised but is a no-op stub in `options_parse()` (sets a local `pch_text = "void"` and falls through). It does not take an argument and has no observable effect. Likely a leftover from earlier development. |
 
 > [!gotcha] Single-letter prefix matching is greedy
 > `options_parse()` first tries `--output`, `--threads`, `--strictExtensions`,

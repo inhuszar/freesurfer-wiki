@@ -160,7 +160,7 @@ Within `recon-all`, it is the *only* tool that creates the
 | File | Format | Description |
 |------|--------|-------------|
 | `<out volume>` | MGZ / NIfTI / … | The input volume with non-brain voxels set to 0. Preserved intensities inside the brain. |
-| `<surfname>`<br>`<surfname>_inner_skull_surface`, etc. | FreeSurfer surface | Written when `-surf`, `-brainsurf`, or `-shk_br_surf` are used. |
+| `<surfname>`, `<surfname>_inner_skull_surface`, etc. | FreeSurfer surface | Written when `-surf`, `-brainsurf`, or `-shk_br_surf` are used. |
 | Label volume | MGZ | When `-LABEL` is passed, the output volume is labelled: 0 = exterior, 1 = scalp, 2 = skull, 3 = csf, 4 = gray, 5 = white, 6 = fat tissue. |
 
 ### Output Specifications

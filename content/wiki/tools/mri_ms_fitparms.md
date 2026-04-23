@@ -69,7 +69,7 @@ All outputs are written to an output directory:
 |--------|--------|-------------|
 | `T1.mgz` | [[mgz]] | Estimated T1 relaxation map (ms) |
 | `PD.mgz` | [[mgz]] | Estimated proton density map |
-| `vol0.mgz`<br>`vol1.mgz`, ... | [[mgz]] | Synthetic volumes simulating each input |
+| `vol0.mgz`, `vol1.mgz`, ... | [[mgz]] | Synthetic volumes simulating each input |
 | Per-volume transform files | `.lta` | Linear transforms aligning each run |
 
 ## Mathematical Foundations

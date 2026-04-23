@@ -48,7 +48,7 @@ The tool is a data-format bridge; it performs no statistical analysis or surface
 | Surface segmentation file (`--seg`) | Per-vertex integer indices into a color table. Can be any surface overlay with whole-number values. | `.mgh`, `.mgz`, or curvature-like binary |
 | Color table (`--ctab`) | Maps integer indices to names and RGBA colors. Same format as `$FREESURFER_HOME/FreeSurferColorsLUT.txt`. | Plain text |
 | Subject directory (`--s`) | FreeSurfer subject directory containing the surface. Required when using subject/hemisphere mode. | Directory |
-| Hemisphere (`--h`<br>`--hemi`) | `lh` or `rh`. | — |
+| Hemisphere (`--h` / `--hemi`) | `lh` or `rh`. | — |
 
 **Alternative positional invocation** via --seg2annot seg surf ctab output does not require a recon-all directory structure.
 

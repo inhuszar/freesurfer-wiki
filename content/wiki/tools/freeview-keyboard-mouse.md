@@ -111,7 +111,7 @@ tags:
 | Shortcut | Action |
 |----------|--------|
 | `PageUp`<br>`PageDown` | Previous / next slice |
-| `Up`<br>`Down` arrows | Previous / next slice |
+| `Up` / `Down` arrows | Previous / next slice |
 | `Ctrl+Arrow keys` | Pan view (without moving cursor) |
 | `Shift+Up`<br>`Shift+Down` | Zoom in / zoom out (keyboard) |
 

@@ -164,7 +164,7 @@ correction to a FreeSurfer-format volume.
 |------|--------|-------------|
 | `<outvol>` | MGZ / NIfTI / … | Bias-corrected volume. Geometry and (by default) dynamic range match the input, except that when `--uchar` is passed the data type is cast to `uint8` and the histogram is rescaled. |
 | `<outdir>/mri_nu_correct.mni.log` | text | Full log of the wrapper run, unless `--log` is overridden. |
-| `<tmpdir>/nu0.mnc`<br>`nu1.mnc`, …, `nu<nIters>.mnc` | MINC | Intermediate MNI backend outputs (deleted at end unless `--no-cleanup`). |
+| `<tmpdir>/nu0.mnc`, `nu1.mnc`, …, `nu<nIters>.mnc` | MINC | Intermediate MNI backend outputs (deleted at end unless `--no-cleanup`). |
 
 When the ANTs backend is used, the intermediates are kept in the
 `tmpdir` as `nu0.mgz` (and, for `--ants-n4`, `.mgz` outputs from

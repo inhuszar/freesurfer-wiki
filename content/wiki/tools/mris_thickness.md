@@ -67,7 +67,7 @@ Cortical thickness is a fundamental morphometric measure reflecting neuronal den
 
 | Output | Description | Format |
 |--------|-------------|--------|
-| Thickness file (`lh.thickness`<br>`rh.thickness`) | Per-vertex cortical thickness in mm, stored as a curvature file. | Curvature binary |
+| Thickness file (`lh.thickness` / `rh.thickness`) | Per-vertex cortical thickness in mm, stored as a curvature file. | Curvature binary |
 | Optional output surface (`-osurf`) | Surface with thickness written to it. | FreeSurfer binary surface |
 | Optional longitudinal file (`-long`) | Output path for longitudinal thickness. | Curvature binary |
 

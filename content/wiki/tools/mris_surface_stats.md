@@ -49,9 +49,9 @@ The tool is designed for quick exploratory group statistics; it is not a full GL
 
 | Input | Description | Format |
 |-------|-------------|--------|
-| Surface file (`-surf`<br>`-surf_name`<br>`-surf_file`) | The underlying surface mesh. | FreeSurfer binary surface |
+| Surface file (`-surf` / `-surf_name` / `-surf_file`) | The underlying surface mesh. | FreeSurfer binary surface |
 | Multiple overlay files (positional) | Per-subject scalar maps (e.g., thickness difference files from [[mris_thickness_diff]]). | `.mgh`, `.mgz`, or type-specified |
-| Mask label (`-mask`<br>`-mask_name`<br>`-mask_fname`) | Optional subcortical mask. | `.label` |
+| Mask label (`-mask` / `-mask_name` / `-mask_fname`) | Optional subcortical mask. | `.label` |
 
 **Usage (inferred from code):** The overlay files are passed as positional arguments.
 
@@ -59,10 +59,10 @@ The tool is designed for quick exploratory group statistics; it is not a full GL
 
 | Output | Description | Format |
 |--------|-------------|--------|
-| Std map (`-out`<br>`-out_name`<br>`-out_fname`) | Per-vertex standard deviation of signed values (required). | `.mgh`, `.mgz` |
-| Mean map (`-mean`<br>`-mean_name`<br>`-mean_fname`) | Per-vertex mean of signed values. | `.mgh`, `.mgz` |
-| Absolute mean (`-absmean`<br>`-absmean_name`<br>`-absmean_fname`) | Per-vertex mean of absolute values. | `.mgh`, `.mgz` |
-| Absolute std (`-absstd`<br>`-absstd_name`<br>`-absstd_fname`) | Per-vertex std of absolute values. | `.mgh`, `.mgz` |
+| Std map (`-out` / `-out_name` / `-out_fname`) | Per-vertex standard deviation of signed values (required). | `.mgh`, `.mgz` |
+| Mean map (`-mean` / `-mean_name` / `-mean_fname`) | Per-vertex mean of signed values. | `.mgh`, `.mgz` |
+| Absolute mean (`-absmean` / `-absmean_name` / `-absmean_fname`) | Per-vertex mean of absolute values. | `.mgh`, `.mgz` |
+| Absolute std (`-absstd` / `-absstd_name` / `-absstd_fname`) | Per-vertex std of absolute values. | `.mgh`, `.mgz` |
 | Z-score (`-zscore`) | Per-vertex z-score for group contrast. | `.mgh`, `.mgz` |
 
 ## Mathematical Foundations
