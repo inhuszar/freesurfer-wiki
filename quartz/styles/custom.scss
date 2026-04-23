@@ -1,3 +1,5 @@
+@use "./base.scss"
+
 // ==========================================================================
 // FreeSurfer Documentation Project — Custom Quartz styles
 // Editorial academic aesthetic: warm paper, Fraunces display, data-table
@@ -6,8 +8,6 @@
 // Place at: quartz/styles/custom.scss
 // Enable by adding `@import "custom";` at the END of quartz/styles/base.scss
 // ==========================================================================
-
-@use "./base.scss"
 
 // ─────────────────────────────────────────────────────────────────────────
 // Design tokens
