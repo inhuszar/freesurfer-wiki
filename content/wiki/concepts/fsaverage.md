@@ -534,7 +534,7 @@ for studies requiring across-hemisphere comparison in a shared coordinate space.
 - Fischl B, van der Kouwe A, Destrieux C, et al. (2004). Automatically parcellating
   the human cerebral cortex. *Cerebral Cortex*, 14(1), 11–22. doi:10.1093/cercor/bhg087
 - Source file (construction): `mris_make_average_surface/mris_make_average_surface.cpp`
-- Source file (averaging algorithm): `utils/mrisutils.cpp`, function `MakeAverageSurf()` (line 3227)
+- Source file (averaging algorithm): `utils/mrisutils.cpp`, function `MakeAverageSurf()` ([line 3227](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L3227))
 - Source file (surfreg pipeline): `scripts/rca-surfreg`
 - Source file (group analysis): `scripts/mris_preproc`
 - Construction log (original): `$FREESURFER_HOME/subjects/fsaverage/scripts/make_average_surface.log`

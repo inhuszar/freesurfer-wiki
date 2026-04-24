@@ -152,7 +152,7 @@ with optional `--atlas 3T18yoSchwartzReactN32_as_orig` (from
   `orig_nu.mgz` (from [[mri_nu_correct.mni]] `--no-rescale`) rather
   than `orig.mgz`.
 - **ANALYZE-round-trippable**: the wrapper converts the input to
-  ANALYZE via `mri_convert` (line 76). ANALYZE cannot represent
+  ANALYZE via `mri_convert` ([line 76](https://github.com/freesurfer/freesurfer/blob/v8.2.0/talairach_avi/t4imgs_4dfp.c#L76)). ANALYZE cannot represent
   arbitrary direction cosines — the wrapper relies on the
   orientation being correctly re-interpreted by `analyzeto4dfp -O0
   -y` (which flips y to compensate for the ANALYZE↔4dfp
@@ -363,7 +363,7 @@ The wrapper has very few flags and almost no internal interactions:
 > `mpr2mni305` writes `talsrcimg*` files to the current working
 > directory, *not* `tmpdir`. The wrapper then `mv`s the
 > `t4_vox2vox.txt` file into the output directory at the end
-> (line 110) and `rm -f talsrcimg*` at line 127. If the run
+> ([line 110](https://github.com/freesurfer/freesurfer/blob/v8.2.0/talairach_avi/t4imgs_4dfp.c#L110)) and `rm -f talsrcimg*` at line 127. If the run
 > crashes, these files remain in the CWD. Ensure you run
 > `talairach_avi` from a disposable working directory, not from
 > a shared one.

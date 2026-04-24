@@ -127,12 +127,12 @@ where the code computes `1 - eno/2` (source: `mris_euler_number.cpp`, line 91).
 
 ### Implementation
 
-`MRIScomputeEulerNumber()` in `utils/mrisurf_topology.cpp` (line 528) counts
+`MRIScomputeEulerNumber()` in `utils/mrisurf_topology.cpp` ([line 528](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_topology.cpp#L528)) counts
 non-ripped vertices, edges (counted once per pair using `vno < vnb`), and faces,
 then returns `V - E + F`. The function is called both by `mris_euler_number` and
 internally by `mris_fix_topology` and `mris_topo_fixer` to report progress.
 
-`MRIStopologicalDefectIndex()` (line 562) additionally computes the manifold
+`MRIStopologicalDefectIndex()` ([line 562](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_topology.cpp#L562)) additionally computes the manifold
 consistency check and returns `|2 - χ| + |2E - 3F|`. A value of 0 certifies
 both that $\chi = 2$ and that every edge is shared by exactly two faces.
 
@@ -195,7 +195,7 @@ produces.
 ### Algorithm
 
 The core algorithm is implemented in `MRIScorrectTopology()` in
-`utils/mrisurf_defect.cpp` (line 7825). The steps are:
+`utils/mrisurf_defect.cpp` ([line 7825](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_defect.cpp#L7825)). The steps are:
 
 1. **Spherical centering.** The canonical (spherical) vertex positions from
    `qsphere.nofix` are centred using `MRIScenterSphere()`.
@@ -208,7 +208,7 @@ The core algorithm is implemented in `MRIScorrectTopology()` in
    overlap is marked "ambiguous". The spherical projection makes the defects
    visible as non-injective regions.
 
-3. **Defect segmentation.** `MRISsegmentDefects()` (line 9134) groups connected
+3. **Defect segmentation.** `MRISsegmentDefects()` ([line 9134](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_defect.cpp#L9134)) groups connected
    ambiguous vertices into individual defect regions using connected-component
    labelling in the ambiguous mark set. Each connected component is one defect.
 
@@ -467,15 +467,15 @@ mris_register → sphere.reg
 ...
 ```
 
-The `defect2seg` command (line 3783) converts the defect labels into an MGZ
+The `defect2seg` command ([`scripts/recon-all:3783`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3783)) converts the defect labels into an MGZ
 segmentation volume for quality control.
 
-The `recon-all` variable `UseOldTopoFix = 1` (line 157) controls whether
+The `recon-all` variable `UseOldTopoFix = 1` ([`scripts/recon-all:157`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L157)) controls whether
 `mris_fix_topology` is attempted first. The `UseNewTopoFix` variable is set
 to 1 only when the old fixer fails.
 
 > [!gotcha] recon-all forces single-threaded mris_fix_topology
-> The comment in `recon-all` (line 3728–3730) notes that `mris_fix_topology`
+> The comment in `recon-all` ([`scripts/recon-all:3728–3730`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3728-L3730)) notes that `mris_fix_topology`
 > became non-deterministic with multiple threads on a subset of subjects.
 > Therefore, `recon-all` always passes `-threads 1` to `mris_fix_topology`.
 > This is a significant runtime consideration: topology correction on a complex

@@ -43,7 +43,7 @@ control-point voxels that are confidently white matter, fits a
 smooth multiplicative correction field so that the control-point
 intensities land at a target WM intensity of
 `DEFAULT_DESIRED_WHITE_MATTER_VALUE = 110` (defined in
-`include/mrinorm.h:31`), and applies that correction to the whole
+[[`include/mrinorm.h:31`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/mrinorm.h#L31)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/mrinorm.h#L31)), and applies that correction to the whole
 volume. The result is a volume in which white matter has a
 histogram peak at ~110, grey matter is roughly at ~80–90, and CSF is
 darker still — the canonical intensity scale that every downstream
@@ -66,7 +66,7 @@ reliably WM.
   `utils/mrinorm.cpp`).
 - **Source file(s):**
   - `mri_normalize/mri_normalize.cpp` — 2168 lines. Contains
-    `main()` (line 163), the argument parser `get_option()` (lines
+    `main()` ([line 163](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L163)), the argument parser `get_option()` (lines
     1001–1340), and helper routines for control-point pruning
     (`MRIremoveWMOutliers`, `MRIremoveWMOutliersAndRetainMedialSurface`,
     `remove_outliers_near_surface`) and bias-field construction
@@ -75,7 +75,7 @@ reliably WM.
   - `mri_normalize/mri_long_normalize.cpp` — related longitudinal
     utility (not user-facing from `recon-all`).
   - `include/mrinorm.h` — defines `DEFAULT_DESIRED_WHITE_MATTER_VALUE
-    = 110` (line 31) and `MAX_GRADIENT = 1.0` (line 62).
+    = 110` ([line 31](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/mrinorm.h#L31)) and `MAX_GRADIENT = 1.0` ([line 62](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/mrinorm.h#L62)).
   - `utils/mrinorm.cpp` — the heavy lifting: `MRI3dNormalize()`,
     `MRI3dGentleNormalize()`, `MRIbuildBiasImage()`,
     `MRIapplyBiasCorrection{,SameGeometry}()`, control-point
@@ -207,7 +207,7 @@ $$
 
 With `-aseg aseg.mgz`, $\mathcal{C}$ is restricted to voxels
 labelled `Left/Right_Cerebral_White_Matter` (as listed in
-`aseg_wm_labels[]` at `mri_normalize.cpp:130–133`).
+`aseg_wm_labels[]` at [[`mri_normalize.cpp:130–133`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L130-L133)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L130-L133)).
 
 ### Step 2 — Bias-field estimation
 
@@ -377,7 +377,7 @@ Grouped by function.
 
 > [!gotcha] `-renorm` fully short-circuits the pipeline
 > When `-renorm <ref.mgz>` is passed, `main()` at
-> `mri_normalize.cpp:223–279` runs its own code path (erode,
+> [[`mri_normalize.cpp:223–279`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L223-L279)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L223-L279) runs its own code path (erode,
 > build bias image, apply correction, write output) and
 > `exit(0)`s. Every other flag (aseg, surface, atlas, longitudinal)
 > is ignored.
@@ -506,7 +506,7 @@ uses them as control points, and re-fits the bias field on `in.mgz`.
 - **Renormalisation volume with different geometry**: `-renorm`
   resamples the reference volume via `MRIresample(...,
   SAMPLE_TRILINEAR)` if dimensions do not match
-  (`mri_normalize.cpp:232–237`).
+  ([[`mri_normalize.cpp:232–237`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L232-L237)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_normalize/mri_normalize.cpp#L232-L237)).
 
 ## Related Tools
 

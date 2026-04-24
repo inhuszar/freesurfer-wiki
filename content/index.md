@@ -544,11 +544,201 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 |-------|---------|--------|
 | _none yet_ | | |
 
+## Bugs
+
+| Bug | Affected | Severity | Status |
+|-----|----------|----------|--------|
+| [[00001]] | gcaComputeSampleConditionalDensity — missing 1/2 factor in Mahalanobis exponent (affects `mri_em_register` diagnostic `*_pvals.mgz`) | medium | open |
+| [[00002]] | MRISfindExpansionRegions — neighbour ripflag test uses central vertex (white/pial placement heuristic) | low | open |
+| [[00003]] | VectorAngle — acos input clamped on the positive side only (latent; exported utility with no in-tree callers) | low | open |
+| [[00004]] | MRIsampleVolumeGradient — boundary denominator not adjusted when one side is clipped (halves gradient at FoV edge; MRIsampleVolumeGradientFrame has a related worse-mode defect) | medium | open |
+| [[00005]] | MRISaverageMarkedCurvatures — neighbour filter drops the marked check (inconsistent with sister MRISaverageMarkedVals) | low | open |
+| [[00006]] | MRIdistanceTransform — anisotropic voxels produce non-Euclidean mm distances (unit-grid Eikonal solver + xsize-only rescale) | medium | open |
+| [[00007]] | SupraTentorialVolCorrection / CorticalGMVolCorrection — thalamus voxels double-counted (inflates SupraTentVol / SupraTentVolNotVent in brainvol.stats) | medium | open |
+| [[00008]] | gdfContrastDOSS — off-by-one loop walks past the contrast matrix and past wCovar (latent; exported FSGD helper with no in-tree caller) | low | open |
+| [[00009]] | fMRItemporalAR1 — zero-variance guard missing continue; still divides by zero, producing NaN/Inf in unmasked AR1 maps | low | open |
+| [[00010]] | MRIremove1dStructures — broken `while (nvox > 0 \|\| ++niter > max_iter)` defeats the max-iteration safeguard (`mri_segment` in autorecon2) | low | open |
+| [[00011]] | MRIvote — final-run handler forgets Exclude0; all-zero voxels report `vmax = 0` with 100% confidence under `mri_concat --vote-ex0` | low | open |
+| [[00012]] | mrisComputeOptimalPlane — centroid never divided, reset before covariance; returned centroid is always (0, 0, 0) and normal is biased (latent) | low | open |
+| [[00013]] | mris_euler_number — post-patch hole count uses `2 − eno` (twice the genus) instead of `1 − eno/2`; pre-patch paths are correct | low | open |
+| [[00014]] | MRISisSurfaceValid — diagnostic printout double-counts defective edges (nedges /= 2 but nffs / nffm are not halved) | low | open |
+| [[00015]] | MRIxfmCRS2XYZ — shear gate tests only the positive side (`s_r > 1e-5 ...`) so negative shears are silently dropped when `useshear = true` | medium | open |
+| [[00016]] | MRIcopyHeader — `register_mat` MatrixCopy return discarded; freshly-allocated destinations lose the matrix and leak the allocation | low | open |
+| [[00017]] | MRIchangeType — histogram-trim `src_max` uses the just-overwritten `src_min` as its base; `new_src_max` inflated by the low-trim amount | low | open |
+| [[00018]] | MRIcubicSampleVolume — divides by `nvals` instead of `8.0`; `SAMPLE_CUBIC` returns ~1/8 of the correct intensity, with position-dependent boundary error | high | open |
+| [[00019]] | MRIcubicSampleVolumeFrame — boundary-limited stencil load but full-range accumulation; reads uninitialised stack at boundary voxels (MRIgradCubicInterp has the same pattern) | medium | open |
+| [[00020]] | MRIsincSampleVolume / MRIsincSampleVolumeFrame — `MRI_SHORT` clamp uses unsigned range `[0, 65535]` instead of signed `[−32768, 32767]`; negatives destroyed, `(32767, 65535]` escape and wrap on store | medium | open |
+| [[00021]] | MRIresampleFill SAMPLE_VOTE — vote tallies stored as `MRI_UCHAR` with 256 frames; labels > 255 silently clipped (collapses aparc cortical parcels onto label 255) and counts wrap at 256 votes (`mri_convert --resample_type vote`) | high | open |
+| [[00022]] | HISTOaddSample — linear-interp weights `dp + dn` collapse to 0 at integer `dbin` (every sample silently dropped when `bin_size = 1`, the configuration used by surface-likelihood / GCA / GCAM histograms); else-branch compares bin index to float value-range minimum | high | open |
+| [[00023]] | MRIvalRange / MRIvalRangeFrame / MRIvalRangeRegion / MRInonzeroValRange — fixed `±10000` sentinel instead of first-sample init; silently returns `fmin = 10000` for data entirely above 10000, and `fmin > fmax` with `NO_ERROR` for empty volumes | medium | open |
+
+## GitHub Issues
+
+| Issue | Title | Affected | Verdict | State |
+|-------|-------|----------|---------|-------|
+| [[1358]] | mri_convert loses information on image reorientation (`--out_orientation` pivots flipped axes around N/2 on even-N volumes) | [[mri_convert]] | plausible | open |
+| [[1432]] | recon-all v8.2.0 crashes at `DoSurfReg` when `-expert <file>` is used (two defects: tcsh `if($XOptsFile)` arithmetic error, plus `rca-surfreg` missing `--expert` alias) | [[recon-all]] | plausible | open |
+| [[1438]] | SuperSynth inference postprocessing loop overwrites `seg[0][~Mdilated] = 1` (latent; `volumes.csv` and `seg_discrete` unaffected) | [[mri_super_synth]] | plausible | open |
+
 ## Internals
 
 | Module | Summary | Status |
 |--------|---------|--------|
 | [[internal-gcamorph]] | GCA Morph non-linear deformation library: GCA_MORPH struct, .m3z binary layout, energy functional | 📝 draft |
+
+## Files (Glossary)
+
+One page per canonical output file produced by a typical `recon-all` run. Pages are in `wiki/files/`.
+
+### MRI Volumes — `mri/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[orig.mgz]] | Conformed 256³ 1 mm isotropic T1w input | 📝 draft |
+| [[rawavg.mgz]] | Average of raw input runs (before conforming) | 📝 draft |
+| [[T1.mgz]] | Motion-corrected, averaged T1w (= rawavg if one run) | 📝 draft |
+| [[nu.mgz]] | N3/N4 bias-corrected intensity volume | 📝 draft |
+| [[norm.mgz]] | White-matter intensity-normalised volume | 📝 draft |
+| [[brain.mgz]] | Skull-stripped brain volume | 📝 draft |
+| [[brainmask.mgz]] | Binary brain mask (editable) | 📝 draft |
+| [[brain.finalsurfs.mgz]] | Brain volume used for final surface placement (editable) | 📝 draft |
+| [[wm.mgz]] | Binary white matter segmentation (editable) | 📝 draft |
+| [[wm.seg.mgz]] | Initial WM segmentation before editing | 📝 draft |
+| [[wm.asegedit.mgz]] | WM after aseg-based editing | 📝 draft |
+| [[filled.mgz]] | Hemisphere-filled WM volume (editable) | 📝 draft |
+| [[filled.auto.mgz]] | Auto-filled WM before manual edits | 📝 draft |
+| [[ctrl_pts.mgz]] | Manual intensity normalisation control points (editable) | 📝 draft |
+| [[synthstrip.mgz]] | SynthStrip deep-learning brain mask | 📝 draft |
+| [[synthseg.rca.mgz]] | SynthSeg deep-learning whole-brain segmentation | 📝 draft |
+| [[entowm.mgz]] | Entorhinal cortex WM segmentation | 📝 draft |
+| [[vsinus.mgz]] | Venous sinus segmentation | 📝 draft |
+| [[mca-dura.mgz]] | MCA/dura segmentation | 📝 draft |
+| [[antsdn.brain.mgz]] | ANTs-denoised brain volume (conditional) | 📝 draft |
+| [[aseg.auto_noCCseg.mgz]] | Automated segmentation without corpus callosum labels | 📝 draft |
+| [[aseg.auto.mgz]] | Automated segmentation with corpus callosum labels | 📝 draft |
+| [[aseg.presurf.mgz]] | Pre-surface segmentation (before ribbon fix) | 📝 draft |
+| [[aseg.presurf.hypos.mgz]] | Pre-surface aseg with WM hypointensities relabelled | 📝 draft |
+| [[aseg.mgz]] | Final subcortical + cortical segmentation | 📝 draft |
+| [[aparc+aseg.mgz]] | Parcellated aseg with Desikan-Killiany cortical labels | 📝 draft |
+| [[aparc.a2009s+aseg.mgz]] | Parcellated aseg with Destrieux cortical labels | 📝 draft |
+| [[aparc.DKTatlas+aseg.mgz]] | Parcellated aseg with DKT atlas cortical labels | 📝 draft |
+| [[wmparc.mgz]] | White matter parcellation volume | 📝 draft |
+| [[ribbon.mgz]] | Cortical ribbon volume (all-hemisphere combined) | 📝 draft |
+| [[hemi.ribbon.mgz]] | Per-hemisphere cortical ribbon volume | 📝 draft |
+
+### Surfaces — `surf/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[hemi.orig.nofix]] | Raw triangulated surface before topology correction | 📝 draft |
+| [[hemi.smoothwm.nofix]] | Smoothed pre-fix surface | 📝 draft |
+| [[hemi.inflated.nofix]] | Inflated pre-fix surface | 📝 draft |
+| [[hemi.qsphere.nofix]] | Quasi-spherical pre-fix surface | 📝 draft |
+| [[hemi.orig]] | Topology-corrected surface (post-fix) | 📝 draft |
+| [[hemi.smoothwm]] | Smoothed white surface (Smooth2) | 📝 draft |
+| [[hemi.inflated]] | Inflated surface | 📝 draft |
+| [[hemi.sphere]] | Spherical mapping | 📝 draft |
+| [[hemi.sphere.reg]] | Atlas-registered sphere | 📝 draft |
+| [[hemi.fsaverage.sphere.reg]] | Symlink → hemi.sphere.reg | 📝 draft |
+| [[hemi.white.preaparc]] | Pre-parcellation white surface | 📝 draft |
+| [[hemi.white]] | Final white surface | 📝 draft |
+| [[hemi.pial.T1]] | T1-only pial surface | 📝 draft |
+| [[hemi.pial]] | Final pial surface (symlink → hemi.pial.T1) | 📝 draft |
+
+### Surface Overlays — `surf/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[hemi.curv]] | White surface mean curvature | 📝 draft |
+| [[hemi.curv.pial]] | Pial surface mean curvature | 📝 draft |
+| [[hemi.sulc]] | Sulcal depth map | 📝 draft |
+| [[hemi.area]] | White surface vertex area | 📝 draft |
+| [[hemi.area.pial]] | Pial surface vertex area | 📝 draft |
+| [[hemi.area.mid]] | Midthickness vertex area | 📝 draft |
+| [[hemi.thickness]] | Cortical thickness per vertex | 📝 draft |
+| [[hemi.volume]] | Cortical volume per vertex | 📝 draft |
+| [[hemi.avg_curv]] | Atlas-painted average curvature | 📝 draft |
+| [[hemi.jacobian_white]] | Registration Jacobian | 📝 draft |
+| [[hemi.white.preaparc.H]] | Mean curvature of white.preaparc | 📝 draft |
+| [[hemi.white.preaparc.K]] | Gaussian curvature of white.preaparc | 📝 draft |
+| [[hemi.white.H]] | Symlink → hemi.white.preaparc.H | 📝 draft |
+| [[hemi.white.K]] | Symlink → hemi.white.preaparc.K | 📝 draft |
+| [[hemi.inflated.H]] | Mean curvature of inflated surface | 📝 draft |
+| [[hemi.inflated.K]] | Gaussian curvature of inflated surface | 📝 draft |
+| [[hemi.w-g.pct.mgh]] | Gray-white percent contrast overlay | 📝 draft |
+| [[hemi.defect_labels]] | Topology defect IDs per vertex | 📝 draft |
+| [[hemi.defect_borders]] | Topology defect border vertices | 📝 draft |
+| [[hemi.defect_chull]] | Topology defect convex hull vertices | 📝 draft |
+| [[hemi.defects.pointset]] | Defect centroid pointset (JSON) | 📝 draft |
+
+### Labels — `label/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[hemi.cortex.label]] | Cortex label (excludes medial wall) | 📝 draft |
+| [[hemi.cortex+hipamyg.label]] | Extended cortex label including hippocampus/amygdala | 📝 draft |
+| [[hemi.nofix.cortex.label]] | Cortex label in nofix surface space | 📝 draft |
+| [[hemi.BA_exvivo.label]] | Individual Brodmann Area exvivo label files (14 regions) | 📝 draft |
+| [[hemi.BA_exvivo.thresh.label]] | Thresholded Brodmann Area exvivo label files | 📝 draft |
+
+### Annotations — `label/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[hemi.aparc.annot]] | Desikan-Killiany cortical parcellation | 📝 draft |
+| [[hemi.aparc.a2009s.annot]] | Destrieux 2009 cortical parcellation | 📝 draft |
+| [[hemi.aparc.DKTatlas.annot]] | DKT atlas cortical parcellation | 📝 draft |
+| [[hemi.BA_exvivo.annot]] | Brodmann Area exvivo annotation | 📝 draft |
+| [[hemi.BA_exvivo.thresh.annot]] | Thresholded Brodmann Area annotation | 📝 draft |
+| [[hemi.mpm.vpnl.annot]] | VPNL max probability map annotation | 📝 draft |
+
+### Color Tables — `label/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[aparc.annot.ctab]] | Desikan-Killiany annotation color table | 📝 draft |
+| [[aparc.annot.a2009s.ctab]] | Destrieux annotation color table | 📝 draft |
+| [[aparc.annot.DKTatlas.ctab]] | DKT atlas annotation color table | 📝 draft |
+
+### Statistics Files — `stats/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[brainvol.stats]] | Global brain volume cache | 📝 draft |
+| [[aseg.stats]] | Subcortical volumetric statistics | 📝 draft |
+| [[wmparc.stats]] | White matter parcellation statistics | 📝 draft |
+| [[hemi.aparc.stats]] | Desikan-Killiany morphometric statistics (white surface) | 📝 draft |
+| [[hemi.aparc.pial.stats]] | Desikan-Killiany morphometric statistics (pial surface) | 📝 draft |
+| [[hemi.aparc.a2009s.stats]] | Destrieux morphometric statistics | 📝 draft |
+| [[hemi.aparc.DKTatlas.stats]] | DKT atlas morphometric statistics | 📝 draft |
+| [[hemi.curv.stats]] | Mean curvature and sulcal depth statistics | 📝 draft |
+| [[hemi.w-g.pct.stats]] | Gray-white contrast statistics by parcellation | 📝 draft |
+| [[hemi.BA_exvivo.stats]] | Brodmann Area morphometric statistics | 📝 draft |
+| [[hemi.BA_exvivo.thresh.stats]] | Thresholded Brodmann Area morphometric statistics | 📝 draft |
+| [[autodet.gw.stats.hemi.dat]] | Auto-detected gray-white boundary statistics | 📝 draft |
+| [[synthseg.vol.csv]] | SynthSeg per-label volumes CSV | 📝 draft |
+| [[synthseg.tiv.dat]] | SynthSeg total intracranial volume | 📝 draft |
+| [[entowm.stats]] | Entorhinal WM segmentation statistics | 📝 draft |
+| [[vsinus.stats]] | Venous sinus segmentation statistics | 📝 draft |
+
+### Transforms — `mri/transforms/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[talairach.xfm]] | MNI305 affine registration (XFM format, editable) | 📝 draft |
+| [[talairach.xfm.lta]] | MNI305 affine registration (LTA format) | 📝 draft |
+| [[talairach.lta]] | Symlink → talairach.xfm.lta | 📝 draft |
+| [[rawavg2orig.lta]] | Native → conformed space transform | 📝 draft |
+| [[cc_up.lta]] | Corpus callosum upright alignment transform | 📝 draft |
+
+### Script / Log Files — `scripts/`
+
+| File | Summary | Status |
+|------|---------|--------|
+| [[recon-all.log]] | Full pipeline log | 📝 draft |
+| [[recon-all.cmd]] | Command log (commands only) | 📝 draft |
+| [[recon-all.env]] | Environment snapshot at run start | 📝 draft |
+| [[recon-all.done]] | Success sentinel file | 📝 draft |
 
 ## External Contributions
 

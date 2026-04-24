@@ -197,4 +197,4 @@ mris_thickness_diff \
 
 ## Confidence and Gaps
 
-Confidence is **high**. The complete `get_option()` function (lines 808–961 of `mris_thickness_diff.cpp`) and `print_usage()` / `print_help()` (lines 676–791) were read from source. All flags are confirmed from the `stricmp`-based parser.
+Confidence is **high**. The complete `get_option()` function (lines 808–961 of `mris_thickness_diff.cpp`) and `print_usage()` / `print_help()` ([lines 676–791](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_thickness_diff/mris_thickness_diff.cpp#L676-L791)) were read from source. All flags are confirmed from the `stricmp`-based parser.

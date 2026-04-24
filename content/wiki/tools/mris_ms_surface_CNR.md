@@ -94,7 +94,7 @@ The parser strips one leading dash (`option = argv[1] + 1`, single-dash conventi
 - `-nsmooth N` applies surface-based smoothing to the WM/GM profile data before CNR computation; higher values reduce sensitivity to noise but blur the tissue boundary. Default is 60.
 - `-use_thickness` requires that a thickness file be loadable (from `-thickness` or the default `?h.thickness` in the subject's surf directory). Without it, GM samples are placed at a fixed offset from the surface.
 - `-sname` and `-hemi` are both required for path construction unless the surface is passed as a positional argument (not supported — both flags must be supplied).
-- The `conform` variable exists in the source code (line 52) but is hardcoded to 0 and never settable via a CLI flag; there is no `-conform` option.
+- The `conform` variable exists in the source code ([line 52](https://github.com/freesurfer/freesurfer/blob/v8.2.0/attic/mris_ms_surface_CNR/mris_ms_surface_CNR.cpp#L52)) but is hardcoded to 0 and never settable via a CLI flag; there is no `-conform` option.
 
 ## Typical Use Cases
 

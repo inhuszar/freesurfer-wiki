@@ -37,7 +37,7 @@ Primary references:
 
 ### `GCA_MORPH` (`GCA_MORPH` / `GCAM`)
 
-The top-level warp field container, defined in `include/gcamorph.h` (lines 138–157):
+The top-level warp field container, defined in `include/gcamorph.h` ([lines 138–157](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/gcamorph.h#L138-L157)):
 
 | Field | Type | Meaning |
 |-------|------|---------|
@@ -59,7 +59,7 @@ The top-level warp field container, defined in `include/gcamorph.h` (lines 138�
 
 ### `GCA_MORPH_NODE` (`GMN`)
 
-Per-node displacement record; one exists for every voxel in the lattice. Defined in `include/gcamorph.h` (lines 89–136). The hottest struct in the inner registration loop — fields are ordered to minimise cache misses.
+Per-node displacement record; one exists for every voxel in the lattice. Defined in `include/gcamorph.h` ([lines 89–136](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/gcamorph.h#L89-L136)). The hottest struct in the inner registration loop — fields are ordered to minimise cache misses.
 
 | Field | Type | Meaning |
 |-------|------|---------|
@@ -84,7 +84,7 @@ Per-node displacement record; one exists for every voxel in the lattice. Defined
 
 ### `GCA_MORPH_PARMS` (`GMP`)
 
-Optimisation hyperparameter bag passed to `GCAMregister()` and related functions. Defined in `include/gcamorph.h` (lines 194–277). Key fields used in `mri_nl_align`:
+Optimisation hyperparameter bag passed to `GCAMregister()` and related functions. Defined in `include/gcamorph.h` ([lines 194–277](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/gcamorph.h#L194-L277)). Key fields used in `mri_nl_align`:
 
 | Field | Default (mri_nl_align) | Meaning |
 |-------|------------------------|---------|

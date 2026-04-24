@@ -307,7 +307,7 @@ mri_segment -wlo 85 -whi 120 -noauto brain.mgz wm.seg.mgz
 
 ## Pipeline Context
 
-**autorecon2, WM Segmentation stage of [[recon-all]]** (lines 3305–3351)
+**autorecon2, WM Segmentation stage of [[recon-all]]** ([`scripts/recon-all:3305–3351`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3305-L3351))
 
 ```
 mri_normalize → brain.mgz
@@ -325,7 +325,7 @@ mri_normalize → brain.mgz
                   wm.mgz
 ```
 
-**recon-all call site (line 3322):**
+**recon-all call site ([`scripts/recon-all:3322`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3322)):**
 
 ```bash
 mri_segment -wsizemm 13 [$-thicken 0] [$-keep] [$-mprage] [$-washu_mprage] \
@@ -339,7 +339,7 @@ Default `MriSegWsizemm = 13` (recon-all line 140).
 When enabled (e.g., with `-use-synthseg`), `mri_segment` is skipped entirely.
 Instead, [[recon-all]] uses [[mri_binarize]] on `aseg.presurf.mgz` to extract
 WM labels (2=lh WM, 41=rh WM) and `mri_mask` to mask `brain.mgz`, yielding
-`wm.seg.mgz` directly (lines 3334–3350).
+`wm.seg.mgz` directly ([`scripts/recon-all:3334–3350`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3334-L3350)).
 
 ## Gotchas and Caveats
 
@@ -351,7 +351,7 @@ WM labels (2=lh WM, 41=rh WM) and `mri_mask` to mask `brain.mgz`, yielding
 
 > [!gotcha] Intensity auto-widening in default path
 > When `auto_detect_stats=1`, the code pre-widens `wm_low` by 10 before
-> the first trinarisation: `wm_low -= 10` (line 199). The displayed
+> the first trinarisation: `wm_low -= 10` ([`mri_segment.cpp:199`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_segment/mri_segment.cpp#L199)). The displayed
 > initial wm\_low (90) is the value before widening; the actual first
 > thresholding uses 80 as the lower bound. After auto-detect, the
 > threshold is re-set from class statistics.
@@ -369,7 +369,7 @@ WM labels (2=lh WM, 41=rh WM) and `mri_mask` to mask `brain.mgz`, yielding
 > flag conditionally, be careful not to double-apply it.
 
 > [!gotcha] segment.dat log is always written unless `-log` was removed
-> The `log_stats` variable defaults to 1 (line 78). There is no `-nolog`
+> The `log_stats` variable defaults to 1 ([`mri_segment.cpp:78`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_segment/mri_segment.cpp#L78)). There is no `-nolog`
 > flag to suppress it. The dat file is always created in the CWD.
 
 ## Error Compensation and Guard Rails

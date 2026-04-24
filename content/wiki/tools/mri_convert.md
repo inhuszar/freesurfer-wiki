@@ -215,14 +215,14 @@ N_x^\text{t} &= N_y^\text{t} = N_z^\text{t} = 256, \\
 $$
 
 The RAS centres of the source and template are set equal
-(`templ->c_r = mri->c_r` etc., `utils/mri_conform.cpp:59–61`) so that
+(`templ->c_r = mri->c_r` etc., [[`utils/mri_conform.cpp:59–61`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L59-L61)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L59-L61)) so that
 the template bounding box is aligned with the anatomical centre of
 the input. The resulting output vox2ras is therefore
 $\mathbf{S}_\text{templ}$, which is *independent* of the input
 orientation.
 
 The voxel values are resampled from $\mathbf{v}$ to
-$\mathbf{T}$ via (`utils/mri_conform.cpp:129`)
+$\mathbf{T}$ via ([[`utils/mri_conform.cpp:129`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L129)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L129))
 
 $$
 \mathbf{v}_\text{out}(i,j,k) = \mathcal{I}\!\left(\mathbf{v},\,
@@ -250,7 +250,7 @@ flag selects the kernel: `interpolate` (trilinear, default),
 > column sets $K_{1,c+1}=-\text{step}$, $K_{1,4}=\text{conform\_width}-\text{pad}$.
 > The output vox2ras is then
 > $\mathbf{S}_\text{templ} = \mathbf{S}_\text{mri}\, \mathbf{K}^{-1}$.
-> See `utils/mri_conform.cpp:140–256`.
+> See [[`utils/mri_conform.cpp:140–256`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L140-L256)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L140-L256).
 
 ### `--conform_min` and `--conform_size`
 
@@ -327,8 +327,8 @@ row and left to the help text for details.
 | `-osc <f>`<br>`--out-scale <f>` | float | 1.0 | Multiply output intensities by `f`. |
 | `--rescale <f>` | float | — | Rescale so that the global mean is `f`. |
 | `--rescale-voxel c r s` | ints | — | Divide by the intensity at voxel `(c,r,s)` (combinable with `--rescale`). |
-| `-ut <t>`<br>`--upper_thresh <t>` | float | — | Clip all voxels with intensity above `t` to `t` (`MRIupperthresholdAllFrames`, mri_convert.cpp:2148). |
-| `--invert_contrast <t>` | float | -1 (off) | Invert intensities above threshold `t` via `MRIinvertContrast` (mri_convert.cpp:3441). |
+| `-ut <t>`<br>`--upper_thresh <t>` | float | — | Clip all voxels with intensity above `t` to `t` (`MRIupperthresholdAllFrames`, [[`mri_convert.cpp:2148`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L2148)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L2148)). |
+| `--invert_contrast <t>` | float | -1 (off) | Invert intensities above threshold `t` via `MRIinvertContrast` ([[`mri_convert.cpp:3441`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L3441)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L3441)). |
 
 ### Geometry and resampling
 
@@ -425,7 +425,7 @@ row and left to the help text for details.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--no-rescale-dicom` | bool | false | Do not apply DICOM rescale intercept/slope (`0028,1052`/`0028,1053`). Sets `FS_RESCALE_DICOM=0` in the environment. (Note: the complementary `--rescale-dicom` option is **commented out** in the source at `mri_convert.cpp:520–527` and does nothing; rescaling is applied by default automatically.) |
+| `--no-rescale-dicom` | bool | false | Do not apply DICOM rescale intercept/slope (`0028,1052`/`0028,1053`). Sets `FS_RESCALE_DICOM=0` in the environment. (Note: the complementary `--rescale-dicom` option is **commented out** in the source at [[`mri_convert.cpp:520–527`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L520-L527)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L520-L527) and does nothing; rescaling is applied by default automatically.) |
 | `--no-analyze-rescale` | bool | false | Disable rescaling of ANALYZE files. Sets `FS_ANALYZE_NO_RESCALE=1`. |
 | `--bvec-scanner` | bool | false | Force loaded DWI bvecs into scanner space (`FS_DESIRED_BVEC_SPACE=1`). |
 | `--bvec-voxel` | bool | false | Force loaded DWI bvecs into voxel space (`FS_DESIRED_BVEC_SPACE=2`). |
@@ -529,7 +529,7 @@ spelling out explicitly.
 
 > [!gotcha] `-cm` requires `-c`
 > `--conform_min` on its own is a no-op. The parser at
-> `mri_convert.cpp:1665` explicitly errors out when `conform_min` is
+> [[`mri_convert.cpp:1665`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1665)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1665) explicitly errors out when `conform_min` is
 > set without `conform_flag`:
 > *"In order to use -cm (--conform_min), you must set -c (--conform)
 > at the same time."*
@@ -552,41 +552,41 @@ spelling out explicitly.
 > intermediate.
 
 > [!gotcha] COR output forces `--conform`
-> At `mri_convert.cpp:1818–1821`, if the output type is `cor`, the
+> At [[`mri_convert.cpp:1818–1821`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1818-L1821)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1818-L1821), if the output type is `cor`, the
 > parser unconditionally sets `conform_flag = TRUE`. There is no way
 > to write a non-conformed COR volume with this tool.
 
 > [!gotcha] `--antialias` requires `--voxsize`
-> The parser at `mri_convert.cpp:1644` errors out unless
+> The parser at [[`mri_convert.cpp:1644`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1644)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1644) errors out unless
 > `--voxsize` is supplied alongside `--antialias`. The auto-FWHM
 > calculation needs the target voxel size to compute the
 > per-dimension Gaussian widths.
 
 > [!gotcha] `--antialias` and `--fwhm` are mutually exclusive
-> Setting both raises an error at `mri_convert.cpp:1650`. Use
+> Setting both raises an error at [[`mri_convert.cpp:1650`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1650)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1650). Use
 > `--antialias` to let the tool compute FWHM from the in/out voxel
 > ratios, or `--fwhm <mm>` to set it explicitly.
 
 > [!gotcha] `--downsample` and `--downsampleold` are mutually exclusive
-> Enforced at `mri_convert.cpp:1672`. --downsampleold does not
+> Enforced at [[`mri_convert.cpp:1672`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1672)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1672). --downsampleold does not
 > update the RAS centre and is only kept for backward compatibility.
 
 > [!gotcha] --force_ras_good cannot be combined with direction overrides
-> Enforced at `mri_convert.cpp:1658`: if any of `-iid`/`-ijd`/`-ikd`
+> Enforced at [[`mri_convert.cpp:1658`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1658)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1658): if any of `-iid`/`-ijd`/`-ikd`
 > is set, `--force_ras_good` is rejected.
 
 > [!gotcha] `--out_stats_table` requires `--like`
-> Enforced at `mri_convert.cpp:1741`: passing --out_stats_table
+> Enforced at [[`mri_convert.cpp:1741`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1741)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1741): passing --out_stats_table
 > without `--like <template>` is a fatal error, because the column
 > and row headers must come from the template stats table.
 
 > [!gotcha] `--dcm2niix-*` flags require `--dcm2niix`
-> Enforced at `mri_convert.cpp:1632`: passing
+> Enforced at [[`mri_convert.cpp:1632`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1632)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1632): passing
 > `--dcm2niix-outdir`, `--dcm2niix-createBIDS`,
 > `--dcm2niix-no-ForceStackSameSeries` or `--dcm2niix-info-dump`
 > without enabling the dcm2niix code path is a fatal error.
 > In addition, `--dcm2niix-createBIDS` requires
-> `--dcm2niix-outdir <dir>` (line 1638).
+> `--dcm2niix-outdir <dir>` ([line 1638](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L1638)).
 
 > [!gotcha] `--no_scale 1` is mandatory for 16-bit → COR
 > The COR format is 8-bit. Without `--no_scale 1`, `mri_convert`
@@ -749,6 +749,14 @@ autorecon1 Stage 2/3).
   range when writing COR (or any format where the rescale is
   inappropriate).
 
+## Known Issues
+
+- [[1358]] — `--out_orientation` shifts the output grid by one voxel
+  per flipped axis on even-N volumes (silent data loss at the edges).
+  `--reorder` is unaffected and can be used as a workaround when the
+  requested orientation differs from the input only by axis
+  permutation and sign. Verdict: plausible, open upstream.
+
 ## Related Tools
 
 - [[mri_info]] — inspect the header of a volume (used alongside
@@ -776,7 +784,7 @@ autorecon1 Stage 2/3).
 
 - **High confidence**: format conversion, conform behaviour (the
   `utils/mri_conform.cpp` implementation was read in full), and the
-  main flag parser (`mri_convert.cpp:495–580`).
+  main flag parser ([[`mri_convert.cpp:495–580`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L495-L580)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_convert.cpp#L495-L580)).
 - **Medium confidence**: the exact interaction between `--reslice_like`,
   `--like`, `--conform` and `--apply_transform` across the 1801–2930
   range of `mri_convert.cpp`; corner cases (e.g. `--conform` with
@@ -805,4 +813,4 @@ autorecon1 Stage 2/3).
 - FreeSurfer wiki on coordinate conventions:
   <https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems>
 - Original author: Christian Haselgrove (conform code comments,
-  `utils/mri_conform.cpp:6`)
+  [[`utils/mri_conform.cpp:6`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L6)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri_conform.cpp#L6))

@@ -1572,6 +1572,17 @@ With `-openmp 4` on `mri_em_register`, `mri_ca_register`, and
 > `transforms/talairach_with_skull.lta` without their input. See
 > [[mri_synthstrip]] for the full list.
 
+## Known Issues
+
+- [[1432]] — stable **v8.2.0** aborts deterministically at
+  the `DoSurfReg` stage (right after `mris_sphere`) whenever
+  `-expert <file>` is passed. Two defects combine: a tcsh `if`
+  arithmetic-expression error on `$XOptsFile` at
+  `scripts/recon-all:4220`, and a missing `--expert` alias in
+  `scripts/rca-surfreg`'s argument parser. No workaround short of
+  local patching. Verdict: plausible, open upstream; high severity
+  for v8.2.0 users of `-expert`.
+
 ## Related Pipelines and Tools
 
 - [[infant-recon-all]] — pediatric pipeline for ages 0–4.5 years.

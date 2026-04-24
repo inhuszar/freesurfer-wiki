@@ -250,7 +250,7 @@ mri_tessellate → lh.orig.nofix
             mris_inflate (Inflate1)
 ```
 
-Exact recon-all command (line 3624):
+Exact recon-all command ([`scripts/recon-all:3624`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3624)):
 ```bash
 mris_smooth -nw [$-seed $RngSeed] surf/lh.orig.nofix surf/lh.smoothwm.nofix
 ```

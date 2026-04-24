@@ -81,7 +81,7 @@ These rules are stated at the top of `utils/fsgdf.cpp`:
 8. Duplicate class labels are not allowed.
 9. Duplicate subject IDs are not allowed (overrideable with the environment
    variable `FSGDF_ALLOW_SUBJ_REP`, tested via `fsgdf_AllowSubjRep` in
-   `fsgdf.h:31`).
+   [[`fsgdf.h:31`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/fsgdf.h#L31)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/fsgdf.h#L31)).
 10. A class label that is declared but never used on any `Input` line
     generates a warning.
 11. `DefaultVariable` must name a variable that appears in the `Variables`
@@ -192,7 +192,7 @@ Contrast young-gt-old  1 -1 0 0
 Contrast age-effect  0 0 1 0
 ```
 
-### Hard limits (from `include/fsgdf.h:37–39`)
+### Hard limits (from [[`include/fsgdf.h:37–39`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/fsgdf.h#L37-L39)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/fsgdf.h#L37-L39))
 
 | Constant | Value | Meaning |
 |----------|-------|---------|
@@ -349,6 +349,6 @@ tag inside the file.
 - `utils/fsgdf.cpp` — full parser implementation; original author: Doug Greve
 - `include/fsgdf.h` — `FSGD` struct definition and compile-time limits
 - External specification: `http://surfer.nmr.mgh.harvard.edu/docs/fsgdf.txt`
-  (referenced in `fsgdf.cpp:4`)
+  (referenced in [[`fsgdf.cpp:4`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fsgdf.cpp#L4)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fsgdf.cpp#L4))
 - [[mri_glmfit]] — primary consumer; see its page for GLM analysis workflow
 - [[stats-format]] — the `.stats` file format read by `VariableFromFile`/`VariableFromASeg`

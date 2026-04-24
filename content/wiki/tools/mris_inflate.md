@@ -330,7 +330,7 @@ mris_smooth → lh.smoothwm
          mris_sphere (autorecon3)
 ```
 
-Exact recon-all Inflate1 command (line 3658–3660):
+Exact recon-all Inflate1 command ([`scripts/recon-all:3658–3660`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3658-L3660)):
 ```bash
 mris_inflate -no-save-sulc surf/lh.smoothwm.nofix surf/lh.inflated.nofix
 ```

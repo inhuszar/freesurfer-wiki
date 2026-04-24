@@ -135,11 +135,11 @@ convention; written by `fwriteInt`/`fwriteFloat` in `utils/fio.cpp`,
 which byte-swap on little-endian hosts before writing). The body of the
 file is interrupted in two places by **ASCII matrix blocks** for the
 mean vectors and covariance matrices — these are written by
-`MatrixAsciiWriteInto` (`utils/matrix.cpp:2179`), so the file is a hybrid
+`MatrixAsciiWriteInto` ([[`utils/matrix.cpp:2179`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2179)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2179)), so the file is a hybrid
 binary/ASCII container.
 
-The full layout below is from `GCSAwrite()` (`utils/gcsa.cpp:529`) and
-`GCSAread()` (`utils/gcsa.cpp:777`). All multi-byte integers are
+The full layout below is from `GCSAwrite()` ([[`utils/gcsa.cpp:529`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L529)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L529)) and
+`GCSAread()` ([[`utils/gcsa.cpp:777`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L777)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L777)). All multi-byte integers are
 **big-endian**.
 
 ### 1. File header (16 bytes)
@@ -205,7 +205,7 @@ For each `n` in `[0, nlabels)`:
 | ASCII matrix | `m_cov` | the `ninputs × ninputs` covariance matrix |
 
 **ASCII matrix block format** (from
-`MatrixAsciiWriteInto`, `utils/matrix.cpp:2179`):
+`MatrixAsciiWriteInto`, [[`utils/matrix.cpp:2179`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2179)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2179)):
 
 ```
 <type> <rows> <cols>\n
@@ -220,7 +220,7 @@ For each `n` in `[0, nlabels)`:
   default precision 6, two trailing spaces between cells).
 - The header line ends with a single newline; each data row also ends
   with a newline.
-- The reader (`MatrixAsciiReadFrom`, `utils/matrix.cpp:2196`) uses
+- The reader (`MatrixAsciiReadFrom`, [[`utils/matrix.cpp:2196`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2196)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2196)) uses
   `fgetl` to read the first line and `fscanf("%f  ")` for each cell,
   followed by a `fscanf("\n")` that swallows the row terminator.
 
@@ -303,7 +303,7 @@ display labels as `** annotate` placeholders.
 > `GCSAread` contains a hand-coded workaround for an old bug where
 > `feof()` looped twice instead of once on Mac OS X Tiger, causing the
 > in-memory `gcsa->ct` to be overwritten with an empty `tmp_ct`
-> (`utils/gcsa.cpp:893–903`). The current code only assigns the
+> ([[`utils/gcsa.cpp:893–903`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L893-L903)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L893-L903)). The current code only assigns the
 > embedded color table if `nentries > 0` and `fname` is non-empty.
 > The bug was the cause of `mris_anatomical_stats` printing
 > `** annotate` instead of label names.
@@ -376,7 +376,7 @@ the three cortical annotation files; cf. `recon-all` lines 4339–4375.
 |------|-----|-------|
 | [[mris_ca_train]] | W | Iterates over a training subject set, accumulates per-vertex Gaussian fits and Gibbs MRF counts, writes the `.gcs` |
 | [[mris_ca_label]] | R | Loads the `.gcs`, runs Gibbs ICM inference on the subject's `?h.sphere.reg`, writes an [[annotation-format|annotation file]] |
-| [[mris_register]] | R | When the `-L` flag is used, reads a `.gcs` solely to look up the integer annotation associated with a manual label name (see `mris_register.cpp:1227`); the Gaussians and Gibbs MRF are not exercised |
+| [[mris_register]] | R | When the `-L` flag is used, reads a `.gcs` solely to look up the integer annotation associated with a manual label name (see [[`mris_register.cpp:1227`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L1227)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L1227)); the Gaussians and Gibbs MRF are not exercised |
 | [[mri_ca_label]] | (read shared lib) | The volumetric counterpart `mri_ca_label` uses the related [[gca-format|`.gca`]] file format — *not* `.gcs`. Do not confuse the two: GCS is for surfaces, GCA is for volumes |
 
 ## Conversion
@@ -416,7 +416,7 @@ on training a parcellation atlas.
 
 > [!gotcha] `inputs[i].fname` is read with no bounds check on STRLEN
 > `GCSAread` reads `fname_len` bytes directly into `gcsa->inputs[i].fname`
-> (`utils/gcsa.cpp:809`), which is a fixed `STRLEN`-sized buffer
+> ([[`utils/gcsa.cpp:809`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L809)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L809)), which is a fixed `STRLEN`-sized buffer
 > (default 256 bytes). A maliciously crafted GCSA file with
 > `fname_len > STRLEN` will produce a stack overflow. This is unlikely
 > to be a problem in practice (atlases are not user-supplied) but is
@@ -424,7 +424,7 @@ on training a parcellation atlas.
 
 > [!gotcha] Singular covariance matrices are silently regularised
 > `GCSAread` calls `gcsaFixSingularCovarianceMatrices(gcsa)` immediately
-> before returning (`utils/gcsa.cpp:911`), which adds a small ridge to
+> before returning ([[`utils/gcsa.cpp:911`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L911)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L911)), which adds a small ridge to
 > the diagonal of any covariance matrix whose determinant is below a
 > threshold and sets `regularized = 1` in the corresponding GCS. Users
 > who depend on the literal stored covariances (e.g., for diffing two
@@ -466,10 +466,10 @@ on training a parcellation atlas.
   (Source of the Desikan-Killiany parcellation that ships as
   the standard `.gcs` atlas.)
 - Source: `include/gcsa.h` (header comment + struct definitions),
-  `utils/gcsa.cpp:529` (`GCSAwrite`), `utils/gcsa.cpp:777` (`GCSAread`),
-  `utils/matrix.cpp:2179` (`MatrixAsciiWriteInto`),
-  `utils/fio.cpp:270` (`fwriteInt` / big-endian convention),
-  `include/tags.h:33` (`TAG_OLD_COLORTABLE`).
+  [[`utils/gcsa.cpp:529`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L529)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L529) (`GCSAwrite`), [[`utils/gcsa.cpp:777`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L777)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gcsa.cpp#L777) (`GCSAread`),
+  [[`utils/matrix.cpp:2179`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2179)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/matrix.cpp#L2179) (`MatrixAsciiWriteInto`),
+  [[`utils/fio.cpp:270`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fio.cpp#L270)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fio.cpp#L270) (`fwriteInt` / big-endian convention),
+  [[`include/tags.h:33`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/tags.h#L33)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/tags.h#L33) (`TAG_OLD_COLORTABLE`).
 - Related wiki pages: [[mris_ca_label]], [[mri_ca_label]],
   [[mris_register]], [[surface-representations]], [[mrisp-tif]] for the
   companion spherical parameterization format.

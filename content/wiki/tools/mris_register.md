@@ -264,7 +264,7 @@ rotations on a uniform angle grid.
 | `-rotate <da> <db> <dg>` | 3 floats | 0,0,0 | Pre-rotates the input surface by `(dα, dβ, dγ)` (interpreted via `RADIANS()`, so the values are in degrees) before any optimization. Lets you test/seed a rotation manually. |
 | `-reg <regfile.lta>` | string | — | Reads an LTA, converts to `REGISTER_DAT` if needed, extracts the rotational components (`LTAmat2RotMat`) and applies the resulting rotation to the surface before registration. Equivalent to `-rotate` but driven by a registration file. |
 | `-reverse` | — | OFF | Mirrors the surface in X (`MRISreverse(REVERSE_X)`) before morphing. Used to register an LH surface against an RH atlas or vice versa. |
-| `-multi_scale <n>` | int | 0 | Activates the multi-scale schedule (lines 564–608). With `multi_scale=N`, runs `MRISregister()` `N` times: at iteration `i`, `l_dist = l_dist0 · 5^(N-1-i)` (i.e., distance penalty starts very high and is divided by 5 each iteration). The first iteration also disables curvature use (`IP_USE_CURVATURE` cleared) and adds `IPFLAG_NOSCALE_TOL`; subsequent iterations enable `IP_NO_RIGID_ALIGN` and clear `IP_USE_INFLATED`. If `parms.nbhd_size` is negative, an additional second epoch with long-range distances is run. A final epoch restores curvature use (`IP_USE_CURVATURE` and `IP_NO_SULC`). |
+| `-multi_scale <n>` | int | 0 | Activates the multi-scale schedule ([lines 564–608](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L564-L608)). With `multi_scale=N`, runs `MRISregister()` `N` times: at iteration `i`, `l_dist = l_dist0 · 5^(N-1-i)` (i.e., distance penalty starts very high and is divided by 5 each iteration). The first iteration also disables curvature use (`IP_USE_CURVATURE` cleared) and adds `IPFLAG_NOSCALE_TOL`; subsequent iterations enable `IP_NO_RIGID_ALIGN` and clear `IP_USE_INFLATED`. If `parms.nbhd_size` is negative, an additional second epoch with long-range distances is run. A final epoch restores curvature use (`IP_USE_CURVATURE` and `IP_NO_SULC`). |
 | `-sigma <f>` | float | — | Appends a Gaussian smoothing sigma to a list (max 10) used by `MRISsetRegistrationSigmas()`. The list defines the multi-sigma schedule of feature-map smoothing. |
 | `-nbrs <n>` | int | 1 | Sets the neighbourhood ring size of the input surface (`MRISresetNeighborhoodSize`). Larger values pull in farther neighbours for the metric/edge terms. |
 | `-vnum <n> <m>`<br>`-distances <n> <m>` | 2 ints | -10, 10 | Sets `parms.nbhd_size` and `parms.max_nbrs`. Negative `nbhd_size` is a flag for the `-multi_scale` second epoch. `max_nbrs` caps the per-vertex neighbour list. |
@@ -351,7 +351,7 @@ rotations on a uniform angle grid.
 > `multiframes = 1`, and adds `IP_USE_MULTIFRAMES` to `parms.flags`. After
 > this point, `MRISvectorRegister()` runs instead of `MRISregister()`. In
 > multiframe mode, `parms.l_corr` and `parms.l_pcorr` are zeroed before the
-> main vector registration call (line 541), so the per-field correlation
+> main vector registration call ([line 541](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L541)), so the per-field correlation
 > weights set via `-addframe`/`-overlay` are the only correlation terms.
 
 > [!gotcha] -jacobian writes a curvature-format file

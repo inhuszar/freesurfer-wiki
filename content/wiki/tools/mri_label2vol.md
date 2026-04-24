@@ -365,7 +365,7 @@ parcellation-to-volume projection.
 ## Gotchas and Caveats
 
 > [!gotcha] Only one hemisphere per call (documented bug)
-> From the help text (line 1084): "Cannot convert surface labels with different
+> From the help text ([line 1084](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/resample.cpp#L1084)): "Cannot convert surface labels with different
 > hemispheres." Each invocation handles one hemisphere. Use separate calls for
 > lh and rh, then combine with [[mri_concat]] or [[mri_binarize]].
 

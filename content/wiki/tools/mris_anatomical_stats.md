@@ -238,7 +238,7 @@ negative curvature (saddle points) does not.
 
 ### Complete Flag Reference
 
-Option parsing is in `get_option()` (lines 1115–1287). Multi-letter flags are
+Option parsing is in `get_option()` ([lines 1115–1287](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_anatomical_stats/mris_anatomical_stats.cpp#L1115-L1287)). Multi-letter flags are
 matched case-insensitively with `stricmp`; single-letter flags fall through a
 `switch (toupper(*option))`, so e.g. `-a` and `-A`, `-b` and `-B`, `-l` and `-L`
 are all equivalent. Long options also accept a leading `--` (e.g. `--help`,
@@ -330,7 +330,7 @@ are all equivalent. Long options also accept a leading `--` (e.g. `--help`,
 
 > [!gotcha] Skipped label names are hard-coded
 > The label names `corpuscallosum`, `unknown`, `Medial_wall`, and `Unknown`
-> are always skipped (lines 882–895) regardless of annotation. No flag
+> are always skipped ([lines 882–895](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_anatomical_stats/mris_anatomical_stats.cpp#L882-L895)) regardless of annotation. No flag
 > controls this.
 
 ## Typical Use Cases

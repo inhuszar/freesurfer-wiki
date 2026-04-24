@@ -114,7 +114,7 @@ All flags are case-insensitive (parsed with `stricmp`). The full `get_option()` 
 | `-DEBUG_VOXEL <x> <y> <z>` | int×3 | disabled | Enable per-voxel diagnostic output for voxel (x, y, z) |
 
 > [!gotcha] `-invert` is ambiguous: two conflicting `-invert` handlers exist in the source
-> The `get_option()` function contains two separate `else if (!stricmp(option, "invert"))` branches. The first (line 459) sets `InvertMask=1` (mask inversion). The second (line 589) sets `invert=1` (transform inversion). Because `stricmp` returns on the first match, the second handler is **dead code** — `-invert` always sets `InvertMask`, never the transform inversion flag. There is no working flag to invert the `-xform` transform direction.
+> The `get_option()` function contains two separate `else if (!stricmp(option, "invert"))` branches. The first ([line 459](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_mask/mri_mask.cpp#L459)) sets `InvertMask=1` (mask inversion). The second ([line 589](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_mask/mri_mask.cpp#L589)) sets `invert=1` (transform inversion). Because `stricmp` returns on the first match, the second handler is **dead code** — `-invert` always sets `InvertMask`, never the transform inversion flag. There is no working flag to invert the `-xform` transform direction.
 
 > [!gotcha] `-oval` not `-out_val`
 > The flag name is `-oval` (not `-out_val` as sometimes documented). Passing `-out_val` will be treated as an unknown option.

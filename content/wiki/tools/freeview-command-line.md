@@ -37,7 +37,7 @@ FreeView can be launched entirely from the command line with pre-loaded data and
 
 Data-specific display properties are attached to filenames using a **colon-separated inline property syntax** (`file.mgz:key=val:key=val`). Every inline property is parsed inside one of the `CommandLoad*()` methods in `MainWindow.cpp`.
 
-This page is derived from a complete read of `main.cpp` (lines 144–336) and the `RunScript()` dispatcher (`MainWindow.cpp` lines 1844–2336).
+This page is derived from a complete read of `main.cpp` ([lines 144–336](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L144-L336)) and the `RunScript()` dispatcher (`MainWindow.cpp` lines 1844–2336).
 
 ---
 
@@ -59,7 +59,7 @@ freeview [global_options]
 
 **Floating arguments:** File names given without a leading flag are treated as volumes (loaded via `loadvolume`). They are added *after* all `-v` volumes unless `-rorder` is set.
 
-**Tilde expansion:** When `-cmd` or `stdin` input is parsed through `ParseCommand(const QString&)`, `~` is substituted with `QDir::homePath()` (`MainWindow.cpp:940`). The initial `argv[]` parse does not perform tilde expansion — rely on the shell.
+**Tilde expansion:** When `-cmd` or `stdin` input is parsed through `ParseCommand(const QString&)`, `~` is substituted with `QDir::homePath()` ([[`MainWindow.cpp:940`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L940)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L940)). The initial `argv[]` parse does not perform tilde expansion — rely on the shell.
 
 ---
 
@@ -111,7 +111,7 @@ Repeatable. Loads a triangulated cortical mesh ([[surface-format]]). Inline prop
 -l <LABEL_FILE>[:prop=val...] ...
 ```
 
-Repeatable. Loads FreeSurfer [[label-format]] files as **volume ROIs**. A volume must already be loaded (enforced at `MainWindow.cpp:1165`); otherwise a warning is shown and the `-l` flag is ignored. Inline properties:
+Repeatable. Loads FreeSurfer [[label-format]] files as **volume ROIs**. A volume must already be loaded (enforced at [[`MainWindow.cpp:1165`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1165)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1165)); otherwise a warning is shown and the `-l` flag is ignored. Inline properties:
 
 | Property | Values | Description |
 |----------|--------|-------------|
@@ -180,7 +180,7 @@ Repeatable. Loads one or more DTI volume pairs. Argument order is **eigenvector 
 -odf <ODF_FILE> [<VERTEX_FILE> <FACE_FILE>]
 ```
 
-Loads orientation distribution function data. A volume must be loaded first (enforced at `MainWindow.cpp:1292`). Optional vertex and face files describe the ODF sphere tessellation; if omitted, Diffusion Toolkit defaults are used. Inline properties:
+Loads orientation distribution function data. A volume must be loaded first (enforced at [[`MainWindow.cpp:1292`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1292)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1292)). Optional vertex and face files describe the ODF sphere tessellation; if omitted, Diffusion Toolkit defaults are used. Inline properties:
 
 | Property | Values | Description |
 |----------|--------|-------------|
@@ -217,7 +217,7 @@ Load focal cortical dysplasia analysis output. `SUFFIX` is optional. Side-effect
 -recon <SUBJECT_NAME> [<SUBJECT_NAME> ...]
 ```
 
-Repeatable. Requires `$SUBJECTS_DIR` to be set (failure at `MainWindow.cpp:2390`). Loads a canonical set of files for one or more reconstructed subjects:
+Repeatable. Requires `$SUBJECTS_DIR` to be set (failure at [[`MainWindow.cpp:2390`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L2390)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L2390)). Loads a canonical set of files for one or more reconstructed subjects:
 
 - Volumes: `norm.mgz`, `T1.mgz`, `brainmask.mgz`, `wm.mgz` (colormap=heat, hidden, opacity 0.4), `aseg.mgz` (colormap=lut, opacity 0.22)
 - Surfaces: `lh.white`, `rh.white`, `lh.pial`:edgecolor=red, `rh.pial`:edgecolor=red, `lh.inflated` + `rh.inflated` each with `aparc.annot` overlay (hidden by default)
@@ -225,7 +225,7 @@ Repeatable. Requires `$SUBJECTS_DIR` to be set (failure at `MainWindow.cpp:2390`
 - Initial viewport: coronal
 - If `<subject>/tmp/control.dat` exists: load it as control points
 
-This is implemented in `CommandLoadSubject()` (`MainWindow.cpp:2387`); it internally re-parses the assembled argument string via `ParseCommand()`.
+This is implemented in `CommandLoadSubject()` ([[`MainWindow.cpp:2387`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L2387)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L2387)); it internally re-parses the assembled argument string via `ParseCommand()`.
 
 ### 1.13 Line Profile: `-lineprofile`
 
@@ -255,7 +255,7 @@ Any arguments given without a flag are treated as volume filenames and loaded as
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
 | `-viewport` | `sagittal`/`sag`/`x`, `coronal`/`cor`/`y`, `axial`/`z`, `3d` | — | Set the main viewport orientation |
-| `-layout` | `1` – `4` | — | View-panel layout: **1** = single, **2** = 2×2, **3** = 1+3 vertical, **4** = 1+3 horizontal. Values outside 1–4 are clamped (`MainWindow.cpp:1005`) |
+| `-layout` | `1` – `4` | — | View-panel layout: **1** = single, **2** = 2×2, **3** = 1+3 vertical, **4** = 1+3 horizontal. Values outside 1–4 are clamped ([[`MainWindow.cpp:1005`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1005)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1005)) |
 | `-view` | `left`, `right`, `anterior`, `posterior`, `inferior`, `superior`, `lateral`, `medial` | — | Set the 3D view direction. `lateral`/`medial` require a visible surface to determine hemisphere |
 | `-viewsize` | `<W> <H>` | — | Resize the main viewport to width × height pixels (the whole window resizes accordingly, adjusted per layout) |
 | `-zoom` | `<FACTOR>` | — | Zoom factor (applied to all viewports). Zero is rejected |
@@ -308,14 +308,14 @@ Any arguments given without a flag are treated as volume filenames and loaded as
 > [!gotcha] `-auto-load-surf` help text is inverted
 > The help string attached to this flag reads "Do not automatically load
 > sphere or other supplemental surface data". In the code
-> (`MainWindow.cpp:997`) the flag sets `m_defaultSettings["no_autoload"] = false`,
+> ([[`MainWindow.cpp:997`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L997)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L997)) the flag sets `m_defaultSettings["no_autoload"] = false`,
 > which **turns auto-loading ON**. The flag enables the behaviour; it does
 > not disable it. Treat the name as "enable auto-load of supplemental surf
 > data"; the negation in the help text is stale.
 
 > [!gotcha] Default resample method is nearest-neighbour
 > `m_nDefaultSampleMethod` is initialised to `SAMPLE_NEAREST`
-> (`MainWindow.cpp:147`). Unless `-trilinear`, `-cubic`, or an inline
+> ([[`MainWindow.cpp:147`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L147)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L147)). Unless `-trilinear`, `-cubic`, or an inline
 > `sample=` is given, each volume loads with nearest-neighbour
 > resampling. For anatomical viewing prefer `-trilinear` globally or
 > `:sample=trilinear` per volume.
@@ -398,7 +398,7 @@ Applies a 1.5× dolly-in, then rotates the camera 30° horizontally.
 
 ## 5. Internal Scripting Commands (`-cmd` Vocabulary)
 
-The internal dispatcher is `MainWindow::RunScript()` (`MainWindow.cpp:1844`). Each scripted line is split on whitespace; the first token (case-insensitive) selects the command; remaining tokens are its arguments. Commands that also have a corresponding CLI flag accept the same inline-property syntax.
+The internal dispatcher is `MainWindow::RunScript()` ([[`MainWindow.cpp:1844`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1844)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1844)). Each scripted line is split on whitespace; the first token (case-insensitive) selects the command; remaining tokens are its arguments. Commands that also have a corresponding CLI flag accept the same inline-property syntax.
 
 Unrecognised commands print `Command 'xxx' was not recognized.` to stderr and are skipped.
 
@@ -552,7 +552,7 @@ Unrecognised commands print `Command 'xxx' was not recognized.` to stderr and ar
 
 ## 6. Volume Inline Properties (`-v`, `loadvolume`)
 
-Attached after the filename with `:`. Parsed by `MainWindow::CommandLoadVolume()` (`MainWindow.cpp:2465`).
+Attached after the filename with `:`. Parsed by `MainWindow::CommandLoadVolume()` ([[`MainWindow.cpp:2465`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L2465)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L2465)).
 
 ### 6.1 Colour map
 
@@ -631,7 +631,7 @@ See also [[freeview-dti]].
 
 ## 7. Surface Inline Properties (`-f`, `loadsurface`)
 
-Attached after the filename with `:`. Parsed by `MainWindow::CommandLoadSurface()` (`MainWindow.cpp:3714`).
+Attached after the filename with `:`. Parsed by `MainWindow::CommandLoadSurface()` ([[`MainWindow.cpp:3714`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L3714)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L3714)).
 
 ### 7.1 Display
 
@@ -741,12 +741,12 @@ Inline properties that use colour include: `color`, `edgecolor`, `binary_color`,
 | Variable | Set by | Purpose |
 |----------|--------|---------|
 | `SUBJECTS_DIR` | user | Required for `-recon` / `loadsubject` |
-| `FS_COPY_HEADER_CTAB` | main.cpp (line 124) | Set to `1` at startup so that edited volumes retain header colour tables on save |
+| `FS_COPY_HEADER_CTAB` | main.cpp ([line 124](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L124)) | Set to `1` at startup so that edited volumes retain header colour tables on save |
 | `FV_SPHERE_IGNORE_VG` | `-sphere-ignore-vg` / `-no-sphere-ignore-vg` | `1` = ignore volume geometry on sphere surfaces |
 | `FV_PATIENT_ORIENTATION` | `tkmeditfv`/`tksurferfv` wrappers | Patient orientation mode (not read by the freeview binary itself) |
 | `FV_ROTATE_AROUND_CURSOR` | `tkmeditfv` / `-rotate-around-cursor` | Rotate-around-cursor in 3D |
-| `SURFER_FRONTDOOR` | main.cpp (line 121) | Cleared at startup to disable the licensing front door |
-| `LANG` | main.cpp (line 123) | Forced to `en_US` unless `FS_DISABLE_LANG` is set |
+| `SURFER_FRONTDOOR` | main.cpp ([line 121](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L121)) | Cleared at startup to disable the licensing front door |
+| `LANG` | main.cpp ([line 123](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L123)) | Forced to `en_US` unless `FS_DISABLE_LANG` is set |
 
 ---
 
@@ -853,14 +853,14 @@ freeview -f lh.inflated:annot=aparc.annot \
 
 ## 11. Source Notes and Known Quirks
 
-- **Flag definitions**: `freeview/main.cpp:144–336` (`cmdLineDesc[]` array).
-- **CLI → script translation**: `MainWindow::DoParseCommand()` (`MainWindow.cpp:954`). Not every flag is handled there — some (e.g. `-verbose`, `-continue`, `-timecourse`, `-transform-volume`, `-rotate-around-cursor`, the `hide-*-slice` flags, the `-sphere-ignore-vg` env-var setters) act directly on the `MainWindow` instance without producing a script entry.
-- **Script dispatch**: `MainWindow::RunScript()` (`MainWindow.cpp:1844–2336`). Unrecognised commands produce a stderr warning and are skipped; a typo in a `-cmd` file does not abort the run.
-- **Order of operations**: CLI flags accumulate into `m_scripts` during parsing; scripts run sequentially from `OnIdle()` once parsing has completed. Inline `basis=1` properties on `-v` cause the affected volume to be re-inserted at position 0 of the script queue (`MainWindow.cpp:1110–1117`).
+- **Flag definitions**: [[`freeview/main.cpp:144–336`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/main.cpp#L144-L336)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/main.cpp#L144-L336) (`cmdLineDesc[]` array).
+- **CLI → script translation**: `MainWindow::DoParseCommand()` ([[`MainWindow.cpp:954`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L954)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L954)). Not every flag is handled there — some (e.g. `-verbose`, `-continue`, `-timecourse`, `-transform-volume`, `-rotate-around-cursor`, the `hide-*-slice` flags, the `-sphere-ignore-vg` env-var setters) act directly on the `MainWindow` instance without producing a script entry.
+- **Script dispatch**: `MainWindow::RunScript()` ([[`MainWindow.cpp:1844–2336`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1844-L2336)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1844-L2336)). Unrecognised commands produce a stderr warning and are skipped; a typo in a `-cmd` file does not abort the run.
+- **Order of operations**: CLI flags accumulate into `m_scripts` during parsing; scripts run sequentially from `OnIdle()` once parsing has completed. Inline `basis=1` properties on `-v` cause the affected volume to be re-inserted at position 0 of the script queue ([[`MainWindow.cpp:1110–1117`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1110-L1117)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1110-L1117)).
 - **`-cmd` files can mix styles**: a line beginning with `-` or `freeview`/`fv` is re-parsed through the CLI parser; any other line is treated as an internal scripting command. Comments start with `#`.
-- **Default resample method is `SAMPLE_NEAREST`** (`MainWindow.cpp:147`), in contrast to both the inline-property help string (which says `nearest` is the default correctly) and common expectation.
+- **Default resample method is `SAMPLE_NEAREST`** ([[`MainWindow.cpp:147`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L147)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L147)), in contrast to both the inline-property help string (which says `nearest` is the default correctly) and common expectation.
 - **`-auto-load-surf` naming is inverted**: the flag turns autoload ON (see gotcha above).
-- **`-ss` implies `-quit` unless `-noquit` is also given** (`MainWindow.cpp:1455`).
+- **`-ss` implies `-quit` unless `-noquit` is also given** ([[`MainWindow.cpp:1455`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1455)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/freeview/MainWindow.cpp#L1455)).
 - **`-l` requires a prior volume**: loading a label before any volume prints a warning and drops the label request.
 - **`-odf` requires a prior volume**: same pattern.
 

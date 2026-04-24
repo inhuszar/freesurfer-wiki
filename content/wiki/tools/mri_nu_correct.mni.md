@@ -203,7 +203,7 @@ $$
 
 Each outer iteration uses a fresh `tmpdir/<m>/` working directory
 and reads `tmpdir/nu<m>.mnc` to produce `tmpdir/nu<m+1>.mnc`
-(`scripts/mri_nu_correct.mni:150–174`). This is distinct from the
+([`scripts/mri_nu_correct.mni:150–174`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L150-L174)). This is distinct from the
 `-iterations` parameter passed to `nu_correct` itself (`--proto-iters`
 in the wrapper).
 
@@ -219,14 +219,14 @@ $$
 $$
 
 This is implemented with `mri_segstats --avgwf` on an all-ones
-mask and [[mris_calc]] `mul` (`scripts/mri_nu_correct.mni:183–210`).
+mask and [[mris_calc]] `mul` ([`scripts/mri_nu_correct.mni:183–210`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L183-L210)).
 It guarantees that the output has the same global mean intensity as
 the input, which preserves the input dynamic range for downstream
 tools that use absolute intensity thresholds.
 
 > [!internal] `mri_make_uchar` uses a Talairach ball to find WM
 > When `--uchar <talxfm>` is passed, the tcsh wrapper calls
-> `mri_make_uchar $OutVol $talxfm $OutVol` (line 228). Inside
+> `mri_make_uchar $OutVol $talxfm $OutVol` ([line 228](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L228)). Inside
 > `mri_make_uchar` (`mri_convert/mri_make_uchar.cpp`):
 > 1. Read the Talairach LTA and invert it so that a point in the
 >    subject's native space can be mapped to the atlas.
@@ -260,7 +260,7 @@ tools that use absolute intensity thresholds.
 | `--fwhm <mm>` | float | nu_correct's default | Passed as `-fwhm mm` to `nu_correct`. |
 | `--shrink <f>` | int | nu_correct's default | Passed as `-shrink f` to `nu_correct`; coarse-resolution subsampling factor for the fit. |
 | `--lambda <λ>` | float | nu_correct's default | Passed as `-lambda λ` to `nu_correct`; B-spline regularisation strength. |
-| `--uchar <talxfm>` | path | off | Run `mri_make_uchar` after bias correction, using `<talxfm>` to locate a "mostly brain" ball and centre the WM histogram peak at 110. Output is cast to `uint8`. The wrapper checks at parse time that `<talxfm>` exists on disk and exits with an error if not (line 354). Only takes effect when `--float` is on (the default). |
+| `--uchar <talxfm>` | path | off | Run `mri_make_uchar` after bias correction, using `<talxfm>` to locate a "mostly brain" ball and centre the WM histogram peak at 110. Output is cast to `uint8`. The wrapper checks at parse time that `<talxfm>` exists on disk and exits with an error if not ([`scripts/mri_nu_correct.mni:354`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L354)). Only takes effect when `--float` is on (the default). |
 | `--no-uchar`<br>`--nouchar` | bool | on (`DoUchar=0`) | Disable the `--uchar` post-processing. Both spellings are accepted. |
 | `--cm` | bool | off | Sets `HiRes = -cm` and forwards `-cm` to every internal `mri_convert` call (for hi-res volumes; preserves the minimum voxel size instead of conforming to 1 mm). Also suppresses the post-processing `--conform` reslice that would otherwise be applied (see gotcha). |
 | `--float` | bool | **on** (`UseFloat=1`) | Convert MINC intermediates to `float` (passes `-odt float` to `mri_convert`) and force `DoRescale=1`. Also gates the `--uchar` post-processing and the post-processing `--conform` reslice. |
@@ -275,12 +275,12 @@ tools that use absolute intensity thresholds.
 | `--ants-n4-replace-zeros` | bool | off (env override) | Set `ReplaceZeros=1`, which adds `--replace-zeros 0 1 1` to the ANTs N4 call. Default is taken from environment variable `FS_ANTS_N4_REPLACE_ZEROS` (defaults to 0 if unset). Only meaningful with `--ants-n4`. |
 | `--no-ants-n4-replace-zeros` | bool | on | Set `ReplaceZeros=0`. |
 | `--ants4-threads-nondetermistic <n>` | int | — | Thread count for the ANTs N4 backend (passed as `--threads-nondetermistic <n>`). ITK with multiple threads is non-deterministic; the source comment notes this is "convenient for getting answers faster during testing". Only meaningful with `--ants-n4`. |
-| `--tmp <dir>`<br>`--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.<pid>` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time (line 391). |
+| `--tmp <dir>`<br>`--tmpdir <dir>` | path | `<outdir>/tmp.mri_nu_correct.mni.<pid>` | Working directory for intermediate files. Both spellings are accepted. Setting this **also forces `cleanup=0`** at parse time ([`scripts/mri_nu_correct.mni:391`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L391)). |
 | `--cleanup` | bool | on (initial `cleanup=1`) | Delete `tmpdir` at the end of the run. |
 | `--no-cleanup` | bool | off | Keep `tmpdir` (for debugging). |
 | `--log <file>` | path | `<outdir>/mri_nu_correct.mni.log` | Path to the log file. The wrapper renames any pre-existing file at this path to `<file>.bak` before writing. |
 | `--debug` | bool | off | Sets tcsh `verbose=1`, `echo=1`, and `debug=1` (turns on terminal echoing of every shell command). |
-| `--version` | bool | off | Print the version string and exit. Detected by an `egrep` on `argv` *before* the regular parser (lines 58–62), so it short-circuits all other parsing. |
+| `--version` | bool | off | Print the version string and exit. Detected by an `egrep` on `argv` *before* the regular parser ([lines 58–62](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L58-L62)), so it short-circuits all other parsing. |
 | `--help`<br>`-help`<br>`-h`<br>`-u`<br>`-usage`<br>`--usage` | bool | off | Print help (via `fsPrintHelp`) and exit. All six spellings are accepted. |
 
 ### mri_make_uchar Direct-Invocation Flags
@@ -297,9 +297,9 @@ tools that use absolute intensity thresholds.
 ### Configuration Interactions
 
 > [!contradiction] Default for `--n` disagrees between sources
-> The script source sets `set nIters = 1` (line 28), and
+> The script source sets `set nIters = 1` ([line 28](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L28)), and
 > `recon-all` always passes `--n 2` explicitly. The embedded help
-> text (line 525) says *"Number of iterations to run nu_correct.
+> text ([`scripts/mri_nu_correct.mni:525`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L525)) says *"Number of iterations to run nu_correct.
 > Default is 4"*. All three disagree. **Code is authoritative**: the
 > tool's default is 1 when run standalone, `recon-all`'s default is
 > 2, and the help text's claim of 4 is stale (likely copied from a
@@ -316,7 +316,7 @@ tools that use absolute intensity thresholds.
 > When `--ants-n3` or `--ants-n4` is active, the wrapper jumps
 > straight to the ANTs binary and **does not read**
 > `--proto-iters`, `--stop`, `--distance`, `--fwhm`, `--shrink`, or
-> `--lambda`. These are only passed to `nu_correct` (line 156–164).
+> `--lambda`. These are only passed to `nu_correct` ([line 156–164](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L156-L164)).
 > The ANTs binaries have their own parameter interfaces; use the
 > expert options file to pass additional flags to them.
 
@@ -335,18 +335,18 @@ tools that use absolute intensity thresholds.
 
 > [!gotcha] `--tmpdir` implies `--no-cleanup`
 > Setting `--tmpdir <dir>` explicitly also sets `cleanup = 0` at
-> parse time (line 391). This is convenient for debugging, but the
+> parse time ([`scripts/mri_nu_correct.mni:391`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L391)). This is convenient for debugging, but the
 > user must manually remove the tmpdir afterward.
 
 > [!gotcha] `--rescale` is implicitly on when `--float` is on
-> `--float` (the default) also sets `DoRescale = 1` (line 372). To
+> `--float` (the default) also sets `DoRescale = 1` ([`scripts/mri_nu_correct.mni:372`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mri_nu_correct.mni#L372)). To
 > get a non-rescaled output you must explicitly pass `--no-rescale`
 > *after* any `--float`. `recon-all`'s first call does exactly
 > this: `--no-rescale --i ... --o ...`.
 
 > [!gotcha] `--no-float` silently disables `--uchar`
 > The post-iteration call to `mri_make_uchar` is gated by
-> `if($UseFloat && $DoUchar)` (line 226). Passing --no-float --uchar
+> `if($UseFloat && $DoUchar)` ([line 226](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L226)). Passing --no-float --uchar
 > together does **not** error out; it simply skips the histogram
 > rescaling step and the output is left in the input data type.
 
@@ -360,18 +360,18 @@ tools that use absolute intensity thresholds.
 > field of view aligned, but the voxel grid is changed.
 
 > [!gotcha] `--ants-n3` ignores `--mask`
-> The N3 ANTs branch (line 122) builds the command as
+> The N3 ANTs branch ([line 122](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L122)) builds the command as
 > `N3BiasFieldCorrection 3 <invol> <outvol>` and never adds a mask,
 > with the source comment "don't know how to add mask". `--ants-n4`,
 > in contrast, does pass `-x <mask>`.
 
 > [!gotcha] `--ants-n3` / `--ants-n4` ignore `--n`
-> The outer iteration loop is only run on the MNI backend (line 151).
+> The outer iteration loop is only run on the MNI backend ([line 151](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L151)).
 > Both ANTs branches make a single backend call regardless of `--n`.
 
 > [!gotcha] The wrapper needs `bc`
 > The post-iteration rescaling uses `bc -l` to compute the scale
-> factor (line 205). On minimal Linux installs without `bc`, the
+> factor ([line 205](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_convert/mri_make_uchar.cpp#L205)). On minimal Linux installs without `bc`, the
 > `check_params` block errors out with "ERROR: OS is missing bc
 > (binary calculator) utility". This is deliberate, not a bug.
 

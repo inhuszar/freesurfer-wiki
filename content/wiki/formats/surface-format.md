@@ -212,7 +212,7 @@ coords, faces = nib.freesurfer.io.read_geometry(
 ## Confidence and Gaps
 
 High confidence on the triangle file format — derived from `mrisReadTriangleFile()`
-in `utils/mrisurf_io.cpp` (lines 5494–5625).
+in `utils/mrisurf_io.cpp` ([lines 5494–5625](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L5494-L5625)).
 
 > [!gap] TAG_SURF_DATASPACE and TAG_SURF_MATRIXDATA
 > These tags are written for transformed surfaces (e.g., after registration to

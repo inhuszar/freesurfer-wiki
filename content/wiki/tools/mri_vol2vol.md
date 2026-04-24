@@ -386,8 +386,8 @@ mri_vol2vol --map-point 10.0 -5.0 3.0 1 transform.lta 2 nofile
 
 > [!note] Help-text token discrepancies — not real flags
 > The help text inside `mri_vol2vol.cpp` contains several strings that are not parsed option names:
-> - `--fstal` and `--fstalres` appear in the help text but only as references to `tkregister2` invocations or in section headings. The flags actually parsed by `mri_vol2vol` are `--tal` (line 1203) and `--talres` (line 1426). Only `--tal` and `--talres` work.
-> - `--surf` appears in a `printf` line (line 1166) suggesting the user run `tkregister2 --surf white` for registration verification — it is a `tkregister2` flag, not a `mri_vol2vol` flag.
+> - `--fstal` and `--fstalres` appear in the help text but only as references to `tkregister2` invocations or in section headings. The flags actually parsed by `mri_vol2vol` are `--tal` ([line 1203](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_vol2vol/mri_vol2vol.cpp#L1203)) and `--talres` ([line 1426](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_vol2vol/mri_vol2vol.cpp#L1426)). Only `--tal` and `--talres` work.
+> - `--surf` appears in a `printf` line ([line 1166](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_vol2vol/mri_vol2vol.cpp#L1166)) suggesting the user run `tkregister2 --surf white` for registration verification — it is a `tkregister2` flag, not a `mri_vol2vol` flag.
 > - `--fill-` and `--fill-xxx` are not option strings. `--fill-xxx` is a placeholder in the help text ("source upsampling factor for --fill-xxx") referring to the `--fill-average` / `--fill-conserve` family; `--fill-` is a partial string from a `--downsample` description. Neither is accepted by the parser.
 > The flag table above uses the authoritative parsed names only.
 

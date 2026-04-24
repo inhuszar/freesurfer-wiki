@@ -108,7 +108,7 @@ etc.
 
 ### Surface coordinates
 
-The code comments explain the coordinate convention (lines 27–63):
+The code comments explain the coordinate convention ([lines 27–63](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_tessellate/mri_tessellate.cpp#L27-L63)):
 
 The tessellation selects voxels at the boundary:
 
@@ -249,7 +249,7 @@ mri_fill → filled.mgz
    mris_extract_main_component lh.orig.nofix lh.orig.nofix
 ```
 
-**Exact recon-all command (line 3580):**
+**Exact recon-all command ([`scripts/recon-all:3580`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3580)):**
 
 ```bash
 mri_tessellate ../mri/filled-pretess$hemivalue.mgz $hemivalue $outfile
@@ -274,7 +274,7 @@ labelling) → [[mri_segment]] (WM segmentation)
 
 > [!gotcha] The temporary `filled-pretess*.mgz` files are deleted after use
 > recon-all deletes `filled-pretess$hemivalue.mgz` immediately after
-> tessellation (line 3584). If you need to inspect the pre-tessellation
+> tessellation ([`scripts/recon-all:3584`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3584)). If you need to inspect the pre-tessellation
 > volume, you must run `mri_pretess` manually and keep the output.
 
 > [!gotcha] Main component extraction is a separate step

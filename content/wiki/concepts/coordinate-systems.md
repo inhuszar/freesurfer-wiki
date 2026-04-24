@@ -92,7 +92,7 @@ translation. The first three columns of $V$ are the direction cosines scaled
 by voxel size; the fourth column is $P_0$.
 
 > [!math] Reference implementation
-> The full build lives in `utils/mri.cpp:589` (`MRIxfmCRS2XYZ()`). It
+> The full build lives in [[`utils/mri.cpp:589`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L589)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L589) (`MRIxfmCRS2XYZ()`). It
 > constructs $M_{dc} \cdot D$ column-by-column from the `VOL_GEOM` fields
 > `x_r, x_a, x_s` (column DC), `y_r, y_a, y_s` (row DC), `z_r, z_a, z_s`
 > (slice DC), then patches $P_0$ so that
@@ -214,7 +214,7 @@ $C_{dc} = (-1, 0, 0)^\top,\; R_{dc} = (0, 0, -1)^\top,\; S_{dc} = (0, 1, 0)^\top
 The centre-voxel RAS is hard-coded to $(0, 0, 0)$; the corner voxel $(0,0,0)$
 lands at $P_0 = (+N_c d_C / 2,\, -N_s d_S / 2,\, +N_r d_R / 2)^\top$.
 
-**Reference implementation.** `utils/mri.cpp:835`
+**Reference implementation.** [[`utils/mri.cpp:835`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L835)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L835)
 (`MRIxfmCRS2XYZtkreg()`), which allocates a throw-away `VOL_GEOM`,
 overwrites its direction cosines with the LIA triad above and its
 `c_r/c_a/c_s` with zeros, and then calls the generic `MRIxfmCRS2XYZ()`.
@@ -245,7 +245,7 @@ between `surfaceRAS`, `TkRegRAS`, and `tkrRAS`; they are the same thing.
 `utils/mri.cpp` actually contains a deprecated Tosa implementation
 (`surfaceRASFromVoxel_`) that only worked on coronally conformed volumes;
 the live implementation now delegates to `MRIxfmCRS2XYZtkreg()` (comment at
-`utils/mri.cpp:3509`: "What he calls 'surface' RAS is really supposed to be
+[[`utils/mri.cpp:3509`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L3509)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L3509): "What he calls 'surface' RAS is really supposed to be
 'tkregister' RAS").
 
 **Which FreeSurfer files use Surface RAS.**
@@ -284,7 +284,7 @@ By convention throughout this page:
 **Going from a subject's CRS to MNI305 RAS** therefore requires
 $X_\text{tal} \cdot N_\text{orig}$ (both orig-space scanner matrices applied
 in order). The source function that does this directly from a CRS is
-`TransformCRS2MNI305()` at `utils/transform.cpp:5190`.
+`TransformCRS2MNI305()` at [[`utils/transform.cpp:5190`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190).
 
 **The "Talairach" confusion.** Every FreeSurfer output labelled
 *Talairach* — in `tkmedit`, in [[freeview]], in `mri_info --mni`, in the
@@ -296,7 +296,7 @@ between "same" landmarks in the two atlases are routine. See §8.3.
 
 **Brett's non-linear correction.** If you really want Talairach-style
 coordinates from a FreeSurfer MNI305 point, FreeSurfer provides
-`FixMNITal()` at `utils/transform.cpp:1983`, which applies Matthew Brett's
+`FixMNITal()` at [[`utils/transform.cpp:1983`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1983)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1983), which applies Matthew Brett's
 8/10/98 piecewise-linear "mni2tal" transform:
 
 $$
@@ -398,7 +398,7 @@ $$
 $$
 
 This is because the tkreg Vox2RAS is built with $c_r=c_a=c_s=0$
-(`utils/mri.cpp:847-855`), while the scanner Vox2RAS uses the volume's
+([[`utils/mri.cpp:847-855`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L847-L855)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L847-L855)), while the scanner Vox2RAS uses the volume's
 stored `c_ras`. Both matrices share the same $M_{dc} \cdot D$ factor *for
 conformed volumes* (LIA direction cosines, 1 mm voxels), so they differ only
 in the translation column.
@@ -412,7 +412,7 @@ $$
 
 `Mfix` is the thing you forgot to apply when your surface landed off the
 anatomy in some other package. FreeSurfer applies it implicitly inside
-`DevolveXFM()` at `utils/transform.cpp:2027`:
+`DevolveXFM()` at [[`utils/transform.cpp:2027`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027):
 
 ```cpp
 Torig_tkreg  = MRIxfmCRS2XYZtkreg(mriorig);  // T_orig
@@ -435,7 +435,7 @@ XFM  = XFM * Mfix;   // XFM is now a Surface-RAS -> target matrix
 A FreeSurfer binary surface file (`lh.white`, `rh.pial`, `lh.sphere`, ...)
 stores, per vertex, three `float` coordinates. By convention these are in
 **Surface RAS** of the volume the surface was tessellated from
-(`utils/mrisurf_io.cpp:4024` sets `mris->useRealRAS = 0` on every freshly
+([[`utils/mrisurf_io.cpp:4024`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4024)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4024) sets `mris->useRealRAS = 0` on every freshly
 read surface). This is the native space in which [[mri_tessellate]],
 [[mris_smooth]], [[mris_inflate]], [[mris_sphere]], and all surface-metric
 code operate.
@@ -449,9 +449,9 @@ translated by $-(c_r, c_a, c_s)$ relative to the volume.
 A surface file carries an optional integer tag, `TAG_USEREALRAS` /
 `TAG_OLD_USEREALRAS`, that says whether the stored vertices are in Scanner
 RAS (`useRealRAS = 1`) or Surface RAS (`useRealRAS = 0`).
-`mrisurf_io.cpp:4041-4047` reads this tag on every load; if present and set
+[[`mrisurf_io.cpp:4041-4047`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4041-L4047)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4041-L4047) reads this tag on every load; if present and set
 to 1, `MRISread()` subsequently calls `MRISscanner2Tkr()` at
-`mrisutils.cpp:2400` to *convert* the vertices into Surface RAS:
+[[`mrisutils.cpp:2400`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L2400)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L2400) to *convert* the vertices into Surface RAS:
 
 $$
 \text{vertex}_\text{tkr}
@@ -460,7 +460,7 @@ $$
 
 This is done so that the in-memory representation used by every tool is
 always Surface RAS regardless of what the file stored. The reverse,
-`MRIStkr2Scanner()` at `mrisutils.cpp:2375`, is what `mris_convert
+`MRIStkr2Scanner()` at [[`mrisutils.cpp:2375`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L2375)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L2375), is what `mris_convert
 --to-scanner` calls to write a surface with `useRealRAS = 1`, typically for
 inter-package interchange (e.g. HCP, MNE, nibabel expect Scanner RAS).
 
@@ -525,7 +525,7 @@ $$
 The $N \cdot T^{-1}$ prefix is exactly `Mfix` from §5 — the "devolve" step
 that takes a Surface-RAS point to Scanner-RAS before applying the
 `talairach.xfm`, which was computed in Scanner-RAS. This is
-`DevolveXFM(subjid, X, "talairach.xfm")` at `utils/transform.cpp:2027`.
+`DevolveXFM(subjid, X, "talairach.xfm")` at [[`utils/transform.cpp:2027`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027).
 
 Used by: `mri_info --ras ...`, `tksurfer`'s "MNI Talairach" readout
 (which then relabels the output "Talairach" — see §8.3), surface-based
@@ -647,7 +647,7 @@ No. `talairach.xfm` is a Scanner-RAS → MNI305 matrix. Surface vertices are
 in Surface RAS. You must apply `Mfix` first (equivalently: use
 `DevolveXFM`). Shortcut for the lazy: instead of multiplying
 `X * N * inv(T) * v`, load `talairach.xfm` with `LTAreadEx()` and use
-`TransformCRS2MNI305()` (`utils/transform.cpp:5190`) which takes a CRS and
+`TransformCRS2MNI305()` ([[`utils/transform.cpp:5190`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190)) which takes a CRS and
 does the whole chain for you.
 
 ### 8.3 "'Talairach' in a FreeSurfer output means Talairach-88"
@@ -667,15 +667,15 @@ for you.
 ### 8.4 `register.dat` is Surface-RAS, `talairach.xfm` is Scanner-RAS, `.lta` is either
 
 - `register.dat` format (tkregister): Surface-RAS → Surface-RAS. File
-  parsed at `utils/registerio.cpp:43`; the matrix `R` in the file is the
+  parsed at [[`utils/registerio.cpp:43`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/registerio.cpp#L43)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/registerio.cpp#L43); the matrix `R` in the file is the
   same $R$ used in §7.5-§7.7. Written in ASCII; not self-describing
   beyond subject name and voxel sizes (both obsolete fields).
 - `.xfm` (MNI transform format): Scanner-RAS → Scanner-RAS. Parsed by
-  `LTAreadEx()` with type `MNI_TRANSFORM_TYPE` (`transform.h:143`).
+  `LTAreadEx()` with type `MNI_TRANSFORM_TYPE` ([[`transform.h:143`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/transform.h#L143)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/transform.h#L143)).
   `talairach.xfm` is of this type.
 - `.lta` (linear transform array): a self-describing wrapper that carries
   the source and destination `VOL_GEOM` structs and one of five type
-  codes (`transform.h:137-148`):
+  codes ([[`transform.h:137-148`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/transform.h#L137-L148)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/transform.h#L137-L148)):
   - `LINEAR_VOX_TO_VOX = 0`: voxel-to-voxel, i.e. the $Q$ from §7.6.
   - `LINEAR_RAS_TO_RAS = 1`: Scanner-RAS → Scanner-RAS (like `.xfm`).
   - `LINEAR_CORONAL_RAS_TO_CORONAL_RAS = 21`: Surface-RAS → Surface-RAS
@@ -683,7 +683,7 @@ for you.
   - `REGISTER_DAT = 14`: semantically a register.dat loaded into an LTA.
   - `FSLREG_TYPE = 15`: FSL FLIRT .mat, which is yet another FoV-based
     RAS ("FSL RAS" with origin at the corner of the FoV; see
-    `MRIxfmCRS2XYZfsl()` at `utils/mri.cpp:873`).
+    `MRIxfmCRS2XYZfsl()` at [[`utils/mri.cpp:873`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L873)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L873)).
 - FSL `.mat`: FSL-RAS → FSL-RAS; FreeSurfer converts via `lta_convert`.
 
 > [!gotcha] Type conversion is a computation, not a relabeling
@@ -701,7 +701,7 @@ for you.
 without applying `useRealRAS`, which means you get Surface RAS by default
 and must add `(c_r, c_a, c_s)` yourself to plot on top of the volume's
 affine (which is Scanner RAS via `nibabel.MGHImage.affine`). See
-`utils/mrisurf_io.cpp:4024` for where FreeSurfer itself decides the
+[[`utils/mrisurf_io.cpp:4024`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4024)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4024) for where FreeSurfer itself decides the
 vertex-coordinate frame.
 
 ### 8.6 The Vox2RAS of `rawavg.mgz` differs from `orig.mgz`
@@ -812,17 +812,17 @@ $$
   fscoordinates PDF, cross-checked against `include/mri.h`'s `VOL_GEOM`
   definition. **High confidence.**
 - The `Mfix` devolve logic (§5) is taken directly from
-  `utils/transform.cpp:2027-2123` (`DevolveXFM`). **High confidence.**
+  [[`utils/transform.cpp:2027-2123`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027-L2123)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027-L2123) (`DevolveXFM`). **High confidence.**
 - The MNI305 ↔ MNI152 matrix (§3.5) is listed on the FreeSurfer wiki and
   matches `$FREESURFER_HOME/average/mni152.register.dat` semantically, but
   has not been numerically recomputed from that file. **Medium
   confidence.** Not critical: this is a constant affine.
 - The register.dat convention direction (`R` maps anat → mov) follows
   both the fscoordinates PDF *and* the source comment in
-  `utils/mri.cpp:888` ("the tkreg R maps from Ref RAS to the Mov RAS").
+  [[`utils/mri.cpp:888`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L888)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L888) ("the tkreg R maps from Ref RAS to the Mov RAS").
   **High confidence.**
 - The Brett piecewise affine coefficients (§3.4) are copied verbatim from
-  `utils/transform.cpp:1983-2014`. **High confidence.**
+  [[`utils/transform.cpp:1983-2014`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1983-L2014)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1983-L2014). **High confidence.**
 
 > [!gap] LTA type-21 in practice
 > `LINEAR_CORONAL_RAS_TO_CORONAL_RAS` is defined but rarely seen in the
@@ -844,21 +844,21 @@ $$
 
 ### Primary sources (FreeSurfer)
 
-- `utils/mri.cpp` — `MRIxfmCRS2XYZ()` (line 589), `MRIxfmCRS2XYZtkreg()`
-  (line 835), `surfaceRASFromVoxel_()` (line 3515),
-  `voxelFromSurfaceRAS_()` (line 3562),
+- `utils/mri.cpp` — `MRIxfmCRS2XYZ()` ([line 589](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L589)), `MRIxfmCRS2XYZtkreg()`
+  ([line 835](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L835)), `surfaceRASFromVoxel_()` ([line 3515](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L3515)),
+  `voxelFromSurfaceRAS_()` ([line 3562](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mri.cpp#L3562)),
   `RASFromSurfaceRAS_()` / `surfaceRASFromRAS_()` (lines 3603, 3634).
-- `utils/transform.cpp` — `FixMNITal()` (line 1983),
-  `DevolveXFM()` / `DevolveXFMWithSubjectsDir()` (line 2027),
-  `TransformCRS2MNI305()` (line 5190).
-- `utils/mrisutils.cpp` — `MRIStkr2Scanner()` (line 2375),
-  `MRISscanner2Tkr()` (line 2400).
-- `utils/registerio.cpp` — `regio_read_register()` (line 43).
+- `utils/transform.cpp` — `FixMNITal()` ([line 1983](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1983)),
+  `DevolveXFM()` / `DevolveXFMWithSubjectsDir()` ([line 2027](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2027)),
+  `TransformCRS2MNI305()` ([line 5190](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190)).
+- `utils/mrisutils.cpp` — `MRIStkr2Scanner()` ([line 2375](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L2375)),
+  `MRISscanner2Tkr()` ([line 2400](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisutils.cpp#L2400)).
+- `utils/registerio.cpp` — `regio_read_register()` ([line 43](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/registerio.cpp#L43)).
 - `utils/mrisurf_io.cpp` — surface-file read path, `useRealRAS` tag
-  handling (lines 4024-4272).
-- `include/transform.h` — LTA type codes (lines 137-148), `DevolveXFM`
+  handling ([lines 4024-4272](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisurf_io.cpp#L4024-L4272)).
+- `include/transform.h` — LTA type codes ([lines 137-148](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/transform.h#L137-L148)), `DevolveXFM`
   signature.
-- `include/mri.h` — `VOL_GEOM` struct (lines 185-220), `get_Vox2RAS`,
+- `include/mri.h` — `VOL_GEOM` struct ([lines 185-220](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/mri.h#L185-L220)), `get_Vox2RAS`,
   `get_Vox2TkregRAS`, `get_RAS2TkregRAS`.
 
 ### FreeSurfer wiki and documentation

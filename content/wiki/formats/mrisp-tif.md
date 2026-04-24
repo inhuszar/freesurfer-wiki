@@ -54,10 +54,10 @@ The format is selected by the file extension at write time, not by content:
 | (anything else) | HIPS image format (`fread_header`/`fwrite_header` in `imageio.cpp`) | Legacy; rarely encountered |
 
 The routing is implemented in `ImageUnpackFileName()`
-(`utils/imageio.cpp:612`). On read, `MRISPread` first calls
+([[`utils/imageio.cpp:612`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/imageio.cpp#L612)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/imageio.cpp#L612)). On read, `MRISPread` first calls
 `mri_identify(fname)`; if the file is MGH/MGZ or NIfTI, it is read as an
 `MRI` and unpacked frame-by-frame into a freshly allocated `MRI_SP`
-(`utils/mrisp.cpp:2126`). Otherwise control passes to the libtiff path.
+([[`utils/mrisp.cpp:2126`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L2126)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L2126)). Otherwise control passes to the libtiff path.
 
 > [!gotcha] The `.tif` is a real TIFF, not an opaque FreeSurfer container
 > An MRISP `.tif` is a fully compliant multi-page DEFLATE-compressed
@@ -91,7 +91,7 @@ When written through `MRISPwrite()` to a `.tif` file, the MRISP becomes a
 
 ### Per-page TIFF tag set
 
-Set in `TiffWriteImage()` (`utils/imageio.cpp:1397`):
+Set in `TiffWriteImage()` ([[`utils/imageio.cpp:1397`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/imageio.cpp#L1397)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/imageio.cpp#L1397)):
 
 | TIFF tag | Constant | Value written |
 |----------|----------|---------------|
@@ -118,7 +118,7 @@ each page, `TIFFWriteDirectory()` advances to the next directory.
 > set on line 1446 for float pixels. As a result, MRISP `.tif` files are
 > tagged on disk as **32-bit signed integer**, not IEEE float. FreeSurfer's
 > own `TiffReadImage()` ignores `SAMPLEFORMAT` and reuses
-> `BITSPERSAMPLE` to deduce `PFFLOAT` (lines 893–910), so the round-trip
+> `BITSPERSAMPLE` to deduce `PFFLOAT` ([lines 893–910](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/imageio.cpp#L893-L910)), so the round-trip
 > works internally. External readers that respect `SAMPLEFORMAT` (ImageJ,
 > Python `tifffile`, `gdalinfo`) will reinterpret the float bit patterns
 > as huge signed integers and the displayed values will be nonsensical.
@@ -136,7 +136,7 @@ storage size of one page is approximately
 
 ### Default grid dimensions
 
-`MRISPalloc(scale, nfuncs)` (`utils/mrisp.cpp:1954`) computes:
+`MRISPalloc(scale, nfuncs)` ([[`utils/mrisp.cpp:1954`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L1954)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L1954)) computes:
 
 | Quantity | Formula | Default (`scale=1`) |
 |----------|---------|---------------------|
@@ -172,7 +172,7 @@ v = \mathrm{nint}\!\left(\frac{V_{\text{dim}} \cdot \theta}{2\pi}\right)
 $$
 
 This is implemented in `MRIStoParameterization()`
-(`utils/mrisp.cpp:122–146`). Note that:
+([[`utils/mrisp.cpp:122–146`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L122-L146)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L122-L146)). Note that:
 
 - **u indexes φ (latitude).** `u = 0` is the north pole (`+z`),
   `u = U_DIM−1` is the south pole (`−z`).
@@ -187,7 +187,7 @@ This is implemented in `MRIStoParameterization()`
 ### Spherical topology of the (u, v) plane
 
 The discrete grid is endowed with the topology of a sphere via the
-following wrap-around rules (see `utils/mrisp.cpp:141–146` and
+following wrap-around rules (see [[`utils/mrisp.cpp:141–146`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L141-L146)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L141-L146) and
 `MRISPtranslate()` at line 2007):
 
 - **v** (longitude) wraps cyclically:
@@ -241,12 +241,12 @@ sulcal depth) and surface vertex sources
 > `parms.fields[n].frame · IMAGES_PER_SURFACE`. The exact mapping from
 > field code (`OVERLAY_FRAME`, `DISTANCE_TRANSFORM_FRAME`, etc.) to
 > in-file frame index needs cross-checking against
-> `mris_make_template.cpp:391`.
+> [[`mris_make_template.cpp:391`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_make_template/mris_make_template.cpp#L391)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_make_template/mris_make_template.cpp#L391).
 
 ### Online accumulation
 
 Each new training subject is added to the running mean and variance
-images by `MRISPcombine()` (`utils/mrisp.cpp:2050`):
+images by `MRISPcombine()` ([[`utils/mrisp.cpp:2050`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L2050)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L2050)):
 
 $$
 \mu_{\text{new}}(u, v) \;=\; \frac{\mu(u, v) \cdot d(u, v) + x(u, v)}{d(u, v) + 1}
@@ -267,7 +267,7 @@ where `x` is the new subject's parameterization (frame `3s+0` only;
 ## Construction Pipeline
 
 A subject's spherical surface is converted to a parameterization by
-`MRIStoParameterization()` (`utils/mrisp.cpp:93`), which performs three
+`MRIStoParameterization()` ([[`utils/mrisp.cpp:93`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L93)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L93)), which performs three
 passes:
 
 1. **Vertex binning.** For each vertex, compute `(u, v)` from `(x, y, z)`
@@ -286,14 +286,14 @@ passes:
 For a single subject (the case in `mris_register` `-1` mode and in the
 first call of `mris_make_template`), the variance frame is set to a
 constant 1.0 by `MRISPsetFrameVal(mrisp_template, sno*3+1, 1.0)` in
-`mris_register/mris_register.cpp:385` and the dof frame remains 0.
+[[`mris_register/mris_register.cpp:385`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L385)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L385) and the dof frame remains 0.
 Subsequent subjects update both via `MRISPcombine`.
 
 ## Tools That Read/Write This Format
 
 | Tool | R/W | Notes |
 |------|-----|-------|
-| [[mris_register]] | R | Reads the registration target via `MRISPread()` (`mris_register.cpp:447`). |
+| [[mris_register]] | R | Reads the registration target via `MRISPread()` ([[`mris_register.cpp:447`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L447)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L447)). |
 | [[mris_make_template]] | RW | The canonical producer; iterates over training subjects to build the population mean/variance/dof |
 | [[mrisp_paint]] | R | Samples a `.tif` parameterization onto a target subject's sphere as a curvature overlay |
 | [[mrisp_write]] | W | Computes a parameterization for a single subject and writes it as `.tif` (or `.mgh`) |
@@ -331,7 +331,7 @@ Subsequent subjects update both via `MRISPcombine`.
 > (slice) axis**, not the t (frame) axis. Reading the MGZ back into an
 > `MRI` and asking for `mri->nframes` will report 1; the parameterization
 > frames are at `mri->depth`. `MRISPread` accounts for this on the read
-> side (`utils/mrisp.cpp:2144`: `ImageAlloc(mri->height, mri->width, PFFLOAT, mri->depth)`).
+> side ([[`utils/mrisp.cpp:2144`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L2144)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/mrisp.cpp#L2144): `ImageAlloc(mri->height, mri->width, PFFLOAT, mri->depth)`).
 > External tools that round-trip a parameterization through `mri_convert`
 > may unintentionally reorder these axes.
 
@@ -345,7 +345,7 @@ Subsequent subjects update both via `MRISPcombine`.
 > [!gotcha] Single-subject parameterizations have variance ≡ 1
 > When `mris_register -1` (single-subject target) is used, the target
 > parameterization is built by `MRIStoParameterization` and the variance
-> frame is filled with the constant 1.0 (`mris_register.cpp:385`).
+> frame is filled with the constant 1.0 ([[`mris_register.cpp:385`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L385)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L385)).
 > The correlation cost in the registration energy then reduces to plain
 > sum-of-squares against the target mean image. This is intentional but
 > easy to overlook when interpreting the registration log.

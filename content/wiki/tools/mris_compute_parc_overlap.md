@@ -85,7 +85,7 @@ Optional:
 > [!note] Sub-tool flags not belonging to this tool
 > The flags `--srcsubject`, `--trgsubject`, `--sval-annot`, and `--tval` do **not** exist in `mris_compute_parc_overlap`. They appear in the source only as part of a `mri_surf2surf` shell command shown in the help text example (demonstrating how to resample an annotation before running this tool). They belong to [[mri_surf2surf]].
 >
-> The flag `--use-labels` appears in an old file header comment (line 20) as a synonym for `--label-list`, but the actual parser only recognises `--label-list`. Use `--label-list` to specify a subset of labels.
+> The flag `--use-labels` appears in an old file header comment ([line 20](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_compute_parc_overlap/mris_compute_parc_overlap.cpp#L20)) as a synonym for `--label-list`, but the actual parser only recognises `--label-list`. Use `--label-list` to specify a subset of labels.
 
 ## Outputs
 

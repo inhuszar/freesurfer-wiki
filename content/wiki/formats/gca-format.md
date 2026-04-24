@@ -109,8 +109,8 @@ subjects (see `GCAcompleteMeanTraining()` and
 
 > [!internal] Source reference
 > `GCAcomputeConditionalDensity()` and `GCAcomputeConditionalLogDensity()`
-> in `utils/gca.cpp` (lines 12255–12318) implement the Gaussian
-> likelihood. `GCAmahDist()` (line 12848) computes the Mahalanobis
+> in `utils/gca.cpp` ([lines 12255–12318](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gca.cpp#L12255-L12318)) implement the Gaussian
+> likelihood. `GCAmahDist()` ([line 12848](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gca.cpp#L12848)) computes the Mahalanobis
 > distance. For a single input, `gc->covars[0]` is the scalar variance
 > $\sigma^2_k$.
 
@@ -150,7 +150,7 @@ modes) until convergence. This is implemented in
 `GCAreclassifyUsingGibbsPriors()` in `utils/gca.cpp`.
 
 > [!internal] Source reference
-> `gcaGibbsLogPosterior()` in `utils/gca.cpp` (line 21289) is the core
+> `gcaGibbsLogPosterior()` in `utils/gca.cpp` ([line 21289](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gca.cpp#L21289)) is the core
 > scoring function. It returns
 > `log_likelihood + sum(log(label_priors[i][j])) + log(prior)` for a
 > candidate label at a node.
@@ -230,7 +230,7 @@ $n(n+1)/2$ elements: element index $i$ corresponds to entry
 $(r, c)$ where $r \leq c$, enumerated as:
 $(0,0),(0,1),\ldots,(0,n-1),(1,1),(1,2),\ldots,(n-1,n-1)$.
 The full symmetric matrix is reconstructed by
-`load_covariance_matrix()` (`utils/gca.cpp:12977`).
+`load_covariance_matrix()` ([[`utils/gca.cpp:12977`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gca.cpp#L12977)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gca.cpp#L12977)).
 
 **`GIBBS_NEIGHBORS`** is 6 (the six face-connected neighbours in 3D).
 
@@ -269,7 +269,7 @@ posterior reduces to a pure likelihood × prior product.
 ## File Layout
 
 The file is written and read by `GCAwrite()` and `GCAread()` in
-`utils/gca.cpp` (lines 2070–2655). Files may optionally be gzip-compressed
+`utils/gca.cpp` ([lines 2070–2655](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/gca.cpp#L2070-L2655)). Files may optionally be gzip-compressed
 (`.gcz` extension; detected from the filename suffix). All multi-byte
 scalar types are written in **big-endian** byte order. On little-endian
 hosts the `znzwriteInt()` and `znzwriteFloat()` functions in

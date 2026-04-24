@@ -163,7 +163,7 @@ DWI acquisition --> dmri_tensoreig --> FA/eigenvalue maps --> dmri_paths / visua
 > The `attic/` location of the source suggests this tool is not actively maintained. For tensor fitting, `dt_recon` or FSL's `dtifit` are the recommended alternatives.
 
 > [!gotcha] SNR estimation is automatic, not user-configurable
-> The source calls `avgsnr()` internally during tensor fitting (lines 330–333) to print the SNR of the low-b image and the average SNR across all DW images. This is not exposed as a CLI flag and cannot be suppressed or redirected.
+> The source calls `avgsnr()` internally during tensor fitting ([lines 330–333](https://github.com/freesurfer/freesurfer/blob/v8.2.0/attic/dmri_tensoreig/dmri_tensoreig.cpp#L330-L333)) to print the SNR of the low-b image and the average SNR across all DW images. This is not exposed as a CLI flag and cannot be suppressed or redirected.
 
 ## Related Tools
 

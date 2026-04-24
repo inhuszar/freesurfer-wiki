@@ -9,7 +9,7 @@ Every wiki page MUST have YAML frontmatter:
 title: "mri_convert"
 type: tool                    # tool | concept | pipeline | format | gotcha |
                               # internal | gui-application | gui-panel | faq
-fs_version: "8.2.0"
+fs_version: "$FREESURFER_VERSION"
 source_language: "C"          # for tool/internal pages
 source_files:                 # for tool/internal pages
   - "mri_convert/mri_convert.cpp"

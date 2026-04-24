@@ -87,9 +87,9 @@ the stored matrix. The constants are defined in `include/transform.h`.
 > (`REGISTER_DAT`) rather than 21 when reading `.dat` files, because type 21
 > produced incorrect results in `lta_convert`. Do not expect to encounter type
 > 21 in modern workflows; if you do, treat it as equivalent to `REGISTER_DAT`.
-> From `utils/transform.cpp:2789–2793`.
+> From [[`utils/transform.cpp:2789–2793`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2789-L2793)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2789-L2793).
 
-The `TransformFileNameType()` function (from `utils/transform.cpp:1576`)
+The `TransformFileNameType()` function (from [[`utils/transform.cpp:1576`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1576)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1576))
 maps file extensions to type codes for dispatch during reading:
 
 | Extension | Detected type |
@@ -107,7 +107,7 @@ maps file extensions to type codes for dispatch during reading:
 ### Complete annotated layout
 
 A modern LTA file written by `LTAwriteEx()` → `LTAprint()` (from
-`utils/transform.cpp:3280–3321` and `3238–3277`) has the following structure:
+[[`utils/transform.cpp:3280–3321`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3280-L3321)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3280-L3321) and `3238–3277`) has the following structure:
 
 ```
 # transform file <path>
@@ -148,7 +148,7 @@ cras   = <cr> <ca> <cs>
 
 ### Line-by-line description
 
-**Comment header** (lines 1–2): Free-form comments beginning with `#`. The
+**Comment header** ([lines 1–2](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1-L2)): Free-form comments beginning with `#`. The
 writer inserts the file path, the Unix user name (from `$USER` or `$LOGNAME`),
 and a timestamp. These lines are skipped by the reader.
 
@@ -162,7 +162,7 @@ else if (lta->type == LINEAR_RAS_TO_RAS) fprintf(fp, "# LINEAR_RAS_TO_RAS");
 else if (lta->type == REGISTER_DAT) fprintf(fp, "# REGISTER_DAT");
 fprintf(fp, "\n");
 ```
-(from `utils/transform.cpp:3243–3248`)
+(from [[`utils/transform.cpp:3243–3248`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3243-L3248)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3243-L3248))
 
 **`nxforms = <M>`**: Number of transform records in the file. Almost always 1.
 
@@ -243,7 +243,7 @@ transforms. All currently supported LTA types are affine.
 Each transform in the LTA file carries two volume geometry records: `src`
 (source/moving volume) and `dst` (destination/reference volume). These are
 written by `writeVolGeom()` and read by `readVolGeom()` from
-`utils/transform.cpp:452–532`. They are essential for type conversion via
+[[`utils/transform.cpp:452–532`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L452-L532)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L452-L532). They are essential for type conversion via
 `LTAchangeType()`.
 
 ### Fields
@@ -293,7 +293,7 @@ a full treatment of the scanner RAS vs. tkRAS distinction.
 > `ErrorExit()` and abort. This happens when an LTA was created from a
 > `.dat` or `.xfm` file without explicit volume paths. Always ensure both
 > geometries are valid before calling `LTAchangeType()`.
-> From `utils/transform.cpp:3713–3717`.
+> From [[`utils/transform.cpp:3713–3717`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3713-L3717)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3713-L3717).
 
 ## The `register.dat` Format (REGISTER_DAT, type 14)
 
@@ -328,7 +328,7 @@ format is read by `regio_read_register()` and written by
 
 The `float2int_method` line was added after the original `tkregister` program.
 Files created by `tkregister` lack this line; `regio_read_register()` treats
-a missing line as `FLT2INT_TKREG` (from `utils/registerio.cpp:143–156`).
+a missing line as `FLT2INT_TKREG` (from [[`utils/registerio.cpp:143–156`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/registerio.cpp#L143-L156)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/registerio.cpp#L143-L156)).
 
 ### Matrix semantics
 
@@ -340,7 +340,7 @@ a missing line as `FLT2INT_TKREG` (from `utils/registerio.cpp:143–156`).
 > $$
 > i.e., it maps a point in the reference (structural) tkRAS space to the
 > corresponding point in the moving (functional) tkRAS space.
-> The comment in `utils/transform.cpp:2756–2760` reads:
+> The comment in [[`utils/transform.cpp:2756–2760`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2756-L2760)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2756-L2760) reads:
 > "This is an unfortunate definition because the registration matrix actually
 > goes from ref to mov. But this was an error introduced a long time ago and
 > the rest of the code base has built up around it."
@@ -354,7 +354,7 @@ in-plane and between-plane resolution fields (with `valid = 0` unless explicit
 mov/ref MRI paths are provided). The `dst` geometry remains `valid = 0` in
 the default case.
 
-`TransformRegDat2LTA()` (from `utils/transform.cpp:4417`) provides a higher-level
+`TransformRegDat2LTA()` (from [[`utils/transform.cpp:4417`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L4417)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L4417)) provides a higher-level
 conversion: given target and moving volume geometries and the tkRAS registration
 matrix R, it computes a `LINEAR_VOX_TO_VOX` LTA:
 
@@ -364,7 +364,7 @@ $$
 
 where $T$ denotes the tkRAS vox2ras matrix (`MRIxfmCRS2XYZtkreg()`).
 
-The inverse function `TransformLTA2RegDat()` (from `utils/transform.cpp:4460`)
+The inverse function `TransformLTA2RegDat()` (from [[`utils/transform.cpp:4460`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L4460)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L4460))
 reconstructs R from a `LINEAR_VOX_TO_VOX` or `LINEAR_RAS_TO_RAS` LTA:
 
 $$
@@ -412,7 +412,7 @@ $$
 M_{\text{RAS2RAS}} = V_{\text{dst}} \cdot M_{\text{vox2vox}} \cdot V_{\text{src}}^{-1}
 $$
 where $V$ is the scanner vox2ras matrix. The function `LTAgetR2R()` implements
-this (called by `LTAchangeType()` from `utils/transform.cpp:3807–3813`).
+this (called by `LTAchangeType()` from [[`utils/transform.cpp:3807–3813`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3807-L3813)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3807-L3813)).
 
 ### `REGISTER_DAT` (type 14)
 
@@ -431,8 +431,8 @@ coordinates, with FSL's sign flip convention (x-axis flipped for radiological
 images). This is distinct from `LINEAR_PHYSVOX_TO_PHYSVOX` (type 2), which
 does not apply the FSL sign convention.
 
-Reading: `ltaFSLread()` (`utils/transform.cpp:3332`). Writing: `ltaFSLwrite()`
-(`utils/transform.cpp:1626`). The writer calls `LTAchangeType(ltatmp, FSLREG_TYPE)`
+Reading: `ltaFSLread()` ([[`utils/transform.cpp:3332`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3332)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3332)). Writing: `ltaFSLwrite()`
+([[`utils/transform.cpp:1626`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1626)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L1626)). The writer calls `LTAchangeType(ltatmp, FSLREG_TYPE)`
 before writing, which internally composes the FSL convention matrix via
 `MRItkreg2FSL()`.
 
@@ -444,7 +444,7 @@ and `FSLREG_TYPE`. Rarely seen in files on disk.
 
 ## `LTAchangeType()`: Type Conversion
 
-The function `LTAchangeType(LTA *lta, int ltatype)` (from `utils/transform.cpp:3695`)
+The function `LTAchangeType(LTA *lta, int ltatype)` (from [[`utils/transform.cpp:3695`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3695)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3695))
 converts the stored matrix between types by composing with the appropriate
 vox2ras matrices from the embedded geometry records. The conversion graph is:
 
@@ -467,7 +467,7 @@ FSLREG_TYPE   →  (first converts to LINEAR_RAS_TO_RAS, then to target)
 
 When the filename `identity.nofile` is passed to `LTAreadEx()`, the reader
 returns an identity matrix LTA of type `LINEAR_RAS_TO_RAS` without trying to
-open a file (`utils/transform.cpp:3183–3188`). This sentinel is useful for
+open a file ([[`utils/transform.cpp:3183–3188`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3183-L3188)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3183-L3188)). This sentinel is useful for
 testing and pipeline scripting when no transform is needed.
 
 ## Tools That Produce and Consume LTA Files
@@ -519,7 +519,7 @@ with `--outfsl` to go the other direction.
 > despite being called a "registration" of moving onto reference. Any tool that
 > reads a `REGISTER_DAT` LTA and wants to map moving voxels into reference space
 > must invert the matrix. This is a long-standing historical inversion documented
-> explicitly in `utils/transform.cpp:2756–2760` and `3769–3776`.
+> explicitly in [[`utils/transform.cpp:2756–2760`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2756-L2760)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2756-L2760) and `3769–3776`.
 
 > [!gotcha] tkRAS is not scanner RAS
 > `REGISTER_DAT` matrices operate in **tkRAS** (surface RAS), not scanner RAS.
@@ -533,7 +533,7 @@ with `--outfsl` to go the other direction.
 > The `src`/`dst` volume geometry blocks are lost. If the type is not
 > `REGISTER_DAT` at write time, the LTA is first converted; if the type is
 > `REGISTER_DAT` but the extension is `.lta`, it is written in full LTA format
-> (geometry preserved). From `utils/transform.cpp:3290–3306`.
+> (geometry preserved). From [[`utils/transform.cpp:3290–3306`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3290-L3306)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L3290-L3306).
 
 > [!gotcha] FSL `.fslmat` files have no geometry blocks
 > `ltaFSLread()` reads only the 4×4 matrix and sets `lta->type = FSLREG_TYPE`.
@@ -554,7 +554,7 @@ with `--outfsl` to go the other direction.
 > older LTA files to restrict a transform to a specific segmentation label.
 > The modern `ltaReadFileEx()` does not read this field; it is effectively
 > unused in current FreeSurfer workflows.
-> From `utils/transform.cpp:794–800`.
+> From [[`utils/transform.cpp:794–800`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L794-L800)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L794-L800).
 
 ## Related Tools and Pages
 

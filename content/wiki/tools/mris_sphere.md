@@ -93,7 +93,7 @@ not the inflated surface.
 > `MRISreadOriginalProperties(mris, orig_name)` reads metric properties
 > (edge lengths, areas) from `smoothwm` by default. These define the "rest"
 > metric that distortion is measured against. With `-q`, original properties
-> are not read (line 210–220).
+> are not read ([line 210–220](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_sphere/mris_sphere.cpp#L210-L220)).
 
 ## Outputs
 
@@ -302,7 +302,7 @@ mris_inflate → lh.inflated.nofix
         mris_topology_fixer (topology fix)
 ```
 
-Exact recon-all QSphere command (line 3690):
+Exact recon-all QSphere command ([`scripts/recon-all:3690`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3690)):
 ```bash
 mris_sphere -q -p 6 -a 128 surf/lh.smoothwm.nofix surf/lh.qsphere.nofix
 ```
@@ -321,7 +321,7 @@ mris_inflate → lh.inflated
 
 (See [[mris_register]] for the next stage.)
 
-Exact recon-all Sphere command (line 4184):
+Exact recon-all Sphere command ([`scripts/recon-all:4184`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L4184)):
 ```bash
 mris_sphere -threads $OMP_NUM_THREADS [$-seed $RngSeed] [$-remove_negative 1] \
     surf/lh.inflated surf/lh.sphere

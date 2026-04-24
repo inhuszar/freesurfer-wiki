@@ -249,10 +249,10 @@ mri_volcluster \
 
 > [!note] Help-text alias discrepancies — not real flags
 > The `BEGINUSAGE` / `PrintUsage()` help text in `mri_volcluster.cpp` uses names that differ from the option strings the parser actually matches:
-> - Help says `--maskinverse`; `parse_commandline()` matches `--maskinvert` (line 783). Only `--maskinvert` works.
-> - Help says `--mindistance`; `parse_commandline()` matches `--mindist` (line 1028). Only `--mindist` works.
-> - Help says `--sumfile`; `parse_commandline()` matches `--sum` (line 917). Only `--sum` works.
-> - Help says `--sig2pmax`; `parse_commandline()` matches `--sig2p-max` (line 790). Only `--sig2p-max` works.
+> - Help says `--maskinverse`; `parse_commandline()` matches `--maskinvert` ([line 783](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_volcluster/mri_volcluster.cpp#L783)). Only `--maskinvert` works.
+> - Help says `--mindistance`; `parse_commandline()` matches `--mindist` ([line 1028](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_volcluster/mri_volcluster.cpp#L1028)). Only `--mindist` works.
+> - Help says `--sumfile`; `parse_commandline()` matches `--sum` ([line 917](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_volcluster/mri_volcluster.cpp#L917)). Only `--sum` works.
+> - Help says `--sig2pmax`; `parse_commandline()` matches `--sig2p-max` ([line 790](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_volcluster/mri_volcluster.cpp#L790)). Only `--sig2p-max` works.
 > The flag table above uses the authoritative parsed names.
 
 > [!gap] CSD file format

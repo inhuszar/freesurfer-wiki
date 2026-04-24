@@ -124,6 +124,16 @@ Not part of standard `recon-all`. Used as a preprocessing step for processing no
 > [!gotcha] Python and deep learning dependencies
 > This tool requires a Python environment with PyTorch or TensorFlow (verify from `frugal_models.py`) and associated scientific Python libraries. Dependency issues are common with deep learning tools.
 
+## Known Issues
+
+- [[1438]] — the soft-segmentation postprocessing loop at
+  `inference.py:277–279` starts at `l = 0` and overwrites the
+  preceding `seg[0][~Mdilated] = 1` assignment, so `seg` no longer
+  sums to 1 outside the dilated brain mask. Latent (no user-facing
+  output depends on the post-processed `seg` in the default pipeline),
+  but the fix is a one-character change (`range(1, seg.shape[0])`).
+  Verdict: plausible, open upstream.
+
 ## Related Tools
 
 - [[mri_synthsr]] — MRI synthesis tool (SynthSR); may overlap in functionality

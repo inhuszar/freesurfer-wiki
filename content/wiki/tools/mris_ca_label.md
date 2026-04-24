@@ -258,7 +258,7 @@ rca-surfreg → lh.sphere.reg
     mris_anatomical_stats → stats/lh.aparc.stats
 ```
 
-**recon-all exact command (lines 4350–4359):**
+**recon-all exact command ([`scripts/recon-all:4350–4359`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L4350-L4359)):**
 
 ```bash
 mris_ca_label [$-l ../label/$hemi.cortex.label] [$-aseg ../mri/$AsegForSurf] \

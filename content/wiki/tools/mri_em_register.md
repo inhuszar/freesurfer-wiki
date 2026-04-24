@@ -208,19 +208,19 @@ This prevents a single outlier sample from dominating the gradient.
    (default 8 voxels), with no rotation or scale. This avoids local
    optima when the subject is badly mis-aligned.
 2. **Fine 9-DOF search** (`find_optimal_linear_xform()` at
-   `mri_em_register.cpp:2222`): a nested loop over
+   [[`mri_em_register.cpp:2222`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2222)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2222)): a nested loop over
    $(s_x, s_y, s_z)\in[1-\text{MAX\_SCALE\_PCT},1+\text{MAX\_SCALE\_PCT}]^3$
    (default `MAX_SCALE_PCT=0.15`, i.e. ±15 %), over
    $(\theta_x,\theta_y,\theta_z)\in[-\text{MAX\_ANGLE},
    \text{MAX\_ANGLE}]^3$ (default 30°, set at
-   `mri_em_register.cpp:1245`), and over
+   [[`mri_em_register.cpp:1245`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1245)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1245)), and over
    translations. Each iteration applies the candidate transform
    $\mathbf{M}_\text{cand} = \mathbf{M}_\text{trans}\,\mathbf{M}_\text{scale}\,\mathbf{R}_z\mathbf{R}_y\mathbf{R}_x\,\mathbf{M}_\text{prev}$
    and evaluates $\mathcal{L}$. The loop is repeated `nreductions`
    times with a shrinking step size (`delta_trans`, `delta_scale`,
    `delta_rot`).
 3. **Scale-space loop**: the outer `while (nscales < MIN_SCALES ||
-   !done)` loop at `mri_em_register.cpp:1639` halves the search
+   !done)` loop at [[`mri_em_register.cpp:1639`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1639)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1639) halves the search
    neighbourhood whenever the score fails to improve, until
    `scale < min_search_scale` or a minimum number of scales
    (`MIN_SCALES = 3`) has been completed.
@@ -251,13 +251,13 @@ be used as initial conditions).
 > - Log-likelihood: `local_GCAcomputeLogSampleProbability()`.
 > - Coarse search: `findtranslation.cpp`.
 > - Fine 9-DOF search: `find_optimal_linear_xform()`
->   (`mri_em_register.cpp:2222–2800`).
+>   ([`mri_em_register.cpp:2222–2482`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2222-L2482)).
 > - Scale-space loop: `find_optimal_transform()`
->   (`mri_em_register.cpp:1500–1640`).
+>   ([[`mri_em_register.cpp:1500–1640`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1500-L1640)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1500-L1640)).
 
 ## Configuration Options
 
-The parser at `mri_em_register.cpp:1659–2213` recognises ~80 flags.
+The parser at [[`mri_em_register.cpp:1659–2213`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1659-L2213)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1659-L2213) recognises ~80 flags.
 Option matching is largely case-insensitive (most use `stricmp`; a
 handful — `-mask`, `-skull`, `-uns`, `-rigid`, the writer flags —
 use the case-sensitive `strcmp` after the parser has uppercased the
@@ -363,7 +363,7 @@ practice). Below they are grouped by function.
 
 > [!gotcha] `-skull` *overrides* `-uns`
 > `-skull` explicitly sets `unknown_nbr_spacing = 5`
-> (`mri_em_register.cpp:1814`). If you pass `-uns 3 -skull`, the
+> ([[`mri_em_register.cpp:1814`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1814)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1814)). If you pass `-uns 3 -skull`, the
 > final value is 5, not 3. In `recon-all`, the two flags are never
 > combined for this reason: the skull-aware call uses `-skull`
 > alone and the skull-free call uses `-uns 3` alone.
@@ -371,12 +371,12 @@ practice). Below they are grouped by function.
 > [!gotcha] `-rigid` disables the scale loop but not the intensity
 > scale
 > `-rigid` only sets `min_scale = max_scale = 1.0`
-> (`mri_em_register.cpp:2249–2252`). Intensity auto-scaling is
+> ([[`mri_em_register.cpp:2249–2252`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2249-L2252)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2249-L2252)). Intensity auto-scaling is
 > independently controlled by `-noiscale`. A common mistake is to
 > assume "rigid" means "no scaling at all".
 
 > [!gotcha] `-t <xform>` requires `LINEAR_VOX_TO_VOX`
-> The `-t` handler (`mri_em_register.cpp:2128–2154`) reads the
+> The `-t` handler ([[`mri_em_register.cpp:2128–2154`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2128-L2154)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2128-L2154)) reads the
 > transform and exits with an error if the LTA type is not
 > `LINEAR_VOX_TO_VOX (=0)`. Convert with `lta_convert --outltavox`
 > if you have a RAS-to-RAS LTA.
@@ -397,15 +397,15 @@ practice). Below they are grouped by function.
 > time-point-to-base registration
 > The `-l xform long_reg` handler inverts `long_reg` and multiplies
 > it into the pre-loaded atlas xform
-> (`mri_em_register.cpp:2103–2106`). Passing a
+> ([[`mri_em_register.cpp:2103–2106`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2103-L2106)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2103-L2106)). Passing a
 > `long_reg` that is already in the base-to-tp direction will
 > double-invert.
 
 > [!gotcha] `-nsamples <n>` is unreachable
 > The parser has two branches for `-nsamples`: the first
-> (`mri_em_register.cpp:1915`) takes a path and writes the
+> ([[`mri_em_register.cpp:1915`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1915)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L1915)) takes a path and writes the
 > post-normalisation control points; the second
-> (`mri_em_register.cpp:2053`) takes an integer and is intended to
+> ([[`mri_em_register.cpp:2053`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2053)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2053)) takes an integer and is intended to
 > set the GCA sample count. Because both keys collide
 > case-insensitively after the parser uppercases the option string,
 > the first branch always wins. The integer form is dead code as of
@@ -415,7 +415,7 @@ practice). Below they are grouped by function.
 > [!gotcha] `-s <n>` is a global hammer
 > The single-letter `-s` flag overwrites *five* internal counters
 > (`Gscale_samples`, `max_scales`, `MAX_ANGLES`, `MAX_TRANS_STEPS`,
-> `max_angles`) at once (`mri_em_register.cpp:2171`). It supersedes
+> `max_angles`) at once ([[`mri_em_register.cpp:2171`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2171)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_em_register/mri_em_register.cpp#L2171)). It supersedes
 > any `-nscales`, `-steps`, or `-scales` you passed earlier on the
 > same command line. Pass it *before* the more granular knobs if you
 > want to combine them.

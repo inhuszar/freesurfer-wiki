@@ -246,8 +246,8 @@ likelihood under a brain-atlas model.
 
 ## Configuration Options
 
-The parser is `get_option()` at `mri_watershed.cpp:584–965`, dispatched
-by `main()` (line 1027). Each multi-character flag is matched literally;
+The parser is `get_option()` at [[`mri_watershed.cpp:584–965`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_watershed/mri_watershed.cpp#L584-L965)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_watershed/mri_watershed.cpp#L584-L965), dispatched
+by `main()` ([line 1027](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_watershed/mri_watershed.cpp#L1027)). Each multi-character flag is matched literally;
 single-character flags (`-N`, `-S`, `-C`, `-B`, `-W`, `-R`, `-H`, `-T`)
 are routed via the `strlen(option)==1` branch and case-folded with
 `toupper()`, so e.g. `-n` and `-N` are equivalent. Unknown options
@@ -321,7 +321,7 @@ output volume names.
 |------|------|---------|-------------|
 | `-debug_voxel <x> <y> <z>` | int, int, int | unset | Sets the globals `Gx`, `Gy`, `Gz`. Prints debug information at the named voxel. |
 | `--help`<br>`--usage` | — | — | Inside `get_option()` the option is matched as `-help`/`-usage` (after stripping one leading `-`), so on the command line it must be passed as `--help`/`--usage`. Calls `usageHelp()` (the XML-rendered help) and exits. |
-| `--version`<br>`--all-info` | — | — | Handled by `handleVersionOption()` *before* `get_option()` runs (line 1018). Prints version/build info and exits if no other arguments follow. |
+| `--version`<br>`--all-info` | — | — | Handled by `handleVersionOption()` *before* `get_option()` runs ([line 1018](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_watershed/mri_watershed.cpp#L1018)). Prints version/build info and exits if no other arguments follow. |
 
 ## Configuration Interactions
 

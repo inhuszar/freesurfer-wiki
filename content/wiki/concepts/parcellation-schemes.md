@@ -453,8 +453,8 @@ See the [[mris_ca_train]] wiki page for the full invocation syntax and options.
 
 **High-confidence information (from source code and on-disk files):**
 - Atlas file names and locations verified from `recon-all` variable definitions
-  (lines 290–308) and `$FREESURFER_HOME/average/` directory listing.
-- Volumetric label offsets verified from `mri_aparc2aseg.cpp` (lines 836–839)
+  ([lines 290–308](https://github.com/freesurfer/freesurfer/blob/v8.2.0/include/cma.h#L290-L308)) and `$FREESURFER_HOME/average/` directory listing.
+- Volumetric label offsets verified from `mri_aparc2aseg.cpp` ([lines 836–839](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mri_aparc2aseg/mri_aparc2aseg.cpp#L836-L839))
   and `recon-all` (lines 5074–5080 for `mri_surf2volseg` invocation).
 - DK40 label list (36 entries, 0–35) verified from
   `$FREESURFER_HOME/average/colortable_desikan_killiany.txt`.
