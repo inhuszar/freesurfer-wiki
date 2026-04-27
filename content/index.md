@@ -544,6 +544,27 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 |-------|---------|--------|
 | _none yet_ | | |
 
+## FAQs
+
+| Topic | Summary | Entries | Source | Status |
+|-------|---------|---------|--------|--------|
+| [[recon-all]] (FAQ) | Standard cortical-reconstruction pipeline: inputs, conform, FLAIR/T2, manual edits, parallel/threading, FS_ALLOW_DEEP, FS 7→8 directive change, autorecon failure modes | 25 | mailing list (30 threads, 2023-06 – 2025-04) | 🔎 review |
+| [[recon-all-clinical]] (FAQ) | Clinical pipeline: inputs/contrast, missing structures, longitudinal incompatibility, RAM, known bugs (colortable_BA_thresh, BEM normals, entorhinal thickness) | 12 | mailing list (13 threads, 2023-06 – 2026-03) | 🔎 review |
+| [[longitudinal]] (FAQ) | Base templates, timepoints (adding/excluding), mixed cohorts, longitudinal statistics, downstream tools (samseg-long, segmentHA-long), version safety | 13 | mailing list (13 threads, 2023-06 – 2025-04) | 🔎 review |
+| [[mri_glmfit]] (FAQ) | Design matrices, FSGD, DOSS/DODS contrasts, mri_glmfit-sim cluster correction, mri_volcluster + vlrmerge workflows, special-case designs (LME, longitudinal) | 17 | mailing list (17 threads, 2023-08 – 2025-04) | 🔎 review |
+| [[samseg]] (FAQ) | Bayesian segmentation: multi-contrast inputs, lesion segmentation tuning, longitudinal SAMSEG, integration with recon-all (-samseg-reg) and gtmseg (--samseg) | 12 | mailing list (12 threads, 2023-06 – 2025-03) | 🔎 review |
+| [[subregion-segmentation]] (FAQ) | Hippocampal/amygdala subfields, thalamic nuclei, brainstem, hypothalamic subunits, AAN, NextBrain, ERC Bayesian — atlas availability, MNI templates, MCR/FireANTs, hierarchies | 20 | mailing list (26 threads, 2023-06 – 2025-03) | 🔎 review |
+| [[synthseg-and-synthsr]] (FAQ) | SynthX deep-learning toolkit: SynthSeg label scheme/eTIV, SynthSR thick-slice preprocessing, SynthStrip, WMH-SynthSeg memory, FS_ALLOW_DEEP | 14 | mailing list (16 threads, 2023-06 – 2025-06) | 🔎 review |
+| [[synthmorph]] (FAQ) | Affine vs deformable models, regularisation, validity (DTI-FA, fMRI-to-T1), warp format conversion (mri_warp_convert) | 6 | mailing list (6 threads, 2023-06 – 2024-12) | 🔎 review |
+| [[petsurfer]] (FAQ) | gtmseg, mri_gtmpvc, reference regions and SUVR, custom segmentations/ROIs, kinetic modelling (Patlak), brainstem subregion alignment | 11 | mailing list (9 threads, 2023-10 – 2026-03) | 🔎 review |
+| [[mri_convert]] (FAQ) | Conforming (`-c`/`-nc`/`-uchar`), voxel-size rescaling (`-iis/-ijs/-iks`), `--in_like` header copying, transforms to MNI305, NIfTI-1 vs -2, dcmunpack | 6 | mailing list (7 threads, 2023-06 – 2024-08) | 🔎 review |
+| [[mri_vol2vol-and-vol2surf]] (FAQ) | Volume↔surface sampling, `--reg` vs `--lta`, MNI305 chains, non-standard modalities, mri_volcluster ROI naming, label inputs | 14 | mailing list (15 threads, 2023-08 – 2025-07) | 🔎 review |
+| [[freeview]] (FAQ) | OpenGL/Qt setup, MNI305 coordinate display, manual editing, headless rendering (fsxvfb), WSL2 X-server, tkregister2/tksurfer replacements | 11 | mailing list (9 threads, 2023-06 – 2025-02) | 🔎 review |
+| [[tracula-and-dmri]] (FAQ) | dmrirc configuration (pathlist, ncpts, pedir/dob0), dt_recon prerequisites and QC, Len_Center semantics, group analysis (beta.mgh design columns) | 6 | mailing list (5 threads, 2023-07 – 2025-07) | 🔎 review |
+| [[registration-and-lta]] (FAQ) | bbregister tips, mri_coreg --mat2par, lta_convert and LTA/.dat distinction, scanner RAS↔TkRRAS, partial-FOV chains, mris_register direction, CVS arm64 | 11 | mailing list (12 threads, 2023-11 – 2025-03) | 🔎 review |
+| [[installation-and-platform]] (FAQ) | OS support (RHEL/Rocky 9, Ubuntu 22/24, macOS Apple Silicon), CPU/RAM/GPU, FS_ALLOW_DEEP, MCR symlinks, MCRv97, gemsbindings ABI | 14 | mailing list (14 threads, 2023-06 – 2026-03) | 🔎 review |
+| [[surface-morphometry]] (FAQ) | Surface measure definitions (thickness, area, sulcal depth, vertex area, FI/ICI, LGI), vertex correspondence, mris_anatomical_stats, Euler/topology, xhemi | 17 | mailing list (18 threads, 2023-08 – 2025-06) | 🔎 review |
+
 ## Bugs
 
 | Bug | Affected | Severity | Status |
@@ -571,6 +592,11 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[00021]] | MRIresampleFill SAMPLE_VOTE — vote tallies stored as `MRI_UCHAR` with 256 frames; labels > 255 silently clipped (collapses aparc cortical parcels onto label 255) and counts wrap at 256 votes (`mri_convert --resample_type vote`) | high | open |
 | [[00022]] | HISTOaddSample — linear-interp weights `dp + dn` collapse to 0 at integer `dbin` (every sample silently dropped when `bin_size = 1`, the configuration used by surface-likelihood / GCA / GCAM histograms); else-branch compares bin index to float value-range minimum | high | open |
 | [[00023]] | MRIvalRange / MRIvalRangeFrame / MRIvalRangeRegion / MRInonzeroValRange — fixed `±10000` sentinel instead of first-sample init; silently returns `fmin = 10000` for data entirely above 10000, and `fmin > fmax` with `NO_ERROR` for empty volumes | medium | open |
+| [[00024]] | vg_isEqual / VOL_GEOM equality — three implementations (free C function, member method, static method) drift; the two used by LTAconcat / LTAreduce / LTAmodifySrcDstGeom skip the shear components (`s_r`, `s_a`, `s_s`), so shear-only mismatches are silently treated as equal while `operator==` reports them different | medium | open |
+| [[00025]] | MRIconcatenateFrames — type guard tests `mri_frame1` twice (copy-paste typo); non-UCHAR `mri_frame2` slips past and is read via `BUFTYPE *` aliasing for byte-garbled output. Fires on `mri_linear_register --var FILE.mgz` with non-UCHAR variance volumes | medium | open |
+| [[00026]] | MatrixSVDInverse — `m_Ut` allocated as `(cols × cols)` despite the inline comment saying `(cols × rows)`; for any input `m` with `rows > cols`, `MatrixTranspose` writes past `m_Ut`'s row buffers and the `wmax`/`wmin` loops read `v_w` and write `m_w` past their `cols`-sized storage. Latent (all in-tree callers pass square matrices) | low | open |
+| [[00027]] | MRIunion — uses legacy `MRIvox` BUFTYPE alias and skips the frame loop; non-UCHAR data is read as bytes (silent garbage) and frames > 0 are never touched. Diverges from sibling set ops (`MRIintersect`, `MRIcomplement`, `MRIand`, `MRIor`) in `utils/mriset.cpp` that all use type-aware accessors and iterate frames | medium | open |
+| [[00028]] | MRImakeDensityMap — retains `max_count = label_means[this_label]` which the author explicitly marked `// bug` and corrected to `label_counts[this_label]` in the sister function `MRIvoxelsInLabelWithPartialVolumeEffects`. Same fix not propagated; partial-volume neighbour selection is essentially arbitrary. Latent in v8.2.0 (callers are attic-only) | low | open |
 
 ## GitHub Issues
 
