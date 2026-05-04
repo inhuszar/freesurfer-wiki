@@ -11,7 +11,7 @@ recon_all_stage: "autorecon3"
 related:
   - "[[mri_segstats]]"
   - "[[mris_anatomical_stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -40,7 +40,7 @@ The core computation is delegated to `ComputeBrainVolumeStats2()` defined in `cm
 
 FreeSurfer reports brain volume statistics in multiple output files. To avoid redundant computation, `mri_brainvol_stats` pre-computes these values and caches them in `<subjects_dir>/<subject>/stats/brainvol.stats`. This cache is read by [[mri_segstats]] (when generating `aseg.stats`) and by [[mris_anatomical_stats]] (to populate the headers of `?h.aparc.stats`).
 
-This tool is typically called as part of the [[recon-all]] autorecon3 stage to populate the stats cache before final morphometric reports are generated.
+This tool is typically called as part of the [[wiki/pipelines/recon-all|recon-all]] autorecon3 stage to populate the stats cache before final morphometric reports are generated.
 
 ## Inputs
 
@@ -99,7 +99,7 @@ mri_brainvol_stats -s bert --sd /data/subjects/
 
 ## Pipeline Context
 
-Called by [[recon-all]] as part of autorecon3, before [[mri_segstats]] and [[mris_anatomical_stats]] generate the final output tables. The cache file it creates is essential for correct eTIV normalization in those downstream tools.
+Called by [[wiki/pipelines/recon-all|recon-all]] as part of autorecon3, before [[mri_segstats]] and [[mris_anatomical_stats]] generate the final output tables. The cache file it creates is essential for correct eTIV normalization in those downstream tools.
 
 ## Gotchas and Caveats
 
@@ -113,7 +113,7 @@ Called by [[recon-all]] as part of autorecon3, before [[mri_segstats]] and [[mri
 
 - [[mri_segstats]] — reads the cache to report eTIV in aseg.stats
 - [[mris_anatomical_stats]] — reads the cache to populate stats table headers
-- [[recon-all]] — calls this tool in autorecon3
+- [[wiki/pipelines/recon-all|recon-all]] — calls this tool in autorecon3
 
 ## Confidence and Gaps
 

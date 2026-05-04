@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -119,7 +119,7 @@ mri_create_tests --in brain.mgz --outs brain_noisy.mgz \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in the `mri_robust_register` test suite and for registration algorithm development and validation.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in the `mri_robust_register` test suite and for registration algorithm development and validation.
 
 ## Gotchas and Caveats
 

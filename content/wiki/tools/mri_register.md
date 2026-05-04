@@ -117,7 +117,7 @@ mri_register -T transforms/talairach.lta norm.mgz atlas.gca transforms/talairach
 
 ## Pipeline Context
 
-`mri_register` is not called by the current [[recon-all]] pipeline. It has been superseded by `mri_ca_register`, which performs the same nonlinear alignment and is the tool called in the autorecon2 stage.
+`mri_register` is not called by the current [[wiki/pipelines/recon-all|recon-all]] pipeline. It has been superseded by `mri_ca_register`, which performs the same nonlinear alignment and is the tool called in the autorecon2 stage.
 
 ## Gotchas and Caveats
 

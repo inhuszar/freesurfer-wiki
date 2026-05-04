@@ -36,7 +36,7 @@ related:
   - "[[mris_anatomical_stats]]"
   - "[[hemi.aparc.a2009s.stats]]"
   - "[[hemi.aparc.DKTatlas.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -91,7 +91,7 @@ A companion call computes pial-surface stats to [[hemi.aparc.pial.stats]].
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **ParcStats** stage (`-parcstats`). Touch sentinel: `touch/$hemi.aparcstats.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **ParcStats** stage (`-parcstats`). Touch sentinel: `touch/$hemi.aparcstats.touch`.
 
 ### Inputs required
 
@@ -111,7 +111,7 @@ A companion call computes pial-surface stats to [[hemi.aparc.pial.stats]].
 - [[mris_anatomical_stats]] — producer.
 - [[hemi.aparc.a2009s.stats]] — Destrieux stats.
 - [[hemi.aparc.DKTatlas.stats]] — DKT stats.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_fdr]]"
   - "[[mri_binarize]]"
 status: draft
@@ -188,7 +188,7 @@ mri_binarize --i sig.mgz --abs --min 1.301 --o sig_thresh.mgz
 
 1. Run `mri_glmfit` → produces z-stat volumes.
 2. Run `mri_z2p` → converts to $-\log_{10}(p)$.
-3. View in [[freeview]] or threshold with [[mri_binarize]].
+3. View in [[wiki/tools/freeview|freeview]] or threshold with [[mri_binarize]].
 
 ## Gotchas and Caveats
 

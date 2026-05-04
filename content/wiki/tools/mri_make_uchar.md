@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: "autorecon1"
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_normalize]]"
   - "[[mri_nu_correct.mni]]"
   - "[[coordinate-systems]]"
@@ -132,7 +132,7 @@ The output feeds into:
 
 ## Related Tools
 
-- [[mri_convert]] — lives in the same source directory; handles format conversion and initial conformation
+- [[wiki/tools/mri_convert|mri_convert]] — lives in the same source directory; handles format conversion and initial conformation
 - [[mri_normalize]] — intensity normalization step that follows in the pipeline
 - [[mri_nu_correct.mni]] — N3 bias correction step that precedes this tool
 

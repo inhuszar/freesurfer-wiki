@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: low
@@ -110,16 +110,16 @@ All flags confirmed from `parse_commandline()` in `attic/mri_convert_mdh/mri_con
 
 ## Pipeline Context
 
-Not part of [[recon-all]]. This is a raw-data import utility for researchers working directly with Siemens k-space data.
+Not part of [[wiki/pipelines/recon-all|recon-all]]. This is a raw-data import utility for researchers working directly with Siemens k-space data.
 
 ## Gotchas and Caveats
 
 > [!gotcha] Deprecated tool
-> The `attic/` location strongly suggests this tool is no longer actively maintained. For converting Siemens data, prefer standard DICOM conversion tools (e.g., `dcm2niix`) followed by [[mri_convert]].
+> The `attic/` location strongly suggests this tool is no longer actively maintained. For converting Siemens data, prefer standard DICOM conversion tools (e.g., `dcm2niix`) followed by [[wiki/tools/mri_convert|mri_convert]].
 
 ## Related Tools
 
-- [[mri_convert]] — general-purpose format conversion for image-space data
+- [[wiki/tools/mri_convert|mri_convert]] — general-purpose format conversion for image-space data
 
 ## Confidence and Gaps
 

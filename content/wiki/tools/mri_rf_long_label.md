@@ -111,7 +111,7 @@ mri_rf_long_label \
 
 ## Pipeline Context
 
-This tool is not part of the standard [[recon-all]] pipeline. It would be used in longitudinal WMSA research workflows, typically after cross-sectional recon-all processing of each timepoint.
+This tool is not part of the standard [[wiki/pipelines/recon-all|recon-all]] pipeline. It would be used in longitudinal WMSA research workflows, typically after cross-sectional recon-all processing of each timepoint.
 
 ## Gotchas and Caveats
 

@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mris_twoclass]]"
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_segstats]]"
 status: draft
 confidence: high
@@ -133,7 +133,7 @@ mri_twoclass \
 ## Gotchas and Caveats
 
 > [!gotcha] Output is bfloat format
-> The output is written in the legacy bfloat binary format via `write_bfloats()`. This is an older FreeSurfer format; convert with [[mri_convert]] if needed.
+> The output is written in the legacy bfloat binary format via `write_bfloats()`. This is an older FreeSurfer format; convert with [[wiki/tools/mri_convert|mri_convert]] if needed.
 
 > [!gotcha] No multiple comparisons correction
 > This tool computes raw statistics without cluster-based or FWE correction. Post-hoc correction must be applied separately.

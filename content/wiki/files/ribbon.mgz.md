@@ -28,7 +28,7 @@ downstream_files:
   - "[[aseg.mgz]]"
   - "[[aparc+aseg.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats, Parcellated volumes"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats, Parcellated volumes"
 optional_for: []
 editable: false
 related:
@@ -36,7 +36,7 @@ related:
   - "[[hemi.pial]]"
   - "[[hemi.ribbon.mgz]]"
   - "[[aseg.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -91,7 +91,7 @@ mris_volmask \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CortRibbon** stage (`-cortribbon`). Touch sentinel: `touch/cortical_ribbon.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CortRibbon** stage (`-cortribbon`). Touch sentinel: `touch/cortical_ribbon.touch`.
 
 ### Inputs required
 
@@ -120,7 +120,7 @@ mris_volmask \
 - [[hemi.white]], [[hemi.pial]] — source surfaces.
 - [[hemi.ribbon.mgz]] — per-hemisphere ribbon volumes.
 - [[aseg.mgz]] — downstream volumetric segmentation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

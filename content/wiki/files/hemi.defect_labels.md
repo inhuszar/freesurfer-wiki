@@ -30,14 +30,14 @@ downstream_files:
   - "[[hemi.defects.pointset]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2: Fix Topology"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fix Topology"
 editable: false
 related:
   - "[[hemi.orig.nofix]]"
   - "[[hemi.defect_borders]]"
   - "[[hemi.defect_chull]]"
   - "[[hemi.defects.pointset]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -81,7 +81,7 @@ The output filename is resolved by `MRISwriteCurvature_getfilename` using the su
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Fix Topology** stage (`-fix`). Produced alongside [[hemi.defect_borders]] and [[hemi.defect_chull]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Fix Topology** stage (`-fix`). Produced alongside [[hemi.defect_borders]] and [[hemi.defect_chull]].
 
 ### Siblings (co-produced outputs)
 
@@ -104,7 +104,7 @@ defect2seg --s $subjid
 - [[hemi.defect_borders]] — co-produced border file.
 - [[hemi.defect_chull]] — co-produced convex hull file.
 - [[hemi.defects.pointset]] — downstream pointset derived from this file.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

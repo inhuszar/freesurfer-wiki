@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_normalize]]"
   - "[[mri_nu_correct.mni]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -174,7 +174,7 @@ mri_fit_bias --i orig.mgz --seg aseg.mgz --mask brainmask.mgz \
 
 ## Pipeline Context
 
-Not a standard `[[recon-all]]` step. Used in research pipelines for bias field correction as an alternative to `[[mri_nu_correct.mni]]`, particularly when a tissue segmentation is available.
+Not a standard `[[wiki/pipelines/recon-all|recon-all]]` step. Used in research pipelines for bias field correction as an alternative to `[[mri_nu_correct.mni]]`, particularly when a tissue segmentation is available.
 
 ## Gotchas and Caveats
 

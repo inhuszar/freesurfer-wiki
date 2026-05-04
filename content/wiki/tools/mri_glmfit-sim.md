@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_concat]]"
   - "[[mri_binarize]]"
   - "[[fsgd-format]]"
@@ -35,7 +35,7 @@ tags:
 
 ## Summary
 
-`mri_glmfit-sim` performs multiple-comparisons correction on the output of [[mri_glmfit]] using Monte Carlo simulation, permutation testing, Gaussian Random Field (GRF) theory, or false discovery rate (FDR). It reads the `mri_glmfit.log` file from a completed [[mri_glmfit]] analysis to reconstruct the original analysis parameters, runs a specified number of null simulations (by re-running `mri_glmfit` with synthesized or permuted data), builds a cluster-size distribution (CSD), and then thresholds the actual contrast maps at a user-specified cluster-wise p-value.
+`mri_glmfit-sim` performs multiple-comparisons correction on the output of [[wiki/tools/mri_glmfit|mri_glmfit]] using Monte Carlo simulation, permutation testing, Gaussian Random Field (GRF) theory, or false discovery rate (FDR). It reads the `mri_glmfit.log` file from a completed [[wiki/tools/mri_glmfit|mri_glmfit]] analysis to reconstruct the original analysis parameters, runs a specified number of null simulations (by re-running `mri_glmfit` with synthesized or permuted data), builds a cluster-size distribution (CSD), and then thresholds the actual contrast maps at a user-specified cluster-wise p-value.
 
 ## Source Information
 
@@ -45,7 +45,7 @@ tags:
 
 ## Purpose and Context
 
-After [[mri_glmfit]] produces per-voxel/vertex significance maps, raw voxel-wise p-values must be corrected for multiple comparisons. `mri_glmfit-sim` provides this correction via:
+After [[wiki/tools/mri_glmfit|mri_glmfit]] produces per-voxel/vertex significance maps, raw voxel-wise p-values must be corrected for multiple comparisons. `mri_glmfit-sim` provides this correction via:
 
 1. **Monte Carlo simulation** (`mc-full`, `mc-z`): generates null distributions by synthesizing random data with the same smoothness and design as the original, re-running the GLM, and recording the maximum cluster size across iterations.
 2. **Permutation testing** (`perm`): shuffles subject labels across iterations to generate the null distribution.
@@ -258,10 +258,10 @@ mri_glmfit-sim \
 
 ## Pipeline Context
 
-`mri_glmfit-sim` is run after [[mri_glmfit]] in group-level analysis workflows:
+`mri_glmfit-sim` is run after [[wiki/tools/mri_glmfit|mri_glmfit]] in group-level analysis workflows:
 
-- **Upstream:** [[mri_glmfit]] (must complete and produce `mri_glmfit.log`)
-- **Downstream:** Visualization in [[freeview]], `mri_surfcluster` / `mri_volcluster` for further cluster extraction
+- **Upstream:** [[wiki/tools/mri_glmfit|mri_glmfit]] (must complete and produce `mri_glmfit.log`)
+- **Downstream:** Visualization in [[wiki/tools/freeview|freeview]], `mri_surfcluster` / `mri_volcluster` for further cluster extraction
 
 The output `sig.cluster.summary` files contain tables of significant clusters suitable for reporting.
 
@@ -280,14 +280,14 @@ The output `sig.cluster.summary` files contain tables of significant clusters su
 > The `--cache` option uses pre-computed CSD files distributed with FreeSurfer in `$FREESURFER_HOME/average/mult-comp-cor/`. These are only valid when analyzing data on the `fsaverage` subject with default settings.
 
 > [!gotcha] sig.cluster.mgz sign convention
-> The cluster significance map preserves the sign of the t-statistic: positive clusters have positive values, negative clusters have negative values. This is consistent with [[mri_glmfit]]'s `sig.mgh` output.
+> The cluster significance map preserves the sign of the t-statistic: positive clusters have positive values, negative clusters have negative values. This is consistent with [[wiki/tools/mri_glmfit|mri_glmfit]]'s `sig.mgh` output.
 
 > [!gotcha] --no-cluster-mean must be first on the command line
 > The script checks `DoClusterMean` while processing the `--glmdir` path (it attempts to resolve the `y` file immediately). If `--no-cluster-mean` is placed after `--glmdir`, the script will already have tried to find the `y` file and may exit with an error. Always place `--no-cluster-mean` (or `--no-y`) first.
 
 ## Related Tools
 
-- [[mri_glmfit]] — produces the input GLM output that mri_glmfit-sim operates on
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — produces the input GLM output that mri_glmfit-sim operates on
 - [[mri_concat]] — used upstream to create the 4D input
 - [[mri_binarize]] — used to create masks
 

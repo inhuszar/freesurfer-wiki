@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[surface-format]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -133,7 +133,7 @@ mris_copy_header \
 ## Related Tools
 
 - [[surface-format]] — FreeSurfer surface file format specification
-- [[mri_convert]] — volume format conversion (analogous header manipulation for volumes)
+- [[wiki/tools/mri_convert|mri_convert]] — volume format conversion (analogous header manipulation for volumes)
 
 ## Confidence and Gaps
 

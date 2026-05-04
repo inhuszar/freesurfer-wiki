@@ -25,12 +25,12 @@ downstream_files:
   - "[[synthseg.tiv.dat]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon1: SynthSeg"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1: SynthSeg"
 editable: false
 related:
   - "[[synthseg.rca.mgz]]"
   - "[[synthseg.tiv.dat]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -68,7 +68,7 @@ mri_synthseg --i $origvol --o synthseg.rca.mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, SynthSeg stage. Co-produced with [[synthseg.rca.mgz]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, SynthSeg stage. Co-produced with [[synthseg.rca.mgz]].
 
 ## How It Is Used
 
@@ -83,7 +83,7 @@ The extracted TIV is used by `mri_segstats --stiv` in the stats stages.
 
 - [[synthseg.rca.mgz]] — co-produced segmentation.
 - [[synthseg.tiv.dat]] — TIV extracted from this file.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

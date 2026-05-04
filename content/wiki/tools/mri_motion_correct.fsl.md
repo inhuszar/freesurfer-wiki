@@ -12,7 +12,7 @@ recon_all_stage: null
 related:
   - "[[mri_motion_correct]]"
   - "[[mri_motion_correct2]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_info]]"
   - "[[mgz]]"
 status: draft
@@ -132,7 +132,7 @@ Alternative to [[mri_motion_correct]] and [[mri_motion_correct2]] for FSL-based 
 - [[mri_motion_correct]] — bash variant using MINC
 - [[mri_motion_correct2]] — tcsh variant using MINC
 - [[mri_info]] — used internally for scan parameter extraction
-- [[mri_convert]] — for converting ANALYZE output to MGZ
+- [[wiki/tools/mri_convert|mri_convert]] — for converting ANALYZE output to MGZ
 
 ## Confidence and Gaps
 

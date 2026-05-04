@@ -23,12 +23,12 @@ downstream_files:
   - "[[wm.mgz]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2: ANTs Denoising (run when ANTs denoising is active)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: ANTs Denoising (run when ANTs denoising is active)"
 editable: false
 related:
   - "[[brain.mgz]]"
   - "[[wm.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -64,7 +64,7 @@ AntsDenoiseImageFs -i brain.mgz -o antsdn.brain.mgz
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, produced conditionally when ANTs denoising is enabled (controlled by `$DoAntsN3`, `$DoAntsN4`, or expert options).
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, produced conditionally when ANTs denoising is enabled (controlled by `$DoAntsN3`, `$DoAntsN4`, or expert options).
 
 ### Inputs required
 
@@ -83,7 +83,7 @@ mri_segment $mrisegment_input wm.mgz
 
 - [[brain.mgz]] — source intensity volume.
 - [[wm.mgz]] — downstream WM segmentation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

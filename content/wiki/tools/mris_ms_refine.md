@@ -163,7 +163,7 @@ mris_ms_refine -vno 1000 5000 lh.white flash5.mgz flash20.mgz flash30.mgz lh.whi
 `mris_ms_refine` is not called in the standard `recon-all` pipeline. It is intended for research use when multi-echo FLASH data are available, as a refinement step after initial surface creation by [[mris_make_surfaces]] or [[mris_place_surface]].
 
 Typical pipeline position:
-1. [[recon-all]] autorecon2 produces initial white/pial surfaces
+1. [[wiki/pipelines/recon-all|recon-all]] autorecon2 produces initial white/pial surfaces
 2. `mris_ms_refine` applies multi-spectral correction to improve placement
 
 ## Gotchas and Caveats

@@ -100,7 +100,7 @@ mri_evaluate_morph talairach.xfm aseg.mgz \
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used in research pipelines to evaluate group registration quality. Typically run after `[[mri_em_register]]` or other group-level registration tools.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used in research pipelines to evaluate group registration quality. Typically run after `[[mri_em_register]]` or other group-level registration tools.
 
 ## Gotchas and Caveats
 

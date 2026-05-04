@@ -118,7 +118,7 @@ mri_fdr --i activation.mgz nomask thresholded.mgz --fdr 0.05 --thfile thresh.txt
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used in post-processing of statistical maps from fMRI or VBM analyses. Typically applied after computing a statistical map and before visualization.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used in post-processing of statistical maps from fMRI or VBM analyses. Typically applied after computing a statistical map and before visualization.
 
 ## Gotchas and Caveats
 

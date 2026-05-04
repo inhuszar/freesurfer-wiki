@@ -176,7 +176,7 @@ mris_curvature lh.pial
 
 **Runs before:** [[mris_sphere]], [[mris_register]]
 **Runs after:** [[mris_inflate]], [[mris_make_surfaces]]
-**Related pipeline:** [[recon-all]]
+**Related pipeline:** [[wiki/pipelines/recon-all|recon-all]]
 
 ## Gotchas and Caveats
 

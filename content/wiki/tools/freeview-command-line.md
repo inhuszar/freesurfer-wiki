@@ -1,7 +1,7 @@
 ---
 title: "FreeView — Command-Line Reference"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -15,7 +15,7 @@ related_panels:
   - "[[freeview-pointsets]]"
   - "[[freeview-dti]]"
 related_tools:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-20

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_concat]]"
   - "[[mgz]]"
 status: draft
@@ -152,7 +152,7 @@ mri_average -P subj1/mri/brainmask.mgz subj2/mri/brainmask.mgz \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Used in:
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Used in:
 - Atlas construction (e.g., building the MNI305 or fsaverage templates).
 - Group analysis preprocessing.
 - Multi-acquisition SNR improvement.
@@ -174,7 +174,7 @@ Not a standard [[recon-all]] stage. Used in:
 ## Related Tools
 
 - [[mri_concat]] — concatenates volumes along the frame dimension (no averaging)
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

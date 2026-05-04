@@ -12,7 +12,7 @@ related:
   - "[[mri_fill]]"
   - "[[mri_segment]]"
   - "[[mri_tessellate]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -40,11 +40,11 @@ tags:
 - **Original author:** Bruce Fischl
 
 > [!gotcha] Attic status
-> This tool is in the `attic/` directory. The `mri_fill` tool (not in attic) is the currently active WM fill step in [[recon-all]].
+> This tool is in the `attic/` directory. The `mri_fill` tool (not in attic) is the currently active WM fill step in [[wiki/pipelines/recon-all|recon-all]].
 
 ## Purpose and Context
 
-Creating cortical surfaces in [[recon-all]] requires a "filled" WM volume that has the two cerebral hemispheres separated and the subcortical structures removed. This tool was an earlier attempt at this using atlas-warped templates. In the current pipeline, `mri_fill` is called instead.
+Creating cortical surfaces in [[wiki/pipelines/recon-all|recon-all]] requires a "filled" WM volume that has the two cerebral hemispheres separated and the subcortical structures removed. This tool was an earlier attempt at this using atlas-warped templates. In the current pipeline, `mri_fill` is called instead.
 
 `mri_auto_fill` warps hemisphere-specific template volumes (containing the expected left and right WM shapes) from atlas space into subject space, then uses the T1 intensity to refine which voxels belong to each hemisphere.
 
@@ -102,7 +102,7 @@ mri_auto_fill filled.mgz norm.mgz \
 
 ## Pipeline Context
 
-In the current [[recon-all]] pipeline, the active WM fill step is `mri_fill`, not `mri_auto_fill`. This tool represents an earlier atlas-based approach that preceded the current method. It is referenced here for historical completeness and for researchers reproducing older pipeline results.
+In the current [[wiki/pipelines/recon-all|recon-all]] pipeline, the active WM fill step is `mri_fill`, not `mri_auto_fill`. This tool represents an earlier atlas-based approach that preceded the current method. It is referenced here for historical completeness and for researchers reproducing older pipeline results.
 
 ## Gotchas and Caveats
 
@@ -117,7 +117,7 @@ In the current [[recon-all]] pipeline, the active WM fill step is `mri_fill`, no
 - `mri_fill` — current active WM fill tool in the recon-all pipeline
 - [[mri_segment]] — WM segmentation step that precedes fill
 - [[mri_tessellate]] — surface tessellation that consumes the filled WM volume
-- [[recon-all]] — master pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — master pipeline
 
 ## Confidence and Gaps
 

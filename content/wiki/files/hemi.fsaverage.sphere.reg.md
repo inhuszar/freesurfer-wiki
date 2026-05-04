@@ -28,7 +28,7 @@ editable: false
 related:
   - "[[hemi.sphere.reg]]"
   - "[[fsaverage]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -64,13 +64,13 @@ ln -sf $hemi.sphere.reg $hemi.fsaverage.sphere.reg
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **SurfReg** stage (`-surfreg`), co-produced with [[hemi.sphere.reg]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **SurfReg** stage (`-surfreg`), co-produced with [[hemi.sphere.reg]].
 
 ## Related
 
 - [[hemi.sphere.reg]] — the actual registered surface file this links to.
 - [[fsaverage]] — the atlas to which registration was performed.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

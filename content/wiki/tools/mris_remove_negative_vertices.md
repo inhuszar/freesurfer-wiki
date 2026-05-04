@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mris_sphere]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-15
@@ -132,7 +132,7 @@ Pipeline position:
 - `mris_sphere` — spherical parameterisation; primary user of this tool
 - [[mris_remove_intersection]] — removes Euclidean (3D) self-intersections
 - [[surface-format]] — FreeSurfer surface format
-- [[recon-all]] — calls mris_sphere which may invoke this tool
+- [[wiki/pipelines/recon-all|recon-all]] — calls mris_sphere which may invoke this tool
 
 ## Confidence and Gaps
 

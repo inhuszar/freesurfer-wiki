@@ -11,7 +11,7 @@ recon_all_stage: "autorecon2"
 related:
   - "[[mris_smooth]]"
   - "[[mris_sphere]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[freeview-surfaces]]"
 status: review
 confidence: high

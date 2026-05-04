@@ -12,7 +12,7 @@ families:
   - "mri_*"
 recon_all_stage: "autorecon1"
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_nu_correct.mni]]"
   - "[[mri_ca_normalize]]"
   - "[[mri_em_register]]"
@@ -119,7 +119,7 @@ Sereno (1999, NeuroImage 9(2):179–194):
    the input by the bias field and rescaling so that WM = 110
    (`MRIapplyBiasCorrectionSameGeometry()`).
 
-In [[recon-all]] it is invoked twice:
+In [[wiki/pipelines/recon-all|recon-all]] it is invoked twice:
 
 - **Autorecon1 Stage 4** (`DoNormalization`,
   `scripts/recon-all:2193`) to produce `T1.mgz` from `nu.mgz`:
@@ -133,7 +133,7 @@ In [[recon-all]] it is invoked twice:
   `DoNormalization2`, around `scripts/recon-all:3116–3155`) to
   produce `brain.mgz` from `brainmask.mgz` using an aseg-based
   initialisation. (Exact command still to be written as part of the
-  Normalization 2 stage documentation — see [[recon-all]]'s
+  Normalization 2 stage documentation — see [[wiki/pipelines/recon-all|recon-all]]'s
   `[!gap]` note.)
 
 ## Inputs
@@ -317,7 +317,7 @@ Grouped by function.
 | `-grad <thresh>` | float | — | Gradient threshold for preventing control points from crossing edges (from `mri_normalize.cpp` `stricmp("GRAD")`). |
 | `-cross_time_sigma <σ>` | float | — | Parzen window sigma for longitudinal cross-time smoothing (from `mri_long_normalize.cpp`). |
 | `-s <σ>` | float | — | Sigma for smoothing the bias field (from `mri_long_normalize.cpp` `case 'S':`). |
-| `-conform`<br>`-noconform` | bool | off | Force the output to be 256³ 1 mm (calls [[mri_convert]]-style conform internally). With `-cm` in `recon-all`, `-noconform` is passed. |
+| `-conform`<br>`-noconform` | bool | off | Force the output to be 256³ 1 mm (calls [[wiki/tools/mri_convert|mri_convert]]-style conform internally). With `-cm` in `recon-all`, `-noconform` is passed. |
 
 #### Renormalisation against a reference
 

@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[subject-directory]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -143,9 +143,9 @@ The script reminds the user to run `chgrp` after creation if the directory needs
 
 ## Pipeline Context
 
-Not called by [[recon-all]] directly. Used as a preparatory step before the pipeline.
+Not called by [[wiki/pipelines/recon-all|recon-all]] directly. Used as a preparatory step before the pipeline.
 
-`mksubjdirs` → populate `mri/orig/` → [[recon-all]]
+`mksubjdirs` → populate `mri/orig/` → [[wiki/pipelines/recon-all|recon-all]]
 
 In modern FreeSurfer usage, `recon-all` handles directory creation itself, so `mksubjdirs` is semi-redundant. However, it remains useful for:
 
@@ -166,7 +166,7 @@ In modern FreeSurfer usage, `recon-all` handles directory creation itself, so `m
 
 ## Related Tools
 
-- [[recon-all]] — main pipeline that also creates the subject directory tree on first run; preferred for new subjects in standard workflows
+- [[wiki/pipelines/recon-all|recon-all]] — main pipeline that also creates the subject directory tree on first run; preferred for new subjects in standard workflows
 - [[subject-directory]] — concept page describing the full expected directory structure and the purpose of each subdirectory
 
 ## Confidence and Gaps

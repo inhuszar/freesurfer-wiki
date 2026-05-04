@@ -22,7 +22,7 @@ consumed_by:
   - "[[mris_make_surfaces]]"
 downstream_files: []
 mandatory_for:
-  - "[[recon-all]] autorecon2: White and Pial surface placement"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: White and Pial surface placement"
 optional_for: []
 editable: true
 related:
@@ -31,7 +31,7 @@ related:
   - "[[brainmask.mgz]]"
   - "[[hemi.white]]"
   - "[[hemi.pial]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -87,7 +87,7 @@ mri_mask -transfer 255 -keep_mask_deletion_edits \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Mask BFS** stage (`-maskbfs`). Run immediately before WM segmentation.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Mask BFS** stage (`-maskbfs`). Run immediately before WM segmentation.
 
 ### Inputs required
 
@@ -120,7 +120,7 @@ After the first run, `brain.finalsurfs.manedit.mgz` is also created as a copy of
 ## Gotchas
 
 > [!gotcha] Editable checkpoint for surface placement failures
-> If surfaces are incorrectly placed (e.g. pial surface extends into meningeal tissue), edit `brain.finalsurfs.mgz` with FreeView to zero out the offending region, then save as `brain.finalsurfs.manedit.mgz`. Rerunning autorecon2 from `-maskbfs` will transfer these edits on each run. See [[recon-all]] for the re-run procedure.
+> If surfaces are incorrectly placed (e.g. pial surface extends into meningeal tissue), edit `brain.finalsurfs.mgz` with FreeView to zero out the offending region, then save as `brain.finalsurfs.manedit.mgz`. Rerunning autorecon2 from `-maskbfs` will transfer these edits on each run. See [[wiki/pipelines/recon-all|recon-all]] for the re-run procedure.
 
 > [!gotcha] -T 5 threshold removes low-intensity brain voxels
 > The `-T 5` floor in the mri_mask call removes voxels with intensities 1–4 from the brain. This prevents extremely dark brain tissue from anchoring surfaces, but it also removes any voxels that were explicitly marked as "deletion edits" (value = 1) in `brainmask.mgz`. The deletion edits logic uses a different flag (`-keep_mask_deletion_edits`) in subsequent calls.
@@ -132,7 +132,7 @@ After the first run, `brain.finalsurfs.manedit.mgz` is also created as a copy of
 - [[brain.mgz]], [[brainmask.mgz]] — inputs.
 - [[hemi.white]], [[hemi.pial]] — surfaces placed using this volume.
 - [[mris_make_surfaces]] — primary consumer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

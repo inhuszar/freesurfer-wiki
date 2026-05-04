@@ -10,7 +10,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_em_register]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
@@ -122,7 +122,7 @@ Not part of standard `recon-all`. Used in:
 ## Gotchas and Caveats
 
 > [!gotcha] Volumes must have identical geometry
-> The two input volumes must have exactly the same dimensions and voxel grid. If volumes are in different spaces (e.g., one in native space, one in MNI), MI will be computed between misaligned data, yielding meaningless results. Use [[mri_convert]] or [[mri_mask]] to align geometries first.
+> The two input volumes must have exactly the same dimensions and voxel grid. If volumes are in different spaces (e.g., one in native space, one in MNI), MI will be computed between misaligned data, yielding meaningless results. Use [[wiki/tools/mri_convert|mri_convert]] or [[mri_mask]] to align geometries first.
 
 > [!gotcha] Histogram bin count affects MI magnitude
 > The estimated MI value depends on the number of bins. Comparing MI values computed with different bin counts is not valid. For longitudinal or group comparisons, always use the same bin parameters.
@@ -133,7 +133,7 @@ Not part of standard `recon-all`. Used in:
 ## Related Tools
 
 - [[mri_em_register]] — uses MI-based similarity internally for registration
-- [[mri_convert]] — for format conversion and geometry alignment
+- [[wiki/tools/mri_convert|mri_convert]] — for format conversion and geometry alignment
 - [[coordinate-systems]] — relevant for ensuring volumes are in the same space
 
 ## Confidence and Gaps

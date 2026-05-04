@@ -28,7 +28,7 @@ related:
   - "[[rawavg.mgz]]"
   - "[[orig.mgz]]"
   - "[[lta-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -65,7 +65,7 @@ lta_convert \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, immediately after motion correction.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, immediately after motion correction.
 
 ### Inputs required
 
@@ -77,7 +77,7 @@ lta_convert \
 - [[rawavg.mgz]] — native space source.
 - [[orig.mgz]] — conformed target.
 - [[lta-format]] — on-disk format.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

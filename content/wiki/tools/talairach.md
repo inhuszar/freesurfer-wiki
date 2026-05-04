@@ -129,7 +129,7 @@ Note: In practice, `recon-all` calls `talairach_avi` (not `talairach`) for this 
 
 ## Pipeline Context
 
-`talairach` is a component of the `autorecon1` stage of `recon-all`, but **`talairach_avi` is the tool actually called by default in `recon-all`**. `talairach` may be called via `talairach2` (a wrapper that provides the subject-directory context). See the [[recon-all]] pipeline page for stage ordering.
+`talairach` is a component of the `autorecon1` stage of `recon-all`, but **`talairach_avi` is the tool actually called by default in `recon-all`**. `talairach` may be called via `talairach2` (a wrapper that provides the subject-directory context). See the [[wiki/pipelines/recon-all|recon-all]] pipeline page for stage ordering.
 
 **Predecessor:** `mri_normalize` → **This tool** (or `talairach_avi`) → `mri_em_register`
 

@@ -25,7 +25,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.qsphere.nofix]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: QSphere"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: QSphere"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[hemi.smoothwm.nofix]]"
   - "[[hemi.qsphere.nofix]]"
   - "[[hemi.inflated]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -77,7 +77,7 @@ mris_inflate -no-save-sulc \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Inflate1** stage (`-inflate1`). Touch sentinel: `touch/$hemi.inflate1.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Inflate1** stage (`-inflate1`). Touch sentinel: `touch/$hemi.inflate1.touch`.
 
 ### Inputs required
 
@@ -106,7 +106,7 @@ mris_inflate -no-save-sulc \
 - [[hemi.smoothwm.nofix]] — input.
 - [[hemi.qsphere.nofix]] — downstream.
 - [[hemi.inflated]] — topology-fixed successor.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

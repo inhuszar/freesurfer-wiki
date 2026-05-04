@@ -27,14 +27,14 @@ downstream_files:
   - "[[hemi.BA_exvivo.stats]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
 editable: false
 related:
   - "[[hemi.BA_exvivo.label]]"
   - "[[hemi.BA_exvivo.stats]]"
   - "[[hemi.BA_exvivo.thresh.annot]]"
   - "[[fsaverage]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -88,7 +88,7 @@ mris_label2annot \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **BA_exvivo Labels** stage (`-balabels`). Requires fsaverage in `$SUBJECTS_DIR`. Run by default in standard `recon-all -all`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **BA_exvivo Labels** stage (`-balabels`). Requires fsaverage in `$SUBJECTS_DIR`. Run by default in standard `recon-all -all`.
 
 ### Inputs required
 
@@ -110,7 +110,7 @@ Passed to `mris_anatomical_stats -a $annot` to produce [[hemi.BA_exvivo.stats]].
 - [[hemi.BA_exvivo.stats]] — downstream stats file.
 - [[hemi.BA_exvivo.thresh.annot]] — probability-thresholded annotation.
 - [[fsaverage]] — source atlas subject.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -11,7 +11,7 @@ families:
 recon_all_stage: null
 related:
   - "[[tkmedit]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[tksurferfv]]"
 status: draft
 confidence: high
@@ -28,7 +28,7 @@ tags:
 
 ## Summary
 
-`tkmeditfv` is a tcsh wrapper script that translates `tkmedit`-style command-line arguments into [[freeview]] arguments and launches freeview. It provides backward compatibility for scripts and workflows that call `tkmedit` by name, ensuring they continue to work with the modern freeview interface. The translation preserves the major tkmedit features: volume loading, surface overlay, segmentation, annotations, overlays, and other display settings.
+`tkmeditfv` is a tcsh wrapper script that translates `tkmedit`-style command-line arguments into [[wiki/tools/freeview|freeview]] arguments and launches freeview. It provides backward compatibility for scripts and workflows that call `tkmedit` by name, ensuring they continue to work with the modern freeview interface. The translation preserves the major tkmedit features: volume loading, surface overlay, segmentation, annotations, overlays, and other display settings.
 
 ## Source Information
 
@@ -73,7 +73,7 @@ See the **Configuration Options** section below for the complete verified flag l
 
 ## Outputs
 
-Launches [[freeview]] as an interactive GUI. No files are produced unless the user saves from freeview or uses `-ScreenShot`.
+Launches [[wiki/tools/freeview|freeview]] as an interactive GUI. No files are produced unless the user saves from freeview or uses `-ScreenShot`.
 
 ## Configuration Options
 
@@ -288,7 +288,7 @@ tkmeditfv subject T1.mgz -seg aparc+aseg.mgz \
 
 ## Related Tools
 
-- [[freeview]] — the underlying viewer launched by this script
+- [[wiki/tools/freeview|freeview]] — the underlying viewer launched by this script
 - [[tkmedit]] — the legacy tool that this script replaces
 - [[tksurferfv]] — analogous wrapper for tksurfer-to-freeview translation
 

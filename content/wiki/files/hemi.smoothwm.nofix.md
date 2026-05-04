@@ -25,7 +25,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.inflated.nofix]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Inflate1"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Inflate1"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[hemi.orig.nofix]]"
   - "[[hemi.inflated.nofix]]"
   - "[[hemi.smoothwm]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -76,7 +76,7 @@ mris_smooth -nw ../surf/lh.orig.nofix ../surf/lh.smoothwm.nofix
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Smooth1** stage (`-smooth1`). Touch sentinel: `touch/$hemi.smoothwm1.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Smooth1** stage (`-smooth1`). Touch sentinel: `touch/$hemi.smoothwm1.touch`.
 
 ### Inputs required
 
@@ -109,7 +109,7 @@ Both `lh.smoothwm.nofix` and `rh.smoothwm.nofix` are produced per-hemisphere in 
 - [[hemi.orig.nofix]] — input.
 - [[hemi.inflated.nofix]] — downstream.
 - [[hemi.smoothwm]] — topology-fixed successor.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_coreg]]"
   - "[[mgz]]"
 status: draft
@@ -125,7 +125,7 @@ mri_create_t2combined bert t1-7t.nii.gz t2u.nii.gz none t2l.nii.gz out.nii.gz sh
 
 ## Pipeline Context
 
-Not part of [[recon-all]]. Used in 7T imaging workflows:
+Not part of [[wiki/pipelines/recon-all|recon-all]]. Used in 7T imaging workflows:
 1. Complete standard `recon-all` on the 3T T1.
 2. Acquire 7T T1 whole-brain and T2* partial-brain slabs.
 3. Run `mri_create_t2combined` to produce a registered whole-brain T2* volume.

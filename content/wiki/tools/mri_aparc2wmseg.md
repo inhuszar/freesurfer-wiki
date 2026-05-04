@@ -101,7 +101,7 @@ mri_aparc2wmseg --s bert \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Intended as a post-processing step after the cortical parcellation is complete (after [[mris_ca_label]] has produced `lh.aparc.annot`/`rh.aparc.annot`). The output can be used by tractography pipelines that require labeled WM.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Intended as a post-processing step after the cortical parcellation is complete (after [[mris_ca_label]] has produced `lh.aparc.annot`/`rh.aparc.annot`). The output can be used by tractography pipelines that require labeled WM.
 
 ## Gotchas and Caveats
 

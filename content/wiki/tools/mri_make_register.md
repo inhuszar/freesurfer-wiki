@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
   - "[[mri_em_register]]"
 status: draft
@@ -123,7 +123,7 @@ Not part of `recon-all`. This was used in early 2000s-era FreeSurfer functional 
 
 - `bbregister` — the modern replacement for functional-to-structural registration
 - [[mri_em_register]] — atlas registration using EM
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 - [[coordinate-systems]] — explains scanner RAS and tkRAS systems used by `register.dat`
 
 ## Confidence and Gaps

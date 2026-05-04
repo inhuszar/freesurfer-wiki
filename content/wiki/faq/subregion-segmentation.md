@@ -35,7 +35,7 @@ download requirements, label-grouping conventions) that recur in many
 threads.
 
 > For the standard pipeline that produces the prerequisite recon-all
-> outputs, see [[recon-all]]. For the contrast-agnostic clinical
+> outputs, see [[wiki/pipelines/recon-all|recon-all]]. For the contrast-agnostic clinical
 > alternative, see [[recon-all-clinical]]. For longitudinal use see
 > [[longitudinal-processing]].
 
@@ -56,12 +56,12 @@ and longitudinal subfield outputs use distinct filenames
 (`lh.hippoAmygLabels-T1.v22.mgz` vs `lh.hippoAmygLabels-T1.v22.long.<base>.mgz`)
 and coexist without conflict, so users with mixed cross-sectional
 output across a cohort can move directly to the longitudinal step. The
-prerequisite is the standard cross → base → long sequence of [[recon-all]].
+prerequisite is the standard cross → base → long sequence of [[wiki/pipelines/recon-all|recon-all]].
 
 **Provenance:** Mailing list, 2023-07-03 (Iglesias). See
 `raw/mailing-list/2023-07-segmentha-long-does-not-require-cross-segmentation-first.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -100,7 +100,7 @@ fsbuild and Iglesias:
 fsbuild). See
 `raw/mailing-list/2023-06-hipposubfields-mexa64-selinux-hpc-error.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -132,7 +132,7 @@ file inside `$FREESURFER_HOME/average/`. Recommended workarounds:
 **Provenance:** Mailing list, 2023-12-22 (Iglesias). See
 `raw/mailing-list/2023-12-hippo-subfields-subjects-dir-permissions-imagedump.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -372,7 +372,7 @@ flag handling.
 **Provenance:** Mailing list, 2023-11-22 (Iglesias). See
 `raw/mailing-list/2023-11-segmentthalamicnuclei-fgatir-syntax-subject-dir.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -452,7 +452,7 @@ manual editing or alternative tooling may be needed.
 **Provenance:** Mailing list, 2025-01-30 to 2025-02-03 (Greve). See
 `raw/mailing-list/2025-02-subcortical-undersegmentation-1-5T-thalamus-segment-subregions.md`.
 
-**Related:** [[aseg.mgz]], [[recon-all]]
+**Related:** [[aseg.mgz]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -513,7 +513,7 @@ Python-based `segment_subregions` avoids the requirement entirely.
 fsbuild). See
 `raw/mailing-list/2023-10-segmentthalamicnuclei-mcr-symlink-insufficient-reinstall-dyld.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -545,7 +545,7 @@ $FREESURFER_HOME/MCRv84`; install with
 **Provenance:** Mailing list, 2023-12-27 to 2023-12-28 (Iglesias). See
 `raw/mailing-list/2023-12-brainstem-segmentation-requires-recon-all-no-standalone-synthseg.md`.
 
-**Related:** [[recon-all]], [[mri_synthseg]], [[recon-all-clinical]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]], [[recon-all-clinical]]
 
 ---
 
@@ -620,7 +620,7 @@ against MCRv97 in the release.
 **Provenance:** Mailing list, 2025-03-12 to 2025-03-13 (Huang). See
 `raw/mailing-list/2025-03-segmentaan-requires-mcrv97-binary-update.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -752,6 +752,6 @@ as the preferred intracranial-volume metric.
 Greve). See
 `raw/mailing-list/2025-02-nextbrain-stiv-icv-via-synthseg-same-as-fs8.md`.
 
-**Related:** [[mri_synthseg]], [[recon-all]]
+**Related:** [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---

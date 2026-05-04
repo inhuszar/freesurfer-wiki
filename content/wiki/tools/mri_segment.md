@@ -14,7 +14,7 @@ related:
   - "[[mri_tessellate]]"
   - "[[mri_watershed]]"
   - "[[mri_em_register]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[freeview-editing]]"
 status: review
 confidence: high
@@ -307,7 +307,7 @@ mri_segment -wlo 85 -whi 120 -noauto brain.mgz wm.seg.mgz
 
 ## Pipeline Context
 
-**autorecon2, WM Segmentation stage of [[recon-all]]** ([`scripts/recon-all:3305–3351`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3305-L3351))
+**autorecon2, WM Segmentation stage of [[wiki/pipelines/recon-all|recon-all]]** ([`scripts/recon-all:3305–3351`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3305-L3351))
 
 ```
 mri_normalize → brain.mgz
@@ -337,7 +337,7 @@ Default `MriSegWsizemm = 13` (recon-all line 140).
 **Alternative code path (`WMSegFromASeg = 1`):**
 
 When enabled (e.g., with `-use-synthseg`), `mri_segment` is skipped entirely.
-Instead, [[recon-all]] uses [[mri_binarize]] on `aseg.presurf.mgz` to extract
+Instead, [[wiki/pipelines/recon-all|recon-all]] uses [[mri_binarize]] on `aseg.presurf.mgz` to extract
 WM labels (2=lh WM, 41=rh WM) and `mri_mask` to mask `brain.mgz`, yielding
 `wm.seg.mgz` directly ([`scripts/recon-all:3334–3350`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3334-L3350)).
 

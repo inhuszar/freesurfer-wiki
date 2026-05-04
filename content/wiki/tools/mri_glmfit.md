@@ -407,7 +407,7 @@ mri_glmfit \
 `mri_glmfit` is not called by `recon-all`. It operates post-`recon-all`, in group-level analysis workflows:
 
 - **Upstream:** [[mri_vol2surf]], `mris_preproc`, [[mri_concat]], [[mri_label2vol]], asegstats2table/aparcstats2table
-- **Downstream:** [[mri_glmfit-sim]] (for cluster-based or FDR correction), `mri_surfcluster`, `mri_volcluster`, visualization in [[freeview]]
+- **Downstream:** [[mri_glmfit-sim]] (for cluster-based or FDR correction), `mri_surfcluster`, `mri_volcluster`, visualization in [[wiki/tools/freeview|freeview]]
 
 The output directory structure is designed to be consumed by [[mri_glmfit-sim]] which reads `mri_glmfit.log` to reconstruct the original command and adds simulation-based thresholding.
 

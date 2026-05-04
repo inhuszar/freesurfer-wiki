@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_label2vol]]"
   - "[[mri_binarize]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
 status: draft
@@ -156,7 +156,7 @@ mri_vol2label \
 
 - [[mri_label2vol]] — inverse: converts label back to volume
 - [[mri_binarize]] — creates binary volumes that can feed into vol2label
-- [[mri_convert]] — handles format conversion of input volumes
+- [[wiki/tools/mri_convert|mri_convert]] — handles format conversion of input volumes
 
 ## Confidence and Gaps
 

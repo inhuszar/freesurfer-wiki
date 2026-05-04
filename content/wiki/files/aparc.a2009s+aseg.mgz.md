@@ -30,13 +30,13 @@ downstream_files:
   - "[[hemi.aparc.a2009s.stats]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: AParc2ASeg (produced by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: AParc2ASeg (produced by default)"
 editable: false
 related:
   - "[[aseg.mgz]]"
   - "[[hemi.aparc.a2009s.annot]]"
   - "[[aparc+aseg.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -70,7 +70,7 @@ Same `mri_surf2volseg --label-cortex` call as [[aparc+aseg.mgz]] but using [[hem
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **AParc2ASeg** stage (`-aparc2aseg`).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **AParc2ASeg** stage (`-aparc2aseg`).
 
 ## How It Is Used
 
@@ -80,7 +80,7 @@ Same `mri_surf2volseg --label-cortex` call as [[aparc+aseg.mgz]] but using [[hem
 
 - [[aparc+aseg.mgz]] — Desikan-Killiany version.
 - [[hemi.aparc.a2009s.annot]] — source annotation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -26,13 +26,13 @@ downstream_files:
   - "[[wmparc.stats]]"
   - "[[hemi.aparc.stats]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats"
 optional_for: []
 editable: false
 related:
   - "[[aseg.mgz]]"
   - "[[aseg.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -66,7 +66,7 @@ Reads [[aseg.mgz]], the white and pial surfaces, computes global brain volume me
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, computed before the per-region stats stages (ASeg Stats, WMParc, ParcStats).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, computed before the per-region stats stages (ASeg Stats, WMParc, ParcStats).
 
 ### Inputs required
 
@@ -81,7 +81,7 @@ Read by [[mri_segstats]] when producing [[aseg.stats]], [[wmparc.stats]], and [[
 
 - [[aseg.mgz]] — source segmentation.
 - [[aseg.stats]] — primary consumer (header fields).
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

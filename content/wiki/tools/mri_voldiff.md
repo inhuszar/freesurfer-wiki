@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_info]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -142,7 +142,7 @@ fi
 ## Related Tools
 
 - [[mri_info]] — inspect header properties of a single volume
-- [[mri_convert]] — convert formats (may change precision, affecting comparison)
+- [[wiki/tools/mri_convert|mri_convert]] — convert formats (may change precision, affecting comparison)
 
 ## Confidence and Gaps
 

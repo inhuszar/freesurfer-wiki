@@ -12,7 +12,7 @@ hemispheric: true
 format: "symlink → hemi.white.preaparc.H"
 binary: true
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 produced_in_stage: "autorecon3: CurvHK"
 produced_at_source:
   - "[`scripts/recon-all:4105`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L4105)"
@@ -23,12 +23,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CurvHK (disabled by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CurvHK (disabled by default)"
 editable: false
 related:
   - "[[hemi.white.preaparc.H]]"
   - "[[hemi.white.preaparc]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -40,7 +40,7 @@ tags:
 # hemi.white.H
 
 > [!file] Glossary entry
-> `lh.white.H` / `rh.white.H` are symbolic links to [[hemi.white.preaparc.H]], created by [[recon-all]] immediately after the CurvHK stage so that tools expecting the canonical `?h.white.H` name can find the mean curvature map of the white surface.
+> `lh.white.H` / `rh.white.H` are symbolic links to [[hemi.white.preaparc.H]], created by [[wiki/pipelines/recon-all|recon-all]] immediately after the CurvHK stage so that tools expecting the canonical `?h.white.H` name can find the mean curvature map of the white surface.
 
 ## Location and Format
 
@@ -61,13 +61,13 @@ ln -s $hemi.white.preaparc.H $hemi.white.H
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CurvHK** stage. Created directly after `mris_curvature -w` writes [[hemi.white.preaparc.H]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CurvHK** stage. Created directly after `mris_curvature -w` writes [[hemi.white.preaparc.H]].
 
 ## Related
 
 - [[hemi.white.preaparc.H]] — symlink target (actual data).
 - [[hemi.white.K]] — co-created symlink for Gaussian curvature.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

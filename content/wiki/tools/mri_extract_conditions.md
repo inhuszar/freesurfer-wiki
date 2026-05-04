@@ -88,7 +88,7 @@ mri_extract_conditions -d fmri.mgz paradigm.par condition1.mgz
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Legacy fMRI utility. Modern FreeSurfer fMRI analysis uses different workflows.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Legacy fMRI utility. Modern FreeSurfer fMRI analysis uses different workflows.
 
 ## Gotchas and Caveats
 

@@ -16,7 +16,7 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 
 | Pipeline | Summary | Status |
 |----------|---------|--------|
-| [[recon-all]] | The canonical cortical reconstruction pipeline (autorecon1/2/3) | 📝 draft |
+| [[wiki/pipelines/recon-all|recon-all]] | The canonical cortical reconstruction pipeline (autorecon1/2/3) | 📝 draft |
 | [[infant-recon-all]] | Infant FreeSurfer pipeline: k-NN MRF label fusion + NIftyReg surfaces for T1w data, ages 0–4.5 years | 📝 draft |
 
 ## Concepts
@@ -89,7 +89,7 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[mri_compute_volume_fractions]]        | estimates the partial volume fractions of cortical gray matter, subcortical gray matter, white matte | C++          | 📝 draft  |
 | [[mri_compute_volume_intensities]]      | computes "unpartial-volumed" intensity estimates for each tissue type (white matter, cortical gray,  | C++          | 📝 draft  |
 | [[mri_concat]]                          | concatenates multiple volume files along the frame (4th) dimension, producing a single multi-frame o | C++          | 🔎 review |
-| [[mri_convert]]                         | is FreeSurfer's Swiss-army knife for moving volumetric data between formats and for applying basic,  | C++          | 📝 draft  |
+| [[wiki/tools/mri_convert|mri_convert]]                         | is FreeSurfer's Swiss-army knife for moving volumetric data between formats and for applying basic,  | C++          | 📝 draft  |
 | [[mri_convert_mdh]]                     | converts Siemens raw MRI data files using the Measurement Data Header (MDH) mini-header format       | C++          | 📝 draft  |
 | [[mri_copy_params]]                     | copies volume header parameters (geometry, acquisition parameters, or both) from a template volume o | C++          | 📝 draft  |
 | [[mri_copy_values]]                     | copies voxels with a specific label value from a source volume into a destination volume, overwritin | C++          | 📝 draft  |
@@ -129,8 +129,8 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[mri_fwhm]]                            | estimates the global Gaussian smoothness (Full-Width-Half-Maximum, FWHM) of a multi-frame volumetric | C++          | 📝 draft  |
 | [[mri_gcut]]                            | performs graph-cut skull stripping of a T1-weighted MRI volume                                       | C++          | 📝 draft  |
 | [[mri_gdfglm]]                          | performs a general linear model (GLM) analysis given a FreeSurfer Group Descriptor File (GDF/FSGD) a | C++          | 📝 draft  |
-| [[mri_glmfit]]                          | is FreeSurfer's primary tool for voxel- or vertex-wise general linear model (GLM) analysis           | C++          | 📝 draft  |
-| [[mri_glmfit-sim]]                      | performs multiple-comparisons correction on the output of [[mri_glmfit]] using Monte Carlo simulatio | shell        | 📝 draft  |
+| [[wiki/tools/mri_glmfit|mri_glmfit]]                          | is FreeSurfer's primary tool for voxel- or vertex-wise general linear model (GLM) analysis           | C++          | 📝 draft  |
+| [[mri_glmfit-sim]]                      | performs multiple-comparisons correction on the output of [[wiki/tools/mri_glmfit|mri_glmfit]] using Monte Carlo simulatio | shell        | 📝 draft  |
 | [[mri_gradient_info]]                   | computes and reports gradient information from an MRI volume, specifically analyzing the spatial gra | C++          | 📝 draft  |
 | [[mri_gradunwarp]]                      | corrects gradient non-linearity distortions in MRI volumes and surfaces                              | C++          | 📝 draft  |
 | [[mri_gtmpvc]]                          | performs partial volume correction (PVC) on PET data using the Geometric Transfer Matrix (GTM) metho | C++          | 📝 draft  |
@@ -494,7 +494,7 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 
 | Tool | Summary | Language | Status |
 |------|---------|----------|--------|
-| [[samseg]] | performs contrast-agnostic probabilistic whole-brain segmentation using a deformable tetrahedral mesh atlas (GEMS) with simultaneous GMM parameter estimation and bias field correction; supports multimodal inputs (T1w, T2w, FLAIR) and recon-all integration | tcsh + Python | 📝 draft |
+| [[wiki/tools/samseg|samseg]] | performs contrast-agnostic probabilistic whole-brain segmentation using a deformable tetrahedral mesh atlas (GEMS) with simultaneous GMM parameter estimation and bias field correction; supports multimodal inputs (T1w, T2w, FLAIR) and recon-all integration | tcsh + Python | 📝 draft |
 
 ## Pipeline Scripts and Wrappers
 
@@ -523,7 +523,7 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 
 | Tool | Summary | Language | Status |
 |------|---------|----------|--------|
-| [[freeview]] | FreeSurfer's primary interactive visualisation and editing application — hub page with menus (File/Edit/View/Layer/Action/Tools/Help), toolbar, 8 data types, coordinate info panel | C++ | 🔎 review |
+| [[wiki/tools/freeview|freeview]] | FreeSurfer's primary interactive visualisation and editing application — hub page with menus (File/Edit/View/Layer/Action/Tools/Help), toolbar, 8 data types, coordinate info panel | C++ | 🔎 review |
 | [[freeview-volumes]] | FreeView volume layers: 10 colour maps (incl. Turbo, Hue), all panel controls, isosurface, vector/tensor display, complete inline property reference | C++ | 🔎 review |
 | [[freeview-surfaces]] | FreeView surface layers: render modes (Surface/Wireframe/Surface+Wireframe), overlay Configure dialog (3-pt threshold), Reposition Vertex (3-tab dialog), complete inline property reference | C++ | 🔎 review |
 | [[freeview-editing]] | FreeView editing modes: 10 drawing sub-tools (incl. Livewire, ScribblePrompt), Recon Edit control, ROI→label format, Measure tool types | C++ | 🔎 review |
@@ -533,9 +533,9 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[freeview-dti]] | FreeView DTI: direction-coded colour (6 permutations), TrackVis tract loading, ODF display | C++ | 🔎 review |
 | [[freeview-pointsets]] | FreeView point sets: ControlPoint/.dat, WayPoint/.label, Enhanced/.json types; panel controls, coordinate system, DialogControlPointComment | C++ | 🔎 review |
 | [[tkmedit]] | was FreeSurfer's original Tk/Tcl-based interactive volume editor and viewer | tcl | 📝 draft |
-| [[tkmeditfv]] | is a tcsh wrapper script that translates `tkmedit`-style command-line arguments into [[freeview]] ar | tcsh | 📝 draft |
+| [[tkmeditfv]] | is a tcsh wrapper script that translates `tkmedit`-style command-line arguments into [[wiki/tools/freeview|freeview]] ar | tcsh | 📝 draft |
 | [[tksurfer]] | was FreeSurfer's original Tk/Tcl-based interactive surface viewer | tcl | 📝 draft |
-| [[tksurferfv]] | is a tcsh wrapper script that translates `tksurfer`-style command-line arguments into [[freeview]] a | tcsh | 📝 draft |
+| [[tksurferfv]] | is a tcsh wrapper script that translates `tksurfer`-style command-line arguments into [[wiki/tools/freeview|freeview]] a | tcsh | 📝 draft |
 | [[tkregister2]] | interactive GUI and command-line tool for manual registration editing and transform format conversion; historical source of the tkRAS convention | C++ | 📝 draft |
 
 ## Gotchas
@@ -548,18 +548,18 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 
 | Topic | Summary | Entries | Source | Status |
 |-------|---------|---------|--------|--------|
-| [[recon-all]] (FAQ) | Standard cortical-reconstruction pipeline: inputs, conform, FLAIR/T2, manual edits, parallel/threading, FS_ALLOW_DEEP, FS 7→8 directive change, autorecon failure modes | 25 | mailing list (30 threads, 2023-06 – 2025-04) | 🔎 review |
+| [[wiki/pipelines/recon-all|recon-all]] (FAQ) | Standard cortical-reconstruction pipeline: inputs, conform, FLAIR/T2, manual edits, parallel/threading, FS_ALLOW_DEEP, FS 7→8 directive change, autorecon failure modes | 25 | mailing list (30 threads, 2023-06 – 2025-04) | 🔎 review |
 | [[recon-all-clinical]] (FAQ) | Clinical pipeline: inputs/contrast, missing structures, longitudinal incompatibility, RAM, known bugs (colortable_BA_thresh, BEM normals, entorhinal thickness) | 12 | mailing list (13 threads, 2023-06 – 2026-03) | 🔎 review |
 | [[longitudinal]] (FAQ) | Base templates, timepoints (adding/excluding), mixed cohorts, longitudinal statistics, downstream tools (samseg-long, segmentHA-long), version safety | 13 | mailing list (13 threads, 2023-06 – 2025-04) | 🔎 review |
-| [[mri_glmfit]] (FAQ) | Design matrices, FSGD, DOSS/DODS contrasts, mri_glmfit-sim cluster correction, mri_volcluster + vlrmerge workflows, special-case designs (LME, longitudinal) | 17 | mailing list (17 threads, 2023-08 – 2025-04) | 🔎 review |
-| [[samseg]] (FAQ) | Bayesian segmentation: multi-contrast inputs, lesion segmentation tuning, longitudinal SAMSEG, integration with recon-all (-samseg-reg) and gtmseg (--samseg) | 12 | mailing list (12 threads, 2023-06 – 2025-03) | 🔎 review |
+| [[wiki/tools/mri_glmfit|mri_glmfit]] (FAQ) | Design matrices, FSGD, DOSS/DODS contrasts, mri_glmfit-sim cluster correction, mri_volcluster + vlrmerge workflows, special-case designs (LME, longitudinal) | 17 | mailing list (17 threads, 2023-08 – 2025-04) | 🔎 review |
+| [[wiki/tools/samseg|samseg]] (FAQ) | Bayesian segmentation: multi-contrast inputs, lesion segmentation tuning, longitudinal SAMSEG, integration with recon-all (-samseg-reg) and gtmseg (--samseg) | 12 | mailing list (12 threads, 2023-06 – 2025-03) | 🔎 review |
 | [[subregion-segmentation]] (FAQ) | Hippocampal/amygdala subfields, thalamic nuclei, brainstem, hypothalamic subunits, AAN, NextBrain, ERC Bayesian — atlas availability, MNI templates, MCR/FireANTs, hierarchies | 20 | mailing list (26 threads, 2023-06 – 2025-03) | 🔎 review |
 | [[synthseg-and-synthsr]] (FAQ) | SynthX deep-learning toolkit: SynthSeg label scheme/eTIV, SynthSR thick-slice preprocessing, SynthStrip, WMH-SynthSeg memory, FS_ALLOW_DEEP | 14 | mailing list (16 threads, 2023-06 – 2025-06) | 🔎 review |
 | [[synthmorph]] (FAQ) | Affine vs deformable models, regularisation, validity (DTI-FA, fMRI-to-T1), warp format conversion (mri_warp_convert) | 6 | mailing list (6 threads, 2023-06 – 2024-12) | 🔎 review |
 | [[petsurfer]] (FAQ) | gtmseg, mri_gtmpvc, reference regions and SUVR, custom segmentations/ROIs, kinetic modelling (Patlak), brainstem subregion alignment | 11 | mailing list (9 threads, 2023-10 – 2026-03) | 🔎 review |
-| [[mri_convert]] (FAQ) | Conforming (`-c`/`-nc`/`-uchar`), voxel-size rescaling (`-iis/-ijs/-iks`), `--in_like` header copying, transforms to MNI305, NIfTI-1 vs -2, dcmunpack | 6 | mailing list (7 threads, 2023-06 – 2024-08) | 🔎 review |
+| [[wiki/tools/mri_convert|mri_convert]] (FAQ) | Conforming (`-c`/`-nc`/`-uchar`), voxel-size rescaling (`-iis/-ijs/-iks`), `--in_like` header copying, transforms to MNI305, NIfTI-1 vs -2, dcmunpack | 6 | mailing list (7 threads, 2023-06 – 2024-08) | 🔎 review |
 | [[mri_vol2vol-and-vol2surf]] (FAQ) | Volume↔surface sampling, `--reg` vs `--lta`, MNI305 chains, non-standard modalities, mri_volcluster ROI naming, label inputs | 14 | mailing list (15 threads, 2023-08 – 2025-07) | 🔎 review |
-| [[freeview]] (FAQ) | OpenGL/Qt setup, MNI305 coordinate display, manual editing, headless rendering (fsxvfb), WSL2 X-server, tkregister2/tksurfer replacements | 11 | mailing list (9 threads, 2023-06 – 2025-02) | 🔎 review |
+| [[wiki/tools/freeview|freeview]] (FAQ) | OpenGL/Qt setup, MNI305 coordinate display, manual editing, headless rendering (fsxvfb), WSL2 X-server, tkregister2/tksurfer replacements | 11 | mailing list (9 threads, 2023-06 – 2025-02) | 🔎 review |
 | [[tracula-and-dmri]] (FAQ) | dmrirc configuration (pathlist, ncpts, pedir/dob0), dt_recon prerequisites and QC, Len_Center semantics, group analysis (beta.mgh design columns) | 6 | mailing list (5 threads, 2023-07 – 2025-07) | 🔎 review |
 | [[registration-and-lta]] (FAQ) | bbregister tips, mri_coreg --mat2par, lta_convert and LTA/.dat distinction, scanner RAS↔TkRRAS, partial-FOV chains, mris_register direction, CVS arm64 | 11 | mailing list (12 threads, 2023-11 – 2025-03) | 🔎 review |
 | [[installation-and-platform]] (FAQ) | OS support (RHEL/Rocky 9, Ubuntu 22/24, macOS Apple Silicon), CPU/RAM/GPU, FS_ALLOW_DEEP, MCR symlinks, MCRv97, gemsbindings ABI | 14 | mailing list (14 threads, 2023-06 – 2026-03) | 🔎 review |
@@ -655,8 +655,8 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 
 | Issue | Title | Affected | Verdict | State |
 |-------|-------|----------|---------|-------|
-| [[1358]] | mri_convert loses information on image reorientation (`--out_orientation` pivots flipped axes around N/2 on even-N volumes) | [[mri_convert]] | plausible | open |
-| [[1432]] | recon-all v8.2.0 crashes at `DoSurfReg` when `-expert <file>` is used (two defects: tcsh `if($XOptsFile)` arithmetic error, plus `rca-surfreg` missing `--expert` alias) | [[recon-all]] | plausible | open |
+| [[1358]] | mri_convert loses information on image reorientation (`--out_orientation` pivots flipped axes around N/2 on even-N volumes) | [[wiki/tools/mri_convert|mri_convert]] | plausible | open |
+| [[1432]] | recon-all v8.2.0 crashes at `DoSurfReg` when `-expert <file>` is used (two defects: tcsh `if($XOptsFile)` arithmetic error, plus `rca-surfreg` missing `--expert` alias) | [[wiki/pipelines/recon-all|recon-all]] | plausible | open |
 | [[1438]] | SuperSynth inference postprocessing loop overwrites `seg[0][~Mdilated] = 1` (latent; `volumes.csv` and `seg_discrete` unaffected) | [[mri_super_synth]] | plausible | open |
 
 ## Internals

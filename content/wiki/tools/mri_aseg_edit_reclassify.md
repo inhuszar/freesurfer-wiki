@@ -113,7 +113,7 @@ mri_aseg_edit_reclassify \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Part of an experimental workflow for automated segmentation correction using SVMs trained on manually edited subjects.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Part of an experimental workflow for automated segmentation correction using SVMs trained on manually edited subjects.
 
 ## Gotchas and Caveats
 

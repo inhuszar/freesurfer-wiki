@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_segment]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -125,7 +125,7 @@ This tool is **not** invoked in the standard `recon-all` pipeline. It was used i
 ## Related Tools
 
 - [[mri_segment]] — produces the segmentation input
-- [[mri_convert]] — for format conversions
+- [[wiki/tools/mri_convert|mri_convert]] — for format conversions
 - [[mri_em_register]] — produces GCA morphological transforms consumed here
 - [[coordinate-systems]] — explains the scanner/Talairach coordinate systems relevant to the transform
 

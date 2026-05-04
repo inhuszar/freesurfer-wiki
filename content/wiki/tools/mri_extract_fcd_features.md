@@ -116,7 +116,7 @@ mri_extract_fcd_features -WHITE white.preaparc -PIAL pial -A 5 sub01 lh features
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Requires a complete recon-all reconstruction. The output features are passed to an FCD classifier (external to FreeSurfer).
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Requires a complete recon-all reconstruction. The output features are passed to an FCD classifier (external to FreeSurfer).
 
 ## Gotchas and Caveats
 

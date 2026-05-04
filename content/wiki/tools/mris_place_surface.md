@@ -14,7 +14,7 @@ related:
   - "[[mris_refine_surfaces]]"
   - "[[mris_multimodal]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -338,7 +338,7 @@ In the standard `recon-all` pipeline, these calls happen in the `-make_surfaces`
 - [[mris_refine_surfaces]] — refines surfaces in a labelled region using high-resolution data
 - [[mris_multimodal]] — research multimodal refinement
 - `mris_autodet_gwstats` — generates the required `adgws.dat` file
-- [[recon-all]] — calls this tool in autorecon2
+- [[wiki/pipelines/recon-all|recon-all]] — calls this tool in autorecon2
 
 ## Confidence and Gaps
 

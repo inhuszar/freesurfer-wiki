@@ -18,7 +18,7 @@ tags:
 This FAQ collects recurring questions about **PETSurfer**, FreeSurfer's
 PET analysis pipeline. PETSurfer is built on two cooperating tools:
 [[mri_gtmseg]], which produces a high-resolution combined cortical /
-subcortical segmentation (`gtmseg.mgz`) inside a [[recon-all]] subject
+subcortical segmentation (`gtmseg.mgz`) inside a [[wiki/pipelines/recon-all|recon-all]] subject
 directory, and [[mri_gtmpvc]], which performs Geometric Transfer Matrix
 (GTM) partial volume correction (PVC) and reference-region
 quantification (e.g. SUVR) of a PET volume coregistered to the
@@ -30,7 +30,7 @@ kinetic modelling, and FS 7→8 compatibility.
 
 > For tool reference, see [[mri_gtmseg]], [[mri_gtmpvc]], and
 > [[mri_segstats]]. For the upstream anatomical pipeline, see
-> [[recon-all]].
+> [[wiki/pipelines/recon-all|recon-all]].
 
 ---
 
@@ -43,13 +43,13 @@ kinetic modelling, and FS 7→8 compatibility.
 subcortical labelling.
 
 **Detail:** [[mri_gtmseg]] historically used the nonlinear Talairach
-warp (`mri/transforms/talairach.m3z`) produced by FS 7.x [[recon-all]]
+warp (`mri/transforms/talairach.m3z`) produced by FS 7.x [[wiki/pipelines/recon-all|recon-all]]
 to map subcortical structures into the GTM segmentation. FreeSurfer
 8.0.0 dropped the nonlinear-warp step from the default pipeline, so
 FS 8 subjects do not have `talairach.m3z`. On those subjects, the
 default `gtmseg` invocation either errors with a file-not-found or
 silently falls back to an incorrect mapping. The fix is to use the
-[[samseg]]-based subcortical segmentation path:
+[[wiki/tools/samseg|samseg]]-based subcortical segmentation path:
 
 ```bash
 gtmseg --s SUBJECT --samseg
@@ -62,7 +62,7 @@ recommended approach for any FS 8 subject is always `--samseg`.
 **Provenance:** Mailing list, 2025-03-11 (Greve). See
 `raw/mailing-list/2025-03-gtmseg-samseg-flag-required-fs8-talairach-m3z-removed.md`.
 
-**Related:** [[mri_gtmseg]], [[samseg]], [[mri_gtmpvc]], [[recon-all]]
+**Related:** [[mri_gtmseg]], [[wiki/tools/samseg|samseg]], [[mri_gtmpvc]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -84,14 +84,14 @@ no new package tarball was issued.
 > [!gotcha] Do **not** "fix" this with `gtmseg --no-samseg`. Huang
 > retracted that initial workaround on the same thread, confirming
 > it produces substantively different PVC results because the
-> fallback segmentation differs from the [[samseg]] one. On FS 8
+> fallback segmentation differs from the [[wiki/tools/samseg|samseg]] one. On FS 8
 > subjects, `--samseg` is the only correct path.
 
 **Provenance:** Mailing list, 2026-03-23 to 2026-03-26 (Demeusy /
 Huang / fsbuild). See
 `raw/mailing-list/2026-03-gtmseg-gemsbindings-ubuntu24.md`.
 
-**Related:** [[mri_gtmseg]], [[samseg]]
+**Related:** [[mri_gtmseg]], [[wiki/tools/samseg|samseg]]
 
 ---
 
@@ -127,7 +127,7 @@ for the merge mechanics).
 > adjacent to the hippocampus can pick up hippocampal voxels at
 > their boundary because nearest-neighbour interpolation of an
 > adjacent high-resolution structure has no smoothing. Inspect the
-> resampled volume in [[freeview]] before relying on it.
+> resampled volume in [[wiki/tools/freeview|freeview]] before relying on it.
 
 **Provenance:** Mailing list, 2024-09-30 (Pandya / Greve). See
 `raw/mailing-list/2024-09-petsurfer-brainstem-subfields-gtmseg-alignment.md`.
@@ -202,7 +202,7 @@ Users in that situation must look outside FreeSurfer.
 > not anatomical axes (LR / AP / SI). Which voxel axis corresponds
 > to which anatomical direction depends on the acquisition and the
 > DICOM-to-NIfTI conversion. Inspect the PET volume with
-> `mri_info` or [[freeview]] and assign FWHM values to the axis
+> `mri_info` or [[wiki/tools/freeview|freeview]] and assign FWHM values to the axis
 > they were measured along — do not assume `--psf-slice` is always
 > the through-plane direction.
 
@@ -210,7 +210,7 @@ Users in that situation must look outside FreeSurfer.
 Greve). See `raw/mailing-list/2025-06-mri-gtmpvc-anisotropic-psf-flags.md`.
 Code-verified: `mri_gtmpvc/mri_gtmpvc.cpp` (FS 8.2.0).
 
-**Related:** [[mri_gtmpvc]], [[mri_info]], [[freeview]]
+**Related:** [[mri_gtmpvc]], [[mri_info]], [[wiki/tools/freeview|freeview]]
 
 ---
 
@@ -364,7 +364,7 @@ colour table (`--ctab`) to `mri_gtmpvc`.
 its colour table, so any custom region must end up as a distinct
 integer label inside that volume. The full workflow:
 
-1. **Generate the standard gtmseg** (with [[samseg]] on FS 8):
+1. **Generate the standard gtmseg** (with [[wiki/tools/samseg|samseg]] on FS 8):
 
    ```bash
    gtmseg --s SUBJECT --samseg

@@ -14,7 +14,7 @@ related:
   - "[[mris_inflate]]"
   - "[[mris_defects_pointset]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-22
@@ -245,7 +245,7 @@ The corrected `lh.orig` is the starting point for all subsequent surface process
 
 **Runs before:** [[mris_make_surfaces]], [[mris_smooth]] (second pass), [[mris_inflate]] (second pass)
 **Runs after:** [[mris_inflate]] (first pass, nofix), [[mris_sphere]] (qsphere step)
-**Related pipeline:** [[recon-all]]
+**Related pipeline:** [[wiki/pipelines/recon-all|recon-all]]
 
 ## Gotchas and Caveats
 
@@ -271,7 +271,7 @@ The corrected `lh.orig` is the starting point for all subsequent surface process
 - [[mris_make_surfaces]] — placed after topology correction; requires a genus-0 surface
 - [[mris_defects_pointset]] — creates a pointset visualisation of defect locations
 - [[surface-format]] — FreeSurfer surface file format
-- [[recon-all]] — pipeline orchestrator
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline orchestrator
 
 ## Confidence and Gaps
 

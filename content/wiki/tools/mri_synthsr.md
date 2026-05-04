@@ -11,8 +11,8 @@ recon_all_stage: null
 related:
   - "[[mri_synthseg]]"
   - "[[mri_synthmorph]]"
-  - "[[mri_convert]]"
-  - "[[recon-all]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -171,7 +171,7 @@ It is not part of the standard `recon-all` pipeline itself.
 - [[mri_synthsr_hyperfine]] — wrapper calling `mri_synthsr --lowfield`
 - [[mri_synthseg]] — contrast-agnostic segmentation (does not require T1w)
 - [[mri_synthmorph]] — contrast-agnostic registration
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

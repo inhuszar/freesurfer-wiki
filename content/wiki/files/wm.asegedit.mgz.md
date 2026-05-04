@@ -24,7 +24,7 @@ consumed_by:
 downstream_files:
   - "[[wm.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: PreTess"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: PreTess"
 optional_for: []
 editable: false
 related:
@@ -32,7 +32,7 @@ related:
   - "[[wm.seg.mgz]]"
   - "[[wm.mgz]]"
   - "[[aseg.presurf.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -82,7 +82,7 @@ mri_edit_wm_with_aseg \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **WM Segmentation** stage (part of `-wmseg`). Produced after `mri_segment` and before `mri_pretess`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **WM Segmentation** stage (part of `-wmseg`). Produced after `mri_segment` and before `mri_pretess`.
 
 ### Inputs required
 
@@ -112,7 +112,7 @@ None.
 - [[wm.seg.mgz]] — input WM mask.
 - [[aseg.presurf.mgz]] — segmentation used for corrections.
 - [[wm.mgz]] — downstream pretessed output.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

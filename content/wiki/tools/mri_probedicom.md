@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_parse_sdcmdir]]"
   - "[[mri_probe_ima]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -41,7 +41,7 @@ tags:
 
 ## Purpose and Context
 
-`mri_probedicom` is a low-level DICOM inspection utility. It allows users and scripts to query any DICOM header field by group/element tag, check file type, and extract specific acquisition parameters. It is commonly used in conversion scripts and QC pipelines to verify DICOM integrity and extract metadata before running [[mri_convert]].
+`mri_probedicom` is a low-level DICOM inspection utility. It allows users and scripts to query any DICOM header field by group/element tag, check file type, and extract specific acquisition parameters. It is commonly used in conversion scripts and QC pipelines to verify DICOM integrity and extract metadata before running [[wiki/tools/mri_convert|mri_convert]].
 
 The tool supports several query directives beyond raw tag access, including checking for pixel data presence and querying DWI metadata.
 
@@ -144,7 +144,7 @@ mri_probedicom --dcm2niix-dicom-dump /data/dicom/ "series001"
 
 ## Pipeline Context
 
-`mri_probedicom` is not called by [[recon-all]] but is widely used in site-specific DICOM import scripts. It is commonly used in QC scripts to verify that an acquisition was complete and to extract TE, TR, flip angle, and other sequence parameters.
+`mri_probedicom` is not called by [[wiki/pipelines/recon-all|recon-all]] but is widely used in site-specific DICOM import scripts. It is commonly used in QC scripts to verify that an acquisition was complete and to extract TE, TR, flip angle, and other sequence parameters.
 
 ## Gotchas and Caveats
 
@@ -161,7 +161,7 @@ mri_probedicom --dcm2niix-dicom-dump /data/dicom/ "series001"
 
 - [[mri_parse_sdcmdir]] — Scan and summarize a Siemens DICOM directory
 - [[mri_probe_ima]] — Probe legacy Siemens `.ima` files
-- [[mri_convert]] — Convert DICOM to FreeSurfer/NIfTI formats
+- [[wiki/tools/mri_convert|mri_convert]] — Convert DICOM to FreeSurfer/NIfTI formats
 
 ## Confidence and Gaps
 

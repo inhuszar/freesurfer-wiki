@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
 status: draft
@@ -36,16 +36,16 @@ tags:
 - **Source file:** `scripts/mri_reorient_LR.csh`
 - **Original author:** Lilla Zollei
 - **Created:** 2010-07-16
-- **Dependencies:** FSL (`flirt`), [[mri_convert]]
+- **Dependencies:** FSL (`flirt`), [[wiki/tools/mri_convert|mri_convert]]
 
 ## Purpose and Context
 
 In neonatal and pediatric MRI, the left-right orientation may not be reliably encoded in the image header (especially in early-generation scanners or when data has been transferred without header corrections). `mri_reorient_LR.csh` automates the process of detecting and correcting L-R orientation by:
-1. Converting the input to NIfTI (if not already in NIfTI format) using [[mri_convert]]
+1. Converting the input to NIfTI (if not already in NIfTI format) using [[wiki/tools/mri_convert|mri_convert]]
 2. Calling FSL FLIRT to register the input against a left-right flipped version of itself (or a template)
 3. Writing the reoriented result
 
-This is a utility script intended for specialized preprocessing workflows; it is not part of the standard [[recon-all]] pipeline.
+This is a utility script intended for specialized preprocessing workflows; it is not part of the standard [[wiki/pipelines/recon-all|recon-all]] pipeline.
 
 > [!assumption] Input data assumption
 > FSL must be installed and available in the PATH. The script sources `$FREESURFER_HOME/sources.csh` for FreeSurfer environment setup.
@@ -72,7 +72,7 @@ The reorientation is computed by FSL FLIRT rigid-body registration. The registra
 
 | Flag | Argument | Default | Description |
 |------|----------|---------|-------------|
-| `--i` | `<inputvol>` | required | Input volume to reorient. Any format accepted by [[mri_convert]]; if not `.nii` or `.nii.gz`, a temporary NIfTI is created before calling FSL FLIRT. |
+| `--i` | `<inputvol>` | required | Input volume to reorient. Any format accepted by [[wiki/tools/mri_convert|mri_convert]]; if not `.nii` or `.nii.gz`, a temporary NIfTI is created before calling FSL FLIRT. |
 | `--o` | `<outputvol>` | required | Output path for the reoriented volume. If the extension is not `.nii`/`.nii.gz`, the result is converted from NIfTI before writing. |
 | `--outreg` | `<outreg>` | — | Write the computed reorientation transform to this file. Extension determines format: `.lta` produces an LTA file (via `tkregister2_cmdl`); any other extension is treated as an FSL `.mat` file (copied directly). |
 | `--disp` | `<0\|1>` | `1` | If `1`, open FreeView after processing to display the original and reoriented volumes side by side. Set to `0` to suppress the display. |
@@ -99,7 +99,7 @@ mri_reorient_LR.csh --i baby_brain.nii.gz --o baby_brain_reoriented.nii.gz \
 
 ## Pipeline Context
 
-`mri_reorient_LR.csh` is not called by [[recon-all]]. It is used in specialized infant/neonatal neuroimaging workflows before running the standard pipeline, to ensure correct L-R orientation.
+`mri_reorient_LR.csh` is not called by [[wiki/pipelines/recon-all|recon-all]]. It is used in specialized infant/neonatal neuroimaging workflows before running the standard pipeline, to ensure correct L-R orientation.
 
 ## Gotchas and Caveats
 
@@ -117,7 +117,7 @@ mri_reorient_LR.csh --i baby_brain.nii.gz --o baby_brain_reoriented.nii.gz \
 
 ## Related Tools
 
-- [[mri_convert]] — Used internally for MGZ-to-NIfTI conversion
+- [[wiki/tools/mri_convert|mri_convert]] — Used internally for MGZ-to-NIfTI conversion
 - [[coordinate-systems]] — Background on RAS coordinate conventions
 
 ## Confidence and Gaps

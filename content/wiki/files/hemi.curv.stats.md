@@ -25,13 +25,13 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CurvStats (run by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CurvStats (run by default)"
 editable: false
 related:
   - "[[hemi.curv]]"
   - "[[hemi.sulc]]"
   - "[[mris_curvature_stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -71,7 +71,7 @@ mris_curvature_stats \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CurvStats** stage (`-curvstats`). Touch sentinel: `touch/$hemi.curvstats.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CurvStats** stage (`-curvstats`). Touch sentinel: `touch/$hemi.curvstats.touch`.
 
 ### Inputs required
 
@@ -83,7 +83,7 @@ mris_curvature_stats \
 
 - [[hemi.curv]], [[hemi.sulc]] — input curvature maps.
 - [[mris_curvature_stats]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

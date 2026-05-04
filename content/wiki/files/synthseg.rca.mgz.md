@@ -27,14 +27,14 @@ downstream_files:
   - "[[synthseg.vol.csv]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon1: SynthSeg (run by default in v8.x)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1: SynthSeg (run by default in v8.x)"
 editable: false
 related:
   - "[[orig.mgz]]"
   - "[[synthseg.vol.csv]]"
   - "[[synthseg.tiv.dat]]"
   - "[[aseg.auto_noCCseg.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -75,7 +75,7 @@ mri_synthseg \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, produced early in the pipeline before atlas-based segmentation. A symlink `mri/aseg.auto_noCCseg.mgz → synthseg.rca.mgz` is created if SynthSeg mode is active.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, produced early in the pipeline before atlas-based segmentation. A symlink `mri/aseg.auto_noCCseg.mgz → synthseg.rca.mgz` is created if SynthSeg mode is active.
 
 ### Inputs required
 
@@ -99,7 +99,7 @@ mri_synthseg \
 - [[synthseg.tiv.dat]] — TIV extracted from the CSV.
 - [[aseg.auto_noCCseg.mgz]] — symlink target in standard pipeline.
 - [[synthstrip.mgz]] — co-produced brain mask.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

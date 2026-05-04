@@ -107,7 +107,7 @@ mri_edit_segmentation -unknown aseg.mgz norm.mgz aseg_unk_edited.mgz
 
 ## Pipeline Context
 
-`mri_edit_segmentation` may be applied after `[[mri_ca_label]]` to refine the aseg. It is not a standard `[[recon-all]]` step in recent FreeSurfer versions, having been largely superseded by more sophisticated approaches. It may be called from custom pipelines or research scripts.
+`mri_edit_segmentation` may be applied after `[[mri_ca_label]]` to refine the aseg. It is not a standard `[[wiki/pipelines/recon-all|recon-all]]` step in recent FreeSurfer versions, having been largely superseded by more sophisticated approaches. It may be called from custom pipelines or research scripts.
 
 ## Gotchas and Caveats
 

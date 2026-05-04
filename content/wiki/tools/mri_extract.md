@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_binarize]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
@@ -107,7 +107,7 @@ mri_extract -like template.mgz brain.mgz extracted.mgz
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Useful as a preprocessing step to reduce computational load, or to extract ROIs for focused analyses.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Useful as a preprocessing step to reduce computational load, or to extract ROIs for focused analyses.
 
 ## Gotchas and Caveats
 
@@ -119,7 +119,7 @@ Not called by `[[recon-all]]`. Useful as a preprocessing step to reduce computat
 
 ## Related Tools
 
-- `[[mri_convert]]` — general-purpose volume conversion, including cropping
+- `[[wiki/tools/mri_convert|mri_convert]]` — general-purpose volume conversion, including cropping
 - `[[mri_binarize]]` — thresholding (useful to produce bounding box inputs)
 
 ## Confidence and Gaps

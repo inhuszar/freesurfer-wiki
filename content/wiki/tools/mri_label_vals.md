@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_label_histo]]"
   - "[[mri_label_volume]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-22
@@ -130,7 +130,7 @@ Not part of `recon-all`. Used in research analyses for ROI-based intensity sampl
 
 - [[mri_label_histo]] — histogram of intensities within label
 - [[mri_label_volume]] — volume of labelled regions
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

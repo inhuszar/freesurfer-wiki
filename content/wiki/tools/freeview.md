@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
   - "[[annotation-format]]"
   - "[[label-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[tkmeditfv]]"
   - "[[tksurferfv]]"
   - "[[fsgd-format]]"
@@ -38,7 +38,7 @@ tags:
 
 FreeView is FreeSurfer's primary interactive visualisation and editing application. It displays volumetric MRI data, cortical surfaces, overlays, labels, annotations, DTI data, tractography, and point sets in both 2D orthogonal slice views and a 3D rendering view. It replaces the legacy tools [[tkmedit]] (volume viewer/editor) and [[tksurfer]] (surface viewer) with a unified, multi-layer interface built on Qt.
 
-FreeView is both a viewer and an editor: it supports manual correction of white matter segmentation, brain mask editing, control point placement, ROI drawing, and surface vertex repositioning — all operations that feed back into the [[recon-all]] pipeline for reprocessing.
+FreeView is both a viewer and an editor: it supports manual correction of white matter segmentation, brain mask editing, control point placement, ROI drawing, and surface vertex repositioning — all operations that feed back into the [[wiki/pipelines/recon-all|recon-all]] pipeline for reprocessing.
 
 ## Source Information
 

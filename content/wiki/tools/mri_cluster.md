@@ -136,7 +136,7 @@ mri_cluster --corify longitudinal_segs.mgz 0.2 core_segs.mgz
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Used in group-level statistical analysis workflows, particularly in:
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Used in group-level statistical analysis workflows, particularly in:
 - FSFAST fMRI analysis pipelines.
 - Group-level morphometric analysis (e.g., VBM-style studies).
 - Longitudinal change detection (combined with [[mri_compute_change_map]]).

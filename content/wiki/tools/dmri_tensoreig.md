@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[dt_recon]]"
   - "[[dmri_paths]]"
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-21
@@ -168,7 +168,7 @@ DWI acquisition --> dmri_tensoreig --> FA/eigenvalue maps --> dmri_paths / visua
 ## Related Tools
 
 - [[dt_recon]] — recommended diffusion tensor reconstruction pipeline
-- [[mri_glmfit]] — general linear model fitting used by dt_recon for tensor fitting
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — general linear model fitting used by dt_recon for tensor fitting
 - [[dmri_paths]] — probabilistic tractography using tensor-derived orientation information
 
 ## Confidence and Gaps

@@ -26,13 +26,13 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CortRibbon (produced when --save_ribbon is set)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CortRibbon (produced when --save_ribbon is set)"
 editable: false
 related:
   - "[[ribbon.mgz]]"
   - "[[hemi.white]]"
   - "[[hemi.pial]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -72,7 +72,7 @@ Produced in the same [[mris_volmask]] invocation as [[ribbon.mgz]] when `--save_
 
 - [[ribbon.mgz]] — combined ribbon volume.
 - [[hemi.white]], [[hemi.pial]] — source surfaces.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

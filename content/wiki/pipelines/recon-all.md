@@ -6,7 +6,7 @@ source_language: "tcsh"
 source_files:
   - "scripts/recon-all"
 tools_involved:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_robust_template]]"
   - "[[mri_motion_correct.fsl]]"
   - "[[mri_add_xform_to_header]]"
@@ -68,13 +68,13 @@ tools_involved:
   - "[[mris_anatomical_stats]]"
   - "[[mris_curvature_stats]]"
   - "[[bbregister]]"
-  - "[[samseg]]"
+  - "[[wiki/tools/samseg|samseg]]"
 related_pipelines:
   - "[[infant-recon-all]]"
 related_tools:
   - "[[recon-all-clinical.sh]]"
   - "[[recon-all-exvivo]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[freeview-editing]]"
 status: draft
 confidence: high
@@ -156,7 +156,7 @@ Related entry points for non-standard inputs:
   to `PATH`. A valid license file is required.
 - **Input data:** one or more T1-weighted volumes per subject. Multiple
   contrasts (T2, FLAIR) are optional. Any format readable by
-  [[mri_convert]] is accepted (DICOM, NIfTI, MGH/MGZ, ANALYZE, …).
+  [[wiki/tools/mri_convert|mri_convert]] is accepted (DICOM, NIfTI, MGH/MGZ, ANALYZE, …).
 - **Assumptions on T1:** approximately 1 mm isotropic resolution, FOV
   ≤ 256 mm in each dimension. Non-isotropic data is silently conformed
   (see `-conform` / `-cm` gotchas below). Non-standard contrasts may
@@ -240,7 +240,7 @@ that is the input for every subsequent stage.
 Inputs: one or more `$SUBJECTS_DIR/<subj>/mri/orig/0NN.mgz` volumes.
 
 1. **Input conversion** (only if `-i <vol>` was given): one
-   [[mri_convert]] call per input:
+   [[wiki/tools/mri_convert|mri_convert]] call per input:
    ```bash
    mri_convert <input> $SUBJECTS_DIR/<subj>/mri/orig/0NN.mgz
    ```
@@ -602,7 +602,7 @@ Produces `wm.mgz`, the binary white-matter volume from which the initial surface
        $WMSeg_wlo $WMSeg_ghi \
        brain.mgz wm.seg.mgz
    ```
-   If `-ants-denoising` is active, the input becomes `antsdn.brain.mgz` (produced by `AntsDenoiseImageFs`). With `-wmseg-from-aseg`, [[mri_segment]] is skipped: [[mri_binarize]] `--match 2 41` extracts the WM voxels from `aseg.presurf.mgz`, they are masked into `brain.mgz` to build `wm.seg.mgz`, and [[mri_convert]] `-odt uchar --no_scale 1` coerces to uint8 for downstream tools.
+   If `-ants-denoising` is active, the input becomes `antsdn.brain.mgz` (produced by `AntsDenoiseImageFs`). With `-wmseg-from-aseg`, [[mri_segment]] is skipped: [[mri_binarize]] `--match 2 41` extracts the WM voxels from `aseg.presurf.mgz`, they are masked into `brain.mgz` to build `wm.seg.mgz`, and [[wiki/tools/mri_convert|mri_convert]] `-odt uchar --no_scale 1` coerces to uint8 for downstream tools.
 3. **Edit WM with aseg**:
    ```bash
    mri_edit_wm_with_aseg -keep-in \
@@ -1023,7 +1023,7 @@ Refines the pial surface using the secondary-contrast volume, which has better p
        --no-coreg-ref-mask
    ```
    The `auto.lta` is copied to `T2raw.lta` unless a user-edited version exists. In longitudinal runs, a cross-sectional `T2raw.lta` is composed with `tpN→base.lta` via [[mri_concatenate_lta]].
-2. **Resample T2** into `orig.mgz` space: [[mri_convert]] `-odt float -at T2raw.lta -rl orig.mgz` produces `T2.prenorm.mgz`.
+2. **Resample T2** into `orig.mgz` space: [[wiki/tools/mri_convert|mri_convert]] `-odt float -at T2raw.lta -rl orig.mgz` produces `T2.prenorm.mgz`.
 3. **Normalize T2** with surface-aware [[mri_normalize]]:
    ```bash
    mri_normalize -sigma 0.5 -nonmax_suppress 0 -min_dist 1 \
@@ -1447,7 +1447,7 @@ graph TD
 | `-autorecon2-inflate1` | Run autorecon2 through Stage 18 (Inflate1). |
 | `-autorecon2-perhemi`  | Tessellate → Curvature H/K per hemisphere only. |
 | `-autorecon2-volonly`  | Stages 6–15 (volumetric half of autorecon2). |
-| `-autorecon2-samseg`   | Replace stages 6–11 with [[samseg]], then run 12–26. |
+| `-autorecon2-samseg`   | Replace stages 6–11 with [[wiki/tools/samseg|samseg]], then run 12–26. |
 | `-autorecon3`          | Stages 27–54. |
 | `-autorecon3-T2pial` / `-T2pial-only` | Refine pial surface with T2 only (Stage 36). |
 | `-subfields`           | Enable optional Stage 55 (hippocampal / thalamic / brainstem subfields). |
@@ -1588,8 +1588,8 @@ With `-openmp 4` on `mri_em_register`, `mri_ca_register`, and
 - [[infant-recon-all]] — pediatric pipeline for ages 0–4.5 years.
 - [[recon-all-clinical.sh]] — rapid clinical variant using SynthSeg/SynthSR shortcuts for non-research-grade scans.
 - [[recon-all-exvivo]] — ex vivo tissue reconstruction variant.
-- [[samseg]] — sequence-adaptive segmentation; can replace Stages 6–11 via `-autorecon2-samseg`.
-- [[freeview]] — primary GUI for inspecting recon-all outputs and diagnosing surface errors.
+- [[wiki/tools/samseg|samseg]] — sequence-adaptive segmentation; can replace Stages 6–11 via `-autorecon2-samseg`.
+- [[wiki/tools/freeview|freeview]] — primary GUI for inspecting recon-all outputs and diagnosing surface errors.
 - [[freeview-editing]] — manual correction of `wm.mgz`, `brain.finalsurfs.mgz`, `brainmask.mgz`, and `aseg.mgz` between autorecon stages.
 - [[mksubjdirs]] — create the `$SUBJECTS_DIR/<subj>` skeleton that recon-all expects.
 

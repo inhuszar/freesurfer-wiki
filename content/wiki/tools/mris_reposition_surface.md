@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mris_make_surfaces]]"
   - "[[mri_edit_wm_with_aseg]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-15
@@ -28,7 +28,7 @@ tags:
 
 ## Summary
 
-`mris_reposition_surface` moves surface vertices near user-specified control points (a pointset file) toward local intensity gradient maxima in a reference volume. This is a targeted surface correction tool: a user places control points in [[freeview]] at locations where the automated surface placement was incorrect, and this tool nudges the surface to better fit the intensity data at those locations. It is an interactive surface editing aid.
+`mris_reposition_surface` moves surface vertices near user-specified control points (a pointset file) toward local intensity gradient maxima in a reference volume. This is a targeted surface correction tool: a user places control points in [[wiki/tools/freeview|freeview]] at locations where the automated surface placement was incorrect, and this tool nudges the surface to better fit the intensity data at those locations. It is an interactive surface editing aid.
 
 ## Source Information
 
@@ -39,7 +39,7 @@ tags:
 
 ## Purpose and Context
 
-Automated cortical surface placement can fail in regions of low contrast, lesions, or artifacts. `mris_reposition_surface` provides a semi-automated correction mechanism: the user identifies problematic regions via control points in [[freeview]], and this tool repositions nearby surface vertices to respect the local intensity profile.
+Automated cortical surface placement can fail in regions of low contrast, lesions, or artifacts. `mris_reposition_surface` provides a semi-automated correction mechanism: the user identifies problematic regions via control points in [[wiki/tools/freeview|freeview]], and this tool repositions nearby surface vertices to respect the local intensity profile.
 
 It bridges manual quality control (QC) with automated processing, reducing the need for full manual editing of surface vertices.
 
@@ -51,7 +51,7 @@ It bridges manual quality control (QC) with automated processing, reducing the n
 
 - **`-s <surf>`** — input FreeSurfer surface file (e.g., `lh.pial`, `lh.white`).
 - **`-v <volume>`** — reference MRI volume used as intensity guide (e.g., `T1.mgz`).
-- **`-p <points>`** — JSON-format pointset file (as produced by [[freeview]]) containing control point coordinates. The JSON must have keys `"points"` (array of `{coordinates: {x, y, z}}`) and `"vox2ras"` (either `"tkreg"` for tkRAS or scanner RAS).
+- **`-p <points>`** — JSON-format pointset file (as produced by [[wiki/tools/freeview|freeview]]) containing control point coordinates. The JSON must have keys `"points"` (array of `{coordinates: {x, y, z}}`) and `"vox2ras"` (either `"tkreg"` for tkRAS or scanner RAS).
 - **`-o <out>`** — output surface file path.
 
 ### Input Assumptions
@@ -119,7 +119,7 @@ mris_reposition_surface \
 `mris_reposition_surface` is not called by `recon-all`. It is used in manual surface editing workflows:
 
 1. Run `recon-all` to completion.
-2. View results in [[freeview]].
+2. View results in [[wiki/tools/freeview|freeview]].
 3. Place control points at surface errors.
 4. Run `mris_reposition_surface` to correct.
 5. Optionally re-run downstream `recon-all` stages.
@@ -129,7 +129,7 @@ mris_reposition_surface \
 ## Gotchas and Caveats
 
 > [!gotcha] Requires JSON pointset, not .dat file
-> Classic FreeSurfer control point files (`.dat`) are not accepted. Control points must be saved as a JSON pointset from [[freeview]].
+> Classic FreeSurfer control point files (`.dat`) are not accepted. Control points must be saved as a JSON pointset from [[wiki/tools/freeview|freeview]].
 
 > [!gotcha] Coordinate system mismatch
 > If the JSON `vox2ras` field is not correctly set to `"tkreg"` when using tkRAS coordinates, the tool will apply an erroneous coordinate transform and place vertices at incorrect locations.
@@ -137,7 +137,7 @@ mris_reposition_surface \
 ## Related Tools
 
 - [[mris_make_surfaces]] — automated surface placement that may be corrected with this tool
-- [[freeview]] — used to visualize surfaces and create the control point JSON files
+- [[wiki/tools/freeview|freeview]] — used to visualize surfaces and create the control point JSON files
 - [[mri_edit_wm_with_aseg]] — another semi-manual correction tool for white matter volume
 
 ## Confidence and Gaps

@@ -12,7 +12,7 @@ recon_all_stage: null
 related:
   - "[[mri_synthstrip]]"
   - "[[mri_vsinus_seg]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -168,7 +168,7 @@ It can be applied to T2-FLAIR volumes or T1-weighted volumes, although T2-FLAIR 
 
 - [[mri_synthstrip]] — skull stripping using a similar deep learning paradigm
 - [[mri_vsinus_seg]] — deep learning venous sinus segmentation
-- [[freeview]] — for visualising the segmentation output
+- [[wiki/tools/freeview|freeview]] — for visualising the segmentation output
 
 ## Confidence and Gaps
 

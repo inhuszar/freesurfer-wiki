@@ -10,7 +10,7 @@ hemispheric: false
 format: "plain text (sentinel)"
 binary: false
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 produced_in_stage: "all stages (written on success)"
 produced_at_source:
   - "[`scripts/recon-all:5946`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L5946)"
@@ -24,7 +24,7 @@ optional_for: []
 editable: false
 related:
   - "[[recon-all.log]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -36,7 +36,7 @@ tags:
 # recon-all.done
 
 > [!file] Glossary entry
-> `recon-all.done` is a sentinel file written by [[recon-all]] on successful completion. It contains the subject ID, start time, end time, and total runtime. The file's existence (in the absence of `recon-all.error`) signals that the run completed without error. The `-skipDone` flag causes recon-all to exit immediately if this file exists, enabling idempotent pipeline runs.
+> `recon-all.done` is a sentinel file written by [[wiki/pipelines/recon-all|recon-all]] on successful completion. It contains the subject ID, start time, end time, and total runtime. The file's existence (in the absence of `recon-all.error`) signals that the run completed without error. The `-skipDone` flag causes recon-all to exit immediately if this file exists, enabling idempotent pipeline runs.
 
 ## Location and Format
 
@@ -67,7 +67,7 @@ Written at the very end of a successful recon-all run.
 ## Related
 
 - [[recon-all.log]] — full processing log.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

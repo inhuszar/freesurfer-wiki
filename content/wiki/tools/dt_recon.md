@@ -9,8 +9,8 @@ families:
   - "dt_*"
 recon_all_stage: null
 related:
-  - "[[mri_glmfit]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_concat]]"
   - "[[bbregister]]"
 status: draft
@@ -188,8 +188,8 @@ dt_recon \
 
 ## Related Tools
 
-- [[mri_glmfit]] — underlying GLM/tensor fitting engine
-- [[mri_convert]] — format conversion used at start of pipeline
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — underlying GLM/tensor fitting engine
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion used at start of pipeline
 - [[mri_concat]] — used for averaging b=0 frames
 - [[bbregister]] — DWI-to-structural registration
 

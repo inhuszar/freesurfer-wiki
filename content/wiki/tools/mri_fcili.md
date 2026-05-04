@@ -93,7 +93,7 @@ mri_fcili --lh lh_timecourse.mgz --rh rh_timecourse.mgz --o /output/dir/
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Research tool for resting-state fMRI laterality analysis.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Research tool for resting-state fMRI laterality analysis.
 
 ## Gotchas and Caveats
 

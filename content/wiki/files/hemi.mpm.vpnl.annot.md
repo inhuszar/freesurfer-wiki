@@ -24,12 +24,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
 editable: false
 related:
   - "[[hemi.BA_exvivo.label]]"
   - "[[hemi.BA_exvivo.annot]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -72,7 +72,7 @@ Labels are mapped from fsaverage via `mri_label2label --regmethod surface`.
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **BA_exvivo Labels** stage, produced before the main BA_exvivo annotations in the same stage block.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **BA_exvivo Labels** stage, produced before the main BA_exvivo annotations in the same stage block.
 
 ### Inputs required
 
@@ -83,7 +83,7 @@ Labels are mapped from fsaverage via `mri_label2label --regmethod surface`.
 
 - [[hemi.BA_exvivo.annot]] — main Brodmann Area annotation produced in the same stage.
 - [[fsaverage]] — source atlas subject.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

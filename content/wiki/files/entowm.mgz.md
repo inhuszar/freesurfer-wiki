@@ -26,13 +26,13 @@ downstream_files:
   - "[[brain.finalsurfs.mgz]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2 (run by default in v8.x)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2 (run by default in v8.x)"
 editable: false
 related:
   - "[[nu.mgz]]"
   - "[[entowm.stats]]"
   - "[[wm.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -73,7 +73,7 @@ Outputs are written to `mri/entowm.mgz` and `stats/entowm.stats`.
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **EntoWM Segmentation** stage. Volumes are checked after creation; if they are implausibly low, the entoWM fix is disabled.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **EntoWM Segmentation** stage. Volumes are checked after creation; if they are implausibly low, the entoWM fix is disabled.
 
 ### Inputs required
 
@@ -94,7 +94,7 @@ Outputs are written to `mri/entowm.mgz` and `stats/entowm.stats`.
 - [[entowm.stats]] — co-produced stats.
 - [[wm.mgz]] — downstream WM volume incorporating this mask.
 - [[brain.finalsurfs.mgz]] — also corrected using this segmentation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

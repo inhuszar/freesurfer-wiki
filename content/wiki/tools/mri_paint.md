@@ -110,7 +110,7 @@ mri_paint overlay.mgz lh.white identity lh.overlay
 
 ## Pipeline Context
 
-`mri_paint` is not a standard step in the main [[recon-all]] stream. It is used in surface-based analysis pipelines where a volumetric overlay needs to be projected to a subject's surface for visualization or analysis. The modern replacement for most workflows is [[mri_vol2surf]], which provides more options and better documentation.
+`mri_paint` is not a standard step in the main [[wiki/pipelines/recon-all|recon-all]] stream. It is used in surface-based analysis pipelines where a volumetric overlay needs to be projected to a subject's surface for visualization or analysis. The modern replacement for most workflows is [[mri_vol2surf]], which provides more options and better documentation.
 
 ## Gotchas and Caveats
 

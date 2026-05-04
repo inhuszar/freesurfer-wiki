@@ -13,9 +13,9 @@ produced_by:
 consumed_by:
   - "[[mri_vol2surf]]"
   - "[[mri_surf2vol]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_concatenate_lta]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
 related:
   - "[[coordinate-systems]]"
   - "[[registration-overview]]"
@@ -481,9 +481,9 @@ testing and pipeline scripting when no transform is needed.
 | [[lta_convert]] | read/write | any | Converts between LTA types and related formats |
 | [[mri_vol2surf]] | read | any (converts internally) | Projects volume onto surface |
 | [[mri_surf2vol]] | read | any | Projects surface scalars into volume |
-| [[mri_convert]] | read | any | Applies transform during conversion |
+| [[wiki/tools/mri_convert|mri_convert]] | read | any | Applies transform during conversion |
 | [[mri_concatenate_lta]] | read/write | `LINEAR_RAS_TO_RAS` | Concatenates two LTAs |
-| [[freeview]] | read | any | Loads transforms for display |
+| [[wiki/tools/freeview|freeview]] | read | any | Loads transforms for display |
 | `mri_robust_register` | write | `LINEAR_RAS_TO_RAS` | Robust registration |
 | `mri_fslmat_to_lta` | write | `LINEAR_RAS_TO_RAS` | Converts FSL `.mat` → LTA |
 

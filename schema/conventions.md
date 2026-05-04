@@ -35,7 +35,7 @@ tags:
 type: gui-application            # or gui-panel
 replaces:                        # legacy tools this supersedes
   - "[[tkmedit]]"
-parent_application: "[[freeview]]"  # for gui-panel pages
+parent_application: "[[wiki/tools/freeview|freeview]]"  # for gui-panel pages
 data_formats_supported:             # for gui-panel pages
   - "[[mgz]]"
 related_panels:                     # for gui-panel pages
@@ -54,17 +54,66 @@ sources:                         # what feeds this FAQ page
 
 ## Wikilink Conventions
 
-- Tool pages: `[[mri_convert]]`
+Default form is the bare filename (without `.md`). Both Obsidian and
+Quartz (`markdownLinkResolution: "shortest"`) resolve a bare wikilink
+to its file **only when that basename is unique across the vault**.
+
+- Tool pages: `[[mri_info]]`
 - Concept pages: `[[coordinate-systems]]`
 - Format pages: `[[mgz]]`
 - Pipeline pages: `[[recon-all-stages]]`
 - Gotcha pages: `[[gotcha-talairach-vs-mni]]`
 - Internal pages: `[[internal-mri-io]]`
-- FAQ pages: `[[faq-freeview]]`, `[[faq-coordinates]]`
 - GUI sub-pages: `[[freeview-volumes]]`, `[[freeview-editing]]`
 
-All wikilinks use the filename (without `.md`). Obsidian resolves them
-automatically regardless of subdirectory.
+### Path-Qualified Wikilinks (Required for Colliding Basenames)
+
+When the same basename exists in more than one folder under `wiki/`,
+a bare `[[name]]` is **ambiguous**: Quartz silently emits a literal
+`./name` href, which is a 404 on the published site. Always use the
+path-qualified form for the colliding slug:
+
+```
+[[wiki/<folder>/<name>|<display-text>]]
+```
+
+The path is the slug under `content/` after `publish.sh` runs
+(`wiki/<folder>/<name>`, no leading `/`, no `.md`). The alias keeps the
+rendered text short.
+
+Currently colliding basenames and their canonical targets:
+
+| basename       | canonical target                       | also exists at      |
+|----------------|----------------------------------------|---------------------|
+| `recon-all`    | `[[wiki/pipelines/recon-all\|recon-all]]`   | `wiki/faq/recon-all.md`   |
+| `freeview`     | `[[wiki/tools/freeview\|freeview]]`         | `wiki/faq/freeview.md`    |
+| `mri_convert`  | `[[wiki/tools/mri_convert\|mri_convert]]`   | `wiki/faq/mri_convert.md` |
+| `mri_glmfit`   | `[[wiki/tools/mri_glmfit\|mri_glmfit]]`     | `wiki/faq/mri_glmfit.md`  |
+| `samseg`       | `[[wiki/tools/samseg\|samseg]]`             | `wiki/faq/samseg.md`      |
+
+Default to the **tool/pipeline page**. Link to the FAQ explicitly only
+when the surrounding text is about the FAQ entry itself
+(`[[wiki/faq/recon-all|recon-all FAQ]]`).
+
+When **adding a new page**, before choosing its filename run:
+
+```bash
+find wiki -name "<basename>.md"
+```
+
+If it returns any hit, either pick a different filename **or** be
+prepared to migrate every existing `[[<basename>]]` to the
+path-qualified form in the same change.
+
+### FAQ Page References
+
+FAQ pages live at `wiki/faq/<topic>.md`. Because their basename almost
+always collides with a tool, pipeline, or concept page of the same
+topic, FAQ wikilinks are **always** path-qualified:
+
+- `[[wiki/faq/freeview|FreeView FAQ]]`
+- `[[wiki/faq/coordinates|coordinates FAQ]]`
+- `[[wiki/faq/recon-all|recon-all FAQ]]`
 
 ## Callout Conventions
 
@@ -102,7 +151,7 @@ automatically regardless of subdirectory.
 ## Volumetric Tools (`mri_*`)
 | Tool | Summary | Source | Status |
 |------|---------|--------|--------|
-| [[mri_convert]] | Format conversion and basic transforms | C | ✅ verified |
+| [[wiki/tools/mri_convert|mri_convert]] | Format conversion and basic transforms | C | ✅ verified |
 
 ## Surface Tools (`mris_*`)
 ...

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -99,7 +99,7 @@ mri_copy_params processed.mgz correctly_oriented.mgz reoriented.mgz --ras
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in:
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in:
 - Post-processing data repair
 - Format conversion pipelines where header fidelity must be maintained
 - Copying acquisition metadata from raw DICOM-derived volumes to processed outputs
@@ -110,11 +110,11 @@ Not called by [[recon-all]]. Used in:
 > The default (no flags) copies the entire header from `template_vol`, including voxel size, dimensions metadata, and all acquisition parameters. This may overwrite information that was correctly set in `in_vol`.
 
 > [!gotcha] Volume dimensions are not changed
-> `mri_copy_params` never resamples data. If `template_vol` has different dimensions than `in_vol`, the geometry will be inconsistent with the data. Use [[mri_convert]] if resampling is needed.
+> `mri_copy_params` never resamples data. If `template_vol` has different dimensions than `in_vol`, the geometry will be inconsistent with the data. Use [[wiki/tools/mri_convert|mri_convert]] if resampling is needed.
 
 ## Related Tools
 
-- [[mri_convert]] — general conversion with geometry modification options
+- [[wiki/tools/mri_convert|mri_convert]] — general conversion with geometry modification options
 - [[mri_info]] — display volume header parameters
 
 ## Confidence and Gaps

@@ -4,12 +4,12 @@ type: concept
 fs_version: "8.2.0"
 related_tools:
   - "[[mri_info]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_vol2vol]]"
   - "[[mri_vol2surf]]"
   - "[[mri_surf2vol]]"
   - "[[tkregister2]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[mri_em_register]]"
   - "[[talairach_avi]]"
   - "[[mris_convert]]"
@@ -188,7 +188,7 @@ Surface RAS — see §3.3.
 - `.xfm` files in `mri/transforms/` (specifically `talairach.xfm`) are
   Scanner-RAS → Scanner-RAS matrices: they map a scanner-RAS point in the
   subject's `orig.mgz` space to a scanner-RAS point in MNI305 space.
-- Scanner RAS is what `tkmedit` / [[freeview]] displays in the "RAS:" field
+- Scanner RAS is what `tkmedit` / [[wiki/tools/freeview|freeview]] displays in the "RAS:" field
   when you enable "Show scanner coordinates".
 
 ### 3.3 Surface RAS (tkregister RAS)
@@ -287,7 +287,7 @@ in order). The source function that does this directly from a CRS is
 `TransformCRS2MNI305()` at [[`utils/transform.cpp:5190`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L5190).
 
 **The "Talairach" confusion.** Every FreeSurfer output labelled
-*Talairach* — in `tkmedit`, in [[freeview]], in `mri_info --mni`, in the
+*Talairach* — in `tkmedit`, in [[wiki/tools/freeview|freeview]], in `mri_info --mni`, in the
 `aseg.stats` Talairach columns — is actually reporting a point in MNI305.
 The spaces are related but not identical: MNI305 is defined by a
 population-average MRI atlas, whereas Talairach-88 is defined by slice-level
@@ -710,7 +710,7 @@ vertex-coordinate frame.
 is the conformed (256³, 1 mm, LIA) version. Their Scanner-RAS direction
 cosines will usually differ (rawavg is whatever the scanner produced,
 orig is LIA), and their Vox2Vox is the conform transform computed by
-[[mri_convert]]. Surfaces are always tessellated from `orig.mgz`, so all
+[[wiki/tools/mri_convert|mri_convert]]. Surfaces are always tessellated from `orig.mgz`, so all
 FreeSurfer surface spaces are relative to the *conformed* orig grid, not
 the raw acquisition. To move surfaces back to `rawavg.mgz` space,
 use the registration `$SUBJECTS_DIR/<subj>/mri/transforms/talairach.xfm`'s
@@ -730,14 +730,14 @@ is the identity.
 | Tool | Relationship |
 |------|--------------|
 | [[mri_info]] | `--vox2ras`, `--vox2ras-tkr`, `--ras2vox`, `--cras`, `--tkr2scanner`, `--mni` — all introspect the matrices described here |
-| [[mri_convert]] | `--conform`, `--apply_transform`, `--upsample` all touch Vox2RAS; conform sets the LIA direction cosines that make Surface and Scanner RAS differ only by `c_ras` |
+| [[wiki/tools/mri_convert|mri_convert]] | `--conform`, `--apply_transform`, `--upsample` all touch Vox2RAS; conform sets the LIA direction cosines that make Surface and Scanner RAS differ only by `c_ras` |
 | [[mri_vol2vol]] | `--reg` consumes a register.dat/LTA; `--regheader` re-uses the Vox2RAS pair directly for "same-physical-space" resampling |
 | [[mri_vol2surf]] | Uses §7.5 (plus `--reg` for cross-modality) to sample volumetric data at surface vertices |
 | [[mri_surf2vol]] | Inverse: writes a volume where each voxel picks up the surface value from the nearest vertex in Surface RAS |
 | [[talairach_avi]] | Produces `talairach.xfm` (Scanner-RAS → MNI305) and its companion `.xfm.lta` |
 | [[mri_em_register]] | Estimates an LTA between a volume and a GCA atlas in Scanner-RAS space, used to refine `talairach.xfm` in `autorecon1` |
 | [[tkregister2]] | Hand-editing of a `register.dat` in Surface-RAS space; the historical reason the tkregister convention exists |
-| [[freeview]] | Displays Surface, Scanner, and "Talairach" RAS in parallel; `Mfix` and `talairach.xfm` applied on the fly |
+| [[wiki/tools/freeview|freeview]] | Displays Surface, Scanner, and "Talairach" RAS in parallel; `Mfix` and `talairach.xfm` applied on the fly |
 | [[mri_aparc2aseg]] | Uses §7.4 to find the Surface RAS of each aseg voxel |
 | [[mris_convert]] | `--to-scanner` / `--to-tkr` writes surfaces with `useRealRAS=1` / `useRealRAS=0` respectively |
 | [[lta_convert]] | Converts between `.lta`, `.xfm`, `.mat`, `.dat`, `.txt` — i.e. between the transform types in §8.4 |

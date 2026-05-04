@@ -135,7 +135,7 @@ mris_jacobian -invert lh.sphere lh.sphere.reg lh.inv_jacobian.mgz
 
 Not part of standard `recon-all` (though some advanced scripts may compute it). Used in group-level morphometric analyses:
 
-1. [[recon-all]] produces `lh.sphere.reg`
+1. [[wiki/pipelines/recon-all|recon-all]] produces `lh.sphere.reg`
 2. `mris_jacobian lh.sphere lh.sphere.reg lh.jacobian.mgz`
 3. Jacobian is resampled to fsaverage space and used in group GLMs
 

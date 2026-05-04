@@ -170,7 +170,7 @@ mris_fwhm --s bert --h lh --synth --synth-frames 1000 --cortex --sum fwhm.synth.
 
 `mris_fwhm` is not part of the `recon-all` pipeline. It is used in group-level analysis workflows, typically:
 
-1. After [[recon-all]] produces per-subject surface data
+1. After [[wiki/pipelines/recon-all|recon-all]] produces per-subject surface data
 2. After `mri_preproc` / [[mris_preproc]] resamples data to common space (fsaverage)
 3. Before running surface GLMs (e.g., with `mri_glmfit`)
 

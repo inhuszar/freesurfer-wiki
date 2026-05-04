@@ -59,7 +59,7 @@ mri_vol2vol --mov vol1.mgz --targ vol2.mgz \
 mri_convert run2.nii.gz --in_like run1.nii.gz run2-in-run1.nii.gz
 ```
 
-[[mri_convert]] `--in_like` copies header geometry (vox2ras) from a
+[[wiki/tools/mri_convert|mri_convert]] `--in_like` copies header geometry (vox2ras) from a
 reference volume but **requires identical matrix dimensions** between
 input and reference, otherwise it errors out with "volume sizes do not
 match". For mixed-resolution data the LTA-based [[mri_vol2vol]]
@@ -69,12 +69,12 @@ approach is the recommended path.
 > from one volume, substitute another volume's data, write) silently
 > fails when voxel sizes differ — it does not correct the vox2ras
 > scaling, and the resulting file reports incorrect RAS coordinates in
-> [[freeview]].
+> [[wiki/tools/freeview|freeview]].
 
 **Provenance:** Mailing list, 2023-08-18 to 2023-08-28 (Greve / Proulx).
 See `raw/mailing-list/2023-08-mri-vol2vol-copy-header-geometry-no-resample.md`.
 
-**Related:** [[mri_vol2vol]], [[mri_convert]], [[coordinate-systems]],
+**Related:** [[mri_vol2vol]], [[wiki/tools/mri_convert|mri_convert]], [[coordinate-systems]],
 [[lta-format]]
 
 ---
@@ -292,21 +292,21 @@ mri_vol2surf --closest-vertex 45.2 -18.7 32.1 \
 
 Output is a single-vertex `.mgz` containing the index of the nearest
 vertex on `surf`. Use `coords=1` (scanner RAS) when the XYZ comes from
-[[freeview]]'s "Scanner" coordinate display, and `coords=2` (tkreg RAS)
+[[wiki/tools/freeview|freeview]]'s "Scanner" coordinate display, and `coords=2` (tkreg RAS)
 when it comes from the "tkReg" display. `nofile` is only correct when
 the coordinate already lives in the conformed anatomical space (1 mm,
 256³); otherwise pass an LTA mapping the coordinate frame to the
 anatomical.
 
 A typical use is lesion-to-cortex distance: take the centre-of-mass or
-edge of a lesion mask in [[freeview]], find the nearest white-surface
+edge of a lesion mask in [[wiki/tools/freeview|freeview]], find the nearest white-surface
 vertex with `--closest-vertex`, then propagate that vertex on the
 surface for geodesic distance with [[mris_pmake]].
 
 **Provenance:** Mailing list, 2023-11-22 (Greve). See
 `raw/mailing-list/2023-11-mri-vol2surf-closest-vertex-to-coordinate.md`.
 
-**Related:** [[mri_vol2surf]], [[freeview]], [[coordinate-systems]],
+**Related:** [[mri_vol2surf]], [[wiki/tools/freeview|freeview]], [[coordinate-systems]],
 [[surface-representations]]
 
 ---
@@ -314,13 +314,13 @@ surface for geodesic distance with [[mris_pmake]].
 ### How do I visualise where `mri_vol2surf` is sampling on the volume?
 
 **Short answer:** Load both the input volume and the surface output as
-overlays in [[freeview]], using the same registration on the volume.
+overlays in [[wiki/tools/freeview|freeview]], using the same registration on the volume.
 
 **Detail:** [[mri_vol2surf]] computes, per vertex, a point in volume
 space (white-surface position displaced by `--projfrac` × cortical
 thickness along the normal), reads the volume value at that point, and
 writes it to the surface overlay. To inspect where those sampling
-points actually fall, [[freeview]] can show both sides at once:
+points actually fall, [[wiki/tools/freeview|freeview]] can show both sides at once:
 
 ```bash
 freeview mri/nu.mgz:overlay=overlay.mgz:reg=register.lta \
@@ -348,7 +348,7 @@ the `.dat` vs `.lta` entry above) is the most common culprit.
 **Provenance:** Mailing list, 2024-12-10 (Greve). See
 `raw/mailing-list/2024-12-mri-vol2surf-visualize-sampling-with-freeview-overlay.md`.
 
-**Related:** [[mri_vol2surf]], [[freeview]], [[freeview-surfaces]],
+**Related:** [[mri_vol2surf]], [[wiki/tools/freeview|freeview]], [[freeview-surfaces]],
 [[freeview-volumes]]
 
 ---
@@ -631,7 +631,7 @@ so the tool can map cluster peaks to fsaverage anatomy.
 **Detail:** [[mri_volcluster]] looks up anatomical names by querying the
 [[fsaverage]] segmentation / Talairach atlas at each cluster peak. This
 requires a registration that maps the input volume's coordinate frame
-to fsaverage anatomy. After [[mri_glmfit]] on fsaverage data the input
+to fsaverage anatomy. After [[wiki/tools/mri_glmfit|mri_glmfit]] on fsaverage data the input
 is in 2 mm MNI305 space, and that registration is **not** inferred
 automatically — you must pass it explicitly:
 
@@ -660,7 +660,7 @@ ls $SUBJECTS_DIR/fsaverage/mri.2mm/reg.2mm.dat
 **Provenance:** Mailing list, 2023-11-25 (Greve). See
 `raw/mailing-list/2023-11-mri-volcluster-roi-names-mni305-reg-2mm.md`.
 
-**Related:** [[mri_volcluster]], [[mri_glmfit]], [[fsaverage]],
+**Related:** [[mri_volcluster]], [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsaverage]],
 [[coordinate-systems]]
 
 ---

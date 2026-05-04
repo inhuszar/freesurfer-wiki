@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_info]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
 status: draft
@@ -151,7 +151,7 @@ Not part of standard `recon-all`. Used in:
 ## Related Tools
 
 - [[mri_info]] — for reading and displaying header fields
-- [[mri_convert]] — for format conversion; also provides some header field editing
+- [[wiki/tools/mri_convert|mri_convert]] — for format conversion; also provides some header field editing
 - [[coordinate-systems]] — explains the meaning of direction cosines and cras
 
 ## Confidence and Gaps

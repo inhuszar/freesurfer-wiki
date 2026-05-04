@@ -24,11 +24,11 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2"
 editable: false
 related:
   - "[[vsinus.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -66,12 +66,12 @@ mri_segstats --i $invol --seg $seg --sum $stats \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Venous Sinus Segmentation** stage.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Venous Sinus Segmentation** stage.
 
 ## Related
 
 - [[vsinus.mgz]] — co-produced segmentation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

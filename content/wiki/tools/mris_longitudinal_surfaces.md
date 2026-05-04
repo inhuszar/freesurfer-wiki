@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mris_make_surfaces]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[surface-format]]"
 status: draft
 confidence: low
@@ -232,7 +232,7 @@ Historically part of `recon-all -long`. Current FreeSurfer 8.2.0 longitudinal pi
 ## Related Tools
 
 - [[mris_make_surfaces]] — the current primary surface placement tool
-- [[recon-all]] — orchestrates longitudinal processing with `-long`
+- [[wiki/pipelines/recon-all|recon-all]] — orchestrates longitudinal processing with `-long`
 
 ## Confidence and Gaps
 

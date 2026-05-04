@@ -95,7 +95,7 @@ mri_edit_wm_with_aseg -entowm entowm.mgz <level> <lhval> <rhval> \
 
 ## Pipeline Context
 
-`mri_entowm_seg` is not a standard `[[recon-all]]` step but is called in modified pipelines that incorporate entorhinal WM refinement. Its output feeds into `[[mri_edit_wm_with_aseg]]` via the `-entowm` flag.
+`mri_entowm_seg` is not a standard `[[wiki/pipelines/recon-all|recon-all]]` step but is called in modified pipelines that incorporate entorhinal WM refinement. Its output feeds into `[[mri_edit_wm_with_aseg]]` via the `-entowm` flag.
 
 ## Gotchas and Caveats
 

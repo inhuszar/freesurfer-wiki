@@ -28,7 +28,7 @@ downstream_files:
   - "[[hemi.white]]"
   - "[[hemi.pial]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: WhitePreAparc; autorecon3: White, Pial"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: WhitePreAparc; autorecon3: White, Pial"
 optional_for: []
 editable: false
 related:
@@ -37,7 +37,7 @@ related:
   - "[[mris_place_surface]]"
   - "[[hemi.white.preaparc]]"
   - "[[hemi.white]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -82,7 +82,7 @@ mris_autodet_gwstats \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **AutoDetGWStats** stage (`-autodet-gw-stats`). Touch sentinel: `touch/$hemi.autodet.gw.stats.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **AutoDetGWStats** stage (`-autodet-gw-stats`). Touch sentinel: `touch/$hemi.autodet.gw.stats.touch`.
 
 ### Inputs required
 
@@ -108,7 +108,7 @@ mris_autodet_gwstats \
 - [[brain.finalsurfs.mgz]] — intensity reference.
 - [[mris_place_surface]] — primary consumer.
 - [[hemi.white.preaparc]], [[hemi.white]], [[hemi.pial]] — surfaces produced using these stats.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

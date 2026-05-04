@@ -22,12 +22,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: Parcellation Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Parcellation Stats"
 editable: false
 related:
   - "[[hemi.aparc.annot]]"
   - "[[hemi.aparc.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -68,7 +68,7 @@ mris_anatomical_stats -th3 -mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **Parcellation Stats** stage. Written once (on the first `mris_anatomical_stats` call for the white surface).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **Parcellation Stats** stage. Written once (on the first `mris_anatomical_stats` call for the white surface).
 
 ### Inputs required
 
@@ -80,7 +80,7 @@ mris_anatomical_stats -th3 -mgz \
 - [[hemi.aparc.stats]] — co-produced stats file.
 - [[aparc.annot.a2009s.ctab]] — Destrieux atlas color table.
 - [[aparc.annot.DKTatlas.ctab]] — DKT atlas color table.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

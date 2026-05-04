@@ -90,7 +90,7 @@ mri_elastic_energy talairach.m3z elastic_energy.mgz
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used for research/diagnostic purposes to assess registration quality of GCAM morphs.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used for research/diagnostic purposes to assess registration quality of GCAM morphs.
 
 ## Gotchas and Caveats
 

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_concat]]"
   - "[[fsgd-format]]"
 status: draft
@@ -29,7 +29,7 @@ tags:
 
 ## Summary
 
-`mri_gdfglm` performs a general linear model (GLM) analysis given a [[fsgd-format|FreeSurfer Group Descriptor File]] (GDF/FSGD) and a dependent variable table. It fits a GLM model where the design matrix is specified via class membership and covariate information encoded in the FSGD file format, and the outcome variable is provided as a tabular text file (Dependent Variable Table, DVT). This tool is located in the `attic/` subdirectory, indicating it is legacy code likely superseded by [[mri_glmfit]].
+`mri_gdfglm` performs a general linear model (GLM) analysis given a [[fsgd-format|FreeSurfer Group Descriptor File]] (GDF/FSGD) and a dependent variable table. It fits a GLM model where the design matrix is specified via class membership and covariate information encoded in the FSGD file format, and the outcome variable is provided as a tabular text file (Dependent Variable Table, DVT). This tool is located in the `attic/` subdirectory, indicating it is legacy code likely superseded by [[wiki/tools/mri_glmfit|mri_glmfit]].
 
 ## Source Information
 
@@ -42,10 +42,10 @@ tags:
 
 `mri_gdfglm` was an early GLM tool for group-level analysis using FreeSurfer's [[fsgd-format|FSGD]] (Group Descriptor File) format. Rather than operating voxel- or vertex-wise on volumetric or surface data, it reads a Dependent Variable Table (DVT) — a matrix of scalar measurements (one per subject, one per measurement type) — and performs a regression using classes and covariates from the [[fsgd-format|FSGD]] file.
 
-Its primary use was for ROI-based or summary-statistic analyses where data had been collapsed into a scalar table rather than retained as a volume. The modern replacement is [[mri_glmfit]], which supports both vertex/voxel-wise analysis and tabular input via `--table`.
+Its primary use was for ROI-based or summary-statistic analyses where data had been collapsed into a scalar table rather than retained as a volume. The modern replacement is [[wiki/tools/mri_glmfit|mri_glmfit]], which supports both vertex/voxel-wise analysis and tabular input via `--table`.
 
 > [!gotcha] Legacy tool
-> `mri_gdfglm` lives in `attic/` and may not be present in compiled distributions of FreeSurfer 8.2.0. Use [[mri_glmfit]] with `--table` or `--fsgd` for equivalent modern functionality.
+> `mri_gdfglm` lives in `attic/` and may not be present in compiled distributions of FreeSurfer 8.2.0. Use [[wiki/tools/mri_glmfit|mri_glmfit]] with `--table` or `--fsgd` for equivalent modern functionality.
 
 ## Inputs
 
@@ -137,19 +137,19 @@ mri_gdfglm --gdf study.fsgd --dvt measurements.dat \
 
 ## Pipeline Context
 
-`mri_gdfglm` is not called by `recon-all`. It is a standalone statistical tool for group analysis. It predates and was effectively replaced by [[mri_glmfit]], which handles both tabular and voxel/vertex-wise data within a single unified interface.
+`mri_gdfglm` is not called by `recon-all`. It is a standalone statistical tool for group analysis. It predates and was effectively replaced by [[wiki/tools/mri_glmfit|mri_glmfit]], which handles both tabular and voxel/vertex-wise data within a single unified interface.
 
 ## Gotchas and Caveats
 
 > [!gotcha] Attic location
-> This tool is in `attic/` and may not be compiled or installed in FreeSurfer 8.2.0 distributions. Always check whether the binary exists before depending on it. Use [[mri_glmfit]] `--table` for equivalent functionality.
+> This tool is in `attic/` and may not be compiled or installed in FreeSurfer 8.2.0 distributions. Always check whether the binary exists before depending on it. Use [[wiki/tools/mri_glmfit|mri_glmfit]] `--table` for equivalent functionality.
 
 > [!gap] DVT format specification
 > The exact format of the Dependent Variable Table (DVT) file is not publicly documented. It appears to be a whitespace-delimited text matrix with optional row/column name headers. Needs verification.
 
 ## Related Tools
 
-- [[mri_glmfit]] — modern replacement, operates voxel/vertex-wise or on tabular data
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — modern replacement, operates voxel/vertex-wise or on tabular data
 - [[mri_concat]] — used to assemble multi-subject surface/volume data stacks
 - [[fsgd-format]] — group descriptor file format specification
 

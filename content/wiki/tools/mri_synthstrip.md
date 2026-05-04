@@ -15,10 +15,10 @@ families:
   - "synthstrip"
 recon_all_stage: "autorecon1"
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_watershed]]"
   - "[[mri_em_register]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -59,7 +59,7 @@ low-quality data, but requires a CPU or GPU with PyTorch and
 > 260, 119474, 2022.
 > <https://doi.org/10.1016/j.neuroimage.2022.119474>
 
-Within [[recon-all]], `mri_synthstrip` is invoked early in
+Within [[wiki/pipelines/recon-all|recon-all]], `mri_synthstrip` is invoked early in
 autorecon1 (Stage 1, before the classic watershed Stage 5) when
 the `$SynthStrip` flag is set:
 
@@ -123,7 +123,7 @@ learned features from any specific acquisition protocol. At
 inference time, it is therefore robust to whatever contrast
 it sees.
 
-Within [[recon-all]]'s autorecon1, `mri_synthstrip` is
+Within [[wiki/pipelines/recon-all|recon-all]]'s autorecon1, `mri_synthstrip` is
 invoked when `$SynthStrip = 1` (enabled by `-use-synthstrip`
 or the v8 XOpts file). It runs on `orig.mgz` to produce an
 intermediate `synthstrip.mgz`, which is then used later to
@@ -360,7 +360,7 @@ bounding box.
 > `transforms/talairach_with_skull.lta` **does not exist**.
 > Any downstream tool or custom script that depends on this
 > LTA must account for its absence under SynthStrip mode.
-> See the `[!gotcha]` in the [[recon-all]] pipeline page.
+> See the `[!gotcha]` in the [[wiki/pipelines/recon-all|recon-all]] pipeline page.
 
 > [!gotcha] `-i` and `-m` share geometry, but `-o` does not
 > necessarily
@@ -472,7 +472,7 @@ container, bypassing local Python / PyTorch installation.
 
 ## Pipeline Context
 
-**Predecessor (in recon-all):** [[mri_convert]] → `orig.mgz`
+**Predecessor (in recon-all):** [[wiki/tools/mri_convert|mri_convert]] → `orig.mgz`
 (Stage 1). `mri_synthstrip` is called on `orig.mgz` before
 [[mri_nu_correct.mni]], [[talairach_avi]], [[mri_normalize]],
 or any other stage runs. This is different from
@@ -484,7 +484,7 @@ in Stage 5.
   `mri_mask` in Stage 5 to produce `brainmask.mgz`.
 - `brainmask.mgz` then feeds every autorecon2 stage.
 
-**Predecessor:** [[mri_convert]] → **mri_synthstrip** →
+**Predecessor:** [[wiki/tools/mri_convert|mri_convert]] → **mri_synthstrip** →
 **Successor:** `mri_mask` → [[mri_em_register]].
 
 > [!gotcha] mri_synthstrip bypasses two stages
@@ -537,7 +537,7 @@ in Stage 5.
 - `mri_synthsr` — sister tool for super-resolution.
 - [[mri_em_register]] — the classical atlas-aware registration
   that SynthStrip's `recon-all` path bypasses.
-- [[mri_convert]] — produces `orig.mgz`, the input to
+- [[wiki/tools/mri_convert|mri_convert]] — produces `orig.mgz`, the input to
   `mri_synthstrip` in `recon-all`.
 - [[mri_normalize]] — bias-corrects `orig.mgz` into `T1.mgz`,
   which `mri_synthstrip` does *not* require because it is

@@ -11,7 +11,7 @@ recon_all_stage: "autorecon2"
 related:
   - "[[mri_ca_label]]"
   - "[[mri_segment]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
 status: draft
@@ -39,7 +39,7 @@ tags:
 
 ## Purpose and Context
 
-The corpus callosum is a large white matter commissure connecting the two cerebral hemispheres. In the [[recon-all]] pipeline, the initial [[mri_ca_label]] step produces an aseg without fine CC subdivision. `mri_cc` post-processes the aseg by identifying the midsagittal CC voxels and dividing them into five anatomically-defined regions:
+The corpus callosum is a large white matter commissure connecting the two cerebral hemispheres. In the [[wiki/pipelines/recon-all|recon-all]] pipeline, the initial [[mri_ca_label]] step produces an aseg without fine CC subdivision. `mri_cc` post-processes the aseg by identifying the midsagittal CC voxels and dividing them into five anatomically-defined regions:
 
 | Label | CC Region |
 |-------|-----------|
@@ -136,7 +136,7 @@ mri_cc -d 7 -o aseg_with_cc_7.mgz bert
 
 ## Pipeline Context
 
-In [[recon-all]], `mri_cc` runs in autorecon2 after [[mri_ca_label]] produces the initial `aseg.mgz`. The output `aseg_with_cc.mgz` feeds into subsequent WM editing and surface generation steps. The pipeline call is approximately:
+In [[wiki/pipelines/recon-all|recon-all]], `mri_cc` runs in autorecon2 after [[mri_ca_label]] produces the initial `aseg.mgz`. The output `aseg_with_cc.mgz` feeds into subsequent WM editing and surface generation steps. The pipeline call is approximately:
 
 ```bash
 mri_cc -norm norm.mgz -aseg aseg.mgz -o aseg_with_cc.mgz subject
@@ -157,7 +157,7 @@ mri_cc -norm norm.mgz -aseg aseg.mgz -o aseg_with_cc.mgz subject
 
 - [[mri_ca_label]] — produces the input aseg.mgz that this tool processes
 - [[mri_segment]] — WM segmentation that precedes ca_label
-- [[recon-all]] — calls mri_cc in autorecon2
+- [[wiki/pipelines/recon-all|recon-all]] — calls mri_cc in autorecon2
 
 ## Confidence and Gaps
 

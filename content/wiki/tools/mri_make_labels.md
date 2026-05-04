@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_segment]]"
   - "[[mri_binarize]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-15
@@ -93,7 +93,7 @@ Not invoked in standard `recon-all`. This was a pre-processing utility for group
 
 - [[mri_segment]] — produces segmentation volumes
 - [[mri_binarize]] — for thresholding and binarization before label extraction
-- [[mri_convert]] — for format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — for format conversion
 
 ## Confidence and Gaps
 

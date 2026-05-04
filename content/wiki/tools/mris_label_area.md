@@ -127,7 +127,7 @@ mris_label_area -l lh.areas.log bert lh white aparc 42
 Not part of `recon-all`. Used in post-processing for extracting area measurements from cortical parcellations.
 
 Typical context:
-1. [[recon-all]] produces `?h.aparc.annot`
+1. [[wiki/pipelines/recon-all|recon-all]] produces `?h.aparc.annot`
 2. `mris_label_area` extracts per-region areas
 3. Results are aggregated across subjects for group comparisons
 

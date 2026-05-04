@@ -114,7 +114,7 @@ mri_refine_seg --in aseg.mgz --out aseg_refined.mgz --debug
 
 ## Pipeline Context
 
-`mri_refine_seg` is not a standard step in the main [[recon-all]] stream. It can be used as a post-processing step after any automated segmentation that may produce disconnected clusters. It is conceptually related to [[mri_relabel_hypointensities]], which also performs label reassignment based on local context.
+`mri_refine_seg` is not a standard step in the main [[wiki/pipelines/recon-all|recon-all]] stream. It can be used as a post-processing step after any automated segmentation that may produce disconnected clusters. It is conceptually related to [[mri_relabel_hypointensities]], which also performs label reassignment based on local context.
 
 ## Gotchas and Caveats
 

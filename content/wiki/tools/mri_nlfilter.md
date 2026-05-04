@@ -149,7 +149,7 @@ mri_nlfilter -blur 0 input.mgz output.mgz
 
 ## Pipeline Context
 
-`mri_nlfilter` is not a standard step in the main [[recon-all]] processing stream. It was historically used as a preprocessing step for segmentation, and may be invoked in custom scripts that require intensity-domain preprocessing or edge sharpening before surface reconstruction.
+`mri_nlfilter` is not a standard step in the main [[wiki/pipelines/recon-all|recon-all]] processing stream. It was historically used as a preprocessing step for segmentation, and may be invoked in custom scripts that require intensity-domain preprocessing or edge sharpening before surface reconstruction.
 
 ## Gotchas and Caveats
 

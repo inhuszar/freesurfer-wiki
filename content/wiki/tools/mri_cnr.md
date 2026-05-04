@@ -123,7 +123,7 @@ mri_cnr -t $SUBJECTS_DIR/bert/surf \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Typically run as a post-processing quality control step after the cortical surfaces have been generated (after autorecon2/3), since the tool requires `lh.white`, `lh.pial`, `rh.white`, and `rh.pial`.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Typically run as a post-processing quality control step after the cortical surfaces have been generated (after autorecon2/3), since the tool requires `lh.white`, `lh.pial`, `rh.white`, and `rh.pial`.
 
 ## Gotchas and Caveats
 

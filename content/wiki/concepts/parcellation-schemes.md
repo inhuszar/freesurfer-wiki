@@ -8,7 +8,7 @@ related_tools:
   - "[[mris_anatomical_stats]]"
   - "[[mri_segstats]]"
   - "[[mri_label2vol]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
 related_concepts:
   - "[[surface-representations]]"
   - "[[registration-overview]]"
@@ -376,7 +376,7 @@ standard recon-all pipeline.
 | [[mri_segstats]] | Computes per-label volume statistics from `aparc+aseg.mgz` |
 | [[mri_label2vol]] | Converts a `.annot` or `.label` file to a volumetric mask |
 | [[mri_annotation2label]] | Splits a `.annot` into individual per-region `.label` files |
-| [[freeview]] | Displays annotation overlay on the surface |
+| [[wiki/tools/freeview|freeview]] | Displays annotation overlay on the surface |
 | `mris_ca_train` | Trains a new GCSA atlas from manually labelled subjects |
 
 ---
@@ -410,7 +410,7 @@ standard recon-all pipeline.
 > `?h.sphere.reg`. If spherical registration ([[mris_register]]) to the [[fsaverage]]
 > atlas failed or converged poorly, the parcellation will be inaccurate regardless
 > of which scheme is used. Inspect `sphere.reg` overlay on `fsaverage` in
-> [[freeview]] if parcellation results look anatomically implausible.
+> [[wiki/tools/freeview|freeview]] if parcellation results look anatomically implausible.
 
 > [!gotcha] The `.a2009s` suffix does not mean "year 2009 atlas"
 > The suffix stands for "atlas 2009 **sulci**" — it is the Destrieux scheme

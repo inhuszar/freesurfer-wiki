@@ -125,7 +125,7 @@ mri_ctab_fix -2 Atlas1_orig.txt Atlas2_orig.txt MergedAtlas.txt \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in atlas creation and multi-atlas fusion workflows.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in atlas creation and multi-atlas fusion workflows.
 
 ## Gotchas and Caveats
 

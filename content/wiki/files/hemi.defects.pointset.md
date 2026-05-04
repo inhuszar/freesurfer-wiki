@@ -27,12 +27,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2: Fix Topology (via defect2seg)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fix Topology (via defect2seg)"
 editable: false
 related:
   - "[[hemi.defect_labels]]"
   - "[[hemi.orig.nofix]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -55,7 +55,7 @@ tags:
 
 ### Producing tool
 
-`mris_defects_pointset` — reads [[hemi.orig.nofix]] and [[hemi.defect_labels]], computes defect centroids, and writes the pointset. Called from `defect2seg`, which is called by [[recon-all]] after Fix Topology.
+`mris_defects_pointset` — reads [[hemi.orig.nofix]] and [[hemi.defect_labels]], computes defect centroids, and writes the pointset. Called from `defect2seg`, which is called by [[wiki/pipelines/recon-all|recon-all]] after Fix Topology.
 
 ```bash
 # defect2seg invocation (recon-all line 3783)
@@ -74,7 +74,7 @@ mris_defects_pointset -s $lhsurf -d $lhdefects -o $lhpointset \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, immediately after **Fix Topology** via `defect2seg`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, immediately after **Fix Topology** via `defect2seg`.
 
 ### Inputs required
 
@@ -86,7 +86,7 @@ mris_defects_pointset -s $lhsurf -d $lhdefects -o $lhpointset \
 
 - [[hemi.defect_labels]] — defect ID map used as input.
 - [[hemi.orig.nofix]] — input surface geometry.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

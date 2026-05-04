@@ -17,7 +17,7 @@ tags:
 # recon-all — Frequently Asked Questions
 
 This FAQ collects recurring questions about the standard
-[[recon-all]] cortical-reconstruction pipeline that have been answered
+[[wiki/pipelines/recon-all|recon-all]] cortical-reconstruction pipeline that have been answered
 on the FreeSurfer mailing list. It covers input handling and conform
 behaviour, multi-modal acquisitions (FLAIR/T2, MP2RAGE, T1 maps,
 pediatric data), manual editing and partial re-runs, threading and
@@ -26,8 +26,8 @@ requirements, and a number of FS 7→8 quirks. Note: the deep-learning
 clinical variant has its own FAQ at [[recon-all-clinical]] — questions
 about that pipeline belong there.
 
-> For tool-level reference see [[recon-all]] (pipeline page). Related
-> FAQs: [[recon-all-clinical]], [[longitudinal]], [[samseg]],
+> For tool-level reference see [[wiki/pipelines/recon-all|recon-all]] (pipeline page). Related
+> FAQs: [[recon-all-clinical]], [[longitudinal]], [[wiki/tools/samseg|samseg]],
 > [[synthseg-and-synthsr]], [[surface-morphometry]].
 
 ---
@@ -53,7 +53,7 @@ pre-conform input is preserved in `mri/rawavg.mgz`.
 **Provenance:** Mailing list, 2023-09-10 (Greve). See
 `raw/mailing-list/2023-09-recon-all-always-zero-pads-fsanat-to-nativeanat.md`.
 
-**Related:** [[recon-all]], [[mri_convert]], [[rawavg.mgz]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[wiki/tools/mri_convert|mri_convert]], [[rawavg.mgz]],
 [[coordinate-systems]]
 
 ---
@@ -82,7 +82,7 @@ recon-all -s SUBJECT -i scan.nii.gz -all -conform-dc
 Code-verified: `scripts/recon-all` (option parsed; applied at the
 conform step).
 
-**Related:** [[recon-all]], [[mri_convert]], [[coordinate-systems]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[wiki/tools/mri_convert|mri_convert]], [[coordinate-systems]]
 
 ---
 
@@ -108,7 +108,7 @@ recon-all -s SUBJECT -i input.nii.gz -all -cubic
 `raw/mailing-list/2024-08-recon-all-cubic-conform-interpolation.md`.
 Code-verified: `scripts/recon-all` (`-cubic` parsed and propagated).
 
-**Related:** [[recon-all]], [[mri_convert]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[wiki/tools/mri_convert|mri_convert]]
 
 ---
 
@@ -137,7 +137,7 @@ non-T1 primary inputs use [[mri_synthsr]] or
 `raw/mailing-list/2024-01-flair-used-only-for-pial-surface-not-wm.md`.
 Code-verified: `scripts/recon-all` (DoFLAIRpial gated).
 
-**Related:** [[recon-all]], [[mris_place_surface]], [[mri_synthsr]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mris_place_surface]], [[mri_synthsr]],
 [[recon-all-clinical]]
 
 ---
@@ -170,7 +170,7 @@ and
 `raw/mailing-list/2024-11-flair-registration-in-recon-all-automatic-cannot-skip.md`.
 Code-verified: `scripts/recon-all:4610-4636`.
 
-**Related:** [[recon-all]], [[bbregister]], [[mris_place_surface]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[bbregister]], [[mris_place_surface]]
 
 ---
 
@@ -200,7 +200,7 @@ dependency note from 2023-10-18 (Huang). See
 `raw/mailing-list/2023-11-uni-scan-talairach-failure-samseg-reg-flag.md`.
 Code-verified: `scripts/recon-all:1757-1762, 6393-6394, 8356, 8364`.
 
-**Related:** [[recon-all]], [[samseg]], [[talairach_avi]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[wiki/tools/samseg|samseg]], [[talairach_avi]],
 [[mri_synthsr]], [[recon-all-clinical]]
 
 ---
@@ -229,7 +229,7 @@ recon-all -s SUBJECT -i uni.nii.gz -all -hires
 **Provenance:** Mailing list, 2025-04-18 (Greve). See
 `raw/mailing-list/2025-04-mp2rage-7t-recon-all-antsbias-hires-flag.md`.
 
-**Related:** [[recon-all]], [[mri_synthstrip]], [[mri_synthseg]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthstrip]], [[mri_synthseg]],
 [[nu.mgz]]
 
 ---
@@ -260,7 +260,7 @@ recon-all -s SUBJECT -i T1w_synth.nii.gz -all
 **Provenance:** Mailing list, 2024-01-18 (Greve). See
 `raw/mailing-list/2024-01-t1map-simulate-mprage-then-recon-all.md`.
 
-**Related:** [[recon-all]], [[mri_synthsr]], [[mri_cc]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthsr]], [[mri_cc]],
 [[mri_ca_label]]
 
 ---
@@ -278,7 +278,7 @@ not generalise well to young children — myelination is incomplete, GM
 is thicker, and WM/GM contrast can be locally inverted. Zöllei's
 recommendation (Apr 2025): for ages 4–6 use the in-house preschooler
 script (availability outside MGH not guaranteed); from about
-4.5–5 years the regular [[recon-all]] may succeed with careful manual
+4.5–5 years the regular [[wiki/pipelines/recon-all|recon-all]] may succeed with careful manual
 editing per the
 [ChildBrainManualEdits](https://surfer.nmr.mgh.harvard.edu/fswiki/ChildBrainManualEdits)
 guide. For younger ages use [[infant-recon-all]]. For
@@ -297,7 +297,7 @@ robustness flag for pediatric segmentation failures.
 and
 `raw/mailing-list/2023-10-recon-all-synthseg-flag-difficult-pediatric-data.md`.
 
-**Related:** [[recon-all]], [[infant-recon-all]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[infant-recon-all]],
 [[recon-all-clinical]], [[mri_synthseg]]
 
 ---
@@ -473,7 +473,7 @@ recon-all -s SUBJECT -autorecon1 -expert /path/to/xopts.txt
 and
 `raw/mailing-list/2023-11-recon-all-synthseg-fs-allow-deep-freesurfer-env-var.md`.
 
-**Related:** [[recon-all]], [[mri_watershed]], [[mri_synthstrip]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_watershed]], [[mri_synthstrip]],
 [[mri_synthseg]]
 
 ---
@@ -532,7 +532,7 @@ the GCA atlas (Talairach space).
 **Provenance:** Mailing list, 2025-03-12 (Huang). See
 `raw/mailing-list/2025-03-recon-all-autorecon1-partial-failure-canorm-gcareg.md`.
 
-**Related:** [[recon-all]], [[mri_normalize]], [[talairach.lta]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_normalize]], [[talairach.lta]],
 [[mri_em_register]]
 
 ---
@@ -564,7 +564,7 @@ concurrently.
 **Provenance:** Mailing list, 2023-06-29 (Huang). See
 `raw/mailing-list/2023-06-recon-all-mri-fill-volume-size-zero-restart-clean.md`.
 
-**Related:** [[recon-all]], [[mri_fill]], [[filled.mgz]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_fill]], [[filled.mgz]]
 
 ---
 
@@ -607,7 +607,7 @@ and inspect the output structure before launching the full batch.
 and
 `raw/mailing-list/2023-11-recon-all-batch-submission-bash-loop.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -643,7 +643,7 @@ recon-all -s SUBJECT -all -threads 4    # safe (intra-tool parallelism)
 and
 `raw/mailing-list/2025-03-recon-all-parallel-silent-ln-error.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -669,7 +669,7 @@ recon-all jobs on the same host without budgeting RAM per job.
 **Provenance:** Mailing list, 2025-02-22 (fsbuild). See
 `raw/mailing-list/2025-02-recon-all-openmp-threads-memory-buffer-overflow-16gb-minimum.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -708,7 +708,7 @@ containing `synthseg -robust` (note: the wrapper name, not
 and
 `raw/mailing-list/2023-11-recon-all-synthseg-fs-allow-deep-freesurfer-env-var.md`.
 
-**Related:** [[recon-all]], [[mri_synthseg]], [[recon-all-clinical]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]], [[recon-all-clinical]],
 [[norm.mgz]]
 
 ---
@@ -732,7 +732,7 @@ to be aware of; in that case see the next entry on
 **Provenance:** Mailing list, 2023-11-15 (Greve). See
 `raw/mailing-list/2023-11-ants-denoising-not-in-recon-all-only-n4.md`.
 
-**Related:** [[recon-all]], [[nu.mgz]], [[orig.mgz]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[nu.mgz]], [[orig.mgz]]
 
 ---
 
@@ -780,7 +780,7 @@ path or the subjects directory.
 and
 `raw/mailing-list/2024-01-recon-all-space-in-path-subjects-dir-not-in-freesurfer-home.md`.
 
-**Related:** [[recon-all]], [[hemi.pial]], [[hemi.pial.T1]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[hemi.pial]], [[hemi.pial.T1]]
 
 ---
 
@@ -815,7 +815,7 @@ recon-all -s SUBJECT -i T1.nii -autorecon1
 **Provenance:** Mailing list, 2025-03-06–07 (Huang). See
 `raw/mailing-list/2025-03-recon-all-directive-required-fs8-no-implicit-run.md`.
 
-**Related:** [[recon-all]], [[mri_synthstrip]], [[orig.mgz]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthstrip]], [[orig.mgz]]
 
 ---
 
@@ -853,5 +853,5 @@ import.
 **Provenance:** Mailing list, 2025-03-28 (Huang). See
 `raw/mailing-list/2025-03-recon-all-nonuintensitycor-broken-nu-mgz-missing.md`.
 
-**Related:** [[recon-all]], [[nu.mgz]], [[orig.mgz]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[nu.mgz]], [[orig.mgz]],
 [[mri_nu_correct.mni]]

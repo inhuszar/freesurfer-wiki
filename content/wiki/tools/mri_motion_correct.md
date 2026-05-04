@@ -11,7 +11,7 @@ recon_all_stage: "autorecon1"
 related:
   - "[[mri_motion_correct2]]"
   - "[[mri_motion_correct.fsl]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -66,7 +66,7 @@ $$
 I_{out}(\mathbf{x}) = \frac{1}{N} \sum_{i=1}^N I_i(T_i^{-1}(\mathbf{x}))
 $$
 
-The registration is performed using an external tool (MINC's `minctracc` or similar); the script wraps the registration and averaging steps, handling format conversion and temporary file management via [[mri_convert]].
+The registration is performed using an external tool (MINC's `minctracc` or similar); the script wraps the registration and averaging steps, handling format conversion and temporary file management via [[wiki/tools/mri_convert|mri_convert]].
 
 Volume geometry (dimensions, voxel size, type) is inspected using `mri_convert --in_info` to validate input consistency before processing.
 
@@ -119,7 +119,7 @@ Workflow:
 
 - [[mri_motion_correct2]] — tcsh variant with same functionality, uses MINC tools
 - [[mri_motion_correct.fsl]] — FSL `flirt`-based variant
-- [[mri_convert]] — used internally for format conversion and info queries
+- [[wiki/tools/mri_convert|mri_convert]] — used internally for format conversion and info queries
 
 ## Confidence and Gaps
 

@@ -33,7 +33,7 @@ downstream_files:
   - "[[hemi.pial]]"
   - "[[autodet.gw.stats.hemi.dat]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Smooth2, Inflate2, AutoDetGWStats, WhitePreAparc"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Smooth2, Inflate2, AutoDetGWStats, WhitePreAparc"
 optional_for: []
 editable: false
 related:
@@ -42,7 +42,7 @@ related:
   - "[[topology-correction]]"
   - "[[hemi.smoothwm]]"
   - "[[hemi.white]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -98,7 +98,7 @@ If the Euler number check fails, [[mris_topo_fixer]] is invoked as a fallback, a
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Fix Topology** stage (`-fix`). Touch sentinel: `touch/$hemi.topofix.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Fix Topology** stage (`-fix`). Touch sentinel: `touch/$hemi.topofix.touch`.
 
 ### Inputs required
 
@@ -133,7 +133,7 @@ When `-remesh` (or `-remesh-quality`) is used, topology fixing first produces `h
 - [[hemi.qsphere.nofix]] — quasi-sphere used for defect detection.
 - [[topology-correction]] — concept explaining topological defects and correction.
 - [[hemi.white.preaparc]] — first downstream surface.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

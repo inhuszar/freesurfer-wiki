@@ -10,7 +10,7 @@ families:
   - "mri_*"
 recon_all_stage: "autorecon1"
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_normalize]]"
   - "[[mri_em_register]]"
   - "[[mri_synthstrip]]"
@@ -60,7 +60,7 @@ The algorithm runs in three conceptual stages:
    the GCA prior is used both to seed the initial brain mask and to
    prevent the surface from leaking into non-brain regions.
 
-Within [[recon-all]]'s autorecon1 Stage 5 it is called as:
+Within [[wiki/pipelines/recon-all|recon-all]]'s autorecon1 Stage 5 it is called as:
 
 ```bash
 mri_watershed -T1 \
@@ -395,7 +395,7 @@ output volume names.
 > [!gotcha] `-useSRAS` changes the vertex coordinate convention
 > With `-useSRAS`, surfaces are written in surface RAS (tkRAS)
 > coordinates, which are the ones tkmedit expects. Without it,
-> they are written in scanner RAS, which is what [[freeview]]
+> they are written in scanner RAS, which is what [[wiki/tools/freeview|freeview]]
 > expects by default. Mix-ups result in the surface appearing
 > shifted. Always match the flag to your downstream viewer.
 
@@ -514,7 +514,7 @@ or `mri_ca_normalize` (when `-gcareg` is off).
 > resulting mask is applied to `T1.mgz` here. This means that
 > when SynthStrip is used, `transforms/talairach_with_skull.lta`
 > is *not* produced; downstream tools that expect this LTA
-> should be aware of this. See the `[!gotcha]` in [[recon-all]].
+> should be aware of this. See the `[!gotcha]` in [[wiki/pipelines/recon-all|recon-all]].
 
 ## Error Compensation and Guard Rails
 

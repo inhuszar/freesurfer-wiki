@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_histo_normalize]]"
   - "[[mri_normalize]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15

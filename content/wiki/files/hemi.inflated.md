@@ -30,7 +30,7 @@ downstream_files:
   - "[[hemi.inflated.H]]"
   - "[[hemi.inflated.K]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Sphere, CurvHK"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Sphere, CurvHK"
 optional_for: []
 editable: false
 related:
@@ -39,7 +39,7 @@ related:
   - "[[hemi.sphere]]"
   - "[[hemi.sulc]]"
   - "[[hemi.inflated.nofix]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -88,7 +88,7 @@ The sulcal depth map ([[hemi.sulc]]) is a co-product:
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Inflate2** stage (`-inflate2`). Touch sentinel: `touch/$hemi.inflate2.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Inflate2** stage (`-inflate2`). Touch sentinel: `touch/$hemi.inflate2.touch`.
 
 ### Inputs required
 
@@ -124,7 +124,7 @@ The sulcal depth map ([[hemi.sulc]]) is a co-product:
 - [[hemi.sphere]] — downstream spherical mapping.
 - [[hemi.sulc]] — co-produced sulcal depth.
 - [[hemi.inflated.nofix]] — pre-fix predecessor.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

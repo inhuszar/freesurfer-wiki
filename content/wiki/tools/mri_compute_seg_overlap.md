@@ -146,7 +146,7 @@ mri_compute_seg_overlap --dice auto_aseg.mgz manual_aseg.mgz \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used for:
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used for:
 - Longitudinal segmentation reproducibility studies
 - Algorithm development and benchmarking
 - Cross-site and cross-scanner validation

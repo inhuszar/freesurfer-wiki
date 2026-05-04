@@ -130,7 +130,7 @@ mri_rigid_register flash.mgz mprage.mgz flash_to_mprage.lta
 
 ## Pipeline Context
 
-`mri_rigid_register` is not called by [[recon-all]]. It is a legacy tool; [[mri_robust_register]] is the current standard for linear registration within FreeSurfer.
+`mri_rigid_register` is not called by [[wiki/pipelines/recon-all|recon-all]]. It is a legacy tool; [[mri_robust_register]] is the current standard for linear registration within FreeSurfer.
 
 ## Gotchas and Caveats
 

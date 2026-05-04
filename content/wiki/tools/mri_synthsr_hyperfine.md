@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_synthsr]]"
   - "[[mri_synthseg]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21

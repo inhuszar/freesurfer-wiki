@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -80,7 +80,7 @@ mri_reduce -n 2 input.mgz reduced_4x.mgz
 
 ## Pipeline Context
 
-`mri_reduce` is not a standard step in [[recon-all]]. It is useful in custom multi-resolution pipelines or when generating low-resolution versions of volumes for rapid visualization or coarse registration.
+`mri_reduce` is not a standard step in [[wiki/pipelines/recon-all|recon-all]]. It is useful in custom multi-resolution pipelines or when generating low-resolution versions of volumes for rapid visualization or coarse registration.
 
 ## Gotchas and Caveats
 
@@ -92,7 +92,7 @@ mri_reduce -n 2 input.mgz reduced_4x.mgz
 
 ## Related Tools
 
-- [[mri_convert]] — General format conversion and resampling with more interpolation options
+- [[wiki/tools/mri_convert|mri_convert]] — General format conversion and resampling with more interpolation options
 
 ## Confidence and Gaps
 

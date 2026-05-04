@@ -27,12 +27,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2: Fix Topology"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fix Topology"
 editable: false
 related:
   - "[[hemi.defect_labels]]"
   - "[[hemi.defect_borders]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -74,14 +74,14 @@ mris_fix_topology -threads 1 -mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Fix Topology** stage. Produced unconditionally at the end of the topology repair loop.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Fix Topology** stage. Produced unconditionally at the end of the topology repair loop.
 
 ## Related
 
 - [[hemi.defect_labels]] — interior defect vertex labels.
 - [[hemi.defect_borders]] — border vertex labels.
 - [[hemi.orig.nofix]] — input surface.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

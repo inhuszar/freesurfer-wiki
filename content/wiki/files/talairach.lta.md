@@ -27,7 +27,7 @@ related:
   - "[[talairach.xfm.lta]]"
   - "[[talairach.xfm]]"
   - "[[lta-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -61,7 +61,7 @@ ln -sf talairach.xfm.lta talairach.lta
 
 - [[talairach.xfm.lta]] — the actual LTA file this symlinks to.
 - [[talairach.xfm]] — the XFM source.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

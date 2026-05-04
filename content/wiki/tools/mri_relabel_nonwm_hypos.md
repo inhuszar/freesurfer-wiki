@@ -11,7 +11,7 @@ recon_all_stage: "autorecon2"
 related:
   - "[[mri_relabel_hypointensities]]"
   - "[[mri_segment]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -43,7 +43,7 @@ tags:
 
 The FreeSurfer segmentation pipeline identifies voxels that appear hypointense relative to surrounding white matter. Those within the white matter boundary are labeled as WM-hypointensities (label 77); those outside are labeled as non-WM-hypointensities (labels 80-82). The latter category typically represents dark-appearing structures in the grey matter or CSF that are not truly white matter lesions — they may be veins, partial-volume CSF, or other structures.
 
-`mri_relabel_nonwm_hypos` reassigns these voxels to their correct anatomical labels based on spatial context. It is called after [[mri_relabel_hypointensities]] in the [[recon-all]] `autorecon2` stage.
+`mri_relabel_nonwm_hypos` reassigns these voxels to their correct anatomical labels based on spatial context. It is called after [[mri_relabel_hypointensities]] in the [[wiki/pipelines/recon-all|recon-all]] `autorecon2` stage.
 
 ## Inputs
 
@@ -89,7 +89,7 @@ mri_relabel_nonwm_hypos --i aseg.mgz --o aseg_relabeled.mgz --seg 80 42
 
 ## Pipeline Context
 
-`mri_relabel_nonwm_hypos` is called during [[recon-all]] `autorecon2`, immediately after [[mri_relabel_hypointensities]]. Together these two tools clean up the aseg segmentation before surface tessellation:
+`mri_relabel_nonwm_hypos` is called during [[wiki/pipelines/recon-all|recon-all]] `autorecon2`, immediately after [[mri_relabel_hypointensities]]. Together these two tools clean up the aseg segmentation before surface tessellation:
 
 1. [[mri_relabel_hypointensities]] — fixes WM-hypointensity labels near surfaces
 2. `mri_relabel_nonwm_hypos` — fixes non-WM-hypointensity labels 80, 81, 82
@@ -107,7 +107,7 @@ mri_relabel_nonwm_hypos --i aseg.mgz --o aseg_relabeled.mgz --seg 80 42
 
 - [[mri_relabel_hypointensities]] — Companion tool for WM-hypointensity relabeling
 - [[mri_segment]] — Produces the hypointensity labels refined by this tool
-- [[recon-all]] — Calls this tool in autorecon2
+- [[wiki/pipelines/recon-all|recon-all]] — Calls this tool in autorecon2
 
 ## Confidence and Gaps
 

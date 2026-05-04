@@ -151,7 +151,7 @@ mri_annotation2label --subject bert --hemi lh \
 
 ## Pipeline Context
 
-`mri_annotation2label` is commonly run after [[mris_ca_label]] produces the cortical parcellation annotation, and before [[mris_anatomical_stats]] which reads per-region label files for morphometric statistics. It is not a standard [[recon-all]] stage but is frequently invoked in post-processing workflows.
+`mri_annotation2label` is commonly run after [[mris_ca_label]] produces the cortical parcellation annotation, and before [[mris_anatomical_stats]] which reads per-region label files for morphometric statistics. It is not a standard [[wiki/pipelines/recon-all|recon-all]] stage but is frequently invoked in post-processing workflows.
 
 ## Gotchas and Caveats
 

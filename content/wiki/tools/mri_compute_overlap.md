@@ -139,7 +139,7 @@ mri_compute_overlap -a -mask brainmask.mgz auto_seg.mgz manual_seg.mgz
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Typically used in:
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Typically used in:
 - Segmentation validation pipelines
 - Cross-scanner reproducibility studies
 - Algorithm benchmarking

@@ -97,7 +97,7 @@ mri_extract_largest_CC -t 50 wm.mgz wm_CC.mgz
 
 ## Pipeline Context
 
-Not a standard `[[recon-all]]` call, but used internally or in scripts after WM segmentation (`[[mri_segment]]`) or skull stripping (`[[mri_watershed]]`) to clean up the binary mask.
+Not a standard `[[wiki/pipelines/recon-all|recon-all]]` call, but used internally or in scripts after WM segmentation (`[[mri_segment]]`) or skull stripping (`[[mri_watershed]]`) to clean up the binary mask.
 
 ## Gotchas and Caveats
 

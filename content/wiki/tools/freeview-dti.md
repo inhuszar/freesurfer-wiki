@@ -1,7 +1,7 @@
 ---
 title: "FreeView — DTI and Tractography"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -14,7 +14,7 @@ source_files:
   - "freeview/FSTrack.cpp"
   - "freeview/DialogLoadODF.cpp"
 related_panels:
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[freeview-volumes]]"
 status: review
 confidence: medium
@@ -198,7 +198,7 @@ ODF glyphs are rendered as 3D geometry objects (a `LayerODF` collection register
 
 ## Related Pages
 
-- [[freeview]] — main application overview
+- [[wiki/tools/freeview|freeview]] — main application overview
 - [[freeview-volumes]] — volume layer (DTI layers derive from MRI volume base)
 - [[freeview-3d-view]] — 3D rendering modes
 

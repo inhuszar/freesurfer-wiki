@@ -27,13 +27,13 @@ downstream_files:
   - "[[hemi.defects.pointset]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2: Fix Topology"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fix Topology"
 editable: false
 related:
   - "[[hemi.orig.nofix]]"
   - "[[aseg.presurf.mgz]]"
   - "[[hemi.defects.pointset]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -56,7 +56,7 @@ tags:
 
 ### Producing tool
 
-`defect2seg` (called by [[recon-all]] after Fix Topology) uses `mri_label2label --label-cortex` to derive the cortex label on the nofix surface.
+`defect2seg` (called by [[wiki/pipelines/recon-all|recon-all]] after Fix Topology) uses `mri_label2label --label-cortex` to derive the cortex label on the nofix surface.
 
 ```bash
 # Inside defect2seg (line 96)
@@ -72,7 +72,7 @@ where `$aseg = mri/aseg.presurf.mgz` and output `$lhlabel = label/lh.nofix.corte
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Fix Topology** stage, via `defect2seg --s $subjid --cortex`. Only created when the `--cortex` flag is active (which is the default in standard recon-all).
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Fix Topology** stage, via `defect2seg --s $subjid --cortex`. Only created when the `--cortex` flag is active (which is the default in standard recon-all).
 
 ### Inputs required
 
@@ -84,7 +84,7 @@ where `$aseg = mri/aseg.presurf.mgz` and output `$lhlabel = label/lh.nofix.corte
 - [[hemi.orig.nofix]] — source surface.
 - [[aseg.presurf.mgz]] — segmentation input.
 - [[hemi.defects.pointset]] — downstream file that uses this label for masking.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

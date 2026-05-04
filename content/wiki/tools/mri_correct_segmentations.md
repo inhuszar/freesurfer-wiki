@@ -95,7 +95,7 @@ mri_correct_segmentations -n auto_seg.mgz corrected_seg.mgz
 
 ## Pipeline Context
 
-Not part of the standard [[recon-all]] adult pipeline. Likely called from the infant FreeSurfer pipeline scripts. It operates downstream of the automated segmentation step.
+Not part of the standard [[wiki/pipelines/recon-all|recon-all]] adult pipeline. Likely called from the infant FreeSurfer pipeline scripts. It operates downstream of the automated segmentation step.
 
 ## Gotchas and Caveats
 

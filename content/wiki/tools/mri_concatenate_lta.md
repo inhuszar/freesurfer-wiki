@@ -12,7 +12,7 @@ related:
   - "[[mri_concatenate_gcam]]"
   - "[[lta-format]]"
   - "[[coordinate-systems]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -139,9 +139,9 @@ mri_concatenate_lta struct2func.lta talairach.xfm \
 
 ## Pipeline Context
 
-Not called by [[recon-all]] directly but used internally by wrapper scripts. Common use cases:
+Not called by [[wiki/pipelines/recon-all|recon-all]] directly but used internally by wrapper scripts. Common use cases:
 - Combining registration steps in functional MRI preprocessing
-- Inverting or type-converting transforms before passing to [[mri_convert]] or `mri_vol2vol`
+- Inverting or type-converting transforms before passing to [[wiki/tools/mri_convert|mri_convert]] or `mri_vol2vol`
 
 ## Gotchas and Caveats
 

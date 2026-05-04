@@ -15,16 +15,16 @@ tags:
 
 # mri_convert — Frequently Asked Questions
 
-This FAQ collects recurring questions about [[mri_convert]] (FreeSurfer's
+This FAQ collects recurring questions about [[wiki/tools/mri_convert|mri_convert]] (FreeSurfer's
 general-purpose volume converter) and the related DICOM unpacker
 `dcmunpack`. Together these tools handle format conversion (DICOM, NIfTI,
-[[mgz]], MINC, ANALYZE), the [[recon-all]]-style "conform" preparation
+[[mgz]], MINC, ANALYZE), the [[wiki/pipelines/recon-all|recon-all]]-style "conform" preparation
 (1 mm isotropic, 256³, uchar), per-axis voxel-size rescaling, copying
 header geometry between volumes, and applying both linear and nonlinear
 transforms — including the nonlinear morph stored in [[m3z-format]] that
 maps native space to MNI305.
 
-> For the full flag reference see [[mri_convert]]. For voxel-grid
+> For the full flag reference see [[wiki/tools/mri_convert|mri_convert]]. For voxel-grid
 > resampling between two volumes see [[mri_vol2vol]]. For LTA / XFM /
 > M3Z transform manipulation see [[lta_convert]] and [[mri_warp_convert]].
 
@@ -49,7 +49,7 @@ fire even on an already-conformed input:
 3. Linearly rescale intensities so that the dynamic range fits in
    `[0, 255]` — targeted such that white matter lands near intensity
    110, the FreeSurfer canonical WM value used downstream by
-   [[mri_normalize]] and [[recon-all]].
+   [[mri_normalize]] and [[wiki/pipelines/recon-all|recon-all]].
 
 The uchar cast is hard-coded in `MRIconformedTemplate()`
 (`utils/mri_conform.cpp`), which always allocates the template as
@@ -82,7 +82,7 @@ mri_convert --conform_size 1 input.mgz output.mgz
 > `--conform_size 1` or `-nc`.
 
 > [!gotcha] `-c` is the right flag when preparing input for
-> [[recon-all]]. The `recon-all -i` entry point applies conform
+> [[wiki/pipelines/recon-all|recon-all]]. The `recon-all -i` entry point applies conform
 > internally, so you only need explicit `-c` in custom preprocessing
 > pipelines that bypass `recon-all -i`.
 
@@ -95,7 +95,7 @@ Code-verified: `utils/mri_conform.cpp` (`MRIconformedTemplate` always
 allocates `MRI_UCHAR`); `mri_make_uchar.cpp` comment confirms the
 WM-near-110 target.
 
-**Related:** [[mri_convert]], [[recon-all]], [[mri_normalize]], [[mgz]]
+**Related:** [[wiki/tools/mri_convert|mri_convert]], [[wiki/pipelines/recon-all|recon-all]], [[mri_normalize]], [[mgz]]
 
 ---
 
@@ -104,7 +104,7 @@ WM-near-110 target.
 ### How do I change the voxel size of just one axis without resampling — for example to fix an animal scan whose slice spacing is wrong in the header?
 
 **Short answer:** Use `-iis VAL`, `-ijs VAL`, or `-iks VAL` in
-[[mri_convert]] to overwrite the declared voxel size of the i, j, or k
+[[wiki/tools/mri_convert|mri_convert]] to overwrite the declared voxel size of the i, j, or k
 axis respectively in the output header. The voxel data are unchanged;
 only the spacing metadata in the vox2ras matrix is updated.
 
@@ -136,12 +136,12 @@ change the voxel count and interpolate values).
 > may need to experiment to identify which of `-iis` / `-ijs` / `-iks`
 > corresponds to the physical axis you want to rescale. Inspect the
 > input header with `mri_info` first, and verify the result with
-> `mri_info` and a viewer like [[freeview]] afterwards.
+> `mri_info` and a viewer like [[wiki/tools/freeview|freeview]] afterwards.
 
 **Provenance:** Mailing list, 2023-11-02 (Greve). See
 `raw/mailing-list/2023-11-mri-convert-rescale-voxel-size-iis-ijs-iks.md`.
 
-**Related:** [[mri_convert]], [[mri_vol2vol]], [[coordinate-systems]]
+**Related:** [[wiki/tools/mri_convert|mri_convert]], [[mri_vol2vol]], [[coordinate-systems]]
 
 ---
 
@@ -206,7 +206,7 @@ nib.save(nib.Nifti1Image(dst.get_fdata(), src.affine, src.header),
 **Provenance:** Mailing list, 2023-10-10 (Fischl, Greve). See
 `raw/mailing-list/2023-10-copy-fov-geometry-mri-convert-in-like-vol2vol.md`.
 
-**Related:** [[mri_convert]], [[mri_vol2vol]], [[coordinate-systems]]
+**Related:** [[wiki/tools/mri_convert|mri_convert]], [[mri_vol2vol]], [[coordinate-systems]]
 
 ---
 
@@ -220,7 +220,7 @@ nib.save(nib.Nifti1Image(dst.get_fdata(), src.affine, src.header),
 the recon-all-generated nonlinear morph in [[m3z-format]] and resamples
 into MNI305).
 
-**Detail:** [[recon-all]] produces two transforms from native subject
+**Detail:** [[wiki/pipelines/recon-all|recon-all]] produces two transforms from native subject
 space to MNI305:
 
 | File | Content | Type |
@@ -284,7 +284,7 @@ mri_vol2vol \
 **Provenance:** Mailing list, 2023-11-16 to 2023-11-22 (Huang, Greve).
 See `raw/mailing-list/2023-11-mri-convert-nonlinear-transform-to-mni305.md`.
 
-**Related:** [[mri_convert]], [[mri_vol2vol]], [[lta_convert]],
+**Related:** [[wiki/tools/mri_convert|mri_convert]], [[mri_vol2vol]], [[lta_convert]],
 [[mri_warp_convert]], [[lta-format]], [[m3z-format]],
 [[registration-overview]], [[coordinate-systems]]
 
@@ -306,7 +306,7 @@ FreeSurfer's NIfTI-1 reader interprets those bytes as a 16-bit
 dimension count and reports an absurd number such as
 `niiRead(): bad number of dimensions (31488)`. The same failure
 appears on every FreeSurfer entry point that uses the volume reader
-([[mri_info]], [[mri_convert]], [[recon-all]], etc.).
+([[mri_info]], [[wiki/tools/mri_convert|mri_convert]], [[wiki/pipelines/recon-all|recon-all]], etc.).
 
 A common way to walk into this is to round-trip a NIfTI-1 file through
 an AFNI pipeline: AFNI handles both NIfTI-1 and NIfTI-2 transparently
@@ -337,7 +337,7 @@ nib.save(nib.Nifti1Image(img.get_fdata(), img.affine, nib.Nifti1Header()),
 Huang). See
 `raw/mailing-list/2023-12-nifti2-not-supported-freesurfer-only-nifti1.md`.
 
-**Related:** [[mri_convert]], [[mri_info]]
+**Related:** [[wiki/tools/mri_convert|mri_convert]], [[mri_info]]
 
 ---
 
@@ -349,9 +349,9 @@ Huang). See
 `dcmunpack -src <dicom_dir> -targ <out_dir> -auto-runseq mgz`. It
 identifies every series in the directory, converts each to its own MGZ,
 and names the outputs by sequence description so you can pick the T1
-visually in [[freeview]].
+visually in [[wiki/tools/freeview|freeview]].
 
-**Detail:** [[recon-all]] does not auto-detect which volume in a
+**Detail:** [[wiki/pipelines/recon-all|recon-all]] does not auto-detect which volume in a
 multi-series DICOM directory is the T1 — `recon-all -i` only takes a
 single, already-converted file. Greve's recommended workflow is to
 hand off the DICOM-to-volume step to `dcmunpack` with `-auto-runseq`:
@@ -382,12 +382,12 @@ dcmunpack -src  /path/to/dicom_folder \
 ```
 
 For a single DICOM series where you already know the file you want,
-[[mri_convert]] alone is sufficient — `dcmunpack` is the right tool
+[[wiki/tools/mri_convert|mri_convert]] alone is sufficient — `dcmunpack` is the right tool
 specifically when the directory holds many series and you need to
 enumerate them.
 
 **Provenance:** Mailing list, 2024-08-23 (Greve). See
 `raw/mailing-list/2024-08-dcmunpack-auto-runseq-identify-convert-all-series.md`.
 
-**Related:** [[mri_convert]], [[recon-all]], [[freeview]],
+**Related:** [[wiki/tools/mri_convert|mri_convert]], [[wiki/pipelines/recon-all|recon-all]], [[wiki/tools/freeview|freeview]],
 [[mri_probedicom]], [[mri_parse_sdcmdir]]

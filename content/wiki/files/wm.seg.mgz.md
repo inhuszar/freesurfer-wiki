@@ -25,7 +25,7 @@ consumed_by:
 downstream_files:
   - "[[wm.asegedit.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: WM Editing"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: WM Editing"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[wm.mgz]]"
   - "[[wm.asegedit.mgz]]"
   - "[[brain.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -80,7 +80,7 @@ mri_segment -wsizemm 13 -keep brain.mgz wm.seg.mgz
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **WM Segmentation** stage (`-wmseg`).
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **WM Segmentation** stage (`-wmseg`).
 
 ### Inputs required
 
@@ -114,7 +114,7 @@ None.
 - [[brain.mgz]] — input.
 - [[wm.asegedit.mgz]] — downstream aseg-corrected WM.
 - [[wm.mgz]] — final pretessed WM used for fill and tessellation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -118,7 +118,7 @@ mri_ca_tissue_parms -t1 flash30/T1.mgh -pd flash30/PD.mgh \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage for typical T1-weighted pipelines. Used when building a FLASH-compatible GCA atlas, as part of multi-parametric MRI atlas construction workflows at MGH.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage for typical T1-weighted pipelines. Used when building a FLASH-compatible GCA atlas, as part of multi-parametric MRI atlas construction workflows at MGH.
 
 ## Gotchas and Caveats
 

@@ -23,11 +23,11 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2"
 editable: false
 related:
   - "[[entowm.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -58,7 +58,7 @@ tags:
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **EntoWM Segmentation** stage.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **EntoWM Segmentation** stage.
 
 ## How It Is Used
 
@@ -75,7 +75,7 @@ set vols = (`grep wm-$hemi $entowmstats | awk '{print $3}'`)
 
 - [[entowm.mgz]] — co-produced segmentation.
 - [[wm.mgz]] — modified using entoWM data.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

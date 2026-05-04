@@ -132,7 +132,7 @@ mri_compute_layer_fractions \
 
 ## Pipeline Context
 
-This tool is not called by [[recon-all]]. It is a post-processing utility used in laminar fMRI workflows:
+This tool is not called by [[wiki/pipelines/recon-all|recon-all]]. It is a post-processing utility used in laminar fMRI workflows:
 
 1. Run `recon-all` to produce surfaces and `aseg.mgz`.
 2. Register functional data to the anatomical space (e.g., using [[mri_coreg]]).

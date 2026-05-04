@@ -9,7 +9,7 @@ related_tools:
   - "[[mris_sphere]]"
   - "[[mris_inflate]]"
   - "[[mris_defects_pointset]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[freeview-surfaces]]"
 related_concepts:
   - "[[surface-representations]]"
@@ -600,7 +600,7 @@ on itself.
 - [[mris_inflate]] — produces `inflated.nofix` used by mris_fix_topology
 - [[mris_defects_pointset]] — converts defect labels to a 3D pointset
 - [[surface-representations]] — context for what cortical surfaces are and why topology matters
-- [[recon-all]] — the orchestrating pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — the orchestrating pipeline
 
 ---
 

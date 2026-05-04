@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -108,7 +108,7 @@ Not part of standard `recon-all`. Used in QC workflows and manual inspection of 
 
 ## Related Tools
 
-- [[mri_convert]] — for extracting individual slices or changing display formats
+- [[wiki/tools/mri_convert|mri_convert]] — for extracting individual slices or changing display formats
 - `freeview` — the recommended tool for interactive QC
 
 ## Confidence and Gaps

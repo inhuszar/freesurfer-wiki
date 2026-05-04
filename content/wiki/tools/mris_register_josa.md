@@ -14,7 +14,7 @@ recon_all_stage: null
 related:
   - "[[mris_register]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-21
@@ -156,7 +156,7 @@ Standard pipeline position:
 
 - [[mris_register]] — the traditional, iterative spherical registration tool
 - [[mris_sphere]] — produces the spherical surface that is input to registration
-- [[recon-all]] — orchestrates the sphere registration step
+- [[wiki/pipelines/recon-all|recon-all]] — orchestrates the sphere registration step
 
 ## Confidence and Gaps
 

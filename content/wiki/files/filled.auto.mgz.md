@@ -23,12 +23,12 @@ consumed_by:
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2: Fill (edit-detection reference)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fill (edit-detection reference)"
 editable: false
 related:
   - "[[mgz]]"
   - "[[filled.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -69,7 +69,7 @@ cp filled.mgz filled.auto.mgz
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Fill** stage, immediately after [[filled.mgz]] is written.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Fill** stage, immediately after [[filled.mgz]] is written.
 
 ### Inputs required
 
@@ -93,7 +93,7 @@ cp filled.mgz filled.auto.mgz
 - [[mgz]] — on-disk format specification.
 - [[filled.mgz]] — the editable counterpart; source of this copy.
 - [[mri_fill]] — producer and consumer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

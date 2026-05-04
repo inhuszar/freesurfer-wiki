@@ -11,8 +11,8 @@ families:
   - "mri_*"
 recon_all_stage: "autorecon1"
 related:
-  - "[[recon-all]]"
-  - "[[mri_convert]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_normalize]]"
   - "[[talairach_avi]]"
   - "[[mri_em_register]]"
@@ -37,7 +37,7 @@ tags:
 
 `mri_nu_correct.mni` is a tcsh wrapper around the MNI N3 (`nu_correct`)
 bias-field-correction tool. Given a structural MRI volume in any format
-readable by [[mri_convert]], it produces an output volume of the same
+readable by [[wiki/tools/mri_convert|mri_convert]], it produces an output volume of the same
 geometry in which the multiplicative intensity non-uniformity ("bias
 field") that is typical of MRI has been estimated and removed. It
 supports three different backends: the original MNI N3 (the default,
@@ -66,7 +66,7 @@ most downstream FreeSurfer tools assume.
   - `N3BiasFieldCorrection` (ANTs) — used with `--ants-n3`.
   - `AntsN4BiasFieldCorrectionFs` — used with `--ants-n4`.
   - `bc` — the wrapper uses `bc -l` to compute the rescale factor.
-  - [[mri_convert]], [[mri_binarize]], `mri_segstats`, [[mris_calc]] —
+  - [[wiki/tools/mri_convert|mri_convert]], [[mri_binarize]], `mri_segstats`, [[mris_calc]] —
     used as inner steps.
 - **Binary/script location:** `$FREESURFER_HOME/bin/mri_nu_correct.mni`
 
@@ -86,7 +86,7 @@ multiple outer iterations, rescales the output to preserve the global
 mean of the input, and optionally applies the `mri_make_uchar`
 histogram-centring step that downstream FreeSurfer tools expect.
 
-Within [[recon-all]], it is called **twice** during autorecon1:
+Within [[wiki/pipelines/recon-all|recon-all]], it is called **twice** during autorecon1:
 
 1. **Inside the `talairach:` block** (`scripts/recon-all:1781`), as a
    preprocessing step for `talairach_avi`:
@@ -118,7 +118,7 @@ correction to a FreeSurfer-format volume.
 
 | Flag | Description |
 |------|-------------|
-| `--i <invol>` | Input MRI volume in any format readable by [[mri_convert]] (MGZ, NIfTI, ANALYZE, …). |
+| `--i <invol>` | Input MRI volume in any format readable by [[wiki/tools/mri_convert|mri_convert]] (MGZ, NIfTI, ANALYZE, …). |
 | `--o <outvol>` | Output volume path. Format is picked from the extension. If the output format is COR the output directory must exist. |
 
 ### Optional Inputs
@@ -445,9 +445,9 @@ mri_nu_correct.mni --i orig.mgz --o nu.mgz \
 
 ## Pipeline Context
 
-`mri_nu_correct.mni` is called only inside [[recon-all]], twice.
+`mri_nu_correct.mni` is called only inside [[wiki/pipelines/recon-all|recon-all]], twice.
 
-**Predecessor (in recon-all):** [[mri_convert]] — `orig.mgz`
+**Predecessor (in recon-all):** [[wiki/tools/mri_convert|mri_convert]] — `orig.mgz`
 
 **First call (inside `DoTalairach` block, `recon-all:1781`):**
 
@@ -502,7 +502,7 @@ of `nu.mgz` is stamped with `transforms/talairach.xfm` via
 
 ## Related Tools
 
-- [[mri_convert]] — called several times internally for format
+- [[wiki/tools/mri_convert|mri_convert]] — called several times internally for format
   conversion around the MINC backend.
 - [[mri_binarize]] — used to binarise and optionally dilate the
   input mask.

@@ -11,7 +11,7 @@ recon_all_stage: "autorecon2"
 related:
   - "[[mri_segment]]"
   - "[[mri_relabel_nonwm_hypos]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[surface-format]]"
 status: draft
@@ -50,7 +50,7 @@ During the FreeSurfer pipeline, `mri_segment` assigns hypointensity labels (labe
 2. For each hemisphere, calling `relabel_hypointensities()` which uses the surface to identify hypointensity voxels that should be cortex.
 3. Calling `relabel_hypointensities_neighboring_gray()` to relabel any remaining hypointensity voxels that are adjacent to grey matter structures.
 
-This is a standard step in the [[recon-all]] `autorecon2` stage, applied after segmentation to clean up the aseg before surface reconstruction.
+This is a standard step in the [[wiki/pipelines/recon-all|recon-all]] `autorecon2` stage, applied after segmentation to clean up the aseg before surface reconstruction.
 
 ## Inputs
 
@@ -99,7 +99,7 @@ mri_relabel_hypointensities -lh aseg.mgz /subjects/subject01/surf/ aseg_lh_only.
 
 ## Pipeline Context
 
-`mri_relabel_hypointensities` is called during the [[recon-all]] `autorecon2` stage, after `mri_segment` and before surface tessellation. In `recon-all`, the call sequence is approximately:
+`mri_relabel_hypointensities` is called during the [[wiki/pipelines/recon-all|recon-all]] `autorecon2` stage, after `mri_segment` and before surface tessellation. In `recon-all`, the call sequence is approximately:
 
 1. `mri_segment` → produces initial aseg with WM-hypointensity labels
 2. `mri_relabel_hypointensities` → corrects hypointensities near surfaces
@@ -123,7 +123,7 @@ The tool modifies `aseg.mgz` (or a similar intermediate segmentation file) in-pl
 
 - [[mri_relabel_nonwm_hypos]] — Companion tool for non-WM hypointensity relabeling
 - [[mri_segment]] — Produces the hypointensity labels that this tool refines
-- [[recon-all]] — Calls this tool in the autorecon2 stage
+- [[wiki/pipelines/recon-all|recon-all]] — Calls this tool in the autorecon2 stage
 
 ## Confidence and Gaps
 

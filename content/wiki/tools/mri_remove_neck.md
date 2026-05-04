@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_watershed]]"
   - "[[mri_synthstrip]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -117,7 +117,7 @@ mri_remove_neck -RADIUS 40 \
 
 ## Pipeline Context
 
-`mri_remove_neck` is not a standard step in the default [[recon-all]] pipeline. It may be called as a preprocessing step in specialized workflows where the field of view includes significant neck tissue that interferes with subsequent processing. In the standard pipeline, [[mri_watershed]] and [[mri_synthstrip]] handle skull stripping without explicit neck removal.
+`mri_remove_neck` is not a standard step in the default [[wiki/pipelines/recon-all|recon-all]] pipeline. It may be called as a preprocessing step in specialized workflows where the field of view includes significant neck tissue that interferes with subsequent processing. In the standard pipeline, [[mri_watershed]] and [[mri_synthstrip]] handle skull stripping without explicit neck removal.
 
 ## Gotchas and Caveats
 
@@ -134,7 +134,7 @@ mri_remove_neck -RADIUS 40 \
 
 - [[mri_watershed]] — Skull stripping algorithm (often used instead)
 - [[mri_synthstrip]] — Deep learning skull stripping (modern alternative)
-- [[recon-all]] — Master pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — Master pipeline
 
 ## Confidence and Gaps
 

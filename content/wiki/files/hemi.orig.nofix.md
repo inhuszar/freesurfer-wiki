@@ -30,7 +30,7 @@ downstream_files:
   - "[[hemi.smoothwm.nofix]]"
   - "[[hemi.orig]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Smooth1, Inflate1, QSphere, Fix Topology"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Smooth1, Inflate1, QSphere, Fix Topology"
 optional_for: []
 editable: false
 related:
@@ -38,7 +38,7 @@ related:
   - "[[filled.mgz]]"
   - "[[hemi.orig]]"
   - "[[topology-correction]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -89,7 +89,7 @@ mris_extract_main_component rh.orig.nofix rh.orig.nofix
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Tessellate** stage (`-tessellate`). Touch sentinel: `touch/$hemi.tessellate.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Tessellate** stage (`-tessellate`). Touch sentinel: `touch/$hemi.tessellate.touch`.
 
 ### Inputs required
 
@@ -126,7 +126,7 @@ mris_extract_main_component rh.orig.nofix rh.orig.nofix
 - [[hemi.orig]] — topology-corrected successor.
 - [[hemi.smoothwm.nofix]], [[hemi.inflated.nofix]], [[hemi.qsphere.nofix]] — downstream nofix intermediates.
 - [[topology-correction]] — concept explaining why nofix surfaces exist.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

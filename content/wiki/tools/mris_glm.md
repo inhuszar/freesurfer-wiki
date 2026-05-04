@@ -205,7 +205,7 @@ mri_glmfit --y lh.thickness.mgh --fsgd subjects.fsgd dods \
 `mris_glm` is not part of `recon-all`. It is a post-processing analysis tool for group-level inference on surface data.
 
 Typical workflow (historical):
-1. [[recon-all]] produces per-subject surface metrics
+1. [[wiki/pipelines/recon-all|recon-all]] produces per-subject surface metrics
 2. `mris_preproc` resamples metrics to fsaverage
 3. `mris_glm` (or preferably `mri_glmfit`) performs vertex-wise inference
 

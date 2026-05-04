@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_label_volume]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -100,7 +100,7 @@ Not part of `recon-all`. Research tool for structural parcellation studies.
 ## Related Tools
 
 - [[mri_label_volume]] — compute volumes of labelled regions
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

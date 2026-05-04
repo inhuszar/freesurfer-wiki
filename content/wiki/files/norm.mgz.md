@@ -28,7 +28,7 @@ consumed_by:
 downstream_files:
   - "[[brain.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: CA Reg, Intensity Normalization2"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: CA Reg, Intensity Normalization2"
 optional_for: []
 editable: false
 related:
@@ -37,7 +37,7 @@ related:
   - "[[T1.mgz]]"
   - "[[ctrl_pts.mgz]]"
   - "[[talairach.lta]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -87,7 +87,7 @@ mri_ca_normalize \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CA Normalize** stage (`-canorm`). Touch sentinel: `touch/ca_normalize.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CA Normalize** stage (`-canorm`). Touch sentinel: `touch/ca_normalize.touch`.
 
 ### Inputs required
 
@@ -128,7 +128,7 @@ When `-noaseg` or `-nosubcortseg` is passed, `norm.mgz` is not created and `brai
 - [[ctrl_pts.mgz]] — co-produced control points.
 - [[talairach.lta]] — atlas transform input.
 - [[brain.mgz]] — next downstream normalised volume.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

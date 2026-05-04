@@ -27,7 +27,7 @@ downstream_files:
   - "[[hemi.inflated]]"
   - "[[hemi.sphere.reg]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Inflate2; autorecon3: SurfReg"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Inflate2; autorecon3: SurfReg"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[hemi.white.preaparc]]"
   - "[[hemi.inflated]]"
   - "[[hemi.smoothwm.nofix]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -80,7 +80,7 @@ mris_smooth -n 3 -nw \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Smooth2** stage (`-smooth2`). Touch sentinel: `touch/$hemi.smoothwm2.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Smooth2** stage (`-smooth2`). Touch sentinel: `touch/$hemi.smoothwm2.touch`.
 
 ### Inputs required
 
@@ -111,7 +111,7 @@ mris_smooth -n 3 -nw \
 - [[hemi.white.preaparc]] — input surface.
 - [[hemi.inflated]] — downstream.
 - [[hemi.smoothwm.nofix]] — pre-fix predecessor.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

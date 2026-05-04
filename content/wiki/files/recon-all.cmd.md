@@ -10,7 +10,7 @@ hemispheric: false
 format: "plain text (command log)"
 binary: false
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 produced_in_stage: "all stages"
 produced_at_source:
   - "[`scripts/recon-all:586`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L586)"
@@ -26,7 +26,7 @@ editable: false
 related:
   - "[[recon-all.log]]"
   - "[[recon-all.done]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -38,7 +38,7 @@ tags:
 # recon-all.cmd
 
 > [!file] Glossary entry
-> `recon-all.cmd` is a command log that records every shell command executed by [[recon-all]], without the command output. It is a subset of [[recon-all.log]] containing only the tool invocations, useful for reconstructing the exact sequence of operations and re-running individual stages.
+> `recon-all.cmd` is a command log that records every shell command executed by [[wiki/pipelines/recon-all|recon-all]], without the command output. It is a subset of [[recon-all.log]] containing only the tool invocations, useful for reconstructing the exact sequence of operations and re-running individual stages.
 
 ## Location and Format
 
@@ -66,7 +66,7 @@ Created at startup; appended continuously throughout all autorecon stages.
 
 - [[recon-all.log]] — full log including command output.
 - [[recon-all.env]] — environment snapshot.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

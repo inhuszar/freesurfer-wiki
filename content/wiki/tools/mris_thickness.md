@@ -14,7 +14,7 @@ related:
   - "[[mris_thickness_diff]]"
   - "[[mris_thickness_comparison]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -220,7 +220,7 @@ The `lh.thickness` file is stored in `<subject>/surf/` and the smoothed versions
 - [[mris_anatomical_stats]] — computes regional mean thickness from this output
 - [[mris_thickness_diff]] — computes per-vertex thickness differences between time points or groups
 - [[mris_thickness_comparison]] — compares thickness maps for a subject
-- [[recon-all]] — orchestrates the pipeline that calls this tool
+- [[wiki/pipelines/recon-all|recon-all]] — orchestrates the pipeline that calls this tool
 - [[surface-format]] — surface and curvature file format reference
 
 ## Confidence and Gaps

@@ -3,7 +3,7 @@ title: "Longitudinal Processing"
 type: concept
 fs_version: "8.2.0"
 related_tools:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_robust_template]]"
   - "[[mri_add_new_tp]]"
   - "[[mri_robust_register]]"

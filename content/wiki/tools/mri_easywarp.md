@@ -118,7 +118,7 @@ mri_easywarp --i T1.mgz --field fwd_field.mgz --o T1_warped.mgz --threads 4
 
 ## Pipeline Context
 
-`mri_easywarp` is not called by `[[recon-all]]`. It is used after `[[mri_easyreg]]` to apply deformation fields. Typical workflow:
+`mri_easywarp` is not called by `[[wiki/pipelines/recon-all|recon-all]]`. It is used after `[[mri_easyreg]]` to apply deformation fields. Typical workflow:
 1. `mri_easyreg` — compute registration and produce a forward deformation field (via its `--fwd_field` output flag)
 2. `mri_easywarp --field <fwd_field>` — apply that field to additional images or label maps
 

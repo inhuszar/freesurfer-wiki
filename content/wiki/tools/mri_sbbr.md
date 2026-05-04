@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mris_register]]"
   - "[[mri_vol2surf]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-21

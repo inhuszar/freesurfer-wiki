@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_binarize]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -26,7 +26,7 @@ tags:
 
 ## Summary
 
-`mri_compile_edits` scans a subject's `mri/` directory for all manually-edited volumes and produces a single summary volume (`edits.mgz` by default) in which each voxel is labeled with an integer indicating which type of edit was made at that location. It is a provenance and quality-control utility that summarizes all human interventions made during the [[recon-all]] pipeline for a given subject.
+`mri_compile_edits` scans a subject's `mri/` directory for all manually-edited volumes and produces a single summary volume (`edits.mgz` by default) in which each voxel is labeled with an integer indicating which type of edit was made at that location. It is a provenance and quality-control utility that summarizes all human interventions made during the [[wiki/pipelines/recon-all|recon-all]] pipeline for a given subject.
 
 ## Source Information
 
@@ -112,7 +112,7 @@ mri_compile_edits bert $SUBJECTS_DIR/bert/mri/all_edits.mgz
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Run as a post-processing quality control step to document what edits were made. Useful in studies requiring audit trails of manual interventions, or when comparing edit patterns across subjects.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Run as a post-processing quality control step to document what edits were made. Useful in studies requiring audit trails of manual interventions, or when comparing edit patterns across subjects.
 
 ## Gotchas and Caveats
 
@@ -127,7 +127,7 @@ Not a standard [[recon-all]] stage. Run as a post-processing quality control ste
 
 ## Related Tools
 
-- [[recon-all]] — the pipeline where edits are made
+- [[wiki/pipelines/recon-all|recon-all]] — the pipeline where edits are made
 - [[mri_binarize]] — can extract specific edit types from the compiled volume
 
 ## Confidence and Gaps

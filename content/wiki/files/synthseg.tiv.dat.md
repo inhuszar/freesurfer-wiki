@@ -22,12 +22,12 @@ consumed_by:
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: Stats stages (when SynthSeg is active)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats stages (when SynthSeg is active)"
 editable: false
 related:
   - "[[synthseg.vol.csv]]"
   - "[[aseg.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -64,7 +64,7 @@ csvprint --csv stats/synthseg.vol.csv \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, immediately after [[synthseg.vol.csv]] is written.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, immediately after [[synthseg.vol.csv]] is written.
 
 ### Inputs required
 
@@ -79,7 +79,7 @@ Passed as `--stiv $synthsegtiv` to `mri_segstats` when generating [[aseg.stats]]
 - [[synthseg.vol.csv]] — source CSV.
 - [[aseg.stats]] — primary consumer.
 - [[wmparc.stats]] — also uses this value.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

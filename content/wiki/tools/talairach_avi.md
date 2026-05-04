@@ -16,9 +16,9 @@ families:
   - "talairach_*"
 recon_all_stage: "autorecon1"
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_em_register]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_nu_correct.mni]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -46,7 +46,7 @@ registration toolchain (`mpr2mni305`, `imgreg_4dfp`, `compute_vox2vox`,
 computes a 12-parameter affine transform that aligns the subject to
 an MNI-average-305 reference atlas and writes it as a FreeSurfer
 `.xfm` file, together with an equivalent `.lta` for convenience.
-This is the tool [[recon-all]] uses by default to produce
+This is the tool [[wiki/pipelines/recon-all|recon-all]] uses by default to produce
 `transforms/talairach.auto.xfm` (and, after copying,
 `transforms/talairach.xfm`), which serves as the coarse Talairach
 alignment for the rest of the pipeline — in particular, it is the
@@ -68,7 +68,7 @@ transform is applied afterwards by downstream tools. See the
   - `talairach_avi/talairach_avi` (253 lines) — the user-facing
     wrapper. Parses the `--i`, `--xfm`, `--atlas`, `--log`,
     `--debug` flags; converts the input to ANALYZE with
-    [[mri_convert]]; invokes `mpr2mni305`; converts the resulting
+    [[wiki/tools/mri_convert|mri_convert]]; invokes `mpr2mni305`; converts the resulting
     `4dfp` t4 file to an xfm via `avi2talxfm`; and writes the LTA
     via `lta_convert`.
   - `talairach_avi/mpr2mni305` (216 lines) — the second-level
@@ -95,7 +95,7 @@ transform is applied afterwards by downstream tools. See the
 
 ## Purpose and Context
 
-Early in autorecon1, [[recon-all]] needs a coarse linear transform
+Early in autorecon1, [[wiki/pipelines/recon-all|recon-all]] needs a coarse linear transform
 from the subject to an MNI-average-305 reference for two reasons:
 
 1. **NU histogram centring**: the second call to
@@ -130,7 +130,7 @@ with optional `--atlas 3T18yoSchwartzReactN32_as_orig` (from
 
 | Flag | Description |
 |------|-------------|
-| `--i <invol>` | Input MRI volume in any format readable by [[mri_convert]]. Must be approximately T1-weighted for the registration engine to lock onto the correct contrast gradient. |
+| `--i <invol>` | Input MRI volume in any format readable by [[wiki/tools/mri_convert|mri_convert]]. Must be approximately T1-weighted for the registration engine to lock onto the correct contrast gradient. |
 | `--xfm <outxfm>` | Output `.xfm` file path. The output directory is created if necessary. A companion `.xfm.lta` is also written. |
 
 ### Optional Inputs
@@ -289,7 +289,7 @@ resolve it without an explicit `--targ`.
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
-| `--i <invol>` | path (one arg) | required | Input MRI volume in any format readable by [[mri_convert]]. The script verifies the file exists in `check_params` and aborts otherwise. |
+| `--i <invol>` | path (one arg) | required | Input MRI volume in any format readable by [[wiki/tools/mri_convert|mri_convert]]. The script verifies the file exists in `check_params` and aborts otherwise. |
 | `--xfm <outxfm>` | path (one arg) | required | Output `.xfm` path. The parent directory is created on demand by `mkdir -p`. The companion `<outxfm>.lta` is written to the same directory. |
 | `--x <outxfm>` | path (one arg) | required | Undocumented short alias for `--xfm` (same case branch in the parser at `talairach_avi:163–167`). |
 | `--atlas <name>` | string (one arg) | `711-2C_as_mni_average_305` | Target atlas stem (no extension). Sets `MPR2MNI305_TARGET`. Must exist as `$FREESURFER_HOME/average/<name>.4dfp.{img,ifh,hdr}`. |
@@ -478,11 +478,11 @@ tool). The dependency is indirect.
   `talairach.xfm`.
 - `lta_convert` — the tool invoked at the end of
   `talairach_avi` to write the companion `.xfm.lta`.
-- [[mri_convert]] — called internally to convert MGZ to ANALYZE
+- [[wiki/tools/mri_convert|mri_convert]] — called internally to convert MGZ to ANALYZE
   (via `analyzeto4dfp`).
 - `mri_coreg` — modern FreeSurfer native affine registration
   tool, a potential replacement for `talairach_avi` but not the
-  default in [[recon-all]].
+  default in [[wiki/pipelines/recon-all|recon-all]].
 - `run_samseg --reg-only` — SAMSEG-based Talairach alignment
   fallback, enabled by `recon-all -samseg-reg`.
 - [[coordinate-systems]] — explains why FreeSurfer's "Talairach"

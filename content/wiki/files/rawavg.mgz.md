@@ -18,19 +18,19 @@ inputs:
   - "[[orig/NNN.mgz]]"
 siblings: []
 consumed_by:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[lta_convert]]"
 downstream_files:
   - "[[orig.mgz]]"
   - "[[rawavg2orig.lta]]"
 mandatory_for:
-  - "[[recon-all]] autorecon1: Conform"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1: Conform"
 optional_for: []
 editable: false
 related:
   - "[[mgz]]"
   - "[[orig.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -84,7 +84,7 @@ The actual write of the averaged volume is handled inside `mri_robust_template`;
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, **Motion Correction / Average** stage (between `-motioncor` and `-talairach`). Touch sentinel: `touch/motion_correct.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, **Motion Correction / Average** stage (between `-motioncor` and `-talairach`). Touch sentinel: `touch/motion_correct.touch`.
 
 ### Inputs required
 
@@ -102,7 +102,7 @@ During the same motion-correction invocation, per-run LTA transforms and iscale 
 
 ### Direct downstream consumers
 
-- [[mri_convert]] — reads `rawavg.mgz`, conforms it to 256³ 1 mm isotropic, and writes [[orig.mgz]].
+- [[wiki/tools/mri_convert|mri_convert]] — reads `rawavg.mgz`, conforms it to 256³ 1 mm isotropic, and writes [[orig.mgz]].
 - [[lta_convert]] — uses `rawavg.mgz` as the source geometry to construct [[rawavg2orig.lta]], the identity-based LTA from raw to conformed space.
 
 ### Downstream files derived from this one
@@ -125,9 +125,9 @@ During the same motion-correction invocation, per-run LTA transforms and iscale 
 
 - [[mgz]] — on-disk format specification.
 - [[mri_robust_template]] — canonical producer.
-- [[mri_convert]] — immediate downstream consumer.
+- [[wiki/tools/mri_convert|mri_convert]] — immediate downstream consumer.
 - [[orig.mgz]] — conformed successor.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

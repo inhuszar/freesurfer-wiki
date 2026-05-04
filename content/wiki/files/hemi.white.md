@@ -36,7 +36,7 @@ downstream_files:
   - "[[hemi.area]]"
   - "[[hemi.jacobian_white]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Pial, Thickness, Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Pial, Thickness, Stats"
 optional_for: []
 editable: false
 related:
@@ -45,7 +45,7 @@ related:
   - "[[hemi.pial]]"
   - "[[hemi.thickness]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -100,7 +100,7 @@ mris_place_surface \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **WhiteSurfs** stage (`-white`). Touch sentinel: `touch/$hemi.white.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **WhiteSurfs** stage (`-white`). Touch sentinel: `touch/$hemi.white.touch`.
 
 ### Inputs required
 
@@ -143,7 +143,7 @@ mris_place_surface \
 - [[hemi.pial]] — companion pial surface.
 - [[hemi.thickness]] — derived from white–pial distance.
 - [[brain.finalsurfs.mgz]], [[wm.mgz]] — key inputs.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

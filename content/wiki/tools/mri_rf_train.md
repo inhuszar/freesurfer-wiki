@@ -142,7 +142,7 @@ mri_rf_train \
 
 ## Pipeline Context
 
-`mri_rf_train` is not part of [[recon-all]]. It is used offline to train site-specific WMSA classifiers. The trained classifier is then applied with [[mri_rf_label]] on new subjects.
+`mri_rf_train` is not part of [[wiki/pipelines/recon-all|recon-all]]. It is used offline to train site-specific WMSA classifiers. The trained classifier is then applied with [[mri_rf_label]] on new subjects.
 
 ## Gotchas and Caveats
 

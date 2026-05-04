@@ -26,12 +26,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
 editable: false
 related:
   - "[[hemi.BA_exvivo.thresh.annot]]"
   - "[[hemi.BA_exvivo.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -71,13 +71,13 @@ mris_anatomical_stats -th3 -mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **BA_exvivo Labels** stage. Produced immediately after [[hemi.BA_exvivo.thresh.annot]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **BA_exvivo Labels** stage. Produced immediately after [[hemi.BA_exvivo.thresh.annot]].
 
 ## Related
 
 - [[hemi.BA_exvivo.thresh.annot]] — source annotation.
 - [[hemi.BA_exvivo.stats]] — unthresholded version.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

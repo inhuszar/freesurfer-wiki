@@ -13,7 +13,7 @@ related:
   - "[[mri_tessellate]]"
   - "[[surface-format]]"
   - "[[mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -104,11 +104,11 @@ mri_ribbon rh.white rh.pial rawavg rh_ribbon
 mri_ribbon -l ROI.label lh.white lh.pial rawavg lh_ribbon_ROI
 ```
 
-In [[recon-all]], the typical call creates the combined `ribbon.mgz` for both hemispheres.
+In [[wiki/pipelines/recon-all|recon-all]], the typical call creates the combined `ribbon.mgz` for both hemispheres.
 
 ## Pipeline Context
 
-`mri_ribbon` is called during [[recon-all]] `autorecon3`, after the pial surface has been reconstructed. The output `ribbon.mgz` is used by subsequent tools including `mris_anatomical_stats` for cortical parcellation statistics and surface-to-volume mapping.
+`mri_ribbon` is called during [[wiki/pipelines/recon-all|recon-all]] `autorecon3`, after the pial surface has been reconstructed. The output `ribbon.mgz` is used by subsequent tools including `mris_anatomical_stats` for cortical parcellation statistics and surface-to-volume mapping.
 
 The pipeline creates the ribbon using both hemispheres' white and pial surfaces to produce the combined `mri/ribbon.mgz`.
 

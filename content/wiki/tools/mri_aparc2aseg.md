@@ -12,7 +12,7 @@ related:
   - "[[mris_ca_label]]"
   - "[[mri_ca_label]]"
   - "[[mris_anatomical_stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-14
@@ -90,7 +90,7 @@ Implicit inputs (resolved from subject directory):
 
 > [!assumption] aseg and surfaces must be coregistered
 > The aseg and the white/pial surfaces must be in the same coordinate frame
-> ([[coordinate-systems|Surface RAS]]). Since [[recon-all]] produces them together this is always true,
+> ([[coordinate-systems|Surface RAS]]). Since [[wiki/pipelines/recon-all|recon-all]] produces them together this is always true,
 > but stand-alone use requires care.
 
 > [!assumption] ribbon.mgz defines in/out-of-cortex

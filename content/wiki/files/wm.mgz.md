@@ -23,7 +23,7 @@ consumed_by:
 downstream_files:
   - "[[filled.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Fill"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fill"
 optional_for: []
 editable: true
 related:
@@ -31,7 +31,7 @@ related:
   - "[[wm.seg.mgz]]"
   - "[[wm.asegedit.mgz]]"
   - "[[filled.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -83,7 +83,7 @@ If `FixEntoWM` is set, a further `mri_edit_wm_with_aseg` pass corrects entorhina
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **WM Segmentation** stage (`-wmseg`). Touch sentinel: `touch/wmsegment.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **WM Segmentation** stage (`-wmseg`). Touch sentinel: `touch/wmsegment.touch`.
 
 ### Inputs required
 
@@ -123,7 +123,7 @@ None.
 - [[wm.seg.mgz]] — earlier WM estimate; may be copied from wm.mgz when edits exist.
 - [[filled.mgz]] — downstream flood fill.
 - [[mri_fill]] — primary consumer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

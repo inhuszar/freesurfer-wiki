@@ -10,7 +10,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-15
@@ -181,7 +181,7 @@ mri_3d_photo_recon \
 
 ## Related Tools
 
-- [[mri_convert]] — format conversion for reference MRI inputs
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion for reference MRI inputs
 
 ## Confidence and Gaps
 

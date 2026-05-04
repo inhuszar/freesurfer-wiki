@@ -13,7 +13,7 @@ related:
   - "[[mri_em_register]]"
   - "[[mri_ca_normalize]]"
   - "[[mri_ca_label]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
 status: draft
@@ -32,7 +32,7 @@ tags:
 
 ## Summary
 
-`mri_ca_register` performs high-dimensional nonlinear registration of a subject's normalized MRI volume to a [[gca-format|Gaussian Classifier Atlas]] (GCA), producing a voxel-warp field ([[m3z-format|`.m3z`]] morphological transform). It is the deformable atlas registration step in [[recon-all]]'s autorecon2 stage, following the affine registration by [[mri_em_register]] and the intensity normalization by [[mri_ca_normalize]]. The resulting transform is used by [[mri_ca_label]] to produce the subcortical segmentation (`aseg.mgz`).
+`mri_ca_register` performs high-dimensional nonlinear registration of a subject's normalized MRI volume to a [[gca-format|Gaussian Classifier Atlas]] (GCA), producing a voxel-warp field ([[m3z-format|`.m3z`]] morphological transform). It is the deformable atlas registration step in [[wiki/pipelines/recon-all|recon-all]]'s autorecon2 stage, following the affine registration by [[mri_em_register]] and the intensity normalization by [[mri_ca_normalize]]. The resulting transform is used by [[mri_ca_label]] to produce the subcortical segmentation (`aseg.mgz`).
 
 ## Source Information
 
@@ -227,7 +227,7 @@ mri_ca_register -align -mask brainmask.mgz \
 
 ## Pipeline Context
 
-In [[recon-all]], `mri_ca_register` runs in autorecon2 as part of the subcortical segmentation preparation:
+In [[wiki/pipelines/recon-all|recon-all]], `mri_ca_register` runs in autorecon2 as part of the subcortical segmentation preparation:
 
 1. [[mri_em_register]] → `transforms/talairach.lta` (affine)
 2. [[mri_ca_normalize]] → `norm.mgz` (normalized T1)

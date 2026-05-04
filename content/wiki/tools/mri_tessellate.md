@@ -12,7 +12,7 @@ related:
   - "[[mri_pretess]]"
   - "[[mris_smooth]]"
   - "[[mris_inflate]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-14
@@ -103,7 +103,7 @@ rh → MRI_RIGHT_HEMISPHERE = 127
 | `outsurf` | FreeSurfer binary surface | Triangulated mesh in Surface RAS coordinates |
 
 The output surface is a standard `MRIS` binary surface file (see
-[[surface-format]]) readable by [[freeview]], `mris_convert`, [[mris_smooth]],
+[[surface-format]]) readable by [[wiki/tools/freeview|freeview]], `mris_convert`, [[mris_smooth]],
 etc.
 
 ### Surface coordinates
@@ -296,8 +296,8 @@ labelling) → [[mri_segment]] (WM segmentation)
 - [[mris_smooth]] — smooths `orig.nofix` to produce `smoothwm.nofix`
 - [[mris_inflate]] — inflates `smoothwm.nofix` to `inflated.nofix`
 - [[mris_sphere]], [[mris_register]] — downstream surface registration
-- [[freeview]] — visualise the resulting surface
-- [[recon-all]] — orchestrating pipeline
+- [[wiki/tools/freeview|freeview]] — visualise the resulting surface
+- [[wiki/pipelines/recon-all|recon-all]] — orchestrating pipeline
 
 ## Confidence and Gaps
 

@@ -24,12 +24,12 @@ downstream_files:
   - "[[brainmask.mgz]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon1 (run by default in v8.x)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1 (run by default in v8.x)"
 editable: false
 related:
   - "[[orig.mgz]]"
   - "[[brainmask.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -67,7 +67,7 @@ mri_synthstrip --threads $OMP_NUM_THREADS \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1. Produced before [[synthseg.rca.mgz]] and used by `seg2recon` to improve brain mask quality.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1. Produced before [[synthseg.rca.mgz]] and used by `seg2recon` to improve brain mask quality.
 
 ### Inputs required
 
@@ -84,7 +84,7 @@ mri_synthstrip --threads $OMP_NUM_THREADS \
 - [[orig.mgz]] — input volume.
 - [[brainmask.mgz]] — brain-masked T1 derived from this mask.
 - [[synthseg.rca.mgz]] — complementary DL segmentation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

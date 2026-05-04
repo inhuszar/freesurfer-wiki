@@ -11,7 +11,7 @@ recon_all_stage: "autorecon2"
 related:
   - "[[mris_inflate]]"
   - "[[mris_register]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-14
@@ -62,7 +62,7 @@ A spherical parameterisation is needed for:
    on the folded surface directly.
 2. **Topology correction**: `mris_topology_fixer` works in the spherical
    domain. `qsphere.nofix` is used to initialise this correction. See
-   [[recon-all]] for the surrounding pipeline.
+   [[wiki/pipelines/recon-all|recon-all]] for the surrounding pipeline.
 3. **Resampling and morphing**: many surface operations (e.g., cortical
    parcellation, surface resampling to fsaverage) work in spherical coordinates.
 
@@ -290,7 +290,7 @@ mris_sphere -threads $OMP_NUM_THREADS surf/lh.inflated surf/lh.sphere
 
 ## Pipeline Context
 
-**autorecon2 — QSphere stage** ([[recon-all]] lines 3689–3697):
+**autorecon2 — QSphere stage** ([[wiki/pipelines/recon-all|recon-all]] lines 3689–3697):
 
 ```
 mris_inflate → lh.inflated.nofix
@@ -307,7 +307,7 @@ Exact recon-all QSphere command ([`scripts/recon-all:3690`](https://github.com/f
 mris_sphere -q -p 6 -a 128 surf/lh.smoothwm.nofix surf/lh.qsphere.nofix
 ```
 
-**autorecon3 — Sphere stage** ([[recon-all]] lines 4172–4205):
+**autorecon3 — Sphere stage** ([[wiki/pipelines/recon-all|recon-all]] lines 4172–4205):
 
 ```
 mris_inflate → lh.inflated

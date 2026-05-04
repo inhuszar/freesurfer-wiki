@@ -49,7 +49,7 @@ matrix ready for import into statistical software (R, Python, SPSS, etc.).
 
 ## Purpose and Context
 
-After [[recon-all]] completes, each subject has per-hemisphere stats files
+After [[wiki/pipelines/recon-all|recon-all]] completes, each subject has per-hemisphere stats files
 produced by [[mris_anatomical_stats]] (`lh.aparc.stats`, `rh.aparc.stats`,
 `lh.aparc.a2009s.stats`, etc.) that contain morphometric measures for every
 cortical parcellation region. These files are well-suited for single-subject
@@ -363,7 +363,7 @@ aparcstats2table \
 
 ## Pipeline Context
 
-`aparcstats2table` is not part of the [[recon-all]] pipeline. It is a
+`aparcstats2table` is not part of the [[wiki/pipelines/recon-all|recon-all]] pipeline. It is a
 post-processing tool intended for group-level analysis.
 
 **Prerequisite outputs** (produced by `recon-all`):

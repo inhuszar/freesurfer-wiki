@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_probedicom]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-21
@@ -117,7 +117,7 @@ mri_probe_ima --dictionary
 
 ## Pipeline Context
 
-`mri_probe_ima` is not called by [[recon-all]]. It is a legacy utility for sites that still have Siemens IMA data from older scanners (pre-DICOM era Siemens systems). For modern DICOM files, use [[mri_probedicom]] instead.
+`mri_probe_ima` is not called by [[wiki/pipelines/recon-all|recon-all]]. It is a legacy utility for sites that still have Siemens IMA data from older scanners (pre-DICOM era Siemens systems). For modern DICOM files, use [[mri_probedicom]] instead.
 
 ## Gotchas and Caveats
 
@@ -130,7 +130,7 @@ mri_probe_ima --dictionary
 ## Related Tools
 
 - [[mri_probedicom]] — Modern DICOM header inspection
-- [[mri_convert]] — Convert IMA/DICOM files to FreeSurfer format
+- [[wiki/tools/mri_convert|mri_convert]] — Convert IMA/DICOM files to FreeSurfer format
 - [[mri_parse_sdcmdir]] — Parse Siemens DICOM directories
 
 ## Confidence and Gaps

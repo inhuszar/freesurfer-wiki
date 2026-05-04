@@ -225,7 +225,7 @@ mri_label2label \
 `mri_label2label` is not called by `recon-all`. It is used in group analysis workflows:
 
 - **Upstream:** `mris_register` (produces `sphere.reg`), `recon-all -all`
-- **Downstream:** [[mri_label2vol]] (to map the label back to volume), [[mri_glmfit]] (for ROI analyses)
+- **Downstream:** [[mri_label2vol]] (to map the label back to volume), [[wiki/tools/mri_glmfit|mri_glmfit]] (for ROI analyses)
 
 ## Gotchas and Caveats
 

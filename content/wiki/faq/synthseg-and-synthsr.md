@@ -24,7 +24,7 @@ matter hyperintensity segmentation). All four share a
 training-on-synthetic-images strategy that makes them robust across
 contrasts and resolutions, and all four sit at the heart of the
 [[recon-all-clinical]] pipeline. They also feed the standard
-[[recon-all]] pipeline as opt-in (FS 7.x) or default (FS 8.x)
+[[wiki/pipelines/recon-all|recon-all]] pipeline as opt-in (FS 7.x) or default (FS 8.x)
 components, gated by the `FS_ALLOW_DEEP` environment variable in 7.x.
 
 > For tool reference, see [[mri_synthseg]], [[mri_synthsr]],
@@ -84,7 +84,7 @@ characteristics shift substantially with acquisition parameters —
 properties that defeat the contrast-agnostic training strategy. The
 same exclusion applies to [[recon-all-clinical]] (which wraps SynthSeg
 internally). If choroid plexus volume is required, alternatives are
-standard [[recon-all]] on a good T1 (CP labels 31 / 63 are present in
+standard [[wiki/pipelines/recon-all|recon-all]] on a good T1 (CP labels 31 / 63 are present in
 [[aseg.mgz]] when found) or a dedicated CP-segmentation network from
 the literature.
 
@@ -132,7 +132,7 @@ native resolution rather than 1 mm isotropic, add `--keepgeom`.
 **Short answer:** Pass it via a `recon-all -expert` options file
 containing `mri_synthseg -robust`.
 
-**Detail:** [[recon-all]] does not expose every internal SynthSeg flag
+**Detail:** [[wiki/pipelines/recon-all|recon-all]] does not expose every internal SynthSeg flag
 on its own command line. The standard escape hatch is the expert
 options mechanism: each line names a tool and the additional flags to
 append to its invocation.
@@ -152,7 +152,7 @@ running [[mri_synthseg]] standalone (with `--robust`) or switching to
 **Provenance:** Mailing list, 2023-11-01 (Huang). See
 `raw/mailing-list/2023-11-synthseg-robust-mode-recon-all-expert-options.md`.
 
-**Related:** [[mri_synthseg]], [[recon-all]], [[recon-all-clinical]]
+**Related:** [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]], [[recon-all-clinical]]
 
 ---
 
@@ -227,7 +227,7 @@ thresholding at 0.5 is close but not exactly identical.
 probabilistic segmentation across a fixed structure list (brainstem,
 cerebellum cortex / WM, ventricles, cortical and subcortical structures,
 WM hypointensities, lesions, vermis area, corpus callosum, pons, etc.).
-This differs from the standard [[recon-all]] eTIV, which scales an
+This differs from the standard [[wiki/pipelines/recon-all|recon-all]] eTIV, which scales an
 MNI305 atlas-registration determinant. Iglesias confirmed on the
 mailing list that hard-thresholding the discrete output at 0.5 "would
 be very close but not exactly the same," because each voxel
@@ -257,7 +257,7 @@ clinical pipeline.
 `_nii` (or remove the extension entirely) and re-run.
 
 **Detail:** In FreeSurfer 8, [[mri_synthseg]] runs as an early step of
-[[recon-all]] and parses the subject identifier when constructing
+[[wiki/pipelines/recon-all|recon-all]] and parses the subject identifier when constructing
 file paths. If the subject ID happens to end in `.nii` (or `.nii.gz`,
 or `.mgz`), nibabel's header parser is misled into treating the
 subject ID as a NIfTI filename and fails with `ValueError: no field
@@ -283,7 +283,7 @@ recon-all -s sub-AH002_ses-01_T1w_nii -all
 **Provenance:** Mailing list, 2025-03-06 (Huang). See
 `raw/mailing-list/2025-03-mri-synthseg-valueerror-pixdim-nii-in-subject-id.md`.
 
-**Related:** [[mri_synthseg]], [[recon-all]]
+**Related:** [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -345,7 +345,7 @@ SynthSR is contrast-agnostic.
 **Provenance:** Mailing list, 2025-03-18 (Iglesias). See
 `raw/mailing-list/2025-03-synthsr-preprocess-thick-slice-before-segmentha.md`.
 
-**Related:** [[mri_synthsr]], [[recon-all]], [[recon-all-clinical]]
+**Related:** [[mri_synthsr]], [[wiki/pipelines/recon-all|recon-all]], [[recon-all-clinical]]
 
 ---
 
@@ -374,14 +374,14 @@ FS_ALLOW_DEEP=1 recon-all -s $SUBJECT -i input.nii.gz -all -synthstrip
 ```
 
 `FS_ALLOW_DEEP=1` is the gate that permits deep-learning tools inside
-[[recon-all]] in FS 7.x; without it the `-synthstrip` flag may fall
+[[wiki/pipelines/recon-all|recon-all]] in FS 7.x; without it the `-synthstrip` flag may fall
 back silently to watershed. In FS 8.x the variable is no longer
 required — SynthStrip runs by default.
 
 **Provenance:** Mailing list, 2025-02-27 (Hoffmann). See
 `raw/mailing-list/2025-03-synthstrip-not-default-in-fs73-fs-allow-deep-required.md`.
 
-**Related:** [[mri_synthstrip]], [[recon-all]]
+**Related:** [[mri_synthstrip]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -392,7 +392,7 @@ line `synthstrip --no-csf`; this appends the flag to the internal
 `mri_synthstrip` call.
 
 **Detail:** Hoffmann recommended `--no-csf` for SynthStrip inside
-[[recon-all]] back in FS 7.3, because it produces a brain mask
+[[wiki/pipelines/recon-all|recon-all]] back in FS 7.3, because it produces a brain mask
 similar to the legacy `mri_watershed` algorithm (excludes CSF,
 preserving the cortical ribbon). The mechanism is the standard expert
 options file:
@@ -426,7 +426,7 @@ specified at the base stage as well if SynthSeg is required throughout
 `raw/mailing-list/2023-06-synthstrip-no-csf-flag-recommended-t2-interaction.md`
 and `raw/mailing-list/2024-06-recon-all-synthstrip-synthseg-expert-options.md`.
 
-**Related:** [[mri_synthstrip]], [[mri_synthseg]], [[recon-all]],
+**Related:** [[mri_synthstrip]], [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]],
 [[synthstrip.mgz]]
 
 ---
@@ -502,7 +502,7 @@ Two consequences worth noting:
    `talairach.m3z` is **not** created. Tools that depend on it
    (some volumetric eTIV calculators, certain
    [[coordinate-systems|MNI305 transforms]]) will fail or fall back.
-2. For [[recon-all]] longitudinal runs, `-synthstrip` only matters at
+2. For [[wiki/pipelines/recon-all|recon-all]] longitudinal runs, `-synthstrip` only matters at
    the cross-sectional stage — base and long inherit the
    cross-sectional brain mask. Whether `-synthseg` must be repeated at
    the base stage was not definitively answered by the developers
@@ -511,5 +511,5 @@ Two consequences worth noting:
 **Provenance:** Mailing list, 2024-06-07 (Hoffmann). See
 `raw/mailing-list/2024-06-recon-all-synthstrip-synthseg-expert-options.md`.
 
-**Related:** [[mri_synthstrip]], [[mri_synthseg]], [[recon-all]],
+**Related:** [[mri_synthstrip]], [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]],
 [[recon-all-clinical]]

@@ -28,13 +28,13 @@ downstream_files:
   - "[[hemi.w-g.pct.stats]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: WM/GM Contrast (run by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: WM/GM Contrast (run by default)"
 editable: false
 related:
   - "[[rawavg.mgz]]"
   - "[[hemi.white]]"
   - "[[hemi.w-g.pct.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -81,7 +81,7 @@ mri_concat $wm $gm --paired-diff-norm --mul 100 --o surf/$hemi.w-g.pct.mgh
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **WM/GM Contrast** (`-pctsurfcon`). Run by default; skippable with `-nopctsurfcon`. Also skipped in the longitudinal base template. Touch sentinel: `touch/$hemi.pctsurfcon.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **WM/GM Contrast** (`-pctsurfcon`). Run by default; skippable with `-nopctsurfcon`. Also skipped in the longitudinal base template. Touch sentinel: `touch/$hemi.pctsurfcon.touch`.
 
 ### Inputs required
 
@@ -98,7 +98,7 @@ mri_concat $wm $gm --paired-diff-norm --mul 100 --o surf/$hemi.w-g.pct.mgh
 - [[rawavg.mgz]] — source intensity volume.
 - [[hemi.white]] — reference surface for WM/GM sampling.
 - [[hemi.w-g.pct.stats]] — stats file produced from this overlay.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -34,7 +34,7 @@ related:
   - "[[hemi.aparc.stats]]"
   - "[[hemi.pial]]"
   - "[[mris_anatomical_stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -75,7 +75,7 @@ mris_anatomical_stats -mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **ParcStats** stage (`-parcstats`), pial iteration.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **ParcStats** stage (`-parcstats`), pial iteration.
 
 ### Siblings (co-produced outputs)
 
@@ -86,7 +86,7 @@ mris_anatomical_stats -mgz \
 - [[hemi.aparc.stats]] — white surface counterpart.
 - [[hemi.pial]] — source surface.
 - [[mris_anatomical_stats]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

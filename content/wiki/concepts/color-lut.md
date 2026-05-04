@@ -8,7 +8,7 @@ related_tools:
   - "[[mri_ca_label]]"
   - "[[mris_ca_label]]"
   - "[[mri_aparc2aseg]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
 related_concepts:
   - "[[parcellation-schemes]]"
   - "[[surface-representations]]"

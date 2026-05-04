@@ -37,13 +37,13 @@ downstream_files:
   - "[[hemi.BA_exvivo.annot]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
 editable: false
 related:
   - "[[hemi.sphere.reg]]"
   - "[[hemi.BA_exvivo.annot]]"
   - "[[fsaverage]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -104,7 +104,7 @@ mri_label2label \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **BA_exvivo Labels** stage. Labels are generated in three parallel batches before the annotation is assembled.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **BA_exvivo Labels** stage. Labels are generated in three parallel batches before the annotation is assembled.
 
 ### Inputs required
 
@@ -120,7 +120,7 @@ All 14 files are passed to `mris_label2annot` to produce [[hemi.BA_exvivo.annot]
 - [[hemi.BA_exvivo.annot]] — annotation assembled from these labels.
 - [[hemi.BA_exvivo.thresh.label]] — probability-thresholded variants.
 - [[fsaverage]] — atlas source subject.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

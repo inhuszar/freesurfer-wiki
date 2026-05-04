@@ -12,7 +12,7 @@ families:
 recon_all_stage: null
 related:
   - "[[samseg-long]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_ca_label]]"
   - "[[mri_em_register]]"
   - "[[lta-format]]"
@@ -117,7 +117,7 @@ All outputs are written to the directory specified by `--o` (or `$SUBJECTS_DIR/<
 
 ### Output Specifications
 
-`seg.mgz` uses the same integer label scheme as the standard FreeSurfer `aseg.mgz` (see [[color-lut]]). The voxel data type is float by default (not int or uchar), which means downstream tools that assume integer type may require explicit type conversion with `[[mri_convert]]`.
+`seg.mgz` uses the same integer label scheme as the standard FreeSurfer `aseg.mgz` (see [[color-lut]]). The voxel data type is float by default (not int or uchar), which means downstream tools that assume integer type may require explicit type conversion with `[[wiki/tools/mri_convert|mri_convert]]`.
 
 > [!gotcha] seg.mgz is float, not integer
 > samseg writes `seg.mgz` as a float-type volume. The comment in the source code ("Should probably convert segmentation to INT") confirms this is a known, outstanding issue. Downstream tools expecting integer label volumes (e.g., some FSL utilities) will require conversion: `mri_convert seg.mgz seg_int.mgz -odt int --no_scale 1`.
@@ -402,7 +402,7 @@ When `recon-all -autorecon2-samseg` is called, it internally calls `samseg2recon
 - `mri/nu.mgz` ← bias-corrected T1w rescaled to WM=110
 - `mri/norm.mgz`, `mri/brainmask.mgz` ← masked from nu.mgz
 
-**Predecessor:** (optional fsr-import / fsr-coreg) → **samseg** → **samseg2recon** → **[[recon-all]]** (`-autorecon2-samseg`)
+**Predecessor:** (optional fsr-import / fsr-coreg) → **samseg** → **samseg2recon** → **[[wiki/pipelines/recon-all|recon-all]]** (`-autorecon2-samseg`)
 
 For longitudinal analysis, see `[[samseg-long]]` which builds an unbiased cross-timepoint template before per-timepoint segmentation.
 
@@ -432,7 +432,7 @@ For longitudinal analysis, see `[[samseg-long]]` which builds an unbiased cross-
 ## Related Tools
 
 - `[[samseg-long]]` — longitudinal variant; builds a cross-timepoint template and segments each timepoint jointly
-- `[[recon-all]]` — calls samseg via `-autorecon2-samseg`
+- `[[wiki/pipelines/recon-all|recon-all]]` — calls samseg via `-autorecon2-samseg`
 - `[[mri_ca_label]]` — GCA-based subcortical segmentation (classical alternative to samseg)
 - `[[mri_em_register]]` — GCA-based affine registration (classical alternative to samseg's registration step)
 - `[[mri_segstats]]` — compute region statistics from `seg.mgz`

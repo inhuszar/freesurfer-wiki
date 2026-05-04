@@ -3,7 +3,7 @@ title: "MGH/MGZ"
 type: format
 fs_version: "8.2.0"
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_info]]"
   - "[[coordinate-systems]]"
 status: review
@@ -199,13 +199,13 @@ Virtually all FreeSurfer volumetric tools read and write MGZ. Key tools:
 
 | Tool | Role |
 |------|------|
-| [[mri_convert]] | Converts between MGZ and NIfTI, DICOM, MINC, Analyze, … |
+| [[wiki/tools/mri_convert|mri_convert]] | Converts between MGZ and NIfTI, DICOM, MINC, Analyze, … |
 | [[mri_info]] | Displays all header fields |
 | [[mri_binarize]] | Reads/writes MGZ volumes |
 | [[mri_concat]] | Concatenates multiple MGZ volumes |
 | [[mri_label2vol]] | Writes label volumes as MGZ |
 | [[mri_vol2surf]] | Reads source volumes in MGZ; writes overlay as 1×1×1×Nv MGZ |
-| [[recon-all]] | All intermediate results stored as MGZ |
+| [[wiki/pipelines/recon-all|recon-all]] | All intermediate results stored as MGZ |
 
 ## Differences from NIfTI
 
@@ -217,7 +217,7 @@ Virtually all FreeSurfer volumetric tools read and write MGZ. Key tools:
 | Tags / provenance | Extensible TAG footer | Header extensions |
 | Surface overlays | Stored as 1×1×1×Nvertices MGZ | Not natively supported |
 
-Use [[mri_convert]] to convert between MGZ and NIfTI formats.
+Use [[wiki/tools/mri_convert|mri_convert]] to convert between MGZ and NIfTI formats.
 
 ## Reading MGZ from Python
 

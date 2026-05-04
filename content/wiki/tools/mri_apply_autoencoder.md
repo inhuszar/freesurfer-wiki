@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -111,7 +111,7 @@ Not part of `recon-all`. This is a research tool from the atlas/machine-learning
 
 ## Related Tools
 
-- [[mri_convert]] — format conversion for inputs
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion for inputs
 
 ## Confidence and Gaps
 

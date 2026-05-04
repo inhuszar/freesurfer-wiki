@@ -20,7 +20,7 @@ list. It covers the standard three-step recon-all longitudinal pipeline
 (cross → unbiased base / SST → long), the longitudinal SAMSEG stream
 (`run_samseg_long`), and the longitudinal subregion segmentations
 (`segmentHA_long` / `segment_subregions --long-base`). For tool reference
-see [[recon-all]] and [[samseg]]; for concepts see
+see [[wiki/pipelines/recon-all|recon-all]] and [[wiki/tools/samseg|samseg]]; for concepts see
 [[longitudinal-processing]].
 
 > [!gotcha] [[recon-all-clinical.sh]] has **no** longitudinal mode and
@@ -73,7 +73,7 @@ recon-all -base SUB_BASE -tp SUB_TP1 -tp SUB_TPn -sd $SUBJECTS_DIR -all
 **Provenance:** Mailing list, 2023-09-26 (Reuter). See
 `raw/mailing-list/2023-09-longitudinal-base-template-bias-uneven-timepoints.md`.
 
-**Related:** [[longitudinal-processing]], [[recon-all]], [[mri_robust_template]]
+**Related:** [[longitudinal-processing]], [[wiki/pipelines/recon-all|recon-all]], [[mri_robust_template]]
 
 ---
 
@@ -121,7 +121,7 @@ recon-all -long sub01_tp2 sub01_base -all
 **Provenance:** Mailing list, 2024-01-01 (Greve). See
 `raw/mailing-list/2023-12-longitudinal-multiple-scans-per-timepoint-averaged-for-base.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]], [[mri_robust_template]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]], [[mri_robust_template]]
 
 ---
 
@@ -164,7 +164,7 @@ recon-all -long 6008_tp1 6008 -all
 **Provenance:** Mailing list, 2023-06-13 (Huang). See
 `raw/mailing-list/2023-06-longitudinal-base-tps-spurious-entry-bash-glob.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -196,7 +196,7 @@ recon-all -long SUB_TP4_NEW SUB_BASE -all
 **Provenance:** Mailing list, 2025-01-17 (Huang). See
 `raw/mailing-list/2025-01-longitudinal-rerun-when-adding-timepoints.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -231,7 +231,7 @@ recon-all -long good_tp3 SUB_BASE -all
 **Provenance:** Mailing list, 2025-04-23 (Greve). See
 `raw/mailing-list/2025-04-longitudinal-bad-timepoint-exclude-entire-timepoint.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -274,7 +274,7 @@ is handled correctly as long as random effects are specified properly.
 **Provenance:** Mailing list, 2023-08-01 (Reuter). See
 `raw/mailing-list/2023-08-longitudinal-single-timepoint-in-mixed-cohort.md`.
 
-**Related:** [[longitudinal-processing]], [[recon-all]]
+**Related:** [[longitudinal-processing]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -299,7 +299,7 @@ recon-all -long tp2 base -all
 **Provenance:** Mailing list, 2023-08-17 (Huang). See
 `raw/mailing-list/2023-08-longitudinal-pipeline-available-fs7x-not-limited-to-fs6.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -325,7 +325,7 @@ parity: even adding or removing a single flag (e.g. `-T2`,
 **Provenance:** Mailing list, 2024-11-23 (Greve). See
 `raw/mailing-list/2024-11-freesurfer-7x-version-upgrade-safe-for-longitudinal.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -347,14 +347,14 @@ confirms the two-stage model is appropriate with 4 timepoints
 **Provenance:** Mailing list, 2025-01-23 (Greve). See
 `raw/mailing-list/2025-01-longitudinal-rerun-when-adding-timepoints.md`.
 
-**Related:** [[longitudinal-processing]], [[mri_glmfit]]
+**Related:** [[longitudinal-processing]], [[wiki/tools/mri_glmfit|mri_glmfit]]
 
 ---
 
 ### Can I run a longitudinal GLM on a single subject? My two-stage model fails with DOF=0.
 
 **Short answer:** Not with the standard two-stage model — there is no
-group variance with one subject. Use [[mri_glmfit]] with an FSGD file
+group variance with one subject. Use [[wiki/tools/mri_glmfit|mri_glmfit]] with an FSGD file
 that has one class and a continuous mean-centred TimePoint variable,
 and contrast `0 1` to test the slope.
 
@@ -394,7 +394,7 @@ If you have already run the standard longitudinal recon-all pipeline,
 **Provenance:** Mailing list, 2025-04-18 (Greve). See
 `raw/mailing-list/2025-04-single-subject-longitudinal-glm-fsgd-timepoint-slope.md`.
 
-**Related:** [[mri_glmfit]], [[fsgd-format]], [[fsaverage]],
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsgd-format]], [[fsaverage]],
 [[longitudinal-processing]]
 
 ---
@@ -420,7 +420,7 @@ them with distinct filenames; nothing is overwritten.
 **Provenance:** Mailing list, 2023-07-03 (Iglesias). See
 `raw/mailing-list/2023-07-segmentha-long-does-not-require-cross-segmentation-first.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -469,7 +469,7 @@ run_samseg_long \
 **Provenance:** Mailing list, 2023-06-12 (Cerri). See
 `raw/mailing-list/2023-06-samseg-longitudinal-multicontrast-flair-coreg-workflow.md`.
 
-**Related:** [[samseg]], [[mri_coreg]], [[mri_vol2vol]],
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_coreg]], [[mri_vol2vol]],
 [[mri_robust_template]], [[longitudinal-processing]]
 
 ---
@@ -503,7 +503,7 @@ to launch one recon-all per subject, each with its own `-threads N`.
 **Provenance:** Mailing list, 2023-11-08 (Huang). See
 `raw/mailing-list/2023-11-recon-all-parallel-flag-collisions-longitudinal.md`.
 
-**Related:** [[recon-all]], [[longitudinal-processing]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]]
 
 ---
 
@@ -540,4 +540,4 @@ issue is not specific to lesion segmentation — it triggers on any
 **Provenance:** Mailing list, 2025-03-10 (Huang). See
 `raw/mailing-list/2025-03-samseg-longitudinal-transform-affine-typeerror-fix.md`.
 
-**Related:** [[samseg]], [[longitudinal-processing]]
+**Related:** [[wiki/tools/samseg|samseg]], [[longitudinal-processing]]

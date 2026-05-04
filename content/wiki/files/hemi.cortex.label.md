@@ -31,7 +31,7 @@ downstream_files:
   - "[[hemi.pial]]"
   - "[[hemi.aparc.annot]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: WhiteSurfs, Pial, Parcellation, Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: WhiteSurfs, Pial, Parcellation, Stats"
 optional_for: []
 editable: false
 related:
@@ -39,7 +39,7 @@ related:
   - "[[aseg.presurf.mgz]]"
   - "[[hemi.cortex+hipamyg.label]]"
   - "[[mri_label2label]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -84,7 +84,7 @@ label-cortex --s $subjid --$hemi
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CortexLabel** stage (`-cortex-label`). Touch sentinel: `touch/$hemi.cortex.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CortexLabel** stage (`-cortex-label`). Touch sentinel: `touch/$hemi.cortex.touch`.
 
 ### Inputs required
 
@@ -115,7 +115,7 @@ label-cortex --s $subjid --$hemi
 - [[aseg.presurf.mgz]] — segmentation used to identify non-cortex.
 - [[hemi.cortex+hipamyg.label]] — extended version including hippocampus/amygdala.
 - [[mri_label2label]] — tool that writes the label file.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

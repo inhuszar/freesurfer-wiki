@@ -145,7 +145,7 @@ mri_distance_transform aseg.mgz 3 5 2 \
 
 ## Pipeline Context
 
-Not called directly by [[recon-all]], but internally used in cortical depth computation pipelines and specialized surface analyses. Closely related to `mris_thickness` and laminar analysis workflows.
+Not called directly by [[wiki/pipelines/recon-all|recon-all]], but internally used in cortical depth computation pipelines and specialized surface analyses. Closely related to `mris_thickness` and laminar analysis workflows.
 
 ## Gotchas and Caveats
 

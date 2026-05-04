@@ -133,7 +133,7 @@ mri_dct_align_binary source_vessels.mgz template_vessels.mgz warp.dct
 
 ## Pipeline Context
 
-Specialized tool for vascular or binary-mask registration. Not called by [[recon-all]].
+Specialized tool for vascular or binary-mask registration. Not called by [[wiki/pipelines/recon-all|recon-all]].
 
 ## Gotchas and Caveats
 

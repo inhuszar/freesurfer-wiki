@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mris_transform]]"
   - "[[coordinate-systems]]"
   - "[[mri_vol2vol]]"

@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mris_register]]"
   - "[[mris_make_template]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[surface-format]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -155,7 +155,7 @@ mris_make_average_surface -i 5 lh avg_orig sphere.reg avg5 \
 
 Not part of `recon-all` on a per-subject basis. Used in atlas construction:
 
-1. [[recon-all]] processes all subjects, producing `sphere.reg` for each
+1. [[wiki/pipelines/recon-all|recon-all]] processes all subjects, producing `sphere.reg` for each
 2. `mris_make_average_surface` averages surfaces across subjects
 3. The resulting average subject can then be used as a custom registration target
 
@@ -176,7 +176,7 @@ The `fsaverage` subject's surfaces shipped with FreeSurfer were likely created w
 
 - [[mris_register]] — produces the `sphere.reg` for each subject
 - [[mris_make_template]] — creates the registration template used by `mris_register`
-- [[recon-all]] — full subject processing pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — full subject processing pipeline
 - [[surface-format]] — surface file format
 
 ## Confidence and Gaps

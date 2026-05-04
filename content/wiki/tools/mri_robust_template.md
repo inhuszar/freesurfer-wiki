@@ -11,7 +11,7 @@ recon_all_stage: "autorecon1"
 related:
   - "[[mri_robust_register]]"
   - "[[mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -212,7 +212,7 @@ In the longitudinal stream (`recon-all -base`), it is the first step: it creates
 
 **Runs before:** Raw input T1 volumes  
 **Runs after:** `mri_convert` (conformation), skull stripping  
-**Related pipeline:** [[recon-all]]
+**Related pipeline:** [[wiki/pipelines/recon-all|recon-all]]
 
 ## Gotchas and Caveats
 
@@ -234,7 +234,7 @@ In the longitudinal stream (`recon-all -base`), it is the first step: it creates
 ## Related Tools
 
 - [[mri_robust_register]] — pairwise robust rigid/affine registration (used internally)
-- [[recon-all]] — calls `mri_robust_template` for motion correction
+- [[wiki/pipelines/recon-all|recon-all]] — calls `mri_robust_template` for motion correction
 - [[mgz]] — primary volume format for inputs and outputs
 
 ## Confidence and Gaps

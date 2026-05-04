@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_ca_label]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_binarize]]"
 status: draft
 confidence: high

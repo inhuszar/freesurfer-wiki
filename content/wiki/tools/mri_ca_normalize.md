@@ -14,7 +14,7 @@ related:
   - "[[mri_ca_register]]"
   - "[[mri_em_register]]"
   - "[[mri_ca_label]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -31,7 +31,7 @@ tags:
 
 ## Summary
 
-`mri_ca_normalize` normalizes one or more MRI volumes by using a [[gca-format|Gaussian Classifier Atlas]] (GCA) to identify reliable white matter control points and fitting a smooth bias field to bring WM intensities to a target value. It is the atlas-guided intensity normalization step in the FreeSurfer [[recon-all]] pipeline, running after [[mri_em_register]] produces the Talairach transform and after an initial [[mri_normalize]] pass.
+`mri_ca_normalize` normalizes one or more MRI volumes by using a [[gca-format|Gaussian Classifier Atlas]] (GCA) to identify reliable white matter control points and fitting a smooth bias field to bring WM intensities to a target value. It is the atlas-guided intensity normalization step in the FreeSurfer [[wiki/pipelines/recon-all|recon-all]] pipeline, running after [[mri_em_register]] produces the Talairach transform and after an initial [[mri_normalize]] pass.
 
 ## Source Information
 
@@ -153,7 +153,7 @@ mri_ca_normalize -mask brainmask.mgz \
 
 ## Pipeline Context
 
-In [[recon-all]], `mri_ca_normalize` is called in the autorecon2 stage, between [[mri_em_register]] (which produces `talairach.lta`) and [[mri_ca_register]] (which uses the output `norm.mgz`). The sequence is:
+In [[wiki/pipelines/recon-all|recon-all]], `mri_ca_normalize` is called in the autorecon2 stage, between [[mri_em_register]] (which produces `talairach.lta`) and [[mri_ca_register]] (which uses the output `norm.mgz`). The sequence is:
 
 1. [[mri_normalize]] → rough `nu.mgz`
 2. [[mri_em_register]] → `transforms/talairach.lta`

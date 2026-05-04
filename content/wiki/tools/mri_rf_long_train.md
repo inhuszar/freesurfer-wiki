@@ -139,7 +139,7 @@ mri_rf_long_train \
 
 ## Pipeline Context
 
-`mri_rf_long_train` is not part of the standard [[recon-all]] pipeline. It is a research tool for training longitudinal WMSA classifiers on site-specific data.
+`mri_rf_long_train` is not part of the standard [[wiki/pipelines/recon-all|recon-all]] pipeline. It is a research tool for training longitudinal WMSA classifiers on site-specific data.
 
 ## Gotchas and Caveats
 

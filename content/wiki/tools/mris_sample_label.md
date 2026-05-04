@@ -44,7 +44,7 @@ Surface labels define regions of interest on cortical or subcortical surfaces. `
 1. A volumetric MGZ label (a segmentation volume with integer labels) → surface vertex membership.
 2. A `.label` file → surface vertex membership (identity mapping; preserves and potentially interpolates vertex positions).
 
-The output label file is in FreeSurfer binary `.label` format, usable with other label-based tools and in [[freeview]].
+The output label file is in FreeSurfer binary `.label` format, usable with other label-based tools and in [[wiki/tools/freeview|freeview]].
 
 ## Inputs
 

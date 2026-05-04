@@ -13,7 +13,7 @@ related:
   - "[[mri_ca_label]]"
   - "[[mri_seg_overlap]]"
   - "[[mri_seg_diff]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -300,7 +300,7 @@ Prerequisites:
 - [[mri_ca_label]] — generates `aseg.mgz` (primary input)
 - [[mri_seg_overlap]] — overlap between two segmentations
 - [[mri_seg_diff]] — difference between two segmentations
-- [[recon-all]] — calls this tool in autorecon3
+- [[wiki/pipelines/recon-all|recon-all]] — calls this tool in autorecon3
 
 ## Confidence and Gaps
 

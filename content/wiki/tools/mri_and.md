@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_binarize]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -42,7 +42,7 @@ The sister tool `mri_or` (in the same source directory `mri_and/mri_or.cpp`) pro
 
 ## Inputs
 
-- Two or more volume files in any format readable by [[mri_convert]] (e.g., [[mgz]], NIfTI, analyze).
+- Two or more volume files in any format readable by [[wiki/tools/mri_convert|mri_convert]] (e.g., [[mgz]], NIfTI, analyze).
 - All input volumes **must** have the same dimensions and RAS geometry. No resampling is performed.
 
 ## Outputs
@@ -95,7 +95,7 @@ mri_and mask1.mgz mask2.mgz mask3.mgz mask4.mgz output.mgz
 
 ## Pipeline Context
 
-`mri_and` is not called directly by [[recon-all]] but is used in post-processing scripts for:
+`mri_and` is not called directly by [[wiki/pipelines/recon-all|recon-all]] but is used in post-processing scripts for:
 - Restricting statistical overlays to a region of interest.
 - Computing overlap between automated and manual segmentations before passing to [[mri_compute_change_map]] or overlap utilities.
 
@@ -113,7 +113,7 @@ mri_and mask1.mgz mask2.mgz mask3.mgz mask4.mgz output.mgz
 ## Related Tools
 
 - [[mri_binarize]] — threshold a single volume to produce a binary mask
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 - `mri_or` — voxel-wise OR across multiple volumes (same source directory)
 
 ## Confidence and Gaps

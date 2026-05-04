@@ -27,14 +27,14 @@ consumed_by:
 downstream_files:
   - "[[hemi.sphere.reg]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: SurfReg"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: SurfReg"
 optional_for: []
 editable: false
 related:
   - "[[hemi.inflated]]"
   - "[[hemi.curv]]"
   - "[[mris_inflate]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -78,7 +78,7 @@ mris_inflate \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Inflate2** stage (`-inflate2`). Co-produced with [[hemi.inflated]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Inflate2** stage (`-inflate2`). Co-produced with [[hemi.inflated]].
 
 ### Inputs required
 
@@ -105,7 +105,7 @@ mris_inflate \
 - [[mris_inflate]] — producer.
 - [[hemi.curv]] — analogous per-vertex curvature map.
 - [[mris_register]] — primary consumer for cross-subject registration.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

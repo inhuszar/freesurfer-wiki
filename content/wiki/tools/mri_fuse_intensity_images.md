@@ -104,7 +104,7 @@ mri_fuse_intensity_images \
 
 ## Pipeline Context
 
-Called in `[[recon-all]]` longitudinal mode (`-long`). Part of the within-subject template construction workflow. Typically followed by `[[mri_fuse_segmentations]]`.
+Called in `[[wiki/pipelines/recon-all|recon-all]]` longitudinal mode (`-long`). Part of the within-subject template construction workflow. Typically followed by `[[mri_fuse_segmentations]]`.
 
 ## Gotchas and Caveats
 

@@ -268,7 +268,7 @@ mri_robust_register \
 
 ## Pipeline Context
 
-`mri_robust_register` is not a standard step in the main [[recon-all]] cross-sectional pipeline, but it is central to:
+`mri_robust_register` is not a standard step in the main [[wiki/pipelines/recon-all|recon-all]] cross-sectional pipeline, but it is central to:
 
 1. **Longitudinal pipeline (`recon-all -long`):** Registers each timepoint to the base template.
 2. **`mri_robust_template`:** Called internally by [[mri_robust_template]] to register each input to the evolving template.

@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_concat]]"
   - "[[mri_label2vol]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
   - "[[freeview-volumes]]"
@@ -422,7 +422,7 @@ definition, and segmentation quality control.
 
 - [[mri_concat]] — concatenation and frame-wise operations
 - [[mri_label2vol]] — convert surface labels or annotation to a volume
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 - [[mris_anatomical_stats]] — uses binary masks for morphometric statistics
 - [[freeview-volumes]] — GUI for inspecting binary outputs; use `colormap=binary` or `colormap=heat` with `heatscale` to visualise thresholded volumes
 

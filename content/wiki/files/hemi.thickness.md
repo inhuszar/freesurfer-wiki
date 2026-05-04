@@ -29,7 +29,7 @@ downstream_files:
   - "[[hemi.aparc.stats]]"
   - "[[hemi.w-g.pct.mgh]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats"
 optional_for: []
 editable: false
 related:
@@ -37,7 +37,7 @@ related:
   - "[[hemi.pial]]"
   - "[[hemi.volume]]"
   - "[[mris_place_surface]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -83,7 +83,7 @@ mris_place_surface --thickness \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **Thickness** stage, after final pial placement.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **Thickness** stage, after final pial placement.
 
 ### Inputs required
 
@@ -108,7 +108,7 @@ mris_place_surface --thickness \
 - [[hemi.white]], [[hemi.pial]] — surfaces from which thickness is derived.
 - [[hemi.volume]] — cortical volume (depends on thickness and area).
 - [[mris_place_surface]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

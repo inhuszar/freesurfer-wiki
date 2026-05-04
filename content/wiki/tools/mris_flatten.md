@@ -188,7 +188,7 @@ mris_flatten -seg aseg.mgz 0 1 2 3 lh.patch.flat lh.flat
 `mris_flatten` is not part of the standard `recon-all` pipeline. It is a post-processing tool invoked manually after `recon-all` has completed and after the user has defined a patch region (typically via `tksurfer` or `freeview`).
 
 Typical dependency chain:
-1. [[recon-all]] completes, producing `?h.smoothwm`, `?h.pial`, etc.
+1. [[wiki/pipelines/recon-all|recon-all]] completes, producing `?h.smoothwm`, `?h.pial`, etc.
 2. User creates a patch using `tksurfer` or `freeview` (cut + save patch)
 3. `mris_flatten` flattens the patch
 4. Retinotopy or other functional analyses are performed on the flat map

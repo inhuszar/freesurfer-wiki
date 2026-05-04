@@ -23,13 +23,13 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: AvgCurv (run by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: AvgCurv (run by default)"
 editable: false
 related:
   - "[[hemi.sphere.reg]]"
   - "[[hemi.curv]]"
   - "[[fsaverage]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -68,7 +68,7 @@ mrisp_paint -a 5 \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **AvgCurv** stage (`-avgcurv`). Touch sentinel: `touch/$hemi.avgcurv.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **AvgCurv** stage (`-avgcurv`). Touch sentinel: `touch/$hemi.avgcurv.touch`.
 
 ### Inputs required
 
@@ -84,7 +84,7 @@ Primarily used for display in FreeView as an underlay showing atlas-based foldin
 - [[hemi.sphere.reg]] — registration used for atlas paint.
 - [[hemi.curv]] — subject's own curvature.
 - [[fsaverage]] — atlas source.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

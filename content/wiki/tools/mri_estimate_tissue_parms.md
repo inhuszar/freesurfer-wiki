@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -126,7 +126,7 @@ mri_estimate_tissue_parms -tr 18 -fa 5 flip5.mgz -fa 10 flip10.mgz \
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used in quantitative MRI research pipelines for multi-parameter mapping.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used in quantitative MRI research pipelines for multi-parameter mapping.
 
 ## Gotchas and Caveats
 
@@ -138,7 +138,7 @@ Not called by `[[recon-all]]`. Used in quantitative MRI research pipelines for m
 
 ## Related Tools
 
-- `[[mri_convert]]` — pre-processing and format conversion of input volumes
+- `[[wiki/tools/mri_convert|mri_convert]]` — pre-processing and format conversion of input volumes
 
 ## Confidence and Gaps
 

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_align_long.csh]]"
 status: draft
 confidence: high
@@ -133,7 +133,7 @@ See also: [[mri_align_long.csh]] for aligning all time-point outputs to the base
 
 ## Related Tools
 
-- [[recon-all]] — main pipeline; runs `recon-all -long` after this script
+- [[wiki/pipelines/recon-all|recon-all]] — main pipeline; runs `recon-all -long` after this script
 - [[mri_align_long.csh]] — aligns longitudinal outputs to base space
 
 ## Confidence and Gaps

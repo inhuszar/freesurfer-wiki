@@ -22,13 +22,13 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: Parcellation Stats 2"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Parcellation Stats 2"
 editable: false
 related:
   - "[[hemi.aparc.a2009s.annot]]"
   - "[[hemi.aparc.a2009s.stats]]"
   - "[[aparc.annot.ctab]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -69,14 +69,14 @@ mris_anatomical_stats -th3 -mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **Parcellation Stats 2** (Destrieux) stage.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **Parcellation Stats 2** (Destrieux) stage.
 
 ## Related
 
 - [[hemi.aparc.a2009s.annot]] — source annotation.
 - [[hemi.aparc.a2009s.stats]] — co-produced stats.
 - [[aparc.annot.ctab]] — Desikan-Killiany color table.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

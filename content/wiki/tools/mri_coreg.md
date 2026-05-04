@@ -13,7 +13,7 @@ related:
   - "[[mri_compute_volume_fractions]]"
   - "[[lta-format]]"
   - "[[coordinate-systems]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -286,7 +286,7 @@ mri_coreg --rms 50 rms.txt reg1.lta reg2.lta
 
 ## Pipeline Context
 
-Not called by [[recon-all]] for the standard structural pipeline. Used in:
+Not called by [[wiki/pipelines/recon-all|recon-all]] for the standard structural pipeline. Used in:
 - Functional MRI preprocessing: register EPI to T1
 - Cross-modality registration (e.g., T2 or FLAIR to T1)
 - Longitudinal registration before volumetric analysis

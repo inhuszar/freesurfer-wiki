@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_normalize]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -140,7 +140,7 @@ The standard cross-sectional normalization is done by [[mri_normalize]]; this to
 ## Related Tools
 
 - [[mri_normalize]] — Standard cross-sectional intensity normalization
-- [[recon-all]] — Master pipeline; calls this tool in longitudinal mode
+- [[wiki/pipelines/recon-all|recon-all]] — Master pipeline; calls this tool in longitudinal mode
 
 ## Confidence and Gaps
 

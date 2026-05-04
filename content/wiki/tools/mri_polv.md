@@ -97,7 +97,7 @@ mri_polv -w 7 input.mgz polv_normals.mgz
 
 ## Pipeline Context
 
-`mri_polv` is not directly called by [[recon-all]]. Its primary use is as a building block for [[mri_nlfilter]], which calls `MRIcentralPlaneOfLeastVarianceNormal` internally. Running `mri_polv` as a standalone tool allows the POLV output to be inspected or used in custom preprocessing pipelines.
+`mri_polv` is not directly called by [[wiki/pipelines/recon-all|recon-all]]. Its primary use is as a building block for [[mri_nlfilter]], which calls `MRIcentralPlaneOfLeastVarianceNormal` internally. Running `mri_polv` as a standalone tool allows the POLV output to be inspected or used in custom preprocessing pipelines.
 
 ## Gotchas and Caveats
 

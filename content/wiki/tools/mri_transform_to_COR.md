@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_transform]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -44,7 +44,7 @@ tags:
 COR format was the original FreeSurfer volume format: a directory of 256 coronal slices, each stored as a raw 256×256 byte file. This format is obsolete — modern FreeSurfer uses MGZ. `mri_transform_to_COR` likely converted a volume with an embedded transform into COR format, applying the transform in the process.
 
 > [!gotcha] COR format is obsolete
-> The COR format has been superseded by MGZ since FreeSurfer 3.x. Any workflow requiring this tool should be updated to use MGZ-based tools ([[mri_convert]], [[mri_transform]]).
+> The COR format has been superseded by MGZ since FreeSurfer 3.x. Any workflow requiring this tool should be updated to use MGZ-based tools ([[wiki/tools/mri_convert|mri_convert]], [[mri_transform]]).
 
 ## Inputs
 
@@ -108,7 +108,7 @@ Not part of `recon-all`.
 
 ## Related Tools
 
-- [[mri_convert]] — handles conversion between modern formats including legacy COR
+- [[wiki/tools/mri_convert|mri_convert]] — handles conversion between modern formats including legacy COR
 - [[mri_transform]] — applies transforms to volumes in modern formats
 
 ## Confidence and Gaps

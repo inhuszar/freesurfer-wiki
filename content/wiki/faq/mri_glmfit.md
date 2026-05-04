@@ -15,7 +15,7 @@ tags:
 
 # mri_glmfit — Frequently Asked Questions
 
-This FAQ collects recurring questions about [[mri_glmfit]] and its
+This FAQ collects recurring questions about [[wiki/tools/mri_glmfit|mri_glmfit]] and its
 companion tools that have been answered by the FreeSurfer developers
 (primarily Douglas Greve and Martin Reuter) on the mailing list.
 `mri_glmfit` performs vertex-wise / voxel-wise general linear modelling
@@ -28,7 +28,7 @@ plus one or more `.mtx` contrast files. The entries below cover design
 specification, contrast construction, cluster correction, and
 special-case designs (single-subject longitudinal, LME, custom ROIs).
 
-> For tool reference, see [[mri_glmfit]], [[mri_glmfit-sim]],
+> For tool reference, see [[wiki/tools/mri_glmfit|mri_glmfit]], [[mri_glmfit-sim]],
 > [[mri_volcluster]], [[mri_fdr]] and [[mri_segstats]]. For the FSGD
 > file format itself, see [[fsgd-format]].
 
@@ -38,7 +38,7 @@ special-case designs (single-subject longitudinal, LME, custom ROIs).
 
 ### qdec is missing or broken in my FreeSurfer install — how do I run a vertex-wise GLM now?
 
-**Short answer:** `qdec` is deprecated and unsupported in FreeSurfer 7.x and 8.x; build the FSGD file by hand and run the [[mris_preproc]] -> [[mri_surf2surf]] -> [[mri_glmfit]] command-line workflow instead.
+**Short answer:** `qdec` is deprecated and unsupported in FreeSurfer 7.x and 8.x; build the FSGD file by hand and run the [[mris_preproc]] -> [[mri_surf2surf]] -> [[wiki/tools/mri_glmfit|mri_glmfit]] command-line workflow instead.
 
 **Detail:** Greve was unambiguous: "It is worse — we do not support qdec anymore." There is no maintained replacement GUI, and any tutorial that still references qdec as a current tool is outdated. The variable-count limits that the old qdec GUI enforced (e.g. "two continuous variables and two discrete variables with two levels") never applied at the [[fsgd-format]] level — `mri_glmfit` itself accepts any number of covariates that fit in the design matrix. The current correct workflow is:
 
@@ -67,7 +67,7 @@ mri_glmfit \
 
 **Provenance:** Mailing list, 2023-08-07 and 2023-10-12 (Greve). See `raw/mailing-list/2023-08-qdec-deprecated-fsgd-manual-creation.md` and `raw/mailing-list/2023-10-qdec-deprecated-mri-glmfit-fsgd-multiple-continuous-vars.md`.
 
-**Related:** [[mri_glmfit]], [[mris_preproc]], [[mri_surf2surf]], [[fsgd-format]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[mris_preproc]], [[mri_surf2surf]], [[fsgd-format]]
 
 ---
 
@@ -100,7 +100,7 @@ treats `Group` as a continuous predictor: coding `Group=1` vs `Group=2` implicit
 
 **Provenance:** Mailing list, 2024-05-01 (Greve). See `raw/mailing-list/2024-05-fsgd-categorical-groups-class-not-continuous.md`.
 
-**Related:** [[fsgd-format]], [[mri_glmfit]]
+**Related:** [[fsgd-format]], [[wiki/tools/mri_glmfit|mri_glmfit]]
 
 ---
 
@@ -123,7 +123,7 @@ The `--X` matrix is a plain-text file with one row per subject and one column pe
 
 **Provenance:** Mailing list, 2023-09-10 (Greve). See `raw/mailing-list/2023-09-mri-glmfit-custom-design-matrix-x-flag-complex-nuisance.md`. See also the FsgdExamples wiki page at `https://surfer.nmr.mgh.harvard.edu/fswiki/FsgdExamples`.
 
-**Related:** [[mri_glmfit]], [[fsgd-format]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsgd-format]]
 
 ---
 
@@ -139,7 +139,7 @@ The `--X` matrix is a plain-text file with one row per subject and one column pe
 
 **Provenance:** Mailing list, 2023-10-15 (Greve). See `raw/mailing-list/2023-10-mri-glmfit-mask-pruning-zero-subject-voxel.md`.
 
-**Related:** [[mri_glmfit]], [[mris_preproc]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[mris_preproc]]
 
 ---
 
@@ -158,7 +158,7 @@ For a 2-class design with one covariate, the contrast that tests "main effect of
 
 **Provenance:** Mailing list, 2023-08-20 and 2023-11-02 (Greve). See `raw/mailing-list/2023-08-mri-glmfit-doss-partial-correlation-3-groups.md` and `raw/mailing-list/2023-11-mri-glmfit-doss-dods-contrast-construction.md`.
 
-**Related:** [[mri_glmfit]], [[fsgd-format]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsgd-format]]
 
 ---
 
@@ -202,7 +202,7 @@ This is the "partial correlation" answer: it tests whether age predicts thicknes
 
 **Provenance:** Mailing list, 2023-08-20 (Greve). See `raw/mailing-list/2023-08-mri-glmfit-doss-partial-correlation-3-groups.md`.
 
-**Related:** [[mri_glmfit]], [[fsgd-format]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsgd-format]]
 
 ---
 
@@ -232,7 +232,7 @@ od -c contrast.mtx      # full octal dump
 
 **Provenance:** Mailing list, 2023-11-17 (Greve). See `raw/mailing-list/2023-11-mri-glmfit-contrast-file-no-math-brackets.md`.
 
-**Related:** [[mri_glmfit]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]]
 
 ---
 
@@ -249,7 +249,7 @@ If you want only one direction shown, threshold or mask post-hoc.
 
 **Provenance:** Mailing list, 2023-11-02 (Greve). See `raw/mailing-list/2023-11-mri-glmfit-doss-dods-contrast-construction.md`.
 
-**Related:** [[mri_glmfit]], [[mri_glmfit-sim]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[mri_glmfit-sim]]
 
 ---
 
@@ -267,7 +267,7 @@ If you want only one direction shown, threshold or mask post-hoc.
 
 **Provenance:** Mailing list, 2023-10-15 (Greve). See `raw/mailing-list/2023-10-mri-glmfit-sim-clusterwise-nonmonotonic-pvalue-threshold.md`.
 
-**Related:** [[mri_glmfit-sim]], [[mri_glmfit]]
+**Related:** [[mri_glmfit-sim]], [[wiki/tools/mri_glmfit|mri_glmfit]]
 
 ---
 
@@ -316,7 +316,7 @@ The naming reflects the internals: `csdbase` = cluster simulation distribution b
 
 **Provenance:** Mailing list, 2023-08-21 (Greve). See `raw/mailing-list/2023-08-mri-glmfit-sim-csdbase-y-ocn-dat-cluster-subject-averages.md`.
 
-**Related:** [[mri_glmfit-sim]], [[mri_glmfit]], [[mri_segstats]]
+**Related:** [[mri_glmfit-sim]], [[wiki/tools/mri_glmfit|mri_glmfit]], [[mri_segstats]]
 
 ---
 
@@ -337,7 +337,7 @@ Two-sided maps with positive/negative signs are supported.
 
 **Provenance:** Mailing list, 2023-08-02 (Greve). See `raw/mailing-list/2023-08-mri-fdr-independent-of-mri-glmfit.md`.
 
-**Related:** [[mri_fdr]], [[mri_glmfit]], [[mri_glmfit-sim]]
+**Related:** [[mri_fdr]], [[wiki/tools/mri_glmfit|mri_glmfit]], [[mri_glmfit-sim]]
 
 ---
 
@@ -368,7 +368,7 @@ Equivalently, `csdbase.y.ocn.dat` already contains per-subject cluster means (se
 
 **Provenance:** Mailing list, 2023-08-09 to 2023-08-10 (Greve). See `raw/mailing-list/2023-08-mri-glmfit-vlrmerge-bilateral-cluster-stats-workflow.md`.
 
-**Related:** [[mri_glmfit]], [[mri_glmfit-sim]], [[mri_segstats]], [[mri_volcluster]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[mri_glmfit-sim]], [[mri_segstats]], [[mri_volcluster]]
 
 ---
 
@@ -402,7 +402,7 @@ If `$SUBJECTS_DIR/fsaverage/mri.2mm/reg.2mm.dat` is missing, copy fsaverage from
 
 **Detail:** Greve's two methods:
 
-Method 1 — full label pipeline (produces a proper stats file with thickness, area, and volume; reusable as a mask in [[mri_glmfit]]):
+Method 1 — full label pipeline (produces a proper stats file with thickness, area, and volume; reusable as a mask in [[wiki/tools/mri_glmfit|mri_glmfit]]):
 
 ```bash
 mri_annotation2label --subject SUBJECT --hemi lh \
@@ -456,7 +456,7 @@ In a balanced design these effects are orthogonal: a significant group main effe
 
 **Provenance:** Mailing list, 2025-04-16 (Reuter). See `raw/mailing-list/2025-03-lme-group-differences-vertical-offsets-group-time-slope.md`.
 
-**Related:** [[longitudinal-processing]], [[mri_glmfit]]
+**Related:** [[longitudinal-processing]], [[wiki/tools/mri_glmfit|mri_glmfit]]
 
 ---
 
@@ -502,4 +502,4 @@ The `0` zeros out the intercept; the `1` selects the TimePoint coefficient — i
 
 **Provenance:** Mailing list, 2025-04-18 (Greve). See `raw/mailing-list/2025-04-single-subject-longitudinal-glm-fsgd-timepoint-slope.md`.
 
-**Related:** [[mri_glmfit]], [[longitudinal-processing]], [[fsgd-format]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[longitudinal-processing]], [[fsgd-format]]

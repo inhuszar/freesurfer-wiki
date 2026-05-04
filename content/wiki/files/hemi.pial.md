@@ -28,7 +28,7 @@ downstream_files:
   - "[[hemi.area.pial]]"
   - "[[hemi.curv.pial]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Thickness, Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Thickness, Stats"
 optional_for: []
 editable: false
 related:
@@ -36,7 +36,7 @@ related:
   - "[[hemi.pial.T1]]"
   - "[[hemi.white]]"
   - "[[hemi.thickness]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -80,7 +80,7 @@ With T2 or FLAIR refinement, the T2/FLAIR stage overwrites or re-symlinks `hemi.
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **T1PialSurf** stage (`-pial`); optionally updated by `-T2pial` or `-FLAIRpial`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **T1PialSurf** stage (`-pial`); optionally updated by `-T2pial` or `-FLAIRpial`.
 
 ### Inputs required
 
@@ -106,7 +106,7 @@ With T2 or FLAIR refinement, the T2/FLAIR stage overwrites or re-symlinks `hemi.
 - [[hemi.pial.T1]] — symlink target in standard mode.
 - [[hemi.white]] — complementary white surface.
 - [[hemi.thickness]] — derived from white–pial distance.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

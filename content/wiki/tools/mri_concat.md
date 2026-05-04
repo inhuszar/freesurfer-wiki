@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mris_preproc]]"
   - "[[mri_binarize]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: review
 confidence: high
@@ -376,7 +376,7 @@ resampled per-subject files.
 
 - [[mris_preproc]] — the primary caller of `mri_concat` for surface group analysis
 - [[mri_binarize]] — binary thresholding of volumes (often applied to mri_concat output)
-- [[mri_convert]] — format conversion for inputs/outputs
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion for inputs/outputs
 
 ## Confidence and Gaps
 

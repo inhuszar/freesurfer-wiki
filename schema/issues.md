@@ -234,7 +234,7 @@ Set `verdict` (frontmatter) to exactly one of:
   ## GitHub Issues
   | Issue | Title | Affected | Verdict | State |
   |-------|-------|----------|---------|-------|
-  | [[1234]] | short title | [[mri_convert]] | plausible | open |
+  | [[1234]] | short title | [[wiki/tools/mri_convert|mri_convert]] | plausible | open |
   ```
 
 ### 11. Log the Operation

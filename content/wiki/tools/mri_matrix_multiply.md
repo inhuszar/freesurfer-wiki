@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
   - "[[mri_em_register]]"
 status: draft
@@ -124,7 +124,7 @@ Not part of standard `recon-all`. Used in:
 
 ## Related Tools
 
-- [[mri_convert]] — can apply transforms when converting volumes
+- [[wiki/tools/mri_convert|mri_convert]] — can apply transforms when converting volumes
 - [[coordinate-systems]] — explains the coordinate systems underlying the matrix formats
 - [[mri_em_register]] — produces the registration matrices this tool can compose
 

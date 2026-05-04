@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
   - "[[mri_warp_convert]]"
   - "[[mri_binarize]]"
@@ -374,7 +374,7 @@ mri_vol2vol --map-point 10.0 -5.0 3.0 1 transform.lta 2 nofile
 
 ## Related Tools
 
-- [[mri_convert]] — format conversion (no spatial transform)
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion (no spatial transform)
 - [[mri_warp_convert]] — converts between warp formats before applying with mri_vol2vol
 - [[talairach_avi]] — generates the `talairach.xfm` consumed by `--tal`
 - [[mri_em_register]] — generates LTA transforms used by `--lta`

@@ -44,7 +44,7 @@ The source shares code and data structures with [[mri_watershed]], including the
 This tool provides an alternative brain volume estimate based on the watershed/geometric skull-stripping approach, rather than the atlas-determinant method used in [[mri_brainvol_stats]]. It may be used in skull-stripping validation workflows or as a standalone brain volume reporter.
 
 > [!gap] Relationship to pipeline
-> Whether `mri_brain_volume` is called in any standard [[recon-all]] stage is not confirmed from the source or documentation available here.
+> Whether `mri_brain_volume` is called in any standard [[wiki/pipelines/recon-all|recon-all]] stage is not confirmed from the source or documentation available here.
 
 ## Inputs
 
@@ -72,7 +72,7 @@ The coarse brain center $(x_{\text{COG}}, y_{\text{COG}}, z_{\text{COG}})$ and r
 ## Pipeline Context
 
 > [!gap] Pipeline usage unclear
-> This tool's role in the [[recon-all]] pipeline is unclear. Brain volume reporting in standard FreeSurfer pipelines is handled by [[mri_brainvol_stats]].
+> This tool's role in the [[wiki/pipelines/recon-all|recon-all]] pipeline is unclear. Brain volume reporting in standard FreeSurfer pipelines is handled by [[mri_brainvol_stats]].
 
 ## Related Tools
 

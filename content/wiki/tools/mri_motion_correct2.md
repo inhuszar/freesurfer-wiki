@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_motion_correct]]"
   - "[[mri_motion_correct.fsl]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_info]]"
   - "[[mgz]]"
 status: draft

@@ -30,7 +30,7 @@ downstream_files:
   - "[[norm.mgz]]"
   - "[[aseg.auto_noCCseg.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon1: all GCA-based downstream steps"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1: all GCA-based downstream steps"
 optional_for: []
 editable: true
 related:
@@ -38,7 +38,7 @@ related:
   - "[[talairach.xfm.lta]]"
   - "[[talairach.lta]]"
   - "[[mri_em_register]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -58,7 +58,7 @@ tags:
 - **Format:** MNI XFM plain text — contains a `Linear_Transform` block with a 4×4 affine matrix mapping subject voxels to MNI305 voxels (12 degrees of freedom).
 
 > [!gotcha]
-> `talairach.xfm` is user-editable: if the automated registration fails, the corrected transform can be manually placed in this location. A backup (`talairach.auto.xfm`) is always preserved. Running [[recon-all]] with `-talairach` regenerates only the auto version; to override, copy a corrected XFM to `talairach.xfm` before running downstream stages.
+> `talairach.xfm` is user-editable: if the automated registration fails, the corrected transform can be manually placed in this location. A backup (`talairach.auto.xfm`) is always preserved. Running [[wiki/pipelines/recon-all|recon-all]] with `-talairach` regenerates only the auto version; to override, copy a corrected XFM to `talairach.xfm` before running downstream stages.
 
 ## What It Contains
 
@@ -85,7 +85,7 @@ Alternative methods: `talairach --i orig_nu.mgz` (older FSL-based) or `lta_conve
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, **Talairach** stage (`-talairach`). Touch sentinel: `touch/talairach.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, **Talairach** stage (`-talairach`). Touch sentinel: `touch/talairach.touch`.
 
 ### Inputs required
 
@@ -117,7 +117,7 @@ Alternative methods: `talairach --i orig_nu.mgz` (older FSL-based) or `lta_conve
 - [[talairach.xfm.lta]], [[talairach.lta]] — derived LTA versions.
 - [[talairach_avi]] — producer tool.
 - [[mri_em_register]] — GCA registration that builds on this.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

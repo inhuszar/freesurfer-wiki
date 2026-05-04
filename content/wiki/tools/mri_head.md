@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_info]]"
 status: draft
 confidence: low
@@ -118,7 +118,7 @@ mri_head -read subject/mri/T1.mgz
 
 ## Related Tools
 
-- [[mri_convert]] — full format conversion with detailed header handling
+- [[wiki/tools/mri_convert|mri_convert]] — full format conversion with detailed header handling
 - [[mri_info]] — comprehensive volume metadata display
 
 ## Confidence and Gaps

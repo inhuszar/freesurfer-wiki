@@ -130,7 +130,7 @@ The `MRISpaintSphere()` function (defined in this file but unused in the binary)
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Applied to raw MRI before or after reconstruction as a de-identification step.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Applied to raw MRI before or after reconstruction as a de-identification step.
 
 ## Gotchas and Caveats
 

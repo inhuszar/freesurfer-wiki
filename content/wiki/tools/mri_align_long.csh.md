@@ -10,8 +10,8 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_add_new_tp]]"
-  - "[[mri_convert]]"
-  - "[[recon-all]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -123,8 +123,8 @@ The script is not automatically invoked by `recon-all`; it must be run manually.
 ## Related Tools
 
 - [[mri_add_new_tp]] — adds a new time point to an existing base
-- [[mri_convert]] — underlying tool used for resampling
-- [[recon-all]] — main pipeline
+- [[wiki/tools/mri_convert|mri_convert]] — underlying tool used for resampling
+- [[wiki/pipelines/recon-all|recon-all]] — main pipeline
 
 ## Confidence and Gaps
 

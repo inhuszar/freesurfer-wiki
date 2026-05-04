@@ -17,7 +17,7 @@ related:
   - "[[mri_pretess]]"
   - "[[mri_tessellate]]"
   - "[[mri_watershed]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
 status: draft
@@ -171,7 +171,7 @@ mri_fill -auto-man wm.asegedit_prev.mgz wm.asegedit_manual.mgz edits.txt \
 
 ## Pipeline Context
 
-In `[[recon-all]]` `autorecon2`, the sequence is:
+In `[[wiki/pipelines/recon-all|recon-all]]` `autorecon2`, the sequence is:
 1. `[[mri_segment]]` → `wm.mgz`
 2. `[[mri_edit_wm_with_aseg]]` → `wm.asegedit.mgz`
 3. **`mri_fill`** → `filled.mgz`

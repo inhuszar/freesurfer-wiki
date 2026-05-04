@@ -25,14 +25,14 @@ consumed_by:
 downstream_files:
   - "[[talairach.lta]]"
 mandatory_for:
-  - "[[recon-all]] autorecon1 and autorecon2: GCA-based stages"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1 and autorecon2: GCA-based stages"
 optional_for: []
 editable: false
 related:
   - "[[talairach.xfm]]"
   - "[[talairach.lta]]"
   - "[[lta-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -72,7 +72,7 @@ After creation, a symlink is made: `ln -sf talairach.xfm.lta talairach.lta`.
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, **Talairach** stage, immediately after `talairach.xfm` is finalised.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, **Talairach** stage, immediately after `talairach.xfm` is finalised.
 
 ### Inputs required
 
@@ -88,7 +88,7 @@ After creation, a symlink is made: `ln -sf talairach.xfm.lta talairach.lta`.
 - [[talairach.xfm]] — source transform.
 - [[talairach.lta]] — symlink alias.
 - [[lta-format]] — on-disk format.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

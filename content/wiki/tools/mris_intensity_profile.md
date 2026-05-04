@@ -225,7 +225,7 @@ mris_intensity_profile -normalize -wm_border 2 bert lh T1.mgz profiles_normalize
 Not part of standard `recon-all`. This is a post-processing tool for intracortical MRI analysis.
 
 Typical dependency chain:
-1. [[recon-all]] produces white and pial surfaces
+1. [[wiki/pipelines/recon-all|recon-all]] produces white and pial surfaces
 2. [[mris_make_surfaces]] places surfaces precisely
 3. `mris_intensity_profile` samples MRI along the cortical depth
 

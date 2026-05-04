@@ -3,7 +3,7 @@ title: "infant_recon_all"
 type: pipeline
 fs_version: "8.2.0"
 tools_involved:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_nu_correct.mni]]"
   - "[[mri_synthstrip]]"
   - "[[mri_mask]]"
@@ -34,7 +34,7 @@ tools_involved:
   - "[[mri_cc]]"
   - "[[mri_correct_segmentations]]"
 related_pipelines:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[longitudinal-processing]]"
 status: draft
 confidence: high
@@ -61,7 +61,7 @@ tags:
 brain MRI of infants aged **0–4.5 years** (T2 processing is not yet implemented).
 It produces a volumetric segmentation of cortical and subcortical structures,
 cortical surfaces (white and pial), and morphometric statistics, using a strategy
-fundamentally different from the adult [[recon-all]] pipeline:
+fundamentally different from the adult [[wiki/pipelines/recon-all|recon-all]] pipeline:
 
 - **No Gaussian Classifier Atlas (GCA).** Segmentation uses a k-NN label fusion
   over a curated set of 29 manually labelled training subjects (the CNYBCH atlas).
@@ -185,7 +185,7 @@ fundamentally different from the adult [[recon-all]] pipeline:
 
 ### Stage 1: Input handling and intensity normalization
 
-**Tool:** [[mri_convert]], [[mri_nu_correct.mni]] (or FSL `fslmaths`)
+**Tool:** [[wiki/tools/mri_convert|mri_convert]], [[mri_nu_correct.mni]] (or FSL `fslmaths`)
 
 **Commands:**
 ```
@@ -352,7 +352,7 @@ mri_correct_segmentations work/recoded.nii.gz mri/aseg.nii.gz
 
 ### Stage 4: Preprocess for surface stream
 
-**Tools:** [[mri_convert]], NIftyReg `reg_aladin`, [[lta_convert]], [[mri_cc]]
+**Tools:** [[wiki/tools/mri_convert|mri_convert]], NIftyReg `reg_aladin`, [[lta_convert]], [[mri_cc]]
 
 ```
 # Convert segmentation and normalized image to MGZ for surface tools
@@ -818,7 +818,7 @@ registrations takes ~30–60 minutes on a single CPU core.
 
 ## Related Tools and Pages
 
-- [[recon-all]] — adult cortical reconstruction pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — adult cortical reconstruction pipeline
 - [[longitudinal-processing]] — cross-sectional + longitudinal workflows
 - [[mris_topo_fixer]] — patch-based topology correction used here
 - [[mri_synthstrip]] — skull-stripping (infant model)

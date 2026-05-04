@@ -11,7 +11,7 @@ families:
 recon_all_stage: null
 related:
   - "[[tksurfer]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[tkmeditfv]]"
 status: draft
 confidence: medium
@@ -30,7 +30,7 @@ tags:
 
 ## Summary
 
-`tksurferfv` is a tcsh wrapper script that translates `tksurfer`-style command-line arguments into [[freeview]] arguments and launches freeview for surface visualization. It provides backward compatibility for scripts and workflows calling `tksurfer`, mapping the classic three-argument syntax (`<subject> <hemi> <surface>`) and associated overlay/annotation options to their freeview equivalents.
+`tksurferfv` is a tcsh wrapper script that translates `tksurfer`-style command-line arguments into [[wiki/tools/freeview|freeview]] arguments and launches freeview for surface visualization. It provides backward compatibility for scripts and workflows calling `tksurfer`, mapping the classic three-argument syntax (`<subject> <hemi> <surface>`) and associated overlay/annotation options to their freeview equivalents.
 
 ## Source Information
 
@@ -123,7 +123,7 @@ Key options:
 
 ## Outputs
 
-Launches [[freeview]] as interactive GUI. No files produced unless the user saves or uses screenshot flags.
+Launches [[wiki/tools/freeview|freeview]] as interactive GUI. No files produced unless the user saves or uses screenshot flags.
 
 ## Configuration Interactions
 
@@ -168,7 +168,7 @@ tksurferfv subject lh sphere.reg
 
 ## Related Tools
 
-- [[freeview]] — the viewer launched by this script
+- [[wiki/tools/freeview|freeview]] — the viewer launched by this script
 - [[tksurfer]] — the deprecated legacy tool this script replaces
 - [[tkmeditfv]] — analogous wrapper for volume viewing
 

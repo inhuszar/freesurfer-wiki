@@ -27,7 +27,7 @@ consumed_by:
 downstream_files:
   - "[[wmparc.stats]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: WMParc stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: WMParc stats"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[aseg.mgz]]"
   - "[[hemi.aparc.annot]]"
   - "[[wmparc.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -90,7 +90,7 @@ mri_surf2volseg \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **WMParc** stage (`-wmparc`). Touch sentinel: `touch/apas2aseg.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **WMParc** stage (`-wmparc`). Touch sentinel: `touch/apas2aseg.touch`.
 
 ### Inputs required
 
@@ -115,7 +115,7 @@ mri_surf2volseg \
 - [[aseg.mgz]] — base subcortical segmentation.
 - [[hemi.aparc.annot]] — cortical parcellation.
 - [[wmparc.stats]] — WM stats file.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

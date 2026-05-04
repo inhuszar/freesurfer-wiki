@@ -13,7 +13,7 @@ related:
   - "[[mri_ca_label]]"
   - "[[mri_aparc2aseg]]"
   - "[[mris_anatomical_stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: medium
 last_agent_update: 2026-04-14
@@ -245,7 +245,7 @@ mris_ca_label \
 
 ## Pipeline Context
 
-**autorecon3 — Cortical Parcellation stage** ([[recon-all]] lines 4339–4375)
+**autorecon3 — Cortical Parcellation stage** ([[wiki/pipelines/recon-all|recon-all]] lines 4339–4375)
 
 ```
 rca-surfreg → lh.sphere.reg
@@ -276,7 +276,7 @@ DKTatlas40) by calling `mris_ca_label` with different atlas files.
 > [!gotcha] Result depends on sphere.reg quality
 > Poor spherical registration (due to unusual folding patterns, low-quality
 > data, or skull-stripping failures) directly degrades parcellation quality.
-> `?h.aparc.annot` quality should be checked in [[freeview]] before proceeding.
+> `?h.aparc.annot` quality should be checked in [[wiki/tools/freeview|freeview]] before proceeding.
 
 > [!gotcha] Three parcellation schemes in autorecon3
 > recon-all runs `mris_ca_label` three times per hemisphere: once for

@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_segment]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -106,7 +106,7 @@ Not part of standard `recon-all`. Relevant to high-resolution processing protoco
 ## Related Tools
 
 - [[mri_segment]] — standard WM segmentation
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

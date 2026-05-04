@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[tkmeditfv]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[tksurfer]]"
 status: draft
 confidence: high
@@ -29,14 +29,14 @@ tags:
 
 ## Summary
 
-`tkmedit` was FreeSurfer's original Tk/Tcl-based interactive volume editor and viewer. In FreeSurfer 8.x, `tkmedit` is **deprecated and no longer functional as an independent tool**: the installed `tkmedit` binary in `$FREESURFER_HOME/bin/` redirects to `tkmeditfv`, which launches [[freeview]] with equivalent arguments. Users should use [[freeview]] directly for all volume viewing and editing tasks.
+`tkmedit` was FreeSurfer's original Tk/Tcl-based interactive volume editor and viewer. In FreeSurfer 8.x, `tkmedit` is **deprecated and no longer functional as an independent tool**: the installed `tkmedit` binary in `$FREESURFER_HOME/bin/` redirects to `tkmeditfv`, which launches [[wiki/tools/freeview|freeview]] with equivalent arguments. Users should use [[wiki/tools/freeview|freeview]] directly for all volume viewing and editing tasks.
 
 ## Source Information
 
 - **Language:** Tcl (legacy script)
 - **Source file(s):** `tktools/scripts/tkmedit.tcl`
 - **Binary/script location:** `$FREESURFER_HOME/bin/tkmedit`
-- **Note:** The binary `tkmedit` in FreeSurfer 8.x is a wrapper that calls `tkmeditfv`, which in turn launches [[freeview]].
+- **Note:** The binary `tkmedit` in FreeSurfer 8.x is a wrapper that calls `tkmeditfv`, which in turn launches [[wiki/tools/freeview|freeview]].
 
 ## Purpose and Context
 
@@ -48,7 +48,7 @@ tags:
 - Resampling volumes to COR space.
 - Timecourse analysis (for functional data).
 
-These capabilities have been superseded by [[freeview]], which is the current FreeSurfer GUI for all visualization and manual editing tasks.
+These capabilities have been superseded by [[wiki/tools/freeview|freeview]], which is the current FreeSurfer GUI for all visualization and manual editing tasks.
 
 > [!gotcha] tkmedit is deprecated — use freeview
 > In FreeSurfer 8.x, the `tkmedit` command launches `tkmeditfv`, which redirects to freeview. The original Tk-based tkmedit interface is no longer available. Scripts calling `tkmedit` directly will run `tkmeditfv` (freeview) instead.
@@ -65,11 +65,11 @@ The `tkmeditfv` wrapper translates these arguments into equivalent `freeview` ar
 
 ## Configuration Options
 
-Since `tkmedit` now redirects to `tkmeditfv` (and hence [[freeview]]), the configuration options are those of `tkmeditfv`. See [[tkmeditfv]] for flag documentation.
+Since `tkmedit` now redirects to `tkmeditfv` (and hence [[wiki/tools/freeview|freeview]]), the configuration options are those of `tkmeditfv`. See [[tkmeditfv]] for flag documentation.
 
 ## Typical Use Cases
 
-Historically: interactive white matter editing during manual reconstruction QC. Now: use [[freeview]] directly.
+Historically: interactive white matter editing during manual reconstruction QC. Now: use [[wiki/tools/freeview|freeview]] directly.
 
 ```bash
 # Legacy command — now redirects to freeview via tkmeditfv
@@ -82,7 +82,7 @@ freeview -v $SUBJECTS_DIR/subject/mri/T1.mgz \
 
 ## Pipeline Context
 
-`tkmedit` was historically used for manual editing between `autorecon1` and `autorecon2`. Modern workflows use [[freeview]] for the same purpose.
+`tkmedit` was historically used for manual editing between `autorecon1` and `autorecon2`. Modern workflows use [[wiki/tools/freeview|freeview]] for the same purpose.
 
 ## Gotchas and Caveats
 
@@ -95,7 +95,7 @@ freeview -v $SUBJECTS_DIR/subject/mri/T1.mgz \
 ## Related Tools
 
 - [[tkmeditfv]] — the current `tkmedit` wrapper that launches freeview
-- [[freeview]] — the current FreeSurfer GUI (replaces tkmedit)
+- [[wiki/tools/freeview|freeview]] — the current FreeSurfer GUI (replaces tkmedit)
 - [[tksurfer]] — the analogous legacy surface viewer (also deprecated, redirects to freeview via tksurferfv)
 
 ## Confidence and Gaps

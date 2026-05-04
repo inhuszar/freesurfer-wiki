@@ -10,7 +10,7 @@ hemispheric: false
 format: "plain text (environment dump)"
 binary: false
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 produced_in_stage: "startup"
 produced_at_source:
   - "[`scripts/recon-all:591`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L591)"
@@ -24,7 +24,7 @@ optional_for: []
 editable: false
 related:
   - "[[recon-all.log]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -36,7 +36,7 @@ tags:
 # recon-all.env
 
 > [!file] Glossary entry
-> `recon-all.env` is an environment snapshot written at the start of each [[recon-all]] run. It captures the `FREESURFER_HOME` paths, `SUBJECTS_DIR`, the full command-line invocation, system information (`uname -a`), OS release, resource limits, and the complete shell environment (`printenv`). It is overwritten (backed up as `recon-all.env.bak`) at the start of each new run.
+> `recon-all.env` is an environment snapshot written at the start of each [[wiki/pipelines/recon-all|recon-all]] run. It captures the `FREESURFER_HOME` paths, `SUBJECTS_DIR`, the full command-line invocation, system information (`uname -a`), OS release, resource limits, and the complete shell environment (`printenv`). It is overwritten (backed up as `recon-all.env.bak`) at the start of each new run.
 
 ## Location and Format
 
@@ -70,7 +70,7 @@ Written at startup, before any processing begins.
 
 - [[recon-all.log]] — processing log.
 - [[recon-all.cmd]] — command log.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

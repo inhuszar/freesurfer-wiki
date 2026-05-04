@@ -14,7 +14,7 @@ tags:
 
 # SAMSEG — Frequently Asked Questions
 
-This FAQ collects recurring questions about [[samseg]] — FreeSurfer's
+This FAQ collects recurring questions about [[wiki/tools/samseg|samseg]] — FreeSurfer's
 Bayesian whole-brain segmenter — that have been answered on the
 mailing list. SAMSEG fits a generative probabilistic atlas to the
 input image(s) in their native voxel grid, so it works on essentially
@@ -22,14 +22,14 @@ any contrast (T1, T2, FLAIR, PD, multi-contrast combinations) and any
 resolution (including thick-slice anisotropic clinical data). It runs
 cross-sectionally (`samseg` / `run_samseg`), longitudinally
 (`run_samseg_long`), and with optional white-matter lesion segmentation
-(`--lesion`). It also integrates with [[recon-all]] in two distinct
+(`--lesion`). It also integrates with [[wiki/pipelines/recon-all|recon-all]] in two distinct
 ways: as a more robust replacement for the standard Talairach
 registration step (`-samseg-reg`), and as the subcortical-segmentation
 backend for [[mri_gtmseg]] in PET partial-volume correction
 (`gtmseg --samseg`).
 
-> For tool reference, see [[samseg]]. For the standard cortical
-> pipeline, see [[recon-all]]. For longitudinal concepts, see
+> For tool reference, see [[wiki/tools/samseg|samseg]]. For the standard cortical
+> pipeline, see [[wiki/pipelines/recon-all|recon-all]]. For longitudinal concepts, see
 > [[longitudinal-processing]].
 
 ---
@@ -61,14 +61,14 @@ see the next entry.
 **Provenance:** Mailing list, 2024-11-12 (Van Leemput). See
 `raw/mailing-list/2024-10-samseg-multicontrast-resample-to-t1-grid.md`.
 
-**Related:** [[samseg]], [[mri_convert]]
+**Related:** [[wiki/tools/samseg|samseg]], [[wiki/tools/mri_convert|mri_convert]]
 
 ---
 
 ### How do I prepare T1 + FLAIR for multi-contrast SAMSEG?
 
 **Short answer:** Co-register FLAIR to T1, resample FLAIR to the T1
-grid with [[mri_convert]] `-rl`, then pass both volumes via `--input`.
+grid with [[wiki/tools/mri_convert|mri_convert]] `-rl`, then pass both volumes via `--input`.
 
 **Detail:** SAMSEG requires every `--input` volume to share the same
 dimensions, voxel sizes, and orientation. The recommended workflow is
@@ -93,7 +93,7 @@ native T1; see the longitudinal entry below.
 **Provenance:** Mailing list, 2024-11-12 (Van Leemput). See
 `raw/mailing-list/2024-10-samseg-multicontrast-resample-to-t1-grid.md`.
 
-**Related:** [[samseg]], [[mri_coreg]], [[mri_convert]], [[mri_vol2vol]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_coreg]], [[wiki/tools/mri_convert|mri_convert]], [[mri_vol2vol]]
 
 ---
 
@@ -136,7 +136,7 @@ samseg \
 **Provenance:** Mailing list, 2025-03-19 (Van Leemput). See
 `raw/mailing-list/2025-03-samseg-lesion-mask-pattern-multi-contrast.md`.
 
-**Related:** [[samseg]]
+**Related:** [[wiki/tools/samseg|samseg]]
 
 ---
 
@@ -168,7 +168,7 @@ Leemput). See
 `raw/mailing-list/2023-11-samseg-lesion-volume-partial-vs-binary-threshold-posteriors.md`,
 `raw/mailing-list/2023-11-samseg-lesion-volume-stats-vs-label99-threshold.md`.
 
-**Related:** [[samseg]], [[mri_binarize]], [[mri_segstats]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_binarize]], [[mri_segstats]]
 
 ---
 
@@ -206,7 +206,7 @@ positives); higher thresholds are more specific.
 `raw/mailing-list/2023-11-samseg-lesion-volume-partial-vs-binary-threshold-posteriors.md`,
 `raw/mailing-list/2023-11-samseg-lesion-volume-stats-vs-label99-threshold.md`.
 
-**Related:** [[samseg]], [[mri_binarize]], [[mri_segstats]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_binarize]], [[mri_segstats]]
 
 ---
 
@@ -257,7 +257,7 @@ extra false positives.
 **Provenance:** Mailing list, 2024-01-05 (Cerri, Van Leemput). See
 `raw/mailing-list/2024-01-samseg-lesion-sensitivity-lesion-mask-structure-shape-model.md`.
 
-**Related:** [[samseg]], [[mri_WMHsynthseg]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_WMHsynthseg]]
 
 ---
 
@@ -311,7 +311,7 @@ common longitudinal frame, not the native-session T1 frame.
 **Provenance:** Mailing list, 2023-06-12 (Cerri). See
 `raw/mailing-list/2023-06-samseg-longitudinal-multicontrast-flair-coreg-workflow.md`.
 
-**Related:** [[samseg]], [[mri_robust_template]], [[mri_coreg]], [[mri_vol2vol]], [[longitudinal-processing]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_robust_template]], [[mri_coreg]], [[mri_vol2vol]], [[longitudinal-processing]]
 
 ---
 
@@ -342,7 +342,7 @@ current FS 8.2.0 install requires no manual patching. Cross-sectional
 Huang). See
 `raw/mailing-list/2025-03-samseg-longitudinal-transform-affine-typeerror-fix.md`.
 
-**Related:** [[samseg]], [[longitudinal-processing]]
+**Related:** [[wiki/tools/samseg|samseg]], [[longitudinal-processing]]
 
 ---
 
@@ -388,7 +388,7 @@ emit a brain-parenchymal-fraction line directly, so compute it as
 **Provenance:** Mailing list, 2024-08-15 (Van Leemput). See
 `raw/mailing-list/2024-08-samseg-volume-extraction-fspython-samseg-stats.md`.
 
-**Related:** [[samseg]], [[mri_segstats]], [[asegstats2table]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_segstats]], [[asegstats2table]]
 
 ---
 
@@ -399,7 +399,7 @@ Add it post-hoc by running [[mri_cc]] on the SAMSEG segmentation.
 
 **Detail:** SAMSEG segments cortical and subcortical structures from
 its probabilistic atlas, but the corpus callosum is not in that atlas
-— in the standard [[recon-all]] pipeline the CC is delineated by a
+— in the standard [[wiki/pipelines/recon-all|recon-all]] pipeline the CC is delineated by a
 separate WM-based midsagittal-plane procedure run by [[mri_cc]]. To
 graft a CC segmentation onto a SAMSEG output, point `mri_cc` at the
 SAMSEG `seg.mgz`:
@@ -424,7 +424,7 @@ mid-anterior body, central, isthmus, splenium).
 **Provenance:** Mailing list, 2025-01-30 (Greve). See
 `raw/mailing-list/2025-01-samseg-corpus-callosum-missing-use-mri-cc.md`.
 
-**Related:** [[samseg]], [[mri_cc]], [[aseg.mgz]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_cc]], [[aseg.mgz]]
 
 ---
 
@@ -467,7 +467,7 @@ or both can co-occur.
 **Provenance:** Mailing list, 2023-11-08 (Greve), 2023-10-18 (Huang).
 See `raw/mailing-list/2023-11-uni-scan-talairach-failure-samseg-reg-flag.md`.
 
-**Related:** [[samseg]], [[recon-all]], [[recon-all-clinical]], [[recon-all-clinical.sh]]
+**Related:** [[wiki/tools/samseg|samseg]], [[wiki/pipelines/recon-all|recon-all]], [[recon-all-clinical]], [[recon-all-clinical.sh]]
 
 ---
 
@@ -503,7 +503,7 @@ with FS 7 (so `talairach.m3z` is still on disk), `gtmseg` without
 **Provenance:** Mailing list, 2025-03-11 (Greve). See
 `raw/mailing-list/2025-03-gtmseg-samseg-flag-required-fs8-talairach-m3z-removed.md`.
 
-**Related:** [[samseg]], [[mri_gtmseg]], [[mri_gtmpvc]], [[recon-all]]
+**Related:** [[wiki/tools/samseg|samseg]], [[mri_gtmseg]], [[mri_gtmpvc]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -545,6 +545,6 @@ avoid running multiple SAMSEG jobs concurrently on the same node.
 **Provenance:** Mailing list, 2024-06-05 (Cerri). See
 `raw/mailing-list/2024-06-samseg-gems-maximaldeformation-killed-oom.md`.
 
-**Related:** [[samseg]]
+**Related:** [[wiki/tools/samseg|samseg]]
 
 ---

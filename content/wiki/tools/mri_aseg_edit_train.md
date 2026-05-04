@@ -130,7 +130,7 @@ mri_aseg_edit_train -w hippo_model.out -l 17 \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Part of an experimental learning-based segmentation correction pipeline.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Part of an experimental learning-based segmentation correction pipeline.
 
 ## Gotchas and Caveats
 

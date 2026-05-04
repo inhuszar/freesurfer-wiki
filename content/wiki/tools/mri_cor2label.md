@@ -149,7 +149,7 @@ mri_cor2label --i label.prob.mgz --id 1 --l ./lh.prob.label \
 
 ## Pipeline Context
 
-Not called by [[recon-all]] directly. Used in:
+Not called by [[wiki/pipelines/recon-all|recon-all]] directly. Used in:
 - ROI extraction from parcellations for ROI-based fMRI analyses
 - Creating surface labels from functional or morphometric overlays
 - Generating probability-based labels from atlas priors

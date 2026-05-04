@@ -54,7 +54,7 @@ voxel.
 
 `mri_label2vol` is used for:
 
-- Converting [[freeview]]-drawn or automatically generated surface labels to
+- Converting [[wiki/tools/freeview|freeview]]-drawn or automatically generated surface labels to
   volume ROI masks
 - Converting cortical parcellation annotations (Desikan, Destrieux, DKT)
   produced by [[mris_ca_label]] / [[mri_aparc2aseg]] to volumetric
@@ -63,7 +63,7 @@ voxel.
 - Mapping a label onto a volume for use with [[mri_binarize]], [[mri_concat]],
   or other volume tools
 
-Not called by [[recon-all]] directly.
+Not called by [[wiki/pipelines/recon-all|recon-all]] directly.
 
 ## Inputs
 
@@ -359,7 +359,7 @@ mri_label2vol \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in analysis scripts for ROI definition and
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in analysis scripts for ROI definition and
 parcellation-to-volume projection.
 
 ## Gotchas and Caveats

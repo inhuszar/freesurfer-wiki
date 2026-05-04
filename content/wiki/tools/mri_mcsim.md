@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_maps2csd]]"
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-21
@@ -187,7 +187,7 @@ Pre-computed tables for fsaverage and fsaverage_sym are distributed with FreeSur
 ## Related Tools
 
 - [[mri_maps2csd]] — applies the same cluster-extraction step to real data maps
-- [[mri_glmfit]] — produces the statistical maps for which CSD correction is applied
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — produces the statistical maps for which CSD correction is applied
 
 ## Confidence and Gaps
 

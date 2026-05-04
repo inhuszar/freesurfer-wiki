@@ -26,13 +26,13 @@ downstream_files:
   - "[[hemi.BA_exvivo.thresh.annot]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: BA_exvivo Labels (`-balabels`)"
 editable: false
 related:
   - "[[hemi.BA_exvivo.label]]"
   - "[[hemi.BA_exvivo.thresh.annot]]"
   - "[[fsaverage]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -74,7 +74,7 @@ mri_label2label \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **BA_exvivo Labels** stage. Produced in a second parallel batch after the full [[hemi.BA_exvivo.label]] files.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **BA_exvivo Labels** stage. Produced in a second parallel batch after the full [[hemi.BA_exvivo.label]] files.
 
 ### Inputs required
 
@@ -90,7 +90,7 @@ Merged into [[hemi.BA_exvivo.thresh.annot]] by `mris_label2annot`.
 - [[hemi.BA_exvivo.label]] — unthresholded counterparts.
 - [[hemi.BA_exvivo.thresh.annot]] — annotation assembled from these labels.
 - [[fsaverage]] — atlas source.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

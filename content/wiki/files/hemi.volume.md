@@ -27,7 +27,7 @@ consumed_by:
   - "[[mris_anatomical_stats]]"
 downstream_files: []
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[hemi.pial]]"
   - "[[hemi.thickness]]"
   - "[[hemi.area.mid]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -77,7 +77,7 @@ mris_convert --volume $subject $hemi $subjdir/surf/$hemi.volume
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **area and vertex vol** step, invoked via `vertexvol --th3`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **area and vertex vol** step, invoked via `vertexvol --th3`.
 
 ### Inputs required
 
@@ -99,7 +99,7 @@ mris_convert --volume $subject $hemi $subjdir/surf/$hemi.volume
 - [[hemi.white]], [[hemi.pial]] — source surfaces.
 - [[hemi.thickness]] — alternative thickness-based volume estimator.
 - [[hemi.area.mid]] — midthickness area co-produced in the same step.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

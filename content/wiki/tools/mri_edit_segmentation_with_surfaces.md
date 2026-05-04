@@ -132,7 +132,7 @@ mri_edit_segmentation_with_surfaces -hypo 0 -cerebellum 0 \
 
 ## Pipeline Context
 
-This tool is called during `autorecon3` in `[[recon-all]]`, after cortical surface reconstruction is complete. The surfaces must already exist in the subject's `surf/` directory. It produces a refined aseg that is consistent with the reconstructed surfaces, which is required for downstream statistics (`[[mris_anatomical_stats]]`) and parcellation-to-volume mapping (`[[mri_aparc2aseg]]`).
+This tool is called during `autorecon3` in `[[wiki/pipelines/recon-all|recon-all]]`, after cortical surface reconstruction is complete. The surfaces must already exist in the subject's `surf/` directory. It produces a refined aseg that is consistent with the reconstructed surfaces, which is required for downstream statistics (`[[mris_anatomical_stats]]`) and parcellation-to-volume mapping (`[[mri_aparc2aseg]]`).
 
 ## Gotchas and Caveats
 

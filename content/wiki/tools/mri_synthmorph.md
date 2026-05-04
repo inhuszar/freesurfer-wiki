@@ -13,7 +13,7 @@ related:
   - "[[mri_synthsr]]"
   - "[[mri_transform]]"
   - "[[coordinate-systems]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15

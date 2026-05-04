@@ -25,13 +25,13 @@ consumed_by:
 downstream_files:
   - "[[aseg.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Final Aseg"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Final Aseg"
 optional_for: []
 editable: false
 related:
   - "[[aseg.presurf.mgz]]"
   - "[[aseg.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -77,7 +77,7 @@ When `-nowmsa` is active: `cp aseg.presurf.mgz aseg.presurf.hypos.mgz`.
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **Relabel Hypointensities** stage. Touch sentinel: `touch/relabelhypos.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **Relabel Hypointensities** stage. Touch sentinel: `touch/relabelhypos.touch`.
 
 ### Inputs required
 
@@ -98,7 +98,7 @@ When `-nowmsa` is active: `cp aseg.presurf.mgz aseg.presurf.hypos.mgz`.
 
 - [[aseg.presurf.mgz]] — source segmentation.
 - [[aseg.mgz]] — final output derived from this file.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -33,7 +33,7 @@ handful of version-specific installation defects that block fresh FS
 
 > For tool reference on the deep-learning components themselves, see
 > [[mri_synthseg]], [[mri_synthstrip]], [[mri_synthmorph]], and
-> [[mri_synthsr]]. For the standard pipeline, see [[recon-all]]; for
+> [[mri_synthsr]]. For the standard pipeline, see [[wiki/pipelines/recon-all|recon-all]]; for
 > clinical-quality MRI, see [[recon-all-clinical]].
 
 ---
@@ -76,7 +76,7 @@ sudo rpm -i freesurfer-linux-rocky8_x86_64-8.0.0.rpm
 `raw/mailing-list/2023-06-centos9-rhel9-not-officially-supported.md`,
 `raw/mailing-list/2025-04-freesurfer-rhel9-rocky9-perl-broken-installer-required.md`.
 
-**Related:** [[mri_nu_correct.mni]], [[recon-all]]
+**Related:** [[mri_nu_correct.mni]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -103,7 +103,7 @@ pre-compiled components. The two recommended workarounds are:
               freesurfer/freesurfer:8.0.0 \
               recon-all -s SUBJECT -i T1.mgz -all
    ```
-2. **VirtualBox VM with Ubuntu 22.04** (preferred for [[freeview]] use
+2. **VirtualBox VM with Ubuntu 22.04** (preferred for [[wiki/tools/freeview|freeview]] use
    because the VM provides a built-in X server, avoiding the
    complexities of X11 forwarding from Docker):
    ```bash
@@ -125,7 +125,7 @@ pre-compiled components. The two recommended workarounds are:
 `raw/mailing-list/2025-04-ubuntu-2404-not-supported-docker-vm-workaround.md`,
 `raw/mailing-list/2026-03-gtmseg-gemsbindings-ubuntu24.md`.
 
-**Related:** [[mri_gtmseg]], [[samseg]], [[freeview]], [[petsurfer]]
+**Related:** [[mri_gtmseg]], [[wiki/tools/samseg|samseg]], [[wiki/tools/freeview|freeview]], [[petsurfer]]
 
 ---
 
@@ -177,7 +177,7 @@ Silicon is no longer supported.
 **Provenance:** Mailing list, 2025-01-07 (fsbuild). See
 `raw/mailing-list/2025-01-apple-silicon-m4-fs-allow-deep-tensorflow-setup.md`.
 
-**Related:** [[mri_synthseg]], [[recon-all]],
+**Related:** [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]],
 [[synthseg-and-synthsr]]
 
 ---
@@ -240,7 +240,7 @@ RAM floor nor the new functionality.
 **Provenance:** Mailing list, 2024-11-12 (fsbuild). See
 `raw/mailing-list/2024-11-freesurfer-8-beta-mac-low-ram-fs-v8-xopts-workaround.md`.
 
-**Related:** [[mri_synthstrip]], [[mri_synthseg]], [[recon-all]]
+**Related:** [[mri_synthstrip]], [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -270,7 +270,7 @@ lscpu | grep avx
 
 The error is not specific to a subset of tools — it is raised by the
 loader when any AVX-using instruction is executed, so all of
-[[recon-all]], [[mri_synthseg]], `mri_sclimbic_seg`, [[mri_gtmseg]]
+[[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]], `mri_sclimbic_seg`, [[mri_gtmseg]]
 etc. are affected on a non-AVX CPU.
 
 **Resolution:**
@@ -289,7 +289,7 @@ etc. are affected on a non-AVX CPU.
 **Provenance:** Mailing list, 2023-09-12 (fsbuild / Glass). See
 `raw/mailing-list/2023-09-freesurfer-binaries-avx-instructions-pre-2011-cpu-illegal-instruction.md`.
 
-**Related:** [[recon-all]], [[mri_synthseg]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]]
 
 ---
 
@@ -326,7 +326,7 @@ on a 24-core/96 GB/24 GB-GPU machine by asking whether the system
 `raw/mailing-list/2024-11-freesurfer-8-beta-fs-allow-deep-env-var-required.md`,
 `raw/mailing-list/2024-11-freesurfer-8-beta-mac-low-ram-fs-v8-xopts-workaround.md`.
 
-**Related:** [[recon-all]], [[recon-all-clinical]], [[mri_synthstrip]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[recon-all-clinical]], [[mri_synthstrip]],
 [[mri_synthseg]]
 
 ---
@@ -393,7 +393,7 @@ opt-in until you set the variable.
 `raw/mailing-list/2024-11-freesurfer-8-beta-fs-allow-deep-env-var-required.md`,
 `raw/mailing-list/2025-01-apple-silicon-m4-fs-allow-deep-tensorflow-setup.md`.
 
-**Related:** [[recon-all]], [[mri_synthseg]], [[mri_synthstrip]],
+**Related:** [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]], [[mri_synthstrip]],
 [[mri_synthmorph]]
 
 ---
@@ -520,7 +520,7 @@ MCR version reference:
 Shabestari / Huang). See
 `raw/mailing-list/2025-03-segmentaan-requires-mcrv97-binary-update.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -607,7 +607,7 @@ FS 8.2.0 ships the Python-3 `csvprint` from the start.
 `raw/mailing-list/2025-03-fs800-etiv-zero-csvprint-python3-bug.md`.
 
 **Related:** [[aseg.stats]], [[synthseg.tiv.dat]],
-[[synthseg.vol.csv]], [[recon-all]], [[mri_synthseg]]
+[[synthseg.vol.csv]], [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]]
 
 ---
 
@@ -630,4 +630,4 @@ data for other analyses) should re-deface under 7.4.1.
 **Provenance:** Mailing list, 2023-06-20 (Greve). See
 `raw/mailing-list/2023-06-freesurfer-741-mideface-bug-fix-release.md`.
 
-**Related:** [[recon-all]]
+**Related:** [[wiki/pipelines/recon-all|recon-all]]

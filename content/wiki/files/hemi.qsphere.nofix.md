@@ -26,7 +26,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.orig]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Fix Topology"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Fix Topology"
 optional_for: []
 editable: false
 related:
@@ -34,7 +34,7 @@ related:
   - "[[hemi.inflated.nofix]]"
   - "[[hemi.orig]]"
   - "[[topology-correction]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -78,7 +78,7 @@ mris_sphere -q -p 6 -a 128 \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **QSphere** stage (`-qsphere`). Touch sentinel: `touch/$hemi.qsphere.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **QSphere** stage (`-qsphere`). Touch sentinel: `touch/$hemi.qsphere.touch`.
 
 ### Inputs required
 
@@ -102,7 +102,7 @@ mris_sphere -q -p 6 -a 128 \
 - [[hemi.orig]] — topology-corrected successor.
 - [[topology-correction]] — explains the role of qsphere in defect detection.
 - [[hemi.sphere]] — the true spherical surface produced later after topology correction.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

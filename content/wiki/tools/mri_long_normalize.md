@@ -10,7 +10,7 @@ families:
 recon_all_stage: "autorecon1"
 related:
   - "[[mri_normalize]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_fuse_segmentations]]"
 status: draft
 confidence: high
@@ -132,7 +132,7 @@ Called within `recon-all -long` during autorecon1 as part of longitudinal intens
 ## Related Tools
 
 - [[mri_normalize]] — cross-sectional version of this tool
-- [[recon-all]] — calls this during `-long` processing
+- [[wiki/pipelines/recon-all|recon-all]] — calls this during `-long` processing
 - [[mri_fuse_segmentations]] — produces the fused segmentation used as input to this tool
 
 ## Confidence and Gaps

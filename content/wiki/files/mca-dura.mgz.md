@@ -24,13 +24,13 @@ downstream_files:
   - "[[brain.finalsurfs.mgz]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2 (run by default in v8.x)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2 (run by default in v8.x)"
 editable: false
 related:
   - "[[nu.mgz]]"
   - "[[brainmask.mgz]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -69,7 +69,7 @@ mri_mcadura_seg \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **MCA/Dura Segmentation** stage. Produced before brain mask refinement.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **MCA/Dura Segmentation** stage. Produced before brain mask refinement.
 
 ### Inputs required
 
@@ -90,7 +90,7 @@ mri_mask -oval 1 -invert brain.finalsurfs.mgz mca-dura.mgz brain.finalsurfs.mgz
 - [[brainmask.mgz]] — modified to exclude MCA/dura.
 - [[brain.finalsurfs.mgz]] — also corrected.
 - [[vsinus.mgz]] — analogous venous sinus segmentation.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

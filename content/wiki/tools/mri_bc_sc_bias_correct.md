@@ -68,7 +68,7 @@ tags:
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Tool is in attic and likely deprecated.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Tool is in attic and likely deprecated.
 
 ## Related Tools
 

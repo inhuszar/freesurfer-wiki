@@ -12,7 +12,7 @@ related:
   - "[[dmri_paths]]"
   - "[[dmri_pathstats]]"
   - "[[dmri_ac.sh]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
 status: draft
 confidence: medium

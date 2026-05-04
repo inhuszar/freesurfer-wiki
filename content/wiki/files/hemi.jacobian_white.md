@@ -25,12 +25,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: JacobianWhite (run by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: JacobianWhite (run by default)"
 editable: false
 related:
   - "[[hemi.white.preaparc]]"
   - "[[hemi.sphere.reg]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -70,7 +70,7 @@ mris_jacobian \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **JacobianWhite** stage (`-jacobian_white`). Touch sentinel: `touch/$hemi.jacobian_white.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **JacobianWhite** stage (`-jacobian_white`). Touch sentinel: `touch/$hemi.jacobian_white.touch`.
 
 ### Inputs required
 
@@ -81,7 +81,7 @@ mris_jacobian \
 
 - [[hemi.white.preaparc]] — source surface.
 - [[hemi.sphere.reg]] — registered sphere.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

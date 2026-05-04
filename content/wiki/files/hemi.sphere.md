@@ -25,7 +25,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.sphere.reg]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: SurfReg"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: SurfReg"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[hemi.inflated]]"
   - "[[hemi.sphere.reg]]"
   - "[[hemi.qsphere.nofix]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -78,7 +78,7 @@ mris_sphere -threads $OMP_NUM_THREADS \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **Sphere** stage (`-sphere`). Touch sentinel: `touch/$hemi.sphmorph.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **Sphere** stage (`-sphere`). Touch sentinel: `touch/$hemi.sphmorph.touch`.
 
 ### Inputs required
 
@@ -107,7 +107,7 @@ mris_sphere -threads $OMP_NUM_THREADS \
 - [[hemi.inflated]] — input surface.
 - [[hemi.sphere.reg]] — downstream registered sphere.
 - [[hemi.qsphere.nofix]] — early quasi-sphere for topology correction only.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

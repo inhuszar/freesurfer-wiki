@@ -154,7 +154,7 @@ mri_jacobian -z subject.m3z T1.mgz log_jacobian_zeromean.mgz
 
 1. Nonlinear registration of each subject to a template (produces `.m3z` per subject)
 2. `mri_jacobian` per subject to extract the Jacobian determinant
-3. Statistical analysis (e.g., [[mri_glmfit]]) on stacked Jacobian maps
+3. Statistical analysis (e.g., [[wiki/tools/mri_glmfit|mri_glmfit]]) on stacked Jacobian maps
 
 ## Gotchas and Caveats
 
@@ -170,7 +170,7 @@ mri_jacobian -z subject.m3z T1.mgz log_jacobian_zeromean.mgz
 ## Related Tools
 
 - [[mri_em_register]] — produces the nonlinear GCAM morph files consumed by mri_jacobian
-- [[mri_glmfit]] — group statistical analysis on Jacobian maps
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — group statistical analysis on Jacobian maps
 
 ## Confidence and Gaps
 

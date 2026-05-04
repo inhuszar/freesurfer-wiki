@@ -104,7 +104,7 @@ mri_extract_label aseg.mgz 999 dummy.mgz -exit_none_found
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]` directly. Used in post-processing scripts to isolate specific structures for ROI analysis, mask generation, or further processing.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]` directly. Used in post-processing scripts to isolate specific structures for ROI analysis, mask generation, or further processing.
 
 ## Gotchas and Caveats
 

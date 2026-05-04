@@ -55,7 +55,7 @@ curvature/overlay files.
 - Generating quick statistics (min, max, mean, std) on surface overlays without
   loading a full analysis environment
 
-Not called by [[recon-all]].
+Not called by [[wiki/pipelines/recon-all|recon-all]].
 
 ## Inputs
 
@@ -276,7 +276,7 @@ mris_calc lh.thickness ascii
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in post-processing and analysis scripts.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in post-processing and analysis scripts.
 
 ## Gotchas and Caveats
 

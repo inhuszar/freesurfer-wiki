@@ -1,7 +1,7 @@
 ---
 title: "FreeView — Volumes"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -19,7 +19,7 @@ related_panels:
   - "[[freeview-surfaces]]"
   - "[[freeview-editing]]"
 related_tools:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_binarize]]"
   - "[[mri_info]]"
 status: review
@@ -362,13 +362,13 @@ Volumes can be edited in **Voxel Edit** and **Recon Edit** modes. See [[freeview
 
 > [!gotcha] Saving segmentations
 > When editing and saving segmentation volumes, ensure you save to the
-> `.mgz` file that [[recon-all]] reads (e.g., `brainmask.mgz`, `wm.mgz`),
+> `.mgz` file that [[wiki/pipelines/recon-all|recon-all]] reads (e.g., `brainmask.mgz`, `wm.mgz`),
 > not the `.auto.mgz` version. The `.auto.mgz` files are the unedited
 > automatic results; recon-all uses the plain `.mgz` files.
 
 ## Related Pages
 
-- [[freeview]] — main application overview
+- [[wiki/tools/freeview|freeview]] — main application overview
 - [[freeview-surfaces]] — surface layer controls
 - [[freeview-editing]] — editing volumes
 - [[freeview-command-line]] — complete command-line reference

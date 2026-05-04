@@ -13,7 +13,7 @@ families:
 recon_all_stage: "autorecon1"
 related:
   - "[[mri_info]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
   - "[[mri_concat]]"
@@ -75,7 +75,7 @@ cortical-reconstruction stage assumes this geometry. `mri_convert` is
 the tool that brings arbitrary input data into that representation
 and, at the end of a pipeline, takes it back out to whatever format
 another tool expects. It is invoked at three canonical points in
-[[recon-all]]:
+[[wiki/pipelines/recon-all|recon-all]]:
 
 1. **Input ingestion** (`autorecon1`, Stage 1). Each `-i <vol>` raw
    volume is converted to MGZ:
@@ -600,7 +600,7 @@ spelling out explicitly.
 > `--left-right-reverse-pix`, `--reorder`) is a direct edit of the
 > header and will produce an incorrect volume if the input was
 > actually correct. The help text's warning *"KNOW WHAT YOU ARE
-> DOING!!"* is literal. Use [[mri_info]] or [[freeview]] to inspect
+> DOING!!"* is literal. Use [[mri_info]] or [[wiki/tools/freeview|freeview]] to inspect
 > before and after.
 
 > [!gotcha] `-odt uchar` + non-normalised input clips hard
@@ -714,7 +714,7 @@ label volumes with custom LUTs, use
 
 ## Pipeline Context
 
-`mri_convert` is called in many places in [[recon-all]]:
+`mri_convert` is called in many places in [[wiki/pipelines/recon-all|recon-all]]:
 
 - **Stage 1 (Motion Correction)**: input volume conversion
   (`recon-all:1242`), optional T2/FLAIR conversion

@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_label_volume]]"
 status: draft
 confidence: high
@@ -117,7 +117,7 @@ Not part of `recon-all`. Used in evaluation workflows, e.g., benchmarking segmen
 ## Related Tools
 
 - [[mri_label_volume]] — compute volume of labelled regions
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

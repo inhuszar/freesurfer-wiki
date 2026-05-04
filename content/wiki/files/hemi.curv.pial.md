@@ -25,13 +25,13 @@ consumed_by:
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: Stats (pial curvature stats)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats (pial curvature stats)"
 editable: false
 related:
   - "[[hemi.pial]]"
   - "[[hemi.curv]]"
   - "[[mris_place_surface]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -72,7 +72,7 @@ mris_place_surface --curv-map ../surf/$hemi.pial 2 10 ../surf/$hemi.curv.pial
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, surface measurement loop (pial iteration).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, surface measurement loop (pial iteration).
 
 ### Inputs required
 
@@ -89,7 +89,7 @@ mris_place_surface --curv-map ../surf/$hemi.pial 2 10 ../surf/$hemi.curv.pial
 - [[hemi.pial]] — source surface.
 - [[hemi.curv]] — analogous white surface curvature.
 - [[mris_place_surface]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

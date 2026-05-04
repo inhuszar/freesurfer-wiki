@@ -30,7 +30,7 @@ related:
   - "[[mri_cc]]"
   - "[[aseg.auto.mgz]]"
   - "[[lta-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -75,7 +75,7 @@ mri_cc \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CC Segmentation** stage (`-calabel`). Co-produced with [[aseg.auto.mgz]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CC Segmentation** stage (`-calabel`). Co-produced with [[aseg.auto.mgz]].
 
 ### Inputs required
 
@@ -90,7 +90,7 @@ mri_cc \
 - [[mri_cc]] — producer.
 - [[aseg.auto.mgz]] — co-produced CC segmentation.
 - [[lta-format]] — transform format.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -25,7 +25,7 @@ consumed_by:
 downstream_files:
   - "[[aseg.auto.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: CC Segmentation"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: CC Segmentation"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[aseg.mgz]]"
   - "[[color-lut]]"
   - "[[parcellation-schemes]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -85,7 +85,7 @@ mri_ca_label \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CA Label** stage (`-calabel`). Touch sentinel: `touch/calabel.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CA Label** stage (`-calabel`). Touch sentinel: `touch/calabel.touch`.
 
 ### Inputs required
 
@@ -123,7 +123,7 @@ When SynthSeg is used (`-synthseg` flag), `aseg.auto_noCCseg.mgz` may be a symli
 - [[parcellation-schemes]] — overview of FreeSurfer parcellation atlases.
 - [[aseg.auto.mgz]], [[aseg.presurf.mgz]], [[aseg.mgz]] — downstream successors.
 - [[norm.mgz]] — intensity input.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

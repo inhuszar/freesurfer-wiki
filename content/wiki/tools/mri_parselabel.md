@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_label_vals]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -104,7 +104,7 @@ Not part of `recon-all`. Research/utility tool for label file manipulation.
 ## Related Tools
 
 - [[mri_label_vals]] — extract values at label locations
-- [[mri_convert]] — coordinate system information
+- [[wiki/tools/mri_convert|mri_convert]] — coordinate system information
 
 ## Confidence and Gaps
 

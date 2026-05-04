@@ -26,12 +26,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: WM/GM Contrast"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: WM/GM Contrast"
 editable: false
 related:
   - "[[hemi.w-g.pct.mgh]]"
   - "[[hemi.aparc.annot]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -69,7 +69,7 @@ mri_segstats --in $out --annot $subject $hemi aparc \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **WM/GM Contrast** stage. Produced in the same `pctsurfcon` run as [[hemi.w-g.pct.mgh]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **WM/GM Contrast** stage. Produced in the same `pctsurfcon` run as [[hemi.w-g.pct.mgh]].
 
 ### Inputs required
 
@@ -80,7 +80,7 @@ mri_segstats --in $out --annot $subject $hemi aparc \
 
 - [[hemi.w-g.pct.mgh]] — source contrast map.
 - [[hemi.aparc.annot]] — parcellation used for regional summaries.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

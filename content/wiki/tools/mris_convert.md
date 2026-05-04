@@ -9,7 +9,7 @@ families:
   - "mris_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mris_apply_reg]]"
   - "[[surface-format]]"
   - "[[curv-format]]"
@@ -239,7 +239,7 @@ Not part of `recon-all` automatically but used extensively in post-processing:
 
 ## Related Tools
 
-- [[mri_convert]] — volume format conversion (analogous tool for volumes)
+- [[wiki/tools/mri_convert|mri_convert]] — volume format conversion (analogous tool for volumes)
 - [[mris_apply_reg]] — surface resampling after registration
 - [[surface-format]] — FreeSurfer surface file format specification
 - [[curv-format]] — FreeSurfer curvature/scalar overlay format

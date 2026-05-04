@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_synthsr]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -131,7 +131,7 @@ Used in specialized multi-echo FLASH acquisition pipelines for atlas constructio
 ## Related Tools
 
 - [[mri_synthsr]] — deep-learning synthesis (contrast-agnostic)
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

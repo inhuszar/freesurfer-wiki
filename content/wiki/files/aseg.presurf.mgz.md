@@ -25,7 +25,7 @@ downstream_files:
   - "[[wm.asegedit.mgz]]"
   - "[[brain.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Intensity Normalization2, WM Segmentation"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Intensity Normalization2, WM Segmentation"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[aseg.auto.mgz]]"
   - "[[aseg.mgz]]"
   - "[[color-lut]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -81,7 +81,7 @@ mri_seg_diff \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **ASeg Merge** stage (`-asegmerge`). Touch sentinel: `touch/asegmerge.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **ASeg Merge** stage (`-asegmerge`). Touch sentinel: `touch/asegmerge.touch`.
 
 ### Inputs required
 
@@ -124,7 +124,7 @@ None.
 - [[aseg.mgz]] — final segmentation successor.
 - [[color-lut]] — label scheme.
 - [[mri_edit_wm_with_aseg]], [[mris_make_surfaces]] — primary consumers.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

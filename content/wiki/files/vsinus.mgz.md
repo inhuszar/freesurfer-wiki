@@ -26,14 +26,14 @@ downstream_files:
   - "[[brain.finalsurfs.mgz]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon2 (run by default in v8.x)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2 (run by default in v8.x)"
 editable: false
 related:
   - "[[nu.mgz]]"
   - "[[vsinus.stats]]"
   - "[[brainmask.mgz]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -74,7 +74,7 @@ Uses [[nu.mgz]] as the intensity input and [[synthseg.rca.mgz]] to define the co
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Venous Sinus Segmentation** stage. Produced before skull-stripping refinement.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Venous Sinus Segmentation** stage. Produced before skull-stripping refinement.
 
 ### Siblings (co-produced outputs)
 
@@ -94,7 +94,7 @@ mri_mask -oval 1 -invert brain.finalsurfs.mgz vsinus.mgz brain.finalsurfs.mgz
 - [[vsinus.stats]] — co-produced volumetric stats.
 - [[brainmask.mgz]] — modified to exclude venous sinuses.
 - [[brain.finalsurfs.mgz]] — also corrected.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -26,13 +26,13 @@ downstream_files:
   - "[[hemi.white.H]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CurvHK (disabled by default, enabled with `-all` or `-curvHK`)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CurvHK (disabled by default, enabled with `-all` or `-curvHK`)"
 editable: false
 related:
   - "[[hemi.white.preaparc]]"
   - "[[hemi.white.H]]"
   - "[[hemi.white.preaparc.K]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -44,7 +44,7 @@ tags:
 # hemi.white.preaparc.H
 
 > [!file] Glossary entry
-> `lh.white.preaparc.H` / `rh.white.preaparc.H` are per-vertex mean curvature (H) maps of the [[hemi.white.preaparc]] surface, computed by `mris_curvature -w` in the CurvHK stage. After creation, [[recon-all]] makes [[hemi.white.H]] a symlink pointing to this file so that downstream consumers find the canonical `?h.white.H` name.
+> `lh.white.preaparc.H` / `rh.white.preaparc.H` are per-vertex mean curvature (H) maps of the [[hemi.white.preaparc]] surface, computed by `mris_curvature -w` in the CurvHK stage. After creation, [[wiki/pipelines/recon-all|recon-all]] makes [[hemi.white.H]] a symlink pointing to this file so that downstream consumers find the canonical `?h.white.H` name.
 
 ## Location and Format
 
@@ -71,7 +71,7 @@ Output filenames are derived by `MRISwriteCurvature_getfilename` which prepends 
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CurvHK** stage (`-curvHK`). Disabled by default; enabled when running with `-all` or the explicit flag. Touch sentinel: `touch/$hemi.white.H.K.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CurvHK** stage (`-curvHK`). Disabled by default; enabled when running with `-all` or the explicit flag. Touch sentinel: `touch/$hemi.white.H.K.touch`.
 
 ### Inputs required
 
@@ -96,7 +96,7 @@ This allows tools expecting `?h.white.H` to find the file under the canonical na
 - [[hemi.white.preaparc]] — source surface.
 - [[hemi.white.H]] — symlink alias.
 - [[hemi.white.preaparc.K]] — co-produced Gaussian curvature.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

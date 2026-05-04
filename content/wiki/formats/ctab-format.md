@@ -11,7 +11,7 @@ produced_by:
 consumed_by:
   - "[[mri_binarize]]"
   - "[[mri_segstats]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[mri_label2vol]]"
 related:
   - "[[annotation-format]]"
@@ -376,7 +376,7 @@ reverse-map RGB → label index. See the Binary Embedded Ctab section above.
 | `CTABwriteIntoBinary` | — | — | — | ✓ | Called by annot and MGZ writers |
 | [[mri_segstats]] | ✓ | — | ✓ | — | `--ctab` flag; reads either form |
 | [[mri_binarize]] | ✓ | — | — | — | `--match` by name requires ctab |
-| [[freeview]] | ✓ | — | ✓ | — | Loads ctab for segmentation overlay |
+| [[wiki/tools/freeview|freeview]] | ✓ | — | ✓ | — | Loads ctab for segmentation overlay |
 | [[mri_label2vol]] | ✓ | — | — | — | Maps labels to volume using ctab |
 | [[mris_ca_label]] | — | ✓ | ✓ | ✓ | Embeds ctab into output `.annot` |
 | [[mri_ca_label]] | — | — | — | ✓ | Embeds ctab into segmentation `.mgz` |

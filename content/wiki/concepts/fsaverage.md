@@ -10,7 +10,7 @@ related_tools:
   - "[[mris_apply_reg]]"
   - "[[mri_surf2surf]]"
   - "[[mris_smooth]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 related_concepts:
   - "[[surface-representations]]"
   - "[[registration-overview]]"

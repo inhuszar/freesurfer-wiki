@@ -8,12 +8,12 @@ file_extensions:
 produced_by:
   - "[[mris_preproc]]"
 consumed_by:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_gdfglm]]"
   - "[[mri_mvglmfit]]"
   - "[[mris_glm]]"
 related:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_glmfit-sim]]"
   - "[[mris_preproc]]"
   - "[[stats-format]]"
@@ -36,7 +36,7 @@ The FSGD (FreeSurfer Group Descriptor) file is a plain-text format for
 specifying multi-subject experimental designs used in group-level General
 Linear Model (GLM) analysis. It encodes the design matrix implicitly: by
 declaring subject groups (classes) and continuous covariates (variables),
-the format lets [[mri_glmfit]] construct the full design matrix at run time
+the format lets [[wiki/tools/mri_glmfit|mri_glmfit]] construct the full design matrix at run time
 using either the DOSS or DODS parameterisation (see
 [Design Matrix Methods](#design-matrix-methods)).
 
@@ -277,7 +277,7 @@ The parser enforces the following at read time (`utils/fsgdf.cpp`):
 
 | Tool | Mode | Notes |
 |------|------|-------|
-| [[mri_glmfit]] | read | Primary consumer; constructs the design matrix from the FSGD and runs vertex/voxel-wise GLM |
+| [[wiki/tools/mri_glmfit|mri_glmfit]] | read | Primary consumer; constructs the design matrix from the FSGD and runs vertex/voxel-wise GLM |
 | [[mri_gdfglm]] | read | Simplified GLM front-end using FSGD + a data volume |
 | [[mri_mvglmfit]] | read | Multivariate GLM variant |
 | [[mris_glm]] | read | Legacy surface GLM (in `attic/`); same FSGD format |
@@ -350,5 +350,5 @@ tag inside the file.
 - `include/fsgdf.h` — `FSGD` struct definition and compile-time limits
 - External specification: `http://surfer.nmr.mgh.harvard.edu/docs/fsgdf.txt`
   (referenced in [[`fsgdf.cpp:4`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fsgdf.cpp#L4)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fsgdf.cpp#L4))
-- [[mri_glmfit]] — primary consumer; see its page for GLM analysis workflow
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — primary consumer; see its page for GLM analysis workflow
 - [[stats-format]] — the `.stats` file format read by `VariableFromFile`/`VariableFromASeg`

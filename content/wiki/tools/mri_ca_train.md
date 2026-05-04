@@ -30,7 +30,7 @@ tags:
 
 ## Summary
 
-`mri_ca_train` builds a Gaussian Classifier Atlas (GCA) from a training set of subjects for which both a normalized T1 volume and a manual or semi-automated segmentation are available. The GCA encodes, at each node in a 3D atlas grid, the prior probability of each anatomical label and the conditional intensity distribution (Gaussian) for each label. The resulting [[gca-format|`.gca`]] file is the atlas used by [[mri_ca_register]] and [[mri_ca_label]] in the [[recon-all]] pipeline.
+`mri_ca_train` builds a Gaussian Classifier Atlas (GCA) from a training set of subjects for which both a normalized T1 volume and a manual or semi-automated segmentation are available. The GCA encodes, at each node in a 3D atlas grid, the prior probability of each anatomical label and the conditional intensity distribution (Gaussian) for each label. The resulting [[gca-format|`.gca`]] file is the atlas used by [[mri_ca_register]] and [[mri_ca_label]] in the [[wiki/pipelines/recon-all|recon-all]] pipeline.
 
 ## Source Information
 
@@ -170,7 +170,7 @@ mri_ca_train -flash \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage for end users. Run once (or periodically) by the FreeSurfer development team when:
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage for end users. Run once (or periodically) by the FreeSurfer development team when:
 - Building the distributed GCA atlas from updated training cohorts.
 - Creating custom atlases for specific populations (pediatric, elderly, non-standard pathology).
 - Building atlases for new MRI protocols or scanners.

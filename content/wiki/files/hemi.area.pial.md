@@ -26,7 +26,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.area.mid]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats"
 optional_for: []
 editable: false
 related:
@@ -34,7 +34,7 @@ related:
   - "[[hemi.area]]"
   - "[[hemi.area.mid]]"
   - "[[mris_place_surface]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -75,7 +75,7 @@ mris_place_surface --area-map ../surf/$hemi.pial ../surf/$hemi.area.pial
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, surface measurement loop (pial iteration).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, surface measurement loop (pial iteration).
 
 ### Inputs required
 
@@ -98,7 +98,7 @@ mris_place_surface --area-map ../surf/$hemi.pial ../surf/$hemi.area.pial
 - [[hemi.area]] — white surface area counterpart.
 - [[hemi.area.mid]] — derived midthickness area.
 - [[mris_place_surface]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

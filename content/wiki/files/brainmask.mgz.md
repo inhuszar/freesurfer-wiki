@@ -29,7 +29,7 @@ downstream_files:
   - "[[brain.finalsurfs.mgz]]"
   - "[[norm.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2 (all stages depend on brain mask)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2 (all stages depend on brain mask)"
 optional_for: []
 editable: true
 related:
@@ -37,7 +37,7 @@ related:
   - "[[T1.mgz]]"
   - "[[brain.mgz]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -91,7 +91,7 @@ mri_mask T1.mgz <synthstrip_mask> brainmask.mgz
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, **Skull Stripping** stage (`-skullstrip`). Touch sentinel: `touch/skullstrip.touch` (name may vary).
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, **Skull Stripping** stage (`-skullstrip`). Touch sentinel: `touch/skullstrip.touch` (name may vary).
 
 ### Inputs required
 
@@ -143,7 +143,7 @@ In the longitudinal stream:
 - [[T1.mgz]] — input.
 - [[brain.mgz]], [[brain.finalsurfs.mgz]] — downstream masked volumes.
 - [[norm.mgz]] — atlas normalisation (uses brainmask).
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

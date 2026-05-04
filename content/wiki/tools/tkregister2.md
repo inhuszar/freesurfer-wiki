@@ -12,7 +12,7 @@ recon_all_stage: null
 related:
   - "[[coordinate-systems]]"
   - "[[lta-format]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[bbregister]]"
   - "[[lta_convert]]"
   - "[[mri_coreg]]"
@@ -39,7 +39,7 @@ tags:
 `tkregister2` is a Tcl/Tk-based GUI tool for visualizing, manually editing, and converting linear registration matrices between two MRI volumes. It displays a coronal (or sagittal/axial) view of a target and movable volume simultaneously, allowing the user to toggle between them to assess and correct alignment. Registration can be initialized from a file, from volume headers, from an FSL matrix, or from an LTA; outputs can be written as FreeSurfer `register.dat`, FSL `.mat`, MNI `.xfm`, or FreeSurfer LTA files. Running with `--noedit` bypasses the GUI entirely, making the tool useful for batch format conversions. The original authors are Martin Sereno, Anders Dale (1996), and Doug Greve (2002).
 
 > [!gotcha] Consider using `tkregisterfv` instead
-> The `--help` output explicitly recommends `tkregisterfv`, a wrapper around [[freeview]], for interactive registration tasks. `tkregister2` is a legacy tool retained for compatibility with existing workflows that produce or consume `register.dat` files.
+> The `--help` output explicitly recommends `tkregisterfv`, a wrapper around [[wiki/tools/freeview|freeview]], for interactive registration tasks. `tkregister2` is a legacy tool retained for compatibility with existing workflows that produce or consume `register.dat` files.
 
 ## Source Information
 
@@ -399,7 +399,7 @@ tkregister2 --s bert --fstal        # check and optionally correct it
 - [[coordinate-systems]] — full explanation of tkRAS, scanner RAS, and the register.dat matrix convention
 - [[lta-format]] — the LTA format for the same transforms; `lta_convert` can interconvert with `register.dat`
 - [[lta_convert]] — preferred tool for batch format conversions among LTA, FSL, MNI, and register.dat
-- [[freeview]] — modern GUI replacement for interactive registration visualization; `tkregisterfv` is a wrapper that calls freeview
+- [[wiki/tools/freeview|freeview]] — modern GUI replacement for interactive registration visualization; `tkregisterfv` is a wrapper that calls freeview
 - [[bbregister]] — boundary-based registration tool that produces `register.dat` output; results can be checked with `tkregister2`
 - [[mri_coreg]] — another registration tool that can output LTA; can be converted to `register.dat` via `lta_convert`
 

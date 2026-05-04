@@ -21,7 +21,7 @@ tags:
 
 This FAQ collects recurring questions about FreeSurfer's surface-based
 morphometry — the per-vertex and per-region measures produced by
-[[recon-all]] (cortical thickness, surface area, cortical volume,
+[[wiki/pipelines/recon-all|recon-all]] (cortical thickness, surface area, cortical volume,
 sulcal depth, vertex area, mean and Gaussian curvature, folding and
 intrinsic curvature indices, local gyrification index) and the
 auxiliary tools that operate on the cortical surface meshes
@@ -347,7 +347,7 @@ coordinates remain valid and usable.
 **Detail:** A FreeSurfer label file has rows of the form
 `vertex_index R A S value`. Vertex indices are meaningful only when
 the label is attached to a cortical surface mesh ([[hemi.white]],
-[[hemi.pial]], etc.). FreeSurfer's standard [[recon-all]] generates
+[[hemi.pial]], etc.). FreeSurfer's standard [[wiki/pipelines/recon-all|recon-all]] generates
 surfaces only for the cerebral cortex; the cerebellum, brainstem,
 thalamus, and other subcortical structures have no surface
 representation, so [[mri_vol2label]] writes `-1` as a sentinel
@@ -449,7 +449,7 @@ Douglas Greve). See
 files that `recon-all -localGI` would, bypassing the recon-all
 dependency-check chain.
 
-**Detail:** [[recon-all]] `-localGI` is a wrapper around
+**Detail:** [[wiki/pipelines/recon-all|recon-all]] `-localGI` is a wrapper around
 [[mris_compute_lgi]]. A known FS 8.0.0-beta failure on second-run
 processing exits with `seg2cc: update not needed. Run with
 --force-update to force an update`. Greve's recommended workaround
@@ -469,7 +469,7 @@ dependency check blocks reprocessing.
 **Provenance:** Mailing list, 2025-01-28 (Douglas Greve). See
 `raw/mailing-list/2025-01-mris-compute-lgi-direct-alternative-to-recon-all-localgi.md`.
 
-**Related:** [[mris_compute_lgi]], [[recon-all]], [[hemi.pial]]
+**Related:** [[mris_compute_lgi]], [[wiki/pipelines/recon-all|recon-all]], [[hemi.pial]]
 
 ---
 
@@ -507,7 +507,7 @@ MATLAB-free alternative for the LGI computation, since
 Sasabayashi / Douglas Greve). See
 `raw/mailing-list/2023-11-lgi-localgi-freesurfer-read-surf-matlab-fix.md`.
 
-**Related:** [[mris_compute_lgi]], [[recon-all]]
+**Related:** [[mris_compute_lgi]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -532,7 +532,7 @@ mris_expand -thickness lh.white 0.75 lh.layer_75    # 75% from white
 > [!gotcha] Surfaces written by MATLAB's `read_surf` + `write_surf`
 > (and some Python writers in `nibabel` / `surfa`) drop the volume
 > geometry block. The resulting file loads with a "Did not find any
-> volume info" warning in [[freeview]], and `mris_convert --angle`
+> volume info" warning in [[wiki/tools/freeview|freeview]], and `mris_convert --angle`
 > errors with "volume size must be greater than 0 in every
 > dimension." When you need fully-geometry-preserving intermediate
 > layers, use [[mris_expand]]; if you must use MATLAB/Python, copy

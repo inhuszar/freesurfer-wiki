@@ -29,7 +29,7 @@ downstream_files:
   - "[[aparc+aseg.mgz]]"
   - "[[aseg.stats]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: AParc2ASeg, Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: AParc2ASeg, Stats"
 optional_for: []
 editable: false
 related:
@@ -38,7 +38,7 @@ related:
   - "[[ribbon.mgz]]"
   - "[[aparc+aseg.mgz]]"
   - "[[aseg.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -89,7 +89,7 @@ mri_surf2volseg \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **APas-to-ASeg** stage (`-apas2aseg`). Touch sentinel: `touch/apas2aseg.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **APas-to-ASeg** stage (`-apas2aseg`). Touch sentinel: `touch/apas2aseg.touch`.
 
 ### Inputs required
 
@@ -118,7 +118,7 @@ mri_surf2volseg \
 - [[aseg.presurf.hypos.mgz]] — intermediate with hypointensity labels.
 - [[ribbon.mgz]] — cortical ribbon mask.
 - [[aparc+aseg.mgz]] — parcellated successor.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

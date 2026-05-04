@@ -137,7 +137,7 @@ boundary overlaid.
 **Provenance:** Mailing list, 2023-11-15 (Greve). See
 `raw/mailing-list/2023-11-bbregister-tips-avoid-init-fsl-use-t2-check-cost.md`.
 
-**Related:** [[bbregister]], [[freeview]]
+**Related:** [[bbregister]], [[wiki/tools/freeview|freeview]]
 
 ---
 
@@ -246,7 +246,7 @@ to compute the transform, then `mri_vol2vol --mov ... --lta reg.lta`
 to apply it.
 
 **Detail:** Any modality that was acquired in a separate session or
-with a different contrast from the T1 used for [[recon-all]] — CT,
+with a different contrast from the T1 used for [[wiki/pipelines/recon-all|recon-all]] — CT,
 PET, ASL, fluorescence overlays — can be brought into the same voxel
 grid as FreeSurfer's outputs (`aseg.mgz`, parcellation volumes, etc.)
 with a two-step [[mri_coreg]] / [[mri_vol2vol]] workflow. With
@@ -468,7 +468,7 @@ def tkr_to_scanner(tkr_ras):
 **Provenance:** Mailing list, 2023-12-18 (Huang). See
 `raw/mailing-list/2023-12-scanner-ras-to-tkrras-conversion-formula.md`.
 
-**Related:** [[coordinate-systems]], [[mri_info]], [[mri_convert]]
+**Related:** [[coordinate-systems]], [[mri_info]], [[wiki/tools/mri_convert|mri_convert]]
 
 ---
 
@@ -485,7 +485,7 @@ the cortical surfaces live in). The header line `vox2ras=TkReg` is a
 declaration of that space, not of MNI305. Huang's confirmation:
 "FreeSurfer fsaverage is in MNI305 space" — so transferring the
 label to fsaverage via the per-subject `sphere.reg` produced by
-[[recon-all]] is exactly equivalent to placing it in MNI305 surface
+[[wiki/pipelines/recon-all|recon-all]] is exactly equivalent to placing it in MNI305 surface
 space.
 
 ```bash
@@ -642,7 +642,7 @@ registration pipeline (`cvs_register`) drives `fem_elastic`'s
 `surf2vol` binary internally. That binary is shipped in the
 FS 8.0.0 Linux build but is **absent from the macOS arm64 build**, so
 `cvs_register` cannot run on Apple Silicon. Other FreeSurfer tools
-([[recon-all]], [[mri_synthseg]], etc.) work fine on macOS arm64;
+([[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]], etc.) work fine on macOS arm64;
 this is specific to the CVS pipeline.
 
 Workarounds:

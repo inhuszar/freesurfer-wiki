@@ -15,7 +15,7 @@ families:
   - "mri_*"
 recon_all_stage: "autorecon2"
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_ca_label]]"
   - "[[mri_watershed]]"
   - "[[mri_normalize]]"
@@ -95,7 +95,7 @@ the atlas on a new subject, it needs the linear transform that brings
 the subject into the atlas's coordinate frame.
 `mri_em_register` is the tool that computes that transform.
 
-It is called in [[recon-all]] at two distinct points:
+It is called in [[wiki/pipelines/recon-all|recon-all]] at two distinct points:
 
 1. **Skull-aware atlas alignment** inside the `DoSkullStrip` block
    (`scripts/recon-all:2391`):
@@ -488,7 +488,7 @@ mri_em_register -samples samples.txt -fsamples fsamples.txt \
 
 `samples.txt` is the set of atlas samples used by the optimiser;
 `fsamples.txt` is the same set after applying the final transform.
-Load in [[freeview]] (`freeview -c`) to inspect which anatomical
+Load in [[wiki/tools/freeview|freeview]] (`freeview -c`) to inspect which anatomical
 regions drove the alignment.
 
 ### Use Case 6: Single hemisphere, ex-vivo
@@ -560,7 +560,7 @@ via `mri_add_xform_to_header`.
 
 - [[talairach_avi]] — fast coarse affine to MNI305 via Avi
   Snyder's 4dfp tools; produces `talairach.xfm`. Used by
-  [[recon-all]] *before* `mri_em_register` to bootstrap the pipeline.
+  [[wiki/pipelines/recon-all|recon-all]] *before* `mri_em_register` to bootstrap the pipeline.
 - `mri_ca_normalize` — consumes the `talairach.lta` produced
   here to drive GCA-based intensity normalisation.
 - `mri_ca_register` — consumes the `talairach.lta` as an initial

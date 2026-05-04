@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_em_register]]"
   - "[[coordinate-systems]]"
   - "[[mgz]]"
@@ -107,7 +107,7 @@ mri_fslmat_to_lta source.mgz destination.mgz flirt.mat output.lta
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used when integrating FSL-based registrations into FreeSurfer workflows, e.g., when registering to MNI space using FSL FLIRT and then applying the transform in FreeSurfer.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used when integrating FSL-based registrations into FreeSurfer workflows, e.g., when registering to MNI space using FSL FLIRT and then applying the transform in FreeSurfer.
 
 ## Gotchas and Caveats
 
@@ -125,7 +125,7 @@ Not called by `[[recon-all]]`. Used when integrating FSL-based registrations int
 
 ## Related Tools
 
-- `[[mri_convert]]` — general format conversion
+- `[[wiki/tools/mri_convert|mri_convert]]` — general format conversion
 - `[[mri_em_register]]` — FreeSurfer-native affine registration
 - `[[coordinate-systems]]` — background on LTA, voxel, and RAS coordinate systems
 

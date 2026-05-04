@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_mcsim]]"
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-15
@@ -151,7 +151,7 @@ Part of the `mri_glmfit-sim` multiple comparison correction workflow:
 ## Related Tools
 
 - [[mri_mcsim]] — generates the null-hypothesis CSD via Monte Carlo simulation
-- [[mri_glmfit]] — produces the statistical maps processed by this tool
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — produces the statistical maps processed by this tool
 
 ## Confidence and Gaps
 

@@ -31,7 +31,7 @@ downstream_files:
   - "[[wmparc.mgz]]"
   - "[[hemi.aparc.stats]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: WMParc, Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: WMParc, Stats"
 optional_for: []
 editable: false
 related:
@@ -39,7 +39,7 @@ related:
   - "[[hemi.aparc.annot]]"
   - "[[wmparc.mgz]]"
   - "[[aparc.a2009s+aseg.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -93,7 +93,7 @@ mri_surf2volseg \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **AParc2ASeg** stage (`-aparc2aseg`). Touch sentinel: `touch/apas2aseg.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **AParc2ASeg** stage (`-aparc2aseg`). Touch sentinel: `touch/apas2aseg.touch`.
 
 ### Inputs required
 
@@ -125,7 +125,7 @@ mri_surf2volseg \
 - [[hemi.aparc.annot]] — cortical parcellation injected here.
 - [[aparc.a2009s+aseg.mgz]], [[aparc.DKTatlas+aseg.mgz]] — alternative atlas versions.
 - [[wmparc.mgz]] — WM parcel extension.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

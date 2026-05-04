@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_binarize]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -86,7 +86,7 @@ Note: `auto_aseg.mgz` is overwritten in place.
 
 ## Pipeline Context
 
-Not part of [[recon-all]]. Used in manual editing workflows:
+Not part of [[wiki/pipelines/recon-all|recon-all]]. Used in manual editing workflows:
 1. Manually edit a structure in a copy of the segmentation.
 2. Use `mri_copy_values` to transplant only that structure back into the main segmentation.
 
@@ -104,7 +104,7 @@ Not part of [[recon-all]]. Used in manual editing workflows:
 ## Related Tools
 
 - [[mri_binarize]] — threshold-based label extraction and manipulation
-- [[mri_convert]] — general volume processing
+- [[wiki/tools/mri_convert|mri_convert]] — general volume processing
 - `mri_label2vol` — convert surface labels to volumes
 
 ## Confidence and Gaps

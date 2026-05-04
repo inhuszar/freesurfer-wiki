@@ -25,7 +25,7 @@ downstream_files:
   - "[[T1.mgz]]"
   - "[[norm.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon1: Intensity Normalization"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1: Intensity Normalization"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[orig.mgz]]"
   - "[[T1.mgz]]"
   - "[[norm.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -89,7 +89,7 @@ The `--uchar` option causes `mri_make_uchar` to run first, which uses the Talair
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, **Nu Intensity Correction** stage (`-nuintensitycor`). Touch sentinel: `touch/nu.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, **Nu Intensity Correction** stage (`-nuintensitycor`). Touch sentinel: `touch/nu.touch`.
 
 ### Inputs required
 
@@ -133,7 +133,7 @@ When `-skip-nu-intensity-cor` is passed to recon-all, `nu.mgz` is created as a *
 - [[mri_nu_correct.mni]] — producer.
 - [[orig.mgz]] — input.
 - [[T1.mgz]], [[norm.mgz]] — downstream normalised volumes.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -30,7 +30,7 @@ related:
   - "[[aseg.mgz]]"
   - "[[mri_segstats]]"
   - "[[brainvol.stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -88,7 +88,7 @@ mri_segstats \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **ASeg Stats** stage (`-segstats`).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **ASeg Stats** stage (`-segstats`).
 
 ### Inputs required
 
@@ -103,7 +103,7 @@ mri_segstats \
 - [[mri_segstats]] — producer tool.
 - [[brainvol.stats]] — global brain volume summary (separate file).
 - [[wmparc.stats]] — WM parcellation stats (analogous file for wmparc.mgz).
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

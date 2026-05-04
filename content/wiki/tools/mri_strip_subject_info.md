@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_deface]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -113,7 +113,7 @@ mri_strip_subject_info \
 ## Related Tools
 
 - [[mri_deface]] — removes facial anatomy from the MRI image for de-identification
-- [[mri_convert]] — format conversion including some header manipulation
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion including some header manipulation
 
 ## Confidence and Gaps
 

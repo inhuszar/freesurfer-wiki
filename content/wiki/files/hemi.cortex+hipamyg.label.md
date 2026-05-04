@@ -27,7 +27,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.pial]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Pial"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Pial"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[hemi.white.preaparc]]"
   - "[[aseg.presurf.mgz]]"
   - "[[hemi.pial]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -80,7 +80,7 @@ mri_label2label --label-cortex \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CortexLabel** stage (`-cortex-label`). Touch sentinel: `touch/$hemi.cortex+hipamyg.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CortexLabel** stage (`-cortex-label`). Touch sentinel: `touch/$hemi.cortex+hipamyg.touch`.
 
 ### Inputs required
 
@@ -106,7 +106,7 @@ mri_label2label --label-cortex \
 - [[hemi.cortex.label]] — the basic cortex label without hippocampus/amygdala.
 - [[hemi.white.preaparc]] — surface used for projection.
 - [[hemi.pial]] — consumer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

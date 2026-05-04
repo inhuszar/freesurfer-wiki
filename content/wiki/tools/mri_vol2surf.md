@@ -64,7 +64,7 @@ analyses. It is called:
 - Directly in functional MRI analysis pipelines to project activation maps onto
   cortical surfaces for visualisation and group analysis
 
-Not called by [[recon-all]].
+Not called by [[wiki/pipelines/recon-all|recon-all]].
 
 ## Inputs
 
@@ -400,7 +400,7 @@ mri_vol2surf \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Called by [[mris_preproc]] for volume-input group
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Called by [[mris_preproc]] for volume-input group
 analysis. Also called directly in fMRI analysis pipelines.
 
 **Predecessor:** volume-space analysis → **This tool** → **Successor:** [[mris_preproc]] / [[mri_surf2vol]]

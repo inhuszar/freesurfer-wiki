@@ -29,7 +29,7 @@ related:
   - "[[wmparc.mgz]]"
   - "[[aseg.stats]]"
   - "[[mri_segstats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -72,7 +72,7 @@ mri_segstats \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **WMParc** stage (`-wmparc`), produced immediately after [[wmparc.mgz]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **WMParc** stage (`-wmparc`), produced immediately after [[wmparc.mgz]].
 
 ### Inputs required
 
@@ -85,7 +85,7 @@ mri_segstats \
 - [[wmparc.mgz]] — source segmentation.
 - [[aseg.stats]] — analogous subcortical stats file.
 - [[mri_segstats]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

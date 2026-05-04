@@ -25,12 +25,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CurvHK (disabled by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CurvHK (disabled by default)"
 editable: false
 related:
   - "[[hemi.inflated]]"
   - "[[hemi.inflated.K]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -67,7 +67,7 @@ mris_curvature -thresh .999 -n -a 5 -w -distances 10 10 $hemi.inflated
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CurvHK** stage (`-curvHK`). Disabled by default. Touch sentinel: `touch/$hemi.inflate.H.K.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CurvHK** stage (`-curvHK`). Disabled by default. Touch sentinel: `touch/$hemi.inflate.H.K.touch`.
 
 ### Inputs required
 
@@ -82,7 +82,7 @@ mris_curvature -thresh .999 -n -a 5 -w -distances 10 10 $hemi.inflated
 - [[hemi.inflated]] — source surface.
 - [[hemi.inflated.K]] — co-produced Gaussian curvature.
 - [[hemi.white.preaparc.H]] — analogous map on white surface.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

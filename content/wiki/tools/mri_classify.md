@@ -77,7 +77,7 @@ The Random Forest option (`-ca rforest`) is more recent and may still be functio
 
 ## Pipeline Context
 
-Not a [[recon-all]] stage. Superseded by [[mri_ca_train]] + [[mri_ca_label]].
+Not a [[wiki/pipelines/recon-all|recon-all]] stage. Superseded by [[mri_ca_train]] + [[mri_ca_label]].
 
 ## Related Tools
 

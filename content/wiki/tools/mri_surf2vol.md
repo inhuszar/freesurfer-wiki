@@ -59,7 +59,7 @@ iterating over projection fractions.
   voxel-based morphometry
 - Generate volumetric representations of surface measures (thickness, curvature)
 
-Not called by [[recon-all]] directly.
+Not called by [[wiki/pipelines/recon-all|recon-all]] directly.
 
 ## Inputs
 
@@ -314,7 +314,7 @@ mri_surf2vol \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in analysis pipelines requiring volume-space
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in analysis pipelines requiring volume-space
 representations of surface-derived data.
 
 **Inverse of:** [[mri_vol2surf]]

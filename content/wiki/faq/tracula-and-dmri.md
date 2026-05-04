@@ -18,7 +18,7 @@ This FAQ collects recurring questions about FreeSurfer's diffusion MRI
 tooling — primarily [[dt_recon]] (per-voxel diffusion-tensor fitting and
 DTI metric computation) and TRACULA (`trac-all` / [[dmri_paths]] /
 [[dmri_pathstats]], the global probabilistic white-matter tractography
-pipeline). Both tools depend on a previously completed [[recon-all]] T1
+pipeline). Both tools depend on a previously completed [[wiki/pipelines/recon-all|recon-all]] T1
 reconstruction: TRACULA uses the cortical parcellation as anatomical
 priors for tract reconstruction, and `dt_recon` registers the diffusion
 volume to the T1 anatomy and projects metrics through the FreeSurfer
@@ -27,8 +27,8 @@ the FreeSurfer mailing list; the `Len_Center` semantics entry is
 code-verified against the FS 8.2.0 source tree.
 
 > For tool reference, see [[dt_recon]], [[dmri_paths]],
-> [[dmri_pathstats]], and [[mri_glmfit]]. For the upstream T1 step, see
-> [[recon-all]].
+> [[dmri_pathstats]], and [[wiki/tools/mri_glmfit|mri_glmfit]]. For the upstream T1 step, see
+> [[wiki/pipelines/recon-all|recon-all]].
 
 ---
 
@@ -65,7 +65,7 @@ set ncpts    = (7 7 6 6)
 **Provenance:** Mailing list, 2023-07-18 (Maffei). See
 `raw/mailing-list/2023-07-tracula-dmrirc-pathlist-ncpts-pedir-dob0.md`.
 
-**Related:** [[dmri_paths]], [[dmri_pathstats]], [[recon-all]]
+**Related:** [[dmri_paths]], [[dmri_pathstats]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -97,7 +97,7 @@ set pedir = y      # or x, z, -x, -y, -z
 **Provenance:** Mailing list, 2023-07-18 (Maffei). See
 `raw/mailing-list/2023-07-tracula-dmrirc-pathlist-ncpts-pedir-dob0.md`.
 
-**Related:** [[dmri_paths]], [[recon-all]], [[registration-overview]]
+**Related:** [[dmri_paths]], [[wiki/pipelines/recon-all|recon-all]], [[registration-overview]]
 
 ---
 
@@ -105,13 +105,13 @@ set pedir = y      # or x, z, -x, -y, -z
 
 ### Should I run `recon-all` directly on my DWI data before `dt_recon`?
 
-**Short answer:** No — run [[recon-all]] on a separate T1 anatomical
+**Short answer:** No — run [[wiki/pipelines/recon-all|recon-all]] on a separate T1 anatomical
 scan first, then pass that subject ID to `dt_recon` along with the DWI.
 
-**Detail:** [[recon-all]] is designed for T1-weighted structural MRI
+**Detail:** [[wiki/pipelines/recon-all|recon-all]] is designed for T1-weighted structural MRI
 and will fail or produce nonsensical surfaces if pointed at a DWI
 volume. [[dt_recon]] is not a stand-alone pipeline — it consumes
-[[recon-all]] outputs (the white/pial surfaces, the LTA transforms,
+[[wiki/pipelines/recon-all|recon-all]] outputs (the white/pial surfaces, the LTA transforms,
 and the cortical parcellation) to register the DWI to T1 anatomy and
 project DTI metrics through that parcellation. The correct order is:
 
@@ -131,7 +131,7 @@ directory before `trac-all -prep` will run.
 **Provenance:** Mailing list, 2023-11-09 (Greve). See
 `raw/mailing-list/2023-11-dt-recon-requires-separate-t1-recon-all-first.md`.
 
-**Related:** [[dt_recon]], [[recon-all]], [[bbregister]],
+**Related:** [[dt_recon]], [[wiki/pipelines/recon-all|recon-all]], [[bbregister]],
 [[registration-overview]]
 
 ---
@@ -144,7 +144,7 @@ overlay, and a misaligned overlay there confirms a real registration
 error rather than a display artifact.
 
 **Detail:** When FA/MD maps look misaligned with the cortical
-parcellation in [[freeview]], the first question is whether the
+parcellation in [[wiki/tools/freeview|freeview]], the first question is whether the
 underlying DWI→T1 registration is wrong or only the visualisation is
 wrong. [[dt_recon]] resolves this by recording the registration QC
 command verbatim:
@@ -168,7 +168,7 @@ bbregister`.
 **Provenance:** Mailing list, 2025-03-26 (Greve). See
 `raw/mailing-list/2025-03-dt-recon-register-log-tkregisterfv-qc.md`.
 
-**Related:** [[dt_recon]], [[bbregister]], [[freeview]],
+**Related:** [[dt_recon]], [[bbregister]], [[wiki/tools/freeview|freeview]],
 [[registration-overview]]
 
 ---
@@ -231,7 +231,7 @@ and each frame's voxel values are the OLS regression coefficients for
 that column; for any specific effect you want, define a contrast and
 read `ces.mgh` / `sig.mgh` rather than indexing `beta.mgh` directly.
 
-**Detail:** TRACULA group analysis runs [[mri_glmfit]] under the hood,
+**Detail:** TRACULA group analysis runs [[wiki/tools/mri_glmfit|mri_glmfit]] under the hood,
 so the output layout is identical: a `beta.mgh` whose Nth frame is
 the β coefficient for the Nth column of the design matrix specified
 by your [[fsgd-format]] file (or `--X` matrix). For example, with a
@@ -261,4 +261,4 @@ mri_convert beta.mgh --frame 2 beta_col2.mgh
 **Provenance:** Mailing list, 2024-03-05 (Greve). See
 `raw/mailing-list/2024-03-tracula-glm-beta-file-design-matrix-columns.md`.
 
-**Related:** [[mri_glmfit]], [[fsgd-format]], [[dmri_pathstats]]
+**Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsgd-format]], [[dmri_pathstats]]

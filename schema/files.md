@@ -277,7 +277,7 @@ Write it so it stands alone.
 - **From `[[subject-directory]]`** — the relevant sub-section
   (`mri/`, `surf/`, `label/`, `stats/`, `transforms/`, etc.)
   should wikilink this file in the filename column.
-- **From `[[recon-all]]`** — the stage that writes or consumes
+- **From `[[wiki/pipelines/recon-all|recon-all]]`** — the stage that writes or consumes
   this file should wikilink it under the stage's Outputs / Inputs
   list.
 
@@ -292,7 +292,7 @@ Write it so it stands alone.
   ## Files (Glossary)
   | File | Produced by | Directory | Format | Status |
   |------|-------------|-----------|--------|--------|
-  | [[orig.mgz]] | [[mri_convert]] (`-c`) | `mri/` | [[mgz]] | 📝 draft |
+  | [[orig.mgz]] | [[wiki/tools/mri_convert|mri_convert]] (`-c`) | `mri/` | [[mgz]] | 📝 draft |
   | [[hemi.white]] | recon-all Stage 19 | `surf/` | [[surface-format]] | 📝 draft |
   ```
 

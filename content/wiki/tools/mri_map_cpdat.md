@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_normalize]]"
   - "[[coordinate-systems]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15
@@ -135,7 +135,7 @@ Related workflow: after running `mri_normalize` and identifying normalization fa
 
 - [[mri_normalize]] — the tool that consumes `control.dat` files
 - [[coordinate-systems]] — explains RAS, tkRAS, and Talairach coordinate systems
-- [[mri_convert]] — for general volume operations
+- [[wiki/tools/mri_convert|mri_convert]] — for general volume operations
 
 ## Confidence and Gaps
 

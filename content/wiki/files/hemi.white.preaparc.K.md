@@ -26,13 +26,13 @@ downstream_files:
   - "[[hemi.white.K]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CurvHK (disabled by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CurvHK (disabled by default)"
 editable: false
 related:
   - "[[hemi.white.preaparc]]"
   - "[[hemi.white.K]]"
   - "[[hemi.white.preaparc.H]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -44,7 +44,7 @@ tags:
 # hemi.white.preaparc.K
 
 > [!file] Glossary entry
-> `lh.white.preaparc.K` / `rh.white.preaparc.K` are per-vertex Gaussian curvature (K) maps of the [[hemi.white.preaparc]] surface, computed by `mris_curvature -w` in the CurvHK stage. After creation, [[recon-all]] makes [[hemi.white.K]] a symlink pointing to this file. Gaussian curvature is negative in saddle regions, positive on gyral crests and sulcal depths.
+> `lh.white.preaparc.K` / `rh.white.preaparc.K` are per-vertex Gaussian curvature (K) maps of the [[hemi.white.preaparc]] surface, computed by `mris_curvature -w` in the CurvHK stage. After creation, [[wiki/pipelines/recon-all|recon-all]] makes [[hemi.white.K]] a symlink pointing to this file. Gaussian curvature is negative in saddle regions, positive on gyral crests and sulcal depths.
 
 ## Location and Format
 
@@ -69,7 +69,7 @@ mris_curvature -w $hemi.white.preaparc
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CurvHK** stage (`-curvHK`). Disabled by default. Touch sentinel: `touch/$hemi.white.H.K.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CurvHK** stage (`-curvHK`). Disabled by default. Touch sentinel: `touch/$hemi.white.H.K.touch`.
 
 ### Inputs required
 
@@ -88,7 +88,7 @@ A symlink [[hemi.white.K]] is created pointing to this file immediately after pr
 - [[hemi.white.preaparc]] — source surface.
 - [[hemi.white.K]] — symlink alias.
 - [[hemi.white.preaparc.H]] — co-produced mean curvature.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

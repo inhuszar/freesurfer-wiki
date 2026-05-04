@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_segment]]"
   - "[[mri_ca_label]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -111,7 +111,7 @@ Not part of standard `recon-all` as a primary step. Typically used as a preproce
 
 - [[mri_segment]] — produces the initial segmentation that this tool refines
 - [[mri_ca_label]] — atlas-based segmentation that may also benefit from temporal WM marking
-- [[mri_convert]] — for format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — for format conversion
 
 ## Confidence and Gaps
 

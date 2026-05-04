@@ -12,7 +12,7 @@ related:
   - "[[mris_make_surfaces]]"
   - "[[mris_exvivo_surfaces]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-22

@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_vessel_segment]]"
   - "[[mri_synthstrip]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -169,7 +169,7 @@ See also [[mri_vessel_segment]] for multimodal intensity-based vessel segmentati
 
 - [[mri_vessel_segment]] — intensity-based vessel segmentation using multimodal T1/T2 data
 - [[mri_synthstrip]] — skull stripping (may inadvertently include/exclude sinus tissue)
-- [[freeview]] — for visualising the output segmentation
+- [[wiki/tools/freeview|freeview]] — for visualising the output segmentation
 
 ## Confidence and Gaps
 

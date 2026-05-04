@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_probedicom]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: medium
@@ -29,7 +29,7 @@ tags:
 
 ## Summary
 
-`mri_parse_sdcmdir` scans a directory of Siemens DICOM files, parses metadata from each file, and produces a summary table describing the series, runs, and acquisition parameters found. It is used to inventory a DICOM directory before conversion and to verify that the series structure is correct for import with tools such as [[mri_convert]].
+`mri_parse_sdcmdir` scans a directory of Siemens DICOM files, parses metadata from each file, and produces a summary table describing the series, runs, and acquisition parameters found. It is used to inventory a DICOM directory before conversion and to verify that the series structure is correct for import with tools such as [[wiki/tools/mri_convert|mri_convert]].
 
 ## Source Information
 
@@ -101,7 +101,7 @@ mri_parse_sdcmdir --dwi --d /data/dicom/ --summarize
 
 ## Pipeline Context
 
-`mri_parse_sdcmdir` is not called by [[recon-all]]. It is a manual pre-processing utility used before running [[mri_convert]] on DICOM data. It helps identify:
+`mri_parse_sdcmdir` is not called by [[wiki/pipelines/recon-all|recon-all]]. It is a manual pre-processing utility used before running [[wiki/tools/mri_convert|mri_convert]] on DICOM data. It helps identify:
 - Which series number to pass to `mri_convert` with `--dicom_info` (a flag of `mri_convert`, not of this tool)
 - Whether the slice ordering is ascending or descending
 - Whether the acquisition has multiple runs
@@ -117,7 +117,7 @@ mri_parse_sdcmdir --dwi --d /data/dicom/ --summarize
 ## Related Tools
 
 - [[mri_probedicom]] — Query individual DICOM header fields
-- [[mri_convert]] — Convert DICOM to FreeSurfer/NIfTI formats
+- [[wiki/tools/mri_convert|mri_convert]] — Convert DICOM to FreeSurfer/NIfTI formats
 - [[mri_probe_ima]] — Probe Siemens `.ima` (legacy) files
 
 ## Confidence and Gaps

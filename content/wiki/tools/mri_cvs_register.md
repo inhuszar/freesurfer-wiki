@@ -157,7 +157,7 @@ mri_cvs_register --mov subject001 --step3
 
 CVS registration is a post-`recon-all` step for group analysis:
 
-1. Run [[recon-all]] for each subject.
+1. Run [[wiki/pipelines/recon-all|recon-all]] for each subject.
 2. Optionally run [[mri_cvs_check]] to verify required files.
 3. Run `mri_cvs_register` for each subject → template.
 4. Apply the output warp to any co-registered volume using `mri_vol2vol --m3z`.

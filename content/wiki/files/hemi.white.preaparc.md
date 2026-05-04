@@ -31,7 +31,7 @@ downstream_files:
   - "[[hemi.aparc.annot]]"
   - "[[hemi.white]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Smooth2, CortexLabel, Smooth2, SurfReg, Parcellation"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Smooth2, CortexLabel, Smooth2, SurfReg, Parcellation"
 optional_for: []
 editable: false
 related:
@@ -40,7 +40,7 @@ related:
   - "[[hemi.white]]"
   - "[[hemi.smoothwm]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -92,7 +92,7 @@ mris_place_surface \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **WhitePreAparc** stage (`-white-preaparc`). Touch sentinel: `touch/$hemi.white.preaparc.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **WhitePreAparc** stage (`-white-preaparc`). Touch sentinel: `touch/$hemi.white.preaparc.touch`.
 
 ### Inputs required
 
@@ -128,7 +128,7 @@ Also during this stage: `hemi.white.preaparc.H` and `hemi.white.preaparc.K` (mea
 - [[hemi.white]] — final successor.
 - [[hemi.smoothwm]] — downstream smooth version.
 - [[brain.finalsurfs.mgz]], [[wm.mgz]] — key inputs.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

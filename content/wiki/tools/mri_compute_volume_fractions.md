@@ -164,9 +164,9 @@ mri_compute_volume_fractions \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used downstream of the standard anatomical reconstruction in functional imaging analyses:
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used downstream of the standard anatomical reconstruction in functional imaging analyses:
 
-1. [[recon-all]] produces surfaces and `aseg.mgz`.
+1. [[wiki/pipelines/recon-all|recon-all]] produces surfaces and `aseg.mgz`.
 2. [[mri_coreg]] or [[mri_em_register]] produces registration file.
 3. `mri_compute_volume_fractions` uses both.
 4. Output feeds PVE correction tools or fMRI GLM weighting.

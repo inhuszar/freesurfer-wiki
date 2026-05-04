@@ -1,7 +1,7 @@
 ---
 title: "FreeView — Keyboard and Mouse Reference"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:

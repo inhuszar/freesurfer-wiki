@@ -152,7 +152,7 @@ mri_hires_register hires_labels.mgz hires_intensity.mgz aseg.mgz xfm.lta
 
 `mri_hires_register` is not part of standard `recon-all`. It is used in specialized high-resolution sub-structure analysis workflows:
 
-- **Upstream:** Raw hires and lowres acquisitions (after [[mri_convert]])
+- **Upstream:** Raw hires and lowres acquisitions (after [[wiki/tools/mri_convert|mri_convert]])
 - **Downstream:** Combined analysis, surface extraction, morphometry on hires data in whole-brain space
 
 ## Gotchas and Caveats

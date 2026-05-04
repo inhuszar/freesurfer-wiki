@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_segment]]"
 status: draft
 confidence: high
@@ -129,7 +129,7 @@ Not part of `recon-all`. Used in super-resolution or smart interpolation researc
 
 ## Related Tools
 
-- [[mri_convert]] — general MRI format conversion and cropping
+- [[wiki/tools/mri_convert|mri_convert]] — general MRI format conversion and cropping
 - [[mri_segment]] — produces the segmentation used as input
 
 ## Confidence and Gaps

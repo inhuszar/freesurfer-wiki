@@ -11,7 +11,7 @@ recon_all_stage: "autorecon2"
 related:
   - "[[mri_segment]]"
   - "[[mri_tessellate]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-14
@@ -282,7 +282,7 @@ original author of `mri_pretess`.
 - [[mri_tessellate]] — consumes the pretess output to produce surface meshes
 - `mri_fill` — produces `filled.mgz` (second pretess input); not yet documented
 - `mri_edit_wm_with_aseg` — edits `wm.seg.mgz` before pretess; not yet documented
-- [[recon-all]] — orchestrates both call sites
+- [[wiki/pipelines/recon-all|recon-all]] — orchestrates both call sites
 
 ## Confidence and Gaps
 

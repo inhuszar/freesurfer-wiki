@@ -107,7 +107,7 @@ mri_apply_inu_correction \
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Intended for longitudinal or multi-session studies. For single-session INU correction, use [[mri_nu_correct.mni]].
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Intended for longitudinal or multi-session studies. For single-session INU correction, use [[mri_nu_correct.mni]].
 
 ## Gotchas and Caveats
 

@@ -11,7 +11,7 @@ recon_all_stage: null
 related:
   - "[[mri_binarize]]"
   - "[[mri_morphology]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_watershed]]"
   - "[[mri_synthstrip]]"
   - "[[mgz]]"
@@ -183,7 +183,7 @@ mri_mask -invert T1.mgz brainmask.mgz outside_brain.mgz
 - [[mri_morphology]] — for dilating/eroding masks independently
 - [[mri_watershed]] — skull stripping tool that produces masks consumed here
 - [[mri_synthstrip]] — deep learning skull stripping
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

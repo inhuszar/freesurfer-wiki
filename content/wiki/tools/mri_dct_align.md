@@ -152,7 +152,7 @@ mri_dct_align -n 10 source.mgz target.mgz warp.dct
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used in specialized registration workflows requiring smooth, low-dimensional deformation fields. Can be used in combination with [[mri_concatenate_gcam]] to compose with other morphs.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in specialized registration workflows requiring smooth, low-dimensional deformation fields. Can be used in combination with [[mri_concatenate_gcam]] to compose with other morphs.
 
 ## Gotchas and Caveats
 

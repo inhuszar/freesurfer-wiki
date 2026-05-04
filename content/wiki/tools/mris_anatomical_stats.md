@@ -11,7 +11,7 @@ recon_all_stage: "autorecon3"
 related:
   - "[[mris_ca_label]]"
   - "[[mri_aparc2aseg]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[surface-format]]"
   - "[[curv-format]]"
 status: review
@@ -56,7 +56,7 @@ per-vertex labels into per-region summary statistics, answering the fundamental
 question: *how large, thick, curved, and gyrified is each cortical region in this
 subject?*
 
-In [[recon-all]] the tool is invoked four times per hemisphere across three
+In [[wiki/pipelines/recon-all|recon-all]] the tool is invoked four times per hemisphere across three
 distinct stages (`-parcstats`, `-parcstats2`, `-parcstats3`):
 - `aparc` (Desikan–Killiany), white surface → `stats/?h.aparc.stats`
 - `aparc` (Desikan–Killiany), pial surface  → `stats/?h.aparc.pial.stats`
@@ -465,8 +465,8 @@ not consume `?h.aparc.stats`.
 - [[mris_ca_label]] — produces `?h.aparc*.annot` (annotation input)
 - [[mri_aparc2aseg]] — projects cortical labels to volume space (parallel output)
 - [[mris_calc]] — per-vertex arithmetic on the same surface overlays consumed here
-- [[recon-all]] — the orchestrator that invokes this tool in the parcstats stages
-- [[freeview]] — visualises the input annotations and surfaces
+- [[wiki/pipelines/recon-all|recon-all]] — the orchestrator that invokes this tool in the parcstats stages
+- [[wiki/tools/freeview|freeview]] — visualises the input annotations and surfaces
 - [[surface-format]] — geometry file the white/pial/surfname surfaces are read from
 - [[curv-format]] — per-vertex overlay format used for `?h.thickness`, `?h.area`, `?h.curv`, `?h.white.H`, `?h.white.K`
 

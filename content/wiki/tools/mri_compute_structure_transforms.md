@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_nl_align]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -112,7 +112,7 @@ Not part of `recon-all`. Research tool for atlas-based structural analysis or mu
 ## Related Tools
 
 - [[mri_nl_align]] — produces the `.m3z` warp field consumed by this tool
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

@@ -24,7 +24,7 @@ consumed_by:
 downstream_files:
   - "[[aseg.presurf.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: ASeg Merge"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: ASeg Merge"
 optional_for: []
 editable: false
 related:
@@ -33,7 +33,7 @@ related:
   - "[[aseg.presurf.mgz]]"
   - "[[aseg.mgz]]"
   - "[[color-lut]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -77,7 +77,7 @@ seg2cc --s <subjid>
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CC Segmentation** stage (`-ccseg`). Immediately follows CA Label.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CC Segmentation** stage (`-ccseg`). Immediately follows CA Label.
 
 ### Inputs required
 
@@ -107,7 +107,7 @@ seg2cc --s <subjid>
 - [[aseg.auto_noCCseg.mgz]] — input.
 - [[aseg.presurf.mgz]], [[aseg.mgz]] — downstream successors.
 - [[color-lut]] — label scheme.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

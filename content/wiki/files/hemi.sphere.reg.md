@@ -31,7 +31,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.aparc.annot]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Parcellation, Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Parcellation, Stats"
 optional_for: []
 editable: false
 related:
@@ -40,7 +40,7 @@ related:
   - "[[hemi.fsaverage.sphere.reg]]"
   - "[[fsaverage]]"
   - "[[mris_register]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -89,7 +89,7 @@ ln -sf $hemi.sphere.reg $hemi.fsaverage.sphere.reg
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **SurfReg** stage (`-surfreg`), invoked via `rca-surfreg`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **SurfReg** stage (`-surfreg`), invoked via `rca-surfreg`.
 
 ### Inputs required
 
@@ -124,7 +124,7 @@ ln -sf $hemi.sphere.reg $hemi.fsaverage.sphere.reg
 - [[hemi.fsaverage.sphere.reg]] — symlink alias.
 - [[fsaverage]] — atlas target.
 - [[hemi.sulc]], [[hemi.curv]] — folding features used for registration.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

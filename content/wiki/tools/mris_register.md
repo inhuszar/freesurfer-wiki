@@ -11,7 +11,7 @@ recon_all_stage: "autorecon3"
 related:
   - "[[mris_sphere]]"
   - "[[mris_ca_label]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-14

@@ -160,7 +160,7 @@ mri_fieldsign --s sub01 --hemi lh \
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used in retinotopic mapping experiments after volume-to-surface projection of phase maps (e.g., using `[[mri_vol2surf]]`).
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used in retinotopic mapping experiments after volume-to-surface projection of phase maps (e.g., using `[[mri_vol2surf]]`).
 
 ## Gotchas and Caveats
 

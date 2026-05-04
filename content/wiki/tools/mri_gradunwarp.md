@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[coordinate-systems]]"
 status: draft
 confidence: medium
@@ -162,7 +162,7 @@ mri_gradunwarp \
 
 `mri_gradunwarp` is not part of standard `recon-all`. It should be applied before `recon-all` begins, or as a preprocessing step when gradient non-linearity correction is needed:
 
-- **Upstream:** Raw scanner output (DICOM → NIfTI/MGZ via [[mri_convert]])
+- **Upstream:** Raw scanner output (DICOM → NIfTI/MGZ via [[wiki/tools/mri_convert|mri_convert]])
 - **Downstream:** `recon-all`, registration tools, morphometric analysis
 
 When applied before `recon-all`, the unwarped volume should be used as the input to `recon-all -i`.
@@ -183,7 +183,7 @@ When applied before `recon-all`, the unwarped volume should be used as the input
 
 ## Related Tools
 
-- [[mri_convert]] — initial format conversion from DICOM
+- [[wiki/tools/mri_convert|mri_convert]] — initial format conversion from DICOM
 - [[coordinate-systems]] — coordinate system implications of unwarping
 
 ## Confidence and Gaps

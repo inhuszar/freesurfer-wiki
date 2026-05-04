@@ -27,7 +27,7 @@ downstream_files:
   - "[[brain.finalsurfs.mgz]]"
   - "[[wm.seg.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Mask BFS, WM Segmentation"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Mask BFS, WM Segmentation"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[norm.mgz]]"
   - "[[brainmask.mgz]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -84,7 +84,7 @@ mri_normalize brainmask.mgz brain.mgz
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Intensity Normalization2** stage (`-normalization2`). Touch sentinel: `touch/inorm2.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Intensity Normalization2** stage (`-normalization2`). Touch sentinel: `touch/inorm2.touch`.
 
 ### Inputs required
 
@@ -116,7 +116,7 @@ None.
 - [[norm.mgz]], [[brainmask.mgz]] — inputs.
 - [[brain.finalsurfs.mgz]] — immediate successor for surface placement.
 - [[wm.seg.mgz]] — white matter derived from this volume.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

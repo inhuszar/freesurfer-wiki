@@ -16,7 +16,7 @@ tags:
 
 # FreeView — Frequently Asked Questions
 
-This FAQ collects recurring questions about [[freeview]], FreeSurfer's
+This FAQ collects recurring questions about [[wiki/tools/freeview|freeview]], FreeSurfer's
 primary GUI for visualising and editing volumes, surfaces, labels,
 segmentations, and tractography. It also covers the FreeView-based
 replacements for the legacy TclTk tools — tkregisterfv (replaces
@@ -27,7 +27,7 @@ workflows (volume edits, control points, surface labels), cross-version
 compatibility of edit files, and running FreeView on WSL2 or HPC
 clusters without a display.
 
-> For tool reference, see [[freeview]], [[freeview-editing]],
+> For tool reference, see [[wiki/tools/freeview|freeview]], [[freeview-editing]],
 > [[freeview-volumes]], [[freeview-surfaces]], [[freeview-3d-view]],
 > [[freeview-command-line]], and [[freeview-keyboard-mouse]].
 > For the legacy tools, see [[tkregister2]] and [[tksurfer]].
@@ -65,7 +65,7 @@ plus an X-server. Mitigations:
 **Provenance:** Mailing list, 2023-06-23 (Wang / Fischl). See
 `raw/mailing-list/2023-06-freeview-opengl-required-for-volume-editing.md`.
 
-**Related:** [[freeview]], [[freeview-editing]], [[installation-and-platform]]
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-editing]], [[installation-and-platform]]
 
 ---
 
@@ -113,7 +113,7 @@ mris_info $SUBJECTS_DIR/SUBJECT/surf/lh.pial   # check vg.valid and c_(ras)
 Wang / Huang / Fernández). See
 `raw/mailing-list/2023-10-freeview-misaligned-surfaces-qt-installation-fs-disable-lang.md`.
 
-**Related:** [[freeview]], [[freeview-surfaces]], [[mri_info]],
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-surfaces]], [[mri_info]],
 [[installation-and-platform]]
 
 ---
@@ -164,7 +164,7 @@ page below). Reference: `https://surfer.nmr.mgh.harvard.edu/fswiki/FS7_wsl_ubunt
 **Provenance:** Mailing list, 2025-02-02 (fsbuild). See
 `raw/mailing-list/2025-02-freeview-wsl2-display-xserver-tigervnc-mobaxterm.md`.
 
-**Related:** [[freeview]], [[installation-and-platform]]
+**Related:** [[wiki/tools/freeview|freeview]], [[installation-and-platform]]
 
 ---
 
@@ -206,7 +206,7 @@ to MNI305 space).
 **Provenance:** Mailing list, 2023-08-20 (Greve). See
 `raw/mailing-list/2023-08-freeview-displays-mni305-coordinates-natively.md`.
 
-**Related:** [[freeview]], [[freeview-volumes]], [[coordinate-systems]],
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-volumes]], [[coordinate-systems]],
 [[talairach.xfm]]
 
 ---
@@ -255,7 +255,7 @@ mri_binarize --dilate-vertex vno lh.white radius out.mgz
 Greve). See
 `raw/mailing-list/2023-08-freeview-surface-label-from-vertex-dilate-mri-binarize.md`.
 
-**Related:** [[freeview]], [[freeview-surfaces]], [[freeview-editing]],
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-surfaces]], [[freeview-editing]],
 [[mri_binarize]]
 
 ---
@@ -295,7 +295,7 @@ that FS 5 lacks:
 / fsbuild). See
 `raw/mailing-list/2023-12-freeview-version-cross-compatibility-editing.md`.
 
-**Related:** [[freeview]], [[freeview-editing]], [[recon-all]],
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-editing]], [[wiki/pipelines/recon-all|recon-all]],
 [[wm.mgz]], [[filled.mgz]], [[brainmask.mgz]]
 
 ---
@@ -324,7 +324,7 @@ recon-all -s SUBJECT -autorecon2-wm -autorecon3
 **Provenance:** Mailing list, 2023-12-20 (fsbuild). See
 `raw/mailing-list/2023-12-freeview-version-cross-compatibility-editing.md`.
 
-**Related:** [[freeview-editing]], [[recon-all]], [[wm.mgz]],
+**Related:** [[freeview-editing]], [[wiki/pipelines/recon-all|recon-all]], [[wm.mgz]],
 [[filled.mgz]]
 
 ---
@@ -378,7 +378,7 @@ clears them all.
 **Provenance:** Mailing list, 2024-12-02 (Greve). See
 `raw/mailing-list/2024-12-fsxvfb-headless-freeview-screenshots-sbatch.md`.
 
-**Related:** [[freeview]], [[freeview-command-line]]
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-command-line]]
 
 ---
 
@@ -422,7 +422,7 @@ tkregisterfv --mov func.nii.gz --reg bbregister.lta --s SUBJECT
 `raw/mailing-list/2023-10-tkregister2-deprecated-use-tkregisterfv.md`.
 
 **Related:** tkregisterfv, [[tkregister2]], [[bbregister]],
-[[freeview]]
+[[wiki/tools/freeview|freeview]]
 
 ---
 
@@ -478,7 +478,7 @@ is not guaranteed in current releases.
 **Provenance:** Mailing list, 2024-01-06 (fsbuild). See
 `raw/mailing-list/2024-01-tksurfer-deprecated-replaced-by-tksurferfv-no-tcl-support.md`.
 
-**Related:** [[tksurferfv]], [[tksurfer]], [[freeview]],
+**Related:** [[tksurferfv]], [[tksurfer]], [[wiki/tools/freeview|freeview]],
 [[freeview-surfaces]], [[freeview-command-line]]
 
 ---
@@ -486,7 +486,7 @@ is not guaranteed in current releases.
 ### Is there a single command that summarises which legacy GUI tools have FreeView replacements?
 
 **Short answer:** `tkregister2 → tkregisterfv`, `tksurfer → tksurferfv`,
-`tkmedit → tkmeditfv`; all three wrappers launch [[freeview]] with
+`tkmedit → tkmeditfv`; all three wrappers launch [[wiki/tools/freeview|freeview]] with
 arguments matching the legacy tool, but Tcl scripts (`-tcl`) are not
 supported.
 
@@ -516,4 +516,4 @@ and
 `raw/mailing-list/2024-01-tksurfer-deprecated-replaced-by-tksurferfv-no-tcl-support.md`.
 
 **Related:** tkregisterfv, [[tksurferfv]], [[tkmeditfv]],
-[[freeview]], [[freeview-command-line]]
+[[wiki/tools/freeview|freeview]], [[freeview-command-line]]

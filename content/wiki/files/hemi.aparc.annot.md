@@ -31,7 +31,7 @@ downstream_files:
   - "[[hemi.aparc.stats]]"
   - "[[aparc+aseg.mgz]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: WhiteSurfs, Stats, Parcellated volumes"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: WhiteSurfs, Stats, Parcellated volumes"
 optional_for: []
 editable: false
 related:
@@ -41,7 +41,7 @@ related:
   - "[[hemi.aparc.DKTatlas.annot]]"
   - "[[hemi.aparc.stats]]"
   - "[[fsaverage]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -88,7 +88,7 @@ mris_ca_label \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **Cortical Parcellation** stage (`-cortparc`). Touch sentinel: `touch/$hemi.aparc.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **Cortical Parcellation** stage (`-cortparc`). Touch sentinel: `touch/$hemi.aparc.touch`.
 
 ### Inputs required
 
@@ -122,7 +122,7 @@ mris_ca_label \
 - [[hemi.cortex.label]] — cortex mask.
 - [[fsaverage]] — atlas registration target.
 - [[hemi.aparc.stats]] — downstream statistics.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

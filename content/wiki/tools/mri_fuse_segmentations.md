@@ -9,8 +9,8 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[recon-all]]"
-  - "[[mri_convert]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_ca_label]]"
 status: draft
 confidence: high
@@ -135,9 +135,9 @@ Called within `recon-all -base` as part of the longitudinal base template creati
 
 ## Related Tools
 
-- [[recon-all]] — calls this during `-base` processing
+- [[wiki/pipelines/recon-all|recon-all]] — calls this during `-base` processing
 - [[mri_ca_label]] — subsequent segmentation step that uses the fused result
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

@@ -12,7 +12,7 @@ hemispheric: true
 format: "symlink → hemi.white.preaparc.K"
 binary: true
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 produced_in_stage: "autorecon3: CurvHK"
 produced_at_source:
   - "[`scripts/recon-all:4105`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L4105)"
@@ -23,12 +23,12 @@ consumed_by: []
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CurvHK (disabled by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CurvHK (disabled by default)"
 editable: false
 related:
   - "[[hemi.white.preaparc.K]]"
   - "[[hemi.white.preaparc]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -40,7 +40,7 @@ tags:
 # hemi.white.K
 
 > [!file] Glossary entry
-> `lh.white.K` / `rh.white.K` are symbolic links to [[hemi.white.preaparc.K]], created by [[recon-all]] immediately after the CurvHK stage so that tools expecting the canonical `?h.white.K` name can find the Gaussian curvature map of the white surface.
+> `lh.white.K` / `rh.white.K` are symbolic links to [[hemi.white.preaparc.K]], created by [[wiki/pipelines/recon-all|recon-all]] immediately after the CurvHK stage so that tools expecting the canonical `?h.white.K` name can find the Gaussian curvature map of the white surface.
 
 ## Location and Format
 
@@ -61,13 +61,13 @@ ln -s $hemi.white.preaparc.K $hemi.white.K
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CurvHK** stage. Created directly after `mris_curvature -w` writes [[hemi.white.preaparc.K]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CurvHK** stage. Created directly after `mris_curvature -w` writes [[hemi.white.preaparc.K]].
 
 ## Related
 
 - [[hemi.white.preaparc.K]] — symlink target (actual data).
 - [[hemi.white.H]] — co-created symlink for mean curvature.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -117,7 +117,7 @@ mri_exvivo_strip -i exvivo_lh.mgz -o exvivo_lh_stripped.mgz --hemi lh --gpu 0
 
 ## Pipeline Context
 
-Not called by `[[recon-all]]`. Used in ex vivo MRI pipelines, typically after `[[mri_exvivo_norm]]`.
+Not called by `[[wiki/pipelines/recon-all|recon-all]]`. Used in ex vivo MRI pipelines, typically after `[[mri_exvivo_norm]]`.
 
 ## Gotchas and Caveats
 

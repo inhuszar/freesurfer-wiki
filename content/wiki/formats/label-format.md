@@ -14,7 +14,7 @@ consumed_by:
   - "[[mri_label2vol]]"
   - "[[mris_ca_label]]"
   - "[[mris_anatomical_stats]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[mris_calc]]"
   - "[[mri_surf2surf]]"
   - "[[mris_thickness]]"
@@ -296,7 +296,7 @@ The `?h.cortex.label` file is the **most critical label** in the pipeline:
 | [[mris_anatomical_stats]] | ✓ | — | Uses label to restrict morphometric computation |
 | `mris_label2annot` | ✓ | — | Merges multiple labels into an annotation file |
 | `mris_thickness` | ✓ | — | Reads cortex label to fill thickness holes |
-| [[freeview]] | ✓ | ✓ | Load/save labels interactively |
+| [[wiki/tools/freeview|freeview]] | ✓ | ✓ | Load/save labels interactively |
 | [[mris_calc]] | ✓ | — | Reads label to restrict arithmetic |
 | [[mri_surf2surf]] | ✓ | — | Uses label as smoothing mask |
 | `mri_path2label` | — | ✓ | Writes drawn paths as labels |

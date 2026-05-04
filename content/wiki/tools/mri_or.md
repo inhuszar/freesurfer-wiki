@@ -97,7 +97,7 @@ mri_or label_volume.mgz binarized.mgz
 
 ## Pipeline Context
 
-`mri_or` is not a standard step in the main [[recon-all]] pipeline. It is commonly used in custom post-processing scripts when multiple segmentation masks need to be combined. For example, it can merge hemisphere-specific ribbon masks or combine outputs from different segmentation tools.
+`mri_or` is not a standard step in the main [[wiki/pipelines/recon-all|recon-all]] pipeline. It is commonly used in custom post-processing scripts when multiple segmentation masks need to be combined. For example, it can merge hemisphere-specific ribbon masks or combine outputs from different segmentation tools.
 
 ## Gotchas and Caveats
 

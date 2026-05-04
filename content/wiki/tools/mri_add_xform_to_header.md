@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_info]]"
 status: draft
 confidence: high
@@ -110,7 +110,7 @@ Used in `recon-all` after Talairach registration to associate the Talairach tran
 
 ## Related Tools
 
-- [[mri_convert]] — general volume conversion, also supports adding transforms
+- [[wiki/tools/mri_convert|mri_convert]] — general volume conversion, also supports adding transforms
 - [[mri_info]] — inspect the `transform_fname` and other header fields
 
 ## Confidence and Gaps

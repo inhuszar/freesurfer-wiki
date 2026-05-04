@@ -116,7 +116,7 @@ mri_easyatlas --i /data/study/scans/ --o /data/study/atlas/ --threads 8
 
 ## Pipeline Context
 
-`mri_easyatlas` is not called by `[[recon-all]]`. It is a standalone atlas-construction tool. Typical usage:
+`mri_easyatlas` is not called by `[[wiki/pipelines/recon-all|recon-all]]`. It is a standalone atlas-construction tool. Typical usage:
 1. Run `[[mri_easyreg]]` for individual subject-to-template registration once the atlas is built.
 2. Use `[[mri_easywarp]]` to apply the resulting deformation fields.
 

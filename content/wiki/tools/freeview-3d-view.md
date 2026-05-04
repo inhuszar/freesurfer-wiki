@@ -1,7 +1,7 @@
 ---
 title: "FreeView — 3D View"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -10,7 +10,7 @@ source_files:
   - "freeview/DialogSetCamera.cpp"
   - "freeview/LayerMRI.cpp"
 related_panels:
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[freeview-volumes]]"
   - "[[freeview-surfaces]]"
 status: review
@@ -32,7 +32,7 @@ tags:
 
 The 3D view renders surfaces as shaded 3D meshes and optionally displays volume slice planes intersecting the scene. It is one of the four viewport slots and is activated by clicking the **3D** button in the toolbar (`Alt+3`) or through **View → Viewport Layout**.
 
-See [[freeview]] for the main application overview.
+See [[wiki/tools/freeview|freeview]] for the main application overview.
 
 ## Camera Controls
 
@@ -158,7 +158,7 @@ VTK's default headlight (camera-tied directional light) is used. There is no use
 
 ## Related Pages
 
-- [[freeview]] — main application overview, mode descriptions
+- [[wiki/tools/freeview|freeview]] — main application overview, mode descriptions
 - [[freeview-surfaces]] — surface rendering options (smooth, wireframe, colour maps)
 - [[freeview-volumes]] — volume isosurface controls, slice plane display
 - [[freeview-keyboard-mouse]] — 3D view keyboard shortcuts

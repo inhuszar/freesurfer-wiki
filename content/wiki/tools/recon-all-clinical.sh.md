@@ -9,7 +9,7 @@ families:
   - "scripts"
 recon_all_stage: null
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_synthseg]]"
   - "[[mri_synthsr]]"
   - "[[mri_synthstrip]]"
@@ -164,7 +164,7 @@ recon-all-clinical.sh \
 
 ## Related Tools
 
-- [[recon-all]] — standard cortical reconstruction pipeline (requires 1mm isotropic T1)
+- [[wiki/pipelines/recon-all|recon-all]] — standard cortical reconstruction pipeline (requires 1mm isotropic T1)
 - [[mri_synthseg]] — SynthSeg segmentation (called internally)
 - [[mri_synthsr]] — SynthSR synthesis (called internally)
 - [[recon-all-exvivo]] — ex vivo tissue reconstruction pipeline

@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_aparc2aseg]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -111,7 +111,7 @@ Not part of `recon-all`. Research tool for partial volume correction in cortical
 ## Related Tools
 
 - [[mri_aparc2aseg]] — parcellation to volume mapping (related but different purpose)
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

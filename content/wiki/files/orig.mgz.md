@@ -10,7 +10,7 @@ hemispheric: false
 format: "[[mgz]]"
 binary: true
 produced_by:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 produced_in_stage: "autorecon1: Conform"
 produced_at_source:
   - "[`scripts/recon-all:1534`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L1534)"
@@ -28,7 +28,7 @@ downstream_files:
   - "[[T1.mgz]]"
   - "[[rawavg2orig.lta]]"
 mandatory_for:
-  - "[[recon-all]] autorecon1 and all downstream stages"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon1 and all downstream stages"
 optional_for: []
 editable: false
 related:
@@ -36,7 +36,7 @@ related:
   - "[[rawavg.mgz]]"
   - "[[nu.mgz]]"
   - "[[coordinate-systems]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -48,7 +48,7 @@ tags:
 # orig.mgz
 
 > [!file] Glossary entry
-> `orig.mgz` is the conformed (256 × 256 × 256, 1 mm isotropic) T1-weighted volume that serves as the spatial reference frame for all FreeSurfer processing. It is produced from [[rawavg.mgz]] by [[mri_convert]] with `--conform` in autorecon1. Every subsequent MRI volume and surface coordinate in the subject's directory is defined relative to `orig.mgz`'s RAS frame. The Talairach transform embedded in its header is the entry point for atlas registration.
+> `orig.mgz` is the conformed (256 × 256 × 256, 1 mm isotropic) T1-weighted volume that serves as the spatial reference frame for all FreeSurfer processing. It is produced from [[rawavg.mgz]] by [[wiki/tools/mri_convert|mri_convert]] with `--conform` in autorecon1. Every subsequent MRI volume and surface coordinate in the subject's directory is defined relative to `orig.mgz`'s RAS frame. The Talairach transform embedded in its header is the entry point for atlas registration.
 
 ## Location and Format
 
@@ -71,7 +71,7 @@ The volume's header embeds the `talairach.xfm` transform path even before Talair
 
 ### Producing tool
 
-[[mri_convert]] — reads [[rawavg.mgz]], applies `--conform` to resample to 256³ 1 mm isotropic with standard orientation. Optionally applies `--conform_min` (high-res subjects), `--conform-dc` (keep direction cosines), or `--cw256` (force FOV to 256 when scanner FOV > 256).
+[[wiki/tools/mri_convert|mri_convert]] — reads [[rawavg.mgz]], applies `--conform` to resample to 256³ 1 mm isotropic with standard orientation. Optionally applies `--conform_min` (high-res subjects), `--conform-dc` (keep direction cosines), or `--cw256` (force FOV to 256 when scanner FOV > 256).
 
 ```bash
 # Default conformation (recon-all line 1534)
@@ -96,11 +96,11 @@ mri_add_xform_to_header -c transforms/talairach.xfm orig.mgz orig.mgz
 - **Lines:** 1534–1564
 - **GitHub:** [`scripts/recon-all:1534`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L1534)
 
-The actual write happens inside `mri_convert`; see the [[mri_convert]] tool page for `MRIwrite` line references.
+The actual write happens inside `mri_convert`; see the [[wiki/tools/mri_convert|mri_convert]] tool page for `MRIwrite` line references.
 
 ### Pipeline stage
 
-[[recon-all]] autorecon1, **Conform** stage (`-conform`). Touch sentinel: `touch/conform.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon1, **Conform** stage (`-conform`). Touch sentinel: `touch/conform.touch`.
 
 ### Inputs required
 
@@ -143,11 +143,11 @@ The actual write happens inside `mri_convert`; see the [[mri_convert]] tool page
 ## Related
 
 - [[mgz]] — on-disk format specification.
-- [[mri_convert]] — producer.
+- [[wiki/tools/mri_convert|mri_convert]] — producer.
 - [[rawavg.mgz]] — source input.
 - [[nu.mgz]], [[T1.mgz]], [[norm.mgz]] — downstream derived volumes.
 - [[coordinate-systems]] — the RAS/tkr-RAS frame this volume defines.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 - [[subject-directory]] — directory layout.
 
 ## References

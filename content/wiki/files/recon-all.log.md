@@ -10,7 +10,7 @@ hemispheric: false
 format: "plain text (log)"
 binary: false
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 produced_in_stage: "all stages"
 produced_at_source:
   - "[`scripts/recon-all:620`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L620)"
@@ -27,7 +27,7 @@ related:
   - "[[recon-all.cmd]]"
   - "[[recon-all.done]]"
   - "[[recon-all.env]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -39,7 +39,7 @@ tags:
 # recon-all.log
 
 > [!file] Glossary entry
-> `recon-all.log` is the primary log file for a [[recon-all]] run, capturing all standard output and error from every tool invoked during processing. It is appended to throughout the entire pipeline. Timestamps and stage markers (e.g. `#@# CurvStats lh 2024-...`) are embedded in the log to allow stage-level post-hoc timing and debugging.
+> `recon-all.log` is the primary log file for a [[wiki/pipelines/recon-all|recon-all]] run, capturing all standard output and error from every tool invoked during processing. It is appended to throughout the entire pipeline. Timestamps and stage markers (e.g. `#@# CurvStats lh 2024-...`) are embedded in the log to allow stage-level post-hoc timing and debugging.
 
 ## Location and Format
 
@@ -70,7 +70,7 @@ Created at startup; appended continuously throughout all autorecon stages.
 - [[recon-all.cmd]] — command log (just the commands, without output).
 - [[recon-all.env]] — environment snapshot at start of run.
 - [[recon-all.done]] — sentinel file written on success.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -9,7 +9,7 @@ families:
   - "scripts"
 recon_all_stage: null
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_synthseg]]"
   - "[[mris_make_surfaces]]"
 status: draft
@@ -169,7 +169,7 @@ recon-all-exvivo -s exvivo_case01 -bet -nocerebellum
 
 ## Related Tools
 
-- [[recon-all]] — standard in vivo cortical reconstruction pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — standard in vivo cortical reconstruction pipeline
 - [[recon-all-clinical.sh]] — rapid clinical scan pipeline
 - [[mri_synthseg]] — SAMSEG-related deep learning segmentation
 

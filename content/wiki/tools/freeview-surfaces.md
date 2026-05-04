@@ -1,7 +1,7 @@
 ---
 title: "FreeView — Surfaces"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -452,7 +452,7 @@ In 2D orthogonal slice views, surfaces are rendered as **intersection contours**
 
 ## Related Pages
 
-- [[freeview]] — main application overview
+- [[wiki/tools/freeview|freeview]] — main application overview
 - [[freeview-volumes]] — volume layer controls
 - [[freeview-editing]] — editing modes including surface vertex repositioning workflow
 - [[freeview-command-line]] — complete command-line option reference

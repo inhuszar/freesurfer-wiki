@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_normalize]]"
 status: draft
 confidence: low
@@ -89,7 +89,7 @@ Not part of `recon-all`. Legacy utility for specific interpolation use cases.
 
 ## Related Tools
 
-- [[mri_convert]] — includes basic resampling/interpolation functionality
+- [[wiki/tools/mri_convert|mri_convert]] — includes basic resampling/interpolation functionality
 
 ## Confidence and Gaps
 

@@ -11,8 +11,8 @@ recon_all_stage: null
 related:
   - "[[mri_synthstrip]]"
   - "[[mri_synthseg]]"
-  - "[[mri_convert]]"
-  - "[[recon-all]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -131,7 +131,7 @@ mri_claustrum_seg --i T1.mgz --o ./claustrum_results --lh
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. This is a standalone post-processing tool for specialized claustrum morphometry research.
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. This is a standalone post-processing tool for specialized claustrum morphometry research.
 
 ## Gotchas and Caveats
 

@@ -16,7 +16,7 @@ related:
   - "[[mris_register]]"
   - "[[mris_autodet_gwstats]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-22
@@ -414,7 +414,7 @@ mris_make_surfaces -debug-vertex 12345 lh.white brain.mgz aseg.mgz 1 110 85 105 
 
 **Runs before:** [[mris_smooth]] (second pass), parcellation tools
 **Runs after:** [[mris_fix_topology]], [[mris_autodet_gwstats]]
-**Related pipeline:** [[recon-all]]
+**Related pipeline:** [[wiki/pipelines/recon-all|recon-all]]
 
 ## Gotchas and Caveats
 
@@ -445,7 +445,7 @@ mris_make_surfaces -debug-vertex 12345 lh.white brain.mgz aseg.mgz 1 110 85 105 
 - [[mris_sphere]] — maps the inflated surface to a sphere (runs after this)
 - [[mris_register]] — registers the sphere to an atlas (runs after this)
 - [[surface-format]] — FreeSurfer surface file format
-- [[recon-all]] — pipeline orchestrator
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline orchestrator
 
 ## Confidence and Gaps
 

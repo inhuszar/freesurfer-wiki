@@ -9,7 +9,7 @@ families:
   - "dmri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_info]]"
 status: draft
 confidence: high
@@ -129,7 +129,7 @@ dmri_vox2vox \
 
 `dmri_vox2vox` is part of the diffusion/tractography pipeline (`trc/`). It is typically invoked as part of the `trac-all` workflow to transform seed-point coordinate lists between the DWI and structural spaces. It does not appear as a direct stage of `recon-all`.
 
-Related pipeline components: [[mri_convert]], [[bbregister]].
+Related pipeline components: [[wiki/tools/mri_convert|mri_convert]], [[bbregister]].
 
 ## Gotchas and Caveats
 
@@ -139,7 +139,7 @@ Related pipeline components: [[mri_convert]], [[bbregister]].
 
 ## Related Tools
 
-- [[mri_convert]] — general volume conversion and resampling
+- [[wiki/tools/mri_convert|mri_convert]] — general volume conversion and resampling
 - [[mri_info]] — inspect volume coordinate system metadata
 
 ## Confidence and Gaps

@@ -12,7 +12,7 @@ recon_all_stage: null
 related:
   - "[[mri_ms_EM]]"
   - "[[mri_ms_LDA]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -186,7 +186,7 @@ Not part of standard `recon-all`. Used in quantitative MRI pipelines:
 
 - [[mri_ms_EM]] — uses T1/PD maps for EM-based tissue segmentation
 - [[mri_ms_LDA]] — uses multi-spectral data for LDA-based tissue classification
-- [[mri_convert]] — format conversion
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion
 
 ## Confidence and Gaps
 

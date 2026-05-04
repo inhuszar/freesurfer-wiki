@@ -179,7 +179,7 @@ mris_left_right_register -sigma 4 -sigma 2 -sigma 1 lh.sphere.reg rh.sphere.reg 
 
 Not part of standard `recon-all`. Used in asymmetry analysis pipelines:
 
-1. [[recon-all]] produces `lh.sphere.reg` and `rh.sphere.reg`
+1. [[wiki/pipelines/recon-all|recon-all]] produces `lh.sphere.reg` and `rh.sphere.reg`
 2. `mris_left_right_register` creates a cross-hemispheric registration
 3. `mri_vol2surf` or similar projects hemispheric data for comparison
 

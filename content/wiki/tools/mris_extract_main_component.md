@@ -12,7 +12,7 @@ related:
   - "[[mri_tessellate]]"
   - "[[mris_euler_number]]"
   - "[[mris_fix_topology]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15

@@ -27,7 +27,7 @@ downstream_files:
   - "[[hemi.area.mid]]"
   - "[[hemi.volume]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats"
 optional_for: []
 editable: false
 related:
@@ -35,7 +35,7 @@ related:
   - "[[hemi.area.pial]]"
   - "[[hemi.area.mid]]"
   - "[[mris_place_surface]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -77,7 +77,7 @@ mris_place_surface --area-map ../surf/$hemi.white ../surf/$hemi.area
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, surface measurement loop (white iteration).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, surface measurement loop (white iteration).
 
 ### Inputs required
 
@@ -107,7 +107,7 @@ mris_place_surface --area-map ../surf/$hemi.white ../surf/$hemi.area
 - [[hemi.area.mid]] — midthickness area.
 - [[hemi.volume]] — derived cortical volume.
 - [[mris_place_surface]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

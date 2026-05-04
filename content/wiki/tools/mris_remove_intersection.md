@@ -12,7 +12,7 @@ recon_all_stage: null
 related:
   - "[[mris_remesh]]"
   - "[[surface-format]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15

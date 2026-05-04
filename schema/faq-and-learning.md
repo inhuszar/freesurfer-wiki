@@ -229,6 +229,12 @@ FAQ pages are organised by topic, not by source. Examples:
 - `wiki/faq/coordinates.md` — questions about coordinate systems
 - `wiki/faq/recon-all.md` — questions about the recon-all pipeline
 
+> [!important] FAQ basenames collide with tool/pipeline pages.
+> Always reference an FAQ page with its path-qualified wikilink:
+> `[[wiki/faq/recon-all|recon-all FAQ]]`. A bare `[[recon-all]]` is
+> ambiguous and breaks on the published site — see
+> `schema/conventions.md` § "Path-Qualified Wikilinks".
+
 ### FAQ Entry Structure
 
 Each entry within a FAQ page:

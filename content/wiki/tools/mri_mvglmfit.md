@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_dualperm]]"
   - "[[mri_fwhm]]"
   - "[[fsgd-format]]"
@@ -30,7 +30,7 @@ tags:
 
 ## Summary
 
-`mri_mvglmfit` fits a multivariate General Linear Model (MVGLM) to a set of MRI data volumes and performs permutation-based inference. Unlike [[mri_glmfit]] which fits one response at a time, `mri_mvglmfit` jointly models multiple response variables (e.g., multiple imaging contrasts or hemispheres), enabling multivariate test statistics. Written by Douglas N. Greve.
+`mri_mvglmfit` fits a multivariate General Linear Model (MVGLM) to a set of MRI data volumes and performs permutation-based inference. Unlike [[wiki/tools/mri_glmfit|mri_glmfit]] which fits one response at a time, `mri_mvglmfit` jointly models multiple response variables (e.g., multiple imaging contrasts or hemispheres), enabling multivariate test statistics. Written by Douglas N. Greve.
 
 ## Source Information
 
@@ -141,7 +141,7 @@ Not part of `recon-all`. Research tool for multivariate group-level neuroimaging
 
 ## Related Tools
 
-- [[mri_glmfit]] — univariate GLM fitting
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — univariate GLM fitting
 - [[mri_dualperm]] — dual permutation test for two modes
 - [[mri_fwhm]] — smoothness estimation for cluster-based inference
 - [[fsgd-format]] — group descriptor file format specification

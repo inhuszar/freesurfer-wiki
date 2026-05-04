@@ -21,10 +21,10 @@ mailing list. `recon-all-clinical` is a deep-learning pipeline (built
 on [[mri_synthseg]] and [[mri_synthsr]]) for processing clinical-quality
 MRI of arbitrary contrast, resolution, and slice thickness — its
 behaviour and constraints differ in several important ways from the
-standard [[recon-all]] pipeline.
+standard [[wiki/pipelines/recon-all|recon-all]] pipeline.
 
 > For tool reference, see [[recon-all-clinical.sh]]. For the standard
-> pipeline, see [[recon-all]] and the [[longitudinal-processing]]
+> pipeline, see [[wiki/pipelines/recon-all|recon-all]] and the [[longitudinal-processing]]
 > concept page.
 
 ---
@@ -36,7 +36,7 @@ standard [[recon-all]] pipeline.
 **Short answer:** No — it accepts exactly one scan per run, but that
 scan can be of any contrast and any resolution.
 
-**Detail:** Standard [[recon-all]] supports multiple `-i` flags and
+**Detail:** Standard [[wiki/pipelines/recon-all|recon-all]] supports multiple `-i` flags and
 averages the inputs (motion-corrected) into a single T1. The clinical
 pipeline does not — it expects one input volume only. The trade-off is
 that the single input may be T1, T2, FLAIR, PD, or any other contrast,
@@ -46,14 +46,14 @@ no contrast flag is needed. If you have multiple scans of the same
 contrast and want to average, do it externally (e.g. `mri_motion_correct`,
 `mri_average`, or `fslmerge -Tmean`) and pass the average as a single
 `-i`. If you want T2/FLAIR-driven pial surface refinement, you must
-run standard [[recon-all]] with `-T2` or `-FLAIR` instead — the
+run standard [[wiki/pipelines/recon-all|recon-all]] with `-T2` or `-FLAIR` instead — the
 clinical pipeline cannot use additional modalities.
 
 **Provenance:** Mailing list, 2023-11-13 (Iglesias). See
 `raw/mailing-list/2023-11-recon-all-clinical-one-scan-limit.md` and
 `raw/mailing-list/2023-11-recon-all-clinical-single-scan-only-any-contrast.md`.
 
-**Related:** [[recon-all-clinical.sh]], [[recon-all]], [[mri_synthseg]]
+**Related:** [[recon-all-clinical.sh]], [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]]
 
 ---
 
@@ -61,7 +61,7 @@ clinical pipeline cannot use additional modalities.
 
 **Short answer:** In principle yes for segmentation, but the surface
 reconstruction will probably fail — the recommended workflow is to run
-[[mri_synthsr]] first and feed its output to standard [[recon-all]].
+[[mri_synthsr]] first and feed its output to standard [[wiki/pipelines/recon-all|recon-all]].
 
 **Detail:** [[mri_synthseg]] is robust to non-standard contrast, so the
 volumetric segmentation step of `recon-all-clinical` may succeed on a
@@ -85,7 +85,7 @@ the Gd-T1 may be sufficient.
 **Provenance:** Mailing list, 2024-06-14 (Iglesias). See
 `raw/mailing-list/2024-06-recon-all-clinical-contrast-enhanced-t1-synthsr.md`.
 
-**Related:** [[recon-all-clinical.sh]], [[mri_synthsr]], [[mri_synthseg]], [[recon-all]]
+**Related:** [[recon-all-clinical.sh]], [[mri_synthsr]], [[mri_synthseg]], [[wiki/pipelines/recon-all|recon-all]]
 
 ---
 
@@ -98,7 +98,7 @@ the Gd-T1 may be sufficient.
 
 **Detail:** The clinical pipeline is a streamlined deep-learning
 workflow that does not run the full statistics suite of standard
-[[recon-all]], so [[aseg.stats]] is not produced automatically. Any
+[[wiki/pipelines/recon-all|recon-all]], so [[aseg.stats]] is not produced automatically. Any
 downstream tool that consumes it (e.g. [[asegstats2table]]) will
 otherwise fail. To rebuild it, run:
 
@@ -134,7 +134,7 @@ Cross-referenced with `raw/mailing-list/2023-06-recon-all-clinical-colortable-ba
 low-contrast structures from arbitrary clinical scans, so the clinical
 pipeline simply does not output them.
 
-**Detail:** Standard [[recon-all]] uses an atlas-based GCA segmenter
+**Detail:** Standard [[wiki/pipelines/recon-all|recon-all]] uses an atlas-based GCA segmenter
 on standardised 1 mm T1 input, which can pick out small structures
 like choroid plexus and vessels. SynthSeg, trained to generalise
 across contrasts and resolutions, cannot detect them reliably and
@@ -163,7 +163,7 @@ should not be naively pooled — and entorhinal cortex thickness in
 particular has had a known bug.
 
 **Detail:** The two pipelines use fundamentally different
-methodology — standard [[recon-all]] uses GCA atlas-based segmentation
+methodology — standard [[wiki/pipelines/recon-all|recon-all]] uses GCA atlas-based segmentation
 and iterative surface placement on a real T1, whereas the clinical
 pipeline uses [[mri_synthsr]] super-resolution + [[mri_synthseg]]
 segmentation + a deep-learning surface stage. Iglesias has confirmed
@@ -180,7 +180,7 @@ standard pipeline value.
 **Provenance:** Mailing list, 2023-08-01 (Iglesias). See
 `raw/mailing-list/2023-08-recon-all-clinical-etiv-entorhinal-thickness-caveat.md`.
 
-**Related:** [[recon-all-clinical.sh]], [[recon-all]], [[mri_synthseg]], [[mri_synthsr]]
+**Related:** [[recon-all-clinical.sh]], [[wiki/pipelines/recon-all|recon-all]], [[mri_synthseg]], [[mri_synthsr]]
 
 ---
 
@@ -193,7 +193,7 @@ contain ventricles.
 
 **Detail:** This is a naming/role mismatch between the two pipelines:
 the file at `mri/brainmsk.mgz` in a `recon-all-clinical` subject does
-not play the same role as in a standard [[recon-all]] subject. For
+not play the same role as in a standard [[wiki/pipelines/recon-all|recon-all]] subject. For
 visualisation or downstream uses where you expect a brain volume
 including ventricles, use `mri/synthSR.mgz` instead.
 
@@ -256,7 +256,7 @@ heterogeneous studies, options are:
 
 - Process all timepoints with `recon-all-clinical` (no longitudinal
   pipeline; cross-sectional measurements only).
-- Process all timepoints with standard [[recon-all]] (may fail or
+- Process all timepoints with standard [[wiki/pipelines/recon-all|recon-all]] (may fail or
   require manual editing on the thick-slice timepoints).
 - Use [[mri_synthseg]] directly at each timepoint (volumetric only;
   bypasses the surface-pipeline mismatch entirely).
@@ -267,7 +267,7 @@ heterogeneous studies, options are:
 `raw/mailing-list/2024-11-recon-all-clinical-no-longitudinal-support.md`,
 `raw/mailing-list/2023-06-recon-all-clinical-outputs-not-usable-as-cross-for-longitudinal.md`.
 
-**Related:** [[recon-all-clinical.sh]], [[recon-all]], [[longitudinal-processing]], [[norm.mgz]]
+**Related:** [[recon-all-clinical.sh]], [[wiki/pipelines/recon-all|recon-all]], [[longitudinal-processing]], [[norm.mgz]]
 
 ---
 
@@ -303,7 +303,7 @@ cohort.
 **Short answer:** Effectively ~32 GB. The SynthSeg tensor allocation
 exceeds 16 GB physical RAM, and swap is not a reliable substitute.
 
-**Detail:** Standard [[recon-all]] runs comfortably on 16 GB, but
+**Detail:** Standard [[wiki/pipelines/recon-all|recon-all]] runs comfortably on 16 GB, but
 `recon-all-clinical` invokes [[mri_synthseg]], which allocates a
 large 5-D tensor (`[1, 256, 256, 160, 72]` float32 ≈ 7.2 GB) plus
 overhead during inference, so peak memory consistently exceeds 16 GB.
@@ -364,11 +364,11 @@ Both fixes are confirmed correct by Huang (FreeSurfer build team):
 diagonal/positive vox2ras header rather than the FS-conventional
 orientation; tools like mne-python's watershed BEM are sensitive
 to this and produce surfaces with inverted normals. Run
-[[mri_convert]] `--conform` on the volume before BEM generation as
+[[wiki/tools/mri_convert|mri_convert]] `--conform` on the volume before BEM generation as
 a workaround.
 
 **Detail:** All `recon-all-clinical` output volumes share the same
-RAS world coordinates as standard [[recon-all]] volumes, so this is
+RAS world coordinates as standard [[wiki/pipelines/recon-all|recon-all]] volumes, so this is
 not a true geometric mismatch — it is purely a vox2ras header
 orientation difference. Tools that work directly in RAS are
 unaffected; tools that consume vox2ras orientation conventions
@@ -390,7 +390,7 @@ source retention after this workaround.
 Iglesias). See
 `raw/mailing-list/2026-03-recon-all-clinical-bem-inverted-normals.md`.
 
-**Related:** [[recon-all-clinical.sh]], [[mri_convert]], [[norm.mgz]], [[coordinate-systems]]
+**Related:** [[recon-all-clinical.sh]], [[wiki/tools/mri_convert|mri_convert]], [[norm.mgz]], [[coordinate-systems]]
 
 ---
 
@@ -398,7 +398,7 @@ Iglesias). See
 
 **Short answer:** Iglesias confirmed in August 2023 that
 `recon-all-clinical` produced entorhinal cortex thickness ~3–4×
-larger than standard [[recon-all]] — a known bug under
+larger than standard [[wiki/pipelines/recon-all|recon-all]] — a known bug under
 investigation at the time. Verify whether it is fixed in your FS
 version before comparing entorhinal thickness across pipelines.
 
@@ -410,7 +410,7 @@ entorhinal-thickness measures from a clinical-quality scan,
 Iglesias's recommended workaround is the SynthSR-then-recon-all
 chain: run `recon-all-clinical` to obtain its synthetic 1 mm T1
 (`mri/synthSR.mgz` or equivalent), treat that as the input to
-standard [[recon-all]], then run `segment_subregions` on the
+standard [[wiki/pipelines/recon-all|recon-all]], then run `segment_subregions` on the
 standard subject directory.
 
 > [!gap] As of FS 8.2.0 (April 2026) it has not been re-verified
@@ -421,4 +421,4 @@ standard subject directory.
 **Provenance:** Mailing list, 2023-08-01 (Iglesias). See
 `raw/mailing-list/2023-08-recon-all-clinical-etiv-entorhinal-thickness-caveat.md`.
 
-**Related:** [[recon-all-clinical.sh]], [[recon-all]], [[mri_synthsr]], [[mri_synthseg]]
+**Related:** [[recon-all-clinical.sh]], [[wiki/pipelines/recon-all|recon-all]], [[mri_synthsr]], [[mri_synthseg]]

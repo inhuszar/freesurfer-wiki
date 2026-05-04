@@ -14,7 +14,7 @@ related:
   - "[[mri_fill]]"
   - "[[mri_edit_segmentation]]"
   - "[[mri_edit_segmentation_with_surfaces]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[freeview-editing]]"
 status: draft
@@ -145,7 +145,7 @@ mri_edit_wm_with_aseg -fix-scm-ha-only aseg.presurf.mgz wm.seg.mgz 1 wm.seg.fixe
 
 ## Pipeline Context
 
-In `[[recon-all]]` `autorecon2`, the sequence is:
+In `[[wiki/pipelines/recon-all|recon-all]]` `autorecon2`, the sequence is:
 1. `[[mri_segment]]` → `wm.mgz`
 2. **`mri_edit_wm_with_aseg`** → `wm.asegedit.mgz`
 3. `[[mri_fill]]` → `filled.mgz`

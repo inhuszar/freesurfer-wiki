@@ -12,7 +12,7 @@ related:
   - "[[mri_aparc2aseg]]"
   - "[[mri_surf2vol]]"
   - "[[mri_vol2surf]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23

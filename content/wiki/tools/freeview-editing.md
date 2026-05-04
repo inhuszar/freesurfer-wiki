@@ -1,7 +1,7 @@
 ---
 title: "FreeView — Editing Modes"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -19,7 +19,7 @@ related_panels:
   - "[[freeview-surfaces]]"
   - "[[freeview-pointsets]]"
 related_tools:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_normalize]]"
   - "[[mri_edit_wm_with_aseg]]"
   - "[[mris_reposition_surface]]"
@@ -149,7 +149,7 @@ There are ten drawing sub-tools, forming a `QActionGroup` in `ToolWindowEdit.cpp
 
 ### Purpose
 
-A specialised editing mode for correcting [[recon-all]] errors. Activating it changes the default Draw Value to 255 and Erase Value to 1, and enables ExcludeRange=[5, 250] as a constraint.
+A specialised editing mode for correcting [[wiki/pipelines/recon-all|recon-all]] errors. Activating it changes the default Draw Value to 255 and Erase Value to 1, and enables ExcludeRange=[5, 250] as a constraint.
 
 ### When to Use
 
@@ -185,7 +185,7 @@ A specialised editing mode for correcting [[recon-all]] errors. Activating it ch
 4. Select the volume to edit (wm.mgz or brainmask.mgz) in the layer panel
 5. Draw corrections slice by slice using Freehand or Polyline
 6. Save the edited volume(s) (`Ctrl+S`)
-7. Rerun [[recon-all]] from the appropriate stage:
+7. Rerun [[wiki/pipelines/recon-all|recon-all]] from the appropriate stage:
    ```bash
    # After WM edits:
    recon-all -s subject -autorecon2-wm -autorecon3
@@ -440,12 +440,12 @@ mris_nudge lh.white brain.mgz <vertex_number> 110.0 5 lh.white.nudged
 
 ## Related Pages
 
-- [[freeview]] — main application overview
+- [[wiki/tools/freeview|freeview]] — main application overview
 - [[freeview-volumes]] — volume panel controls
 - [[freeview-surfaces]] — surface panel and the full Reposition Surface Vertex dialog reference
 - [[freeview-pointsets]] — point set and control point management
 - [[freeview-keyboard-mouse]] — keyboard shortcuts
-- [[recon-all]] — the pipeline that consumes the edited volumes
+- [[wiki/pipelines/recon-all|recon-all]] — the pipeline that consumes the edited volumes
 - [[mris_reposition_surface]] — CLI counterpart to Reposition Surface (JSON pointsets)
 - [[mris_nudge]] — CLI counterpart to Reposition Surface (seed + target intensity)
 - [[mris_smooth]] — CLI counterpart to Smooth Surface

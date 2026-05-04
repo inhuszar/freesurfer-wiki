@@ -13,7 +13,7 @@ related:
   - "[[mri_em_register]]"
   - "[[mris_ca_label]]"
   - "[[mri_normalize]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: medium
 last_agent_update: 2026-04-14
@@ -146,7 +146,7 @@ Voxels where the GCA prior for the assigned label is below `prior_thresh`
 
 ### Atlas-guided renormalisation (`-align`)
 
-When `-align` is specified (default in [[recon-all]] via `UseCAAlign = (-align)`),
+When `-align` is specified (default in [[wiki/pipelines/recon-all|recon-all]] via `UseCAAlign = (-align)`),
 the tool renormalises the GCA intensity models using structure-specific
 alignment. Internally it sets `regularize = 0.5`, `regularize_mean = 0.5`,
 `avgs = 2`, and `renormalize_align = 1`, equivalent to

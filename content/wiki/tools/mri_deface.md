@@ -149,7 +149,7 @@ mri_deface \
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Applied before sharing data publicly or before processing if de-identification is required. Typically run on the original T1 before `recon-all`.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Applied before sharing data publicly or before processing if de-identification is required. Typically run on the original T1 before `recon-all`.
 
 > [!gotcha] Run before recon-all
 > `mri_deface` should be applied to the raw T1 input, not the FreeSurfer-processed outputs. Running it on `orig.mgz` after `recon-all` may require rerunning parts of the reconstruction pipeline.

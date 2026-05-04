@@ -32,7 +32,7 @@ related:
   - "[[hemi.aparc.DKTatlas.annot]]"
   - "[[hemi.aparc.stats]]"
   - "[[mris_anatomical_stats]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -69,14 +69,14 @@ mris_anatomical_stats -mgz \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **ParcStats3** stage (`-parcstats3`).
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **ParcStats3** stage (`-parcstats3`).
 
 ## Related
 
 - [[hemi.aparc.DKTatlas.annot]] — parcellation source.
 - [[hemi.aparc.stats]] — Desikan-Killiany version.
 - [[mris_anatomical_stats]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

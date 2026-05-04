@@ -13,7 +13,7 @@ related:
   - "[[mri_ca_train]]"
   - "[[mri_ca_register]]"
   - "[[mri_em_register]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -40,7 +40,7 @@ tags:
 
 ## Purpose and Context
 
-The [[recon-all]] longitudinal pipeline processes multiple time points from the same subject by creating a base template and then running each time point's reconstruction with the base's atlas. `mri_cal_renormalize_gca` adapts the GCA model to the observed intensities across all time points, improving the intensity model's accuracy for the specific subject and scanner session characteristics.
+The [[wiki/pipelines/recon-all|recon-all]] longitudinal pipeline processes multiple time points from the same subject by creating a base template and then running each time point's reconstruction with the base's atlas. `mri_cal_renormalize_gca` adapts the GCA model to the observed intensities across all time points, improving the intensity model's accuracy for the specific subject and scanner session characteristics.
 
 It reads a file listing time-point subject names, constructs a multi-frame MRI from their individual normalized volumes, and calls `GCArenormalize()` or related functions to update the Gaussian parameters in the atlas.
 
@@ -102,7 +102,7 @@ mri_cal_renormalize_gca \
 
 ## Pipeline Context
 
-Called as part of the [[recon-all]] longitudinal processing stream (`-long` flag). It runs after the base subject's atlas registration ([[mri_ca_register]]) and before the time-point-specific segmentation steps.
+Called as part of the [[wiki/pipelines/recon-all|recon-all]] longitudinal processing stream (`-long` flag). It runs after the base subject's atlas registration ([[mri_ca_register]]) and before the time-point-specific segmentation steps.
 
 ## Gotchas and Caveats
 

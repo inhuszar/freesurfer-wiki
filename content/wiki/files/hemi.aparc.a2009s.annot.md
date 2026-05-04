@@ -29,14 +29,14 @@ downstream_files:
   - "[[aparc.a2009s+aseg.mgz]]"
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] autorecon3: CortParc2 (run by default)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: CortParc2 (run by default)"
 editable: false
 related:
   - "[[hemi.aparc.annot]]"
   - "[[hemi.aparc.DKTatlas.annot]]"
   - "[[mris_ca_label]]"
   - "[[hemi.sphere.reg]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -79,7 +79,7 @@ mris_ca_label \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **CortParc2** stage (`-cortparc2`). Touch sentinel: `touch/$hemi.aparc2.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **CortParc2** stage (`-cortparc2`). Touch sentinel: `touch/$hemi.aparc2.touch`.
 
 ### Inputs required
 
@@ -95,7 +95,7 @@ mris_ca_label \
 - [[hemi.aparc.annot]] — Desikan-Killiany atlas (primary parcellation).
 - [[hemi.aparc.DKTatlas.annot]] — DKT atlas.
 - [[mris_ca_label]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

@@ -12,7 +12,7 @@ related:
   - "[[mri_tessellate]]"
   - "[[mris_inflate]]"
   - "[[mris_sphere]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[freeview-surfaces]]"
 status: review
 confidence: high
@@ -267,7 +267,7 @@ mris_smooth surf/lh.white.preaparc surf/lh.smoothwm
 > The first smooth pass operates on the topologically unfixed surface
 > (`orig.nofix`). Topology errors (handles, holes) present here will persist
 > through inflation and QSphere; they are only fixed by the topology-fixing
-> stage of [[recon-all]]. mris_smooth does not attempt any topology correction.
+> stage of [[wiki/pipelines/recon-all|recon-all]]. mris_smooth does not attempt any topology correction.
 
 > [!gotcha] Default iterations (10) produce only mild smoothing
 > The default of 10 Laplacian iterations removes voxel-boundary staircase

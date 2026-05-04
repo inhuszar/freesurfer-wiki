@@ -153,7 +153,7 @@ mri_easyreg \
 
 ## Pipeline Context
 
-`mri_easyreg` is not called by `[[recon-all]]`. It is a standalone registration utility. After registration:
+`mri_easyreg` is not called by `[[wiki/pipelines/recon-all|recon-all]]`. It is a standalone registration utility. After registration:
 - Apply deformation fields with `[[mri_easywarp]]`
 - Build group atlases with `[[mri_easyatlas]]`
 

@@ -26,7 +26,7 @@ consumed_by:
 downstream_files:
   - "[[hemi.orig.nofix]]"
 mandatory_for:
-  - "[[recon-all]] autorecon2: Tessellate"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon2: Tessellate"
 optional_for: []
 editable: true
 related:
@@ -34,7 +34,7 @@ related:
   - "[[wm.mgz]]"
   - "[[filled.auto.mgz]]"
   - "[[hemi.orig.nofix]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -86,7 +86,7 @@ mri_fill ... -Pv <col> <row> <slc> -Cv <col> <row> <slc> -lhv ... -rhv ...
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **Fill** stage (`-fill`). Touch sentinel: `touch/fill.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **Fill** stage (`-fill`). Touch sentinel: `touch/fill.touch`.
 
 ### Inputs required
 
@@ -128,7 +128,7 @@ mri_fill ... -Pv <col> <row> <slc> -Cv <col> <row> <slc> -lhv ... -rhv ...
 - [[wm.mgz]] — input WM mask.
 - [[filled.auto.mgz]] — auto-backup copy.
 - [[hemi.orig.nofix]] — tessellated surface produced from this volume.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

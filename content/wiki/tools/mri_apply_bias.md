@@ -12,7 +12,7 @@ related:
   - "[[mri_normalize]]"
   - "[[mri_compute_bias]]"
   - "[[mri_nu_correct.mni]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
 status: draft
 confidence: high
@@ -106,7 +106,7 @@ mri_apply_bias -T transforms/talairach.lta orig.mgz bias_field.mgz corrected.mgz
 
 ## Pipeline Context
 
-Not a standard [[recon-all]] stage. Typically used in:
+Not a standard [[wiki/pipelines/recon-all|recon-all]] stage. Typically used in:
 - Longitudinal studies where the bias field is estimated once and applied to follow-up scans.
 - Multi-modal studies where a bias field estimated from T1 must be applied to T2 or PD data.
 

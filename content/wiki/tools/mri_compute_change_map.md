@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mri_fwhm]]"
 status: draft
 confidence: high
@@ -131,7 +131,7 @@ mri_compute_change_map tp1_norm.mgz tp2_norm.mgz \
 
 ## Related Tools
 
-- [[mri_convert]] — format conversion and resampling
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion and resampling
 - [[mri_fwhm]] — spatial smoothness estimation (related statistical maps)
 
 ## Confidence and Gaps

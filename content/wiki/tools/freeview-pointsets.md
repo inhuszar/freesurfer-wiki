@@ -1,7 +1,7 @@
 ---
 title: "FreeView — Point Sets"
 type: gui-panel
-parent_application: "[[freeview]]"
+parent_application: "[[wiki/tools/freeview|freeview]]"
 fs_version: "8.2.0"
 source_language: "C++"
 source_files:
@@ -12,11 +12,11 @@ source_files:
   - "freeview/DialogNewPointSet.cpp"
   - "freeview/DialogControlPointComment.cpp"
 related_panels:
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
   - "[[freeview-editing]]"
 related_tools:
   - "[[mri_normalize]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
 last_agent_update: 2026-04-20
@@ -36,7 +36,7 @@ tags:
 
 ## Overview
 
-Point sets represent collections of 3D coordinates used either as **waypoints** (for tractography analysis) or **control points** (for intensity normalisation corrections during [[recon-all]]). FreeView supports three distinct point set types, each with its own file format and display defaults.
+Point sets represent collections of 3D coordinates used either as **waypoints** (for tractography analysis) or **control points** (for intensity normalisation corrections during [[wiki/pipelines/recon-all|recon-all]]). FreeView supports three distinct point set types, each with its own file format and display defaults.
 
 See [[freeview-editing#point-set-edit-mode]] for editing operations (placing, moving, deleting points).
 
@@ -228,7 +228,7 @@ There is no automatic distinction between "this is a normalisation control point
 
 ## Related Pages
 
-- [[freeview]] — main application overview
+- [[wiki/tools/freeview|freeview]] — main application overview
 - [[freeview-editing]] — Point Set Edit mode (placing, moving, deleting points)
 - [[freeview-command-line]] — `-w` and `-c` flags
 - [[mri_normalize]] — uses control points `.dat` files

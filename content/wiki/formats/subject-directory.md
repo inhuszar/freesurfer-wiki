@@ -4,18 +4,18 @@ type: format
 fs_version: "8.2.0"
 file_extensions: []
 produced_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mksubjdirs]]"
 consumed_by:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_info]]"
   - "[[mri_vol2surf]]"
   - "[[mri_surf2vol]]"
   - "[[mris_preproc]]"
   - "[[mris_anatomical_stats]]"
-  - "[[freeview]]"
+  - "[[wiki/tools/freeview|freeview]]"
 related:
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[surface-format]]"
   - "[[curv-format]]"
@@ -42,7 +42,7 @@ tags:
 
 A **FreeSurfer subject directory** (also called a "recon directory" or
 "subject tree") is the canonical on-disk container for the complete output
-of the [[recon-all]] cortical reconstruction pipeline for a single subject.
+of the [[wiki/pipelines/recon-all|recon-all]] cortical reconstruction pipeline for a single subject.
 It is a plain UNIX directory — not an archive or database — whose subfolder
 layout and filename conventions are treated by every FreeSurfer tool as an
 implicit file-system API. Tools locate files by **constructing paths
@@ -147,7 +147,7 @@ groups files by pipeline stage.
 | `mri/orig/001.mgz`, `002.mgz`, ... | `recon-all -i` | Raw input volume(s), one per `-i` invocation, unconformed |
 | `mri/orig/<N>.lta`, `<N>-iscale.txt` | [[mri_robust_template]] | Per-run motion-correction LTA and intensity scale |
 | `mri/rawavg.mgz` | [[mri_motion_correct2]] / averaging | Motion-corrected average of all `mri/orig/*.mgz` inputs |
-| `mri/orig.mgz` | [[mri_convert]] (`-c`) | `rawavg.mgz` conformed to 256³, 1 mm isotropic, UCHAR — the reference space for the rest of the pipeline |
+| `mri/orig.mgz` | [[wiki/tools/mri_convert|mri_convert]] (`-c`) | `rawavg.mgz` conformed to 256³, 1 mm isotropic, UCHAR — the reference space for the rest of the pipeline |
 | `mri/rawavg2orig.lta` | recon-all | LTA from raw-average voxel space to conformed `orig.mgz` space |
 
 > [!internal] `orig.mgz` defines the subject frame
@@ -372,7 +372,7 @@ whether stages can be skipped.
 | `recon-all.env` | Snapshot of relevant environment variables at invocation time |
 | `recon-all.done` | Sentinel file written when a full run completes successfully |
 | `recon-all.local-copy` | Marker indicating that recon-all was run from a local working copy |
-| `recon-config.yaml` | Auto-generated YAML capturing every resolved option (FS 8.x; see [[recon-all]] configuration section) |
+| `recon-config.yaml` | Auto-generated YAML capturing every resolved option (FS 8.x; see [[wiki/pipelines/recon-all|recon-all]] configuration section) |
 | `build-stamp.txt`, `lastcall.build-stamp.txt` | FreeSurfer build identifier at the time of the run / the last run |
 | `patchdir.txt` | Optional path to a patch directory used by this run |
 | `ponscc.cut.log` | Corpus-callosum cut log from `mri_cc` |
@@ -388,7 +388,7 @@ whether stages can be skipped.
 > file is left behind and must be removed explicitly (`rm
 > scripts/IsRunning.lh+rh`) before a retry. Passing `-no-isrunning`
 > **does not** mean "ignore the check" — it removes the file for you,
-> which is a very different semantic. See the [[recon-all]] page.
+> which is a very different semantic. See the [[wiki/pipelines/recon-all|recon-all]] page.
 
 ## `touch/` — Stage Sentinels
 
@@ -503,7 +503,7 @@ Every FreeSurfer tool that takes `-s <subjid>` or consults
 
 | Tool | Role |
 |------|------|
-| [[recon-all]] | Creates and populates the entire tree |
+| [[wiki/pipelines/recon-all|recon-all]] | Creates and populates the entire tree |
 | [[mksubjdirs]] | Creates an empty tree |
 | [[mri_info]] | Inspects individual `mri/*.mgz` files |
 | [[mri_vol2surf]] | Reads `mri/*.mgz` and `surf/?h.white` / `?h.pial`, writes to `surf/` or a user-supplied path |
@@ -511,7 +511,7 @@ Every FreeSurfer tool that takes `-s <subjid>` or consults
 | [[mri_label2vol]] | Reads `label/*.label` / `label/*.annot` and writes MGZ label volumes |
 | [[mris_anatomical_stats]] | Writes `stats/?h.aparc*.stats` |
 | [[mris_preproc]] | Walks `$SUBJECTS_DIR/<subj>/surf/` for every subject listed |
-| [[freeview]] | Can open a subject by directory; auto-loads standard files based on layout |
+| [[wiki/tools/freeview|freeview]] | Can open a subject by directory; auto-loads standard files based on layout |
 | `tkregister2` / `bbregister` | Produces `transforms/*.lta` and `register.dat` anchored to `orig.mgz` |
 
 ## Conversion and Portability
@@ -531,12 +531,12 @@ reset to the mover's umask.
 
 To convert individual files to non-FreeSurfer formats:
 
-- Volumes (`mri/*.mgz` → NIfTI): [[mri_convert]]
+- Volumes (`mri/*.mgz` → NIfTI): [[wiki/tools/mri_convert|mri_convert]]
 - Surfaces (`surf/?h.white` → GIFTI): `mris_convert --to-gifti` or
   `mris_convert --to-scanner` (to convert *into* Scanner RAS)
 - Labels (`label/*.label` → NIfTI volume): [[mri_label2vol]]
 - Annots (`label/?h.aparc.annot` → NIfTI volume):
-  [[mri_aparc2aseg]] then [[mri_convert]]
+  [[mri_aparc2aseg]] then [[wiki/tools/mri_convert|mri_convert]]
 
 ## Gotchas
 
@@ -586,12 +586,12 @@ To convert individual files to non-FreeSurfer formats:
 ## References
 
 - Source code: `scripts/mksubjdirs` (subject directory creator)
-- Source code: `scripts/recon-all` (populator — see [[recon-all]] for the
+- Source code: `scripts/recon-all` (populator — see [[wiki/pipelines/recon-all|recon-all]] for the
   mapping from stages to directory locations)
 - FreeSurfer wiki: [ReconAllOutputFiles](https://surfer.nmr.mgh.harvard.edu/fswiki/ReconAllOutputFiles)
   (authoritative list for FS ≤7.x; used here as cross-reference, not as
   primary source)
-- Related pages: [[recon-all]], [[coordinate-systems]],
+- Related pages: [[wiki/pipelines/recon-all|recon-all]], [[coordinate-systems]],
   [[surface-representations]], [[registration-overview]], [[mgz]],
   [[surface-format]], [[curv-format]]
 
@@ -600,7 +600,7 @@ To convert individual files to non-FreeSurfer formats:
 High confidence on the directory structure and the provenance of every
 file listed — derived from direct inspection of `mksubjdirs`, a complete
 `bert` subject produced by FS 8.2.0 recon-all, and the stage-by-stage
-mapping documented in [[recon-all]].
+mapping documented in [[wiki/pipelines/recon-all|recon-all]].
 
 > [!gap] Longitudinal/base subjects
 > `recon-all -base` and `recon-all -long <tpN> <base>` produce subject

@@ -12,7 +12,7 @@ related:
   - "[[mri_pretess]]"
   - "[[mri_tessellate]]"
   - "[[mri_segment]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-15

@@ -48,7 +48,7 @@ matrix ready for import into statistical software (R, Python, SPSS, etc.).
 
 ## Purpose and Context
 
-After [[recon-all]] completes, each subject has a subcortical segmentation
+After [[wiki/pipelines/recon-all|recon-all]] completes, each subject has a subcortical segmentation
 stats file (`aseg.stats`) produced by [[mri_segstats]] that contains volumes
 and intensity statistics for every structure in the `aseg.mgz` segmentation.
 These per-subject files are not directly usable for group-level analysis.
@@ -434,7 +434,7 @@ asegstats2table \
 
 ## Pipeline Context
 
-`asegstats2table` is not part of the [[recon-all]] pipeline. It is a
+`asegstats2table` is not part of the [[wiki/pipelines/recon-all|recon-all]] pipeline. It is a
 post-processing utility for group-level analysis.
 
 **Prerequisite outputs** (produced by `recon-all`):

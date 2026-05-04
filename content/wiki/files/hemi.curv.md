@@ -28,7 +28,7 @@ downstream_files:
   - "[[hemi.sphere.reg]]"
   - "[[hemi.curv.stats]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: SurfReg, CurvStats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: SurfReg, CurvStats"
 optional_for: []
 editable: false
 related:
@@ -36,7 +36,7 @@ related:
   - "[[hemi.curv.pial]]"
   - "[[hemi.sulc]]"
   - "[[mris_place_surface]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -78,7 +78,7 @@ mris_place_surface --curv-map ../surf/$hemi.white 2 10 ../surf/$hemi.curv
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, surface measurement loop (after final surface placement). No dedicated touch sentinel; runs within the post-pial measurement block.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, surface measurement loop (after final surface placement). No dedicated touch sentinel; runs within the post-pial measurement block.
 
 ### Inputs required
 
@@ -107,7 +107,7 @@ mris_place_surface --curv-map ../surf/$hemi.white 2 10 ../surf/$hemi.curv
 - [[hemi.curv.pial]] — pial curvature.
 - [[hemi.sulc]] — complementary sulcal depth map.
 - [[mris_place_surface]] — producer.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

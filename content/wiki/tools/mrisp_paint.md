@@ -49,7 +49,7 @@ The tool is designed to be used with:
 - A **template file** produced by [[mris_make_template]] — a multi-frame MRISP `.tif` containing per-parameter mean and variance maps across subjects.
 - An **input surface** — almost always `?h.sphere.reg` (a spherical surface registered to the template), so that the painted values are aligned to the individual's registration.
 
-The output curvature file can subsequently be displayed on any of the same subject's surfaces (e.g., the inflated or pial surface) using a viewer such as [[freeview]].
+The output curvature file can subsequently be displayed on any of the same subject's surfaces (e.g., the inflated or pial surface) using a viewer such as [[wiki/tools/freeview|freeview]].
 
 ## Inputs
 

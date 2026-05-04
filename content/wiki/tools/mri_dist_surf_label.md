@@ -87,7 +87,7 @@ mri_dist_surf_label \
 
 ## Pipeline Context
 
-Specialized tool, not called by [[recon-all]]. Potential uses in:
+Specialized tool, not called by [[wiki/pipelines/recon-all|recon-all]]. Potential uses in:
 - Tractography-based cortical depth analysis
 - Validation of surface-projected label positions
 

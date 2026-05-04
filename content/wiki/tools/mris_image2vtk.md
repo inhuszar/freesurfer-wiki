@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[surface-format]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: low
 last_agent_update: 2026-04-15
@@ -97,7 +97,7 @@ Not part of `recon-all`. Used for exporting FreeSurfer data to VTK-based analysi
 
 ## Related Tools
 
-- [[mri_convert]] — general format conversion (does not produce VTK)
+- [[wiki/tools/mri_convert|mri_convert]] — general format conversion (does not produce VTK)
 - [[surface-format]] — FreeSurfer surface format
 
 ## Confidence and Gaps

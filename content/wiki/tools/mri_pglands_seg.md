@@ -10,7 +10,7 @@ families:
 recon_all_stage: null
 related:
   - "[[mri_segment]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
 status: draft
@@ -135,7 +135,7 @@ mri_pglands_seg --sd /data/subjects/
 
 ## Pipeline Context
 
-`mri_pglands_seg` is not part of the standard [[recon-all]] processing stream. It is a supplementary segmentation tool that must be run separately after standard recon-all processing.
+`mri_pglands_seg` is not part of the standard [[wiki/pipelines/recon-all|recon-all]] processing stream. It is a supplementary segmentation tool that must be run separately after standard recon-all processing.
 
 > [!gap] Pipeline integration
 > Whether this tool is intended to be run as part of a standard post-recon-all workflow or as an entirely independent analysis is not clear from the source alone.
@@ -154,7 +154,7 @@ mri_pglands_seg --sd /data/subjects/
 ## Related Tools
 
 - [[mri_segment]] — White-matter segmentation tool
-- [[recon-all]] — Standard pipeline
+- [[wiki/pipelines/recon-all|recon-all]] — Standard pipeline
 
 ## Confidence and Gaps
 

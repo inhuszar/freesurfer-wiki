@@ -115,7 +115,7 @@ mri_path2label --confillx /subjects/fssubject/surf/lh.white 1234 --i path.path -
 
 ## Pipeline Context
 
-`mri_path2label` is not called by [[recon-all]]. It is used in manual annotation workflows, typically when a user has drawn a boundary path on a surface in `freeview` or `tksurfer` and wishes to convert it into a label file for further analysis (e.g., with `mris_anatomical_stats` or [[mri_label2vol]]).
+`mri_path2label` is not called by [[wiki/pipelines/recon-all|recon-all]]. It is used in manual annotation workflows, typically when a user has drawn a boundary path on a surface in `freeview` or `tksurfer` and wishes to convert it into a label file for further analysis (e.g., with `mris_anatomical_stats` or [[mri_label2vol]]).
 
 ## Gotchas and Caveats
 

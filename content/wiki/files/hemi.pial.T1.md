@@ -32,7 +32,7 @@ consumed_by: []
 downstream_files:
   - "[[hemi.pial]]"
 mandatory_for:
-  - "[[recon-all]] autorecon3: Thickness, Stats (via hemi.pial symlink)"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Thickness, Stats (via hemi.pial symlink)"
 optional_for: []
 editable: false
 related:
@@ -40,7 +40,7 @@ related:
   - "[[hemi.white]]"
   - "[[hemi.pial]]"
   - "[[brain.finalsurfs.mgz]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -101,7 +101,7 @@ ln -sf $hemi.pial.T1 $hemi.pial
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **T1PialSurf** stage (`-pial`). Touch sentinel: `touch/$hemi.pial.touch`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **T1PialSurf** stage (`-pial`). Touch sentinel: `touch/$hemi.pial.touch`.
 
 ### Inputs required
 
@@ -131,7 +131,7 @@ ln -sf $hemi.pial.T1 $hemi.pial
 - [[hemi.white]] — input white surface.
 - [[hemi.pial]] — symlink alias in T1-only mode; the T2/FLAIR-refined pial otherwise.
 - [[brain.finalsurfs.mgz]] — intensity reference.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

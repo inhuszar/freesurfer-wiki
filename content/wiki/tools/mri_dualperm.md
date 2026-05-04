@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_mvglmfit]]"
   - "[[mri_fwhm]]"
   - "[[fsgd-format]]"
@@ -164,7 +164,7 @@ Not part of `recon-all`. A research-level statistical tool for group studies. Ty
 
 ## Related Tools
 
-- [[mri_glmfit]] — standard GLM fitting without dual permutation
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — standard GLM fitting without dual permutation
 - [[mri_mvglmfit]] — multivariate GLM
 - [[mri_fwhm]] — spatial smoothness estimation for cluster correction
 

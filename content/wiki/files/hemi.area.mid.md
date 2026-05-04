@@ -26,14 +26,14 @@ consumed_by:
   - "[[mris_anatomical_stats]]"
 downstream_files: []
 mandatory_for:
-  - "[[recon-all]] autorecon3: Stats"
+  - "[[wiki/pipelines/recon-all|recon-all]] autorecon3: Stats"
 optional_for: []
 editable: false
 related:
   - "[[hemi.area]]"
   - "[[hemi.area.pial]]"
   - "[[hemi.volume]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
 last_agent_update: 2026-04-23
@@ -75,7 +75,7 @@ mris_calc -o $hemi.area.mid $hemi.area.mid div 2
 
 ### Pipeline stage
 
-[[recon-all]] autorecon3, **area and vertex vol** step, invoked via `vertexvol`.
+[[wiki/pipelines/recon-all|recon-all]] autorecon3, **area and vertex vol** step, invoked via `vertexvol`.
 
 ### Inputs required
 
@@ -97,7 +97,7 @@ mris_calc -o $hemi.area.mid $hemi.area.mid div 2
 - [[hemi.area]] — white surface area input.
 - [[hemi.area.pial]] — pial surface area input.
 - [[hemi.volume]] — co-produced volume estimate.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

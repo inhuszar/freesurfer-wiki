@@ -26,13 +26,13 @@ consumed_by:
 downstream_files: []
 mandatory_for: []
 optional_for:
-  - "[[recon-all]] longitudinal: provides base control points for time-point normalisation"
+  - "[[wiki/pipelines/recon-all|recon-all]] longitudinal: provides base control points for time-point normalisation"
 editable: true
 related:
   - "[[mgz]]"
   - "[[norm.mgz]]"
   - "[[talairach.lta]]"
-  - "[[recon-all]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: medium
 last_agent_update: 2026-04-23
@@ -81,7 +81,7 @@ mri_ca_normalize \
 
 ### Pipeline stage
 
-[[recon-all]] autorecon2, **CA Normalize** stage. Co-produced with [[norm.mgz]].
+[[wiki/pipelines/recon-all|recon-all]] autorecon2, **CA Normalize** stage. Co-produced with [[norm.mgz]].
 
 ### Inputs required
 
@@ -107,7 +107,7 @@ mri_ca_normalize \
 - [[mri_ca_normalize]] — producer.
 - [[norm.mgz]] — co-produced sibling.
 - [[talairach.lta]] — atlas transform used during production.
-- [[recon-all]] — pipeline context.
+- [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References
 

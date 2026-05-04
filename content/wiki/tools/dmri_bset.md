@@ -9,7 +9,7 @@ families:
   - "dmri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[dt_recon]]"
 status: draft
 confidence: high
@@ -156,7 +156,7 @@ DWI acquisition --> dmri_bset --> dt_recon / dmri_paths / dmri_train
 
 ## Related Tools
 
-- [[mri_convert]] — called internally to extract frames
+- [[wiki/tools/mri_convert|mri_convert]] — called internally to extract frames
 - [[dt_recon]] — DTI reconstruction pipeline that may need single-shell input
 - [[dmri_paths]] — probabilistic tractography that uses specific b-shells
 

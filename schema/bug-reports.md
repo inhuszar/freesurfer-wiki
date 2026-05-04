@@ -164,7 +164,7 @@ Do **not** write a bug page for:
   ## Bugs
   | Bug | Affected | Severity | Status |
   |-----|----------|----------|--------|
-  | [[mri_convert-voxsize-overwrite]] | [[mri_convert]] | high | open |
+  | [[mri_convert-voxsize-overwrite]] | [[wiki/tools/mri_convert|mri_convert]] | high | open |
   ```
 
 ### 9. Log the Operation
@@ -241,7 +241,7 @@ is not obvious from the synopsis.
 
 | Score | Label | Criteria |
 |-------|-------|----------|
-| **5** | critical | Silent wrong output or crash in a **default user-facing pipeline** (e.g. [[recon-all]], [[infant-recon-all]], [[trac-all]], [[long_mris_slopes]]) — i.e. fires on the default invocation path of a multi-tool workflow that users routinely run end-to-end. Biases or invalidates published results from default usage. |
+| **5** | critical | Silent wrong output or crash in a **default user-facing pipeline** (e.g. [[wiki/pipelines/recon-all|recon-all]], [[infant-recon-all]], [[trac-all]], [[long_mris_slopes]]) — i.e. fires on the default invocation path of a multi-tool workflow that users routinely run end-to-end. Biases or invalidates published results from default usage. |
 | **4** | high | Wrong output or crash in an **individual user-facing auxiliary tool that is not part of a larger pipeline** (e.g. `mri_convert`, `mri_glmfit`, `mri_gtmpvc`, `mri_volcluster`, `mri_dct_align`). Fires on the tool's default invocation, but the tool is run standalone rather than as a pipeline stage. |
 | **3** | medium | Wrong output or crash **gated behind specific flag combinations** in any tool or pipeline. The default path is unaffected; the bug fires only when the user opts into a particular mode (`--remove-islands`, `-rt vote`, `--paired-*`, multi-frame input, etc.). |
 | **2** | low | **Latent under typical conditions** — fires only on inputs no caller exercises, on edge cases that are not reached in practice, or only in diagnostic / QA / verbose-mode / logging output. The user's primary results are unaffected. |

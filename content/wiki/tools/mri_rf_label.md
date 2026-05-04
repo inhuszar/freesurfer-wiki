@@ -134,7 +134,7 @@ mri_rf_label -wmsa \
 
 ## Pipeline Context
 
-`mri_rf_label` is not a standard step in [[recon-all]]. It is used in research workflows for WMSA (white matter hyperintensity) detection and labeling, typically after the main recon-all processing is complete.
+`mri_rf_label` is not a standard step in [[wiki/pipelines/recon-all|recon-all]]. It is used in research workflows for WMSA (white matter hyperintensity) detection and labeling, typically after the main recon-all processing is complete.
 
 ## Gotchas and Caveats
 

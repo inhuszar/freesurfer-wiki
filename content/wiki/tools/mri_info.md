@@ -9,7 +9,7 @@ families:
   - "mri_*"
 recon_all_stage: null
 related:
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[mgz]]"
   - "[[coordinate-systems]]"
   - "[[freeview-volumes]]"
@@ -48,13 +48,13 @@ indispensable for verifying that a volume has the expected geometry before
 running registration or analysis steps. Common uses:
 
 - Verifying that a volume is "conformed" (1 mm isotropic, 256³) before feeding
-  it to [[recon-all]]
+  it to [[wiki/pipelines/recon-all|recon-all]]
 - Extracting transform matrices (vox2ras, vox2ras-tkr) for scripting
 - Checking MR sequence parameters stored in the [[mgz]] header (TR, TE, TI,
   flip angle)
 - Inspecting the embedded Talairach transform path
 
-Not called by [[recon-all]] directly; used interactively and in analysis scripts.
+Not called by [[wiki/pipelines/recon-all|recon-all]] directly; used interactively and in analysis scripts.
 
 ## Inputs
 
@@ -341,7 +341,7 @@ mri_info talairach.m3z
 
 ## Pipeline Context
 
-Not called by [[recon-all]]. Used interactively at any point.
+Not called by [[wiki/pipelines/recon-all|recon-all]]. Used interactively at any point.
 
 ## Gotchas and Caveats
 
@@ -371,7 +371,7 @@ Not called by [[recon-all]]. Used interactively at any point.
 
 ## Related Tools
 
-- [[mri_convert]] — format conversion and geometry manipulation
+- [[wiki/tools/mri_convert|mri_convert]] — format conversion and geometry manipulation
 - [[mgz]] — the primary file format whose header fields `mri_info` displays
 - [[coordinate-systems]] — detailed explanation of vox2ras, vox2ras-tkr, and
   the relationship between Scanner RAS and Surface RAS
