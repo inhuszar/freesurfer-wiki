@@ -232,15 +232,84 @@ When updating:
 
 ---
 
+## Severity Scoring (1–5)
+
+Every bug page carries an integer **severity** score from 1 (trivial)
+to 5 (critical). The score is what the development team uses to
+triage; pick it deliberately and justify it in the body if the score
+is not obvious from the synopsis.
+
+| Score | Label | Criteria |
+|-------|-------|----------|
+| **5** | critical | Silent wrong output or crash in a **default user-facing pipeline** (e.g. [[recon-all]], [[infant-recon-all]], [[trac-all]], [[long_mris_slopes]]) — i.e. fires on the default invocation path of a multi-tool workflow that users routinely run end-to-end. Biases or invalidates published results from default usage. |
+| **4** | high | Wrong output or crash in an **individual user-facing auxiliary tool that is not part of a larger pipeline** (e.g. `mri_convert`, `mri_glmfit`, `mri_gtmpvc`, `mri_volcluster`, `mri_dct_align`). Fires on the tool's default invocation, but the tool is run standalone rather than as a pipeline stage. |
+| **3** | medium | Wrong output or crash **gated behind specific flag combinations** in any tool or pipeline. The default path is unaffected; the bug fires only when the user opts into a particular mode (`--remove-islands`, `-rt vote`, `--paired-*`, multi-frame input, etc.). |
+| **2** | low | **Latent under typical conditions** — fires only on inputs no caller exercises, on edge cases that are not reached in practice, or only in diagnostic / QA / verbose-mode / logging output. The user's primary results are unaffected. |
+| **1** | trivial | Dead code; technical debt; defects with **no in-tree callers**; redundant checks; cosmetic. Worth recording for cleanup but not actionable for triage. |
+
+Picking a score:
+
+- Default to the lowest score that fits. If a bug straddles two
+  levels, pick the lower and explain in the **Impact** section why
+  it does not warrant the higher.
+- Latency matters. A theoretically catastrophic defect that fires
+  only when no caller exercises it is a 1, not a 5.
+- Reach matters. A defect in `recon-all`'s default chain outranks
+  the same defect in a tool that requires a specific flag.
+- The **frontmatter** field is `severity_score: <1..5>`. The legacy
+  `severity:` label (`critical`/`high`/`medium`/`low`/`trivial`) is
+  retained for compatibility and must agree with the score.
+
+---
+
+## Title and Tag Conventions
+
+Every bug page's `title` (frontmatter), H1 heading, and `index.md`
+entry begin with a fixed, machine-parseable prefix:
+
+```
+[severity-N] [bug-NNNNN] <existing descriptive title>
+```
+
+- `N` is the severity score, `1`–`5`.
+- `NNNNN` is the zero-padded five-digit bug ID matching the filename
+  (e.g., `00044.md` → `bug-00044`).
+- The descriptive title that follows is the same phrasing the agent
+  would have written without the prefix.
+
+Tags must include both axes for filtering:
+
+```yaml
+tags:
+  - bug
+  - severity-N         # numeric score
+  - bug-NNNNN          # canonical ID, matches filename
+  - <other tags>       # category, subsystem, etc.
+```
+
+The numeric `severity-N` tag is canonical. Word-form tags (e.g.,
+`high`, `critical`) may be added in addition for human searches but
+are not required.
+
+When updating an existing page's severity, update **all** of: the
+`severity_score` frontmatter field, the legacy `severity:` label,
+the `[severity-N]` prefix in the `title` and H1, and the
+`severity-N` tag. Drift between these is a lint failure.
+
+---
+
 ## Output Contract for LLM Consumers
 
 Because bug pages will be read by LLM agents answering FreeSurfer
 questions, the following fields are treated as a stable machine
 contract. Do not rename or repurpose them:
 
-- Frontmatter: `type: bug`, `severity`, `status`, `upstream_status`,
-  `affected_tools`, `source_files`, `symbols`,
-  `first_seen_commit`, `last_confirmed_commit`.
+- Frontmatter: `type: bug`, `severity_score` (1–5), `severity`
+  (legacy label), `status`, `upstream_status`, `affected_tools`,
+  `source_files`, `symbols`, `first_seen_commit`,
+  `last_confirmed_commit`.
+- Frontmatter `title` field begins with `[severity-N] [bug-NNNNN] `.
+- Tags include `severity-N` and `bug-NNNNN`.
 - Body: the `[!bug] Synopsis` callout immediately under the H1.
 - Body: the **Code Reference**, **Root Cause**, and
   **Recommended Fix** sections.
