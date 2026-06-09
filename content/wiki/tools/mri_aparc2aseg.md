@@ -15,7 +15,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Exact ribbon intersection algorithm (FindClosestLRWPVertexNo) not traced in detail"
   - "CCSegment() function for connected-component correction not traced"
@@ -266,6 +266,9 @@ a2009s, DKTatlas).
 - [[mris_ca_label]] — produces the surface annotation used as input
 - [[mri_ca_label]] — produces the aseg used as the base volume
 - [[mris_anatomical_stats]] — computes morphometric statistics using aparc+aseg
+- [[apas2aseg]] — companion that extracts a plain `aseg.mgz` back out of `aparc+aseg.mgz`
+- [[annot2volseg]] — alternative surface-annotation-to-volume projection
+- [[aparc_stats_aseg]] — orchestrator that applies a custom `.gcs` parcellation and runs `mri_aparc2aseg` (plus stats) as one of its steps
 
 ## Confidence and Gaps
 

@@ -15,7 +15,7 @@ related:
   - "[[tksurferfv]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - visualization
@@ -241,7 +241,7 @@ tkmeditfv -f <mainvol> [options]                       # volume-only (no subject
 ### Configuration Interactions
 
 - `-UseTkMedit` / `-tkm` falls back to the legacy tkmedit if available. In FreeSurfer 8.x, tkmedit is not shipped, so this flag has no effect.
-- `-ss <file> 1` enables non-interactive screenshot capture (runs via `fsxvfb` virtual framebuffer and exits). `-ss <file> 0` takes a screenshot but keeps freeview open.
+- `-ss <file> 1` enables non-interactive screenshot capture (runs via [[fsxvfb]] virtual framebuffer and exits). `-ss <file> 0` takes a screenshot but keeps freeview open.
 - `-segopacity` (via `-op`) applies to all segmentation overlays (main seg, aux seg, and additional seg2 volumes).
 - `-crs` both sets the cursor and centres the field of view (`-cc` in freeview).
 - `-reg` is a combined flag that sets both `-overlay-reg` and `-timecourse-reg` to the same file.
@@ -291,6 +291,7 @@ tkmeditfv subject T1.mgz -seg aparc+aseg.mgz \
 - [[wiki/tools/freeview|freeview]] — the underlying viewer launched by this script
 - [[tkmedit]] — the legacy tool that this script replaces
 - [[tksurferfv]] — analogous wrapper for tksurfer-to-freeview translation
+- [[tkregisterfv]] — sibling tkregister-style freeview wrapper for inspecting/adjusting volume-to-volume registrations
 
 ## Confidence and Gaps
 
@@ -300,4 +301,4 @@ tkmeditfv subject T1.mgz -seg aparc+aseg.mgz \
 > An automated audit may flag `-f` as C3 invalid. `-f` IS a real flag, handled at source line 248 via an `if("$argv[1]" == "-f")` conditional rather than a `case` statement. The audit tool's shell extractor only recognises `switch`/`case` patterns, so `-f` is undetectable. The flag is confirmed valid and documented in the Volume Loading table above.
 
 > [!note] Audit note: `--ss` and other near-misses
-> The C1 audit flagged `--ctab`, `--hide-3d-slices`, `--r`, `--ss`, `--surface`, and `--view` as potentially missing. Verification against `scripts/tkmeditfv`: `-ctab` and `-surface`/`-surf` are already documented in the tables above (with single-dash form as found in source). `--ss` is also documented (source uses both `-ss` and `--ss` as aliases — both forms are now shown in the Screenshot table). `--hide-3d-slices` and `--view` are freeview flags constructed and passed on line 192 (`$cmd $altargs --hide-3d-slices --view coronal`) and are not parsed by this wrapper. `--r` does not appear anywhere in the tkmeditfv parser; it appears only as a flag passed to `reg2subject` on line 753. The Configuration Options table is complete and correct.
+> The C1 audit flagged `--ctab`, `--hide-3d-slices`, `--r`, `--ss`, `--surface`, and `--view` as potentially missing. Verification against `scripts/tkmeditfv`: `-ctab` and `-surface`/`-surf` are already documented in the tables above (with single-dash form as found in source). `--ss` is also documented (source uses both `-ss` and `--ss` as aliases — both forms are now shown in the Screenshot table). `--hide-3d-slices` and `--view` are freeview flags constructed and passed on line 192 (`$cmd $altargs --hide-3d-slices --view coronal`) and are not parsed by this wrapper. `--r` does not appear anywhere in the tkmeditfv parser; it appears only as a flag passed to [[reg2subject]] on line 753. The Configuration Options table is complete and correct.

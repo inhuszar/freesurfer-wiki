@@ -15,7 +15,7 @@ related:
   - "[[freeview-surfaces]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Full spring energy functional derivation in MRISinflateBrain()/MRISinflateToSphere() not traced (in shared mrisurf lib)"
   - "Sulcal depth (sulc) sign convention — positive = sulcus vs. positive = gyrus not confirmed"
@@ -359,6 +359,14 @@ mris_inflate -no-save-sulc surf/lh.smoothwm.nofix surf/lh.inflated.nofix
 - [[mris_sphere]] — maps the inflated surface to a sphere (uses `inflated` as input)
 - [[mris_register]] — registers the spherical surface to atlas
 - [[freeview-surfaces]] — primary GUI for displaying `?h.inflated`; the "Map cursor to" field in the surface panel maps cursor positions from inflated back to the white surface geometry
+
+### Legacy drivers
+
+- [[inflate_subject]] — canonical legacy driver that rebuilds both hemisphere inflations after WM edits; its `-lh`/`-rh` workers ([[inflate_subject-lh]], [[inflate_subject-rh]]) tessellate, [[mris_smooth|smooth]], and call `mris_inflate`
+- [[inflate_subject_new]] — variant that fills from an alternately-named WM volume and writes suffixed `?h.inflated_<vol>` outputs (workers [[inflate_subject_new-lh]] / [[inflate_subject_new-rh]])
+- [[inflate_subject_sc]] — variant whose fill step uses `mri_fill -segmentation`; otherwise the same inflation workers
+- [[inflate_subject3]] — parallel variant that runs the `-lh` and `-rh` workers concurrently to halve wall-clock time
+- [[reinflate_subject]] — re-smooth/re-inflate wrapper that reuses the `inflate_subject-lh`/`-rh` workers to regenerate `?h.inflated`
 
 ## Confidence and Gaps
 

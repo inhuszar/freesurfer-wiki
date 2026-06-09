@@ -3,7 +3,7 @@ title: "TRACULA and dMRI — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 6
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - tracula
@@ -16,7 +16,7 @@ tags:
 
 This FAQ collects recurring questions about FreeSurfer's diffusion MRI
 tooling — primarily [[dt_recon]] (per-voxel diffusion-tensor fitting and
-DTI metric computation) and TRACULA (`trac-all` / [[dmri_paths]] /
+DTI metric computation) and TRACULA ([[trac-all]] / [[dmri_paths]] /
 [[dmri_pathstats]], the global probabilistic white-matter tractography
 pipeline). Both tools depend on a previously completed [[wiki/pipelines/recon-all|recon-all]] T1
 reconstruction: TRACULA uses the cortical parcellation as anatomical
@@ -138,7 +138,7 @@ directory before `trac-all -prep` will run.
 
 ### How do I QC the DWI-to-T1 registration produced by `dt_recon`?
 
-**Short answer:** `dt_recon` writes the exact `tkregisterfv` invocation
+**Short answer:** `dt_recon` writes the exact [[tkregisterfv]] invocation
 used for QC into `register.log`; run that command to inspect the
 overlay, and a misaligned overlay there confirms a real registration
 error rather than a display artifact.
@@ -262,3 +262,21 @@ mri_convert beta.mgh --frame 2 beta_col2.mgh
 `raw/mailing-list/2024-03-tracula-glm-beta-file-design-matrix-columns.md`.
 
 **Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[fsgd-format]], [[dmri_pathstats]]
+
+---
+
+## See also
+
+The TRACULA stage scripts and the dMRI distortion-correction front ends that
+underlie the `trac-all` workflows above:
+
+- [[trac-preproc]] — the per-subject pre-processing run by `trac-all -prep`.
+- [[trac-paths]] — the per-subject probabilistic tractography run by
+  `trac-all -path`.
+- [[tractstats2table]] — assemble per-subject `pathstats` files into a single
+  group table (companion to the `pathstats.overall.txt` and GLM entries).
+- [[bedpostx_mgh]] — MGH wrapper around FSL `bedpostx` (ball-and-stick fitting
+  used by the tractography stage).
+- [[fs-topup]], [[fs-eddy]] — FreeSurfer front ends for FSL `topup`
+  (reverse-PE B0 field estimation) and `eddy` (eddy-current / motion
+  correction), the operations behind the `dob0` / `pedir` dmrirc settings.

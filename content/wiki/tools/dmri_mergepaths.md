@@ -14,7 +14,7 @@ related:
   - "[[dmri_group]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Output file naming when using --indir not confirmed"
 tags:
@@ -104,7 +104,7 @@ dmri_mergepaths \
 dmri_paths (per tract) --> dmri_mergepaths --> visualization / group analysis
 ```
 
-It is not called by `recon-all`. It may be called by the `trac-all` TRACULA wrapper.
+It is not called by `recon-all`. It may be called by the [[trac-all]] TRACULA wrapper.
 
 ## Gotchas and Caveats
 
@@ -119,6 +119,7 @@ It is not called by `recon-all`. It may be called by the `trac-all` TRACULA wrap
 - [[dmri_paths]] — produces the per-tract posterior maps merged by this tool
 - [[dmri_pathstats]] — computes statistics from these posteriors
 - [[dmri_group]] — group-level aggregation across subjects
+- [[trac-paths]] — the `trac-all` tractography stage that runs `dmri_paths` and drives this merge step
 
 ## Confidence and Gaps
 

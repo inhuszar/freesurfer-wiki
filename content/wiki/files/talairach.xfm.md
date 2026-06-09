@@ -41,7 +41,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -116,6 +116,9 @@ Alternative methods: `talairach --i orig_nu.mgz` (older FSL-based) or `lta_conve
 
 - [[talairach.xfm.lta]], [[talairach.lta]] — derived LTA versions.
 - [[talairach_avi]] — producer tool.
+- [[avi2talxfm]] — converts the `talairach_avi` vox2vox output into the `talairach.xfm` file.
+- [[rca-talairach]] — recon-all component that registers to MNI305 with synthmorph and writes `transforms/talairach.xfm`.
+- [[show_tal]] — QA helper that reads `talairach.xfm` to display the subject overlaid on the Talairach target.
 - [[mri_em_register]] — GCA registration that builds on this.
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 

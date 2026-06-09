@@ -19,7 +19,7 @@ related:
   - "[[fsgd-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "MRTM1/MRTM2 kinetic modeling flag interactions not fully traced"
   - "Interaction between --sim and --C when running embedded simulation needs verification"
@@ -445,6 +445,14 @@ The output directory structure is designed to be consumed by [[mri_glmfit-sim]] 
 - [[mri_vol2surf]] — projects volume data to surface
 - [[mri_binarize]] — creates masks for restricting analysis
 - [[mri_label2vol]] — converts labels to volumes
+
+### GLM drivers, wrappers, and group-analysis siblings
+
+- [[qdec_glmfit]] — the GLM-fit step invoked by the Qdec GUI; wraps `mri_glmfit` for interactive group analysis.
+- [[run-qdec-glm]] — command-line runner that builds the design from a Qdec table and calls `mri_glmfit`.
+- [[groupstats]] — group-level statistics pipeline that orchestrates `mri_glmfit` across measures/hemispheres.
+- [[fspalm]] — alternative permutation-based GLM engine (FreeSurfer front-end to PALM); used where `mri_glmfit`'s parametric/Monte-Carlo inference is not appropriate.
+- [[stattablediff]] — compares two `asegstats2table`/`aparcstats2table` tables, the same table format `mri_glmfit --table` consumes.
 
 ## Confidence and Gaps
 

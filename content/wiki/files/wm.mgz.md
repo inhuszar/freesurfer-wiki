@@ -34,7 +34,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -123,6 +123,7 @@ None.
 - [[wm.seg.mgz]] — earlier WM estimate; may be copied from wm.mgz when edits exist.
 - [[filled.mgz]] — downstream flood fill.
 - [[mri_fill]] — primary consumer.
+- [[wmedits2surf]] — maps manual `wm.mgz` edits (erase/fill voxels) onto the surface for QA.
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References

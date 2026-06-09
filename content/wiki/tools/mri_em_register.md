@@ -23,7 +23,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Exact semantics of -iscale prior_iscale, -alpha/-tr/-te/-flash tissue-parameter mode and FLASH forward model not read in full (scope deferred)"
   - "Longitudinal -l branch (mri_em_register.cpp:2079–2108) read only at surface level"
@@ -574,6 +574,25 @@ via `mri_add_xform_to_header`.
 - `lta_convert` — converts between LTA types and formats; useful
   to convert RAS-to-RAS LTAs into the `LINEAR_VOX_TO_VOX` form
   required by `-t`.
+
+### Driver and training scripts
+
+These legacy `*_subject` helpers and atlas-training wrappers are the
+scripts that *drive* `mri_em_register` as their affine-registration
+engine:
+
+- [[register_subject]] — the classic single-subject driver that runs
+  `mri_em_register` to produce `talairach.lta`; the cohort-specific
+  variants [[register_child]], [[register_elderly_subject]],
+  [[register_subject_flash]] and [[register_subject_mixed]] wrap the
+  same call with population-tuned atlases and options.
+- [[reregister_subject_mixed]] — re-runs the mixed-contrast affine
+  registration from an existing transform.
+- [[gca-apply]] — applies a trained GCA to a new subject; calls
+  `mri_em_register` for the affine alignment step.
+- [[gcatrain]] — the GCA atlas-training pipeline, which invokes
+  `mri_em_register` on every training subject to build the atlas this
+  tool later registers against.
 
 ## Confidence and Gaps
 

@@ -13,7 +13,7 @@ related:
   - "[[mri_info]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - diffusion
@@ -127,7 +127,7 @@ dmri_vox2vox \
 
 ## Pipeline Context
 
-`dmri_vox2vox` is part of the diffusion/tractography pipeline (`trc/`). It is typically invoked as part of the `trac-all` workflow to transform seed-point coordinate lists between the DWI and structural spaces. It does not appear as a direct stage of `recon-all`.
+`dmri_vox2vox` is part of the diffusion/tractography pipeline (`trc/`). It is typically invoked as part of the [[trac-all]] workflow to transform seed-point coordinate lists between the DWI and structural spaces. It does not appear as a direct stage of `recon-all`.
 
 Related pipeline components: [[wiki/tools/mri_convert|mri_convert]], [[bbregister]].
 

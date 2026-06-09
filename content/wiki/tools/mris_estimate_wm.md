@@ -14,7 +14,7 @@ related:
   - "[[surface-format]]"
 status: draft
 confidence: low
-last_agent_update: 2026-04-22
+last_agent_update: 2026-06-09
 gaps:
   - "Deep learning model architecture (TopoFit) not fully traced; model weights are in $FREESURFER_HOME/models/topofit/."
 tags:
@@ -27,7 +27,7 @@ tags:
 
 ## Summary
 
-`mris_estimate_wm` applies the TopoFit deep learning model to estimate (or refine) the white matter surface boundary on a cortical hemisphere. It takes one or more FreeSurfer subjects, loads the `norm.mgz` volume, and deforms a template mesh to fit the white matter boundary using a PyTorch neural network. It is the surface deformation step of the TopoFit pipeline.
+`mris_estimate_wm` applies the TopoFit deep learning model to estimate (or refine) the white matter surface boundary on a cortical hemisphere. It takes one or more FreeSurfer subjects, loads the `norm.mgz` volume, and deforms a template mesh to fit the white matter boundary using a PyTorch neural network. It is the surface deformation step of the TopoFit pipeline (driven by [[topofit]]).
 
 ## Source Information
 
@@ -87,6 +87,7 @@ Likely used in the surface generation pipeline around [[mri_segment]] and [[mris
 
 ## Related Tools
 
+- [[topofit]] — driver script for the TopoFit deep-learning surface pipeline that this tool's deformation step is part of
 - [[mri_segment]] — white matter segmentation
 - [[mris_smooth]] — surface smoothing
 - [[surface-format]] — surface file format

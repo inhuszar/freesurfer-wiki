@@ -15,7 +15,7 @@ related:
   - "[[mris_anatomical_stats]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Volume file input path through mri_identify() vs curvature detection heuristic not fully traced"
 tags:
@@ -314,6 +314,8 @@ Not called by [[wiki/pipelines/recon-all|recon-all]]. Used in post-processing an
 
 ## Related Tools
 
+- [[fscalc]] — tcsh front end to `mris_calc` that adds left-to-right chaining of multiple inputs/operations in one command
+- [[sratio]] — standalone tcsh tool that computes the signed ratio (the same operation as the `sratio` operator above) for two volumes
 - [[mri_concat]] — frame-level operations on volume files; also can compute
   per-voxel mean, std, etc. across subjects
 - [[mri_binarize]] — threshold and binarize volume files (volumetric equivalent)

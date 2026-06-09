@@ -3,7 +3,7 @@ title: "SAMSEG — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 12
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - samseg
@@ -417,7 +417,7 @@ directory. The `-lta` output can be discarded if you don't need it.
 The CC is split into sub-labels 251–255 (genu, anterior body,
 mid-anterior body, central, isthmus, splenium).
 
-> [!gotcha] If you process SAMSEG via `samseg2recon`, `mri_cc` is run
+> [!gotcha] If you process SAMSEG via [[samseg2recon]], `mri_cc` is run
 > for you and a CC segmentation is already present — only run the
 > manual step above when you used `samseg` / `run_samseg` directly.
 
@@ -474,7 +474,7 @@ See `raw/mailing-list/2023-11-uni-scan-talairach-failure-samseg-reg-flag.md`.
 ### Why does `gtmseg` need `--samseg` on FreeSurfer 8 subjects?
 
 **Short answer:** FS 8 dropped the nonlinear `talairach.m3z` warp from
-`recon-all`. `gtmseg` previously consumed that warp for its
+`recon-all`. [[gtmseg]] previously consumed that warp for its
 subcortical labelling; on FS 8 subjects you must instead use
 `gtmseg --samseg`, which gets subcortical labels from a SAMSEG-based
 segmentation.
@@ -548,3 +548,18 @@ avoid running multiple SAMSEG jobs concurrently on the same node.
 **Related:** [[wiki/tools/samseg|samseg]]
 
 ---
+
+## See also
+
+Packaged helpers for the SAMSEG input-prep and output-bridging steps that
+the manual workflows above perform by hand:
+
+- [[fsr-import]] — import and tag multi-contrast inputs (T1/T2/FLAIR/…) for
+  a SAMSEG run.
+- [[fsr-coreg]] — co-register the imported modalities onto a common grid
+  (the packaged equivalent of the manual [[mri_coreg]] + [[wiki/tools/mri_convert|mri_convert]]
+  `-rl` recipe).
+- [[fsr-longpreproc]] — longitudinal input preprocessing feeding
+  `run_samseg_long`.
+- [[seg2recon]] — turn a segmentation into a recon-all subject directory;
+  `samseg2recon` (linked above) is its SAMSEG-specific sibling.

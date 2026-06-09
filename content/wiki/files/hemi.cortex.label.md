@@ -42,7 +42,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -70,7 +70,7 @@ A list of vertex indices (with their RAS coordinates and a value of 1.0) identif
 
 ### Producing tool
 
-`label-cortex` wrapper script, which calls `mri_label2label --label-cortex $whitepreaparc $aseg 0 $ctxlabel` — projects [[aseg.presurf.mgz]] labels onto the [[hemi.white.preaparc]] surface and writes vertices not overlapping subcortical labels as cortex.
+[[label-cortex]] wrapper script, which calls `mri_label2label --label-cortex $whitepreaparc $aseg 0 $ctxlabel` — projects [[aseg.presurf.mgz]] labels onto the [[hemi.white.preaparc]] surface and writes vertices not overlapping subcortical labels as cortex.
 
 ```bash
 # CortexLabel invocation (recon-all line 3972)
@@ -115,6 +115,7 @@ label-cortex --s $subjid --$hemi
 - [[aseg.presurf.mgz]] — segmentation used to identify non-cortex.
 - [[hemi.cortex+hipamyg.label]] — extended version including hippocampus/amygdala.
 - [[mri_label2label]] — tool that writes the label file.
+- [[make_cortex_label]] — legacy/alternative wrapper that also produces `?h.cortex.label` from the aseg.
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References

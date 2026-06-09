@@ -17,7 +17,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-22
+last_agent_update: 2026-06-09
 gaps:
   - "The retessellation mode details (greedy vs. genetic search) need deeper documentation from the topology fixing library."
   - "The nVFMultiplier parameter (default 1.1) purpose for overallocating the surface vertex/face arrays needs confirmation."
@@ -272,6 +272,12 @@ The corrected `lh.orig` is the starting point for all subsequent surface process
 - [[mris_defects_pointset]] — creates a pointset visualisation of defect locations
 - [[surface-format]] — FreeSurfer surface file format
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline orchestrator
+
+### Legacy drivers and alternatives
+
+- [[fix_subject]] — legacy tcsh driver that runs topology correction for both hemispheres; its `-lh`/`-rh` workers ([[fix_subject-lh]], [[fix_subject-rh]]) call `mris_fix_topology` and overwrite the canonical `?h.orig`
+- [[fix_subject_corrected]] — variant that runs `mris_fix_topology -suffix _corrected` (preserving the original surfaces), via [[fix_subject_corrected-lh]] / [[fix_subject_corrected-rh]]
+- [[mmppsp]] — experimental multimodal surface-placement pipeline (on [[wiki/tools/samseg|samseg]] probabilities) that runs the full classic stream, including a `mris_fix_topology` step
 
 ## Confidence and Gaps
 

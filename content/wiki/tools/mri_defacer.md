@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Template surface and label files required are not documented (mideface library)"
   - "MIDEFACE library internals not characterized"
@@ -29,7 +29,7 @@ tags:
 
 ## Summary
 
-`mri_defacer` is a newer FreeSurfer tool for removing facial features from MRI volumes. It uses a surface-based approach via the `mideface` library, working with a template surface registered to the input, label files defining the facial region, and distance-based masking to zero out facial voxels while preserving the brain. It optionally embeds a watermark in the defaced volume for data provenance tracking.
+`mri_defacer` is a newer FreeSurfer tool for removing facial features from MRI volumes. It uses a surface-based approach via the [[mideface]] library, working with a template surface registered to the input, label files defining the facial region, and distance-based masking to zero out facial voxels while preserving the brain. It optionally embeds a watermark in the defaced volume for data provenance tracking.
 
 ## Source Information
 
@@ -143,6 +143,7 @@ Not called by [[wiki/pipelines/recon-all|recon-all]]. Applied to raw MRI before 
 ## Related Tools
 
 - [[mri_deface]] — older GCA-based defacing tool
+- [[deface_subject]] — convenience wrapper that defaces a subject's `orig` volume via the legacy [[mri_deface]]/GCA path
 - [[mri_coreg]] — registration step that may be needed for `--reg`
 
 ## Confidence and Gaps

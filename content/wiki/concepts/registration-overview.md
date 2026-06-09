@@ -15,7 +15,7 @@ related_concepts:
   - "[[surface-representations]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "mris_make_surfaces surface deformation (intensity-guided white and pial placement) not documented"
   - "rca-surfreg wrapper (called in place of mris_register in FS 8.x) not traced"
@@ -106,7 +106,7 @@ group-average atlas sphere (`average.curvature.filled.buckner40.tif`) so that
 cross-subject comparisons are possible at the vertex level.
 
 **Tool:** In FreeSurfer ≤ 7.x: [[mris_register]] directly. In FreeSurfer 8.x:
-`rca-surfreg` (a wrapper script that calls `mris_register` with additional
+[[rca-surfreg]] (a wrapper script that calls `mris_register` with additional
 configuration).
 
 > [!gotcha] FS 8.x uses `rca-surfreg`, not `mris_register` directly
@@ -266,6 +266,15 @@ lta_convert --inreg register.dat --outlta register.lta \
 
 See [[coordinate-systems]] for the mathematical identities behind these
 conversions.
+
+## See also
+
+Additional registration drivers and helpers:
+
+- [[mkxsubjreg]] — builds a cross-subject `register.dat` that maps one subject's functional volume into another subject's anatomical space, routing through both Talairach transforms.
+- [[xsanatreg]] — cross-session anatomical-to-anatomical registration via the MNI `minctracc` program.
+- [[register.csh]] — legacy COR-to-COR rigid registration driven by the AFNI toolkit (`3dvolreg`/`3drotate`).
+- [[reg2subject]] — utility that prints the subject name embedded in a `.lta` or `register.dat` file.
 
 ## Confidence and Gaps
 

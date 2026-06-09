@@ -18,7 +18,7 @@ related:
   - "[[freeview-editing]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Trace of the deformable surface fitting (template deformation region params, preweight, basinprior) not done in detail — these live in helper functions beyond line 965"
   - "The 'brain atlas' path (-brain_atlas gca xform) and how it composes with the classical watershed are documented at high level only"
@@ -553,6 +553,13 @@ or `mri_ca_normalize` (when `-gcareg` is off).
 - `mri_validate_skull_stripped` — a companion binary in the
   same directory that validates a skull-stripped volume.
 - [[mri_ca_label]] — downstream consumer of `brainmask.mgz`.
+
+### Legacy drivers
+
+- [[segment_subject]] — canonical legacy single-subject anatomical driver; performs its skull strip by calling `mri_watershed` (`mri_watershed T1 brain`)
+- [[segment_subject_sc]] — `segment_subject` variant that adds the subcortical (`aseg`) chain; still skull-strips with `mri_watershed`
+- [[segment_subject_notal]], [[segment_subject_notal2]] — no-Talairach variants that retain the `mri_watershed` skull strip
+- [[segment_subject_talmgh]] — GCA-Talairach variant; only the Talairach method changes, the `mri_watershed` skull strip is unchanged
 
 ## Confidence and Gaps
 

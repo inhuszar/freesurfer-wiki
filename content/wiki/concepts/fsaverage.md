@@ -23,7 +23,7 @@ related_formats:
   - "[[subject-directory]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - fsaverage
@@ -53,7 +53,7 @@ brains rather than any single individual.
    surface is warped onto `fsaverage`'s sphere before group statistics are computed.
 
 2. **Atlas target for spherical registration.** During `recon-all`, `mris_register`
-   (called via `rca-surfreg`) aligns each subject's `?h.sphere` to `fsaverage`'s
+   (called via [[rca-surfreg]]) aligns each subject's `?h.sphere` to `fsaverage`'s
    sphere using folding features encoded as MRISP atlas files (`.tif`). The
    output is `?h.sphere.reg`, which defines the per-vertex mapping from subject
    to fsaverage space.
@@ -523,6 +523,19 @@ for studies requiring across-hemisphere comparison in a shared coordinate space.
 > in subsequent releases. The `fix-surf7.log` file in `scripts/` confirms a
 > post-hoc fix was applied. The exact version history of the shipped template
 > is not fully documented.
+
+## See also
+
+Building your own average subject (a custom `fsaverage`) and the construction
+components:
+
+- [[make_average_subject]] — top-level driver that builds a complete `fsaverage`-like template directory from a set of reconstructed subjects.
+- [[make_average_surface]] — the surface half: averages `white`/`pial` onto a standard icosahedron (the construction step this page describes).
+- [[make_average_volume]] — the volume half: builds the average `mri/` volumes and voted `aseg.mgz` in MNI305/Talairach space.
+- [[make_average_subcort]] — a subcortical-GM mask in `fsaverage`/MNI305 space (FS-FAST subcortical analyses).
+- [[make_folding_atlas]] — iteratively builds the spherical folding-registration atlas (`?h.reg.template.tif`), the registration target discussed under "Atlas TIF Files".
+- [[annot2std]] — builds an average cortical parcellation (annotation) in `fsaverage` space from a group of subjects.
+- [[vol2symsurf]] — samples a volume onto the left–right symmetric `fsaverage_sym` template for inter-hemispheric correspondence.
 
 ## References
 

@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "fMRIcovariance() variance/std implementation not traced"
   - "MRIpca() PCA algorithm not traced beyond entry point"
@@ -304,7 +304,7 @@ All paired operations require an even total frame count. `--paired-avg` and any
 
 > [!gotcha] `--add` only accepts scalar numbers, not volume files
 > Attempting to add two volume files with `--add vol1 vol2` produces an error
-> with a message pointing the user to `fscalc` for element-wise volume
+> with a message pointing the user to [[fscalc]] for element-wise volume
 > arithmetic.
 
 ## Typical Use Cases

@@ -21,7 +21,7 @@ related_formats:
   - "[[subject-directory]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - parcellation
@@ -376,8 +376,9 @@ standard recon-all pipeline.
 | [[mri_segstats]] | Computes per-label volume statistics from `aparc+aseg.mgz` |
 | [[mri_label2vol]] | Converts a `.annot` or `.label` file to a volumetric mask |
 | [[mri_annotation2label]] | Splits a `.annot` into individual per-region `.label` files |
+| [[make_cortex_label]] | Merges all parcels (except the medial wall / non-cortical) of an annotation into a single `?h.cortex.label` cortex mask |
 | [[wiki/tools/freeview|freeview]] | Displays annotation overlay on the surface |
-| `mris_ca_train` | Trains a new GCSA atlas from manually labelled subjects |
+| [[mris_ca_train]] | Trains a new GCSA atlas from manually labelled subjects |
 
 ---
 
@@ -446,6 +447,10 @@ a non-standard subject population, use `mris_ca_train`. The workflow requires:
    to label new subjects.
 
 See the [[mris_ca_train]] wiki page for the full invocation syntax and options.
+The tcsh driver [[train-gcs-atlas]] wraps `mris_ca_train` for the common case of
+training a `.gcs` from a list of manually parcellated subjects, and
+[[build_desikan_killiany_gcs.csh]] is the fixed-recipe wrapper that rebuilds the
+canonical Desikan–Killiany (`aparc`) atlas itself.
 
 ---
 

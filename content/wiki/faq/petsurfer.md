@@ -3,7 +3,7 @@ title: "PETSurfer — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 11
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - petsurfer
@@ -47,7 +47,7 @@ warp (`mri/transforms/talairach.m3z`) produced by FS 7.x [[wiki/pipelines/recon-
 to map subcortical structures into the GTM segmentation. FreeSurfer
 8.0.0 dropped the nonlinear-warp step from the default pipeline, so
 FS 8 subjects do not have `talairach.m3z`. On those subjects, the
-default `gtmseg` invocation either errors with a file-not-found or
+default [[gtmseg]] invocation either errors with a file-not-found or
 silently falls back to an incorrect mapping. The fix is to use the
 [[wiki/tools/samseg|samseg]]-based subcortical segmentation path:
 
@@ -453,5 +453,21 @@ Greve). See
 `raw/mailing-list/2025-01-petsurfer-patlak-not-implemented-motion-correct-first.md`.
 
 **Related:** [[mri_gtmpvc]], [[mri_gtmseg]]
+
+---
+
+## See also
+
+PETSurfer-adjacent tools beyond the [[mri_gtmseg]] / [[mri_gtmpvc]]
+core:
+
+- [[gtmseg]] — the high-level tcsh driver that builds `gtmseg.mgz`
+  (orchestrates [[xcerebralseg]] and [[mri_gtmseg]]); this is the
+  command shown in the examples above.
+- [[xcerebralseg]] — builds the whole-head (extra-cerebral) segmentation
+  that `gtmseg` merges with the brain segmentation.
+- [[gtmstats2table]] — collects per-region PVC values from a set of
+  [[mri_gtmpvc]] output directories into a single subjects-by-ROI table
+  (the `asegstats2table`/`aparcstats2table` analogue for GTM output).
 
 ---

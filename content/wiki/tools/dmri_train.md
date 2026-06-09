@@ -16,7 +16,7 @@ related:
   - "[[dmri_group]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Blood class implementation (blood.cxx) not read"
   - "Exact prior file formats not confirmed"
@@ -162,7 +162,7 @@ Complete flag reference from `parse_commandline()` in `trc/dmri_train.cxx`:
 
 ## Typical Use Cases
 
-In TRACULA, `dmri_train` is typically called via `trac-all`. Direct invocation:
+In TRACULA, `dmri_train` is typically called via [[trac-all]]. Direct invocation:
 
 ```bash
 # Compute priors from manual tract delineations
@@ -216,6 +216,7 @@ trac-all -c dmrirc -path   # runs dmri_paths using the trained priors
 - [[dmri_paths]] — uses the priors trained here for tractography
 - [[dmri_pathstats]] — post-processes tract paths
 - [[dmri_forrest]] — alternative random-forest classifier
+- [[trac-preproc]] — `trac-all` preprocessing stage that prepares the per-subject FA maps, masks, and registrations the training inputs rely on
 
 ## Confidence and Gaps
 

@@ -21,7 +21,7 @@ related:
   - "[[longitudinal-processing]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-22
+last_agent_update: 2026-06-09
 gaps:
   - "Exact structure label set produced by samseg vs. standard aseg — which extra structures (e.g. extracerebral) are included or excluded by default"
   - "Detailed GEMS C++ optimization internals (L-BFGS mesh deformation, multi-resolution schedule) not verified"
@@ -73,7 +73,7 @@ There are two mutually exclusive ways to specify inputs:
 Pass one or more already-registered volumes. All inputs must share the same voxel grid (same dimensions, same voxel-to-world matrix).
 
 **Mode B — fsr-import mode (`--t1w` / `--t2w` / `--flair` / `--mode`):**
-samseg internally calls `fsr-import` and `fsr-coreg` to average repeated runs within each modality and co-register modalities to the reference mode. At least one t1w input and a `--refmode` are required.
+samseg internally calls [[fsr-import]] and [[fsr-coreg]] to average repeated runs within each modality and co-register modalities to the reference mode. At least one t1w input and a `--refmode` are required.
 
 ### Input Assumptions
 
@@ -395,7 +395,7 @@ mri_em_register → mri_ca_normalize → mri_ca_register → mri_ca_label
 samseg → samseg2recon
 ```
 
-When `recon-all -autorecon2-samseg` is called, it internally calls `samseg2recon --from-recon-all` which populates the subject directory with:
+When `recon-all -autorecon2-samseg` is called, it internally calls [[samseg2recon]] `--from-recon-all` which populates the subject directory with:
 - `mri/aseg.auto_noCCseg.mgz` ← from `samseg/seg.mgz`
 - `mri/transforms/talairach.lta` ← symlink to `samseg/samseg.talairach.lta`
 - `mri/transforms/talairach.m3z` ← symlink to `samseg/template.m3z`
@@ -439,6 +439,25 @@ For longitudinal analysis, see `[[samseg-long]]` which builds an unbiased cross-
 - `[[mri_refine_seg]]` — optional post-processing refinement; called internally via `DoRefine` (no user-facing `--refine` flag in samseg)
 - `[[lta-format]]` — format of `samseg.talairach.lta`
 - `[[m3z-format]]` — format of `template.m3z`
+
+### fsr-import stream and recon-all bridge
+
+The fsr-import (`--t1w/--t2w/--flair/--mode`) input mode and the
+recon-all hand-off are implemented by this family of helpers:
+
+- [[fsr-import]] — collect and average per-modality runs into the
+  samseg input set (Mode B front-end).
+- [[fsr-coreg]] — co-register each modality to the reference mode.
+- [[fsr-longpreproc]] — longitudinal preprocessing variant of the
+  import/coreg stream (used by [[samseg-long]]).
+- [[fsr-getxopts]] / [[fsr-checkxopts]] / [[fsr-mergexopts]] —
+  read, validate, and merge the per-binary expert-options file that
+  the fsr stream forwards to samseg.
+- [[samseg2recon]] — convert `samseg/seg.mgz` into the recon-all
+  subject layout (`aseg.auto_noCCseg.mgz`, `nu.mgz`, the talairach
+  symlinks) for the `-autorecon2-samseg` path.
+- [[seg2recon]] — more general "drop a segmentation into a recon-all
+  subject" bridge (sibling of `samseg2recon`).
 
 ## Confidence and Gaps
 

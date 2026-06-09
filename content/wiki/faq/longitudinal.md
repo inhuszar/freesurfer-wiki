@@ -3,7 +3,7 @@ title: "Longitudinal Processing — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 13
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - longitudinal
@@ -389,7 +389,7 @@ mri_glmfit --y stacked_thickness.mgh \
 with `slope.mtx` containing `0 1` (zero for the intercept, one for the
 TimePoint coefficient). This tests linear thickness change over time.
 If you have already run the standard longitudinal recon-all pipeline,
-`long_mris_slopes` is the dedicated tool for slope extraction.
+[[long_mris_slopes]] is the dedicated tool for slope extraction.
 
 **Provenance:** Mailing list, 2025-04-18 (Greve). See
 `raw/mailing-list/2025-04-single-subject-longitudinal-glm-fsgd-timepoint-slope.md`.
@@ -541,3 +541,24 @@ issue is not specific to lesion segmentation — it triggers on any
 `raw/mailing-list/2025-03-samseg-longitudinal-transform-affine-typeerror-fix.md`.
 
 **Related:** [[wiki/tools/samseg|samseg]], [[longitudinal-processing]]
+
+---
+
+## See also
+
+Component scripts of the longitudinal stream (beyond the three-step
+`recon-all -cross/-base/-long` workflow):
+
+- [[long_submit_jobs]] — submits all three longitudinal stages for an
+  entire study to a compute cluster, driven by a longitudinal QDEC table.
+- [[long_create_base_sigma]] / [[long_create_orig]] — internal helpers
+  used during base-template construction (joint cross-time intensity
+  normalisation; building base-space `orig.mgz` / `rawavg.mgz`).
+- [[long_qdec_table]] — manipulates the longitudinal QDEC table
+  (`fsid` / `fsid-base` columns) that drives the stats and submission
+  tools.
+- [[long_stats_slopes]] — fits a within-subject linear model to a
+  longitudinal stats measure and derives per-subject rate-of-change.
+- [[long_stats_combine]] / [[long_stats_tps]] — harvest per-time-point
+  ROI stats into a longitudinal QDEC table, or extract one time point's
+  stats stacked across subjects.

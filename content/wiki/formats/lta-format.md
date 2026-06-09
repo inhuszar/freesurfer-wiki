@@ -23,7 +23,7 @@ related:
   - "[[lta_convert]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - format
@@ -560,6 +560,9 @@ with `--outfsl` to go the other direction.
 
 - [[lta_convert]] — converts between LTA types and related formats
 - [[mri_concatenate_lta]] — composes two LTAs into one
+- [[IsLTA]] — shell predicate that decides whether a transform file is in LTA format by actually trying to parse it with [[lta_convert]] (not by extension)
+- [[reg2subject]] — reads the `subject` name recorded inside an `.lta` (or legacy `register.dat`), dispatching on [[IsLTA]]
+- [[avi2talxfm]] — converts the Avi-Snyder `4dfp` voxel-to-voxel matrix into a FreeSurfer `talairach.xfm` (MNI `.xfm`, type 12)
 - [[coordinate-systems]] — full treatment of scanner RAS, tkRAS, and voxel spaces
 - [[registration-overview]] — conceptual overview of registration in FreeSurfer
 - [[mri_fslmat_to_lta]] — FSL mat → LTA conversion

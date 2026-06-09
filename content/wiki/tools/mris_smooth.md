@@ -16,7 +16,7 @@ related:
   - "[[freeview-surfaces]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "MRISaverageVertexPositions() kernel (equal-weight Laplacian vs. area-weighted) not confirmed from shared lib"
 tags:
@@ -287,6 +287,11 @@ mris_smooth surf/lh.white.preaparc surf/lh.smoothwm
 - [[mris_inflate]] — inflates `smoothwm.nofix` (Smooth1 output)
 - [[mris_sphere]] — spherical mapping (downstream)
 - [[freeview-surfaces]] — GUI for displaying smoothed surfaces; curvature overlays computed here are shown via the Curvature section in the surface panel
+
+### Legacy drivers
+
+- [[inflate_subject]] — legacy driver that rebuilds both hemisphere inflations after WM edits; its `-lh`/`-rh` workers ([[inflate_subject-lh]], [[inflate_subject-rh]]) tessellate, call `mris_smooth`, then inflate
+- [[reinflate_subject]] — re-smooth/re-inflate wrapper that reuses the per-hemisphere `inflate_subject` workers, re-running `mris_smooth` to regenerate `?h.smoothwm`
 
 ## Confidence and Gaps
 

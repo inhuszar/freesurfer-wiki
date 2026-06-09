@@ -14,7 +14,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "MRISunfold() energy functional details not traced (in shared lib)"
   - "QSphere (-q) mode vs. full sphere mode differences not fully characterised"
@@ -354,6 +354,12 @@ documented in `recon-all` at line 9727: *"Creates surf/?h.sphere. The
 - [[mris_inflate]] — produces the `inflated` surface that is the Sphere input
 - [[mris_register]] (invoked from `rca-surfreg`) — registers the sphere to a group atlas
 - [[mris_smooth]] — earlier in the pipeline
+
+### Legacy drivers
+
+- [[sphere_subject]] — convenience wrapper that maps both hemispheres to a sphere via [[sphere_subject-lh]] / [[sphere_subject-rh]], each of which runs `mris_sphere` on one hemisphere
+- [[morph_subject]] — canonical legacy surface-morphometry driver; its workers ([[morph_subject-lh]], [[morph_subject-rh]]) inflate-to-sphere with `mris_sphere` and then register to the average template
+- [[morph_only_subject]] — registration-only variant of the morph pipeline; its `-lh`/`-rh` workers ([[morph_only_subject-lh]], [[morph_only_subject-rh]]) likewise run `mris_sphere` before registration
 
 ## Confidence and Gaps
 

@@ -17,7 +17,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact cost function formulation for BBR not fully characterized from script alone — mri_segreg contains the actual implementation"
 tags:
@@ -232,7 +232,8 @@ bbregister --s subject01 \
            --init-best
 ```
 
-To inspect registration results:
+To inspect registration results with `tkregisterfv` (the freeview-based
+registration viewer that `bbregister` prints a ready-to-run command for):
 ```bash
 tkregisterfv --mov bold.nii.gz --reg bold2anat.dat --surfs --sd $SUBJECTS_DIR
 ```
@@ -280,6 +281,19 @@ recon-all (anatomy) --> bbregister --> mri_vol2surf / mri_label2vol
 - [[tkregister2]] — GUI for inspecting and editing registrations
 - [[dt_recon]] — diffusion tensor pipeline that calls bbregister internally
 - [[coordinate-systems]] — understanding the register.dat transform convention
+
+### Initialization engines, wrappers, and QC
+
+- [[fslregister]] — FSL FLIRT wrapper used as the `--init-fsl` initialization engine.
+- [[spmregister]] — SPM `spm_coreg` wrapper used as the `--init-spm` initialization engine.
+- [[rbbr]] — "robust BBR": iteratively re-runs `bbregister` while rejecting
+  outlier surface vertices, for difficult (e.g. PET) registrations.
+- [[reg-feat2anat]] — FSL FEAT-to-anatomical registration driver that calls
+  `bbregister` for the boundary-based refinement step.
+- [[mni152reg]] — subject-to-MNI152 registration helper that `bbregister`
+  invokes internally to chain the result into MNI152 space.
+- [[tkregisterfv]] — freeview-based registration viewer for QC of the
+  `bbregister` output (the tool the script's QC hint line invokes).
 
 ## Confidence and Gaps
 

@@ -18,7 +18,7 @@ related:
   - "[[mri_coreg]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact matrix convention for register.dat (tkRAS direction, float2int method) needs a dedicated reference"
   - "GUI keyboard shortcuts and interactive editing workflow are documented in Tcl/Tk script only; not captured here"
@@ -400,8 +400,14 @@ tkregister2 --s bert --fstal        # check and optionally correct it
 - [[lta-format]] — the LTA format for the same transforms; `lta_convert` can interconvert with `register.dat`
 - [[lta_convert]] — preferred tool for batch format conversions among LTA, FSL, MNI, and register.dat
 - [[wiki/tools/freeview|freeview]] — modern GUI replacement for interactive registration visualization; `tkregisterfv` is a wrapper that calls freeview
+- [[tkregisterfv]] — the freeview-based registration viewer that supersedes this
+  Tk GUI; the recommended interactive replacement for `tkregister2`.
 - [[bbregister]] — boundary-based registration tool that produces `register.dat` output; results can be checked with `tkregister2`
 - [[mri_coreg]] — another registration tool that can output LTA; can be converted to `register.dat` via `lta_convert`
+- [[reg2subject]] — extracts the subject name embedded in a `register.dat` (or
+  LTA), the field stored on the first line of a `tkregister2` registration file.
+- [[IsLTA]] — shell predicate that distinguishes an LTA from a legacy
+  `register.dat`, used by scripts that accept either `tkregister2`-style format.
 
 ## Confidence and Gaps
 

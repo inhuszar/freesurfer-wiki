@@ -35,7 +35,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -55,7 +55,7 @@ tags:
 
 ### Producing tool
 
-`mris_defects_pointset` — reads [[hemi.orig.nofix]] and [[hemi.defect_labels]], computes defect centroids, and writes the pointset. Called from `defect2seg`, which is called by [[wiki/pipelines/recon-all|recon-all]] after Fix Topology.
+`mris_defects_pointset` — reads [[hemi.orig.nofix]] and [[hemi.defect_labels]], computes defect centroids, and writes the pointset. Called from [[defect2seg]], which is called by [[wiki/pipelines/recon-all|recon-all]] after Fix Topology.
 
 ```bash
 # defect2seg invocation (recon-all line 3783)

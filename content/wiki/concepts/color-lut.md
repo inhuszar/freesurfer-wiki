@@ -19,7 +19,7 @@ related_formats:
   - "[[subject-directory]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - segmentation
@@ -422,6 +422,12 @@ Several partial LUTs in `$FREESURFER_HOME` serve specialized purposes:
 
 > [!gotcha] Alpha channel is always 0
 > The fourth column (A) in all standard LUT entries is 0. This column exists for future use and is preserved in the `COLOR_TABLE` struct but has no effect on current tools. Custom LUT files should set A=0 to maintain consistency.
+
+---
+
+## See also
+
+- [[print_unique_labels.csh]] — lists the distinct integer label IDs present in a segmentation and resolves each to its structure name via this Color LUT (a quick way to inspect which labels a volume actually contains).
 
 ---
 

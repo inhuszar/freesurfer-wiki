@@ -15,7 +15,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Surface RAS coordinate offset formula (voxel-to-surfaceRAS) — MRIvoxelToSurfaceRAS() not traced in detail"
   - "MAXV=10000000 cap: consequences for very dense surfaces not explored"
@@ -298,6 +298,11 @@ labelling) → [[mri_segment]] (WM segmentation)
 - [[mris_sphere]], [[mris_register]] — downstream surface registration
 - [[wiki/tools/freeview|freeview]] — visualise the resulting surface
 - [[wiki/pipelines/recon-all|recon-all]] — orchestrating pipeline
+
+### Legacy drivers
+
+- [[inflate_subject]] — legacy driver that rebuilds both hemisphere inflations after WM edits; its `-lh`/`-rh` workers ([[inflate_subject-lh]], [[inflate_subject-rh]]) tessellate the filled volume with `mri_tessellate`, then smooth and inflate
+- [[reinflate_subject]] — re-smooth/re-inflate wrapper that reuses the same per-hemisphere `inflate_subject` workers (and thus re-runs `mri_tessellate`)
 
 ## Confidence and Gaps
 

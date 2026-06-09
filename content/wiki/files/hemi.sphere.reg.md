@@ -43,7 +43,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -52,7 +52,7 @@ tags:
 # hemi.sphere.reg
 
 > [!file] Glossary entry
-> `lh.sphere.reg` / `rh.sphere.reg` are spherical surfaces registered to the fsaverage template atlas, produced by [[mris_register]] (invoked via `rca-surfreg`) in the SurfReg stage of autorecon3. Registration aligns the subject's spherical surface to the fsaverage atlas using sulcal depth ([[hemi.sulc]]) and mean curvature ([[hemi.curv]]) as folding features. The registered sphere enables atlas-based parcellation ([[mris_ca_label]]) and inter-subject morphometric comparisons. A symlink `hemi.fsaverage.sphere.reg` → `hemi.sphere.reg` is created immediately after.
+> `lh.sphere.reg` / `rh.sphere.reg` are spherical surfaces registered to the fsaverage template atlas, produced by [[mris_register]] (invoked via [[rca-surfreg]]) in the SurfReg stage of autorecon3. Registration aligns the subject's spherical surface to the fsaverage atlas using sulcal depth ([[hemi.sulc]]) and mean curvature ([[hemi.curv]]) as folding features. The registered sphere enables atlas-based parcellation ([[mris_ca_label]]) and inter-subject morphometric comparisons. A symlink `hemi.fsaverage.sphere.reg` → `hemi.sphere.reg` is created immediately after.
 
 ## Location and Format
 
@@ -120,6 +120,8 @@ ln -sf $hemi.sphere.reg $hemi.fsaverage.sphere.reg
 
 - [[surface-format]] — on-disk format.
 - [[mris_register]] — producer.
+- [[surfreg]] — standalone wrapper that runs `mris_register` to produce a `*.sphere.reg` against any target atlas (`sphere.reg` for fsaverage).
+- [[josareg]] — JOSA learned-registration alternative that writes `?h.josa.sphere.reg` and symlinks it to `?h.sphere.reg`.
 - [[hemi.sphere]] — input unregistered sphere.
 - [[hemi.fsaverage.sphere.reg]] — symlink alias.
 - [[fsaverage]] — atlas target.

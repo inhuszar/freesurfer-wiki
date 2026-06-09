@@ -3,7 +3,7 @@ title: "Surface Morphometry — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 17
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - surface-morphometry
@@ -501,7 +501,7 @@ request; FS 7.2+ may include the fix in shipped builds, but older
 7.x installations need to be patched manually. There is no
 MATLAB-free alternative for the LGI computation, since
 `mris_compute_lgi` shells out to MATLAB (or to MCR via
-`fs_install_mcr`).
+[[fs_install_mcr]]).
 
 **Provenance:** Mailing list, 2023-11-22 to 2023-11-26 (Daiki
 Sasabayashi / Douglas Greve). See
@@ -582,7 +582,7 @@ access.
 left as-is, the right via `--xhemi`), resample thickness to the
 symmetric template with [[mris_apply_reg]], then compute LI per
 vertex with `fscalc pctdiff0 ... div 200` and parcellate with
-[[mri_segstats] --annot`.
+[[mri_segstats]] `--annot`.
 
 **Detail:** `fsaverage_sym` is a left-right-symmetric surface
 template; the `xhemi` machinery represents the right hemisphere as
@@ -709,3 +709,19 @@ See
 `raw/mailing-list/2023-12-corpus-callosum-five-segments-no-anatomical-rationale-configurable.md`.
 
 **Related:** [[aseg.mgz]], [[parcellation-schemes]], [[color-lut]]
+
+---
+
+## See also
+
+Surface-overlay measure tools that complement the thickness / area / volume
+measures discussed above:
+
+- [[vertexvol]] — writes the per-vertex grey-matter volume overlay
+  ([[hemi.volume]]) that pairs with the per-vertex area measure.
+- [[pctsurfcon]] — per-vertex white/grey percent-contrast surface measure
+  (`?h.w-g.pct`).
+- [[thickdiffmap]] — between-surface cortical-thickness difference map for two
+  scans of the same subject.
+- [[mris2rgb]] — render a surface and its overlays to off-screen image files
+  for figures/QC.

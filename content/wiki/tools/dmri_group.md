@@ -14,7 +14,7 @@ related:
   - "[[dmri_mergepaths]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Output file format for group-level path not confirmed"
 tags:
@@ -115,7 +115,7 @@ where `subjects.list` has one line per subject with path directory, optional ref
 dmri_paths --> dmri_pathstats --> dmri_group
 ```
 
-The `recon-all` script does not call this tool. It is invoked from the TRACULA `trac-all` wrapper.
+The `recon-all` script does not call this tool. It is invoked from the TRACULA [[trac-all]] wrapper.
 
 ## Gotchas and Caveats
 
@@ -130,6 +130,7 @@ The `recon-all` script does not call this tool. It is invoked from the TRACULA `
 - [[dmri_pathstats]] — produces the per-subject input files for this tool
 - [[dmri_paths]] — probabilistic tractography that precedes pathstats
 - [[dmri_mergepaths]] — alternative aggregation of path posteriors
+- [[tractstats2table]] — assembles per-tract statistics across subjects into a single table (sibling group-summary step)
 
 ## Confidence and Gaps
 

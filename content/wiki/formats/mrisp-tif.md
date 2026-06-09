@@ -7,13 +7,14 @@ produced_by:
   - "[[mris_make_template]]"
   - "[[mris_register]]"
   - "[[mrisp_write]]"
+  - "[[mksurfatlas]]"
 consumed_by:
   - "[[mris_register]]"
   - "[[mris_ca_train]]"
   - "[[mrisp_paint]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Multi-page TIFF endianness: libtiff handles this transparently but the on-disk byte order has not been verified against an actual file."
   - "The exact layout of per-surface frame indexing in mris_make_template's multiframe (vector) mode (atlas_size × IMAGES_PER_SURFACE) needs cross-checking with mris_make_template line ~139."
@@ -295,6 +296,7 @@ Subsequent subjects update both via `MRISPcombine`.
 |------|-----|-------|
 | [[mris_register]] | R | Reads the registration target via `MRISPread()` ([[`mris_register.cpp:447`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L447)](https://github.com/freesurfer/freesurfer/blob/v8.2.0/mris_register/mris_register.cpp#L447)). |
 | [[mris_make_template]] | RW | The canonical producer; iterates over training subjects to build the population mean/variance/dof |
+| [[mksurfatlas]] | W | csh wrapper that drives [[mris_make_template]] to build a custom `.tif` registration atlas keyed to a chosen per-vertex overlay |
 | [[mrisp_paint]] | R | Samples a `.tif` parameterization onto a target subject's sphere as a curvature overlay |
 | [[mrisp_write]] | W | Computes a parameterization for a single subject and writes it as `.tif` (or `.mgh`) |
 | [[mris_ca_train]] | R | Reads a registration template when training a [[gcsa-format|GCSA]] atlas |

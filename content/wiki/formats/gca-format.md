@@ -6,11 +6,16 @@ file_extensions:
   - ".gca"
 produced_by:
   - "[[mri_ca_train]]"
+  - "[[gcatrain]]"
+  - "[[gcainit]]"
+  - "[[gcatrainskull]]"
+  - "[[jkgcatrain]]"
 consumed_by:
   - "[[mri_ca_label]]"
   - "[[mri_ca_normalize]]"
   - "[[mri_ca_register]]"
   - "[[mri_em_register]]"
+  - "[[gca-apply]]"
 related:
   - "[[gcsa-format]]"
   - "[[coordinate-systems]]"
@@ -19,7 +24,7 @@ related:
   - "[[ctab-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps:
   - "The exact training subject count for each shipped atlas (RB_all_2020-01-02.gca etc.) is not recoverable from the file itself; only total_training counts per node are stored."
   - "The aseg+spmhead.ixi.gca and aseg+spmhead+vermis+pons.ixi.gca atlases are not invoked by recon-all; their precise provenance and intended use has not been traced."
@@ -444,6 +449,20 @@ to use skull shape for robust initial alignment before skull stripping.
 | [[mri_ca_register]] | Nonlinear atlas-space registration (`talairach.m3z`) | `RB_all_*.gca` |
 | [[mri_ca_train]] | Creates or updates a GCA from training subjects | Output file |
 | [[mri_em_register]] | Atlas-guided linear registration (skull-on mode) | `RB_all_withskull_*.gca` or `talairach_mixed_with_skull.gca` |
+
+### Atlas training and application drivers
+
+These higher-level scripts wrap the `mri_ca_*` / `mri_em_register` binaries to
+build a `.gca` from a cohort of manually labelled subjects, or to apply a
+trained atlas to new data:
+
+| Driver | Operation |
+|---|---|
+| [[gcatrain]] | Whole pipeline: prepares each training subject and iteratively builds the subcortical GCA (`gca.iNN.gca`) |
+| [[gcainit]] | Builds the **initial** one-subject seed atlas (`gca.i01.gca`) that bootstraps [[gcatrain]] |
+| [[gcatrainskull]] | Trains the **with-skull** atlas (`gca.skull.iNN.gca`) used by [[mri_em_register]] |
+| [[jkgcatrain]] | Jackknife (leave-one-out) re-training of a `gcatrain` atlas for cross-validation |
+| [[gca-apply]] | Applies a trained GCA to one subject, reproducing the four volumetric atlas stages of `recon-all` |
 
 ---
 

@@ -23,7 +23,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Exact mode-number semantics of imgreg_4dfp (modes[1..6]) not documented here; they are magic-number parameters to Avi Snyder's Fortran/C registration code"
   - "What 'orientation 2' means in a .4dfp.ifh header is not derived here — the script errors out if it sees anything else"
@@ -468,6 +468,14 @@ tool). The dependency is indirect.
 
 ## Related Tools
 
+- [[rca-talairach]] — the SynthMorph-based recon-all Talairach
+  component script that **replaces** `talairach_avi` when
+  FreeSurfer's SynthMorph path is enabled; it produces the same
+  `talairach.xfm`/`talairach.xfm.lta` outputs by a learned affine
+  registration instead of the 4dfp engine.
+- [[avi2talxfm]] — the helper script invoked at the end of the
+  `4dfp` pipeline to convert the `t4` vox2vox matrix into the
+  MNI-style RAS-to-RAS `.xfm`.
 - [[mri_em_register]] — the GCA-based successor affine
   registration, which consumes (optionally) `talairach.xfm.lta`
   as its initial condition.

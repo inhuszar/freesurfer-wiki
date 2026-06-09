@@ -18,7 +18,7 @@ related_formats:
   - "[[lta-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - longitudinal
@@ -96,7 +96,7 @@ Source: `scripts/recon-all` lines 6219–6532; `scripts/rca-long-tp-init`; `scri
 
 When `recon-all -base <baseID> -tp <tp1> -tp <tp2> ... -all` is invoked, it:
 
-1. Calls `rca-base-init`, which runs [[mri_robust_template]] to create the unbiased template image from the cross-sectional norm volumes of all time points.
+1. Calls [[rca-base-init]], which runs [[mri_robust_template]] to create the unbiased template image from the cross-sectional norm volumes of all time points.
 2. Creates inverse transforms from the base space to each TP's native space using `mri_concatenate_lta -invert1`.
 3. Runs a full FreeSurfer cross-sectional reconstruction on the synthetic template image (skull stripping, normalisation, segmentation, surface extraction, parcellation).
 
@@ -120,7 +120,7 @@ Key parameters set by `rca-base-init`:
 - `--average 1` — construct the template as the **median** across aligned inputs (not the mean). This is the default in `rca-base-init` (`robust_template_avg_arg = 1`).
 - `--sat 4.685` — saturation constant for the M-estimator (see algorithm section below).
 
-For a **single time point**, `make_upright` is called instead: it creates an upright-orientation image (RAS-aligned) from the single TP, rather than calling `mri_robust_template`.
+For a **single time point**, [[make_upright]] is called instead: it creates an upright-orientation image (RAS-aligned) from the single TP, rather than calling [[mri_robust_template]].
 
 For `recon-all -base-affine`, an additional affine registration step is first performed on the full-head `T1.mgz` images before the rigid registration on `norm.mgz`, to account for image-geometry differences between scans (e.g., from scanner recalibration).
 
@@ -149,7 +149,7 @@ The `base-tps` file is written during this step listing all TP IDs.
 
 ### Directory setup and initialisation (`rca-long-tp-init`)
 
-When `recon-all -long tpN longbase -all` is called, the output subject directory `tpN.long.longbase` is created and initialised by `rca-long-tp-init` (sourced from `scripts/rca-long-tp-init`). This script copies or links the following from the base subject directory:
+When `recon-all -long tpN longbase -all` is called, the output subject directory `tpN.long.longbase` is created and initialised by [[rca-long-tp-init]] (sourced from `scripts/rca-long-tp-init`). This script copies or links the following from the base subject directory:
 
 | Asset | Source (base subject) | Destination (long TP subject) |
 |-------|-----------------------|-------------------------------|
@@ -163,7 +163,7 @@ When `recon-all -long tpN longbase -all` is called, the output subject directory
 | Pial surface | `longbase/surf/?h.pial` | `tpN.long.longbase/surf/?h.orig_pial` |
 | Sphere | `longbase/surf/?h.sphere` | `tpN.long.longbase/surf/?h.sphere` |
 
-The `orig.mgz` for the long TP is produced by `longmc` (the longitudinal motion-correction script), which registers and averages all original runs of that TP using transforms anchored to the base space, rather than recomputing from scratch.
+The `orig.mgz` for the long TP is produced by [[longmc]] (the longitudinal motion-correction script), which registers and averages all original runs of that TP using transforms anchored to the base space, rather than recomputing from scratch.
 
 Control points, if present in the cross-sectional TP, are mapped to the base space using `mri_map_cpdat`.
 
@@ -187,7 +187,7 @@ The following `recon-all` stages behave differently in the `-long` stream:
 | Inflate 1 | `mris_inflate` | **Skipped** |
 | Q-sphere | `mris_sphere` | **Skipped** — base sphere is copied |
 | Topology fix | `mris_fix_topology` | **Skipped** |
-| Surface registration | `rca-surfreg` | `rca-surfreg --long <longbase>` — initialised from base sphere |
+| Surface registration | [[rca-surfreg]] | `rca-surfreg --long <longbase>` — initialised from base sphere |
 | White surface placement | `mris_place_surface --white` | Same tool but `--max-cbv-dist 3.5` and initialised from `?h.orig_white` (= base white) |
 | Pial surface placement | `mris_place_surface --pial` | Same tool but `--max-cbv-dist 3.5` and initialised from `?h.orig_pial` (= base pial) |
 | Cortical parcellation | `mris_ca_label` | `mris_ca_label -long -R <longbase>/label/?h.aparc.annot` — base annotation used as regulariser |
@@ -331,12 +331,12 @@ These outputs feed into downstream longitudinal statistical analysis. FreeSurfer
 
 | Script | Purpose |
 |--------|---------|
-| `long_stats_slopes` | Compute per-subject rates of change (slopes) from longitudinal stats |
-| `long_stats_combine` | Combine per-subject slope estimates across a group |
-| `long_stats_tps` | Compute subject-level time-point statistics |
-| `long_qdec_table` | Construct a QDEC-compatible table from longitudinal outputs |
-| `long_mris_slopes` | Per-vertex slope maps on the surface |
-| `long_submit_jobs` | Cluster job submission for longitudinal runs |
+| [[long_stats_slopes]] | Compute per-subject rates of change (slopes) from longitudinal stats |
+| [[long_stats_combine]] | Combine per-subject slope estimates across a group |
+| [[long_stats_tps]] | Compute subject-level time-point statistics |
+| [[long_qdec_table]] | Construct a QDEC-compatible table from longitudinal outputs |
+| [[long_mris_slopes]] | Per-vertex slope maps on the surface |
+| [[long_submit_jobs]] | Cluster job submission for longitudinal runs |
 
 Common statistical approaches for longitudinal neuroimaging data include:
 - **Paired t-tests** for two time points.
@@ -378,6 +378,16 @@ Common statistical approaches for longitudinal neuroimaging data include:
 
 ---
 
+## See also
+
+Additional tools in the longitudinal stream not covered above:
+
+- [[map_to_base]] — resamples a single volume or surface from one timepoint into the base (template) space, reusing the `<tp>_to_<base>.lta` created by the longitudinal stream.
+- [[long_submit_postproc]] — cluster submission of per-subject longitudinal post-processing jobs (drives `long_stats_slopes` / `long_stats_tps` per `fsid-base`); a companion to the `long_submit_jobs` script above.
+- [[thickdiffmap]] — computes a within-subject cortical-thickness difference map between two scans of the same person and accumulates group-wise change statistics.
+
+---
+
 ## Confidence and Gaps
 
 The information on this page is derived directly from:
@@ -398,7 +408,7 @@ Confidence is **high** for: the three-step workflow, naming conventions, the lis
 > The file `mri_normalize_tp2/mri_normalize_tp2.cpp` exists and performs longitudinal normalisation using the base's control point volume mapped to the TP space. However, `mri_normalize_tp2` does not appear in the main longitudinal conditionals of `scripts/recon-all` in v8.2.0 — the equivalent functionality appears to have been absorbed into the standard `mri_normalize` call with the `-l` (long base ctrl vol) flag. The relationship between `mri_normalize_tp2` and the current pipeline should be verified against the v8.2.0 binary list and a full trace of the `-uselongbasectrlvol` code path.
 
 > [!gap] `long_create_base_sigma` and `long_create_orig`
-> Two scripts named `long_create_base_sigma` and `long_create_orig` exist in `scripts/` but were not read for this page. Their role in the longitudinal pipeline is not documented here.
+> Two scripts named [[long_create_base_sigma]] and [[long_create_orig]] exist in `scripts/` but were not read for this page. Their role in the longitudinal pipeline is not documented here.
 
 ---
 

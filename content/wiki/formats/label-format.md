@@ -10,6 +10,13 @@ produced_by:
   - "[[mri_surfcluster]]"
   - "[[mri_volcluster]]"
   - "[[mris_make_surfaces]]"
+  - "[[label-cortex]]"
+  - "[[label2flat]]"
+  - "[[labels_union]]"
+  - "[[labels_intersect]]"
+  - "[[labels_disjoint]]"
+  - "[[setlabelstat]]"
+  - "[[bblabel]]"
 consumed_by:
   - "[[mri_label2vol]]"
   - "[[mris_ca_label]]"
@@ -18,13 +25,20 @@ consumed_by:
   - "[[mris_calc]]"
   - "[[mri_surf2surf]]"
   - "[[mris_thickness]]"
+  - "[[label2patch]]"
+  - "[[label2flat]]"
+  - "[[bblabel]]"
+  - "[[setlabelstat]]"
+  - "[[labels_union]]"
+  - "[[labels_intersect]]"
+  - "[[labels_disjoint]]"
 related:
   - "[[annotation-format]]"
   - "[[surface-format]]"
   - "[[coordinate-systems]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps:
   - "Exact behaviour when both surface-type and volume-type points are mixed in a single label file has not been verified."
   - "Behaviour of LabelRead when the vox2ras= token is missing entirely (pre-modern files) has not been traced."
@@ -301,6 +315,14 @@ The `?h.cortex.label` file is the **most critical label** in the pipeline:
 | [[mri_surf2surf]] | ✓ | — | Uses label as smoothing mask |
 | `mri_path2label` | — | ✓ | Writes drawn paths as labels |
 | `mri_segstats` | ✓ | — | Reads label to mask statistical reporting |
+| [[label-cortex]] | — | ✓ | Builds `?h.cortex.label` (cortex minus medial wall / hippo-amyg), with optional gyrus-ambiens recovery |
+| [[label2flat]] | ✓ | ✓ | Rewrites a label's coordinates to the 2-D positions of a flattened cortical patch |
+| [[label2patch]] | ✓ | — | Rips everything outside a label and writes the surviving sub-mesh as a flatten-able patch |
+| [[labels_union]] | ✓ | ✓ | Set **union** of two same-surface labels (by vertex number) |
+| [[labels_intersect]] | ✓ | ✓ | Set **intersection** of two labels |
+| [[labels_disjoint]] | ✓ | ✓ | Set **difference** (`label1 − label2`) of two labels |
+| [[setlabelstat]] | ✓ | ✓ | Overwrites the stat (5th) column of every line with a constant |
+| [[bblabel]] | ✓ | ✓ | Clips a label to a rectangular bounding box, keeping only points inside |
 
 ## Conversion
 

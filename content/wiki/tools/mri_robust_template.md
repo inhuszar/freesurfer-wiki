@@ -14,7 +14,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact convergence criterion details for the iterative mean/median estimation loop need verification."
   - "--outdir is commented out in the source and is not a functional flag; audit flag list if it surfaces in documentation elsewhere."
@@ -236,6 +236,9 @@ In the longitudinal stream (`recon-all -base`), it is the first step: it creates
 - [[mri_robust_register]] — pairwise robust rigid/affine registration (used internally)
 - [[wiki/pipelines/recon-all|recon-all]] — calls `mri_robust_template` for motion correction
 - [[mgz]] — primary volume format for inputs and outputs
+- [[rca-base-init]] — the recon-all longitudinal `-base` component script that
+  drives `mri_robust_template` to build the unbiased within-subject template
+  from a set of same-individual time points.
 
 ## Confidence and Gaps
 

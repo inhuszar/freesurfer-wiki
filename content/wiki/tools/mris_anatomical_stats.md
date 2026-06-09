@@ -16,7 +16,7 @@ related:
   - "[[curv-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "MRISvolumeTH3() implementation not traced in shared lib — exact triangular decomposition not confirmed"
   - "FoldingIndex and IntrinsicCurvatureIndex exact formulations vs Fischl & Dale 2000 not verified from code"
@@ -464,6 +464,7 @@ not consume `?h.aparc.stats`.
 
 - [[mris_ca_label]] — produces `?h.aparc*.annot` (annotation input)
 - [[mri_aparc2aseg]] — projects cortical labels to volume space (parallel output)
+- [[pctsurfcon]] — companion surface-stats tool: computes the per-vertex white/grey percent-contrast overlay and per-parcel summary stats, complementing the thickness/area/curvature morphometrics produced here
 - [[mris_calc]] — per-vertex arithmetic on the same surface overlays consumed here
 - [[wiki/pipelines/recon-all|recon-all]] — the orchestrator that invokes this tool in the parcstats stages
 - [[wiki/tools/freeview|freeview]] — visualises the input annotations and surfaces

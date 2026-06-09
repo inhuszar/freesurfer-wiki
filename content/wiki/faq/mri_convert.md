@@ -3,7 +3,7 @@ title: "mri_convert — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 6
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - mri_convert
@@ -17,7 +17,7 @@ tags:
 
 This FAQ collects recurring questions about [[wiki/tools/mri_convert|mri_convert]] (FreeSurfer's
 general-purpose volume converter) and the related DICOM unpacker
-`dcmunpack`. Together these tools handle format conversion (DICOM, NIfTI,
+[[dcmunpack]]. Together these tools handle format conversion (DICOM, NIfTI,
 [[mgz]], MINC, ANALYZE), the [[wiki/pipelines/recon-all|recon-all]]-style "conform" preparation
 (1 mm isotropic, 256³, uchar), per-axis voxel-size rescaling, copying
 header geometry between volumes, and applying both linear and nonlinear
@@ -391,3 +391,26 @@ enumerate them.
 
 **Related:** [[wiki/tools/mri_convert|mri_convert]], [[wiki/pipelines/recon-all|recon-all]], [[wiki/tools/freeview|freeview]],
 [[mri_probedicom]], [[mri_parse_sdcmdir]]
+
+---
+
+## See also
+
+DICOM / IMA / MINC directory unpackers and helpers that delegate the
+actual format conversion to [[wiki/tools/mri_convert|mri_convert]]:
+
+- [[dcmunpack]] — the modern multi-series DICOM unpacker (see the
+  `-auto-runseq` entry above).
+- [[unpacksdcmdir]] — the legacy Siemens DICOM session unpacker.
+- [[unpackimadir]] / [[unpackimadir2]] — unpack a directory of Siemens
+  `.ima` (Numaris) files.
+- [[unpackmincdir]] — unpack a directory of MINC volumes into an FS-FAST
+  sessions tree.
+- [[dcmsplit]] — pre-sort a mixed DICOM directory into per-Study-UID
+  subfolders before unpacking.
+- [[cp-dicom]] / [[dicom-rename]] — tidy a DICOM directory into
+  per-series subfolders or human-readable filenames.
+- [[dcmdir-info-mgh]] — print a per-series summary of an
+  MGH-archive-named DICOM directory.
+- [[fsdcmdecompress]] — decompress a JPEG/RLE-encoded DICOM file to raw
+  DICOM (the helper FreeSurfer's DICOM reader shells out to).

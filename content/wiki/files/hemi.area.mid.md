@@ -36,7 +36,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -60,7 +60,7 @@ Per-vertex area equal to `(white_area + pial_area) / 2`. Provides a mid-cortical
 
 ### Producing tool
 
-`mris_calc` (via the `vertexvol` script) — adds white and pial area maps then divides by 2.
+`mris_calc` (via the [[vertexvol]] script) — adds white and pial area maps then divides by 2.
 
 ```bash
 # vertexvol lines 54–58

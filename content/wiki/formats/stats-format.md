@@ -19,7 +19,7 @@ related:
   - "[[subject-directory]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - format
@@ -548,6 +548,7 @@ flags.
 - [[mri_brainvol_stats]] — writes `brainvol.stats` cache
 - [[aparcstats2table]] — tabulates cortical stats across subjects
 - [[asegstats2table]] — tabulates segmentation stats across subjects
+- [[csvprint]] — minimalist, dependency-free column extractor for the CSV/TSV stats outputs (e.g. `stats/synthseg.vol.csv`); the lightweight counterpart to `asegstats2table`
 - [[mri_ca_label]] — produces the subcortical segmentation consumed by `mri_segstats`
 - [[mris_ca_label]] — produces the cortical annotation consumed by `mris_anatomical_stats`
 

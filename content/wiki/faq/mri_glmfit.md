@@ -3,7 +3,7 @@ title: "mri_glmfit — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 17
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - mri_glmfit
@@ -498,8 +498,25 @@ with `slope.mtx`:
 0 1
 ```
 
-The `0` zeros out the intercept; the `1` selects the TimePoint coefficient — i.e. it tests whether thickness is changing linearly over time. If a full longitudinal pipeline run already exists, `long_mris_slopes` extracts slope maps directly from longitudinal subject directories without going through `mri_glmfit`.
+The `0` zeros out the intercept; the `1` selects the TimePoint coefficient — i.e. it tests whether thickness is changing linearly over time. If a full longitudinal pipeline run already exists, [[long_mris_slopes]] extracts slope maps directly from longitudinal subject directories without going through `mri_glmfit`.
 
 **Provenance:** Mailing list, 2025-04-18 (Greve). See `raw/mailing-list/2025-04-single-subject-longitudinal-glm-fsgd-timepoint-slope.md`.
 
 **Related:** [[wiki/tools/mri_glmfit|mri_glmfit]], [[longitudinal-processing]], [[fsgd-format]]
+
+---
+
+## See also
+
+Wrappers, alternatives, and companions to [[wiki/tools/mri_glmfit|mri_glmfit]]:
+
+- [[qdec_glmfit]] — the non-interactive command-line back end of QDEC;
+  builds a GLM design from a `qdec.table.dat` and drives `mri_glmfit`
+  (the maintained way to script the deprecated QDEC workflow).
+- [[run-qdec-glm]] — a tcsh batch driver that re-runs a QDEC group-level
+  GLM analysis from saved inputs.
+- [[fspalm]] — a wrapper around PALM (Permutation Analysis of Linear
+  Models) for permutation-based inference, an alternative to
+  `mri_glmfit`'s parametric / Monte-Carlo-Z correction.
+- [[stattablediff]] — computes per-subject, per-structure differences
+  between two `asegstats2table` / `aparcstats2table` tables.

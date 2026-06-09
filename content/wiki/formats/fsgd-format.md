@@ -12,6 +12,7 @@ consumed_by:
   - "[[mri_gdfglm]]"
   - "[[mri_mvglmfit]]"
   - "[[mris_glm]]"
+  - "[[run-qdec-glm]]"
 related:
   - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_glmfit-sim]]"
@@ -19,7 +20,7 @@ related:
   - "[[stats-format]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - format
@@ -281,6 +282,7 @@ The parser enforces the following at read time (`utils/fsgdf.cpp`):
 | [[mri_gdfglm]] | read | Simplified GLM front-end using FSGD + a data volume |
 | [[mri_mvglmfit]] | read | Multivariate GLM variant |
 | [[mris_glm]] | read | Legacy surface GLM (in `attic/`); same FSGD format |
+| [[run-qdec-glm]] | read | Re-runs a QDEC surface GLM non-interactively, reading the project's `qdec.fsgd` design file to drive [[wiki/tools/mri_glmfit\|mri_glmfit]] |
 | `gdfWrite()` | write | Internal C API function in `utils/fsgdf.cpp`; no dedicated CLI writes FSGD files |
 
 > [!gap] No standard FreeSurfer tool generates FSGD files

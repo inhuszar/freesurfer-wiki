@@ -15,7 +15,7 @@ related:
   - "[[coordinate-systems]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact GRF theory formula used for cluster-wise p-value computation needs verification in surfcluster.c."
   - "Behaviour of --fwhm with non-stationary corrections (--fwhm-map) needs empirical validation."
@@ -247,6 +247,7 @@ Also used for single-subject analyses (e.g., fMRI activation maps on individual 
 - [[mris_preproc]] — prepare group surface data
 - [[mri_binarize]] — threshold/binarize surface maps
 - [[mri_vol2surf]] — project volume stats to surface
+- [[fspalm]] — permutation-based (PALM) multiple-comparisons correction for `mri_glmfit` surface results; an alternative to cluster-wise GRF/CSD inference
 
 ## Confidence and Gaps
 

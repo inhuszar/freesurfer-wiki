@@ -18,6 +18,9 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 |----------|---------|--------|
 | [[wiki/pipelines/recon-all|recon-all]] | The canonical cortical reconstruction pipeline (autorecon1/2/3) | 📝 draft |
 | [[infant-recon-all]] | Infant FreeSurfer pipeline: k-NN MRF label fusion + NIftyReg surfaces for T1w data, ages 0–4.5 years | 📝 draft |
+| [[wiki/pipelines/trac-all|trac-all]] | TRACULA diffusion-tractography pipeline: -prep/-bedp/-path/-stat stages driven by a dmrirc config | 📝 draft |
+| [[wiki/pipelines/gcatrain|gcatrain]] | Iterative whole-brain GCA atlas training from manually labelled subjects (register → retrain loop) | 📝 draft |
+| [[wiki/pipelines/mmppsp|mmppsp]] | Experimental multimodal pial/white surface placement on SAMSEG tissue probabilities | 📝 draft |
 
 ## Concepts
 
@@ -539,6 +542,411 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[tksurferfv]] | is a tcsh wrapper script that translates `tksurfer`-style command-line arguments into [[wiki/tools/freeview|freeview]] a | tcsh | 📝 draft |
 | [[tkregister2]] | interactive GUI and command-line tool for manual registration editing and transform format conversion; historical source of the tkRAS convention | C++ | 📝 draft |
 
+## Additional Tools and Scripts (source audit, 2026-06-09)
+
+The following **291** FreeSurfer executables (compiled binaries and shell/Python/Tcl/Perl
+scripts) were previously undocumented and were ingested on 2026-06-09 by direct audit of the
+v8.2.0 source tree. They are grouped thematically below; all pages are source-anchored drafts
+pending human review. Four executables were intentionally **not** given pages: the developer
+skeletons `dummy` and `template`, the retired GUI launcher `qdec` (a v8.2.0 "no longer
+supported" stub), and the build-test helper `skip_long_make_checks`.
+
+<!-- BEGIN bulk-ingest 2026-06-09 -->
+
+### Diffusion & TRACULA
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[bedpostx_mgh]] | bedpostx_mgh is the MGH Martinos Center wrapper around FSL's bedpostx, the program that fits a Bayesian "ball-and-stick" diffusion model to … | shell | 📝 draft |
+| [[epidewarp.fsl]] | epidewarp.fsl is the classic B0-fieldmap EPI dewarping script: a front end to FSL's prelude (phase unwrapping) and fugue (field-to-shift … | shell | 📝 draft |
+| [[fs-eddy]] | fs-eddy is a FreeSurfer front end for FSL's eddy, which jointly corrects diffusion-weighted MRI for eddy-current distortions, subject … | shell | 📝 draft |
+| [[fs-topup]] | fs-topup is a FreeSurfer front end for FSL's topup, which estimates the susceptibility-induced off-resonance (B0) field from a pair of … | shell | 📝 draft |
+| [[grad_unwarp]] | grad_unwarp corrects gradient-coil non-linearity distortion: the geometric warping that arises because an MRI scanner's gradient fields are … | shell | 📝 draft |
+| [[orientLAS]] | orientLAS reorients a NIfTI volume to LAS voxel order (columns→Left, rows→Anterior, slices→Superior) without resampling the image data — it … | shell | 📝 draft |
+| [[slicedelay]] | slicedelay writes an FSL "custom slice-timing" file for use with FSL slicetimer (--tcustom=<file>). | Python | 📝 draft |
+| [[trac-all]] | trac-all is the top-level driver of TRACULA (TRActs Constrained by UnderLying Anatomy), FreeSurfer's automated global-probabilistic … | shell | 📝 draft |
+| [[trac-paths]] | trac-paths performs the actual probabilistic tractography for a single subject in TRACULA — step 3 of the trac-all pipeline. | shell | 📝 draft |
+| [[trac-preproc]] | trac-preproc performs all of TRACULA's pre-processing for a single subject. | shell | 📝 draft |
+| [[tractstats2table]] | tractstats2table collects the per-subject pathway-statistics files produced by TRACULA (dmri_pathstats, via trac-paths) and assembles them … | Python | 📝 draft |
+| [[vsm-smooth]] | vsm-smooth performs a masked, edge-preserving smoothing of a voxel-shift map (VSM) — the per-voxel displacement field produced by B0 … | shell | 📝 draft |
+| [[xfmrot]] | xfmrot extracts the rotation component of an affine transform and applies it to a set of 3-D diffusion gradient direction vectors … | shell | 📝 draft |
+
+### Longitudinal stream
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[long_create_base_sigma]] | long_create_base_sigma is a tcsh helper for the FreeSurfer longitudinal base (within-subject template) stream. | shell | 📝 draft |
+| [[long_create_orig]] | long_create_orig builds the base-space rawavg.mgz, orig.mgz, and aseg_cross.mgz for one or all time points of a longitudinal subject by … | shell | 📝 draft |
+| [[long_mris_slopes]] | long_mris_slopes computes within-subject slope maps of a surface measure (e.g. | Python | 📝 draft |
+| [[long_qdec_table]] | long_qdec_table is a small Python utility for manipulating a longitudinal QDEC table — a whitespace-delimited text file whose first two … | Python | 📝 draft |
+| [[long_stats_combine]] | long_stats_combine harvests per-time-point ROI statistics from a set of longitudinally processed subjects and appends them as new columns … | Python | 📝 draft |
+| [[long_stats_slopes]] | long_stats_slopes fits a within-subject linear model to a longitudinal FreeSurfer stats measure (e.g. | Python | 📝 draft |
+| [[long_stats_tps]] | long_stats_tps extracts the stats for one chosen time point from every subject in a longitudinal study and stacks them into a single table … | Python | 📝 draft |
+| [[long_submit_jobs]] | long_submit_jobs orchestrates an entire longitudinal recon-all study on a compute cluster. | Python | 📝 draft |
+| [[long_submit_postproc]] | long_submit_postproc submits per-subject post-processing jobs for a longitudinal study to a compute cluster. | Python | 📝 draft |
+| [[longmc]] | longmc performs the motion-correction (MC) step of the longitudinal recon-all stream when building a longitudinal time-point subject … | shell | 📝 draft |
+| [[map_to_base]] | map_to_base resamples a single volume or surface from one timepoint of a FreeSurfer [longitudinal](longitudinal-processing) study into that … | shell | 📝 draft |
+
+### recon-all components (`rca-*`)
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[rca-base-init]] | rca-base-init is an internal component script of recon-all that builds the unbiased longitudinal "base" (template) subject from a set of … | shell | 📝 draft |
+| [[rca-config]] | rca-config is the configuration front end of recon-all. | Python | 📝 draft |
+| [[rca-config2csh]] | rca-config2csh is a tiny Python helper that converts a recon-all configuration YAML (the file produced by rca-config) into a stream of csh … | Python | 📝 draft |
+| [[rca-fix-ento]] | rca-fix-ento fixes the entorhinal white matter in a finished (or in-progress) FreeSurfer subject. | shell | 📝 draft |
+| [[rca-long-tp-init]] | rca-long-tp-init initializes a longitudinal time-point subject before the rest of recon-all processes it. | shell | 📝 draft |
+| [[rca-rcac-prep]] | rca-rcac-prep preprocesses an input volume of arbitrary MRI contrast so that it can be fed into the standard recon-all surface stream. | shell | 📝 draft |
+| [[rca-surfreg]] | rca-surfreg is the recon-all-internal driver for spherical surface registration. | shell | 📝 draft |
+| [[rca-talairach]] | rca-talairach is a modern internal component script of recon-all that computes the subject's affine Talairach transform (talairach.xfm) … | shell | 📝 draft |
+
+### Multimodal input framework (`fsr-*`)
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[fsr-checkxopts]] | fsr-checkxopts is a one-shot validator for FreeSurfer expert-options ("xopts") files. | shell | 📝 draft |
+| [[fsr-coreg]] | fsr-coreg is the coregistration stage of the FreeSurfer fsr-* multimodal framework. | shell | 📝 draft |
+| [[fsr-getxopts]] | fsr-getxopts is the tiny but pervasive lookup utility that powers FreeSurfer's expert-options ("xopts") mechanism. | shell | 📝 draft |
+| [[fsr-import]] | fsr-import is the entry point of the FreeSurfer fsr-* multimodal input framework. | shell | 📝 draft |
+| [[fsr-longpreproc]] | fsr-longpreproc is the longitudinal preprocessing stage of the FreeSurfer fsr-* multimodal framework. | shell | 📝 draft |
+| [[fsr-mergexopts]] | fsr-mergexopts combines several FreeSurfer expert-options ("xopts") files into a single merged file. | shell | 📝 draft |
+
+### recon-all surface-stream helpers (legacy)
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[conf2hires]] | conf2hires takes a FreeSurfer recon that was generated on the conformed (1 mm isotropic) volume and re-places the final white and pial … | shell | 📝 draft |
+| [[dsurffe]] | dsurffe is the command-line frontend for the deepsurfer package — a PyTorch-based, learning-based toolbox for brain-image analysis bundled … | Python | 📝 draft |
+| [[fix_subject]] | fix_subject is a tiny legacy tcsh driver that runs FreeSurfer's surface topology-correction step for both hemispheres of one subject. | shell | 📝 draft |
+| [[fix_subject-lh]] | fix_subject-lh is the left-hemisphere worker of the legacy fix_subject topology-fix driver. | shell | 📝 draft |
+| [[fix_subject-rh]] | fix_subject-rh is the right-hemisphere worker of the legacy fix_subject topology-fix driver. | shell | 📝 draft |
+| [[fix_subject_corrected]] | fix_subject_corrected is a legacy tcsh driver that runs the surface topology-correction step for both hemispheres of one subject and writes … | shell | 📝 draft |
+| [[fix_subject_corrected-lh]] | fix_subject_corrected-lh is the left-hemisphere worker of the legacy fix_subject_corrected driver. | shell | 📝 draft |
+| [[fix_subject_corrected-rh]] | fix_subject_corrected-rh is the right-hemisphere worker of the legacy fix_subject_corrected driver. | shell | 📝 draft |
+| [[inflate_subject]] | inflate_subject is a small legacy tcsh driver that regenerates both cortical surface inflations for one subject after the white-matter (WM) … | shell | 📝 draft |
+| [[inflate_subject-lh]] | inflate_subject-lh is the left-hemisphere worker of the legacy inflate_subject family. | shell | 📝 draft |
+| [[inflate_subject-rh]] | inflate_subject-rh is the right-hemisphere worker of the legacy inflate_subject family — the exact mirror of inflate_subject-lh. | shell | 📝 draft |
+| [[inflate_subject3]] | inflate_subject3 is a parallel variant of the canonical inflate_subject driver: it fills the WM volume with mri_fill, then launches the … | shell | 📝 draft |
+| [[inflate_subject_new]] | inflate_subject_new is a variant of inflate_subject that lets you point the fill step at an alternatively named WM volume and writes … | shell | 📝 draft |
+| [[inflate_subject_new-lh]] | inflate_subject_new-lh is the left-hemisphere worker of the inflate_subject_new variant. | shell | 📝 draft |
+| [[inflate_subject_new-rh]] | inflate_subject_new-rh is the right-hemisphere worker of the inflate_subject_new variant — the exact mirror of inflate_subject_new-lh. | shell | 📝 draft |
+| [[inflate_subject_sc]] | inflate_subject_sc is a variant of the canonical inflate_subject driver that fills the white-matter volume with the help of an aseg … | shell | 📝 draft |
+| [[josareg]] | josareg is a standalone tcsh driver for JOSA learned spherical surface registration. | shell | 📝 draft |
+| [[mkheadsurf]] | mkheadsurf builds a triangulated surface of the whole head/scalp from an anatomical MRI. | tcsh | 📝 draft |
+| [[mmppsp]] | mmppsp — MultiModal Posterior-Probability Surface Placement — is an experimental tcsh pipeline that reconstructs white and pial cortical … | tcsh | 📝 draft |
+| [[morph_only_subject]] | morph_only_subject is the driver for the legacy registration-only morphometry pipeline. | shell | 📝 draft |
+| [[morph_only_subject-lh]] | morph_only_subject-lh is the left-hemisphere, registration-only worker of the legacy morph_only_subject pipeline. | shell | 📝 draft |
+| [[morph_only_subject-rh]] | morph_only_subject-rh is the right-hemisphere, registration-only worker of the legacy morph_only_subject pipeline. | shell | 📝 draft |
+| [[morph_rgb-lh]] | morph_rgb-lh renders snapshot images of a subject's registered left-hemisphere spherical surface to RGB (or TIFF) image files. | shell | 📝 draft |
+| [[morph_rgb-rh]] | morph_rgb-rh renders snapshot images of a subject's registered right-hemisphere spherical surface to RGB (or TIFF) files via mris2rgb. | shell | 📝 draft |
+| [[morph_subject]] | morph_subject is the canonical driver for the legacy per-hemisphere surface-morphometry pipeline. | shell | 📝 draft |
+| [[morph_subject-lh]] | morph_subject-lh is the left-hemisphere worker of the legacy morph_subject morphometry pipeline. | shell | 📝 draft |
+| [[morph_subject-rh]] | morph_subject-rh is the right-hemisphere worker of the legacy morph_subject morphometry pipeline. | shell | 📝 draft |
+| [[morph_tables-lh]] | morph_tables-lh builds the left-hemisphere structure-vector ("svit") tables for a subject by running mri-structvits on the registered … | shell | 📝 draft |
+| [[morph_tables-rh]] | morph_tables-rh builds the right-hemisphere structure-vector ("svit") tables for a subject by running mri-structvits on rh.sphere.reg, … | shell | 📝 draft |
+| [[ms_refine_subject]] | ms_refine_subject is a thin convenience wrapper that runs the surface-refinement binary mris_ms_refine on a subject's multi-spectral / … | shell | 📝 draft |
+| [[pctsurfcon]] | pctsurfcon computes the vertex-by-vertex percent white/grey contrast surface measure for a FreeSurfer subject. | shell | 📝 draft |
+| [[reinflate_subject]] | reinflate_subject is a small wrapper that re-smooths and re-inflates both cortical hemispheres of a subject. | shell | 📝 draft |
+| [[reinflate_subject-lh]] | reinflate_subject-lh is a thin left-hemisphere wrapper that re-smooths and re-inflates the left white-matter surface. | shell | 📝 draft |
+| [[reinflate_subject-rh]] | reinflate_subject-rh is a thin right-hemisphere wrapper that re-smooths and re-inflates the right white-matter surface. | shell | 📝 draft |
+| [[sphere_subject]] | sphere_subject is a two-line convenience wrapper that maps both cortical hemispheres of a subject onto a sphere. | shell | 📝 draft |
+| [[sphere_subject-lh]] | sphere_subject-lh is a thin left-hemisphere wrapper that inflates the left inflated surface all the way to a topologically correct sphere. | shell | 📝 draft |
+| [[sphere_subject-rh]] | sphere_subject-rh is a thin right-hemisphere wrapper that inflates the right inflated surface all the way to a topologically correct sphere. | shell | 📝 draft |
+| [[surfreg]] | surfreg is a standalone tcsh driver that performs spherical surface registration of one subject's cortical hemisphere(s) to a target … | shell | 📝 draft |
+| [[thickdiffmap]] | thickdiffmap is a small four-stage tcsh driver that computes a between-surface cortical thickness difference map for two scans of the same … | shell | 📝 draft |
+| [[topofit]] | topofit is the FreeSurfer driver script for TopoFit, a deep-learning method that places topologically-correct white and pial cortical … | tcsh | 📝 draft |
+| [[vno_match_check]] | vno_match_check is a small tcsh quality-assurance script that verifies that all of a subject's per-hemisphere surface geometry files and … | tcsh | 📝 draft |
+| [[wm-anat-snr]] | wm-anat-snr computes a white-matter anatomical signal-to-noise ratio (SNR) for a finished FreeSurfer subject, as an image-quality / QA … | shell | 📝 draft |
+
+### recon-all segmentation drivers (legacy)
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[gcainit]] | gcainit builds the initial Gaussian Classifier Atlas (gca.i01.gca) from a single, manually labelled "init" subject — the seed atlas that … | shell | 📝 draft |
+| [[gcaprepone]] | gcaprepone prepares one training subject for GCA atlas building. | shell | 📝 draft |
+| [[label_child]] | label_child is a labelling-only variant of label_subject intended for paediatric subjects. | shell | 📝 draft |
+| [[label_elderly_subject]] | label_elderly_subject is a labelling-only variant of label_subject aimed at elderly subjects. | shell | 📝 draft |
+| [[label_subject]] | label_subject is a legacy tcsh driver that performs whole-brain subcortical segmentation of a single subject using a Gaussian Classifier … | shell | 📝 draft |
+| [[label_subject_flash]] | label_subject_flash is a labelling-only variant of label_subject intended for FLASH (multi-flip-angle gradient-echo) data. | shell | 📝 draft |
+| [[label_subject_mixed]] | label_subject_mixed is a one-shot variant of label_subject that performs subcortical labelling with the mixed-contrast GCA atlas … | shell | 📝 draft |
+| [[lpcregister]] | lpcregister computes a linear (rigid/affine) registration between an arbitrary "moving" volume and a subject's FreeSurfer anatomical, using … | shell | 📝 draft |
+| [[register_child]] | register_child is the paediatric variant of register_subject. | shell | 📝 draft |
+| [[register_elderly_subject]] | register_elderly_subject is the elderly-cohort variant of register_subject. | shell | 📝 draft |
+| [[register_subject]] | register_subject is a thin legacy driver script that runs mri_em_register to compute the linear (affine, 12-DOF) registration of a … | shell | 📝 draft |
+| [[register_subject_flash]] | register_subject_flash is the multi-echo FLASH variant of register_subject (original author Bruce Fischl). | shell | 📝 draft |
+| [[register_subject_mixed]] | register_subject_mixed is the mixed-contrast variant of register_subject. | shell | 📝 draft |
+| [[renormalize_subject]] | renormalize_subject is a legacy tcsh driver that re-runs intensity normalisation for a subject after the user has added manual control … | shell | 📝 draft |
+| [[renormalize_subject_keep_editting]] | renormalize_subject_keep_editting is the edit-preserving variant of renormalize_subject. | shell | 📝 draft |
+| [[renormalize_T1_subject]] | renormalize_T1_subject is the minimal variant of renormalize_subject: it re-runs only the control-point-guided intensity normalisation step … | shell | 📝 draft |
+| [[reregister_subject_mixed]] | reregister_subject_mixed is the re-registration (refinement) variant of the mixed-contrast driver. | shell | 📝 draft |
+| [[segment_monkey]] | segment_monkey is the non-human-primate (monkey) variant of the segment_subject driver. | shell | 📝 draft |
+| [[segment_subject]] | segment_subject is a small legacy tcsh driver that runs the classic FreeSurfer "anatomical segmentation" sequence for a single subject: it … | shell | 📝 draft |
+| [[segment_subject_notal]] | segment_subject_notal is a no-Talairach variant of the legacy segment_subject driver. | shell | 📝 draft |
+| [[segment_subject_notal2]] | segment_subject_notal2 is a second no-Talairach variant of the legacy segment_subject driver. | shell | 📝 draft |
+| [[segment_subject_old_skull_strip]] | segment_subject_old_skull_strip is the legacy skull-strip variant of the segment_subject driver. | shell | 📝 draft |
+| [[segment_subject_sc]] | segment_subject_sc is the subcortical (sc) variant of the segment_subject driver. | shell | 📝 draft |
+| [[segment_subject_talmgh]] | segment_subject_talmgh is the GCA-based Talairach variant of the segment_subject driver. | shell | 📝 draft |
+
+### GCA/GCS atlas training
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[build_desikan_killiany_gcs.csh]] | build_desikan_killiany_gcs.csh is a short, fixed-recipe tcsh wrapper that rebuilds the canonical Desikan–Killiany cortical parcellation … | shell | 📝 draft |
+| [[gca-apply]] | gca-apply is a tcsh driver that applies a trained subcortical GCA (Gaussian Classifier Atlas, see gca-format) to one subject, reproducing … | shell | 📝 draft |
+| [[gcatrain]] | gcatrain builds a [Gaussian Classifier Atlas (GCA)](#related-tools) for whole-brain subcortical segmentation from a set of manually … | shell | 📝 draft |
+| [[gcatrainskull]] | gcatrainskull trains the with-skull Gaussian Classifier Atlas (gca/gca.skull.i02.gca) from an atlas-training directory previously prepared … | shell | 📝 draft |
+| [[jkgcatrain]] | jkgcatrain performs jackknife (leave-one-out) training of a Gaussian Classifier Atlas, for cross-validating an atlas built by gcatrain. | shell | 📝 draft |
+| [[mksurfatlas]] | mksurfatlas is a small csh wrapper that builds a surface-registration atlas — a .tif template file — by running mris_make_template over a … | shell | 📝 draft |
+| [[rebuild_gca_atlas.csh]] | rebuild_gca_atlas.csh is the (legacy) multi-stage tcsh driver that builds a subcortical GCA atlas (a .gca volumetric Gaussian Classifier … | shell | 📝 draft |
+| [[train-gcs-atlas]] | train-gcs-atlas is a tcsh driver that trains a surface cortical parcellation atlas — a .gcs (Gaussian Classifier Surface array) file — by … | shell | 📝 draft |
+
+### Average-subject & atlas construction
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[annot2std]] | annot2std builds an average cortical parcellation (annotation) in a standard space (typically fsaverage) from the individual annotations of … | shell | 📝 draft |
+| [[make_average_subcort]] | make_average_subcort creates a single binary subcortical grey-matter mask in fsaverage/MNI305 space from a set of reconstructed subjects. | shell | 📝 draft |
+| [[make_average_subject]] | make_average_subject builds a complete FreeSurfer "average subject" (an fsaverage-like template directory) from a set of … | shell | 📝 draft |
+| [[make_average_surface]] | make_average_surface builds the surface half of a FreeSurfer average subject. | shell | 📝 draft |
+| [[make_average_volume]] | make_average_volume builds the volume half of a FreeSurfer average subject. | shell | 📝 draft |
+| [[make_cortex_label]] | make_cortex_label builds a surface ?h.cortex.label for a subject by taking a cortical parcellation (aparc by default) and merging every … | shell | 📝 draft |
+| [[make_exvivo_filled]] | make_exvivo_filled prepares the white-matter and filled volumes needed to grow surfaces from an ex vivo scan that has been segmented by … | shell | 📝 draft |
+| [[make_folding_atlas]] | make_folding_atlas (formerly make_iter_atlas) iteratively builds a cortical folding registration atlas — the ?h.reg.template.tif (MRISP) … | shell | 📝 draft |
+| [[make_hemi_mask]] | make_hemi_mask masks a head/brain volume down to a single hemisphere, in the volume's *original* space. | shell | 📝 draft |
+| [[make_symmetric]] | make_symmetric produces a perfectly left-right symmetric version of a head/brain volume by mirroring one hemisphere onto the other. | shell | 📝 draft |
+| [[make_upright]] | make_upright straightens a head/brain volume so it faces forward and sits upright, without an external template. | shell | 📝 draft |
+
+### Cross-hemisphere, symmetric & ex vivo
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[exvivo-hemi-proc]] | exvivo-hemi-proc is an end-to-end pipeline for turning ex vivo whole-hemisphere FLASH (multi-echo, multi-flip-angle) MRI into a FreeSurfer … | shell | 📝 draft |
+| [[vol2symsurf]] | vol2symsurf samples a volume onto the left–right symmetric surface template fsaverage_sym so that the left and right hemispheres of a … | shell | 📝 draft |
+| [[xhemi-tal]] | xhemi-tal computes the Talairach registration (talairach.xfm) for the left-right mirror sub-subject created by xhemireg, analytically from … | shell | 📝 draft |
+| [[xhemireg]] | xhemireg builds a left-right mirror-reversed copy of a FreeSurfer subject so that the two hemispheres can be compared, averaged, or … | shell | 📝 draft |
+| [[xsanatreg]] | xsanatreg ("cross-session anatomical registration") is a thin tcsh front end for the MNI minctracc registration program. | shell | 📝 draft |
+
+### Segmentation utilities
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[annot2volseg]] | annot2volseg turns a surface annotation (a .annot parcellation living on a spherical surface) into a volumetric segmentation for a target … | shell | 📝 draft |
+| [[apas2aseg]] | apas2aseg collapses an aparc+aseg.mgz ("apas" = aparc+aseg) back into a plain aseg-style segmentation. | shell | 📝 draft |
+| [[biasfield]] | biasfield estimates the B1 intensity bias field of a FreeSurfer subject by dividing the (uncorrected) orig.mgz by the … | shell | 📝 draft |
+| [[cblumwmgyri]] | cblumwmgyri subdivides the cerebellar white matter in an existing segmentation into a core component and a gyral (branching, leaf-like) … | shell | 📝 draft |
+| [[defect-seg]] | defect-seg builds a rich set of visualization and analysis products from the topological-defect labels (?h.defect_labels) created by the … | shell | 📝 draft |
+| [[defect2seg]] | defect2seg converts the per-vertex topological-defect labels produced by the FreeSurfer automatic topology fixer into a volume segmentation … | shell | 📝 draft |
+| [[gtmseg]] | gtmseg is the high-level tcsh driver that builds the high-resolution anatomical segmentation consumed by PETsurfer's … | shell | 📝 draft |
+| [[mergeseg]] | mergeseg overlays one segmentation volume (the merge segmentation) on top of another (the source segmentation) and writes the combined … | shell | 📝 draft |
+| [[samseg2recon]] | samseg2recon imports the output of a samseg (or samseg-long) run into a FreeSurfer subject directory, populating it so the recon-all … | shell | 📝 draft |
+| [[scgm-mask]] | scgm-mask builds a subcortical grey-matter (SCGM) probability map and mask in MNI152 space from a group of FreeSurfer subjects. | shell | 📝 draft |
+| [[seg2cc]] | seg2cc adds a corpus-callosum (CC) segmentation to an existing aseg-style volume that lacks one — for example, a samseg, SynthSeg, or … | shell | 📝 draft |
+| [[seg2filled]] | seg2filled derives a filled.mgz-style white-matter volume directly from an aseg-style segmentation, bypassing the canonical recon-all … | shell | 📝 draft |
+| [[seg2recon]] | seg2recon builds and populates a FreeSurfer subject directory from a raw input image and an externally produced aseg-style segmentation … | shell | 📝 draft |
+| [[segpons]] | segpons produces an approximate segmentation of the pons and adds it (as label 174) to an existing FreeSurfer segmentation volume. | shell | 📝 draft |
+| [[talsegprob]] | talsegprob builds a Talairach-space (MNI305/fsaverage) segmentation probability map across a group of subjects. | shell | 📝 draft |
+| [[ventfix]] | ventfix repairs under-labelled lateral ventricles in a FreeSurfer segmentation. | C++ | 📝 draft |
+| [[vertexvol]] | vertexvol computes a per-vertex grey-matter volume map for one hemisphere and writes it as a surface overlay (?h.volume, one scalar per … | shell | 📝 draft |
+| [[wmsaseg]] | wmsaseg segments white-matter signal abnormalities (WMSA) — the hyperintense white-matter lesions seen in ageing and small-vessel disease — … | shell | 📝 draft |
+| [[xcerebralseg]] | xcerebralseg builds a whole-head segmentation by labelling the extra-cerebral structures — sulcal/extra-cerebral CSF, skull/bone, head soft … | shell | 📝 draft |
+
+### Label & ROI utilities
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[aparc_stats_aseg]] | aparc_stats_aseg is a small tcsh orchestrator that runs the three steps needed to apply a custom cortical parcellation atlas (a .gcs file) … | shell | 📝 draft |
+| [[bblabel]] | bblabel applies a rectangular bounding box to a FreeSurfer label, keeping only the label points whose coordinates fall inside the box and … | shell | 📝 draft |
+| [[bbmask]] | bbmask creates a smaller-field-of-view copy of a volume by cropping it to a tight bounding box around a mask. | shell | 📝 draft |
+| [[compute_interrater_variability.csh]] | compute_interrater_variability.csh quantifies how closely two label volumes agree — typically the same region segmented by two different … | shell | 📝 draft |
+| [[compute_label_vals.csh]] | compute_label_vals.csh extracts the intensity values inside three tissue labels (white matter, gray matter, and fluid) from every … | shell | 📝 draft |
+| [[compute_label_volumes.csh]] | compute_label_volumes.csh reports, for every label ID present in a segmentation/label volume (or for one chosen label), the number of … | shell | 📝 draft |
+| [[get_label_thickness]] | get_label_thickness is a tiny text-filtering helper that pulls the per-vertex cortical thickness values for the vertices listed in a … | shell | 📝 draft |
+| [[isolate_labels.csh]] | isolate_labels.csh splits a multi-label segmentation volume into a set of single-label binary masks, writing one mask file per label. | shell | 📝 draft |
+| [[isolate_labels_keeporigval.csh]] | isolate_labels_keeporigval.csh splits a multi-label segmentation into one volume per label, where each output keeps the original label … | shell | 📝 draft |
+| [[label-cortex]] | label-cortex builds the ?h.cortex.label for a subject — the surface label that defines cerebral cortex proper (excluding the medial wall, … | shell | 📝 draft |
+| [[label2flat]] | label2flat projects a surface label onto a flattened cortical patch, rewriting each label point's coordinates to the 2D position of the … | C++ | 📝 draft |
+| [[label2patch]] | label2patch turns a surface label into a patch: it loads the subject's surface (the inflated surface by default), marks every vertex … | C++ | 📝 draft |
+| [[labels_disjoint]] | Despite its name, labels_disjoint does not test whether two labels are disjoint. | shell | 📝 draft |
+| [[labels_intersect]] | labels_intersect computes the set intersection of two FreeSurfer surface labels by vertex number. | shell | 📝 draft |
+| [[labels_union]] | labels_union computes the set union of two FreeSurfer surface [labels](label-format) that live on the same surface: it produces a new label … | shell | 📝 draft |
+| [[make-segvol-table]] | make-segvol-table builds a group volume table: a plain-text matrix of subcortical structure volumes (in mm³) with one row per structure and … | shell | 📝 draft |
+| [[map_all_labels]] | map_all_labels paints three standard average sulcal labels — the superior temporal sulcus, the central sulcus, and the calcarine sulcus — … | shell | 📝 draft |
+| [[map_all_labels-lh]] | map_all_labels-lh is the left-hemisphere-only variant of map_all_labels. | shell | 📝 draft |
+| [[map_central_sulcus]] | map_central_sulcus is a two-line tcsh wrapper that is meant to map the central sulcus label onto a single hemisphere of a subject by … | shell | 📝 draft |
+| [[pointset2label]] | pointset2label rasterises a pointset / waypoint file (a FreeSurfer label used as an ordered list of control points) into a volume label. | C++ | 📝 draft |
+| [[print_unique_labels.csh]] | print_unique_labels.csh lists the distinct integer label IDs present in a segmentation/label volume. | shell | 📝 draft |
+| [[setlabelstat]] | setlabelstat overwrites the *stat* (fifth) column of every vertex line in a FreeSurfer surface [label](label-format) file with a single, … | shell | 📝 draft |
+| [[table2map]] | table2map paints a per-structure value table back onto an image. | Python | 📝 draft |
+| [[vol2segavg]] | vol2segavg computes the average value of an input volume inside one or more segments of a segmentation, after resampling the input into the … | shell | 📝 draft |
+| [[vol2subfield]] | vol2subfield maps an arbitrary input volume into the voxel space of a FreeSurfer "subfield" segmentation — the hippocampal/amygdalar, … | shell | 📝 draft |
+| [[wfilemask]] | wfilemask zeroes out the regions of a surface value file (a .w "paint" overlay) that fall inside a surface label. | shell | 📝 draft |
+
+### FS-FAST, FEAT & retinotopy
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[aparc2feat]] | aparc2feat resamples a FreeSurfer cortical parcellation (the lh.aparc.annot / rh.aparc.annot surface annotation produced by recon-all) into … | shell | 📝 draft |
+| [[aseg2feat]] | aseg2feat resamples a FreeSurfer volumetric segmentation — by default the subcortical aseg.mgz from recon-all, or optionally aparc+aseg or … | shell | 📝 draft |
+| [[beta2sxa]] | beta2sxa packages a GLM beta (parameter-estimate) volume — or a stack of them — into the legacy FS-FAST "selxavg" (sxa) format so the … | shell | 📝 draft |
+| [[extract_seg_waveform]] | extract_seg_waveform extracts a single average time-course (waveform) from a 4D input volume over the voxels belonging to one or more … | shell | 📝 draft |
+| [[feat2segstats]] | feat2segstats extracts per-segment summary statistics from an FSL FEAT analysis. | shell | 📝 draft |
+| [[feat2surf]] | feat2surf samples the statistical volumes of an FSL FEAT analysis onto the FreeSurfer cortical surface — both the individual subject's … | shell | 📝 draft |
+| [[mkxsubjreg]] | mkxsubjreg ("make cross-subject registration") creates a new register.dat-style registration matrix that maps a functional volume of one … | C++ | 📝 draft |
+| [[mri-func2sph]] | mri-func2sph resamples a functional FS-FAST volume (a raw bvolume, or a selavg/selxavg averaging result) onto a standard icosahedral … | shell | 📝 draft |
+| [[mri-funcvits]] | mri-funcvits builds the functional structure-vectors / vertex index tables that map a functional (EPI) acquisition onto the cortical … | shell | 📝 draft |
+| [[mri-sph2surf]] | mri-sph2surf is the inverse of mri-func2sph: it takes data defined on the standard ic10242 icosahedron (the FS-FAST surface-analysis … | shell | 📝 draft |
+| [[mri-structvits]] | Legacy FS-FAST builder of subject-side surface↔icosahedron structure-vector (.vit/.vss) tables; orchestrates the absent vss-* binaries (source-only, not shipped) | shell | 📝 draft |
+| [[optseq2]] | optseq2 designs the timing and order of events for rapid-presentation event-related (RPER) fMRI experiments. | C++ | 📝 draft |
+| [[polyorder]] | polyorder is a tiny FSFAST calculator that converts a desired high-pass filter cutoff frequency (in Hz) into the order of a polynomial … | shell | 📝 draft |
+| [[rcbf-prep]] | rcbf-prep prepares a regional cerebral blood flow (rCBF) perfusion map — as produced by Siemens ASL scanners (typically the ep2d_pasl PASL … | shell | 📝 draft |
+| [[rtview]] | rtview ("retinotopy view") is a tcsh front-end to tksurfer for displaying FSFAST retinotopy results with the phase-encoded colour wheel. | shell | 📝 draft |
+| [[run-qdec-glm]] | run-qdec-glm is a small tcsh batch driver that re-runs a QDEC group-level surface GLM non-interactively from an existing QDEC project … | shell | 📝 draft |
+| [[sfa2fieldsign]] | sfa2fieldsign computes cortical visual field-sign maps from an FS-FAST phase-encoded retinotopy analysis (the output of sfa-sess, which … | shell | 📝 draft |
+| [[stat_normalize]] | stat_normalize is a legacy FS-FAST tool that averages a set of functional statistics volumes into a common anatomical space. | C++ | 📝 draft |
+| [[stim_polar]] | OpenGL retinotopy eccentricity stimulus presenter (binary exits at startup in v8.2.0) | C++ | 📝 draft |
+| [[xcorr]] | xcorr computes the voxel-by-voxel Pearson correlation coefficient between two 4-D volumes that share the same geometry. | shell | 📝 draft |
+
+### Registration & transforms
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[avi2talxfm]] | avi2talxfm converts the voxel-to-voxel registration matrix produced by the Avi-Snyder 4dfp Talairach toolchain (the t4_vox2vox.txt file … | shell | 📝 draft |
+| [[fs_spmreg.glnxa64]] | fs_spmreg.glnxa64 is the MATLAB Compiler Runtime (MCR) build of the SPM coregistration backend used by spmregister. | MATLAB (compiled) | 📝 draft |
+| [[fsfirst.fsl]] | fsfirst.fsl is a tcsh wrapper that runs FSL's FIRST subcortical segmentation tool (run_first_all) on a FreeSurfer input volume and packages … | shell | 📝 draft |
+| [[fsl_rigid_register]] | fsl_rigid_register is a tcsh front-end that drives FSL's FLIRT linear registration program to align one volume (the *input/moveable* … | shell | 📝 draft |
+| [[fslregister]] | fslregister is a tcsh wrapper that registers a moveable volume (typically a functional, diffusion, or other secondary acquisition) to a … | shell | 📝 draft |
+| [[mni152reg]] | mni152reg computes a 12-DOF (affine) registration between a FreeSurfer subject's anatomical and the FSL MNI152 standard-space template, … | shell | 📝 draft |
+| [[rbbr]] | rbbr ("robust BBR") is a wrapper around bbregister that makes boundary-based registration robust to local outliers. | shell | 📝 draft |
+| [[reg-feat2anat]] | reg-feat2anat computes the registration between an FSL FEAT functional analysis and a subject's FreeSurfer anatomical. | shell | 📝 draft |
+| [[reg-mni305.2mm]] | reg-mni305.2mm computes the registration between FreeSurfer's MNI305 2 mm space and a subject's native FreeSurfer anatomical space, writing … | shell | 📝 draft |
+| [[reg2subject]] | reg2subject extracts and prints the subject name recorded inside a registration file, working transparently whether that file is a … | shell | 📝 draft |
+| [[register.csh]] | register.csh is a legacy tcsh driver that rigid-body registers one FreeSurfer COR volume to another using the AFNI toolkit (to3d, adwarp, … | shell | 📝 draft |
+| [[remove_talairach]] | remove_talairach strips the embedded Talairach transform out of a subject's legacy COR volume headers. | shell | 📝 draft |
+| [[show_tal]] | show_tal is a one-line tcsh wrapper that displays a subject's Talairach registration for visual quality control. | shell | 📝 draft |
+| [[spm_t_to_b]] | spm_t_to_b is a small bash utility that converts a time series of SPM Analyze volumes (one .img/.hdr per time point, named by a … | shell | 📝 draft |
+| [[spmmat2register]] | spmmat2register is an obsolete FreeSurfer utility that historically converted a pair of SPM Analyze volumes (a functional and a structural, … | shell | 📝 draft |
+| [[spmregister]] | spmregister computes a rigid (6-DOF) registration between a "movable" volume (typically a functional, EPI, or other secondary acquisition) … | shell | 📝 draft |
+| [[tal_compare]] | tal_compare is a one-line tcsh wrapper for the quality control of two competing Talairach registrations of the same subject. | shell | 📝 draft |
+| [[vlrmerge-mni]] | vlrmerge-mni ("volume + left/right merge, MNI") assembles a single MNI152-space volume from the three pieces of a typical group GM … | shell | 📝 draft |
+
+### Group analysis & stats tables
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[aparcstatsdiff]] | aparcstatsdiff compares the cortical-parcellation morphometry (aparc) of two single subjects for a chosen hemisphere, parcellation scheme, … | shell | 📝 draft |
+| [[asegstatsdiff]] | asegstatsdiff compares the subcortical segmentation statistics (aseg) of two single subjects. | shell | 📝 draft |
+| [[fspalm]] | fspalm is a FreeSurfer wrapper around PALM (Permutation Analysis of Linear Models), a permutation-based tool by Anderson Winkler for … | Python | 📝 draft |
+| [[groupstats]] | groupstats builds a complete group-analysis directory from a set of finished recon-all subjects. | shell | 📝 draft |
+| [[groupstatsdiff]] | groupstatsdiff compares two output directories produced by groupstats to evaluate the difference between two recon-all analyses — typically … | shell | 📝 draft |
+| [[gtmstats2table]] | gtmstats2table collects per-region GTM values from a set of mri_gtmpvc output directories and assembles them into a single … | shell | 📝 draft |
+| [[merge_stats_tables]] | merge_stats_tables merges a set of already-built stats tables (one per subject, or any compatible stats-table files) into a single combined … | Python | 📝 draft |
+| [[qdec_glmfit]] | qdec_glmfit is the non-interactive command-line back end of QDEC, FreeSurfer's graphical group-level surface analysis tool. | C++ | 📝 draft |
+| [[run_mris_preproc]] | run_mris_preproc is a batch wrapper around mris_preproc that generates the full grid of pre-smoothed surface maps needed by the Qdec … | shell | 📝 draft |
+| [[stattablediff]] | stattablediff computes a per-subject, per-structure difference between two stats tables of the kind produced by asegstats2table or … | Python | 📝 draft |
+
+### DICOM & MINC import
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[cor_to_minc]] | cor_to_minc converts a legacy FreeSurfer COR- volume directory (the historical 256×256×256, 1 mm isotropic, 8-bit coronal format made of … | shell | 📝 draft |
+| [[cp-dicom]] | cp-dicom copies the DICOM files in a directory into a tidy output tree with one subdirectory per acquisition series. | shell | 📝 draft |
+| [[dcmdir-info-mgh]] | dcmdir-info-mgh prints a quick per-series summary of a DICOM directory whose files follow the MGH network-archive naming convention … | shell | 📝 draft |
+| [[dcmsplit]] | dcmsplit separates a directory of DICOM files into per-identifier subfolders so that a downstream unpacker can process each group cleanly. | shell | 📝 draft |
+| [[dicom-rename]] | dicom-rename copies a list of DICOM files to new, human-readable filenames of the form outbase-SSS-IIIII.dcm, where SSS is the zero-padded … | shell | 📝 draft |
+| [[fsdcmdecompress]] | fsdcmdecompress is a thin front-end that decompresses a single compressed-transfer-syntax DICOM file (JPEG or RLE encoded) into an … | shell | 📝 draft |
+| [[minc2seqinfo]] | minc2seqinfo reads acquisition metadata out of a MINC (.mnc) file and writes it as a small tag-value seq.info text file (the per-run … | shell | 📝 draft |
+| [[unpackimadir]] | unpackimadir is a thin front-end wrapper that unpacks a Siemens .ima directory by first converting it to MINC with ima2mnc and then … | shell | 📝 draft |
+| [[unpackimadir2]] | unpackimadir2 unpacks a directory of Siemens .ima files (the older Numaris file format that predates Siemens DICOM) into sorted, converted … | shell | 📝 draft |
+| [[unpackmincdir]] | unpackmincdir unpacks a directory of MINC files (one MINC volume per acquisition run, named base-...-RUN-mri.mnc[.gz]) into an FS-FAST … | shell | 📝 draft |
+| [[unpacksdcmdir]] | unpacksdcmdir is the legacy Siemens DICOM directory unpacker. | shell | 📝 draft |
+
+### File, path & format utilities
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[csvprint]] | csvprint extracts and prints selected columns from a comma- or tab-separated table whose first row is a header of field names. | Python | 📝 draft |
+| [[findsession]] | findsession searches the scanner session archive for sessions whose subject name (or subject ID) matches a given substring, and prints the … | shell | 📝 draft |
+| [[fname2ext]] | fname2ext is a tiny csh helper that prints the recognised FreeSurfer image extension of a filename. | shell | 📝 draft |
+| [[fname2stem]] | fname2stem is a tiny csh helper that strips a recognised FreeSurfer image extension from a filename to leave the stem. | shell | 📝 draft |
+| [[fscalc]] | fscalc is a command-line voxel/vertex calculator for FreeSurfer image and surface-overlay data. | shell | 📝 draft |
+| [[fscalc.fsl]] | fscalc.fsl is a thin tcsh wrapper around FSL's fslmaths voxel calculator that lets you use any FreeSurfer-readable input format and any … | shell | 📝 draft |
+| [[fsfget]] | fsfget is a tiny Tcl utility that extracts a single named parameter from an FSL/FEAT design.fsf analysis-design file and prints its value … | Tcl | 📝 draft |
+| [[fsrealpath]] | fsrealpath is a one-line Python wrapper around os.path.realpath that prints the canonical absolute path of a file or directory — resolving … | Python | 📝 draft |
+| [[fvcompare]] | fvcompare launches freeview preloaded with the volumes, segmentations, and surfaces of two (optionally up to four) FreeSurfer subjects side … | shell | 📝 draft |
+| [[getfullpath]] | getfullpath converts a (possibly relative) filename into an absolute path by cd-ing into the file's directory, reading the working … | shell | 📝 draft |
+| [[is-surface]] | is-surface decides whether a file is a volume-encoded FreeSurfer surface — that is, surface data (e.g. | shell | 📝 draft |
+| [[isanalyze]] | isanalyze is a one-line shell predicate that tests whether a filename refers to an [ANALYZE](https://rportal.mayo.edu/bir/ANALYZE75.pdf) … | shell | 📝 draft |
+| [[IsLTA]] | IsLTA is a shell predicate that tests whether a registration/transform file is in [LTA (Linear Transform … | shell | 📝 draft |
+| [[isnifti]] | isnifti is a one-line shell predicate that tests whether a filename refers to a [NIfTI](https://nifti.nimh.nih.gov/) image by inspecting … | shell | 📝 draft |
+| [[listsubj]] | listsubj lists the subject IDs found in a SUBJECTS_DIR (passed as a positional argument), with optional filters by processing stream … | shell | 📝 draft |
+| [[meanval]] | meanval computes the mean intensity of a volume inside a binary mask and writes that single number (one value per frame) to a text file. | shell | 📝 draft |
+| [[sratio]] | sratio computes a voxel-wise signed ratio of two volumes A and B and writes the result to an output volume. | shell | 📝 draft |
+| [[stem2fname]] | stem2fname resolves a stem to a full filename by probing the disk for stem.fmt across a fixed list of FreeSurfer image formats, in priority … | shell | 📝 draft |
+| [[UpdateNeeded]] | UpdateNeeded is a small make-style timestamp comparator. | shell | 📝 draft |
+
+### Histology, optical & ex vivo imaging
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[dissection_photo]] | dissection_photo is an interactive Qt GUI application for turning photographs of dissected brain slabs into pixel-calibrated, segmented … | C++ | 📝 draft |
+| [[hiam_make_surfaces]] | hiam_make_surfaces deforms an initial triangulated surface so that it tightly bounds a hippocampus or amygdala label in an aseg-style … | C++ | 📝 draft |
+| [[hiam_make_template]] | hiam_make_template builds an average spherical-coordinate template of a hippocampal (or amygdala) surface from a set of subjects. | C++ | 📝 draft |
+| [[hiam_register]] | hiam_register non-linearly registers an individual hippocampal (or amygdala) spherical surface to an average template parameterization … | C++ | 📝 draft |
+| [[histo_compute_joint_density]] | histo_compute_joint_density estimates the 2D joint intensity probability density of two spatially-aligned, single-slice images (for example … | C++ | 📝 draft |
+| [[histo_register_block]] | histo_register_block computes a 2-D affine alignment between a single block-face photograph and the corresponding histological section of a … | C++ | 📝 draft |
+| [[histo_synthesize]] | histo_synthesize predicts what a histological section would look like at a location in an MRI by non-parametric, patch-based example … | C++ | 📝 draft |
+| [[irepifitvol]] | irepifitvol is a tiny csh launcher that runs the MATLAB-compiled binary irepifitvol.glnx64, which voxel-wise fits an inversion-recovery EPI … | shell | 📝 draft |
+| [[irepifitvol.glnx64]] | irepifitvol.glnx64 is a MATLAB-compiled (MCR) executable that performs voxel-wise T1 fitting of an inversion-recovery EPI (IR-EPI) volume … | MATLAB (compiled) | 📝 draft |
+| [[oct_register_mosaic]] | oct_register_mosaic stitches a set of overlapping optical microscopy tiles (originally optical-coherence-tomography sub-images) into a … | C++ | 📝 draft |
+| [[process_exvivo_diff_data_bay3.sh]] | process_exvivo_diff_data_bay3.sh is a site-specific tcsh pipeline that processes ex vivo (post-mortem) diffusion MRI acquired with the SSFP … | shell | 📝 draft |
+| [[tridec]] | tridec is a small utility for building a boundary-element-model (BEM) triangle mesh by re-tessellating a fine BEM surface onto an … | C++ | 📝 draft |
+
+### Bias field, denoising, defacing & edits
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[AntsDenoiseImageFs]] | AntsDenoiseImageFs denoises an MRI volume using a spatially adaptive, patch-based non-local-means filter. | C++ | 📝 draft |
+| [[AntsN4BiasFieldCorrectionFs]] | AntsN4BiasFieldCorrectionFs performs N4 retrospective bias-field (intensity non-uniformity) correction on an MRI volume. | C++ | 📝 draft |
+| [[bmedits2surf]] | bmedits2surf is a tcsh script that detects where a subject's brainmask.mgz has been manually edited (relative to the automatically … | shell | 📝 draft |
+| [[deface_subject]] | deface_subject is a one-line tcsh convenience wrapper that defaces a FreeSurfer subject's anatomical volume by calling the legacy … | shell | 📝 draft |
+| [[mideface]] | mideface ("minimally invasive defacing") is the modern FreeSurfer anonymization driver. | shell | 📝 draft |
+| [[wmedits2surf]] | wmedits2surf is a tcsh script that detects where a subject's white-matter segmentation wm.mgz has been manually edited and projects the … | shell | 📝 draft |
+
+### Visualization
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[fsvglrun]] | fsvglrun is a wrapper that runs an OpenGL GUI command under VirtualGL (vglrun) when, and only when, several conditions for safe/beneficial … | shell | 📝 draft |
+| [[fsxvfb]] | fsxvfb runs a graphical command under a virtual X framebuffer (Xvfb) so it can execute "headless" — without a physical display or any … | shell | 📝 draft |
+| [[mris2rgb]] | mris2rgb renders a FreeSurfer cortical surface to off-screen image files. | C++ | 📝 draft |
+| [[nmovie_qt]] | nmovie_qt is a small Qt-based graphical viewer that plays a sequence of 2-D raster images (PNG, JPEG, BMP, TIFF, …) as a flip-book movie. | C++ | 📝 draft |
+| [[tkregisterfv]] | tkregisterfv is a tcsh wrapper that lets you inspect and adjust a volume-to-volume registration in freeview using a tkregister-style … | tcsh | 📝 draft |
+
+### Infrastructure & environment
+
+| Tool | Summary | Language | Status |
+|------|---------|----------|--------|
+| [[bugr]] | bugr (bug report) is a small diagnostic helper that prints a copy-and-paste block of environment information to include in a FreeSurfer … | shell | 📝 draft |
+| [[check_recons.sh]] | check_recons.sh is a bash utility that scans a $SUBJECTS_DIR (or a directory given as its single argument) and reports, at a glance, the … | shell | 📝 draft |
+| [[check_subject]] | check_subject is a small Perl script that sanity-checks the surface files of a single reconstructed subject. | Perl | 📝 draft |
+| [[fixup_mni_paths]] | fixup_mni_paths is an installation-time maintenance tcsh script that repairs the hard-coded Perl interpreter path and MNI install prefix … | shell | 📝 draft |
+| [[freesurfer]] | freesurfer is a trivial informational banner script. | shell | 📝 draft |
+| [[fs-check-os]] | fs-check-os answers one question: *is the operating system I am running on one that the maintainer of this dataset has declared … | shell | 📝 draft |
+| [[fs_install_cuda]] | fs_install_cuda upgrades the PyTorch installed inside FreeSurfer's bundled Python environment (fspython) from the CPU-only build to a … | shell | 📝 draft |
+| [[fs_install_mcr]] | fs_install_mcr downloads and installs a free MATLAB Compiler Runtime (MCR) into the FreeSurfer installation tree so that FreeSurfer's … | shell | 📝 draft |
+| [[fs_lib_check]] | fs_lib_check is an installation sanity-check that verifies the host Linux system provides the handful of shared-library packages … | shell | 📝 draft |
+| [[fs_run_from_mcr]] | fs_run_from_mcr is a tiny wrapper that lets a MATLAB-compiled FreeSurfer tool safely shell out to a *native* FreeSurfer binary. | shell | 📝 draft |
+| [[fs_time]] | fs_time is a thin front end for the Unix /usr/bin/time program that runs an arbitrary command and prints a single, machine-parseable line … | shell | 📝 draft |
+| [[fs_tutorial_data]] | fs_tutorial_data downloads the FreeSurfer tutorial datasets onto the local machine via rsync from the Martinos Center public data server. | shell | 📝 draft |
+| [[fs_update]] | fs_update updates an existing FreeSurfer installation in place by rsync-ing patched files from the Martinos Center distribution server into … | shell | 📝 draft |
+| [[fsl_sub_mgh]] | fsl_sub_mgh is the MGH/Martinos replacement for FSL's fsl_sub cluster dispatcher. | shell | 📝 draft |
+| [[help_xml_validate]] | help_xml_validate is a developer/CI utility that validates every FreeSurfer tool's --help XML document (*.help.xml) against the FreeSurfer … | shell | 📝 draft |
+| [[post-recon-all]] | post-recon-all is a tcsh driver that runs a battery of optional, mostly independent FreeSurfer modules on a subject *after* recon-all has … | shell | 📝 draft |
+| [[reconbatchjobs]] | reconbatchjobs is a small bash helper used internally by recon-all to run several independent commands in parallel and then merge their … | shell | 📝 draft |
+| [[usbtree]] | usbtree is a small Perl utility that reads the legacy Linux USB device table at /proc/bus/usb/devices and prints a human-readable, indented … | Perl | 📝 draft |
+
+<!-- END bulk-ingest 2026-06-09 -->
+
 ## Gotchas
 
 | Topic | Summary | Status |
@@ -720,6 +1128,47 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[00148]] | Two flag-gated CLI branches exit with status `1` after writing their output successfully — POSIX convention is `0 = success`, so shell wrappers / CI / Snakemake / Nextflow / Slurm that gate on `$?` treat these successful invocations as failures and abort or retry. Sites: (1) `mri_label2vol --pvf <out>` at `mri_label2vol.cpp:494-500` calls `MRIwrite(PVFVol, PVFVolId)` then `exit(1)` at `:499` — output file is on disk and valid, but exit code is wrong. (2) `mri_ca_label -F` at `mri_ca_label.cpp:474-495` calls `MRIwrite(mri_dir, "lap.mgz"); MRIwrite(mri_tmp, "filtered.mgz")` then `exit(1)` at `:494` — wrong exit code, plus two hardcoded CWD-relative basenames that silently overwrite any pre-existing `lap.mgz` / `filtered.mgz` in the user's CWD (same defect class as [[00146]] for `t.mgz`), plus the `if (filter)` branch is inside the per-input-volume loop so multi-input `-F` invocations are truncated to the first input. Both flags are documented user-facing CLI options. Neither is on the default `recon-all` path: `--pvf` is opt-in for PET-PVC partial-volume-fraction outputs; `-F` is opt-in diagnostic / development mode. Fix: change `exit(1)` to `exit(0)` (or remove and fall through). For `-F`'s hardcoded filenames, also guard with `Gdiag & DIAG_WRITE && DIAG_VERBOSE_ON` per the project convention | medium | open |
 | [[00149]] | `mri_segment -min-wm-mask <vol>` is non-functional due to two compounded defects. **Defect A (`mri_segment.cpp:629-630`):** after loading the mask, the post-load binarization is a no-op — both `if` and `else` branches set the voxel to `1`: `if(IS_WM(m) || IS_HYPO(m)) MRIsetVoxVal(...,1); else MRIsetVoxVal(...,1);`. The intent (per the option name) is `WM/Hypo → 1, else → 0`. As written, every voxel becomes 1 regardless of input. Classic copy-paste typo. **Defect B (`mri_segment.cpp:217, :286`):** the two calls to `MRIintensitySegmentation` swap the 2nd and 3rd arguments: `MRIintensitySegmentation(mri_src, NULL, MinWMMask, wm_low, wm_hi, gray_hi)`. The callee's signature (`utils/mripolv.cpp:3603`) is `(mri_src, MinWMMask, mri_labeled, …)`, so this passes `NULL` for the MinWMMask param (the protect-WM branch at `:3619-3627` never fires) and uses the user's `MinWMMask` volume as the `mri_labeled` output (overwriting the user's mask data in place). Combined, the `-min-wm-mask` option silently does nothing of what it promises — the mask is never used to protect WM voxels, and the user's mask volume is destroyed in memory. Not on default `recon-all` (no in-tree script passes the flag). Anyone who has invoked `mri_segment -min-wm-mask <vol>` has been silently misled into believing the WM-protection took effect. Compiler accepts the swapped call because all three args are `MRI *` — no type-system protection. Fix: (A) change `1` → `0` in the `else` branch at `:630`; (B) re-order args at `:217` and `:286` to `(mri_src, MinWMMask, NULL, …)` | medium | open |
 | [[00150]] | `FCDcomputeThicknessLabels` (`utils/fcd.cpp:434-468` LH, `:501-540` RH) has the if/else nesting swapped in the parcel-boundary guard. The intent is to track the aparc parcel of the first qualifying voxel along the cortical normal in `base_label` and `break` when the walk crosses into a different parcel. The actual code is `if (label != base_label) { if (base_label) break; } else { base_label = label; }` — the `else` is bound to the *outer* `if (label != base_label)` and only fires when `label == base_label`, which is impossible while `base_label == 0` (initial) and `label` is a non-zero cortical parcel that passed the filter. Trace: iter 1, label != 0 → outer-if; inner `if (0)` false → no break; outer `else` never reached → base_label stays 0. Forever. The break never fires, so the LH↔RH thickness-asymmetry accumulation `mri_thickness_increase` / `mri_thickness_decrease` walks the full cortical thickness regardless of how many parcels the normal traverses — diluting the focal-abnormality signal that FCD detection is designed to find. Boundary-straddling FCDs suffer most. Reachable from FreeView's FCD layer (`freeview/LayerFCD.cpp:579`) and `mri_extract_fcd_features`. Not on default `recon-all` (FCD is opt-in research/clinical workflow). Both LH and RH branches have the same defect (verbatim copy with `mris_lh`→`mris_rh` and `ctx_lh_unknown`→`ctx_rh_unknown`). Fix: move `base_label = label;` from the outer `else` to a new `else` inside the inner `if (base_label)` block — i.e., `if (label != base_label) { if (base_label) break; else base_label = label; }` (drop the outer else) | medium | open |
+| [[00151]] | tcsh `setenv VAR = value` is invalid — `-sd`/`--sd` (and `FS_CHECK_OS`) handlers abort with "Too many arguments" instead of setting the variable | low | open |
+| [[00152]] | register_subject_flash / label_subject_flash pass the tissue-parms file to `-flash` (a no-argument boolean) instead of `-flash_parms`, halting option parsing | low | open |
+| [[00153]] | fsfirst.fsl / longmc — elapsed run-time minutes computed as seconds/50 instead of seconds/60, inflating the logged minute figure by 20% | trivial | open |
+| [[00154]] | post-recon-all — `--no-qa-stats`/`--no-qastats` set DoQAStats=1, so QA-stats cannot be disabled (negating flag enables it) | low | open |
+| [[00155]] | long_create_orig — FOV>256 guard pipes through `tee -a $LF` but $LF is never set, so the branch dies on an undefined variable instead of printing the -cw256 advice | low | open |
+| [[00156]] | stat_normalize — advertised -f (field-of-view) option is unreachable (case 'f' under toupper) | low | open |
+| [[00157]] | oct_register_mosaic — registration/refinement paths are unreachable dead code (unconditional exit(0), && 0 guard, hard-disabled unwarp) | low | open |
+| [[00158]] | histo_compute_joint_density — second volume's pyramid is built from the first volume (copy-paste source) | medium | open |
+| [[00159]] | pointset2label — integer voxel macro used to write float/short/long volumes; deposits invalid bytes | medium | open |
+| [[00160]] | stim_polar — leftover debug block reads one stdin char and exit(0)s before any argument or GLUT code | low | open |
+| [[00161]] | histo_register_block — MRIreplaceValues writes into wrong destination, overwriting the histology image with the block image | medium | open |
+| [[00162]] | rbbr — --rh-only handler is a copy of --lh-only, so it registers the LEFT hemisphere | medium | open |
+| [[00163]] | epidewarp.fsl — --unwarpdir parses into a misspelled variable, so the unwarp axis is always y | medium | open |
+| [[00164]] | fsl_rigid_register — -nocleanup/-cleanup set an unread variable, so temp files are always deleted | low | open |
+| [[00165]] | reg-feat2anat — --inorm/--no-inorm set Inorm but the script never reads it; --fslmat/--fsreg are dead | low | open |
+| [[00166]] | vlrmerge-mni — --no-mni152 still sets DoMNI152=1 (custom-target path dead); custom white surface mis-set to sphere.reg | low | open |
+| [[00167]] | gca-apply — `--no-segstats` is a no-op and the `--force-update` overwrite guards can never refuse | low | open |
+| [[00168]] | mksurfatlas — overlay existence check tests the registration surface (`$sr`) instead of the overlay (`$sv`) | low | open |
+| [[00169]] | talsegprob — duplicate `case "--seg"` shadows the label-number path, breaking `--seg <N>` | medium | open |
+| [[00170]] | map_central_sulcus — calls `recon-all -avglabels`, a flag removed in v8.2.0 (fails as shipped) | medium | open |
+| [[00171]] | label_child — references unset `$GCA_TL`, aborting under `tcsh -ef` before mri_ca_label runs | medium | open |
+| [[00172]] | bbmask — --npad N pads the bounding box by N+1 voxels (off-by-one) | low | open |
+| [[00173]] | csvprint — off-by-one row-length guard (len(row)<i) crashes with IndexError; --tsv overridden by file extension | low | open |
+| [[00174]] | fvcompare — --pial loads the WHITE surface (copy-paste error: surflist = (white)) | low | open |
+| [[00175]] | fs_update — selective update appends to rsync_cmd without resetting the base, building a malformed command for 2+ paths | low | open |
+| [[00176]] | check_subject — vertex-count check writes /tmp/chsubj.$$.dat but reads /tmp/chsubj.dat, so the check is dead/unreliable | low | open |
+| [[00177]] | inflate_subject3 — invalid tcsh `$p1=$!` never captures the backgrounded PID, so `wait $p1` is a no-op | low | open |
+| [[00178]] | mkheadsurf — dilation test reads undefined `$dilate` instead of `$ndilate`, aborting the `-ndilate`/`-nerode` post-processing block | low | open |
+| [[00179]] | wmedits2surf / bmedits2surf — freshness loop overwrites `$UpdateNeeded` each pass instead of OR-accumulating, so only the last output file decides whether to recompute | low | open |
+| [[00180]] | reregister_subject_mixed — `-norm mri/norm` writes the normalised output back over the `mri/norm` input, destructively re-normalising it in place | low | open |
+| [[00181]] | fix_subject_corrected-lh — `mris_curvature` reads `../subjects/lh.smoothwm*` instead of `../surf/lh.smoothwm*`, inconsistent with its own `cp` target and the rh worker | low | open |
+| [[00182]] | sfa2fieldsign — analysis mask squares the eccentricity mask instead of intersecting it with polar significance | medium | open |
+| [[00183]] | trac-paths — longitudinal endpoint stats run against the base subject ($subj) instead of the timepoint ($subj_t) | medium | open |
+| [[00184]] | trac-preproc — missing `set` keyword breaks the multi-field-map DWI concatenation (aborts with parse error) | medium | open |
+| [[00185]] | fs-topup — --no-multi-frame sets a dead variable (DoMultiFrameMean); flag is a silent no-op and multi-frame inputs are still averaged | low | open |
+| [[00186]] | fs-eddy — eddy binary-name mismatch: existence check tests `eddy` while the default invocation runs `eddy_cpu` | low | open |
+| [[00187]] | fsr-mergexopts — non-recon-all merge loop greps the literal 'recon-all' instead of the current command | medium | open |
+| [[00188]] | fsr-longpreproc — modename consistency check diffs 'unique.modenames.txt' but fsr-import writes 'fsr-import.unique.modenames.txt' | low | open |
+| [[00189]] | make_folding_atlas — --account sets FS_BATCH_ACCOUNT but sbatch reads FS_SBATCH_ACCOUNT, so the account is never applied | low | open |
+| [[00190]] | make_average_volume — --keep-all-orig branch is dead because the volume loop never iterates over 'orig'; orig.all.mgz is never written | low | open |
+| [[00192]] | exvivo-hemi-proc — --rotreg checks $reg instead of $rotreg (undefined-variable error), and advertised --force has no parser case | low | open |
 
 ## GitHub Issues
 

@@ -19,7 +19,7 @@ related:
   - "[[fsgd-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "mri_surf2surf resampling algorithm (nnfr) not documented"
   - "FS-FAST ses/df workflow details not traced"
@@ -263,7 +263,7 @@ $$
 
 | Flag | Arguments | Default | Description |
 |------|-----------|---------|-------------|
-| `--o`<br>`--out` | `path` | — | Output file path. Format is inferred via `fname2stem`; the script aborts if the extension is not recognized. Required unless `--cache-out-only` / `--cache-out-update`. |
+| `--o`<br>`--out` | `path` | — | Output file path. Format is inferred via [[fname2stem]]; the script aborts if the extension is not recognized. Required unless `--cache-out-only` / `--cache-out-update`. |
 | `--mgz` | none | `format=mgh` | Use `.mgz` (compressed) as the per-subject intermediate format. |
 | `--mgh` | none | default | Use `.mgh` (uncompressed) as the per-subject intermediate format. |
 | `--reshape` | none | `reshape=0` | Pass `--reshape` to `mri_concat` to force a 4-D shape reshape on the output. Auto-enabled when the output format is detected as ANALYZE/NIfTI. |
@@ -439,6 +439,7 @@ analysis, after all subjects have completed `autorecon3`.
 
 ## Related Tools
 
+- [[run_mris_preproc]] — batch wrapper that expands the full grid of pre-smoothed `mris_preproc` runs (subjects × hemispheres × measures × smoothing levels) needed by the Qdec GUI
 - [[mri_vol2surf]] — called internally for volume-input subjects
 - [[mri_surf2vol]] — the surface-to-volume inverse (not used by mris_preproc)
 - [[mri_concat]] — called internally to concatenate resampled files

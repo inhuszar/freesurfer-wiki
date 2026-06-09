@@ -14,7 +14,7 @@ related:
   - "[[mri_label2vol]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "MRTM steady-state kinetic model details (--ss, --tsec, --tmin)"
   - "RBV (Region-based Voxelwise) correction mathematical details"
@@ -355,6 +355,9 @@ mri_gtmpvc \
 ## Related Tools
 
 - [[mri_gtmseg]] — creates the anatomical segmentation required by mri_gtmpvc
+- [[gtmseg]] — high-level tcsh driver that builds the hi-res GTM segmentation (the `--seg` input) by orchestrating [[mri_gtmseg]] and [[xcerebralseg]]
+- [[gtmstats2table]] — collects per-region GTM values from one or more mri_gtmpvc output directories into a single table
+- [[rbbr]] — robust BBR wrapper around [[bbregister]] for producing the PET→MRI registration (`--reg`)
 - [[mri_vol2surf]] — projects volumetric PET data to surface for visualization
 - [[mri_label2vol]] — label-to-volume conversion for ROI masks
 

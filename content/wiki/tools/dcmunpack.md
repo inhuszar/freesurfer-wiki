@@ -44,7 +44,7 @@ output volumes. It is the general, multi-vendor successor to the Siemens-only
 - **Language:** tcsh shell script
 - **Source file:** [`scripts/dcmunpack`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack)
 - **Binary/script location:** `$FREESURFER_HOME/bin/dcmunpack`
-- **Key helpers invoked:** [`mri_probedicom`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack#L250) (DICOM pre-processing / metadata dump), [`mri_convert`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack#L670) (the actual conversion), [`mri_info`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack#L680) (output dimension check), `dcm2niix` (bundled, called via `mri_probedicom`/`mri_convert`), and the FreeSurfer shell utilities `getfullpath`, `UpdateNeeded`, `fname2stem`, `fs_temp_file`, and (for FIPS) `fips-set`.
+- **Key helpers invoked:** [`mri_probedicom`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack#L250) (DICOM pre-processing / metadata dump), [`mri_convert`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack#L670) (the actual conversion), [`mri_info`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/dcmunpack#L680) (output dimension check), `dcm2niix` (bundled, called via `mri_probedicom`/`mri_convert`), and the FreeSurfer shell utilities [[getfullpath]], [[UpdateNeeded]], [[fname2stem]], `fs_temp_file`, and (for FIPS) `fips-set`.
 
 ## Purpose and Context
 
@@ -447,7 +447,7 @@ for `unpacksdcmdir`; for inventorying a Siemens directory specifically,
 - [[mri_parse_sdcmdir]] — lower-level, Siemens-only directory inventory; companion for inspecting one Siemens tree.
 - [[mri_info]] — used internally to read back output dimensions for the conversion summary.
 - [[dt_recon]] — a typical downstream consumer of unpacked diffusion volumes.
-- `unpacksdcmdir` *(no wiki page yet)* — the legacy Siemens-only unpacker that `dcmunpack` supersedes; `dcmunpack` accepts most of its arguments except `-cfg`, `-seqcfg`, `-nspmzeropad`, `-no-unpackerr`, and `-scanonly` (a scanonly-style summary is still available), and it does not produce SPM output.
+- [[unpacksdcmdir]] — the legacy Siemens-only unpacker that `dcmunpack` supersedes; `dcmunpack` accepts most of its arguments except `-cfg`, `-seqcfg`, `-nspmzeropad`, `-no-unpackerr`, and `-scanonly` (a scanonly-style summary is still available), and it does not produce SPM output.
 
 ## Confidence and Gaps
 

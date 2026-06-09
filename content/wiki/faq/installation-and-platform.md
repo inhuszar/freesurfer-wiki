@@ -3,7 +3,7 @@ title: "Installation and Platform Support — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 14
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - installation
@@ -434,7 +434,7 @@ device set to: Apple M2 Pro` and uses the integrated GPU.
 ### My segmentation script fails with "cannot find Matlab 2019b runtime in location: …/MCRv97" — how do I install MCR correctly on macOS?
 
 **Short answer:** Symlinks to an existing MATLAB install do **not**
-work; remove the broken `MCRv97` and re-run `fs_install_mcr R2019b`,
+work; remove the broken `MCRv97` and re-run [[fs_install_mcr]] (`fs_install_mcr R2019b`),
 then export the `DYLD_LIBRARY_PATH` printed by the installer.
 
 **Detail:** The legacy MATLAB-based segmentation scripts in FS 7.x
@@ -631,3 +631,22 @@ data for other analyses) should re-deface under 7.4.1.
 `raw/mailing-list/2023-06-freesurfer-741-mideface-bug-fix-release.md`.
 
 **Related:** [[wiki/pipelines/recon-all|recon-all]]
+
+---
+
+## See also
+
+Installation and platform utilities referenced throughout this FAQ:
+
+- [[fs_lib_check]] — verifies the host system provides the shared
+  libraries (JPEG, TIFF, Tcl/Tk/Tix, BLT, GLUT) FreeSurfer's legacy
+  components need.
+- [[fs-check-os]] — checks whether the current OS is on the dataset's
+  list of declared-acceptable operating systems (`fs-allowed-os.txt`).
+- [[fs_update]] — patches an existing installation in place by
+  `rsync`-ing fixed files for the exact build (the mechanism behind the
+  `fs8_updates.sh` / patch workflows above).
+- [[fs_install_mcr]] — installs the MATLAB Compiler Runtime needed by
+  the legacy MATLAB-based segmentation scripts.
+- [[fs_install_cuda]] — swaps the CPU-only PyTorch in `fspython` for a
+  CUDA build so the deep-learning tools can use an NVIDIA GPU.

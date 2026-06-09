@@ -14,7 +14,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "MRISregister() optimization details (gradient computation, angular search) not traced — they live in the shared mrisurf library"
 tags:
@@ -464,6 +464,20 @@ spherical registration) and `mris_register` is not run at all.
 - [[mris_sphere]] — produces `?h.sphere` (registration input)
 - [[mris_ca_label]] — performs cortical parcellation using `?h.sphere.reg`
 - [[mris_inflate]] — produces `inflated` and `sulc` (features used in registration)
+
+### Driver, wrapper, and atlas scripts
+
+- [[rca-surfreg]] — the recon-all `-surfreg` component script that issues the
+  `mris_register` command (or `josareg`) and creates the `?h.fsaverage.sphere.reg`
+  symlink.
+- [[surfreg]] — a standalone wrapper that runs `mris_register` against a chosen
+  folding atlas, used to (re)register a subject's sphere outside recon-all.
+- [[josareg]] — the learned deep-net spherical-registration alternative that
+  `rca-surfreg --josa` runs *instead of* `mris_register`.
+- [[morph_subject]] — a legacy per-subject driver of the surface-morphing
+  registration (the `mris_register` predecessor stage in classic recon flows).
+- [[mksurfatlas]] — builds the `.tif` folding/curvature atlas that
+  `mris_register` registers each subject against.
 
 ## Confidence and Gaps
 

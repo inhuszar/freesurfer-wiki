@@ -14,7 +14,7 @@ related:
   - "[[dt_recon]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact motion score computation not traced beyond global variable initialization"
 tags:
@@ -123,7 +123,7 @@ dmri_motion \
 
 ## Pipeline Context
 
-`dmri_motion` is typically run before tractography as a quality control step. In the TRACULA pipeline it may be called by `trac-all` during the preprocessing stage. It is not called by `recon-all`.
+`dmri_motion` is typically run before tractography as a quality control step. In the TRACULA pipeline it is called by the [[trac-preproc]] preprocessing stage of [[trac-all]]. It is not called by `recon-all`.
 
 ```
 DWI acquisition --> eddy correction --> dmri_motion (QC) --> dmri_paths / dmri_train

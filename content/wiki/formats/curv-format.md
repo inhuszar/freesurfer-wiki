@@ -11,7 +11,7 @@ related:
   - "[[coordinate-systems]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Old-format files (no magic number) may still be encountered in legacy datasets; exact detection heuristic not traced beyond mri_identify()"
 tags:
@@ -128,6 +128,7 @@ for the Surface RAS coordinate system used by vertex positions.
 | [[mris_preproc]] | ✓ | — | Reads `--meas` surface measure files |
 | `mris_thickness` | — | ✓ | Writes cortical thickness |
 | [[mris_register]] | ✓ | ✓ | Reads curvature for feature vector; writes jacobian |
+| [[mris2rgb]] | ✓ | — | Reads a curvature/overlay file to colour a rendered surface image |
 
 ## Reading from Python
 

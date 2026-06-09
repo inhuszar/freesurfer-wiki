@@ -19,7 +19,7 @@ related_formats:
   - "[[lta-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "FS 8.2.0 uses `MRIxfmCRS2XYZPrecision` for the Vox2RAS build; precision flag effects not audited"
   - "How oblique (non-coronal) conformed volumes interact with the tkreg LIA convention not fully verified end-to-end"
@@ -840,7 +840,18 @@ $$
 > this: every surface in the canonical `recon-all` pipeline is
 > tessellated from `orig.mgz`, which is conformed by construction.
 
-## 12. References
+## 12. See also
+
+Registration drivers that produce the transform files described above, each
+targeting one of the coordinate spaces defined on this page:
+
+- [[fslregister]] — registers a moveable volume to a subject anatomical via FSL FLIRT and writes a tkreg `register.dat` (Surface-RAS → Surface-RAS, §3.3, §8.4).
+- [[spmregister]] — the SPM `spm_coreg` counterpart of `fslregister`, also emitting a `register.dat`/`.lta`.
+- [[mni152reg]] — computes the subject ↔ FSL **MNI152** affine (§3.5) as a `register.dat`/`.lta`.
+- [[reg-mni305.2mm]] — registers the subject to FreeSurfer's **MNI305 2 mm** fixed-FoV space (§3.4).
+- [[mkxsubjreg]] — composes two subjects' `talairach.xfm` and a `register.dat` to map one subject's functional volume into another subject's anatomical space (§7).
+
+## 13. References
 
 ### Primary sources (FreeSurfer)
 

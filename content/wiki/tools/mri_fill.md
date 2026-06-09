@@ -22,7 +22,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - white-matter
@@ -204,6 +204,11 @@ In `[[wiki/pipelines/recon-all|recon-all]]` `autorecon2`, the sequence is:
 - `[[mri_pretess]]` — prepares the filled volume for tessellation
 - `[[mri_tessellate]]` — creates the initial surface mesh from the filled volume
 - `[[mri_watershed]]` — skull stripping that precedes WM processing
+
+### Legacy drivers and alternatives
+
+- [[seg2filled]] — derives a `filled.mgz`-style hemisphere-labelled WM volume directly from an `aseg` segmentation (255 = left, 127 = right), an alternative to the `mri_fill` volume stream
+- [[inflate_subject_sc]] — legacy `inflate_subject` variant whose fill step calls `mri_fill -segmentation ../mri/aseg …`, feeding the subcortical segmentation to the hemisphere fill
 
 ## Confidence and Gaps
 

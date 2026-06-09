@@ -20,7 +20,7 @@ related:
   - "[[fsgd-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-20
+last_agent_update: 2026-06-09
 gaps:
   - "Brainstem View menu item purpose unclear from source"
   - "Full -cmd command vocabulary not documented"
@@ -463,6 +463,14 @@ freeview -f $SUBJECTS_DIR/sub01/surf/lh.inflated:overlay=lh.sig.mgh:overlay_thre
 - [[freeview-dti]] — DTI volume display, vector fields, tractography
 - [[freeview-pointsets]] — waypoints and control points
 - [[coordinate-systems]] — coordinate system definitions and transforms
+
+### Launchers and related viewers
+
+- [[fsvglrun]] — run FreeView (or any FreeSurfer GL app) through VirtualGL for hardware-accelerated 3D over a remote/X-forwarded session.
+- [[fsxvfb]] — run FreeView headless against an Xvfb virtual framebuffer (e.g. for batch screenshot generation).
+- [[tkregisterfv]] — manual/visual registration GUI that drives FreeView as its display back-end.
+- [[fvcompare]] — convenience wrapper that opens two subjects/volumes side-by-side in FreeView for QC.
+- [[nmovie_qt]] — Qt movie player for viewing exported FreeView frame sequences / 4D loops.
 
 ## References
 

@@ -18,7 +18,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - registration
@@ -254,6 +254,14 @@ In [[wiki/pipelines/recon-all|recon-all]], `mri_ca_register` runs in autorecon2 
 - [[mri_ca_normalize]] — normalization step that precedes this
 - [[mri_ca_label]] — segmentation step that consumes the output `.m3z`
 - [[mri_ca_train]] — builds the GCA atlas used here
+
+### Driver scripts
+
+- [[label_subject]] — the classic single-subject segmentation driver, which runs
+  `mri_ca_register` to compute the nonlinear `talairach.m3z` warp between
+  normalization and labeling.
+- [[gca-apply]] — applies a trained GCA to a new subject, calling
+  `mri_ca_register` for the deformable atlas alignment step.
 
 ## Confidence and Gaps
 

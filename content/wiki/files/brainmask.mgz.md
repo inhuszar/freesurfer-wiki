@@ -40,7 +40,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -143,6 +143,8 @@ In the longitudinal stream:
 - [[T1.mgz]] — input.
 - [[brain.mgz]], [[brain.finalsurfs.mgz]] — downstream masked volumes.
 - [[norm.mgz]] — atlas normalisation (uses brainmask).
+- [[bmedits2surf]] — maps manual `brainmask.mgz` edits (vs. `brainmask.auto.mgz`) onto the surface for QA.
+- [[ventfix]] — ventricle-segmentation fix tool that always reads `brainmask.mgz` alongside the aseg ([[aseg.presurf.mgz]]).
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References

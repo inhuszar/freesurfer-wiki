@@ -16,7 +16,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "NMI cost function internals (NMICost) not fully characterized here"
   - "Powell optimizer parameter tuning documented only at defaults"
@@ -322,6 +322,9 @@ Downstream tools that use the output LTA:
 
 - [[mri_em_register]] — atlas-based registration using GCA
 - `bbregister` — boundary-based registration (more accurate for EPI-to-T1)
+- [[fsr-coreg]] — the FreeSurfer multimodal coregistration driver (samseg /
+  longitudinal preprocessing), which calls `mri_coreg` to align each additional
+  input mode to the reference before joint analysis.
 
 ## Confidence and Gaps
 

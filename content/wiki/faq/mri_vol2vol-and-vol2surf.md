@@ -3,7 +3,7 @@ title: "mri_vol2vol / mri_vol2surf / mri_surf2vol — Frequently Asked Questions
 type: faq
 fs_version: "8.2.0"
 entry_count: 14
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - mri_vol2vol
@@ -18,7 +18,7 @@ tags:
 
 This FAQ collects recurring questions about FreeSurfer's volume- and
 surface-resampling family — [[mri_vol2vol]], [[mri_vol2surf]],
-[[mri_surf2vol]], [[mri_volcluster]], `vol2subfield`, and
+[[mri_surf2vol]], [[mri_volcluster]], [[vol2subfield]], and
 [[mri_surf2volseg]]. Most of the questions concern the **registration
 prerequisite** (these tools never compute a registration internally — you
 must supply one), the difference between the legacy `register.dat`
@@ -170,7 +170,7 @@ Greve). See `raw/mailing-list/2025-07-mri-vol2vol-reg-vs-lta-fs8.md`.
 ### How do I project a non-standard volumetric modality (MTR, qMRI, ASL, PET) onto the cortical surface?
 
 **Short answer:** Register with [[bbregister]] (`--t1` or `--t2`
-depending on GM/WM contrast), QC with `tkregisterfv`, then sample with
+depending on GM/WM contrast), QC with [[tkregisterfv]], then sample with
 `mri_vol2surf --projfrac 0.5` (single depth) or `--projfrac-avg 0 1
 0.1` (ribbon average).
 

@@ -6,6 +6,9 @@ file_extensions: []
 produced_by:
   - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mksubjdirs]]"
+  - "[[rca-surfreg]]"
+  - "[[pctsurfcon]]"
+  - "[[vertexvol]]"
 consumed_by:
   - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mri_info]]"
@@ -14,6 +17,7 @@ consumed_by:
   - "[[mris_preproc]]"
   - "[[mris_anatomical_stats]]"
   - "[[wiki/tools/freeview|freeview]]"
+  - "[[check_subject]]"
 related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
   - "[[mgz]]"
@@ -24,7 +28,7 @@ related:
   - "[[registration-overview]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps:
   - "Exact provenance of every file produced by optional longitudinal/base recon-all branches not exhaustively enumerated"
   - "xhemi/ subdirectory structure produced by xhemireg / surfreg -xhemi only sketched"
@@ -260,7 +264,7 @@ hierarchy.
 | `?h.inflated` | [[mris_inflate]] | Inflated white surface (not anatomical) |
 | `?h.sphere` | [[mris_sphere]] | Distortion-minimised sphere |
 | `?h.sphere.reg` | [[mris_register]] | Subject sphere registered to the group-average atlas |
-| `?h.fsaverage.sphere.reg` | [[mris_register]] / rca-surfreg | Same, registered to fsaverage if a second atlas was requested |
+| `?h.fsaverage.sphere.reg` | [[mris_register]] / [[rca-surfreg]] | Same, registered to fsaverage if a second atlas was requested |
 | `?h.white.preaparc` | `mris_place_surface` (white pass 1) | White surface produced before cortical parcellation is available |
 | `?h.white` | `mris_place_surface` (white pass 2) | Final white surface after parcellation-informed refinement |
 | `?h.pial.T1` | `mris_place_surface` | Pial surface placed against the T1 volume (before T2/FLAIR refinement if any) |
@@ -286,12 +290,12 @@ shape indices computed by `mris_curvature`.
 | `?h.avg_curv` | recon-all | Average curvature from the atlas after registration |
 | `?h.area` | `mris_place_surface` | Vertex areas on the white surface |
 | `?h.area.pial` | `mris_place_surface` | Vertex areas on the pial surface |
-| `?h.area.mid` | recon-all | Vertex areas on the mid-thickness surface |
-| `?h.volume` | `mris_place_surface` | Per-vertex cortical volume (TH3 method, see [[surface-representations]]) |
+| `?h.area.mid` | [[vertexvol]] | Vertex areas on the mid-thickness surface (computed as a by-product of `?h.volume`) |
+| `?h.volume` | [[vertexvol]] | Per-vertex cortical volume (TH3 method, see [[surface-representations]]) |
 | `?h.thickness` | `mris_place_surface` | Cortical thickness (white-to-pial distance) |
 | `?h.curv.pial` | `mris_curvature` | Mean curvature of the pial surface |
 | `?h.jacobian_white` | recon-all | Log-area distortion between subject sphere and atlas |
-| `?h.w-g.pct.mgh` | `pctsurfcon` | White/grey contrast ratio (in MGH format, not curv) |
+| `?h.w-g.pct.mgh` | [[pctsurfcon]] | White/grey contrast ratio (in MGH format, not curv) |
 | `?h.inflated.H`, `?h.inflated.K` | `mris_curvature` | Mean and Gaussian curvature of the inflated surface |
 | `?h.smoothwm.{H,K,S,C,FI,BE,K1,K2}.crv` | `mris_curvature` | Shape-index decomposition of `smoothwm` (used for atlas features) |
 
@@ -367,7 +371,7 @@ whether stages can be skipped.
 | File | Purpose |
 |------|---------|
 | `recon-all.log` | Complete stdout/stderr of all recon-all runs on this subject, concatenated |
-| `recon-all-status.log` | Per-stage status (started/finished/exited), used by `check_subject` and `recon-all -status` |
+| `recon-all-status.log` | Per-stage status (started/finished/exited), used by [[check_subject]] and `recon-all -status` |
 | `recon-all.cmd` | The exact `recon-all` command line that was used |
 | `recon-all.env` | Snapshot of relevant environment variables at invocation time |
 | `recon-all.done` | Sentinel file written when a full run completes successfully |

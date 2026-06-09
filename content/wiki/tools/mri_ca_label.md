@@ -16,7 +16,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: medium
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "GCA atlas MAP labeling with Gibbs MRF priors — full derivation in shared gca lib not traced"
   - "renormalize_align (-align) procedure: full renormalisation algorithm not traced"
@@ -357,6 +357,19 @@ Default GCA file: `$GCADIR/$GCA` where `GCADIR` is typically
 - [[mri_em_register]] — linear registration to GCA atlas (prerequisite)
 - [[mris_ca_label]] — cortical parcellation on the surface (complementary)
 - [[mri_normalize]] — produces the `norm.mgz` input
+
+### Driver scripts
+
+These legacy `label_*` helpers and the GCA application wrapper drive
+`mri_ca_label` as their volumetric-segmentation engine:
+
+- [[label_subject]] — the classic single-subject driver that runs the
+  `mri_ca_normalize` → `mri_ca_register` → `mri_ca_label` chain; the
+  cohort variants [[label_child]], [[label_elderly_subject]],
+  [[label_subject_flash]] and [[label_subject_mixed]] do the same with
+  population-tuned atlases and contrast handling.
+- [[gca-apply]] — applies a trained GCA to a new subject, calling
+  `mri_ca_label` for the final MAP labeling step.
 
 ## Confidence and Gaps
 

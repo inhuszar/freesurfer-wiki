@@ -21,7 +21,7 @@ related:
   - "[[freeview-pointsets]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "Full trace of MRI3dNormalize / MRI3dGentleNormalize in utils/mrinorm.cpp not done — key algorithm details are in those helper functions"
   - "Exact interaction of `-surface <s> <xform>` with `-aseg` when both are supplied simultaneously"
@@ -526,6 +526,13 @@ uses them as control points, and re-fits the bias field on `in.mgz`.
   model), done as part of the `--uchar` step of
   [[mri_nu_correct.mni]].
 - [[freeview-pointsets]] — GUI for interactively placing, editing, and saving the manual control-point files (`.dat` / `.label`) consumed by `-f`, `-label`, `-file_only`, and `-label_only`
+
+### Legacy drivers
+
+- [[renormalize_subject]] — legacy tcsh driver that re-runs control-point-guided `mri_normalize` (applying `tmp/control.dat`) and then rebuilds the downstream skull-strip, WM segmentation, and surfaces
+- [[renormalize_T1_subject]] — minimal variant that re-runs only the `mri_normalize` step to refresh `mri/T1`, stopping before skull-strip/segmentation
+- [[renormalize_subject_keep_editting]] — edit-preserving variant: control-point file is optional and WM-segmentation edits are kept
+- [[segment_subject]] — canonical legacy single-subject anatomical driver; runs `mri_normalize` (intensity normalisation) as one of its core stages
 
 ## Confidence and Gaps
 

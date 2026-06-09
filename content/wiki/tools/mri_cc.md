@@ -16,7 +16,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - corpus-callosum
@@ -158,6 +158,7 @@ mri_cc -norm norm.mgz -aseg aseg.mgz -o aseg_with_cc.mgz subject
 - [[mri_ca_label]] — produces the input aseg.mgz that this tool processes
 - [[mri_segment]] — WM segmentation that precedes ca_label
 - [[wiki/pipelines/recon-all|recon-all]] — calls mri_cc in autorecon2
+- [[seg2cc]] — wrapper that adds the corpus-callosum labels to a segmentation using `mri_cc`
 
 ## Confidence and Gaps
 

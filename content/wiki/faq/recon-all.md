@@ -3,7 +3,7 @@ title: "recon-all — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 25
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - recon-all
@@ -158,7 +158,7 @@ present and different (a `diff`-based check). If the auto-registration
 is poor, you can replace `FLAIRraw.lta` manually and re-run only the
 pial stage; the auto step always runs but will not overwrite a
 distinct manual file. To inspect the registration, look at the
-`tkregisterfv` command printed at the end of the bbregister log in
+[[tkregisterfv]] command printed at the end of the bbregister log in
 `$SUBJECTS_DIR/<subj>/scripts/`. Greve's overall guidance: the
 auto-registration "is generally very good" and overriding it is not a
 supported workflow.
@@ -695,7 +695,7 @@ recon-all -s SUBJECT -synthseg -all
 ```
 
 `FS_ALLOW_DEEP=1` gates FreeSurfer's deep-learning routines; without
-it you get `ERROR: cannot use ML routines`. The `seg2recon` script
+it you get `ERROR: cannot use ML routines`. The [[seg2recon]] script
 called internally reads `$FREESURFER` separately from
 `$FREESURFER_HOME`. If `mri/orig/001.mgz` is missing (common with
 fmriprep-derived directories), copy `mri/norm.mgz` to it. To force
@@ -855,3 +855,14 @@ import.
 
 **Related:** [[wiki/pipelines/recon-all|recon-all]], [[nu.mgz]], [[orig.mgz]],
 [[mri_nu_correct.mni]]
+
+---
+
+## See also
+
+recon-all component scripts tied to specific questions above:
+
+- [[conf2hires]] — the hi-res white/pial re-placement step gated by
+  `$DoConf2Hires` (relevant to the FLAIR-pial and `-hires` MP2RAGE entries).
+- [[rca-fix-ento]] — automates the entorhinal-WM `--restore-255` fix
+  (`$FixEntoWM`) described in the white-surface under-growth entry.

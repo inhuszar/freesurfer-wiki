@@ -18,7 +18,7 @@ related_formats:
   - "[[curv-format]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - topology
@@ -467,7 +467,7 @@ mris_register → sphere.reg
 ...
 ```
 
-The `defect2seg` command ([`scripts/recon-all:3783`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3783)) converts the defect labels into an MGZ
+The [[defect2seg]] command ([`scripts/recon-all:3783`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L3783)) converts the defect labels into an MGZ
 segmentation volume for quality control.
 
 The `recon-all` variable `UseOldTopoFix = 1` ([`scripts/recon-all:157`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L157)) controls whether
@@ -599,6 +599,7 @@ on itself.
 - [[mris_sphere]] — produces `qsphere.nofix` via the `-q` flag
 - [[mris_inflate]] — produces `inflated.nofix` used by mris_fix_topology
 - [[mris_defects_pointset]] — converts defect labels to a 3D pointset
+- [[defect-seg]] — builds visualization/analysis products (text summary, `surface.defects.mgz` volume segmentation, freeview pointset, overlays) from the `?h.defect_labels`; the fuller sibling of the `defect2seg` step described above
 - [[surface-representations]] — context for what cortical surfaces are and why topology matters
 - [[wiki/pipelines/recon-all|recon-all]] — the orchestrating pipeline
 

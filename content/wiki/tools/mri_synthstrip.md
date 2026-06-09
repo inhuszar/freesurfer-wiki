@@ -21,7 +21,7 @@ related:
   - "[[wiki/tools/mri_convert|mri_convert]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "The training data composition and number of training subjects are documented in the Hoopes 2022 paper but not reproduced here"
   - "Exact architecture constants (nb_features=16, nb_levels=7, feat_mult=2, max_features=64, max_pool=2) come from the SynthStrip class constructor; their training-time rationale is not derived"
@@ -542,6 +542,9 @@ in Stage 5.
 - [[mri_normalize]] — bias-corrects `orig.mgz` into `T1.mgz`,
   which `mri_synthstrip` does *not* require because it is
   contrast-invariant.
+- [[rca-talairach]] — modern recon-all autorecon1 component that
+  computes `talairach.xfm` via SynthMorph from the skull-stripped
+  brain; runs alongside the SynthStrip path.
 
 ## Confidence and Gaps
 

@@ -36,7 +36,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -124,6 +124,7 @@ None.
 - [[aseg.mgz]] — final segmentation successor.
 - [[color-lut]] — label scheme.
 - [[mri_edit_wm_with_aseg]], [[mris_make_surfaces]] — primary consumers.
+- [[ventfix]] — ventricle-segmentation fix tool that reads `aseg.presurf.mgz` (plus [[brainmask.mgz]]) and writes a corrected `newseg.<subject>.mgz`.
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline context.
 
 ## References

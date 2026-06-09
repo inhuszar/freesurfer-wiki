@@ -38,7 +38,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -62,7 +62,7 @@ Per-vertex cortical volume estimated by the TH3 method: the volume element at ea
 
 ### Producing tool
 
-`mris_convert --volume` (called via `vertexvol`) — reads [[hemi.white]] and [[hemi.pial]], computes `ComputeMRISvolumeTH3`, and writes the per-vertex volume as a curvature file.
+`mris_convert --volume` (called via [[vertexvol]]) — reads [[hemi.white]] and [[hemi.pial]], computes `ComputeMRISvolumeTH3`, and writes the per-vertex volume as a curvature file.
 
 ```bash
 # vertexvol line 81

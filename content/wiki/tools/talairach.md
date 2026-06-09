@@ -16,7 +16,7 @@ related:
   - "[[talairach_afd]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "The MINC/mritotal tool (called internally) details are not documented."
 tags:
@@ -153,6 +153,13 @@ Note: In practice, `recon-all` calls `talairach_avi` (not `talairach`) for this 
 - [[mri_em_register]] — uses the Talairach registration output for atlas registration
 - [[coordinate-systems]] — detailed explanation of FreeSurfer coordinate spaces and the Talairach/MNI305 distinction
 - [[talairach_afd]] — automatic failure detection for Talairach registration
+- [[rca-talairach]] — the SynthMorph-era recon-all replacement for the classic
+  `talairach_avi`/`mritotal` Talairach stage; supersedes this script when
+  `recon-all`'s SynthMorph path is enabled.
+- [[remove_talairach]] — strips the Talairach transform back out of a subject's
+  legacy COR volume headers (undoes the effect of this stage).
+- [[show_tal]] — quick visual QC wrapper that overlays the subject's `orig`
+  (transformed by `talairach.xfm`) on the Talairach reference volume.
 
 ## Confidence and Gaps
 

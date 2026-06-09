@@ -3,7 +3,7 @@ title: "Registration and LTA Formats — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 11
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - registration
@@ -273,7 +273,7 @@ mri_vol2vol --mov seg.nii.gz --lta reg.lta --o seg_fs.nii.gz --interp nearest
 [[bbregister]] is preferred for functional MRI (fMRI, ASL) because
 its boundary-based cost function exploits WM/GM contrast; for
 non-MRI modalities (CT, PET, histology) [[mri_coreg]] is the
-recommended tool. Verify visually with FreeView or `tkregisterfv`.
+recommended tool. Verify visually with FreeView or [[tkregisterfv]].
 
 **Provenance:** Mailing list, 2025-03-18 (Greve). See
 `raw/mailing-list/2025-03-mri-coreg-vol2vol-align-non-mri-to-freesurfer-space.md`.
@@ -354,7 +354,7 @@ lta_convert \
 ```
 
 This is exactly the registration that downstream tools such as
-`vol2subfield` (mapping DTI onto hippocampal subfields) expect —
+[[vol2subfield]] (mapping DTI onto hippocampal subfields) expect —
 input volume → `orig.mgz`. If [[bbregister]] gives better alignment
 than the `dt_recon`-produced `register.dat`, you can also recompute
 directly:
@@ -667,3 +667,22 @@ Workarounds:
 `raw/mailing-list/2025-03-cvs-register-surf2vol-absent-macos-arm64.md`.
 
 **Related:** [[mri_synthmorph]], [[registration-overview]]
+
+---
+
+## See also
+
+Other FreeSurfer registration / LTA helpers related to the topics above:
+
+- [[mni152reg]] — affine registration of a subject to MNI152 (relevant to
+  the partial-FOV → MNI152 chaining entry).
+- [[rbbr]] — "robust BBR", a wrapper around [[bbregister]] for difficult
+  boundary-based registrations.
+- [[spmregister]], [[fslregister]] — drive SPM / FSL FLIRT registration and
+  return a FreeSurfer LTA (complements importing external SPM/ANTs/FSL
+  matrices via [[lta_convert]]).
+- [[avi2talxfm]] — converts the `talairach_avi` voxel-to-voxel matrix into a
+  Talairach `.xfm`.
+- [[IsLTA]], [[reg2subject]] — small predicates/inspectors for LTA files
+  (test whether a file is an LTA; read the subject name embedded in a
+  registration).

@@ -19,7 +19,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-22
+last_agent_update: 2026-06-09
 gaps:
   - "The multimodal pial refinement (T2/FLAIR) path needs deeper documentation, particularly MRIScomputePialTargetLocationsMultiModal()."
   - "The exact border value computation in MRIScomputeBorderValues_new() with auto-detected stats needs verification."
@@ -446,6 +446,13 @@ mris_make_surfaces -debug-vertex 12345 lh.white brain.mgz aseg.mgz 1 110 85 105 
 - [[mris_register]] — registers the sphere to an atlas (runs after this)
 - [[surface-format]] — FreeSurfer surface file format
 - [[wiki/pipelines/recon-all|recon-all]] — pipeline orchestrator
+
+### Variants, drivers, and successors
+
+- [[hiam_make_surfaces]] — the hippocampus-and-amygdala ("hiam") sibling: deforms a tessellated subcortical-label surface with the same family of intensity/curvature/spring forces
+- [[fix_subject_corrected]] — legacy driver whose `-lh`/`-rh` workers ([[fix_subject_corrected-lh]], [[fix_subject_corrected-rh]]) call `mris_make_surfaces -suffix _corrected` to build a parallel `?h.white_corrected`/`?h.pial_corrected` stream
+- [[conf2hires]] — hires re-placement driver; uses [[mris_place_surface]] by default but can drive `mris_make_surfaces` via its `--dev` path (`mris_make_surfaces.dev`)
+- [[topofit]] — deep-learning surface placement (TopoFit) that places white and pial surfaces in one forward pass, a successor/alternative to the classic placement stage
 
 ## Confidence and Gaps
 

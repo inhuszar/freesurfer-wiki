@@ -3,7 +3,7 @@ title: "FreeView — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 11
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - freeview
@@ -19,9 +19,9 @@ tags:
 This FAQ collects recurring questions about [[wiki/tools/freeview|freeview]], FreeSurfer's
 primary GUI for visualising and editing volumes, surfaces, labels,
 segmentations, and tractography. It also covers the FreeView-based
-replacements for the legacy TclTk tools — tkregisterfv (replaces
+replacements for the legacy TclTk tools — [[tkregisterfv]] (replaces
 `tkregister2`) and [[tksurferfv]] (replaces `tksurfer`) — and headless
-batch rendering with `fsxvfb`. Common topics include OpenGL/display
+batch rendering with [[fsxvfb]]. Common topics include OpenGL/display
 requirements, the native MNI305 coordinate readout, manual editing
 workflows (volume edits, control points, surface labels), cross-version
 compatibility of edit files, and running FreeView on WSL2 or HPC
@@ -65,7 +65,7 @@ plus an X-server. Mitigations:
 **Provenance:** Mailing list, 2023-06-23 (Wang / Fischl). See
 `raw/mailing-list/2023-06-freeview-opengl-required-for-volume-editing.md`.
 
-**Related:** [[wiki/tools/freeview|freeview]], [[freeview-editing]], [[installation-and-platform]]
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-editing]], [[installation-and-platform]], [[fsvglrun]]
 
 ---
 
@@ -373,12 +373,12 @@ clears them all.
 
 > [!gotcha] `mri_snapshot` exists in some installations as a simpler
 > volume-screenshot tool but is not present in every FS distribution.
-> The `fsxvfb` + `freeview` combination is the supported route.
+> The [[fsxvfb]] + `freeview` combination is the supported route.
 
 **Provenance:** Mailing list, 2024-12-02 (Greve). See
 `raw/mailing-list/2024-12-fsxvfb-headless-freeview-screenshots-sbatch.md`.
 
-**Related:** [[wiki/tools/freeview|freeview]], [[freeview-command-line]]
+**Related:** [[wiki/tools/freeview|freeview]], [[freeview-command-line]], [[fsxvfb]], [[nmovie_qt]]
 
 ---
 

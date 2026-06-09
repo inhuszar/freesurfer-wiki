@@ -15,7 +15,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps:
   - "mri_deface requires two GCA atlas files (brain atlas and face atlas) whose paths are not documented"
   - "Exact face removal algorithm (region filled with what intensity/label) not confirmed"
@@ -165,6 +165,8 @@ Not called by [[wiki/pipelines/recon-all|recon-all]]. Applied before sharing dat
 ## Related Tools
 
 - [[mri_defacer]] — newer surface-based defacing tool
+- [[mideface]] — modern "minimally invasive" defacing driver; the recommended successor to this legacy GCA-based tool
+- [[deface_subject]] — one-line wrapper that runs `mri_deface` on a subject's `orig` volume with FreeSurfer's standard brain/face GCA atlases
 - [[mri_em_register]] — shares the same GCA registration framework
 
 ## Confidence and Gaps

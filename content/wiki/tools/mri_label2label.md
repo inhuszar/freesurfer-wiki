@@ -15,7 +15,7 @@ related:
   - "[[mris_register]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "usepathfiles (tksurfer path file) format and behaviour not fully verified"
   - "--paint mode exact distance metric not traced"
@@ -247,6 +247,11 @@ mri_label2label \
 - [[mri_vol2surf]] — project volumetric data onto a surface
 - [[mris_register]] — spherical registration that produces `sphere.reg`
 - [[coordinate-systems]] — RAS, tkRAS, and surface coordinate systems
+- [[label-cortex]] — thin wrapper that drives `mri_label2label --label-cortex` to build `?h.cortex.label`
+- [[map_all_labels]] — small driver that maps the standard average sulcal labels onto a subject via `mri_label2label`
+- [[labels_union]] — set union of two surface labels (label-manipulation sibling)
+- [[labels_intersect]] — set intersection of two surface labels
+- [[labels_disjoint]] — set difference (relative complement) of two surface labels
 
 ## Confidence and Gaps
 

@@ -17,7 +17,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - motion-correction
@@ -94,7 +94,7 @@ Same as [[mri_motion_correct2]]: 6-DOF rigid-body registration via `flirt`, foll
 
 - `-target <n>` uses the n-th input volume (1-indexed) as the registration reference. If the supplied value exceeds `$#inputlist`, it silently resets to 1.
 - `-tmpdir` implicitly sets `CleanUp = 0` (same effect as `-nocleanup`). These flags are thus redundant when used together.
-- `-maxangle` limits the rotation search range passed to `fsl_rigid_register`, which calls FSL's `flirt` internally.
+- `-maxangle` limits the rotation search range passed to [[fsl_rigid_register]], which calls FSL's `flirt` internally.
 - `-dontrun` is a useful debugging flag that prints all shell commands without executing them.
 - `-cm` passes the `-cm` flag to the final `mri_convert` call, conforming the output COR volume to the minimum voxel size.
 - Output format is determined by `mri_info --format` on the output specifier; if the format is unknown, COR is assumed.
@@ -131,6 +131,7 @@ Alternative to [[mri_motion_correct]] and [[mri_motion_correct2]] for FSL-based 
 
 - [[mri_motion_correct]] — bash variant using MINC
 - [[mri_motion_correct2]] — tcsh variant using MINC
+- [[fsl_rigid_register]] — the FSL `flirt` wrapper called internally for the rigid-body registration step
 - [[mri_info]] — used internally for scan parameter extraction
 - [[wiki/tools/mri_convert|mri_convert]] — for converting ANALYZE output to MGZ
 

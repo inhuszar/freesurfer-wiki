@@ -20,7 +20,7 @@ related:
   - "[[mri_nu_correct.mni]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Full list of interactions between --apply_transform, --reslice_like, --conform and --like is complex; code paths 1801–2930 not yet fully traced"
   - "Behaviour of --no_scale on non-COR outputs is only documented for the binary case; source check still needed"
@@ -779,6 +779,24 @@ autorecon1 Stage 2/3).
 - [[mgz]] — FreeSurfer's native MGH/MGZ volume format.
 - [[coordinate-systems]] — definitions of the RAS conventions used
   here.
+
+### DICOM / series unpacking and format I/O
+
+These wrappers prepare raw scanner data into per-run files that
+`mri_convert` then converts to MGZ (or, for `cor_to_minc`, perform a
+direct format conversion that `mri_convert` does not):
+
+- [[dcmunpack]] — sort a DICOM directory into per-series runs (the
+  modern front-end; supersedes `unpacksdcmdir`).
+- [[unpacksdcmdir]] — legacy Siemens-DICOM directory unpacker.
+- [[unpackimadir]] / [[unpackimadir2]] — unpack Siemens IMA directories.
+- [[unpackmincdir]] — unpack a directory of MINC files into runs.
+- [[dcmsplit]] — split a mixed DICOM directory by series.
+- [[dcmdir-info-mgh]] — summarise the series/runs found in a DICOM
+  directory before conversion.
+- [[fsdcmdecompress]] — decompress JPEG/JPEG2000-encoded DICOM so the
+  reader can ingest it.
+- [[cor_to_minc]] — convert a legacy COR volume directly to MINC.
 
 ## Confidence and Gaps
 

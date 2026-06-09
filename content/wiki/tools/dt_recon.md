@@ -15,7 +15,7 @@ related:
   - "[[bbregister]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact tensor model equations used by mri_glmfit --dti not verified"
 tags:
@@ -132,7 +132,7 @@ Scalar maps (FA, MD, eigenvalues) are derived from $\mathbf{D}$ via eigendecompo
 ## Configuration Interactions
 
 - `--no-reg` implies `--no-tal`; both registration and Talairach resampling are skipped together.
-- `--reg <lta>` bypasses running bbregister but still requires `--s` to extract the subject name (via `reg2subject`).
+- `--reg <lta>` bypasses running bbregister but still requires `--s` to extract the subject name (via [[reg2subject]]).
 - `--b` is currently required; DICOM-only mode (`--info-dump` without `--b`) appears partially implemented but the validation at line 513–515 enforces `--b`.
 - `--init-fsl`, `--init-spm`, and `--init-coreg` are mutually exclusive bbregister initialisation modes.
 
@@ -177,13 +177,13 @@ dt_recon \
 
 ## Pipeline Context
 
-`dt_recon` is a standalone diffusion pipeline, not a stage of `recon-all`. It expects a fully processed FreeSurfer subject directory to exist (completed `recon-all`) when registration is requested. The output can feed downstream tractography tools such as `trac-all`.
+`dt_recon` is a standalone diffusion pipeline, not a stage of `recon-all`. It expects a fully processed FreeSurfer subject directory to exist (completed `recon-all`) when registration is requested. The output can feed downstream tractography tools such as [[trac-all]].
 
 ## Gotchas and Caveats
 
 - Requires FSL to be installed and sourced before running (for `eddy_correct` and `FSLOUTPUTTYPE`).
 - The script forces `FSLOUTPUTTYPE=NIFTI_GZ`; this overrides any existing FSL environment setting.
-- Output files use `UpdateNeeded` checks, so re-runs skip steps whose outputs already exist — unless `--force` is given.
+- Output files use [[UpdateNeeded]] checks, so re-runs skip steps whose outputs already exist — unless `--force` is given.
 - For the `fsaverage` subject, bbregister is automatically called with `--12` (12-DOF linear registration) instead of the default boundary-based registration.
 
 ## Related Tools

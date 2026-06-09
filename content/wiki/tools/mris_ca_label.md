@@ -16,7 +16,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: review
 confidence: medium
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "GCSAlabel() / GCSAreclassifyUsingGibbsPriors() / GCSArelabelIslands() implementations live in libgcsa and were not traced in detail"
   - "Exact feature normalisation used for curvature/sulcal-depth inputs (which_norm = NORM_MEAN) not traced beyond the constant"
@@ -82,7 +82,7 @@ spherical location across a training population.
 > [!assumption] sphere.reg must be registered to the same atlas space as gcs
 > The `.gcs` atlas was created by training on surfaces aligned to a specific
 > atlas. The `sphere.reg` must be registered to the same atlas (via
-> [[mris_register]] / `rca-surfreg`). Mixing atlas registrations produces
+> [[mris_register]] / [[rca-surfreg]]). Mixing atlas registrations produces
 > garbage parcellations. See [[registration-overview]] and
 > [[surface-representations]].
 
@@ -290,6 +290,9 @@ DKTatlas40) by calling `mris_ca_label` with different atlas files.
 - [[mri_ca_label]] — volumetric subcortical segmentation (complementary)
 - [[mri_aparc2aseg]] — projects cortical labels to volume space
 - [[mris_anatomical_stats]] — computes morphometric statistics per parcel
+- [[train-gcs-atlas]] — trains the `.gcs` surface atlas that `mris_ca_label` consumes (via [[mris_ca_train]])
+- [[build_desikan_killiany_gcs.csh]] — rebuilds the canonical Desikan–Killiany `.gcs` atlas used by `mris_ca_label`
+- [[aparc_stats_aseg]] — orchestrator that applies a custom `.gcs` atlas by running `mris_ca_label` + [[mris_anatomical_stats]] + [[mri_aparc2aseg]]
 
 ## Confidence and Gaps
 

@@ -13,7 +13,7 @@ related:
   - "[[surface-representations]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-14
+last_agent_update: 2026-06-09
 gaps:
   - "TAG_SURF_DATASPACE and TAG_SURF_MATRIXDATA contents not traced beyond tag type identification"
   - "Old quad format (QUAD_FILE_MAGIC_NUMBER = 0xFFFFFF) not documented; essentially obsolete"
@@ -182,6 +182,9 @@ See [[surface-representations]] for a conceptual overview of these surfaces.
 | [[mri_vol2surf]] | ✓ | — | Reads surface for projection |
 | [[mri_surf2vol]] | ✓ | — | Reads surface for back-projection |
 | [[mris_calc]] | ✓ | — | Reads for vertex masking via `--label` |
+| [[mris2rgb]] | ✓ | — | Renders a surface (or flattened patch) to off-screen `.rgb`/TIFF images from canonical viewpoints |
+| [[vno_match_check]] | ✓ | — | QA: checks that all of a hemisphere's surfaces and overlays share the same vertex count |
+| [[is-surface]] | ✓ | — | Predicate that detects a volume-encoded surface via its degenerate (`>1000 cols × 1 row`) header geometry |
 
 ## Reading from Python
 

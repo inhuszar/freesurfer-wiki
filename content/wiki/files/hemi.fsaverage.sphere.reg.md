@@ -31,7 +31,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-23
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - file
@@ -40,7 +40,7 @@ tags:
 # hemi.fsaverage.sphere.reg
 
 > [!file] Glossary entry
-> `lh.fsaverage.sphere.reg` / `rh.fsaverage.sphere.reg` are symbolic links that point to [[hemi.sphere.reg]]. They are created by `rca-surfreg` immediately after [[mris_register]] writes `hemi.sphere.reg`. The symlink provides a named alias that makes explicit which atlas (`fsaverage`) the registration targets. No additional computation is performed; the surface data is identical to [[hemi.sphere.reg]].
+> `lh.fsaverage.sphere.reg` / `rh.fsaverage.sphere.reg` are symbolic links that point to [[hemi.sphere.reg]]. They are created by [[rca-surfreg]] immediately after [[mris_register]] writes `hemi.sphere.reg`. The symlink provides a named alias that makes explicit which atlas (`fsaverage`) the registration targets. No additional computation is performed; the surface data is identical to [[hemi.sphere.reg]].
 
 ## Location and Format
 

@@ -14,7 +14,7 @@ related:
   - "[[dmri_spline]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "pathstats.overall.txt format not confirmed from source"
 tags:
@@ -144,7 +144,7 @@ dmri_pathstats \
 dmri_paths --> dmri_pathstats --> dmri_group
 ```
 
-`dmri_pathstats` is called by the `trac-all` TRACULA wrapper. Its output `pathstats.byvoxel.txt` is the primary input to `dmri_group` for group analysis.
+`dmri_pathstats` is called by the [[trac-paths]] tractography stage of the [[trac-all]] TRACULA wrapper. Its output `pathstats.byvoxel.txt` is the primary input to `dmri_group` for group analysis, and its overall-stats output is gathered across subjects by [[tractstats2table]].
 
 ## Gotchas and Caveats
 

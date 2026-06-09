@@ -14,7 +14,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: medium
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Exact blending/stitching algorithm for combining partial-brain T2* slabs: mri_concat --combine is used; voxel-wise maximum selection behaviour was not independently verified"
 tags:
@@ -38,7 +38,7 @@ tags:
 ## Purpose and Context
 
 Ultra-high field (7T) MRI scanners often have limited field-of-view for T2*-weighted acquisitions, requiring multiple partial-brain "slabs" to cover the whole brain. This tool automates the pipeline to:
-1. Register the 7T T1 whole-brain to the 3T FreeSurfer anatomical (via `fslregister`)
+1. Register the 7T T1 whole-brain to the 3T FreeSurfer anatomical (via [[fslregister]])
 2. Register each T2* slab to the 7T T1 using that registration as initialization
 3. Stitch/combine the registered slabs into one whole-brain T2* volume
 

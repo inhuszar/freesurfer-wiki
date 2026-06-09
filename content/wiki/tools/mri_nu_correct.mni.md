@@ -18,7 +18,7 @@ related:
   - "[[mri_em_register]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-22
+last_agent_update: 2026-06-09
 gaps:
   - "MNI nu_correct's exact B-spline fitting algorithm is only documented in Sled 1997/1998 papers; not re-derived here"
   - "ANTs N4 backend's exact parameter mapping to the tcsh wrapper flags still needs confirmation — only --threads-nondetermistic and -x mask are clearly passed"
@@ -43,7 +43,7 @@ field") that is typical of MRI has been estimated and removed. It
 supports three different backends: the original MNI N3 (the default,
 via the `nu_correct` binary shipped with FreeSurfer), ANTs N3
 (`N3BiasFieldCorrection`, when `--ants-n3` is passed), and ANTs N4
-(`AntsN4BiasFieldCorrectionFs`, when `--ants-n4` is passed). An
+([[AntsN4BiasFieldCorrectionFs]], when `--ants-n4` is passed). An
 optional post-processing step (`--uchar <talxfm>`) delegates to
 `mri_make_uchar` to rescale the histogram so that white matter centres
 at intensity ~110 in an 8-bit output, which is the representation

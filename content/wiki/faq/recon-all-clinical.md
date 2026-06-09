@@ -3,7 +3,7 @@ title: "recon-all-clinical — Frequently Asked Questions"
 type: faq
 fs_version: "8.2.0"
 entry_count: 12
-last_agent_update: 2026-04-27
+last_agent_update: 2026-06-09
 tags:
   - faq
   - recon-all-clinical
@@ -422,3 +422,12 @@ standard subject directory.
 `raw/mailing-list/2023-08-recon-all-clinical-etiv-entorhinal-thickness-caveat.md`.
 
 **Related:** [[recon-all-clinical.sh]], [[wiki/pipelines/recon-all|recon-all]], [[mri_synthsr]], [[mri_synthseg]]
+
+---
+
+## See also
+
+- [[rca-rcac-prep]] — packages the "run the clinical / SynthSR + SynthSeg
+  deep-learning tools first, then hand the cleaned-up volume to the standard
+  [[wiki/pipelines/recon-all|recon-all]] surface stream" workflow recommended in several entries
+  above, as a single preprocessing script.

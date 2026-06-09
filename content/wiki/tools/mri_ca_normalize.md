@@ -18,7 +18,7 @@ related:
   - "[[mgz]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-06-09
 gaps: []
 tags:
   - normalization
@@ -178,6 +178,14 @@ In [[wiki/pipelines/recon-all|recon-all]], `mri_ca_normalize` is called in the a
 - [[mri_em_register]] — produces the affine Talairach transform used here
 - [[mri_ca_register]] — nonlinear atlas registration that uses the output of this tool
 - [[mri_ca_label]] — segmentation step that follows normalization
+
+### Driver scripts
+
+- [[label_subject]] — the classic single-subject segmentation driver, which runs
+  `mri_ca_normalize` as its atlas-guided normalization step before nonlinear
+  registration and labeling.
+- [[gca-apply]] — applies a trained GCA to a new subject, calling
+  `mri_ca_normalize` to normalize the subject into the atlas intensity frame.
 
 ## Confidence and Gaps
 

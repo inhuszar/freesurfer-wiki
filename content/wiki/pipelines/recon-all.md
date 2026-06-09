@@ -78,7 +78,7 @@ related_tools:
   - "[[freeview-editing]]"
 status: draft
 confidence: high
-last_agent_update: 2026-04-21
+last_agent_update: 2026-06-09
 gaps:
   - "Interaction between classic mri_watershed path and the newer SynthStrip short-circuit path (lines 1611–1625 of recon-all) warrants a dedicated gotcha page"
   - "MCADura / VSinus auxiliary segmentation (lines 2212–2251) is only briefly noted"
@@ -489,7 +489,7 @@ mri_em_register -uns 3 -mask brainmask.mgz \
 - For a `-base` subject, `norm_template.mgz` is used as input instead
   of `nu.mgz` and the `-mask brainmask.mgz` form is preserved.
 - For the longitudinal `-long` time-points the stage is skipped; the
-  base subject's `talairach.lta` is copied in `rca-long-tp-init`.
+  base subject's `talairach.lta` is copied in [[rca-long-tp-init]].
 - When `EMRegAseg=0`, `talairach.lta` is replaced by a symlink to
   `talairach.xfm.lta`.
 
@@ -875,7 +875,7 @@ Outputs: `surf/?h.sphere`.
 
 **Source lines:** `scripts/recon-all:4212–4227`.
 
-Delegated to the `rca-surfreg` wrapper, which calls [[mris_register]] (or [[mris_register_josa]] with `-josa`) to align the subject's sphere to the group atlas (`fsaverage.tif`) using curvature, sulcal depth, and average curvature as matching features:
+Delegated to the [[rca-surfreg]] wrapper, which calls [[mris_register]] (or [[mris_register_josa]] with `-josa`) to align the subject's sphere to the group atlas (`fsaverage.tif`) using curvature, sulcal depth, and average curvature as matching features:
 
 ```bash
 rca-surfreg --s $subjid --threads $OMP_NUM_THREADS \
@@ -959,7 +959,7 @@ Outputs: `label/?h.high-myelin.label`.
 
 **Source lines:** `scripts/recon-all:4397–4419`.
 
-When `-hires` is active, the `conf2hires` wrapper places white and pial surfaces directly on the original (non-conformed) high-resolution volume, bypassing the plain `DoWhiteSurfs` / `DoPialSurfs` blocks below. Adds `--T2` / `--FLAIR` when the corresponding pial-refinement modality is available.
+When `-hires` is active, the [[conf2hires]] wrapper places white and pial surfaces directly on the original (non-conformed) high-resolution volume, bypassing the plain `DoWhiteSurfs` / `DoPialSurfs` blocks below. Adds `--T2` / `--FLAIR` when the corresponding pial-refinement modality is available.
 
 #### Stage 34 — White Surfaces (`DoWhiteSurfs`)
 
@@ -1133,7 +1133,7 @@ Outputs: `label/?h.aparc.DKTatlas.annot`.
 
 **Source lines:** `scripts/recon-all:4965–4993`. Per-hemisphere. Skipped in longitudinal *base* subjects (no `rawavg.mgz`).
 
-Delegated to the `pctsurfcon` wrapper script, which samples mean intensity 30% into white and 30% into grey along the normal at each vertex, then computes `(white − grey) / ((white + grey)/2)` as a percent contrast:
+Delegated to the [[pctsurfcon]] wrapper script, which samples mean intensity 30% into white and 30% into grey along the normal at each vertex, then computes `(white − grey) / ((white + grey)/2)` as a percent contrast:
 
 ```bash
 pctsurfcon --s $subjid --$hemi-only
@@ -1592,6 +1592,35 @@ With `-openmp 4` on `mri_em_register`, `mri_ca_register`, and
 - [[wiki/tools/freeview|freeview]] — primary GUI for inspecting recon-all outputs and diagnosing surface errors.
 - [[freeview-editing]] — manual correction of `wm.mgz`, `brain.finalsurfs.mgz`, `brainmask.mgz`, and `aseg.mgz` between autorecon stages.
 - [[mksubjdirs]] — create the `$SUBJECTS_DIR/<subj>` skeleton that recon-all expects.
+
+### Component scripts called by recon-all
+
+These are the `rca-*` per-stage helper scripts that the modern (v8.2.0) `recon-all` delegates to, plus the standalone wrappers it invokes at specific stages:
+
+- [[rca-config]] — shared configuration/argument-parsing sourced by the other `rca-*` helpers.
+- [[rca-talairach]] — Talairach registration stage (Stages 2/3).
+- [[rca-base-init]] — initialises the unbiased longitudinal *base* subject.
+- [[rca-long-tp-init]] — initialises each longitudinal time-point from the base (Stage 6 onward).
+- [[rca-surfreg]] — surface registration driver for Stage 28 (wraps [[mris_register]] / [[mris_register_josa]]).
+- [[rca-fix-ento]] — entorhinal-WM fixup helper used by the `-fix-ento-wm` path.
+- [[rca-rcac-prep]] — preparation step shared with the clinical (`recon-all-clinical`) stream.
+- [[conf2hires]] — places surfaces on the native hi-res volume under `-hires` (Stage 33).
+- [[vertexvol]] — per-vertex grey-matter volume computation (Stage 37).
+- [[pctsurfcon]] — WM/GM percent-contrast wrapper (Stage 42).
+- [[defect2seg]] — converts the topology-fixer defect list into a segmentation (Stage 20).
+- [[seg2cc]] — corpus-callosum labelling helper used around the `mri_cc` step.
+
+### Legacy per-stage helpers (historical equivalents)
+
+Older FreeSurfer releases drove each reconstruction stage through standalone tcsh scripts before the logic was folded into `recon-all`. They are documented as historical equivalents of the stages above:
+
+- [[segment_subject]] — old skull-strip + WM-segmentation driver (≈ Stages 5/14).
+- [[register_subject]] — old GCA affine-registration driver (≈ `mri_em_register` stage).
+- [[renormalize_subject]] — old intensity-normalisation driver.
+- [[fix_subject]] — old topology-fix driver (≈ Stage 20).
+- [[inflate_subject]] — old surface-inflation driver (≈ Stages 18/25).
+- [[sphere_subject]] — old spherical-inflation driver (≈ Stages 19/27).
+- [[morph_subject]] — old surface-registration driver (≈ Stage 28).
 
 ## References
 
