@@ -236,11 +236,18 @@ geometries must be valid for this conversion.
 > fail `LTAchangeType()`.
 
 > [!gotcha] register.dat direction convention
-> The `register.dat` matrix maps FROM functional/source volume TO anatomy
-> (tkRAS → tkRAS). When [[mri_vol2surf]] reads it, the matrix is applied as
-> $\mathbf{x}_\text{surf} = \mathbf{R}^{-1} \mathbf{x}_\text{vol}$ (effectively:
-> anatomy → source vol direction). Keep track of which direction your registration
-> file encodes.
+> The `register.dat` matrix **R** maps the **anatomical/reference** tkRAS to the
+> **functional/moveable** tkRAS ($\mathbf{x}_\text{mov} = \mathbf{R}\,\mathbf{x}_\text{ref}$).
+> The source states this directly, and also notes that the LTA wrapper labels
+> `src = mov` and `dst = ref` — the *opposite* of the matrix direction — "an
+> error introduced a long time ago [that] the rest of the code base has built up
+> around"
+> ([`utils/transform.cpp:2756-2759`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/transform.cpp#L2756-L2759)).
+> When [[mri_vol2surf]] samples the volume at an anatomical surface vertex it
+> applies $\mathbf{x}_\text{vol} = \mathbf{R}\,\mathbf{x}_\text{surf}$; to map a
+> functional point back to anatomy, invert it
+> ($\mathbf{x}_\text{surf} = \mathbf{R}^{-1}\mathbf{x}_\text{vol}$). See
+> [[register.dat]] and [[lta-format]] for the full convention.
 
 > [!gotcha] Surface registration in FS 8.x uses `rca-surfreg`
 > The surfreg stage in `recon-all` (FS 8.2.0) calls `rca-surfreg`, not

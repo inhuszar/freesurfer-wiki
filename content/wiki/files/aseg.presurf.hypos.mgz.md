@@ -7,7 +7,7 @@ aliases: []
 location: "$SUBJECTS_DIR/<subj>/mri/"
 anchor: subject
 hemispheric: false
-format: "[[mgh-format]]"
+format: "[[mgz|MGH format]]"
 binary: true
 produced_by:
   - "[[mri_relabel_hypointensities]]"
@@ -48,7 +48,7 @@ tags:
 ## Location and Format
 
 - **Canonical path:** `$SUBJECTS_DIR/<subj>/mri/aseg.presurf.hypos.mgz`
-- **Format:** [[mgh-format]] — same label encoding as [[aseg.presurf.mgz]] but with WM hypointensity voxels relabelled to label 77 (WM hypointensity).
+- **Format:** [[mgz|MGH format]] — same label encoding as [[aseg.presurf.mgz]] but with WM hypointensity voxels relabelled to label 77 (WM hypointensity).
 
 ## What It Contains
 

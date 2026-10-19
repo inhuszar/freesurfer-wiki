@@ -7,7 +7,7 @@ aliases: []
 location: "$SUBJECTS_DIR/<subj>/mri/"
 anchor: subject
 hemispheric: false
-format: "[[mgh-format]]"
+format: "[[mgz|MGH format]]"
 binary: true
 produced_by:
   - "[[mri_surf2volseg]]"
@@ -56,7 +56,7 @@ tags:
 ## Location and Format
 
 - **Canonical path:** `$SUBJECTS_DIR/<subj>/mri/aparc+aseg.mgz`
-- **Format:** [[mgh-format]] — integer label volume in conformed space.
+- **Format:** [[mgz|MGH format]] — integer label volume in conformed space.
 - **Label ranges:**
   - `0–85` — subcortical and special regions (inherited from [[aseg.mgz]])
   - `1000–1035` — left hemisphere Desikan-Killiany parcels

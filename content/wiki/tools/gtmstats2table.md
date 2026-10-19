@@ -12,7 +12,7 @@ related:
   - "[[gtmseg]]"
   - "[[asegstats2table]]"
   - "[[aparcstats2table]]"
-  - "[[mri_glmfit]]"
+  - "[[wiki/tools/mri_glmfit|mri_glmfit]]"
   - "[[mri_info]]"
 status: draft
 confidence: high
@@ -38,7 +38,7 @@ column per GTM ROI — in the same spirit as `asegstats2table` and
 uptake** (the GTM regression coefficient, column 7 of each `gtm.stats.dat`); with
 `--voxels` or `--volume` it instead reports the region's voxel count or physical
 volume in mm³. The resulting table is designed to be fed straight into
-[[mri_glmfit]] `--table` for group analysis.
+[[wiki/tools/mri_glmfit|mri_glmfit]] `--table` for group analysis.
 
 ## Source Information
 
@@ -58,7 +58,7 @@ it concatenates the chosen quantity into one table whose first row is the ROI
 names and whose subsequent rows are the inputs (numbered 1, 2, 3, …).
 
 It is the GTM analogue of [[asegstats2table]] / [[aparcstats2table]], and its
-output is explicitly intended to be consumed by [[mri_glmfit]] for surface-/ROI-
+output is explicitly intended to be consumed by [[wiki/tools/mri_glmfit|mri_glmfit]] for surface-/ROI-
 based group statistics.
 
 ## Inputs
@@ -105,7 +105,7 @@ The parent directory of the output is created if needed
 The table is plain text. The **first column is an integer index** (input order),
 *not* a subject name — you must keep track of the input→subject mapping yourself
 (e.g. by the order of your `--gtmdir`/`--f` list). The header row begins with the
-literal `GTM`. This layout matches what [[mri_glmfit]] `--table` expects.
+literal `GTM`. This layout matches what [[wiki/tools/mri_glmfit|mri_glmfit]] `--table` expects.
 
 ## Mathematical Foundations
 
@@ -205,13 +205,13 @@ mri_glmfit --table gtm.uptake.table --osgm --o glm.gtm.uptake
 
 **Predecessor:** [[mri_gtmpvc]] (run once per PET dataset, each producing a
 `gtm.stats.dat`) → **gtmstats2table** (gather across datasets) →
-**Successor:** [[mri_glmfit]] (group GLM on the table).
+**Successor:** [[wiki/tools/mri_glmfit|mri_glmfit]] (group GLM on the table).
 
 Upstream of `mri_gtmpvc` are [[gtmseg]] (the segmentation) and a finished
 [[wiki/pipelines/recon-all|recon-all]]. `gtmstats2table` is **not** part of
 `recon-all` and is run by hand once all subjects have been PVC-corrected.
 
-**Predecessor:** [[mri_gtmpvc]] → **This tool** → **Successor:** [[mri_glmfit]]
+**Predecessor:** [[mri_gtmpvc]] → **This tool** → **Successor:** [[wiki/tools/mri_glmfit|mri_glmfit]]
 
 ## Gotchas and Caveats
 
@@ -252,7 +252,7 @@ Upstream of `mri_gtmpvc` are [[gtmseg]] (the segmentation) and a finished
 - [[mri_gtmpvc]] — produces the per-dataset `gtm.stats.dat` that this tool reads.
 - [[gtmseg]] — builds the segmentation whose ROIs become the table columns.
 - [[asegstats2table]] / [[aparcstats2table]] — the analogous aggregators for `aseg`/`aparc` stats; same output style.
-- [[mri_glmfit]] — the intended consumer of the table (`--table`).
+- [[wiki/tools/mri_glmfit|mri_glmfit]] — the intended consumer of the table (`--table`).
 - [[mri_info]] — used only in `--volume` mode to read the mask voxel volume.
 
 ## Confidence and Gaps

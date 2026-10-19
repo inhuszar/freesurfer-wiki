@@ -53,6 +53,8 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[stats-format]] | FreeSurfer statistics file (.stats): aseg.stats/aparc.stats text format, header measures, column definitions | 🔎 review |
 | [[m3z-format]] | GCA Morph warp field (.m3z): gzip-compressed node array (36 B/node), tagged sections, coordinate conventions | 🔎 review |
 | [[fsgd-format]] | FreeSurfer Group Descriptor (FSGD): plain-text GLM design file; class/variable/input keywords, DOSS/DODS matrix methods, contrast specification | 📝 draft |
+| [[nifti]] | NIfTI-1/2 interchange format (.nii/.nii.gz): sform-vs-qform orientation rule, units handling, MGZ relationship | 🔎 review |
+| [[register.dat]] | tkregister registration matrix (.dat): line layout, tkreg-RAS, ref→mov direction convention, .lta upgrade path | 🔎 review |
 
 ## Volumetric Tools (`mri_*`)
 
@@ -492,6 +494,10 @@ Status legend: ✅ verified · 🔎 review · 📝 draft · ⬜ not started
 | [[mri_transform]] | applies a linear geometric transform (LTA or legacy matrix format) to an MRI volume or connectivity  | C++ | 📝 draft |
 | [[mri_transform_to_COR]] | converts a spatial transform to COR (coronal) format — the legacy FreeSurfer binary volume format th | C++ | 📝 draft |
 | [[mri_warp_convert]] | converts non-linear deformation field (warp) files between formats used by different neuroimaging so | C++ | 📝 draft |
+| [[surf2vol]] | fem_elastic: affine (Powell) + incremental linear-elastic tetrahedral FEM registration driven by surface vertex pairs; the elastic stage of [[mri_cvs_register]] | C++ (PETSc) | 📝 draft |
+| [[exportGcam]] | fem_elastic: converts a `.tm3d` volume morph (e.g. from [[surf2vol]]) into a GCA morph (`.m3z`) on the `--fixed` lattice | C++ | 📝 draft |
+| [[createMorph]] | fem_elastic: chains affine / delta-field / GCAM / morph / mesh transforms into a single `.tm3d` volume morph | C++ | 📝 draft |
+| [[applyMorph]] | fem_elastic: applies a `.tm3d` morph to volumes, surfaces, surface probes and point lists | C++ | 📝 draft |
 
 ## SAMSEG / Bayesian Segmentation Tools
 
@@ -947,6 +953,26 @@ supported" stub), and the build-test helper `skip_long_make_checks`.
 
 <!-- END bulk-ingest 2026-06-09 -->
 
+### Dead-link backfill (2026-06-11)
+
+Tools that were cross-referenced but undocumented; ingested from source to
+retire dead wikilinks.
+
+| Tool | Summary | Source | Status |
+|------|---------|--------|--------|
+| [[mkanalysis-sess]] | FSFAST: configure a first-level fMRI analysis (paradigm, GLM, contrasts) consumed by [[selxavg3-sess]] | tcsh | 📝 draft |
+| [[preproc-sess]] | FSFAST: session preprocessing orchestrator (motion correction, registration, slice-timing, smoothing) | tcsh | 📝 draft |
+| [[selxavg3-sess]] | FSFAST: first-level GLM fit/averaging (`fast_selxavg3b`) for a session | tcsh | 📝 draft |
+| [[stc.fsl]] | FSFAST: slice-timing correction wrapper around FSL `slicetimer` | tcsh | 📝 draft |
+| [[checkMCR.sh]] | Preflight check for the MATLAB Compiler Runtime required by compiled tools | tcsh | 📝 draft |
+| [[fspython]] | Wrapper that runs FreeSurfer's bundled, isolated Python interpreter | bash | 📝 draft |
+| [[qdec]] | Deprecation stub in 8.2.0 (historical QDEC statistical GUI; superseded by [[wiki/tools/mri_glmfit\|mri_glmfit]]) | bash | 📝 draft |
+| [[segmentHA_T1.sh]] | Hippocampal-subfield + amygdala segmentation from a recon-all T1 | tcsh | 📝 draft |
+| [[segment_subregions]] | Unified entry point for hippocampus/thalamus/brainstem subregion segmentation | Python | 📝 draft |
+| [[mri_rbvpvc]] | PET region-based voxelwise partial-volume correction (GTM/RBV/MG) | C++ | 📝 draft |
+| [[fs-synthmorph-reg]] | SynthMorph/ANTs front-end producing MNI152 non-linear warps | tcsh | 📝 draft |
+| [[samseg-long]] | Longitudinal SAMSEG segmentation | Python | 📝 draft |
+
 ## Gotchas
 
 | Topic | Summary | Status |
@@ -1169,6 +1195,39 @@ supported" stub), and the build-test helper `skip_long_make_checks`.
 | [[00189]] | make_folding_atlas — --account sets FS_BATCH_ACCOUNT but sbatch reads FS_SBATCH_ACCOUNT, so the account is never applied | low | open |
 | [[00190]] | make_average_volume — --keep-all-orig branch is dead because the volume loop never iterates over 'orig'; orig.all.mgz is never written | low | open |
 | [[00192]] | exvivo-hemi-proc — --rotreg checks $reg instead of $rotreg (undefined-variable error), and advertised --force has no parser case | low | open |
+| [[00193]] | mri_edit_wm_with_aseg — fourth MTL diagonal-fill block fills (x−1,y+1,z) instead of (x+1,y+1,z); +x diagonal break skipped and a spurious WM voxel written on the −x side, on the default recon-all WM-edit stage | high | open |
+| [[00194]] | mri_ms_fitparms — echo-averaging sets register_mat from mri_all_flash[nvolumes] (output counter) instead of [i] (source); averaged groups inherit an earlier volume's vox2ras (latent unless inputs differ in header geometry) | low | open |
+| [[00195]] | surf2vol — -aparc medial-wall exclusion is a no-op: FS≥5 annotation-0 vertices match no colour-table index, ripCounter=0, ~33k medial-wall BCs drive every mri_cvs_register elastic stage | high | open |
+| [[00196]] | surf2vol — powell_lin tests ripflag on the moving surface (never annotated) instead of the fixed one; latent behind 00195, medial wall would still enter the affine fit | low | open |
+| [[00197]] | surf2vol — create_surf_container uses OR where AND is intended: srcPoints=0 on the CVS default path, -use_pial_for_surf never uses pial, -surf_subsample value ignored, UB debug iterator | medium | open |
+| [[00198]] | surf2vol — update_sources ignores std::remove_if result on a std::list; invalid points stay (duplicates/garbage into TetGen); only with -use_pial_for_surf | medium | open |
+| [[00199]] | surf2vol — FEM core Element3d caches node-displacement interpolation once and never invalidates it, so untangling edits are ignored for already-queried elements (CVS default path) | high | open |
+| [[00200]] | mri_cvs_register/surf2vol — preonly+jacobi applies one diagonal scaling per step; deep WM moved 0.008 of 3 vox in test; CG until 2011-10 (3916ce1fbc); intent a [!gap] | high | open |
+| [[00201]] | surf2vol — -compress delta grid and FEM box hard-coded to 256³: fixed volumes >256 voxels get zeros/invalid GCAM beyond index 255 (default 256³ templates unaffected) | medium | open |
+| [[00202]] | surf2vol — -dbg_output: VolumeMorph::save() cuts the shared transform chain, so final -out/-out_mesh/-gcam hold only the last FEM step | medium | open |
+| [[00203]] | mri_cvs_register — affine cache transform.txt has no key and is never deleted; reruns, other hemisphere/template or --clean* silently reuse a stale affine | medium | open |
+| [[00204]] | surf2vol/createMorph — read_transform accepts an 11-number (or non-numeric 12th token) affine file; z translation silently 0 | low | open |
+| [[00205]] | surf2vol — failed writes, caught exceptions and PETSc option-parse errors all exit 0 (mri_cvs_register cannot detect them); parse() result ignored, compress uninitialised | low | open |
+| [[00206]] | applyMorph — CMesh3d copy ctor shallow-copies the Octree; FemTransform3d::invert double-frees the root on point_list/tract_point_list of a FEM-mesh morph (harness SIGSEGV); m_poctree left uninitialised | medium | open |
+| [[00207]] | surf2vol — Element3d stiffness omits the V_e factor (commented out since 2008): K ∝ 1/h² not h; developer intent unknown, CVS parameters were tuned empirically | medium | open |
+| [[00208]] | surf2vol — new[]/delete mismatch in SmallMatrix::inplace_transpose (per active MFC per FEM step) and ZlibStringCompressor::setBufferSize; UB, benign on glibc, Valgrind-confirmed; dangling m_buffer | low | open |
+| [[00209]] | surf2vol / exportGcam / createMorph — leaks: comm_solution overwrites its new[] with VecGetArray, setup_load_sym frees nothing, ZlibStringCompressor has no destructor (peak-memory inflation) | low | open |
+| [[00210]] | surf2vol — Material3d::get_matrix omits m(2,1)=dnu (D asymmetric: D(1,2)=576.9, D(2,1)=0); dead code, Element3d::get_matrix computes terms inline | trivial | open |
+| [[00211]] | applyMorph — `sprobe` item always runs as `snormals` (parser tests the filename, not the keyword); distance filter unreachable; byte-identical outputs | medium | open |
+| [[00212]] | exportGcam — with --bbox_threshold, GCAM node positions are shifted by minus the box origin (cache + lattice index instead of full-grid index); no-box and CVS paths unaffected | medium | open |
+| [[00213]] | applyMorph/morph lib — DeltaTransform3d::invert negates only frame 0 (x); point lists through `field` (surf2vol -compress) morphs get inverted x, forward y,z | medium | open |
+| [[00214]] | applyMorph — `point_list` inverts the shared morph in place and never restores it; item-order-dependent results for later point lists, vol/surf items and --dbg_coords | medium | open |
+| [[00215]] | createMorph — gcam input: GCAMrasToVox() applied to voxel-type GCAMs since 2023 (0a3a8c2d16) gives garbage delta field; hits trac-preproc legacy CVS branch | medium | open |
+| [[00216]] | createMorph — poor input validation: gcam without --template segfaults, unknown keywords/unreadable template skipped with exit 0, nested morph drops geometry, missing mesh aborts | low | open |
+| [[00217]] | surf2vol/exportGcam/applyMorph — DeltaTransform3d samples validity mask trilinearly (comment says nearest); 1-voxel boundary rim accepted with damped displacement | low | open |
+| [[00218]] | createMorph — volume input with nframes != 3 writes a .tm3d field record the 3-frame reader cannot parse (read past end / dropped frames); no frame check | low | open |
+| [[00219]] | applyMorph — per-item `vol` interpolation is applied globally at setup (last item wins; `VolumeFilter::m_interpolationType` unused); unknown keywords silently ignored | medium | open |
+| [[00220]] | applyMorph — sprobe/snormals segfault (exit 139) on morphs without valid geometry (e.g. createMorph without --template/--subject): LoadInputData returns instead of throwing | low | open |
+| [[00221]] | exportGcam — GCAMwrite result ignored (bad extension or unwritable path exits 0, no file); --test + --bbox_threshold aborts (exit 252) after writing; empty bbox gives negative dims | low | open |
+| [[00222]] | surf2vol — new topology solver (no -topology_old): MergeIntersectingClusters accumulates from an empty vector, dropping *it ({1..5}+{5..9} gives {5..9}); folds left silently | medium | open |
+| [[00223]] | surf2vol/mri_cvs_register — old untangler crop 'bfs' is a DFS with global visited flags; radius-3 patches keep 782–884 of 1007 elements (harness), radius 4 loses 34–44%; CVS default path | medium | open |
+| [[00224]] | surf2vol — TMesh::dir_img never reads signalTopology; inverted elements always invalidate points (mask 0 in convert_to_delta), contradicting the header contract; intent open | low | open |
+| [[00225]] | surf2vol — TMeshCrop::PopulateNodes/Crop create one node per element incidence (~20x orphans) in the new topology solver; memory/time only, not on the CVS path | trivial | open |
 
 ## GitHub Issues
 
@@ -1183,6 +1242,15 @@ supported" stub), and the build-test helper `skip_long_make_checks`.
 | Module | Summary | Status |
 |--------|---------|--------|
 | [[internal-gcamorph]] | GCA Morph non-linear deformation library: GCA_MORPH struct, .m3z binary layout, energy functional | 📝 draft |
+| [[internal-matrix]] | MATRIX/VECTOR dense linear-algebra type (1-based, float): lingua franca for transforms, registration, fits | 📝 draft |
+| [[internal-mrisurf-metricproperties]] | Surface metric properties (vertex/face areas, normals, curvatures); hot path for all surface stages | 📝 draft |
+| [[internal-gradunwarp]] | Gradient-nonlinearity distortion correction (Siemens spherical-harmonic unwarp); engine behind [[mri_gradunwarp]] | 📝 draft |
+| [[internal-mri]] | The `MRI` volume struct + core ops: dims, type, direction cosines/c_ras, vox2ras, voxel access, sampling, conformed space | 📝 draft |
+| [[internal-mri-io]] | Volume I/O: format detection (`mri_identify`), MGH/MGZ + NIfTI + DICOM readers, TAG mechanism, geometry/orientation rules | 📝 draft |
+| [[internal-mrisurf]] | The MRIS surface library umbrella: VERTEX/FACE/topology structs, multi-coordinate model, neighbourhoods, deformation loop; maps the `mrisurf_*` file split | 📝 draft |
+| [[internal-gca]] | Gaussian Classifier Atlas: GCA/GCA_NODE/GCA_PRIOR/GC1D structs, Bayesian MAP labelling, Gibbs/MRF, training, node-vs-prior grids | 📝 draft |
+| [[internal-transform]] | Linear transform/LTA machinery: LTA/VOL_GEOM structs, type codes, the vox2ras conversion algebra (`LTAchangeType`), register.dat direction | 📝 draft |
+| [[internal-colortab]] | `COLOR_TABLE`/LUT machinery: label→name→colour, annotation bit-packing, binary version-by-sign, embedded-in-mgz tables | 📝 draft |
 
 ## Files (Glossary)
 
@@ -1326,6 +1394,7 @@ One page per canonical output file produced by a typical `recon-all` run. Pages 
 | [[talairach.xfm]] | MNI305 affine registration (XFM format, editable) | 📝 draft |
 | [[talairach.xfm.lta]] | MNI305 affine registration (LTA format) | 📝 draft |
 | [[talairach.lta]] | Symlink → talairach.xfm.lta | 📝 draft |
+| [[talairach.m3z]] | Non-linear GCA atlas warp (mri_ca_register); drives subcortical aseg labelling | 📝 draft |
 | [[rawavg2orig.lta]] | Native → conformed space transform | 📝 draft |
 | [[cc_up.lta]] | Corpus callosum upright alignment transform | 📝 draft |
 

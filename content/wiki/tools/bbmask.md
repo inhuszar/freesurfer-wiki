@@ -86,7 +86,7 @@ and no other FreeSurfer script calls it.
 
 | Flag | Arguments | What it is |
 |------|-----------|------------|
-| `--mask` | `inputmask outputmask` | **Required.** The mask volume to bound (input) and the path for the cropped mask (output). The input must exist ([`scripts/bbmask:151-159`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/bbmask#L151-L159)). Format is anything [[mri_convert|MRI I/O]] reads ([[mgz]], `nii`/`nii.gz`, …). |
+| `--mask` | `inputmask outputmask` | **Required.** The mask volume to bound (input) and the path for the cropped mask (output). The input must exist ([`scripts/bbmask:151-159`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/bbmask#L151-L159)). Format is anything [[wiki/tools/mri_convert|MRI I/O]] reads ([[mgz]], `nii`/`nii.gz`, …). |
 
 ### Optional Inputs
 

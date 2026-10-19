@@ -128,7 +128,7 @@ front ([`scripts/register_subject:27-29`](https://github.com/freesurfer/freesurf
 
 ### Output Specifications
 
-The transform is an [[lta]] of type `LINEAR_VOX_TO_VOX` mapping the subject's
+The transform is an [[lta-format]] of type `LINEAR_VOX_TO_VOX` mapping the subject's
 `orig` voxel grid onto the GCA atlas space. Geometry, data types and the
 optimisation are entirely the domain of [[mri_em_register]]; this wrapper adds
 no numerical processing. See [[coordinate-systems]] for what the Talairach LTA

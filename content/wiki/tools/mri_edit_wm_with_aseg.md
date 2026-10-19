@@ -166,6 +166,10 @@ The edited WM volume is then used by `[[mri_fill]]` to separate the two hemisphe
 > [!internal] MRIfixEntoWM
 > The entorhinal WM fixup function `MRIfixEntoWM()` is defined elsewhere in the FreeSurfer library. Its exact behaviour when called with `flag=1` (ACJ mode) vs `flag=0` (standard mode) is not documented here.
 
+## Known Bugs
+
+- [[00193]] — **(severity 4)** in the medial-temporal-lobe "spackle" loop of `edit_segmentation()`, the fourth diagonal-fill block tests neighbour `(x+1, y+1, z)` but its `else` branch fills `(x−1, y+1, z)` (a copy-paste from the third block that was never updated). The intended `+x` diagonal break is skipped and a spurious WM voxel is written on the `−x` side. Fires on the default `recon-all` WM-edit stage and propagates into `wm.asegedit.mgz` → `wm.mgz` → white-surface placement near the hippocampus/amygdala.
+
 ## Related Tools
 
 - [[mri_segment]] — produces the WM volume that this tool edits

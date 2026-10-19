@@ -23,7 +23,7 @@ related:
   - "[[dt_recon]]"
 status: draft
 confidence: high
-last_agent_update: 2026-06-09
+last_agent_update: 2026-10-19
 gaps:
   - "The CVS, SyN, and FNIRT inter-subject warp branches and their longitudinal base-template variants were read statically but not executed; several carry explicit 'Hack: using one time point for now' comments."
   - "Multi-field-map (nmap>1) branch at lines ~1005-1014 sets cmd without 'set' (likely a latent bug); not exercised here."
@@ -307,6 +307,7 @@ It is **not** part of [[wiki/pipelines/recon-all|recon-all]].
 ## Known Bugs
 
 - [[00184]] — in the multi-field-map branch (`if ($nmap > 1)`), three `mri_concat` lines are missing the `set` keyword, so the DWI concatenation mis-parses and the script aborts with a tcsh error instead of merging the per-map DWIs.
+- [[00215]] — severity 3: createMorph — gcam input: GCAMrasToVox() applied to voxel-type GCAMs since 2023 (0a3a8c2d16) gives garbage delta field; hits trac-preproc legacy CVS branch
 
 ## Related Tools
 

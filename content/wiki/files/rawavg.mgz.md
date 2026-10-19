@@ -15,7 +15,7 @@ produced_in_stage: "autorecon1: Motion Correction / Average"
 produced_at_source:
   - "[`scripts/recon-all:1474`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/recon-all#L1474)"
 inputs:
-  - "[[orig/NNN.mgz]]"
+  - "[[subject-directory]]"
 siblings: []
 consumed_by:
   - "[[wiki/tools/mri_convert|mri_convert]]"
@@ -88,7 +88,7 @@ The actual write of the averaged volume is handled inside `mri_robust_template`;
 
 ### Inputs required
 
-- [[orig/NNN.mgz]] — the individual input run volumes placed in `$SUBJECTS_DIR/<subj>/mri/orig/` before recon-all is invoked.
+- `orig/<NNN>.mgz` — the individual input run volumes placed in `$SUBJECTS_DIR/<subj>/mri/orig/` before recon-all is invoked.
 
 **Environment:** `$SUBJECTS_DIR`, `$FREESURFER_HOME`.
 

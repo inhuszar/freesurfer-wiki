@@ -54,10 +54,31 @@ undocumented behaviour, or user reports.
 
 ## Internal Pages (`wiki/internals/<module>.md`)
 
-Brief descriptions of shared code, libraries, and internal utilities
-that are NOT user-facing but contain important logic. Referenced from
-tool pages when the internal code contains mathematically or conceptually
-important information.
+Template: `templates/internal-page.md`
+
+Comprehensive developer-grade documentation of the shared libraries,
+core data structures, and internal utilities that are NOT user-facing
+but carry the load-bearing logic behind the tools (e.g. the `MRI`
+volume type, the `MRIS` surface library, the GCA atlas, the transform/
+LTA machinery, volume I/O).
+
+**Depth bar:** a qualified FreeSurfer developer with a genuine question
+about a module's internal workings should get an evidence-based answer
+from its page **without opening the source**. Code remains authoritative
+wherever ambiguity arises — flag any such ambiguity with `[!gap]` — but
+the page should be detailed and accurate enough to act on. Aim for a
+**high-to-mid-level** treatment (core data structures, key algorithms,
+invariants, memory model, consumers); this is NOT line-by-line,
+function-level documentation. Every non-obvious claim must cite source
+with a GitHub permalink (CLAUDE.md rule 10).
+
+The required sections and what each must contain are documented in the
+template's `<!-- -->` comments (`templates/internal-page.md`), as for every
+other page type. Those comments are authoring scaffold: **strip every one of
+them from the finished page** (the linter's L7 check enforces this).
+
+Referenced from tool pages via `[!internal]` callouts when the internal
+code contains mathematically or conceptually important information.
 
 ## GUI Application Pages (`wiki/tools/<app-name>.md`)
 

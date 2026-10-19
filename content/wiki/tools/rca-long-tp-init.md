@@ -13,7 +13,7 @@ related:
   - "[[longmc]]"
   - "[[mri_map_cpdat]]"
   - "[[samseg2recon]]"
-  - "[[longitudinal-pipeline]]"
+  - "[[longitudinal-processing|longitudinal pipeline]]"
 status: draft
 confidence: high
 last_agent_update: 2026-06-09
@@ -164,7 +164,7 @@ computation is delegated:
 > The unbiased within-subject template construction and the inverse-consistent
 > robust registration that make the longitudinal stream work are implemented in
 > the base-building tools and `mri_robust_template`, not here. This script only
-> *consumes* the base and the cross→base LTA. See [[longitudinal-pipeline]].
+> *consumes* the base and the cross→base LTA. See [[longitudinal-processing|longitudinal pipeline]].
 
 ## Configuration Options
 
@@ -347,7 +347,7 @@ already in place.
 - [[longmc]] — longitudinal motion correction, invoked by this script. *(no wiki page yet)*
 - [[mri_map_cpdat]] — maps the cross-sectional control points into the time-point space.
 - [[samseg2recon]] — builds the base/time-point subjects in the SAMSEG longitudinal (`-long-samseg`) variant. *(no wiki page yet)*
-- [[longitudinal-pipeline]] — the conceptual overview of the three-pass longitudinal stream.
+- [[longitudinal-processing|longitudinal pipeline]] — the conceptual overview of the three-pass longitudinal stream.
 
 ## Confidence and Gaps
 

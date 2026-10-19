@@ -86,7 +86,7 @@ A temporary directory (`fs_temp_dir`) is created and removed each run.
 
 ### Output Specifications
 
-The registration consumed and produced is an [[lta|LTA]] (linear transform array). `--fstal` exchanges between the MNI-style `talairach.xfm` and LTA via [[lta_convert]] (`--outmni` writes the MNI `.xfm` form).
+The registration consumed and produced is an [[lta-format|LTA]] (linear transform array). `--fstal` exchanges between the MNI-style `talairach.xfm` and LTA via [[lta_convert]] (`--outmni` writes the MNI `.xfm` form).
 
 ## Mathematical Foundations
 

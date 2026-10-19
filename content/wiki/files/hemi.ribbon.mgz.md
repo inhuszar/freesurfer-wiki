@@ -9,7 +9,7 @@ aliases:
 location: "$SUBJECTS_DIR/<subj>/mri/"
 anchor: subject
 hemispheric: true
-format: "[[mgh-format]]"
+format: "[[mgz|MGH format]]"
 binary: true
 produced_by:
   - "[[mris_volmask]]"
@@ -49,7 +49,7 @@ tags:
 ## Location and Format
 
 - **Canonical path:** `$SUBJECTS_DIR/<subj>/mri/lh.ribbon.mgz`, `mri/rh.ribbon.mgz`
-- **Format:** [[mgh-format]] — same format as [[ribbon.mgz]], but contains only one hemisphere's labels.
+- **Format:** [[mgz|MGH format]] — same format as [[ribbon.mgz]], but contains only one hemisphere's labels.
 
 ## What It Contains
 

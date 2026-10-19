@@ -22,7 +22,7 @@ related:
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: high
-last_agent_update: 2026-06-09
+last_agent_update: 2026-10-19
 gaps:
   - "Exact behaviour of the CVS/SyN/FNIRT inter-subject warp branches was read from the script but not executed end-to-end; some longitudinal CVS/FNIRT code paths are marked 'Hack: using one time point for now' in the source."
   - "The -onlyversions flag sets DoVersionsOnly but the parse loop for -onlyversions in trac-all also requires the analysis-step guard; interaction with -prep/-path not fully traced for the versions-only early-exit."
@@ -498,6 +498,16 @@ loop logic at [`scripts/trac-all#L640-L1118`](https://github.com/freesurfer/free
   pathway whose posterior collapsed to a single curve and re-runs the priors +
   MCMC with a fresh initialisation, up to 5 times
   ([`scripts/trac-paths#L394-L526`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/trac-paths#L394-L526)).
+
+
+## Known Bugs
+
+Defects from the 2026-10-19 `fem_elastic/` audit that reach this page's workflow, most severe first:
+
+- [[00195]] — severity 4: surf2vol — -aparc medial-wall exclusion is a no-op: FS≥5 annotation-0 vertices match no colour-table index, ripCounter=0, ~33k medial-wall BCs drive every mri_cvs_register elastic stage
+- [[00200]] — severity 4: mri_cvs_register/surf2vol — preonly+jacobi applies one diagonal scaling per step; deep WM moved 0.008 of 3 vox in test; CG until 2011-10 (3916ce1fbc); intent a [!gap]
+- [[00197]] — severity 3: surf2vol — create_surf_container uses OR where AND is intended: srcPoints=0 on the CVS default path, -use_pial_for_surf never uses pial, -surf_subsample value ignored, UB debug iterator
+- [[00215]] — severity 3: createMorph — gcam input: GCAMrasToVox() applied to voxel-type GCAMs since 2023 (0a3a8c2d16) gives garbage delta field; hits trac-preproc legacy CVS branch
 
 ## Related Tools
 

@@ -8,7 +8,6 @@ source_files:
 families: []                     # developer/CI help-XML validator (no mri_*/mris_* family)
 recon_all_stage: null
 related:
-  - "[[mkxmldoc]]"
 status: draft
 confidence: high
 last_agent_update: 2026-06-09
@@ -179,7 +178,7 @@ beyond the `srcdir`/`$PWD` selection; the tool delegates all validation to
 
 ## Related Tools
 
-- [[mkxmldoc]] — generates the structured XML help documentation that
+- `mkxmldoc` — generates the structured XML help documentation that
   `help_xml_validate` checks (counterpart producer; link may not exist yet).
 
 ## Confidence and Gaps

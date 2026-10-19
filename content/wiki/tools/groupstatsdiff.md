@@ -200,7 +200,7 @@ All flags from the argument parser
 > `--no-wmparcstats` actually turns off the **aseg** table diffs and Dice, while
 > the wmparc diff still runs. (Only `--no-stats` reliably turns off the wmparc
 > branch.) Code is authoritative; treat the flag name as misleading. See
-> [[bugs/groupstatsdiff-no-wmparcstats]] if a bug page exists.
+> a dedicated bug page if a bug page exists.
 
 > [!gotcha] `--common` is on by default here, unlike bare stattablediff
 > [[stattablediff]] does not intersect structures unless told to, but

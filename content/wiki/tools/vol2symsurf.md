@@ -245,7 +245,7 @@ rather than a volume segmentation.
 > When `--fwhm` > 0, [[mris_fwhm]] smooths on `fsaverage_sym`/`<symhemi>`
 > *after* the data have been transported there
 > ([`scripts/vol2symsurf:107-112`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/vol2symsurf#L107-L112)); with `--fwhm 0` the data are merely
-> format-converted with [[mri_convert]].
+> format-converted with [[wiki/tools/mri_convert|mri_convert]].
 
 ## Error Compensation and Guard Rails
 

@@ -149,7 +149,7 @@ The downstream consumer ([[wiki/tools/samseg|samseg]]) reads
 
 All outputs are MGZ ([[mgz]]) on the **reference mode's voxel grid** (resampling
 uses cubic interpolation, [`scripts/fsr-coreg:245`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-coreg#L245)). Transforms are
-[[lta|LTA]] files. The reference mode's `runavg-refmodespace.mgz` is identical to
+[[lta-format|LTA]] files. The reference mode's `runavg-refmodespace.mgz` is identical to
 its native `runavg.mgz` (it is a symlink, no resampling).
 
 ## Mathematical Foundations

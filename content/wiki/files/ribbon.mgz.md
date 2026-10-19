@@ -7,7 +7,7 @@ aliases: []
 location: "$SUBJECTS_DIR/<subj>/mri/"
 anchor: subject
 hemispheric: false
-format: "[[mgh-format]]"
+format: "[[mgz|MGH format]]"
 binary: true
 produced_by:
   - "[[mris_volmask]]"
@@ -53,7 +53,7 @@ tags:
 ## Location and Format
 
 - **Canonical path:** `$SUBJECTS_DIR/<subj>/mri/ribbon.mgz`
-- **Format:** [[mgh-format]] — signed 16-bit integer (MRI_SHORT) volume in subject's native conformed space (256³ 1mm isotropic).
+- **Format:** [[mgz|MGH format]] — signed 16-bit integer (MRI_SHORT) volume in subject's native conformed space (256³ 1mm isotropic).
 - **Label values:**
   - `0` — outside cortex
   - `2` — left hemisphere WM interior

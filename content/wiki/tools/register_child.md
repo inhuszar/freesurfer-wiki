@@ -96,7 +96,7 @@ The single substantive difference from [[register_subject]] is therefore the
 ## Outputs
 
 Identical to [[register_subject]]: `transforms/talairach.lta` (the
-subject→atlas [[lta]]), `fsamples/` (transformed GCA samples), `norm/`
+subject→atlas [[lta-format]]), `fsamples/` (transformed GCA samples), `norm/`
 (intensity-normalised volume), and a `talairach.lta.log`.
 
 ## Mathematical Foundations

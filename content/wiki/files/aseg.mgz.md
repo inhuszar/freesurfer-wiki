@@ -7,7 +7,7 @@ aliases: []
 location: "$SUBJECTS_DIR/<subj>/mri/"
 anchor: subject
 hemispheric: false
-format: "[[mgh-format]]"
+format: "[[mgz|MGH format]]"
 binary: true
 produced_by:
   - "[[mri_surf2volseg]]"
@@ -55,7 +55,7 @@ tags:
 ## Location and Format
 
 - **Canonical path:** `$SUBJECTS_DIR/<subj>/mri/aseg.mgz`
-- **Format:** [[mgh-format]] — integer label volume in subject native (conformed 256³ 1mm) space. Labels follow the FreeSurfer Color Lookup Table (FreeSurferColorLUT.txt).
+- **Format:** [[mgz|MGH format]] — integer label volume in subject native (conformed 256³ 1mm) space. Labels follow the FreeSurfer Color Lookup Table (FreeSurferColorLUT.txt).
 - **Key labels:** All FreeSurfer subcortical and cortical ribbon labels (2=left-WM, 3=left-cortex, 4=left-lateral-ventricle, 41=right-WM, 42=right-cortex, 77=WM-hypointensity, …).
 
 ## What It Contains

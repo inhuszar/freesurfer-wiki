@@ -95,7 +95,7 @@ It is a manual fMRI analysis utility and is **not** part of [[wiki/pipelines/rec
 
 | File | Set by | Contents |
 |------|--------|----------|
-| output waveform (`--o`) | always | the ROI-average time-course: a text waveform ([[mri_segstats]] `--avgwf`) in the normal path, or an ASCII waveform written by [[mri_convert]] in the `--demean` path |
+| output waveform (`--o`) | always | the ROI-average time-course: a text waveform ([[mri_segstats]] `--avgwf`) in the normal path, or an ASCII waveform written by [[wiki/tools/mri_convert|mri_convert]] in the `--demean` path |
 | `<output>.log` | always | run log |
 
 Intermediate files (binary mask, bounding-box mask, registrations, the resampled BOLD, and the average-waveform volume) are written under the temporary directory and removed on cleanup unless `--nocleanup`/`--tmp` is used.

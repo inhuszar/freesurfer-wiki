@@ -7,7 +7,7 @@ aliases: []
 location: "$SUBJECTS_DIR/<subj>/mri/"
 anchor: subject
 hemispheric: false
-format: "[[mgh-format]]"
+format: "[[mgz|MGH format]]"
 binary: true
 produced_by:
   - "[[mri_surf2volseg]]"
@@ -52,7 +52,7 @@ tags:
 ## Location and Format
 
 - **Canonical path:** `$SUBJECTS_DIR/<subj>/mri/wmparc.mgz`
-- **Format:** [[mgh-format]] — integer label volume.
+- **Format:** [[mgz|MGH format]] — integer label volume.
 - **Label ranges:**
   - `0–85` — subcortical/special regions (inherited from [[aparc+aseg.mgz]])
   - `3000–3035` — left hemisphere WM parcels

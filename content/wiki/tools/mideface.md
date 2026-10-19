@@ -11,7 +11,7 @@ related:
   - "[[mri_defacer]]"
   - "[[mri_deface]]"
   - "[[deface_subject]]"
-  - "[[samseg]]"
+  - "[[wiki/tools/samseg|samseg]]"
   - "[[mkheadsurf]]"
   - "[[bbregister]]"
   - "[[mris_apply_reg]]"
@@ -45,7 +45,7 @@ features from an anatomical MRI while disturbing as little brain-adjacent
 tissue as possible. Rather than relying on a volumetric atlas like the legacy
 [[mri_deface]], it registers a **template head/face surface mesh** to the
 input, builds a head surface for the subject, optionally runs
-[[samseg]]/SynthSeg to create a brain **exclusion mask**, and then calls the
+[[wiki/tools/samseg|samseg]]/SynthSeg to create a brain **exclusion mask**, and then calls the
 defacing engine [[mri_defacer]] to blank out the region between the skin and
 the face while protecting the brain. It can embed a recoverable **watermark**
 (a provenance "code") in the output, produce before/after QA snapshots, apply
@@ -83,7 +83,7 @@ detected programmatically afterwards.
 
 The workflow inside the script is:
 
-1. **Register** the input to the samseg defacing atlas (running [[samseg]] —
+1. **Register** the input to the samseg defacing atlas (running [[wiki/tools/samseg|samseg]] —
    either full, for an exclusion mask, or registration-only).
 2. **Compose** that with the atlas's stored atlas→samseg transform to get an
    atlas→input transform, and invert it.
@@ -129,7 +129,7 @@ predecessor for the older defacer is [[deface_subject]].
 > you cannot deface a skull-stripped brain) in a format
 > [[wiki/tools/freeview|freeview]]/`mri_convert` can read. `mideface` assumes
 > the defacing atlas directory is present and complete; the registration is
-> driven by [[samseg]], so the input should be a reasonably standard
+> driven by [[wiki/tools/samseg|samseg]], so the input should be a reasonably standard
 > T1-weighted head for samseg to align. The tool treats the input as `--t1`
 > contrast during the optional BBR refinement ([`scripts/mideface:245`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mideface#L245)).
 
@@ -176,7 +176,7 @@ machine-detectable signature (recovered later with `--check`).
 ## Mathematical Foundations
 
 The heavy numerics live in the compiled engine [[mri_defacer]] and in
-[[samseg]]; this script orchestrates them. Two parts are worth stating
+[[wiki/tools/samseg|samseg]]; this script orchestrates them. Two parts are worth stating
 explicitly.
 
 **1. Building the atlas→subject registration.** The defacing atlas is supplied
@@ -238,7 +238,7 @@ flags take no argument.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `--xmask` | string | — | Use this pre-made exclusion mask (voxels inside are never defaced). Mutually exclusive with `--synthseg`. |
-| `--samseg`<br>`--xmask-samseg` | int (`ndil`) | **on**, `ndil=1` | Segment the input with full [[samseg]] (~14 GB, +~20–40 min) and dilate `ndil` times to build the exclusion mask. |
+| `--samseg`<br>`--xmask-samseg` | int (`ndil`) | **on**, `ndil=1` | Segment the input with full [[wiki/tools/samseg|samseg]] (~14 GB, +~20–40 min) and dilate `ndil` times to build the exclusion mask. |
 | `--no-samseg` | bool | off | Do not run full samseg for the mask (samseg is then run registration-only); also disables samseg-fast. |
 | `--synthseg`<br>`--xmask-synthseg` | int (`ndil`) | off | Segment the input with SynthSeg (~35 GB, +~20 min) instead of samseg to build the mask. |
 | `--ndil` | int | `1` | Number of dilations applied to the segmentation when forming the exclusion mask. |
@@ -348,7 +348,7 @@ flags take no argument.
 > `samseg-options.json` ([`scripts/mideface:899`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mideface#L899)).
 
 > [!gotcha] samseg runs by default — it is expensive
-> Out of the box `DoSamsegXMask=1`, so a full [[samseg]] segmentation runs to
+> Out of the box `DoSamsegXMask=1`, so a full [[wiki/tools/samseg|samseg]] segmentation runs to
 > build the exclusion mask (~14 GB RAM, +~20–40 min). If you only need the
 > registration (not the brain-protection mask), pass `--no-samseg`, which runs
 > samseg in `--reg-only` mode instead ([`scripts/mideface:152-163`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/mideface#L152-L163)).
@@ -413,7 +413,7 @@ to be released. It is **not** called by [[wiki/pipelines/recon-all|recon-all]]
 (recon-all's optional `-deface` uses the legacy [[mri_deface]] instead).
 
 **Predecessor:** raw/ reconstructed whole-head T1 (and, internally,
-[[samseg]] for registration/segmentation) → **mideface** → **Successor:** data
+[[wiki/tools/samseg|samseg]] for registration/segmentation) → **mideface** → **Successor:** data
 release, or [[wiki/pipelines/recon-all|recon-all]] on the defaced volume.
 Within a subject, `--apply` lets one face mask be propagated to additional
 modalities.
@@ -466,7 +466,7 @@ modalities.
 - [[mri_defacer]] — the C++ engine `mideface` drives (does the voxel removal, watermark, ripple, `--apply`, and `--check`/`--check-code`).
 - [[mri_deface]] — the legacy GCA-atlas defacer that `mideface` supersedes.
 - [[deface_subject]] — stand-alone wrapper around the legacy `mri_deface`.
-- [[samseg]] — builds the brain exclusion mask and the subject→atlas registration (run full or registration-only).
+- [[wiki/tools/samseg|samseg]] — builds the brain exclusion mask and the subject→atlas registration (run full or registration-only).
 - [[mkheadsurf]] — extracts the subject head mask and surface that bound the defacing.
 - [[bbregister]] — optional boundary-based refinement of the face registration.
 - [[mris_apply_reg]] — maps the template head/face surface onto the subject.

@@ -20,7 +20,7 @@ siblings:
   - "[[entowm.stats]]"
 consumed_by:
   - "[[mri_edit_wm_with_aseg]]"
-  - "[[bfsfixentowm]]"
+  - "[[wiki/pipelines/recon-all|recon-all]]"
 downstream_files:
   - "[[wm.mgz]]"
   - "[[brain.finalsurfs.mgz]]"

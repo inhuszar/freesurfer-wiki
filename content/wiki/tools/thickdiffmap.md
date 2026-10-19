@@ -234,7 +234,7 @@ thickdiffmap subj1 subj1a fsaverage lh 2
 **Predecessor:** two completed [[wiki/pipelines/recon-all|recon-all]] subjects
 (repeat scans) → **thickdiffmap** (FLIRT → thickness diff → resample → group
 stats) → **Successor:** surface-based group statistical analysis (e.g.
-[[mri_glmfit]] on the resampled maps, or direct inspection of the step-4 mean/std
+[[wiki/tools/mri_glmfit|mri_glmfit]] on the resampled maps, or direct inspection of the step-4 mean/std
 overlays).
 
 Internally it is a sequence of four tools: [[fsl_rigid_register]] →

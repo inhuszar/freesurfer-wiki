@@ -19,7 +19,7 @@ related:
   - "[[mri_concatenate_lta]]"
   - "[[lta_convert]]"
   - "[[mri_concat]]"
-  - "[[mri_convert]]"
+  - "[[wiki/tools/mri_convert|mri_convert]]"
   - "[[wiki/pipelines/recon-all|recon-all]]"
 status: draft
 confidence: medium
@@ -60,7 +60,7 @@ longitudinal [[wiki/tools/samseg|samseg]] (it is driven by `samseg-long`).
   [`scripts/fsr-longpreproc:122-124`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L122-L124)),
   [[wiki/tools/samseg|samseg]] `--reg-only` (register the base to the atlas template,
   [`scripts/fsr-longpreproc:171`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L171)),
-  [[mri_convert]] (rescale the samseg template to the input resolution,
+  [[wiki/tools/mri_convert|mri_convert]] (rescale the samseg template to the input resolution,
   [`scripts/fsr-longpreproc:158-159`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L158-L159)),
   [[mri_info]] (read input resolution/dim, [`scripts/fsr-longpreproc:142`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L142), [`scripts/fsr-longpreproc:147`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L147)),
   [[lta_convert]] (invert / conform the template registration,
@@ -139,7 +139,7 @@ and `outdir/<mode>/` (each other mode resampled to the base). A symlink
 |------|-----------|----------|
 | `<refmode>/rr.base.mgz` | [[mri_robust_template]] | the **robust-registration base** (median, intensity-scaled) of the reference mode across timepoints ([`scripts/fsr-longpreproc:116-124`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L116-L124)) |
 | `<refmode>/rr.reg.tpNNN.lta`, `<refmode>/rr.reg.tpNNN.scale` | [[mri_robust_template]] | per-timepoint → base transform and intensity scale ([`scripts/fsr-longpreproc:111-114`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L111-L114)) |
-| `samseg.template.nii.gz` | [[mri_convert]] | the SAMSEG template re-sampled to the input resolution/dim, `uchar` ([`scripts/fsr-longpreproc:156-164`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L156-L164)) |
+| `samseg.template.nii.gz` | [[wiki/tools/mri_convert|mri_convert]] | the SAMSEG template re-sampled to the input resolution/dim, `uchar` ([`scripts/fsr-longpreproc:156-164`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L156-L164)) |
 | `<refmode>/samseg-rr.base/template.lta`, `template.inv.lta` | [[wiki/tools/samseg|samseg]] `--reg-only`, [[lta_convert]] `--invert` | base ↔ template registration ([`scripts/fsr-longpreproc:167-188`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L167-L188)) |
 | `<refmode>/samseg-rr.base/rigid.lta` (and `rigid.conf.lta` if `--conform`) | [[mri_coreg]] `--par2mat`, [[lta_convert]] `--trgconform` | the base→template registration forced to **rigid** (and optionally conformed) ([`scripts/fsr-longpreproc:210-234`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L210-L234)) |
 | `<refmode>/reg.tpNNN.lta` | [[mri_concatenate_lta]] (`-out_type 1`, RAS2RAS) | composite timepoint → base/template transform ([`scripts/fsr-longpreproc:245-249`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L245-L249)) |
@@ -159,7 +159,7 @@ All volumes are MGZ ([[mgz]]) on the **base/template grid**, at the input
 resolution and dimensions (the SAMSEG template is re-sampled to match the input
 before use, [`scripts/fsr-longpreproc:156-164`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/fsr-longpreproc#L156-L164)). Resampling uses the chosen
 `--nearest/--trilinear/--cubic` interpolation (default cubic). Transforms are
-[[lta|LTA]] files; the composite tp→base transform is forced to **RAS2RAS**.
+[[lta-format|LTA]] files; the composite tp→base transform is forced to **RAS2RAS**.
 
 ## Mathematical Foundations
 
@@ -361,7 +361,7 @@ framework (`recon_all_stage: null`).
 - [[lta_convert]] — inverts and conforms the template registration.
 - [[mri_concatenate_lta]] — composes the tp→base→template transform (RAS2RAS).
 - [[mri_vol2vol]] / [[mri_concat]] — resample timepoints and average into the base.
-- [[mri_convert]] / [[mri_info]] — re-grid the SAMSEG template to the input geometry.
+- [[wiki/tools/mri_convert|mri_convert]] / [[mri_info]] — re-grid the SAMSEG template to the input geometry.
 - [[fsr-getxopts]] / [[fsr-checkxopts]] — expert-option lookup (`longreg-robustreg`) and validation.
 - [[wiki/pipelines/recon-all|recon-all]] — the non-longitudinal multimodal stream uses [[fsr-import]]/[[fsr-coreg]] without this base-building step.
 

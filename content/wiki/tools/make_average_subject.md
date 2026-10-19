@@ -251,7 +251,7 @@ and is also referenced by [[xhemireg]] for symmetric-template construction.
 
 **Predecessor:** N× [[wiki/pipelines/recon-all|recon-all]] (one per subject) →
 **make_average_subject** → **Successors:** group analysis with
-[[mris_preproc]] / [[mri_glmfit|mri_glmfit]] targeted at the new template, or
+[[mris_preproc]] / [[wiki/tools/mri_glmfit|mri_glmfit]] targeted at the new template, or
 iterative atlas building via [[make_folding_atlas]].
 
 ## Gotchas and Caveats

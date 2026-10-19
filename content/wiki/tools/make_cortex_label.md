@@ -165,7 +165,7 @@ the Destrieux parcellation via [[mri_cor2label]].
 **Predecessor:** [[mris_ca_label]] / recon-all parcellation (produces the
 `?h.aparc.annot`) → **make_cortex_label** → **Successor:** cortex-restricted
 surface analysis (e.g. [[mris_preproc]] `--cortex-only`, masking in
-[[mri_glmfit|mri_glmfit]]).
+[[wiki/tools/mri_glmfit|mri_glmfit]]).
 
 ## Gotchas and Caveats
 

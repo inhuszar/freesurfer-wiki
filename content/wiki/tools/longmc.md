@@ -94,7 +94,7 @@ longitudinal time point, not a user-facing command.
   ([`scripts/longmc:357-372`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/longmc#L357-L372)).
 - **Time-point→base registration:**
   `${longbaseid}/mri/transforms/${tpNid}_to_${longbaseid}.lta`, which must exist
-  ([`scripts/longmc:374-378`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/longmc#L374-L378)). Format: [[lta]].
+  ([`scripts/longmc:374-378`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/longmc#L374-L378)). Format: [[lta-format]].
 
 Both `${tpNid}` and `${longbaseid}` subject directories must be present under
 `$SUBJECTS_DIR` ([`scripts/longmc:339-344`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/scripts/longmc#L339-L344)).

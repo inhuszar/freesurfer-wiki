@@ -182,6 +182,10 @@ Not part of standard `recon-all`. Used in quantitative MRI pipelines:
 > [!gotcha] T2* correction is minimal
 > The Ernst equation approximation neglects T2* decay for short TE. For TE > ~5 ms, T2* correction (using the `-max` parameter) may be important.
 
+## Known Bugs
+
+- [[00194]] — **(severity 2, latent)** the multi-echo averaging step sets each averaged group's `register_mat` from `mri_all_flash[nvolumes]` (the output group counter) instead of `mri_all_flash[i]` (the source volume index), so averaged groups after the first inherit an earlier input volume's voxel→RAS transform. Silent when all flip-angle volumes share header geometry (the usual case); biases the fitted `T1.mgz`/`PD.mgz` only when the inputs have genuinely different vox2ras.
+
 ## Related Tools
 
 - [[mri_ms_EM]] — uses T1/PD maps for EM-based tissue segmentation

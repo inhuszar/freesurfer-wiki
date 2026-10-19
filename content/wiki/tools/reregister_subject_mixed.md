@@ -106,7 +106,7 @@ The literal command is
 
 ## Outputs
 
-`transforms/talairach.lta` (the refined subject→atlas [[lta]]), an updated
+`transforms/talairach.lta` (the refined subject→atlas [[lta-format]]), an updated
 `norm` (overwritten in place), `fsamples/`, and a `talairach.lta.log`.
 
 ## Mathematical Foundations

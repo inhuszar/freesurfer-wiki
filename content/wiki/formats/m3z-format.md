@@ -21,7 +21,7 @@ related:
   - "[[mgz]]"
 status: review
 confidence: high
-last_agent_update: 2026-04-15
+last_agent_update: 2026-10-19
 gaps: []
 tags:
   - format
@@ -59,7 +59,7 @@ The `.m3z` format encodes FreeSurfer's non-linear volumetric deformation field �
 
 ## Binary Layout
 
-The format is implemented in `__m3zWrite()` / `__m3zRead()` (`utils/gcamorph.cpp`, lines 374–454 and 1160–1317). All integer and float fields are written with the `znzwrite*` family, which uses the **native host byte order** (little-endian on all modern hardware where FreeSurfer runs). The `znz` library wraps `zlib` for transparent gzip compression.
+The format is implemented in `__m3zWrite()` / `__m3zRead()` (`utils/gcamorph.cpp`, lines 374–454 and 1160–1317). All integer and float fields are written with the `znzwrite*` family, which writes **big-endian** regardless of host: on little-endian hosts each value is byte-swapped before writing (e.g. `znzwriteFloat`, [`utils/fio.cpp:589-601`](https://github.com/freesurfer/freesurfer/blob/v8.2.0/utils/fio.cpp#L589-L601)). Confirmed on 2026-10-19 by decoding `exportGcam` output, which parses only with big-endian (`>`) struct formats. The `znz` library wraps `zlib` for transparent gzip compression.
 
 > [!internal] Authoritative source
 > The byte-level layout here is derived directly from reading `__m3zWrite()` in `utils/gcamorph.cpp`. Any discrepancy between this page and the source should be resolved in favour of the source. See [[internal-gcamorph]] for a parallel description of the same format.
