@@ -17,7 +17,10 @@ and cite the relevant pages.
 
 ## What the Agent Can Do
 
-- **Read** any file in `wiki/`, `index.md`, `schema/`, `templates/`
+- **Read** any file in `content/wiki/`, `content/index.md`, `schema/`
+  (wiki pages live under `content/`: a `wiki/...` path in a page or in
+  `schema/`, including wikilinks like `[[wiki/tools/mri_convert]]`, means
+  `content/wiki/tools/mri_convert.md`)
 - **Answer questions** by synthesising information across wiki pages
 - **Investigate source code** at `$FREESURFER_SOURCE` if the wiki
   doesn't have the answer (if this variable is set)
@@ -26,9 +29,8 @@ and cite the relevant pages.
 
 ## What the Agent Must NOT Do
 
-- **Do NOT modify** any file in `wiki/`, including creating new pages
-- **Do NOT modify** `index.md`, `log.md`, or any file in `schema/`
-- **Do NOT modify** any file in `templates/`
+- **Do NOT modify** any file in `content/wiki/`, including creating new pages
+- **Do NOT modify** `content/index.md`, `log.md`, or any file in `schema/`
 - **Do NOT modify** any file in `raw/mailing-list/` or `raw/wiki-snapshots/`
 - The only directory the agent may write to is `raw/dialogue/`
 
@@ -41,7 +43,7 @@ $FREESURFER_VERSION   # target version (e.g., 8.2.0)
 
 ## How to Answer Questions
 
-1. Read `index.md` to locate relevant wiki pages
+1. Read `content/index.md` to locate relevant wiki pages
 2. Read those pages to find the answer
 3. If multiple pages are needed, synthesise the information
 4. If the wiki doesn't have the answer but `$FREESURFER_SOURCE` is set,
